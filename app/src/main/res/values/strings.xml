@@ -1,8 +1,9 @@
 <resources>
-    <string name="app_name">MuraseMakoto</string>
+    <string name="app_name">High and low</string>
     <string name="btn_start">Start</string>
     <string name="btn_high">High</string>
     <string name="btn_low">Low</string>
     <string name="btn_restart">Restart</string>
     <string name="label_score">Score：</string>
+    <string name="text">10 is set.</string>
 </resources>

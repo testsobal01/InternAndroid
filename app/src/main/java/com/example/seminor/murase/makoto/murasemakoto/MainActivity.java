@@ -5,6 +5,8 @@ import android.os.CountDownTimer;
 import android.os.Vibrator;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -38,6 +40,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // 起動時に関数を呼び出す
         setQuestionValue();
     }
+
+
 
     @Override
     protected void onPause() {
@@ -180,7 +184,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void clearScoreValue() {
-        TextView txtScore = (TextView)findViewById(R.id.text_score);
+        TextView txtScore = (TextView) findViewById(R.id.text_score);
         txtScore.setText("0");
     }
 }
