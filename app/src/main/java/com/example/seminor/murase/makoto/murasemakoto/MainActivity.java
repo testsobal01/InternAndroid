@@ -2,6 +2,7 @@ package com.example.seminor.murase.makoto.murasemakoto;
 
 import android.content.SharedPreferences;
 import android.os.CountDownTimer;
+import android.os.Vibrator;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -65,17 +66,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int id = view.getId();
         switch (id) {
             case R.id.button1:
-                setAnswerValue();
-                checkResult(true);
-                break;
+               setAnswerValue();
+               checkResult(true);
+               Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+               vib.vibrate(100);
+               break;
             case R.id.button2:
                 setAnswerValue();
                 checkResult(false);
+                vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+                vib.vibrate(100);
                 break;
             case R.id.button3:
                 setQuestionValue();
                 clearAnswerValue();
                 clearScoreValue();
+                vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+                vib.vibrate(100);
                 break;
         }
     }
