@@ -33,27 +33,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setQuestionValue();
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main_menu, menu);
-        return true;
-    }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        switch (id) {
-
-            case R.id.action_settings:
-                Toast.makeText(this, "設定が選択されました。",Toast.LENGTH_SHORT).show();
-            case R.id.action_settings2:
-                Toast.makeText(this, "設定2が選択されたようです。",Toast.LENGTH_SHORT).show();
-            case R.id.action_settings3:
-                Toast.makeText(this, "設定3が選択されたかのようです。",Toast.LENGTH_SHORT).show();
-
-        }
-        return super.onOptionsItemSelected(item);
-    }
 
     @Override
     public void onClick(View view) {
