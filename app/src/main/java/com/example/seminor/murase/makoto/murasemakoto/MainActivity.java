@@ -1,16 +1,46 @@
 package com.example.seminor.murase.makoto.murasemakoto;
 
+import android.content.SharedPreferences;
 import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ShareActionProvider;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
+    SharedPreferences pref;
+    SharedPreferences.Editor prefEditor;
+
+    //スコアの復元をここで行う
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        //画面上に文字列をセットするため、テキストビューを取得
+        TextView textView=(TextView) findViewById(R.id.text_score);
+
+        //保存で使用したキー(m_inputとした)を指定し、取得する
+        String readText=pref.getString("m_input","0");
+        textView.setText(readText);
+    }
+
+    //スコア保存の処理をここで行う
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        //画面上の文字列保存のため、テキストビュー取得
+        TextView textView=(TextView) findViewById(R.id.text_score);
+        //m_inputというキーに文字列を保存
+        prefEditor.putString("m_input",textView.getText().toString());
+        prefEditor.commit();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +56,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
 
+
+        //AndroidSeminorは保存先ファイル名のようなもの
+        pref=getSharedPreferences("AndroidSeminor",MODE_PRIVATE);
+        prefEditor=pref.edit();
 
         // 起動時に関数を呼び出す
         setQuestionValue();
