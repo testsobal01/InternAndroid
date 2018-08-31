@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">わくわく比較ゲーム</string>
+    <string name="btn_start">スタート</string>
+    <string name="btn_high">High</string>
+    <string name="btn_low">Low</string>
+    <string name="btn_restart">Restart</string>
+    <string name="label_score">スコア：</string>
+    <string name="text">10が設定されています。</string>
+
+</resources>

@@ -38,10 +38,11 @@
         </LinearLayout>
 
 
-        <TextView
+        <TextView android:id="@+id/text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="10が設定されています。" />
+            android:text="@string/text"
+            />
 
         <TextView
             android:id="@+id/text_result"
