@@ -1,6 +1,7 @@
 package com.example.seminor.murase.makoto.murasemakoto;
 
 import android.os.CountDownTimer;
+import android.os.Vibrator;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -18,13 +19,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Button btn1 = (Button) findViewById(R.id.button1);
+        Button btn1 = (Button) findViewById(R.id.btn_high);
         btn1.setOnClickListener(this);
 
-        Button btn2 = (Button) findViewById(R.id.button2);
+        Button btn2 = (Button) findViewById(R.id.btn_low);
         btn2.setOnClickListener(this);
 
-        Button btn3 = (Button) findViewById(R.id.button3);
+        Button btn3 = (Button) findViewById(R.id.btn_restart);
         btn3.setOnClickListener(this);
 
 
@@ -42,15 +43,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View view) {
         int id = view.getId();
         switch (id) {
-            case R.id.button1:
+            case R.id.btn_high:
+                Vibrator vib = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+                vib.vibrate(5000);
                 setAnswerValue();
                 checkResult(true);
                 break;
-            case R.id.button2:
+            case R.id.btn_low:
                 setAnswerValue();
                 checkResult(false);
                 break;
-            case R.id.button3:
+            case R.id.btn_restart:
                 setQuestionValue();
                 clearAnswerValue();
                 clearScoreValue();
