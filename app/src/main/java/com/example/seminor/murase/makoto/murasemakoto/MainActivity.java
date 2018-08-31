@@ -17,13 +17,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Button btn1 = (Button) findViewById(R.id.button1);
+        Button btn1 = (Button) findViewById(R.id.button_High);
         btn1.setOnClickListener(this);
 
-        Button btn2 = (Button) findViewById(R.id.button2);
+        Button btn2 = (Button) findViewById(R.id.button_Low);
         btn2.setOnClickListener(this);
 
-        Button btn3 = (Button) findViewById(R.id.button3);
+        Button btn3 = (Button) findViewById(R.id.button_Restart);
         btn3.setOnClickListener(this);
 
 
@@ -35,15 +35,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View view) {
         int id = view.getId();
         switch (id) {
-            case R.id.button1:
+            case R.id.button_High:
                 setAnswerValue();
                 checkResult(true);
                 break;
-            case R.id.button2:
+            case R.id.button_Low:
                 setAnswerValue();
                 checkResult(false);
                 break;
-            case R.id.button3:
+            case R.id.button_Restart:
                 setQuestionValue();
                 clearAnswerValue();
                 clearScoreValue();
