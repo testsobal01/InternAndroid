@@ -14,7 +14,7 @@
         <TextView
             android:id="@+id/txtTitle"
             android:layout_width="match_parent"
-            android:layout_height="2.5in"
+            android:layout_height="2.2in"
             android:text="@string/text_title"
             android:textSize="40dp"
             android:gravity="center"/>
