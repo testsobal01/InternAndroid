@@ -1,6 +1,8 @@
 package com.example.seminor.murase.makoto.murasemakoto;
 
+import android.content.SharedPreferences;
 import android.os.CountDownTimer;
+import android.os.Vibrator;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -14,6 +16,9 @@ import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
+    SharedPreferences pref;
+    SharedPreferences. Editor prefEditor;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -21,6 +26,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         Button btn1 = (Button) findViewById(R.id.button1);
         btn1.setOnClickListener(this);
+
+        pref = getSharedPreferences("AndroidSeminor", MODE_PRIVATE);
+        prefEditor = pref.edit();
 
         Button btn2 = (Button) findViewById(R.id.button2);
         btn2.setOnClickListener(this);
@@ -36,21 +44,49 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
     @Override
+    protected void onPause() {
+        super.onPause();
+        Toast.makeText(this, "onPause", Toast.LENGTH_SHORT).show();
+
+        TextView textView = (TextView)findViewById(R. id.text_score);
+
+        prefEditor.putString("main_input", textView.getText().toString());
+        prefEditor.commit();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Toast.makeText(this, "onResume", Toast.LENGTH_SHORT).show();
+
+        TextView textView = (TextView)findViewById(R. id.text_score);
+
+        String readText = pref.getString("main_input", "保存されていません");
+        textView.setText(readText);
+    }
+
+    @Override
     public void onClick(View view) {
         int id = view.getId();
         switch (id) {
             case R.id.button1:
-                setAnswerValue();
-                checkResult(true);
-                break;
+               setAnswerValue();
+               checkResult(true);
+               Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+               vib.vibrate(100);
+               break;
             case R.id.button2:
                 setAnswerValue();
                 checkResult(false);
+                vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+                vib.vibrate(100);
                 break;
             case R.id.button3:
                 setQuestionValue();
                 clearAnswerValue();
                 clearScoreValue();
+                vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+                vib.vibrate(100);
                 break;
         }
     }
@@ -152,3 +188,5 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         txtScore.setText("0");
     }
 }
+
+
