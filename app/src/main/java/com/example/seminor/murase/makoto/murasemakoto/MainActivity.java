@@ -1,5 +1,6 @@
 package com.example.seminor.murase.makoto.murasemakoto;
 
+import android.content.SharedPreferences;
 import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,6 +12,15 @@ import android.widget.Toast;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
+    SharedPreferences pref;
+    SharedPreferences.Editor prefEditor;
+
+    int newScore = 0;
+    int question = 0;
+    int answer = 0;
+    String result;
+    TextView txtViewQuestion, txtViewAnswer, txtResult, txtScore;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,9 +36,44 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
 
+        pref = getSharedPreferences("AndroidSeminor",MODE_PRIVATE);
+        prefEditor = pref.edit();
 
         // 起動時に関数を呼び出す
         setQuestionValue();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Toast.makeText(this, "onPause", Toast.LENGTH_SHORT).show();
+
+        prefEditor.putInt("main_input_score", newScore);
+        prefEditor.putInt("main_input_question", question);
+        prefEditor.putInt("main_input_answer", answer);
+        prefEditor.putString("main_input_result", result);
+        prefEditor.commit();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Toast.makeText(this, "onResume", Toast.LENGTH_SHORT).show();
+
+        int roadScore = pref.getInt("main_input_score", 0);
+        int roadQuestion = pref.getInt("main_input_question",0);
+        int roadAnswer = pref.getInt("main_input_answer",0);
+        String roadResult = pref.getString("main_input_result", "未保存");
+
+        txtScore = (TextView)findViewById(R.id.text_score);
+        txtViewQuestion = (TextView)findViewById(R.id.question);
+        txtViewAnswer = (TextView)findViewById(R.id.answer);
+        txtResult = (TextView)findViewById(R.id.text_result);
+
+        txtScore.setText(Integer.toString(roadScore));
+        txtViewQuestion.setText(Integer.toString(roadQuestion));
+        txtViewAnswer.setText(Integer.toString(roadAnswer));
+        txtResult.setText(roadResult);
     }
 
     @Override
@@ -67,13 +112,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void checkResult(boolean isHigh) {
-        TextView txtViewQuestion = (TextView) findViewById(R.id.question);
-        TextView txtViewAnswer = (TextView) findViewById(R.id.answer);
-        int question = Integer.parseInt(txtViewQuestion.getText().toString());
-        int answer = Integer.parseInt(txtViewAnswer.getText().toString());
-        TextView txtResult = (TextView) findViewById(R.id.text_result);
+        txtViewQuestion = (TextView) findViewById(R.id.question);
+        txtViewAnswer = (TextView) findViewById(R.id.answer);
+        question = Integer.parseInt(txtViewQuestion.getText().toString());
+        answer = Integer.parseInt(txtViewAnswer.getText().toString());
+        txtResult = (TextView) findViewById(R.id.text_result);
         // 結果を示す文字列を入れる変数を用意
-        String result;
         int score = 0;
 
         // Highが押された
@@ -138,13 +182,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void setScore(int score) {
-        TextView txtScore = (TextView) findViewById(R.id.text_score);
-        int newScore = Integer.parseInt(txtScore.getText().toString()) + score;
+        txtScore = (TextView) findViewById(R.id.text_score);
+        newScore = Integer.parseInt(txtScore.getText().toString()) + score;
         txtScore.setText(Integer.toString(newScore));
     }
 
     private void clearScoreValue() {
-        TextView txtScore = (TextView)findViewById(R.id.text_score);
+        txtScore = (TextView)findViewById(R.id.text_score);
         txtScore.setText("0");
     }
 }
