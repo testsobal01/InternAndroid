@@ -1,7 +1,10 @@
 <resources>
-    <string name="app_name">Makoto</string>
+    <string name="app_name">進撃のチームA</string>
     <string name="btn_high">High</string>
     <string name="btn_low">Low</string>
     <string name="btn_restart">Restart</string>
     <string name="label_score">Score：</string>
+
+    <string name="title">VS! High and Low</string>
+    <string name ="titlebutton">ゲーム開始!!</string>
 </resources>
