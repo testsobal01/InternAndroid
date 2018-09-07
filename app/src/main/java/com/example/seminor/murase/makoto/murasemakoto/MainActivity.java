@@ -1,5 +1,6 @@
 package com.example.seminor.murase.makoto.murasemakoto;
 
+import android.content.SharedPreferences;
 import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,6 +12,9 @@ import android.widget.Toast;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
+    private SharedPreferences pref;
+    private SharedPreferences.Editor prefEditor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +33,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // 起動時に関数を呼び出す
         setQuestionValue();
+
+        // プリファレンスの生成
+        pref = getSharedPreferences("AndroidSeminor", MODE_PRIVATE);
+        prefEditor = pref.edit();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        saveScore();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        loadScore();
     }
 
     @Override
@@ -146,5 +166,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void clearScoreValue() {
         TextView txtScore = (TextView)findViewById(R.id.text_score);
         txtScore.setText("0");
+    }
+
+    private void saveScore() {
+        // TextViewからスコアを取得してプリファレンスに保存
+        TextView txtScore = (TextView) findViewById(R.id.text_score);
+        int gameScore = Integer.parseInt(txtScore.getText().toString());
+        prefEditor.putInt("game_score", gameScore);
+        prefEditor.commit();
+        // ハイスコアならハイスコアも保存する
+        int highScore = pref.getInt("high_score", 0);
+        if (highScore < gameScore) {
+            prefEditor.putInt("high_score", highScore);
+            prefEditor.commit();
+        }
+    }
+
+    private void loadScore() {
+        // プリファレンスからスコアを取得してゲームに反映
+        int gameScore = pref.getInt("game_score", 0);
+        TextView txtScore = (TextView) findViewById(R.id.text_score);
+        txtScore.setText(Integer.toString(gameScore));
     }
 }
