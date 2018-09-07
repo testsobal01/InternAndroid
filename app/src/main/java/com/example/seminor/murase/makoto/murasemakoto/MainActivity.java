@@ -177,7 +177,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // ハイスコアならハイスコアも保存する
         int highScore = pref.getInt("high_score", 0);
         if (highScore < gameScore) {
-            prefEditor.putInt("high_score", highScore);
+            prefEditor.putInt("high_score", gameScore);
             prefEditor.commit();
         }
     }
