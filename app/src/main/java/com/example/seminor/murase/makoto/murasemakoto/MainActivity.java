@@ -2,12 +2,15 @@ package com.example.seminor.murase.makoto.murasemakoto;
 
 import android.content.SharedPreferences;
 import android.os.CountDownTimer;
+import android.os.Vibrator;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.content.Context;
+
 
 import java.util.Random;
 
@@ -58,17 +61,38 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.button1:
                 setAnswerValue();
                 checkResult(true);
+                vStart();
+                vStart2();
                 break;
             case R.id.button2:
                 setAnswerValue();
                 checkResult(false);
+                vStart();
                 break;
             case R.id.button3:
                 setQuestionValue();
                 clearAnswerValue();
                 clearScoreValue();
+                vStop();
+                
                 break;
         }
+    }
+
+
+    public void vStart(){
+        ((Vibrator) getSystemService(Context.VIBRATOR_SERVICE))
+                .vibrate( new long[]{60,40,30, 50,100},0 );
+}
+
+    public void vStart2(){
+        ((Vibrator) getSystemService(Context.VIBRATOR_SERVICE))
+                .vibrate( new long[]{500,400,200, 10,}, 0 );
+}
+
+    public void vStop() {
+        // キャンセル処理
+        ((Vibrator) getSystemService(Context.VIBRATOR_SERVICE)).cancel();
     }
 
     private void setQuestionValue() {
