@@ -40,8 +40,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 setAnswerValue();
                 checkResult(true);
                 Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
-                long[] pattern = {0, 100, 100, 100, 30, 1000}; // OFF/ON/OFF/ON...
-                vibrator.vibrate(pattern, 1);
+                long[] pattern = {100, 500, 100, 500, 100, 2000}; // OFF/ON/OFF/ON...
+                vibrator.vibrate(pattern, -1);
                 break;
             case R.id.button2:
                 setAnswerValue();
