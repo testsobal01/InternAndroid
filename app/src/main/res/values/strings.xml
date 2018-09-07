@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Riku</string>
-    <string name="btn_high">High</string>
-    <string name="btn_low">Low</string>
+    <string name="btn_high">takai</string>
+    <string name="btn_low">hikui</string>
     <string name="btn_restart">Restart</string>
     <string name="label_score">Score：</string>
 </resources>
