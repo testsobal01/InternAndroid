@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="action_settings">impostazioni</string>
+    <string name="action_settings2">impostazioni2</string>
+    <string name="action_settings3">impostazioni3</string>
+    <string name="btn_high">alto</string>
+    <string name="btn_low">Basso</string>
+    <string name="btn_restart">ricomincia</string>
+    <string name="label_score">Punto：</string>
+    <string name="btn_zyu">10 è impostato</string>
+</resources>

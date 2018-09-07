@@ -2,6 +2,7 @@ package com.example.seminor.murase.makoto.murasemakoto;
 
 import android.content.Intent;
 import android.os.CountDownTimer;
+import android.os.Vibrator;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -39,6 +40,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View view) {
         int id = view.getId();
+        Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
         switch (id) {
             case R.id.button1:
                 setAnswerValue();
@@ -52,6 +54,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 setQuestionValue();
                 clearAnswerValue();
                 clearScoreValue();
+                vib.vibrate(new long[]{50,50, 50,50, 50,50, 50,50},-1);
                 break;
         }
     }
@@ -77,6 +80,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int question = Integer.parseInt(txtViewQuestion.getText().toString());
         int answer = Integer.parseInt(txtViewAnswer.getText().toString());
         TextView txtResult = (TextView) findViewById(R.id.text_result);
+
+        Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+
         // 結果を示す文字列を入れる変数を用意
         String result;
         int score = 0;
@@ -86,23 +92,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             // result には結果のみを入れる
             if (question < answer) {
                 result = "WIN";
+                vib.vibrate(new long[]{100,100, 100,100, 100,100,},-1);
                 score = 2;
             } else if (question > answer) {
                 result = "LOOSE";
+                vib.vibrate(500);
                 score = -1;
             } else {
                 result = "DRAW";
+                vib.vibrate(new long[]{100,1000, 100,100,},-1);
                 score = 1;
             }
         } else {
             if (question > answer) {
                 result = "WIN";
+                vib.vibrate(new long[]{100,100, 100,100, 100,100,},-1);
                 score = 2;
             } else if (question < answer) {
                 result = "LOOSE";
+                vib.vibrate(500);
                 score = -1;
             } else {
                 result = "DRAW";
+                vib.vibrate(new long[]{100,1000, 100,100,},-1);
                 score = 1;
             }
         }
