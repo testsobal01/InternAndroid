@@ -1,7 +1,10 @@
 package com.example.seminor.murase.makoto.murasemakoto;
 
+
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.CountDownTimer;
+import android.os.Vibrator;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -12,6 +15,9 @@ import android.widget.Toast;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
+    SharedPreferences pref;
+    SharedPreferences.Editor prefEditor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +40,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // 起動時に関数を呼び出す
         setQuestionValue();
+
+        pref=getSharedPreferences("AndroidSeminor",MODE_PRIVATE);
+        prefEditor=pref.edit();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Toast.makeText(this,"onResume",Toast.LENGTH_SHORT).show();
+
+        TextView textView=(TextView)findViewById(R.id.text_score);
+        String readText=pref.getString("main_input","保存されていません");
+        textView.setText(readText);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Toast.makeText(this,"onPause",Toast.LENGTH_SHORT).show();
+
+        TextView textView=(TextView)findViewById(R.id.text_score);
+        prefEditor.putString("main_input",textView.getText().toString());
+        prefEditor.commit();
     }
 
     @Override
@@ -43,15 +72,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.button1:
                 setAnswerValue();
                 checkResult(true);
+                Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+                long[] pattern = {100, 500, 100, 500, 100, 2000}; // OFF/ON/OFF/ON...
+                vibrator.vibrate(pattern, -1);
                 break;
             case R.id.button2:
                 setAnswerValue();
                 checkResult(false);
+                Vibrator vib2 = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+                vib2.vibrate(1000);
                 break;
             case R.id.button3:
                 setQuestionValue();
                 clearAnswerValue();
                 clearScoreValue();
+                Vibrator vib3 = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+                vib3.vibrate(2000);
                 break;
         }
     }
