@@ -1,5 +1,6 @@
 package com.example.seminor.murase.makoto.murasemakoto;
 
+import android.content.SharedPreferences;
 import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,6 +12,9 @@ import android.widget.Toast;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
+    SharedPreferences pref;
+    SharedPreferences.Editor prefEditor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,14 +30,53 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
 
+        Button btnSave = (Button) findViewById(R.id.save_score);
+        btnSave.setOnClickListener(this);
+
+        Button btnLoad = (Button) findViewById(R.id.load_score);
+        btnLoad.setOnClickListener(this);
+
 
         // 起動時に関数を呼び出す
         setQuestionValue();
+
+        //プリファレンスの生成
+        //"Score_data"は、保存する先のファイル名
+        pref = getSharedPreferences("Score_data",MODE_PRIVATE);
+        prefEditor = pref.edit();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        //画面上の文字列を保存するため、テキストビューを取得
+        TextView scoreText = (TextView)findViewById(R.id.text_score);
+        //"main_input"というキー名（箱）に、文字列を保存
+        prefEditor.putString("main_input",scoreText.getText().toString());
+        prefEditor.commit();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        clearScoreValue();
+
+
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+
+
     }
 
     @Override
     public void onClick(View view) {
         int id = view.getId();
+        //画面上の文字列を保存するため、テキストビューを取得
+        TextView scoreText = (TextView)findViewById(R.id.text_score);
         switch (id) {
             case R.id.button1:
                 setAnswerValue();
@@ -47,6 +90,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 setQuestionValue();
                 clearAnswerValue();
                 clearScoreValue();
+                break;
+            case R.id.save_score:
+
+                //"main_input"というキー名（箱）に、文字列を保存
+                prefEditor.putString("main_input",scoreText.getText().toString());
+                prefEditor.commit();
+                break;
+            case R.id.load_score:
+                //保存した値をキー名（main_input）で指定して取得
+                //一度も保存されていない場合もあり得るので、その時に変わりに表示する文字列も指定する
+                String read_scoreText = pref.getString("main_input","保存されていません");
+                scoreText.setText(read_scoreText);
                 break;
         }
     }
