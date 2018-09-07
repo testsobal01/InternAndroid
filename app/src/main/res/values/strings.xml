@@ -2,6 +2,6 @@
     <string name="app_name">Kaito</string>
     <string name="btn_high">High</string>
     <string name="btn_low">Low</string>
-    <string name="btn_restart">Restart</string>
+    <string name="btn_restart">Reset</string>
     <string name="label_score">Score：</string>
 </resources>
