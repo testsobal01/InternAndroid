@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">まこと</string>
+    <string name="btn_high">高</string>
+    <string name="btn_low">低</string>
+    <string name="btn_restart">リセット</string>
+    <string name="label_score">スコア：</string>
+    <string name="setting">10が設定されています</string>
+
+</resources>
