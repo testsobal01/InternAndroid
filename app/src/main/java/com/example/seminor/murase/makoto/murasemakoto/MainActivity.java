@@ -1,16 +1,23 @@
 package com.example.seminor.murase.makoto.murasemakoto;
 
+import android.content.SharedPreferences;
 import android.os.CountDownTimer;
+import android.os.Vibrator;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.content.Context;
+
 
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
+    private SharedPreferences pref;
+    private SharedPreferences.Editor prefEditor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +36,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // 起動時に関数を呼び出す
         setQuestionValue();
+
+        // プリファレンスの生成
+        pref = getSharedPreferences("AndroidSeminor", MODE_PRIVATE);
+        prefEditor = pref.edit();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        saveScore();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        loadScore();
     }
 
     @Override
@@ -38,17 +61,38 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.button1:
                 setAnswerValue();
                 checkResult(true);
+                vStart();
+                vStart2();
                 break;
             case R.id.button2:
                 setAnswerValue();
                 checkResult(false);
+                vStart();
                 break;
             case R.id.button3:
                 setQuestionValue();
                 clearAnswerValue();
                 clearScoreValue();
+                vStop();
+                
                 break;
         }
+    }
+
+
+    public void vStart(){
+        ((Vibrator) getSystemService(Context.VIBRATOR_SERVICE))
+                .vibrate( new long[]{60,40,30, 50,100},0 );
+}
+
+    public void vStart2(){
+        ((Vibrator) getSystemService(Context.VIBRATOR_SERVICE))
+                .vibrate( new long[]{500,400,200, 10,}, 0 );
+}
+
+    public void vStop() {
+        // キャンセル処理
+        ((Vibrator) getSystemService(Context.VIBRATOR_SERVICE)).cancel();
     }
 
     private void setQuestionValue() {
@@ -146,5 +190,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void clearScoreValue() {
         TextView txtScore = (TextView)findViewById(R.id.text_score);
         txtScore.setText("0");
+    }
+
+    private void saveScore() {
+        // TextViewからスコアを取得してプリファレンスに保存
+        TextView txtScore = (TextView) findViewById(R.id.text_score);
+        int gameScore = Integer.parseInt(txtScore.getText().toString());
+        prefEditor.putInt("game_score", gameScore);
+        prefEditor.commit();
+        // ハイスコアならハイスコアも保存する
+        int highScore = pref.getInt("high_score", 0);
+        if (highScore < gameScore) {
+            prefEditor.putInt("high_score", highScore);
+            prefEditor.commit();
+        }
+    }
+
+    private void loadScore() {
+        // プリファレンスからスコアを取得してゲームに反映
+        int gameScore = pref.getInt("game_score", 0);
+        TextView txtScore = (TextView) findViewById(R.id.text_score);
+        txtScore.setText(Integer.toString(gameScore));
     }
 }

@@ -1,7 +1,12 @@
 <resources>
+
     <string name="app_name">attack on team A</string>
     <string name="btn_high">high</string>
     <string name="btn_low">low</string>
     <string name="btn_restart">restart</string>
+
     <string name="label_score">Score：</string>
+
+    <string name="title">VS! High and Low</string>
+    <string name ="titlebutton">ゲーム開始!!</string>
 </resources>
