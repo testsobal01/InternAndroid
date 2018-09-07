@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Yamamoto mitsuaki</string>
-    <string name="btn_high">High</string>
-    <string name="btn_low">Low</string>
+    <string name="btn_high">高い</string>
+    <string name="btn_low">低い</string>
     <string name="btn_restart">Restart</string>
     <string name="label_score">Score：</string>
 </resources>
