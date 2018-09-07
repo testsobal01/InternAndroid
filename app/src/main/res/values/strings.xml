@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Tadaki</string>
-    <string name="btn_high">High</string>
-    <string name="btn_low">Low</string>
-    <string name="btn_restart">Restart</string>
+    <string name="btn_high">HIGH</string>
+    <string name="btn_low">LOW</string>
+    <string name="btn_restart">Re:START</string>
     <string name="label_score">Score：</string>
 </resources>
