@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="action_settings">設定</string>
+    <string name="action_settings2">設定2</string>
+    <string name="action_settings3">設定3</string>
+    <string name="btn_high">上</string>
+    <string name="btn_low">下</string>
+    <string name="btn_restart">もっかい</string>
+    <string name="label_score">すこあ：</string>
+</resources>
