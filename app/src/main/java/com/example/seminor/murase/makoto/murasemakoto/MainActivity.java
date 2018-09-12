@@ -1,6 +1,7 @@
 package com.example.seminor.murase.makoto.murasemakoto;
 
 import android.os.CountDownTimer;
+import android.os.Vibrator;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -38,15 +39,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.button1:
                 setAnswerValue();
                 checkResult(true);
+                //バイブレーション
+                winlose(true);
+
                 break;
             case R.id.button2:
                 setAnswerValue();
                 checkResult(false);
+                //バイブレーション
+                winlose(false);
                 break;
             case R.id.button3:
                 setQuestionValue();
                 clearAnswerValue();
                 clearScoreValue();
+                Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+                vib.vibrate(200);
                 break;
         }
     }
@@ -64,6 +72,42 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int answerValue = r.nextInt(10 + 1);
         TextView txtView = (TextView) findViewById(R.id.answer);
         txtView.setText(Integer.toString(answerValue));
+    }
+
+    //勝敗の判定
+    private void winlose(boolean isHigh){
+        TextView txtViewQuestion = (TextView) findViewById(R.id.question);
+        TextView txtViewAnswer = (TextView) findViewById(R.id.answer);
+        int question = Integer.parseInt(txtViewQuestion.getText().toString());
+        int answer = Integer.parseInt(txtViewAnswer.getText().toString());
+        TextView txtResult = (TextView) findViewById(R.id.text_result);
+        int score = 0;
+
+        // Highが押された
+        if (isHigh) {
+            // result には結果のみを入れる
+            if (question < answer) {
+                Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+                vib.vibrate(1000);
+            } else if (question > answer) {
+                Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+                vib.vibrate(200);
+            } else {
+                Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+                vib.vibrate(500);
+            }
+        } else {
+            if (question > answer) {
+                Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+                vib.vibrate(500);
+            } else if (question < answer) {
+                Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+                vib.vibrate(50);
+            } else {
+                Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+                vib.vibrate(200);
+            }
+        }
     }
 
     private void checkResult(boolean isHigh) {
