@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">makoto</string>
+    <string name="btn_high">ハイ</string>
+    <string name="btn_low">ロウ</string>
+    <string name="btn_restart">リスタート</string>
+    <string name="label_score">スコア：</string>
+    <string name="setting_number">10が設定されています</string>
+    <string name="value_num">値１</string>
+    <string name="score_hyouji">結果</string>
+    <string name="result_win">ウィン</string>
+    <string name="result_loose">ルーズ</string>
+    <string name="result_draw">ドロー</string>
+</resources>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Makoto</string>
+    <string name="btn_high">Alto</string>
+    <string name="btn_low">Basso</string>
+    <string name="btn_restart">Ricomincia</string>
+    <string name="label_score">Punto：</string>
+    <string name="setting_number">ambientazione10</string>
+    <string name="value_num">valore1</string>
+    <string name="score_hyouji">Il risultato</string>
+    <string name="result_win">VINCERE</string>
+    <string name="result_loose">LOOSE</string>
+    <string name="result_draw">DISEGNARE</string>
+</resources>
