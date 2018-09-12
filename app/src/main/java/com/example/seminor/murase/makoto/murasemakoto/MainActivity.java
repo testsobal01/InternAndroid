@@ -139,7 +139,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void setScore(int score) {
         TextView txtScore = (TextView) findViewById(R.id.text_score);
-        int newScore = Integer.parseInt(txtScore.getText().toString()) + score;
+        int newScore=0;
+        if(txtScore.getText()=="^[0-9]$"){
+            newScore = Integer.parseInt(txtScore.getText().toString()) + score;
+        }else {
+
+            newScore=score;
+        }
         txtScore.setText(Integer.toString(newScore));
     }
 
