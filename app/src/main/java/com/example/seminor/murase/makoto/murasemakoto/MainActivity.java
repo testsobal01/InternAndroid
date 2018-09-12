@@ -64,9 +64,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int id = view.getId();
         Vibrator vib = (Vibrator) getSystemService(VIBRATOR_SERVICE);
         vib.vibrate(1000);
-          if(stopper==0){
+
+        if(stopper==0){
 
         switch (id) {
+
 
             case R.id.button1:
                 setAnswerValue();
@@ -88,8 +90,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 clearScoreValue();
                 vib.cancel();//restartをおしたらバイブレーションがとまる
                 break;
+
         }
-          }//if
+        }else {//if
+            switch (id) {
+                case R.id.button1:
+                    break;
+
+                case R.id.button2:
+                    break;
+
+                case R.id.button3:
+                    setQuestionValue();
+                    clearAnswerValue();
+                    clearScoreValue();
+                    vib.cancel();//restartをおしたらバイブレーションがとまる
+                    break;
+            }
+        }
+
     }
 
     private void setQuestionValue() {
@@ -170,7 +189,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // 単位はミリ秒（1秒＝1000ミリ秒）
         if(stopper==0) {
             stopper=1;
-            new CountDownTimer(3000, 1000) {
+            new CountDownTimer(2000, 1000) {
 
                 @Override
                 public void onTick(long l) {
