@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">High and Low</string>
+    <string name="btn_high">大きい</string>
+    <string name="btn_low">小さい</string>
+    <string name="btn_restart">再開</string>
+    <string name="label_score">スコア：</string>
+</resources>
