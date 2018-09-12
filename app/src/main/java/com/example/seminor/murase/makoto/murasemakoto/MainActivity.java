@@ -1,6 +1,7 @@
 package com.example.seminor.murase.makoto.murasemakoto;
 
 import android.os.CountDownTimer;
+import android.os.Vibrator;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -34,21 +35,37 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View view) {
         int id = view.getId();
+        Vibrator vib = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+
         switch (id) {
             case R.id.button1:
                 setAnswerValue();
                 checkResult(true);
+
+                vib.vibrate(5000);
                 break;
             case R.id.button2:
                 setAnswerValue();
                 checkResult(false);
+
+                vib.vibrate(5000);
                 break;
             case R.id.button3:
                 setQuestionValue();
                 clearAnswerValue();
                 clearScoreValue();
+
+                vib.cancel();
+
                 break;
+
+
+
+
+
+
         }
+
     }
 
     private void setQuestionValue() {
