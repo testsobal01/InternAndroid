@@ -80,12 +80,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView txtViewAnswer = (TextView) findViewById(R.id.answer);
         int question = Integer.parseInt(txtViewQuestion.getText().toString());
         int answer = Integer.parseInt(txtViewAnswer.getText().toString());
-        TextView txtResult = (TextView) findViewById(R.id.text_result);
-        int score = 0;
 
         // Highが押された
         if (isHigh) {
-            // result には結果のみを入れる
+            // 勝敗でバイブレーションの時間を変更する
             if (question < answer) {
                 Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
                 vib.vibrate(1000);
