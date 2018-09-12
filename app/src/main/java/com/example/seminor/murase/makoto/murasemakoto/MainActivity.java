@@ -1,17 +1,24 @@
 package com.example.seminor.murase.makoto.murasemakoto;
 
+import android.content.SharedPreferences;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ShareActionProvider;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
+    //プリファレンス作成
+    SharedPreferences pref;
+    SharedPreferences.Editor prefEditor;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +37,36 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // 起動時に関数を呼び出す
         setQuestionValue();
+
+        //"AndroidSeminor"は、保存する先のファイル名のようなもの
+        pref = getSharedPreferences("AndroidSeminor", MODE_PRIVATE);
+        prefEditor = pref.edit();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Toast.makeText(this, "onPause", Toast.LENGTH_SHORT).show();
+
+        //画面上の文字列を保存するため、テキストビューを取得
+        TextView textView = (TextView)findViewById(R. id. text_score);
+
+        //"main_input"というキー名（箱）に、文字列を保存
+        prefEditor.putString("main_input", textView.getText().toString());
+        prefEditor.commit();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Toast.makeText(this, "onResumu", Toast.LENGTH_SHORT).show();
+
+        //画面上に文字列をセットするため、テキストビューを取得
+        TextView textView = (TextView)findViewById(R.id.text_score);
+        //保存した値をキー名(text_score)を指定して取得
+        //一度も保存されていない場合もありえるので、その時の代わりに表示する文字列も指定する
+        String readText = pref.getString("main_input", "まだ保存されていません");
+        textView.setText(readText);
     }
 
     @Override
