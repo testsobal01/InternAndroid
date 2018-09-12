@@ -1,8 +1,15 @@
 <resources>
-    <string name="app_name">teamC</string>
+
+    <string name="app_name">Team C</string>
+
     <string name="btn_high">High</string>
     <string name="btn_low">Low</string>
     <string name="btn_restart">Restart</string>
     <string name="label_score">Score：</string>
+
     <string name="action_settings">Settings</string>
+
+    <string name="btn_start">START</string>
+    <string name="text1">10 has been set.</string>
+
 </resources>
