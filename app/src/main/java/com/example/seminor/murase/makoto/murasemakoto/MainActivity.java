@@ -2,6 +2,7 @@ package com.example.seminor.murase.makoto.murasemakoto;
 
 import android.content.SharedPreferences;
 import android.os.CountDownTimer;
+import android.os.Vibrator;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -61,23 +62,34 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View view) {
         int id = view.getId();
-        if(stopper==0) {
-            switch (id) {
-                case R.id.button1:
-                    setAnswerValue();
-                    checkResult(true);
-                    break;
-                case R.id.button2:
-                    setAnswerValue();
-                    checkResult(false);
-                    break;
-                case R.id.button3:
-                    setQuestionValue();
-                    clearAnswerValue();
-                    clearScoreValue();
-                    break;
-            }
+        Vibrator vib = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+        vib.vibrate(1000);
+          if(stopper==0){
+
+        switch (id) {
+
+            case R.id.button1:
+                setAnswerValue();
+                checkResult(true);
+                vib.vibrate(1000);//バイブレーションがなる
+
+                break;
+
+            case R.id.button2:
+                setAnswerValue();
+                checkResult(false);
+                vib.vibrate(1000);//バイブレーションがなる
+
+                break;
+
+            case R.id.button3:
+                setQuestionValue();
+                clearAnswerValue();
+                clearScoreValue();
+                vib.cancel();//restartをおしたらバイブレーションがとまる
+                break;
         }
+          }//if
     }
 
     private void setQuestionValue() {
@@ -184,7 +196,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void clearScoreValue() {
-        TextView txtScore = (TextView)findViewById(R.id.text_score);
+        TextView txtScore = (TextView) findViewById(R.id.text_score);
         txtScore.setText("0");
     }
 }
