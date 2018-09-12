@@ -1,7 +1,11 @@
 <resources>
+
     <string name="app_name">HIGH AND LOW GAME</string>
     <string name="btn_high">HIGH</string>
     <string name="btn_low">LOW</string>
+
     <string name="btn_restart">Restart</string>
     <string name="label_score">Score：</string>
+    <string name="start">げ～むをはじめる</string>
+    <string name="nonstart">げ～むをはじめない</string>
 </resources>
