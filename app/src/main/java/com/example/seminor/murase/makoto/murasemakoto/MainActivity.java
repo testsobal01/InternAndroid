@@ -1,6 +1,8 @@
 package com.example.seminor.murase.makoto.murasemakoto;
 
+import android.content.SharedPreferences;
 import android.os.CountDownTimer;
+import android.os.Vibrator;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -11,6 +13,9 @@ import android.widget.Toast;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
+    SharedPreferences pref;
+    SharedPreferences.Editor prefEditor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,27 +31,60 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
 
+        pref = getSharedPreferences("Makoto", MODE_PRIVATE);
+        prefEditor = pref.edit();
 
         // 起動時に関数を呼び出す
         setQuestionValue();
     }
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        //Toast.makeText(this, "onDestroy", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        TextView txtScore = (TextView) findViewById(R.id.text_score);
+        prefEditor.putString("score_input", txtScore.getText().toString());
+        prefEditor.commit();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        TextView txtScore = (TextView) findViewById(R.id.text_score);
+        String readScore = pref.getString("score_input", "0");
+        txtScore.setText(readScore);
+
+    }
+
+    @Override
     public void onClick(View view) {
         int id = view.getId();
+        Vibrator vib=(Vibrator)getSystemService(VIBRATOR_SERVICE);
         switch (id) {
             case R.id.button1:
                 setAnswerValue();
                 checkResult(true);
+
+                vib.vibrate(3000);
                 break;
             case R.id.button2:
                 setAnswerValue();
                 checkResult(false);
+                vib.vibrate(3000);
                 break;
             case R.id.button3:
                 setQuestionValue();
                 clearAnswerValue();
                 clearScoreValue();
+                vib.cancel();
                 break;
         }
     }
