@@ -145,6 +145,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void clearScoreValue() {
         TextView txtScore = (TextView)findViewById(R.id.text_score);
-        txtScore.setText("20");
+        txtScore.setText("100");
     }
 }
