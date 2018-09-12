@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Makoto</string>
+    <string name="btn_high">Hoch</string>
+    <string name="btn_low">Niedrig</string>
+    <string name="btn_restart">Neustart</string>
+    <string name="label_score">Ergebnis：</string>
+    <string name="text1">10 wurde eingestellt.</string>
+</resources>
