@@ -1,6 +1,12 @@
 package com.example.seminor.murase.makoto.murasemakoto;
 
+
+import android.media.AudioAttributes;
+
+import android.content.SharedPreferences;
+
 import android.os.CountDownTimer;
+import android.os.Vibrator;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -11,6 +17,10 @@ import android.widget.Toast;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
+    // create Preferences
+    SharedPreferences pref;
+    SharedPreferences.Editor prefEditor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,14 +36,42 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
 
+        // get Preferences
+        pref = getSharedPreferences("ScoreSave", MODE_PRIVATE);
+        prefEditor = pref.edit();
+
 
         // 起動時に関数を呼び出す
         setQuestionValue();
     }
 
+    // process on Pause
+    @Override
+    protected void onPause() {
+        super.onPause();
+        // get current score
+        TextView score_m = (TextView)findViewById(R.id.text_score);
+        // save score as key "score_save"
+        prefEditor.putString("score_save", score_m.getText().toString());
+        prefEditor.commit();
+    }
+
+    // process on Resume
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // get scoreTextView
+        TextView score_m = (TextView)findViewById(R.id.text_score);
+        // get save score View
+        String score_Text = pref.getString("score_save", "0");
+        score_m.setText(score_Text);
+    }
+
     @Override
     public void onClick(View view) {
         int id = view.getId();
+        long vibTime=50;
+        Vibrator vibBtnTap=(Vibrator)getSystemService(VIBRATOR_SERVICE);
         switch (id) {
             case R.id.button1:
                 setAnswerValue();
@@ -44,6 +82,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 checkResult(false);
                 break;
             case R.id.button3:
+                vibBtnTap.vibrate(vibTime); //リセット
                 setQuestionValue();
                 clearAnswerValue();
                 clearScoreValue();
@@ -67,6 +106,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void checkResult(boolean isHigh) {
+        Vibrator vibResult=(Vibrator)getSystemService(VIBRATOR_SERVICE);
         TextView txtViewQuestion = (TextView) findViewById(R.id.question);
         TextView txtViewAnswer = (TextView) findViewById(R.id.answer);
         int question = Integer.parseInt(txtViewQuestion.getText().toString());
@@ -75,7 +115,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // 結果を示す文字列を入れる変数を用意
         String result;
         int score = 0;
-
+        //バイブレーションのパターン
+        long[] vibPatLoose={50,100,200,300};
+        long vibPatWin=70;
         // Highが押された
         if (isHigh) {
             // result には結果のみを入れる
@@ -105,6 +147,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // 最後にまとめてToast表示の処理とTextViewへのセットを行う
         Toast.makeText(this, result, Toast.LENGTH_LONG).show();
         txtResult.setText("結果：" + question + ":" + answer + "(" + result + ")");
+       //勝敗により別パターンのバイブレーション
+        if (result=="LOOSE"){
+            vibResult.vibrate(vibPatLoose,-1);
+        }else if (result=="WIN"){
+            vibResult.vibrate(vibPatWin);
+        }
 
         // 続けて遊べるように値を更新
         setNextQuestion();
@@ -121,6 +169,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void setNextQuestion() {
         // 第１引数がカウントダウン時間、第２引数は途中経過を受け取る間隔
         // 単位はミリ秒（1秒＝1000ミリ秒）
+        final Vibrator vibReset=(Vibrator)getSystemService(VIBRATOR_SERVICE);
         new CountDownTimer(3000, 1000) {
 
             @Override
@@ -133,6 +182,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public void onFinish() {
                 // 3秒経過したら次の値をセット
                 setQuestionValue();
+                vibReset.vibrate(50);
             }
         }.start();
     }
