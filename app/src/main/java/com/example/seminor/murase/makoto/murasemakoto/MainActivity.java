@@ -1,5 +1,6 @@
 package com.example.seminor.murase.makoto.murasemakoto;
 
+import android.content.SharedPreferences;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
 import android.support.v7.app.AppCompatActivity;
@@ -12,6 +13,11 @@ import android.widget.Toast;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
+    SharedPreferences pref;
+    SharedPreferences.Editor prefEditor;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,9 +33,57 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
 
+        pref = getSharedPreferences("AndroidSeminor", MODE_PRIVATE);
+        prefEditor = pref.edit();
+
+
 
         // 起動時に関数を呼び出す
         setQuestionValue();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Toast.makeText(this, "onPause", Toast.LENGTH_SHORT).show();
+
+        TextView textView1 = (TextView)findViewById(R.id.text_result);
+
+        prefEditor.putString("main_input", textView1.getText().toString());
+        prefEditor.commit();
+
+        Toast.makeText(this, "onPause", Toast.LENGTH_SHORT).show();
+        TextView textView = (TextView)findViewById(R.id.text_score);
+
+        prefEditor.putString("main_score", textView.getText().toString());
+        prefEditor.commit();
+
+
+
+
+
+
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        Toast.makeText(this, "onResume", Toast.LENGTH_SHORT).show();
+        TextView textView1 = (TextView)findViewById(R.id.text_result);
+        String readText = pref.getString("main_input", "保存されていません");
+        textView1.setText(readText);
+
+
+        Toast.makeText(this, "onResume", Toast.LENGTH_SHORT).show();
+        TextView textView = (TextView)findViewById(R.id.text_score);
+        String readingText = pref.getString("main_score", "保存されていません");
+        textView.setText(readingText);
+
+
+
+
     }
 
     @Override
