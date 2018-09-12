@@ -1,10 +1,15 @@
 package com.example.seminor.murase.makoto.murasemakoto;
 
+
+import android.content.Intent;
+
 import android.content.SharedPreferences;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ShareActionProvider;
@@ -68,6 +73,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //一度も保存されていない場合もありえるので、その時の代わりに表示する文字列も指定する
         String readText = pref.getString("main_input", "まだ保存されていません");
         textView.setText(readText);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        switch(id) {
+            case R.id.action_settings_top:
+                Intent homeIntent = new Intent(this, StartActivity.class);
+                this.startActivity(homeIntent);
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
