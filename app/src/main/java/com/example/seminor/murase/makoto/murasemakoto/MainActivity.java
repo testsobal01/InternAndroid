@@ -1,6 +1,10 @@
 package com.example.seminor.murase.makoto.murasemakoto;
 
+
 import android.media.AudioAttributes;
+
+import android.content.SharedPreferences;
+
 import android.os.CountDownTimer;
 import android.os.Vibrator;
 import android.support.v7.app.AppCompatActivity;
@@ -13,6 +17,10 @@ import android.widget.Toast;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
+    // create Preferences
+    SharedPreferences pref;
+    SharedPreferences.Editor prefEditor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,9 +36,35 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
 
+        // get Preferences
+        pref = getSharedPreferences("ScoreSave", MODE_PRIVATE);
+        prefEditor = pref.edit();
+
 
         // 起動時に関数を呼び出す
         setQuestionValue();
+    }
+
+    // process on Pause
+    @Override
+    protected void onPause() {
+        super.onPause();
+        // get current score
+        TextView score_m = (TextView)findViewById(R.id.text_score);
+        // save score as key "score_save"
+        prefEditor.putString("score_save", score_m.getText().toString());
+        prefEditor.commit();
+    }
+
+    // process on Resume
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // get scoreTextView
+        TextView score_m = (TextView)findViewById(R.id.text_score);
+        // get save score View
+        String score_Text = pref.getString("score_save", "0");
+        score_m.setText(score_Text);
     }
 
     @Override
