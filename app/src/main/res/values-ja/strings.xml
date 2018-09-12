@@ -1,2 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="app_name">ぴこぴこ</string>
+    <string name="btn_high">おおきい</string>
+    <string name="btn_low">ちいさい</string>
+    <string name="btn_restart">やりなおす</string>
+    <string name="label_score">とくてん：</string>
+</resources>
