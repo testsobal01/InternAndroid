@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Deutsch</string>
+    <string name="app_name">High and Low</string>
     <string name="btn_high">Hoch</string>
     <string name="btn_low">Muhen</string>
     <string name="btn_restart">Rneu starten</string>
