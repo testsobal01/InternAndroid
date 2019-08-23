@@ -10,6 +10,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+import java.util.Locale;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 
 import java.util.Random;
 
@@ -155,23 +158,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main_menu, menu);
         return true;
-    }
+    } 
 
-//    @Override
-//    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-//        int id = item.getItemId();
-//
-//        switch(id){
-//            case R. id. action_settings:
-//                Toast.makeText(this, "Settingsが選択されました", Toast.LENGTH_SHORT).show();
-//                return true;
-//            case R. id. action_settings2:
-//                Toast.makeText(this, "Settings2が選択されました", Toast.LENGTH_SHORT).show();
-//                return true;
-//            case R. id. action_settings3:
-//                Toast.makeText(this, "Settings3が選択されました", Toast.LENGTH_SHORT).show();
-//                return true;
-//        }
-//        return super.onOptionsItemSelected(item);
-//    }
 }
