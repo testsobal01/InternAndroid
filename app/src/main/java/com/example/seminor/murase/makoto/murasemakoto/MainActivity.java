@@ -1,5 +1,6 @@
 package com.example.seminor.murase.makoto.murasemakoto;
 
+import android.content.SharedPreferences;
 import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,6 +12,9 @@ import android.widget.Toast;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
+    SharedPreferences pref;
+    SharedPreferences.Editor prefEditor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +29,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
+
+        pref = getSharedPreferences("Android",MODE_PRIVATE);
+        prefEditor = pref.edit();
 
 
         // 起動時に関数を呼び出す
@@ -146,5 +153,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void clearScoreValue() {
         TextView txtScore = (TextView)findViewById(R.id.text_score);
         txtScore.setText("0");
+    }
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Toast.makeText(this, "onPause", Toast.LENGTH_SHORT).show();
+
+        TextView txtScore = (TextView) findViewById(R.id.text_score);
+        prefEditor.putString("main_input", txtScore.getText().toString());
+        prefEditor.commit();
+    }
+    @Override
+    protected  void  onResume(){
+     super.onResume();
+       Toast.makeText(this, "onResume", Toast.LENGTH_SHORT).show();
+
+       TextView txtScore = (TextView)findViewById(R.id.text_score);
+       String readText = pref.getString("main_input","0");
+       txtScore.setText(readText);
     }
 }
