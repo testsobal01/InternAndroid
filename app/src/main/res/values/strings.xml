@@ -1,7 +1,7 @@
 <resources>
-    <string name="app_name">MuraseMakoto</string>
-    <string name="btn_high">High</string>
-    <string name="btn_low">Low</string>
-    <string name="btn_restart">Restart</string>
-    <string name="label_score">Score：</string>
+<string name="app_name">SojiroIwamoto</string>
+<string name="btn_high">High</string>
+<string name="btn_low">Low</string>
+<string name="btn_restart">Restart</string>
+<string name="label_score">Score：</string>
 </resources>
