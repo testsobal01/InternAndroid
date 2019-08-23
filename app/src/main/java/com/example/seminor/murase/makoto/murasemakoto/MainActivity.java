@@ -1,8 +1,11 @@
 package com.example.seminor.murase.makoto.murasemakoto;
 
 import android.os.CountDownTimer;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -83,7 +86,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 result = "WIN";
                 score = 2;
             } else if (question > answer) {
-                result = "LOOSE";
+                result = "LOSE";
                 score = -1;
             } else {
                 result = "DRAW";
@@ -94,7 +97,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 result = "WIN";
                 score = 2;
             } else if (question < answer) {
-                result = "LOOSE";
+                result = "LOSE";
                 score = -1;
             } else {
                 result = "DRAW";
@@ -147,4 +150,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView txtScore = (TextView)findViewById(R.id.text_score);
         txtScore.setText("0");
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+        return true;
+    }
+
+//    @Override
+//    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+//        int id = item.getItemId();
+//
+//        switch(id){
+//            case R. id. action_settings:
+//                Toast.makeText(this, "Settingsが選択されました", Toast.LENGTH_SHORT).show();
+//                return true;
+//            case R. id. action_settings2:
+//                Toast.makeText(this, "Settings2が選択されました", Toast.LENGTH_SHORT).show();
+//                return true;
+//            case R. id. action_settings3:
+//                Toast.makeText(this, "Settings3が選択されました", Toast.LENGTH_SHORT).show();
+//                return true;
+//        }
+//        return super.onOptionsItemSelected(item);
+//    }
 }
