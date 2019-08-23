@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">MuraseMakoto</string>
+    <string name="btn_high">大きい</string>
+    <string name="btn_low">小さい</string>
+    <string name="btn_restart">数字を変える</string>
+    <string name="label_score">点数：</string>
+    <string name="label_set">10が設定されています。</string>
+    <string name="label_result">結果:</string>
+</resources>
