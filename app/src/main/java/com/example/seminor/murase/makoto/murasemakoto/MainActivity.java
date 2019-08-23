@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
                 Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
-                vib.vibrate(8000);
+                vib.vibrate(2000);
 
 
 
@@ -52,8 +52,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 break;
             case R.id.button2:
+
+                Vibrator vib2 = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+                vib2.vibrate(8000);
+
                 setAnswerValue();
                 checkResult(false);
+
+
                 break;
             case R.id.button3:
                 setQuestionValue();
