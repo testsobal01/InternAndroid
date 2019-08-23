@@ -2,7 +2,7 @@
 <resources>
 
 
-    <string name="app_name">日本語</string>
+    <string name="app_name">チーム結膜炎</string>
     <string name="btn_high">高い</string>
     <string name="btn_low">低い</string>
     <string name="btn_restart">最初から</string>
