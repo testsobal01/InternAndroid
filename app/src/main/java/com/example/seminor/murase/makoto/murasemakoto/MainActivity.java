@@ -1,6 +1,10 @@
 package com.example.seminor.murase.makoto.murasemakoto;
 
+<<<<<<< HEAD
 import android.content.SharedPreferences;
+=======
+import android.content.Intent;
+>>>>>>> add gamenseni
 import android.os.CountDownTimer;
 import android.os.Vibrator;
 import android.support.v7.app.AppCompatActivity;
@@ -102,6 +106,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 Vibrator vib1 = (Vibrator)getSystemService(VIBRATOR_SERVICE);
                 vib1.vibrate(3000);
+
                 break;
 
             case R.id.button2:
