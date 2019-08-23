@@ -1,5 +1,6 @@
 package com.example.seminor.murase.makoto.murasemakoto;
 
+import android.content.SharedPreferences;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
 import android.support.v7.app.AppCompatActivity;
@@ -13,10 +14,23 @@ import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
+    SharedPreferences pref;
+    SharedPreferences.Editor prefEditor;
+
+    //テキストビューを取得
+    TextView textView1 ;
+    TextView textView2 ;
+    TextView textView3 ;
+
+    String readText1 ;
+    String readText2 ;
+    String readText3 ;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
 
         Button btn1 = (Button) findViewById(R.id.button1);
         btn1.setOnClickListener(this);
@@ -27,9 +41,55 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
 
+        //保存先はAndroidSeminor
+        pref = getSharedPreferences("AndroidSeminor", MODE_PRIVATE);
+        prefEditor = pref.edit();
+
+        textView1 = (TextView)findViewById(R.id.question);
+        textView2 = (TextView)findViewById(R.id.answer);
+        textView3 = (TextView)findViewById(R.id.text_score);
+
+
+
+        readText1 = pref.getString("main_input", "保存されていません");
+        textView1.setText(readText1);
+        readText2 = pref.getString("score_input", "保存されていません");
+        textView2.setText(readText2);
+        readText3 = pref.getString("answer_input", "保存されていません");
+        textView3.setText(readText3);
+
+
 
         // 起動時に関数を呼び出す
         setQuestionValue();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+
+        textView1 = (TextView)findViewById(R.id.question);
+        textView2 = (TextView)findViewById(R.id.answer);
+        textView3 = (TextView)findViewById(R.id.text_score);
+
+        //main_inputに保存
+        prefEditor.putString("main_input",textView1.getText().toString());
+        prefEditor.commit();
+
+        prefEditor.putString("score_input",textView2.getText().toString());
+        prefEditor.commit();
+
+        prefEditor.putString("answer_input",textView3.getText().toString());
+        prefEditor.commit();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+
+
     }
 
     @Override
