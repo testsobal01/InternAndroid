@@ -1,5 +1,6 @@
 package com.example.seminor.murase.makoto.murasemakoto;
 
+import android.content.SharedPreferences;
 import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -15,10 +16,37 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     Vibrator vib;
 
+    SharedPreferences pref;
+    SharedPreferences.Editor prefEditor;
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Toast.makeText(this,"onPause",Toast.LENGTH_SHORT).show();
+
+        TextView textView = (TextView)findViewById(R.id.text_score);
+        prefEditor.putString("score_input", textView.getText().toString());
+        prefEditor.commit();
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Toast.makeText(this,"onResume",Toast.LENGTH_SHORT).show();
+
+        TextView textView =(TextView)findViewById(R.id.text_score);
+        String readText = pref.getString("score_input","保存されていません");
+        textView.setText(readText);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        pref = getSharedPreferences("internAndroid",MODE_PRIVATE);
+        prefEditor = pref.edit();
 
         Button btn1 = (Button) findViewById(R.id.button1);
         btn1.setOnClickListener(this);
