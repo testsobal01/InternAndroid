@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">MuraseMakoto</string>
+    <string name="btn_high">高</string>
+    <string name="btn_low">低</string>
+    <string name="btn_restart">再一次</string>
+    <string name="label_score">比分：</string>
+    <string name="btn_label">设定为10</string>
+</resources>

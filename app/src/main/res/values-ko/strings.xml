@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">MuraseMakoto</string>
+    <string name="btn_high">높은</string>
+    <string name="btn_low">낮은</string>
+    <string name="btn_restart">다시</string>
+    <string name="label_score">득점：</string>
+    <string name="btn_label">10이 설정되어 있습니다</string>
+</resources>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">MuraseMakoto</string>
+    <string name="btn_high">ارتفاع</string>
+    <string name="btn_low">منخفض</string>
+    <string name="btn_restart">مرة اخرى</string>
+    <string name="label_score">نتيجة：</string>
+    <string name="btn_label">تم تعيين 10</string>
+</resources>
