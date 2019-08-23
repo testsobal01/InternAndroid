@@ -1,12 +1,18 @@
 package com.example.seminor.murase.makoto.murasemakoto;
 
 import android.os.CountDownTimer;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+import java.util.Locale;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 
 import java.util.Random;
 
@@ -83,7 +89,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 result = "WIN";
                 score = 2;
             } else if (question > answer) {
-                result = "LOOSE";
+                result = "LOSE";
                 score = -1;
             } else {
                 result = "DRAW";
@@ -94,7 +100,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 result = "WIN";
                 score = 2;
             } else if (question < answer) {
-                result = "LOOSE";
+                result = "LOSE";
                 score = -1;
             } else {
                 result = "DRAW";
@@ -147,4 +153,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView txtScore = (TextView)findViewById(R.id.text_score);
         txtScore.setText("0");
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+        return true;
+    } 
+
 }

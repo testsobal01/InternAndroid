@@ -1,10 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">MuraseMakoto</string>
     <string name="btn_high">High</string>
     <string name="btn_low">Low</string>
     <string name="btn_restart">Restart</string>
     <string name="label_score">Score：</string>
-    <string name="action_settings">Settings</string>
-    <string name="action_settings2">Settings2</string>
-    <string name="action_settings3">Settings3</string>
+    <string name="action_settings">設定</string>
+    <string name="action_settings2">設定2</string>
+    <string name="action_settings3">設定3</string>
 </resources>
