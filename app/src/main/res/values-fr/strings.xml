@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">TakashiAkiyoshi</string>
+    <string name="btn_high">haute</string>
+    <string name="btn_low">faible</string>
+    <string name="btn_restart">redémarrer</string>
+    <string name="action_settings">églage</string>
+    <string name="action_settings2">églage2</string>
+    <string name="action_settings3">églage3</string>
+    <string name="win">Win</string>
+    <string name="lose">Lose</string>
+    <string name="draw">Draw</string>
+</resources>
