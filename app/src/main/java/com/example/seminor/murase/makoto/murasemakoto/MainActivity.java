@@ -27,6 +27,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     int newScore;
     int score;
     int save_score;
+    int win=0;
+    int lose=0;
+    int draw=0;
 
     Vibrator vib;
 
@@ -60,6 +63,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onPause();
         Toast.makeText(this,"onPause",Toast.LENGTH_SHORT).show();
         prefEditor.putInt("score",newScore);
+        prefEditor.putInt("win",win);
+        prefEditor.putInt("lose",lose);
+        prefEditor.putInt("draw",draw);
         prefEditor.commit();
     }
 
@@ -68,6 +74,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onResume();
         Toast.makeText(this,"onResume",Toast.LENGTH_SHORT).show();
         save_score = pref.getInt("score",0);
+        win = pref.getInt("win",0);
+        lose = pref.getInt("lose",0);
+        draw = pref.getInt("draw",0);
         TextView txtScore = (TextView) findViewById(R.id.text_score);
         txtScore.setText(Integer.toString(save_score));
     }
@@ -124,23 +133,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             // result には結果のみを入れる
             if (question < answer) {
                 result = "WIN";
+                win =win+1;
                 score = 2;
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
+                lose = lose+1;
             } else {
                 result = "DRAW";
+                draw = draw+1;
                 score = 1;
             }
         } else {
             if (question > answer) {
                 result = "WIN";
+                win = win+1;
                 score = 2;
             } else if (question < answer) {
                 result = "LOSE";
+                lose=lose+1;
                 score = -1;
             } else {
                 result = "DRAW";
+                draw=draw+1;
                 score = 1;
             }
         }
