@@ -2,7 +2,11 @@ package com.example.seminor.murase.makoto.murasemakoto;
 
 import android.content.SharedPreferences;
 import android.os.CountDownTimer;
+
 import android.support.annotation.NonNull;
+
+import android.os.Vibrator;
+
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -24,6 +28,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     int score;
     int save_score;
 
+    Vibrator vib;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,6 +47,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         pref = getSharedPreferences("save_data",MODE_PRIVATE);
         prefEditor = pref.edit();
+
+        vib = (Vibrator) getSystemService(VIBRATOR_SERVICE);
 
 
         // 起動時に関数を呼び出す
@@ -71,10 +79,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.button1:
                 setAnswerValue();
                 checkResult(true);
+                vib.vibrate(500);
                 break;
             case R.id.button2:
                 setAnswerValue();
                 checkResult(false);
+                vib.vibrate(500);
                 break;
             case R.id.button3:
                 setQuestionValue();
@@ -177,7 +187,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void clearScoreValue() {
-        TextView txtScore = (TextView)findViewById(R.id.text_score);
+        TextView txtScore = (TextView) findViewById(R.id.text_score);
         txtScore.setText("0");
     }
 
