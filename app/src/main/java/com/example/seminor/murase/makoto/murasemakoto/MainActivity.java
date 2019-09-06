@@ -1,6 +1,7 @@
 package com.example.seminor.murase.makoto.murasemakoto;
 
 import android.content.SharedPreferences;
+import android.content.Intent;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
 import android.support.v7.app.AppCompatActivity;
