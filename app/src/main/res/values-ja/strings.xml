@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+<string name="app_name">シャワーズ</string>
+<string name="btn_high">高い</string>
+<string name="btn_low">低い</string>
+<string name="btn_restart">リスタート</string>
+<string name="label_score">スコア：</string>
+<string name="Description">10が設定されています。</string>
+<string name="win">勝ち</string>
+    <string name="lose">負け</string>
+    <string name="draw">引き分け</string>
+    <string name="result">結果：</string>
+</resources>
