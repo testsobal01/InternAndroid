@@ -1,7 +1,9 @@
 package com.example.seminor.murase.makoto.murasemakoto;
 
 import android.content.SharedPreferences;
+import android.content.Context;
 import android.os.CountDownTimer;
+import android.os.Vibrator;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -162,6 +164,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onFinish() {
                 // 3秒経過したら次の値をセット
+                ((Vibrator) getSystemService(Context.VIBRATOR_SERVICE)).vibrate(1000);
                 setQuestionValue();
             }
         }.start();
