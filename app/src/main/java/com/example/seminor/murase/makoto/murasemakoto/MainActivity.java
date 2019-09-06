@@ -1,5 +1,6 @@
 package com.example.seminor.murase.makoto.murasemakoto;
 
+import android.content.SharedPreferences;
 import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,6 +12,9 @@ import android.widget.Toast;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
+    SharedPreferences pref;
+    SharedPreferences.Editor prefEditor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,9 +30,38 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
 
+        pref=getSharedPreferences("Score",MODE_PRIVATE);
+        prefEditor=pref.edit();
+
 
         // 起動時に関数を呼び出す
         setQuestionValue();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        saveScore();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        loadScore();
+    }
+
+    private void loadScore(){
+        TextView txtScore = (TextView) findViewById(R.id.text_score);
+        String loadedScore=pref.getString("game_score","0");
+        txtScore.setText(loadedScore);
+    }
+
+    private void saveScore(){
+        TextView txtScore = (TextView) findViewById(R.id.text_score);
+        prefEditor.putString("game_score",txtScore.getText().toString());
+        prefEditor.commit();
     }
 
     @Override
@@ -83,7 +116,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 result = "WIN";
                 score = 2;
             } else if (question > answer) {
-                result = "LOOSE";
+                result = "LOSE";
                 score = -1;
             } else {
                 result = "DRAW";
@@ -94,7 +127,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 result = "WIN";
                 score = 2;
             } else if (question < answer) {
-                result = "LOOSE";
+                result = "LOSE";
                 score = -1;
             } else {
                 result = "DRAW";
