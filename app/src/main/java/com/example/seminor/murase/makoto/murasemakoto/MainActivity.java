@@ -1,6 +1,7 @@
 package com.example.seminor.murase.makoto.murasemakoto;
 
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
 import android.support.v7.app.AppCompatActivity;
@@ -103,28 +104,35 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // Highが押された
         if (isHigh) {
             // result には結果のみを入れる
+            //色は勝利：赤、敗北：青、引き分け：黄色に変化
             if (question < answer) {
                 result = "WIN";
                 score = 2;
 
 
+                txtViewAnswer.setBackgroundColor(Color.RED);
             } else if (question > answer) {
                 result = "LOOSE";
                 score = -1;
+                txtViewAnswer.setBackgroundColor(Color.BLUE);
             } else {
                 result = "DRAW";
                 score = 1;
+                txtViewAnswer.setBackgroundColor(Color.YELLOW);
             }
         } else {
             if (question > answer) {
                 result = "WIN";
                 score = 2;
+                txtViewAnswer.setBackgroundColor(Color.RED);
             } else if (question < answer) {
                 result = "LOOSE";
                 score = -1;
+                txtViewAnswer.setBackgroundColor(Color.BLUE);
             } else {
                 result = "DRAW";
                 score = 1;
+                txtViewAnswer.setBackgroundColor(Color.YELLOW);
             }
         }
 
@@ -162,6 +170,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public void onFinish() {
                 // 3秒経過したら次の値をセット
                 setQuestionValue();
+                //右側の色もリセット(Color.YELLOW)
+                TextView txtViewAnswer = (TextView) findViewById(R.id.answer);
+                txtViewAnswer.setBackgroundColor(Color.YELLOW);
             }
         }.start();
     }
