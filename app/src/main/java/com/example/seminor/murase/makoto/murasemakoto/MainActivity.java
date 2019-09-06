@@ -53,6 +53,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 clearAnswerValue();
                 clearScoreValue();
                 vib.vibrate(50);
+                TextView txtViewAnswer = (TextView) findViewById(R.id.answer);
+                txtViewAnswer.setBackgroundColor(Color.rgb(255,255,0));
                 break;
         }
     }
