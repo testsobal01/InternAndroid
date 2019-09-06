@@ -81,6 +81,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 setQuestionValue();
                 clearAnswerValue();
                 clearScoreValue();
+                TextView txtViewAnswer = (TextView) findViewById(R.id.answer);
+                txtViewAnswer.setBackgroundColor(getResources().getColor(R.color.yellow));
                 break;
         }
     }
@@ -91,6 +93,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int questionValue = r.nextInt(10 + 1);
         TextView txtView = (TextView) findViewById(R.id.question);
         txtView.setText(Integer.toString(questionValue));
+        TextView txtViewAnswer = (TextView) findViewById(R.id.answer);
+        txtViewAnswer.setBackgroundColor(getResources().getColor(R.color.yellow));
     }
 
     private void setAnswerValue() {
@@ -115,27 +119,33 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             // result には結果のみを入れる
             if (question < answer) {
                 result = "WIN";
+                txtViewAnswer.setBackgroundColor(getResources().getColor(R.color.win));
                 score = 2;
             } else if (question > answer) {
                 result = "LOSE";
+                txtViewAnswer.setBackgroundColor(getResources().getColor(R.color.lose));
                 score = -1;
                 Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
                 vib.vibrate(100);
             } else {
                 result = "DRAW";
+                txtViewAnswer.setBackgroundColor(getResources().getColor(R.color.draw));
                 score = 1;
             }
         } else {
             if (question > answer) {
                 result = "WIN";
+                txtViewAnswer.setBackgroundColor(getResources().getColor(R.color.win));
                 score = 2;
             } else if (question < answer) {
                 result = "LOSE";
+                txtViewAnswer.setBackgroundColor(getResources().getColor(R.color.lose));
                 score = -1;
                 Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
                 vib.vibrate(100);
             } else {
                 result = "DRAW";
+                txtViewAnswer.setBackgroundColor(getResources().getColor(R.color.draw));
                 score = 1;
             }
         }
