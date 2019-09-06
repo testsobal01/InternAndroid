@@ -1,5 +1,6 @@
 package com.example.seminor.murase.makoto.murasemakoto;
 
+import android.content.SharedPreferences;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
 import android.support.v7.app.AppCompatActivity;
@@ -12,6 +13,10 @@ import android.widget.Toast;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
+    int oldScore;
+    SharedPreferences pref;
+    SharedPreferences.Editor prefEditor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +35,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // 起動時に関数を呼び出す
         setQuestionValue();
+
+        pref=getSharedPreferences("Score",MODE_PRIVATE);
+        prefEditor=pref.edit();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+//        TextView textView =(TextView)findViewById(R.id.text_score);
+
+        prefEditor.putInt("main_input",oldScore);
+        prefEditor.commit();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        TextView txtScore = (TextView) findViewById(R.id.text_score);
+
+        oldScore = pref.getInt("main_input",0);
+        txtScore.setText(Integer.toString(oldScore));
     }
 
     @Override
@@ -146,10 +173,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView txtScore = (TextView) findViewById(R.id.text_score);
         int newScore = Integer.parseInt(txtScore.getText().toString()) + score;
         txtScore.setText(Integer.toString(newScore));
+        oldScore=newScore;
     }
 
     private void clearScoreValue() {
         TextView txtScore = (TextView)findViewById(R.id.text_score);
         txtScore.setText("0");
+        oldScore=0;
     }
 }
