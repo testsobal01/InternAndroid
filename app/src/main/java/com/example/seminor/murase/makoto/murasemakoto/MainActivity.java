@@ -1,6 +1,8 @@
 package com.example.seminor.murase.makoto.murasemakoto;
 
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
 import android.support.v7.app.AppCompatActivity;
@@ -114,23 +116,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = getString(R.string.win);
                 score = 2;
+                txtViewAnswer.setBackgroundColor(Color.rgb(255, 0, 0));
             } else if (question > answer) {
                 result = getString(R.string.lose);
                 score = -1;
+                txtViewAnswer.setBackgroundColor(Color.rgb(0, 0, 255));
             } else {
                 result = getString(R.string.draw);
                 score = 1;
+                txtViewAnswer.setBackgroundColor(Color.rgb(192, 192, 192));
             }
         } else {
             if (question > answer) {
                 result = getString(R.string.win);
                 score = 2;
+                txtViewAnswer.setBackgroundColor(Color.rgb(255, 0, 0));
             } else if (question < answer) {
                 result = getString(R.string.lose);
                 score = -1;
+                txtViewAnswer.setBackgroundColor(Color.rgb(0, 0, 255));
+
             } else {
                 result = getString(R.string.draw);
                 score = 1;
+                txtViewAnswer.setBackgroundColor(Color.rgb(192, 192, 192));
+
             }
         }
 
@@ -143,6 +153,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // スコアを表示
         setScore(score);
+
     }
 
     private void clearAnswerValue() {
@@ -181,4 +192,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         txtScore.setText("0");
         oldScore=0;
     }
+
+
 }
