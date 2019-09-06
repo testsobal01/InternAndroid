@@ -31,6 +31,14 @@
             android:gravity="center"
             android:text="スタート！！"
             android:textSize="60sp" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/button_1"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"/>
     </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>
