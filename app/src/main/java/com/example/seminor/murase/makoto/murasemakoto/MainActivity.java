@@ -1,5 +1,6 @@
 package com.example.seminor.murase.makoto.murasemakoto;
 
+import android.content.SharedPreferences;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
 import android.support.v7.app.AppCompatActivity;
@@ -12,6 +13,8 @@ import android.widget.Toast;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+    SharedPreferences pref;
+    SharedPreferences.Editor prefEditor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,9 +30,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
 
+        pref = getSharedPreferences("High&Low",MODE_PRIVATE);
+        prefEditor = pref.edit();
+
 
         // 起動時に関数を呼び出す
         setQuestionValue();
+    }
+
+    protected void onResume(){
+        super.onResume();
+        TextView tvs = (TextView)findViewById(R.id.text_score);
+        String readscore = pref.getString("score","0");
+        tvs.setText(readscore);
+
+        TextView tvhs = (TextView)findViewById(R.id.text_score_high);
+        String readhscore = pref.getString("highscore","0");
+        tvhs.setText(readhscore);
     }
 
     @Override
@@ -120,6 +137,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // スコアを表示
         setScore(score);
+
+        //ハイスコア更新
+        setHighScore();
     }
 
     private void clearAnswerValue() {
@@ -150,6 +170,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView txtScore = (TextView) findViewById(R.id.text_score);
         int newScore = Integer.parseInt(txtScore.getText().toString()) + score;
         txtScore.setText(Integer.toString(newScore));
+
+        //scoreのプリファレンス
+        prefEditor.putString("score",txtScore.getText().toString());
+        prefEditor.commit();
+    }
+
+    private void setHighScore() {
+        TextView txtScore = (TextView) findViewById(R.id.text_score);
+        TextView txtHScore = (TextView) findViewById(R.id.text_score_high);
+        int Score = Integer.parseInt(txtScore.getText().toString());
+        if(Integer.parseInt(txtHScore.getText().toString())<Score){
+            //int newHighScore =nowscore;
+            //txtHScore.setText(Integer.toString(newHighScore));
+            txtHScore.setText(String.valueOf(Score));
+
+            //highscoreのプリファレンス
+            prefEditor.putString("highscore",txtHScore.getText().toString());
+            prefEditor.commit();
+        }
     }
 
     private void clearScoreValue() {

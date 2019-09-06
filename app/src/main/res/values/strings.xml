@@ -7,4 +7,5 @@
     <string name="start_btn_start">開始</string>
     <string name="start_btn_score">スコア</string>
     <string name="start_game_name">High＆Low</string>
+    <string name="label_score_high">HighScore：</string>
 </resources>
