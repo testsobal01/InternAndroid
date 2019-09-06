@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.graphics.Color;
 
 import java.util.Random;
 
@@ -87,23 +88,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = "WIN";
                 score = 2;
+                txtViewAnswer.setBackgroundColor(Color.rgb(255,0,0));
             } else if (question > answer) {
                 result = "LOOSE";
                 score = -1;
+                txtViewAnswer.setBackgroundColor(Color.rgb(0,0,255));
             } else {
                 result = "DRAW";
                 score = 1;
+                txtViewAnswer.setBackgroundColor(Color.rgb(255,255,255));
             }
         } else {
             if (question > answer) {
                 result = "WIN";
                 score = 2;
+                txtViewAnswer.setBackgroundColor(Color.rgb(255,0,0));
             } else if (question < answer) {
                 result = "LOOSE";
                 score = -1;
+                txtViewAnswer.setBackgroundColor(Color.rgb(0,0,255));
             } else {
                 result = "DRAW";
                 score = 1;
+                txtViewAnswer.setBackgroundColor(Color.rgb(255,255,255));
             }
         }
 
