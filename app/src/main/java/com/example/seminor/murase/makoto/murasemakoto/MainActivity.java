@@ -83,7 +83,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 result = "WIN";
                 score = 2;
             } else if (question > answer) {
-                result = "LOOSE";
+                result = "LOSE";
                 score = -1;
             } else {
                 result = "DRAW";
@@ -94,7 +94,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 result = "WIN";
                 score = 2;
             } else if (question < answer) {
-                result = "LOOSE";
+                result = "LOSE";
                 score = -1;
             } else {
                 result = "DRAW";
