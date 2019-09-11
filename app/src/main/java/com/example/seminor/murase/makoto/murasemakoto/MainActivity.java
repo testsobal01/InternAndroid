@@ -1,7 +1,12 @@
 package com.example.seminor.murase.makoto.murasemakoto;
 
+
 import android.graphics.Color;
+
+import android.content.SharedPreferences;
+
 import android.os.CountDownTimer;
+import android.os.Vibrator;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -13,6 +18,9 @@ import android.widget.Toast;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
+    SharedPreferences pref;
+    SharedPreferences.Editor prefEditor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +39,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // 起動時に関数を呼び出す
         setQuestionValue();
+
+        pref = getSharedPreferences("InternAndroid", MODE_PRIVATE);
+        prefEditor = pref.edit();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        TextView textView = (TextView)findViewById(R.id.text_score);
+        prefEditor.putString("score_input",  textView.getText().toString());
+        prefEditor.commit();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        TextView textView = (TextView)findViewById(R.id.text_score);
+        String readText = pref.getString("score_input", "0（保存されていません）");
+        textView.setText(readText);
     }
 
     @Override
@@ -96,12 +124,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 answer_color =  Color.RED;
 
                 result = "WIN";
+                Vibrator vib =(Vibrator)getSystemService(VIBRATOR_SERVICE);
+                vib.vibrate(1000);
                 score = 2;
             } else if (question > answer) {
+
                 question_color = Color.RED;
                 answer_color = Color.WHITE;
 
+
+                long pattern[] = {0,300,100,300,100};
+
                 result = "LOSE";
+                Vibrator vib  =(Vibrator)getSystemService(VIBRATOR_SERVICE);
+                vib.vibrate(pattern,-1);
                 score = -1;
             } else {
                 question_color = Color.GRAY;
@@ -116,12 +152,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 answer_color = Color.RED;
 
                 result = "WIN";
+                Vibrator vib =(Vibrator)getSystemService(VIBRATOR_SERVICE);
+                vib.vibrate(1000);
                 score = 2;
             } else if (question < answer) {
                 question_color = Color.RED;
                 answer_color = Color.WHITE;
 
                 result = "LOSE";
+                long pattern[] = {0,300,100,300,100};
+                Vibrator vib =(Vibrator)getSystemService(VIBRATOR_SERVICE);
+                vib.vibrate(pattern,-1);
                 score = -1;
             } else {
                 question_color = Color.GRAY;
