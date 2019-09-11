@@ -1,6 +1,12 @@
 package com.example.seminor.murase.makoto.murasemakoto;
 
+
+import android.graphics.Color;
+
+import android.content.SharedPreferences;
+
 import android.os.CountDownTimer;
+import android.os.Vibrator;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -11,6 +17,9 @@ import android.widget.Toast;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
+    SharedPreferences pref;
+    SharedPreferences.Editor prefEditor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,13 +35,47 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
 
+        pref=getSharedPreferences("scorebox",MODE_PRIVATE);
+        prefEditor=pref.edit();
 
         // 起動時に関数を呼び出す
         setQuestionValue();
     }
 
     @Override
+    protected void onPause() {
+        super.onPause();
+        TextView textView=(TextView)findViewById(R.id.text_score);
+
+        prefEditor.putString("key_box",textView.getText().toString());
+        prefEditor.commit();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        TextView textView=(TextView)findViewById(R.id.text_score);
+
+        String readText=pref.getString("key_box","保存されていません");
+        textView.setText(readText);
+    }
+
+    @Override
     public void onClick(View view) {
+        switch (view.getId()){
+            case R.id.button1:
+                Vibrator vid1 = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+                vid1.vibrate(1000);
+            case R.id.button2:
+                Vibrator vid2 = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+                vid2.vibrate(1000);
+            case R.id.button3:
+                Vibrator vid3 = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+                vid3.vibrate(1000);
+        }
+
+
+
         int id = view.getId();
         switch (id) {
             case R.id.button1:
@@ -81,23 +124,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             // result には結果のみを入れる
             if (question < answer) {
                 result = "WIN";
+                txtViewAnswer.setBackgroundColor(Color.parseColor("#6600ff"));
                 score = 2;
             } else if (question > answer) {
                 result = "LOSE";
+                txtViewAnswer.setBackgroundColor(Color.parseColor("#cc3300"));
                 score = -1;
             } else {
                 result = "DRAW";
+                txtViewAnswer.setBackgroundColor(Color.parseColor("#cccccc"));
                 score = 1;
             }
         } else {
             if (question > answer) {
                 result = "WIN";
+                txtViewAnswer.setBackgroundColor(Color.parseColor("#6600ff"));
                 score = 2;
             } else if (question < answer) {
                 result = "LOSE";
+                txtViewAnswer.setBackgroundColor(Color.parseColor("#cc3300"));
                 score = -1;
             } else {
                 result = "DRAW";
+                txtViewAnswer.setBackgroundColor(Color.parseColor("#cccccc"));
                 score = 1;
             }
         }
