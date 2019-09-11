@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">إنها لعبة اختبار</string>
+    <string name="btn_high">ارتفاع</string>
+    <string name="btn_low">منخفض</string>
+    <string name="btn_restart">إعادة تعيين</string>
+    <string name="label_score">النتيجة：</string>
+</resources>
