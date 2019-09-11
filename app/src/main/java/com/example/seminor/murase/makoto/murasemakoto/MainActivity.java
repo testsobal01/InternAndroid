@@ -1,5 +1,6 @@
 package com.example.seminor.murase.makoto.murasemakoto;
 
+import android.content.SharedPreferences;
 import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -8,9 +9,14 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.w3c.dom.Text;
+
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
+    SharedPreferences num1;
+    SharedPreferences.Editor num1Editor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +31,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
+
+        num1 = getSharedPreferences("team-d",MODE_PRIVATE);
+        num1Editor = num1.edit();
 
 
         // 起動時に関数を呼び出す
@@ -147,4 +156,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView txtScore = (TextView)findViewById(R.id.text_score);
         txtScore.setText("0");
     }
+
+    protected void onPause(){
+        super.onPause();
+        Toast.makeText(this,"onPause",Toast.LENGTH_SHORT).show();
+
+        TextView textview = (TextView)findViewById(R.id.text_score);
+        num1Editor.putString("score",textview.getText().toString());
+        num1Editor.commit();
+    }
+
+    protected void onResume(){
+        super.onResume();
+        Toast.makeText(this,"onResume",Toast.LENGTH_SHORT).show();
+
+        TextView textView = (TextView)findViewById(R.id.text_score);
+
+         String readText = num1.getString("score","保存されていません。");
+         textView.setText(readText);
+    }
+    protected void onDestroy(){
+        super.onDestroy();
+    }
 }
+
+
