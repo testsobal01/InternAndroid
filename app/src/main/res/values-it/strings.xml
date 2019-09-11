@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">alto&amp;basso</string>
+    <string name="btn_high">alto</string>
+    <string name="btn_low">basso</string>
+    <string name="btn_restart">rifare</string>
+    <string name="label_score">punteggio：</string>
+    <string name="setting">10 è impostato.</string>
+
+</resources>

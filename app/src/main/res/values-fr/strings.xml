@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Haute&amp;Faible</string>
+    <string name="btn_high">Haute</string>
+    <string name="btn_low">Faible</string>
+    <string name="btn_restart">Recommencer</string>
+    <string name="label_score">Notation：</string>
+    <string name="setting">10 est réglé.</string>
+
+</resources>
