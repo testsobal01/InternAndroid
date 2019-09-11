@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".StartDisplay"
+    android:background="@drawable/background">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center">
+
+
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="150dp"/>
+
+            <Button
+                android:id="@+id/buttonS"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="@string/start_button"
+                android:textColor="#FFFFFF"
+                android:background="@drawable/button_background"
+                android:textSize="50dp"/>
+
+
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>
