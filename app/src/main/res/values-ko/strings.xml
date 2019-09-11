@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">테스트 다아 게임</string>
+    <string name="btn_high">높은</string>
+    <string name="btn_low">낮은</string>
+    <string name="btn_restart">재설정</string>
+    <string name="label_score">점수：</string>
+</resources>
