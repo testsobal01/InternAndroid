@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">équipe-d</string>
+    <string name="btn_high">maximum</string>
+    <string name="btn_low">à faible teneur en</string>
+    <string name="btn_restart">redémarrer</string>
+    <string name="label_score">marquer</string>
+</resources>
