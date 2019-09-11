@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MuraseMakoto</string>
+    <string name="app_name">высокая низкая игра</string>
     <string name="btn_high">высоко</string>
     <string name="btn_low">низкий</string>
     <string name="btn_restart">запустить снова</string>
