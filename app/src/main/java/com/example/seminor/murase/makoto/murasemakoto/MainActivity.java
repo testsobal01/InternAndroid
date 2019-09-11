@@ -1,5 +1,6 @@
 package com.example.seminor.murase.makoto.murasemakoto;
 
+import android.graphics.Color;
 import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -55,6 +56,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 setQuestionValue();
                 clearAnswerValue();
                 clearScoreValue();
+                resetColor();
                 break;
         }
     }
@@ -83,28 +85,48 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // 結果を示す文字列を入れる変数を用意
         String result;
         int score = 0;
+        int question_color;
+        int answer_color;
 
         // Highが押された
         if (isHigh) {
             // result には結果のみを入れる
             if (question < answer) {
+                question_color = Color.WHITE;
+                answer_color =  Color.RED;
+
                 result = "WIN";
                 score = 2;
             } else if (question > answer) {
+                question_color = Color.RED;
+                answer_color = Color.WHITE;
+
                 result = "LOSE";
                 score = -1;
             } else {
+                question_color = Color.GRAY;
+                answer_color = Color.GRAY;
+
                 result = "DRAW";
                 score = 1;
             }
         } else {
             if (question > answer) {
+                question_color = Color.WHITE;
+                answer_color = Color.RED;
+
                 result = "WIN";
                 score = 2;
             } else if (question < answer) {
+                question_color = Color.RED;
+                answer_color = Color.WHITE;
+
                 result = "LOSE";
                 score = -1;
             } else {
+                question_color = Color.GRAY;
+                answer_color = Color.GRAY;
+
                 result = "DRAW";
                 score = 1;
             }
@@ -112,6 +134,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // 最後にまとめてToast表示の処理とTextViewへのセットを行う
         Toast.makeText(this, result, Toast.LENGTH_LONG).show();
+
+        txtViewQuestion.setBackgroundColor(question_color);
+        txtViewAnswer.setBackgroundColor(answer_color);
 
         String any_lang_result = getString(R.string.result);
         txtResult.setText(any_lang_result + question + ":" + answer + "(" + result + ")");
@@ -156,5 +181,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void clearScoreValue() {
         TextView txtScore = (TextView)findViewById(R.id.text_score);
         txtScore.setText("0");
+    }
+
+    private void resetColor(){
+        TextView txtViewQuestion = (TextView) findViewById(R.id.question);
+        TextView txtViewAnswer = (TextView) findViewById(R.id.answer);
+
+        txtViewQuestion.setBackgroundColor(Color.MAGENTA);
+        txtViewAnswer.setBackgroundColor(Color.YELLOW);
     }
 }
