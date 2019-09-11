@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onResume() {
         super.onResume();
         TextView textView = (TextView)findViewById(R.id.text_score);
-        String readText = pref.getString("score_input", "0（保存されていません）");
+        String readText = pref.getString("score_input", "0");
         textView.setText(readText);
     }
 
