@@ -7,14 +7,20 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.graphics.Color;
 import android.widget.Toast;
 
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
+
+    TextView txtViewQuestion;
+    TextView txtViewAnswer;
+
     Vibrator vib ;
     long pattern[] = {100, 100, 100, 100};
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +58,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 setQuestionValue();
                 clearAnswerValue();
                 clearScoreValue();
+
+                txtViewQuestion.setBackgroundColor(Color.WHITE);
+                txtViewAnswer.setBackgroundColor(Color.WHITE);
+
                 vib.vibrate(100);
+
                 break;
         }
     }
@@ -73,8 +84,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void checkResult(boolean isHigh) {
-        TextView txtViewQuestion = (TextView) findViewById(R.id.question);
-        TextView txtViewAnswer = (TextView) findViewById(R.id.answer);
+        txtViewQuestion = (TextView) findViewById(R.id.question);
+        txtViewAnswer = (TextView) findViewById(R.id.answer);
         int question = Integer.parseInt(txtViewQuestion.getText().toString());
         int answer = Integer.parseInt(txtViewAnswer.getText().toString());
         TextView txtResult = (TextView) findViewById(R.id.text_result);
@@ -88,25 +99,43 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = "WIN";
                 score = 2;
+
+                txtViewAnswer.setBackgroundColor(Color.RED);
+                txtViewQuestion.setBackgroundColor(Color.BLUE);
+
                 vib.vibrate(500);
+
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
+                txtViewAnswer.setBackgroundColor(Color.BLUE);
+                txtViewQuestion.setBackgroundColor(Color.RED);
             } else {
                 result = "DRAW";
                 score = 1;
+                txtViewAnswer.setBackgroundColor(Color.CYAN);
+                txtViewQuestion.setBackgroundColor(Color.CYAN);
             }
         } else {
             if (question > answer) {
                 result = "WIN";
                 score = 2;
+
+                txtViewAnswer.setBackgroundColor(Color.GREEN);
+                txtViewQuestion.setBackgroundColor(Color.YELLOW);
+
                 vib.vibrate(500);
+
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
+                txtViewAnswer.setBackgroundColor(Color.YELLOW);
+                txtViewQuestion.setBackgroundColor(Color.GREEN);
             } else {
                 result = "DRAW";
                 score = 1;
+                txtViewAnswer.setBackgroundColor(Color.CYAN);
+                txtViewQuestion.setBackgroundColor(Color.CYAN);
             }
         }
 
@@ -141,7 +170,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public void onFinish() {
                 // 3秒経過したら次の値をセット
                 setQuestionValue();
+
+                txtViewQuestion.setBackgroundColor(Color.WHITE);
+
                 vib.vibrate(pattern, -1);
+
             }
         }.start();
     }
