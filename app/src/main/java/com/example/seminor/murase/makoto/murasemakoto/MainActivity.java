@@ -1,5 +1,6 @@
 package com.example.seminor.murase.makoto.murasemakoto;
 
+import android.graphics.Color;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
 import android.support.v7.app.AppCompatActivity;
@@ -34,6 +35,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View view) {
+        TextView txtViewAnswer = (TextView) findViewById(R.id.answer);
         int id = view.getId();
         switch (id) {
             case R.id.button1:
@@ -48,6 +50,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 setQuestionValue();
                 clearAnswerValue();
                 clearScoreValue();
+                txtViewAnswer.setBackgroundColor(Color.YELLOW);
                 break;
         }
     }
@@ -83,27 +86,33 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = "WIN";
                 score = 2;
+                txtViewAnswer.setBackgroundColor(Color.RED);
                 Vibrator vid = (Vibrator)getSystemService(VIBRATOR_SERVICE);
                 vid.vibrate(1000);
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
+                txtViewAnswer.setBackgroundColor(Color.BLUE);
             } else {
                 result = "DRAW";
                 score = 1;
+                txtViewAnswer.setBackgroundColor(Color.GREEN);
             }
         } else {
             if (question > answer) {
                 result = "WIN";
                 score = 2;
+                txtViewAnswer.setBackgroundColor(Color.RED);
                 Vibrator vid = (Vibrator)getSystemService(VIBRATOR_SERVICE);
                 vid.vibrate(1000);
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
+                txtViewAnswer.setBackgroundColor(Color.BLUE);
             } else {
                 result = "DRAW";
                 score = 1;
+                txtViewAnswer.setBackgroundColor(Color.GREEN);
             }
         }
 
