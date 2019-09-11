@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">MuraseMakoto</string>
+    <string name="btn_high">Hoch</string>
+    <string name="btn_low">Niedrig</string>
+    <string name="btn_restart">Neustart</string>
+    <string name="label_score">Die Partitur：</string>
+</resources>

@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">MuraseMakoto</string>
+    <string name="btn_high">Haute</string>
+    <string name="btn_low">Faible</string>
+    <string name="btn_restart">Redémarrer</string>
+    <string name="label_score">Le score：</string>
+
+</resources>
