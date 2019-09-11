@@ -4,7 +4,7 @@
     <string name="btn_low">Low</string>
     <string name="btn_restart">Restart</string>
 
-    <string name="label_score">Score</string>
+    <string name="label_score">Score：</string>
     <string name="setting">10が設定されています。</string>
 
     <string name="top_menu_text"></string>
