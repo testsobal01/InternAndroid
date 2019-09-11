@@ -1,6 +1,7 @@
 package com.example.seminor.murase.makoto.murasemakoto;
 
 import android.os.CountDownTimer;
+import android.os.Vibrator;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -81,9 +82,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             // result には結果のみを入れる
             if (question < answer) {
                 result = "WIN";
+                Vibrator vib =(Vibrator)getSystemService(VIBRATOR_SERVICE);
+                vib.vibrate(1000);
                 score = 2;
             } else if (question > answer) {
                 result = "LOSE";
+                Vibrator vib =(Vibrator)getSystemService(VIBRATOR_SERVICE);
+                vib.vibrate(300);
                 score = -1;
             } else {
                 result = "DRAW";
@@ -92,9 +97,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         } else {
             if (question > answer) {
                 result = "WIN";
+                result = "WIN";
+                Vibrator vib =(Vibrator)getSystemService(VIBRATOR_SERVICE);
+                vib.vibrate(1000);
                 score = 2;
             } else if (question < answer) {
                 result = "LOSE";
+                result = "WIN";
+                Vibrator vib =(Vibrator)getSystemService(VIBRATOR_SERVICE);
+                vib.vibrate(300);
                 score = -1;
             } else {
                 result = "DRAW";
