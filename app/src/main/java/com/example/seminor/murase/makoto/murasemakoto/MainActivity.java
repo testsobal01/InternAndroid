@@ -1,6 +1,10 @@
 package com.example.seminor.murase.makoto.murasemakoto;
 
+
+import android.graphics.Color;
+
 import android.content.SharedPreferences;
+
 import android.os.CountDownTimer;
 import android.os.Vibrator;
 import android.support.v7.app.AppCompatActivity;
@@ -120,23 +124,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             // result には結果のみを入れる
             if (question < answer) {
                 result = "WIN";
+                txtViewAnswer.setBackgroundColor(Color.parseColor("#6600ff"));
                 score = 2;
             } else if (question > answer) {
                 result = "LOSE";
+                txtViewAnswer.setBackgroundColor(Color.parseColor("#cc3300"));
                 score = -1;
             } else {
                 result = "DRAW";
+                txtViewAnswer.setBackgroundColor(Color.parseColor("#cccccc"));
                 score = 1;
             }
         } else {
             if (question > answer) {
                 result = "WIN";
+                txtViewAnswer.setBackgroundColor(Color.parseColor("#6600ff"));
                 score = 2;
             } else if (question < answer) {
                 result = "LOSE";
+                txtViewAnswer.setBackgroundColor(Color.parseColor("#cc3300"));
                 score = -1;
             } else {
                 result = "DRAW";
+                txtViewAnswer.setBackgroundColor(Color.parseColor("#cccccc"));
                 score = 1;
             }
         }
