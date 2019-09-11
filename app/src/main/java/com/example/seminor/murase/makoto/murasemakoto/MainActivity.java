@@ -5,6 +5,7 @@ import android.os.CountDownTimer;
 import android.os.Vibrator;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -54,6 +55,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView textView = (TextView)findViewById(R.id.text_score);
         String readText = pref.getString("score_input", "0（保存されていません）");
         textView.setText(readText);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_menu,menu);
+
+        return true;
     }
 
     @Override
@@ -139,7 +147,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // 最後にまとめてToast表示の処理とTextViewへのセットを行う
         Toast.makeText(this, result, Toast.LENGTH_LONG).show();
-        txtResult.setText("結果：" + question + ":" + answer + "(" + result + ")");
+
+        String any_lang_result = getString(R.string.result);
+        txtResult.setText(any_lang_result + question + ":" + answer + "(" + result + ")");
 
         // 続けて遊べるように値を更新
         setNextQuestion();
