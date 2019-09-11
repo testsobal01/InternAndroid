@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Hoch&amp;Niedrig</string>
+    <string name="btn_high">Hoch</string>
+    <string name="btn_low">Niedrig</string>
+    <string name="btn_restart">Fange von vorne an</string>
+    <string name="label_score">Wertung：</string>
+    <string name="setting">10 ist eingestellt</string>
+</resources>
