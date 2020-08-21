@@ -5,4 +5,10 @@
     <string name="btn_restart">Restart</string>
     <string name="label_score">Score：</string>
     <string name="button4">start</string>
+    <string name="label_score2">WIN：</string>
+    <string name="label_score3">LOSE：</string>
+    <string name="label_score4">DRAW：</string>
+    <string name="action_settings">Settings</string>
+    <string name="action_settings2">Settings</string>
+    <string name="action_settings3">Settings</string>
 </resources>

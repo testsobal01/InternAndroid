@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="action_settings">設定1</string>
+    <string name="action_settings2">設定2</string>
+    <string name="action_settings3">設定3</string>
+    <string name="btn_high">高い</string>
+    <string name="btn_low">低い</string>
+    <string name="btn_restart">再スタート</string>
+    <string name="label_score">得点</string>
+    <string name="label_score2">勝ち</string>
+    <string name="label_score3">負け</string>
+    <string name="label_score4">引き分け</string>
+
+
+</resources>
+
