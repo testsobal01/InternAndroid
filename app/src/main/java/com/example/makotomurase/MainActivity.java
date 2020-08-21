@@ -2,6 +2,7 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.graphics.Color;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -85,6 +86,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.button3:
                 setQuestionValue();
                 clearAnswerValue();
+                TextView ans = (TextView) findViewById(R.id.answer);
+                TextView ques = (TextView) findViewById(R.id.question);
+                ans.setBackgroundColor(Color.rgb(255, 255, 0));
+                ques.setBackgroundColor(Color.rgb(255, 0, 255));
+
                 break;
 
         }
@@ -155,9 +161,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = "WIN";
                 score = 2;
+                background(true);
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
+                background(false);
             } else {
                 result = "DRAW";
                 score = 1;
@@ -166,9 +174,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question > answer) {
                 result = "WIN";
                 score = 2;
+                background(false);
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
+                background(true);
             } else {
                 result = "DRAW";
                 score = 1;
@@ -211,6 +221,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView txtScore = (TextView) findViewById(R.id.text_score);
         int newScore = Integer.parseInt(txtScore.getText().toString()) + score;
         txtScore.setText(Integer.toString(newScore));
+    }
+
+    private void background(boolean check){
+        TextView ans = (TextView) findViewById(R.id.answer);
+        TextView ques = (TextView) findViewById(R.id.question);
+
+        if(check){
+            ans.setBackgroundColor(Color.rgb(200, 0, 0));
+            ques.setBackgroundColor(Color.rgb(0, 100, 200));
+        }else{
+            ans.setBackgroundColor(Color.rgb(0, 0, 200));
+            ques.setBackgroundColor(Color.rgb(200, 0, 0));
+        }
+
     }
 
 }
