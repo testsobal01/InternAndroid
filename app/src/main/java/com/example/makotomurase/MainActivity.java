@@ -5,6 +5,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
+import android.view.animation.ScaleAnimation;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -83,15 +87,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         String result;
         int score = 0;
 
+        ScaleAnimation scaleW = new ScaleAnimation(1,3.5f,1,3.5f,
+                Animation.RELATIVE_TO_SELF,0.5f,Animation.RELATIVE_TO_SELF,0.5f);
+        scaleW.setDuration(3000);
+
+        AnimationSet animeL = new AnimationSet(true);
+        ScaleAnimation scaleL = new ScaleAnimation(1,0.1f,1,0.1f,
+                Animation.RELATIVE_TO_SELF,0.5f,Animation.RELATIVE_TO_SELF,0.5f);
+        animeL.addAnimation(scaleL);
+        AlphaAnimation alphaL = new AlphaAnimation(1, 0f);
+        animeL.addAnimation(alphaL);
+        animeL.setDuration(3000);
+
         // Highが押された
         if (isHigh) {
             // result には結果のみを入れる
             if (question < answer) {
                 result = "WIN";
                 score = 2;
+                txtViewAnswer.startAnimation(scaleW);
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
+                txtViewAnswer.startAnimation(animeL);
             } else {
                 result = "DRAW";
                 score = 1;
@@ -100,9 +118,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question > answer) {
                 result = "WIN";
                 score = 2;
+                txtViewAnswer.startAnimation(scaleW);
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
+                txtViewAnswer.startAnimation(animeL);
             } else {
                 result = "DRAW";
                 score = 1;
