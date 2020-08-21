@@ -11,9 +11,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.os.Vibrator;
+import android.graphics.Color;
 
 import java.security.PublicKey;
 import java.util.Random;
@@ -141,6 +143,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         txtView.setText(Integer.toString(answerValue));
     }
 
+    public enum shouhai {
+        win,
+        lose,
+        draw,
+    }
+
+    private void chengeBackgroudColor(shouhai shouhai) {
+        TextView tv1 = findViewById(R.id.question);
+        TextView tv2 = findViewById(R.id.answer);
+        switch (shouhai) {
+            case win:
+                tv1.setBackgroundColor(Color.RED);
+                tv2.setBackgroundColor(Color.BLUE);
+                break;
+            case lose:
+                tv1.setBackgroundColor(Color.BLUE);
+                tv2.setBackgroundColor(Color.RED);
+                break;
+            case draw:
+                tv1.setBackgroundColor(Color.GRAY);
+                tv2.setBackgroundColor(Color.GRAY);
+                break;
+        }
+    }
+
     private void checkResult(boolean isHigh) {
         TextView txtViewQuestion = (TextView) findViewById(R.id.question);
         TextView txtViewAnswer = (TextView) findViewById(R.id.answer);
@@ -158,11 +185,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
                 vibrator.vibrate(500);
                 result = getResources().getString(R.string.label_score2);
+                chengeBackgroudColor(shouhai.win);
                 score = 2;
             } else if (question > answer) {
                 result = getResources().getString(R.string.label_score3);
+                chengeBackgroudColor(shouhai.lose);
                 score = -1;
             } else {
+                chengeBackgroudColor(shouhai.draw);
                 result = getResources().getString(R.string.label_score4);
                 score = 1;
             }
@@ -170,12 +200,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question > answer) {
                 Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
                 vibrator.vibrate(500);
+                chengeBackgroudColor(shouhai.lose);
                 result = getResources().getString(R.string.label_score2);
                 score = 2;
             } else if (question < answer) {
+                chengeBackgroudColor(shouhai.win);
                 result = getResources().getString(R.string.label_score3);
                 score = -1;
             } else {
+                chengeBackgroudColor(shouhai.draw);
                 result = getResources().getString(R.string.label_score4);
                 score = 1;
             }
