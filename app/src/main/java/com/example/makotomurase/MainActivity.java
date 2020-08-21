@@ -3,6 +3,8 @@ package com.example.makotomurase;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
@@ -88,6 +90,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void clearAnswerValue() {
         TextView txtView = (TextView) findViewById(R.id.answer);
         txtView.setText("値2");
+        txtView.setBackgroundColor(Color.YELLOW);
     }
 
     private void setQuestionValue() {
@@ -128,6 +131,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 result = "DRAW";
                 score = 1;
             }
+            if(result.equals("WIN")){
+                txtViewAnswer.setBackgroundColor(Color.LTGRAY);
+            }
+            else if(result.equals("LOSE")){
+                txtViewAnswer.setBackgroundColor(Color.WHITE);
+            }
+            else{
+                txtViewAnswer.setBackgroundColor(Color.CYAN);
+            }
         } else {
             if (question > answer) {
                 result = "WIN";
@@ -138,6 +150,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             } else {
                 result = "DRAW";
                 score = 1;
+            }
+
+            if(result.equals("WIN")){
+                txtViewAnswer.setBackgroundColor(Color.LTGRAY);
+            }
+            else if(result.equals("LOSE")){
+                txtViewAnswer.setBackgroundColor(Color.WHITE);
+            }
+            else{
+                txtViewAnswer.setBackgroundColor(Color.CYAN);
             }
         }
 
