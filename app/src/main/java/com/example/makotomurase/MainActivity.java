@@ -111,7 +111,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView txtView = (TextView) findViewById(R.id.answer);
         txtView.setText(Integer.toString(answerValue));
     }
-
+    private SoundPlayer soundPlayer;
     private void checkResult(boolean isHigh) {
         TextView txtViewQuestion = (TextView) findViewById(R.id.question);
         TextView txtViewAnswer = (TextView) findViewById(R.id.answer);
@@ -121,6 +121,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // 結果を示す文字列を入れる変数を用意
         String result;
         int score = 0;
+        soundPlayer = new SoundPlayer(this);
 
         ScaleAnimation scaleW = new ScaleAnimation(1,3.5f,1,3.5f,
                 Animation.RELATIVE_TO_SELF,0.5f,Animation.RELATIVE_TO_SELF,0.5f);
@@ -141,19 +142,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 result = "WIN";
                 score = 2;
                 txtViewAnswer.startAnimation(scaleW);
+                soundPlayer.playwin();
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
                 txtViewAnswer.startAnimation(animeL);
+                soundPlayer.playlose();
             } else {
                 result = "DRAW";
                 score = 1;
             }
             if(result.equals("WIN")){
                 txtViewAnswer.setBackgroundColor(Color.LTGRAY);
+                soundPlayer.playwin();
             }
             else if(result.equals("LOSE")){
                 txtViewAnswer.setBackgroundColor(Color.WHITE);
+                soundPlayer.playlose();
             }
             else{
                 txtViewAnswer.setBackgroundColor(Color.CYAN);
@@ -163,10 +168,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 result = "WIN";
                 score = 2;
                 txtViewAnswer.startAnimation(scaleW);
+                soundPlayer.playwin();
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
                 txtViewAnswer.startAnimation(animeL);
+                soundPlayer.playlose();
             } else {
                 result = "DRAW";
                 score = 1;
@@ -174,9 +181,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             if(result.equals("WIN")){
                 txtViewAnswer.setBackgroundColor(Color.LTGRAY);
+                soundPlayer.playwin();
             }
             else if(result.equals("LOSE")){
                 txtViewAnswer.setBackgroundColor(Color.WHITE);
+                soundPlayer.playlose();
             }
             else{
                 txtViewAnswer.setBackgroundColor(Color.CYAN);
