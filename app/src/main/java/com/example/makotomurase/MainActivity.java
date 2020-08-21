@@ -8,6 +8,8 @@ import android.media.AudioAttributes;
 import android.media.SoundPool;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.content.ClipData;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
@@ -35,6 +37,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     SoundPool soundPool;
     SharedPreferences pref;
     SharedPreferences.Editor prefEditor;
+    Menu menu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +75,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.language_menu,menu);
+        this.menu = menu;
         return true;
     }
     
@@ -88,12 +92,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button button1 = (Button)findViewById(R.id.button1);
         Button button2 = (Button)findViewById(R.id.button2);
         Button button3 = (Button)findViewById(R.id.button3);
+        MenuItem ja_menu = menu.findItem(R.id.ja_setting);
+        MenuItem en_menu = menu.findItem(R.id.en_setting);
         textResult.setText(getString(R.string.result));
         textScore.setText(getString(R.string.label_score));
         textExplain.setText(getString(R.string.explain));
         button1.setText(getString(R.string.btn_high));
         button2.setText(getString(R.string.btn_low));
         button3.setText(getString(R.string.btn_restart));
+        ja_menu.setTitle(getString(R.string.ja_setting));
+        en_menu.setTitle(getString(R.string.en_setting));
     }
 
     @Override
