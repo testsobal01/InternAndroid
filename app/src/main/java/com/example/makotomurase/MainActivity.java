@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -44,6 +46,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         pref = getSharedPreferences("AndroidSeminor", MODE_PRIVATE);
         prefEditer = pref.edit();
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_menu,menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        int id = item.getItemId();
+
+        switch(id){
+            case R.id.action_settings:
+                Toast.makeText(this,"Settingsが選択されました",Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.action_settings2:
+                Toast.makeText(this,"Settings2が選択されました",Toast.LENGTH_SHORT).show();
+            case R.id.action_settings3:
+                Toast.makeText(this,"Settings3が選択されました",Toast.LENGTH_SHORT).show();
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
