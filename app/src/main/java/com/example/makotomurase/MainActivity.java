@@ -25,6 +25,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        /*
+        プリファレンスの保存
+         */
+        //"AndroidSeminor"は、保存する先のファイル名のようなもの
+        pref = getSharedPreferences("AndroidSeminor", MODE_PRIVATE);
+        prefEditer = pref.edit();
+
         Button btn1 = (Button) findViewById(R.id.button1);
         btn1.setOnClickListener(this);
 
@@ -34,15 +41,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
 
+
         // 起動時に関数を呼び出す
         setQuestionValue();
 
-        /*
-        プリファレンスの保存
-         */
-        //"AndroidSeminor"は、保存する先のファイル名のようなもの
-        pref = getSharedPreferences("AndroidSeminor", MODE_PRIVATE);
-        prefEditer = pref.edit();
 
     }
 
@@ -91,7 +93,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView textView = (TextView)findViewById(R.id.text_score);
         //保存した値をキー名(main_input)を指定して取得
         //一度も保存されていない場合もありえるので、その時に代わりに表示する文字列も指定する
-        String readText = pref.getString("main_input", "");
+        String readText = pref.getString("main_input", "0");
         textView.setText(readText);
     }
 
