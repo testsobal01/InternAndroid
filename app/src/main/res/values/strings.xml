@@ -4,4 +4,6 @@
     <string name="btn_low">Low</string>
     <string name="btn_restart">Restart</string>
     <string name="label_score">Score：</string>
+    <string name="start">スタート</string>
+    <string name="game">ゲーム</string>
 </resources>
