@@ -3,7 +3,7 @@ package com.example.makotomurase;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-<<<<<<< HEAD
+
 import android.media.AudioAttributes;
 import android.media.SoundPool;
 import android.content.SharedPreferences;
@@ -11,13 +11,14 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
-=======
+
 import android.content.res.Configuration;
-import android.os.Bundle;
-import android.os.CountDownTimer;
+
 import android.view.Menu;
 import android.view.MenuItem;
->>>>>>> 多言語に対応しました
+
+
+
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -73,20 +74,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         getMenuInflater().inflate(R.menu.language_menu,menu);
         return true;
     }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        int id = item.getItemId();
-        switch(id){
-            case R.id.ja_setting:
-                setLocate("ja");
-                return true;
-            case R.id.en_setting:
-                setLocate("en");
-                return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
+    
 
     private void setLocate(String language){
         Locale locale = new Locale(language);
@@ -107,6 +95,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         button2.setText(getString(R.string.btn_low));
         button3.setText(getString(R.string.btn_restart));
     }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+        switch(id){
+            case R.id.ja_setting:
+                setLocate("ja");
+                return true;
+            case R.id.en_setting:
+                setLocate("en");
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+
 
     @Override
     public void onClick(View view) {

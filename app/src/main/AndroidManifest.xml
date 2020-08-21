@@ -6,8 +6,8 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher_background"
         android:label="@string/app_name"
-        android:roundIcon="@drawable/ic_launcher_foreground"
         android:configChanges="locale"
+        android:roundIcon="@drawable/ic_launcher_foreground"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".MainActivity"></activity>
@@ -17,7 +17,7 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
+            </activity>
     </application>
 
     <uses-permission android:name="android.permission.VIBRATE"></uses-permission>
