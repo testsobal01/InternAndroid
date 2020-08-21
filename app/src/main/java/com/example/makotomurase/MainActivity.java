@@ -3,8 +3,11 @@ package com.example.makotomurase;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.graphics.Color;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -13,6 +16,12 @@ import android.widget.Toast;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
+    /*
+    プリファレンスの生成
+     */
+    SharedPreferences pref;
+    SharedPreferences.Editor prefEditer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +40,35 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // 起動時に関数を呼び出す
         setQuestionValue();
 
+        /*
+        プリファレンスの保存
+         */
+        //"AndroidSeminor"は、保存する先のファイル名のようなもの
+        pref = getSharedPreferences("AndroidSeminor", MODE_PRIVATE);
+        prefEditer = pref.edit();
+
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_menu,menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        int id = item.getItemId();
+
+        switch(id){
+            case R.id.action_settings:
+                Toast.makeText(this,"Settingsが選択されました",Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.action_settings2:
+                Toast.makeText(this,"Settings2が選択されました",Toast.LENGTH_SHORT).show();
+            case R.id.action_settings3:
+                Toast.makeText(this,"Settings3が選択されました",Toast.LENGTH_SHORT).show();
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -57,6 +95,34 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         }
 
+    }
+
+    @Override
+    protected void onPause(){
+        super.onPause();
+        Toast.makeText(this, "onPause" , Toast.LENGTH_SHORT).show();
+
+        //画面上からスコアの値を保存するため、テキストビューを取得
+        TextView textView = (TextView)findViewById(R.id.text_score);
+        //"main_input"というキー名（箱）に、文字列を保存
+        prefEditer.putString("main_input", textView.getText().toString());
+        prefEditer.commit();
+    }
+
+    @Override
+    protected void onResume(){
+        super.onResume();
+        Toast.makeText(this, "onResume", Toast.LENGTH_SHORT).show();
+
+        /*
+        プリファレンスの読み込み
+         */
+        //画面上に文字列をセットするため、テキストビューを取得
+        TextView textView = (TextView)findViewById(R.id.text_score);
+        //保存した値をキー名(main_input)を指定して取得
+        //一度も保存されていない場合もありえるので、その時に代わりに表示する文字列も指定する
+        String readText = pref.getString("main_input", "");
+        textView.setText(readText);
     }
 
     private void clearAnswerValue() {
