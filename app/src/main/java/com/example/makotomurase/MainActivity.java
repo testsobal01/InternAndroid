@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.os.Vibrator;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -155,6 +156,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         String result;
         int score = 0;
 
+        //Vibratorインスタンスの追加
+        Vibrator vib;
+
         // Highが押された
         if (isHigh) {
             // result には結果のみを入れる
@@ -162,6 +166,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 result = "WIN";
                 score = 2;
                 background(true);
+
+                /*
+                バイブレーションの追加（勝利した際のみバイブレーションする）
+                 */
+                vib = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+                vib.vibrate(500);
+
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
@@ -175,6 +186,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 result = "WIN";
                 score = 2;
                 background(false);
+
+                /*
+                バイブレーションの追加（勝利した際のみバイブレーションする）
+                 */
+                vib = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+                vib.vibrate(500);
+
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
