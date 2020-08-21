@@ -1,2 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="app_name">Team C apply</string>
+    <string name="btn_high">haute</string>
+    <string name="btn_low">Faible</string>
+    <string name="btn_restart">redémarrer</string>
+    <string name="label_score">But：</string>
+    <string name="text">10 est défini.</string>
+    <string name="text2">Valeur　1</string>
+    <string name="text3">Valeur 2</string>
+</resources>
