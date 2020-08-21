@@ -7,6 +7,8 @@ import android.content.SharedPreferences;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -72,6 +74,32 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        int id = item.getItemId();
+        switch (id) {
+            case R.id.action_settings:
+                Toast.makeText(this, "Settingsが選択されました", Toast.LENGTH_SHORT).show();
+                return true;
+
+            case R.id.action_settings2:
+                Toast.makeText(this, "Settings2が選択されました", Toast.LENGTH_SHORT).show();
+                return true;
+
+            case R.id.action_settings3:
+                Toast.makeText(this, "Settings3が選択されました", Toast.LENGTH_SHORT).show();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
     public void onClick(View view) {
         int id = view.getId();
         switch (id) {
@@ -127,28 +155,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (isHigh) {
             // result には結果のみを入れる
             if (question < answer) {
-                result = "WIN";
                 Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
                 vibrator.vibrate(500);
-                        score = 2;
+                result = getResources().getString(R.string.label_score2);
+                score = 2;
             } else if (question > answer) {
-                result = "LOSE";
+                result = getResources().getString(R.string.label_score3);
                 score = -1;
             } else {
-                result = "DRAW";
+                result = getResources().getString(R.string.label_score4);
                 score = 1;
             }
         } else {
             if (question > answer) {
-                result = "WIN";
                 Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
                 vibrator.vibrate(500);
+                result = getResources().getString(R.string.label_score2);
                 score = 2;
             } else if (question < answer) {
-                result = "LOSE";
+                result = getResources().getString(R.string.label_score3);
                 score = -1;
             } else {
-                result = "DRAW";
+                result = getResources().getString(R.string.label_score4);
                 score = 1;
             }
         }
