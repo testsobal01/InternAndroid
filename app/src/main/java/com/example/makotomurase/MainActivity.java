@@ -3,6 +3,7 @@ package com.example.makotomurase;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
@@ -38,6 +39,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // 起動時に関数を呼び出す
         setQuestionValue();
 
+        chColor("#ff00ff","#ffff00");
     }
 
     @Override
@@ -119,23 +121,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = "WIN";
                 score = 2;
+                chColor("#ff0000","#ff7f50");
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
+                chColor("#191970","#0000ff");
             } else {
                 result = "DRAW";
                 score = 1;
+                chColor("#b8860b","#d2691e");
             }
         } else {
             if (question > answer) {
                 result = "WIN";
                 score = 2;
+                chColor("#ff0000","#ff7f50");
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
+                chColor("#191970","#0000ff");
             } else {
                 result = "DRAW";
                 score = 1;
+                chColor("#b8860b","#d2691e");
             }
         }
 
@@ -175,6 +183,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView txtScore = (TextView) findViewById(R.id.text_score);
         int newScore = Integer.parseInt(txtScore.getText().toString()) + score;
         txtScore.setText(Integer.toString(newScore));
+    }
+
+    //背景色変更のメソッド
+    private void chColor(String color1,String color2){
+        TextView txtViewQuestion = (TextView) findViewById(R.id.question);
+        TextView txtViewAnswer = (TextView) findViewById(R.id.answer);
+        txtViewAnswer.setBackgroundColor(Color.parseColor(color1));
+        txtViewQuestion.setBackgroundColor(Color.parseColor(color2));
     }
 
 }
