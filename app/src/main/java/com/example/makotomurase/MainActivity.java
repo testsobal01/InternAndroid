@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.media.AudioAttributes;
 import android.media.SoundPool;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
@@ -19,6 +20,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     int soundLose;
     int soundDraw;
     SoundPool soundPool;
+    SharedPreferences pref;
+    SharedPreferences.Editor prefEditor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +41,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setQuestionValue();
 
         setSoundEffects();
+
+        pref=getSharedPreferences("main_input",MODE_PRIVATE);
+        prefEditor=pref.edit();
+        String str=pref.getString("main_input","保存されてません");
+        if (!str.equals("保存されてません")) {
+            TextView txtScore = (TextView) findViewById(R.id.text_score);
+
+            txtScore.setText(str);
+        }
+
 
     }
 
@@ -183,4 +196,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Toast.makeText(this,"onPause",Toast.LENGTH_SHORT).show();
+
+        TextView textView=(TextView)findViewById(R.id.text_score);
+        prefEditor.putString("main_input",textView.getText().toString());
+        prefEditor.commit();
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Toast.makeText(this,"onResume",Toast.LENGTH_SHORT).show();
+        TextView textView=(TextView)findViewById(R.id.text_score);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Toast.makeText(this,"onDestroy",Toast.LENGTH_SHORT).show();
+    }
 }
