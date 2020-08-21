@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/ja_setting"
+        android:orderInCategory="100"
+        android:title="@string/ja_setting"></item>
+    <item
+        android:id="@+id/en_setting"
+        android:orderInCategory="101"
+        android:title="@string/en_setting"></item>
+</menu>

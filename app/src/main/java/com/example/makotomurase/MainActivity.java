@@ -1,18 +1,28 @@
 package com.example.makotomurase;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+<<<<<<< HEAD
 import android.media.AudioAttributes;
 import android.media.SoundPool;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
+=======
+import android.content.res.Configuration;
+import android.os.Bundle;
+import android.os.CountDownTimer;
+import android.view.Menu;
+import android.view.MenuItem;
+>>>>>>> 多言語に対応しました
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.Locale;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -55,6 +65,46 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
         vib.vibrate(50);
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.language_menu,menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+        switch(id){
+            case R.id.ja_setting:
+                setLocate("ja");
+                return true;
+            case R.id.en_setting:
+                setLocate("en");
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void setLocate(String language){
+        Locale locale = new Locale(language);
+        Locale.setDefault(locale);
+        Configuration config = new Configuration();
+        config.locale = locale;
+        getResources().updateConfiguration(config,null);
+        TextView textResult = (TextView)findViewById(R.id.result);
+        TextView textScore = (TextView)findViewById(R.id.score);
+        TextView textExplain = (TextView)findViewById(R.id.explain);
+        Button button1 = (Button)findViewById(R.id.button1);
+        Button button2 = (Button)findViewById(R.id.button2);
+        Button button3 = (Button)findViewById(R.id.button3);
+        textResult.setText(getString(R.string.result));
+        textScore.setText(getString(R.string.label_score));
+        textExplain.setText(getString(R.string.explain));
+        button1.setText(getString(R.string.btn_high));
+        button2.setText(getString(R.string.btn_low));
+        button3.setText(getString(R.string.btn_restart));
     }
 
     @Override
@@ -143,8 +193,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // 最後にまとめてToast表示の処理とTextViewへのセットを行う
         Toast.makeText(this, result, Toast.LENGTH_LONG).show();
-        txtResult.setText("結果：" + question + ":" + answer + "(" + result + ")");
         ringSoundEffects(result);
+        txtResult.setText(question + ":" + answer + "(" + result + ")");
 
         // 続けて遊べるように値を更新
         setNextQuestion();
