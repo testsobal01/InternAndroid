@@ -3,6 +3,7 @@ package com.example.makotomurase;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
@@ -62,6 +63,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.button3:
                 setQuestionValue();
                 clearAnswerValue();
+                TextView txt1=(TextView)findViewById(R.id.question);
+                TextView txt2=(TextView)findViewById(R.id.answer);
+                txt1.setBackgroundColor(Color.MAGENTA);
+                txt2.setBackgroundColor(Color.YELLOW);
+                txt1.setTextColor(Color.BLACK);
+                txt2.setTextColor(Color.BLACK);
                 break;
 
         }
@@ -102,23 +109,56 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (isHigh) {
             // result には結果のみを入れる
             if (question < answer) {
+                TextView txt1=(TextView)findViewById(R.id.question);
+                TextView txt2=(TextView)findViewById(R.id.answer);
+                txt1.setBackgroundColor(Color.BLUE);
+                txt2.setBackgroundColor(Color.YELLOW);
+                txt1.setTextColor(Color.BLACK);
+                txt2.setTextColor(Color.GREEN);
                 result = "WIN";
                 score = 2;
+
             } else if (question > answer) {
+                TextView txt1=(TextView)findViewById(R.id.question);
+                TextView txt2=(TextView)findViewById(R.id.answer);
+                txt1.setBackgroundColor(Color.MAGENTA);
+                txt2.setBackgroundColor(Color.BLUE);
+                txt2.setTextColor(Color.BLACK);
+                txt1.setTextColor(Color.GREEN);
                 result = "LOSE";
                 score = -1;
             } else {
+                TextView txt1=(TextView)findViewById(R.id.question);
+                TextView txt2=(TextView)findViewById(R.id.answer);
+                txt2.setTextColor(Color.BLACK);
+                txt1.setTextColor(Color.BLACK);
                 result = "DRAW";
                 score = 1;
             }
         } else {
             if (question > answer) {
+                TextView txt1=(TextView)findViewById(R.id.question);
+                TextView txt2=(TextView)findViewById(R.id.answer);
+                txt1.setBackgroundColor(Color.MAGENTA);
+                txt2.setBackgroundColor(Color.BLUE);
+                txt2.setTextColor(Color.BLACK);
+                txt1.setTextColor(Color.GREEN);
                 result = "WIN";
                 score = 2;
             } else if (question < answer) {
+                TextView txt1=(TextView)findViewById(R.id.question);
+                TextView txt2=(TextView)findViewById(R.id.answer);
+                txt1.setBackgroundColor(Color.BLUE);
+                txt2.setBackgroundColor(Color.YELLOW);
+                txt2.setTextColor(Color.GREEN);
+                txt1.setTextColor(Color.BLACK);
                 result = "LOSE";
                 score = -1;
             } else {
+                TextView txt1=(TextView)findViewById(R.id.question);
+                TextView txt2=(TextView)findViewById(R.id.answer);
+                txt2.setTextColor(Color.BLACK);
+                txt1.setTextColor(Color.BLACK);
                 result = "DRAW";
                 score = 1;
             }
