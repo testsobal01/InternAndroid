@@ -2,6 +2,8 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.media.AudioAttributes;
+import android.media.SoundPool;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
@@ -12,6 +14,11 @@ import android.widget.Toast;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
+    int soundWin;
+    int soundLose;
+    int soundDraw;
+    SoundPool soundPool;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +36,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // 起動時に関数を呼び出す
         setQuestionValue();
+
+        setSoundEffects();
 
     }
 
@@ -113,6 +122,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // 最後にまとめてToast表示の処理とTextViewへのセットを行う
         Toast.makeText(this, result, Toast.LENGTH_LONG).show();
         txtResult.setText("結果：" + question + ":" + answer + "(" + result + ")");
+        ringSoundEffects(result);
 
         // 続けて遊べるように値を更新
         setNextQuestion();
@@ -145,6 +155,32 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView txtScore = (TextView) findViewById(R.id.text_score);
         int newScore = Integer.parseInt(txtScore.getText().toString()) + score;
         txtScore.setText(Integer.toString(newScore));
+    }
+
+    private void setSoundEffects(){
+        AudioAttributes audioAttributes = new AudioAttributes.Builder()
+                .setUsage(AudioAttributes.USAGE_GAME)
+                .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                .build();
+
+        soundPool = new SoundPool.Builder()
+                .setAudioAttributes(audioAttributes)
+                .setMaxStreams(1)
+                .build();
+
+        soundWin = soundPool.load(getApplicationContext(),R.raw.correct,1);
+        soundLose = soundPool.load(getApplicationContext(),R.raw.incorrect,1);
+        soundDraw = soundPool.load(getApplicationContext(),R.raw.draw,1);
+    }
+
+    private void ringSoundEffects(String result){
+        if(result.equals("WIN")){
+            soundPool.play(soundWin,0.5f,0.5f,1,0,1);
+        }else if(result.equals("LOSE")){
+            soundPool.play(soundLose,0.5f,0.5f,1,0,1);
+        }else if(result.equals("DRAW")){
+            soundPool.play(soundDraw,0.5f,0.5f,1,0,1);
+        }
     }
 
 }
