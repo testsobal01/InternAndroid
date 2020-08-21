@@ -6,4 +6,7 @@
     <string name="label_score">Score：</string>
     <string name="start">スタート</string>
     <string name="game">ゲーム</string>
+    <string name="action_settings">Settings1</string>
+    <string name="action_settings2">Settings2</string>
+    <string name="action_settings3">Settings3</string>
 </resources>
