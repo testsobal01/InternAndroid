@@ -21,6 +21,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private TextView t1;
 
+    private TextView t1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -188,6 +190,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         prefEditor.commit();
     }
     
+    public void Animation_winner(){
+        RotateAnimation rotate_win=new RotateAnimation(0.0f, 360.0f,
+                Animation.RELATIVE_TO_SELF, 0.5f,
+                Animation.RELATIVE_TO_SELF, 0.5f);
+
+        rotate_win.setDuration(300);
+        rotate_win.setRepeatCount(5);
+        rotate_win.setFillAfter(true);
+        t1.startAnimation(rotate_win);
+    }
+
     public void Animation_winner(){
         RotateAnimation rotate_win=new RotateAnimation(0.0f, 360.0f,
                 Animation.RELATIVE_TO_SELF, 0.5f,
