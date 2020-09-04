@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.RotateAnimation;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -16,6 +18,8 @@ import java.util.Random;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     SharedPreferences pref;
     SharedPreferences.Editor prefEditor;
+
+    private TextView t1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +52,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 vib1.vibrate(300);
                 setAnswerValue();
                 checkResult(true);
+                Animation_winner();
                 break;
             case R.id.button2:
                 Vibrator vib2 = (Vibrator)getSystemService(VIBRATOR_SERVICE);
@@ -103,9 +108,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = "WIN";
                 score = 2;
+                t1=findViewById(R.id.question);
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
+                t1=findViewById(R.id.answer);
             } else {
                 result = "DRAW";
                 score = 1;
@@ -114,9 +121,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question > answer) {
                 result = "WIN";
                 score = 2;
+                t1=findViewById(R.id.question);
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
+                t1=findViewById(R.id.answer);
             } else {
                 result = "DRAW";
                 score = 1;
@@ -178,4 +187,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         prefEditor.putString("anum",textView.getText().toString());
         prefEditor.commit();
     }
+    
+    public void Animation_winner(){
+        RotateAnimation rotate_win=new RotateAnimation(0.0f, 360.0f,
+                Animation.RELATIVE_TO_SELF, 0.5f,
+                Animation.RELATIVE_TO_SELF, 0.5f);
+
+        rotate_win.setDuration(300);
+        rotate_win.setRepeatCount(5);
+        rotate_win.setFillAfter(true);
+        t1.startAnimation(rotate_win);
+    }
+
 }
