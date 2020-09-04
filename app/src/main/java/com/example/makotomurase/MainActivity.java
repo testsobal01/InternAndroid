@@ -7,14 +7,20 @@ import android.media.SoundPool;
 import android.content.SharedPreferences;
 import android.content.Intent;
 import android.graphics.Color;
+import android.animation.ObjectAnimator;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.RotateAnimation;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import org.w3c.dom.Text;
 
 import java.util.Random;
 
@@ -149,6 +155,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 score = 2;
                 linearLayout.setBackgroundColor(Color.RED);
                 setColorWhite();
+                anime();
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
@@ -169,6 +176,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 linearLayout.setBackgroundColor(Color.RED);
                 setColorWhite();
 
+                anime();
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
@@ -248,6 +256,32 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         text_result.setTextColor(Color.BLACK);
         text_score_01.setTextColor(Color.BLACK);
         text_score.setTextColor(Color.BLACK);
+    }
+    
+    public void anime() {
+        TextView view = (TextView) findViewById(R.id.answer);
+        //
+        RotateAnimation animation =new  RotateAnimation(0.0f, 360.0f,
+                Animation.RELATIVE_TO_SELF, 0.5f,
+                Animation.RELATIVE_TO_SELF, 0.5f);
+        animation.setDuration(2000);
+        animation.start();
+        view.startAnimation(animation);
+
+//        RotateAnimation rotate = new RotateAnimation(0.0f, 360.0f,
+//                Animation.RELATIVE_TO_SELF, 0.5f,
+//                Animation.RELATIVE_TO_SELF, 0.5f);
+//
+//        // animation時間 msec
+//        rotate.setDuration(3000);
+//        // 繰り返し回数
+//        rotate.setRepeatCount(1);
+//        // animationが終わったそのまま表示にする
+//        rotate.setFillAfter(true);
+//
+////        String text = view.getText().toString();
+//
+//        view.setAnimation(rotate);
     }
 
 }
