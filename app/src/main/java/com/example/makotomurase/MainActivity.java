@@ -7,8 +7,10 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
+import android.text.Layout;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -102,6 +104,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int question = Integer.parseInt(txtViewQuestion.getText().toString());
         int answer = Integer.parseInt(txtViewAnswer.getText().toString());
         TextView txtResult = (TextView) findViewById(R.id.text_result);
+
+
+        //question.setTextColor(getResources().getColor(R.color.colorRED));
+        //answer.setTextColor(getResources().getColor(R.color.colorRED));
+        //question.setTextColor(getResources().getColor(R.color.colorBULE));
+        //answer.setTextColor(getResources().getColor(R.color.colorBULE));
+
+
         // 結果を示す文字列を入れる変数を用意
         String result;
         int score = 0;
@@ -112,25 +122,38 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = "WIN";
                 score = 2;
+                txtViewQuestion.setBackgroundColor(getResources().getColor(R.color.colorRED));
+                txtViewAnswer.setBackgroundColor(getResources().getColor(R.color.colorRED));
             } else if (question > answer) {
                 result = "LOSE";
                 m_soundPool.play(m_soundID,1.0F,1.0F,0,0,1.0F);
                 score = -1;
+                txtViewQuestion.setBackgroundColor(getResources().getColor(R.color.colorBULE));
+                txtViewAnswer.setBackgroundColor(getResources().getColor(R.color.colorBULE));
+
             } else {
                 result = "DRAW";
                 score = 1;
+                txtViewQuestion.setBackgroundColor(getResources().getColor(R.color.colorWHITE));
+                txtViewAnswer.setBackgroundColor(getResources().getColor(R.color.colorWHITE));
             }
         } else {
             if (question > answer) {
                 result = "WIN";
                 score = 2;
+                txtViewQuestion.setBackgroundColor(getResources().getColor(R.color.colorRED));
+                txtViewAnswer.setBackgroundColor(getResources().getColor(R.color.colorRED));
             } else if (question < answer) {
                 result = "LOSE";
                 m_soundPool.play(m_soundID,1.0F,1.0F,0,0,1.0F);
                 score = -1;
+                txtViewQuestion.setBackgroundColor(getResources().getColor(R.color.colorBULE));
+                txtViewAnswer.setBackgroundColor(getResources().getColor(R.color.colorBULE));
             } else {
                 result = "DRAW";
                 score = 1;
+                txtViewQuestion.setBackgroundColor(getResources().getColor(R.color.colorWHITE));
+                txtViewAnswer.setBackgroundColor(getResources().getColor(R.color.colorWHITE));
             }
         }
 
@@ -167,6 +190,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void setScore(int score) {
+
         TextView txtScore = (TextView) findViewById(R.id.text_score);
         int newScore = Integer.parseInt(txtScore.getText().toString()) + score;
         txtScore.setText(Integer.toString(newScore));
@@ -188,5 +212,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         textView.setText(readText);
         
     }
+
 
 }
