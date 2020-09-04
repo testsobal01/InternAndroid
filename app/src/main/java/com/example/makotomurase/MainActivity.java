@@ -21,6 +21,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private TextView t1;
 
+    private TextView t1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,7 +54,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 vib1.vibrate(300);
                 setAnswerValue();
                 checkResult(true);
-                Animation_winner();
                 break;
             case R.id.button2:
                 Vibrator vib2 = (Vibrator)getSystemService(VIBRATOR_SERVICE);
@@ -109,10 +110,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 result = "WIN";
                 score = 2;
                 t1=findViewById(R.id.question);
+                Animation_winner();
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
-                t1=findViewById(R.id.answer);
             } else {
                 result = "DRAW";
                 score = 1;
@@ -122,10 +123,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 result = "WIN";
                 score = 2;
                 t1=findViewById(R.id.question);
+                Animation_winner();
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
-                t1=findViewById(R.id.answer);
             } else {
                 result = "DRAW";
                 score = 1;
@@ -188,6 +189,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         prefEditor.commit();
     }
     
+    public void Animation_winner(){
+        RotateAnimation rotate_win=new RotateAnimation(0.0f, 360.0f,
+                Animation.RELATIVE_TO_SELF, 0.5f,
+                Animation.RELATIVE_TO_SELF, 0.5f);
+
+        rotate_win.setDuration(300);
+        rotate_win.setRepeatCount(5);
+        rotate_win.setFillAfter(true);
+        t1.startAnimation(rotate_win);
+    }
+
     public void Animation_winner(){
         RotateAnimation rotate_win=new RotateAnimation(0.0f, 360.0f,
                 Animation.RELATIVE_TO_SELF, 0.5f,
