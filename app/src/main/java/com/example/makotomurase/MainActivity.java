@@ -204,9 +204,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     public void sound(String result) {
         if (result.equals("WIN")) {
-            soundPool.play(winSoundId, 1f, 1f, 0, 0, 1f);
+            soundPool.play(winSoundId, 100, 1f, 0, 0, 1f);
         } else if (result.equals("LOSE")) {
-            soundPool.play(loseSoundId, 1f, 1f, 0, 0, 1f);
+            soundPool.play(loseSoundId, 100, 1f, 0, 0, 1f);
         }
     }
 }
