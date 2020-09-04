@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Vibrator;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -45,14 +46,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int id = view.getId();
         switch (id) {
             case R.id.button1:
+                myVivrator(250);
                 setAnswerValue();
                 checkResult(true);
                 break;
             case R.id.button2:
+                myVivrator(250);
                 setAnswerValue();
                 checkResult(false);
                 break;
             case R.id.button3:
+                myVivrator(250);
                 setQuestionValue();
                 clearAnswerValue();
                 break;
@@ -75,7 +79,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onResume();
         //onResume時にmain_score_inputからscoreを読んで,text_scoreにセット
         TextView textView = (TextView)findViewById(R.id.text_score);
-        String readText = pref.getString("main_score_input", "SCOREは保存されていません");
+        String readText = pref.getString("main_score_input", "0");
         textView.setText(readText);
     }
 
@@ -172,5 +176,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int newScore = Integer.parseInt(txtScore.getText().toString()) + score;
         txtScore.setText(Integer.toString(newScore));
     }
-
+    public void myVivrator(int time){
+        Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+        vib.vibrate(time);
+    }
 }
