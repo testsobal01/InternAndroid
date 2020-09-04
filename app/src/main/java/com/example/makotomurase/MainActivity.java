@@ -15,11 +15,36 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.Random;
+import androidx.appcompat.app.AppCompatActivity;
+import android.os.Bundle;
+import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.Button;
+import android.widget.ImageView;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     SharedPreferences pref;
     SharedPreferences.Editor prefEditor;
+    private  TextView textView;
+    private class MyAnimationListener implements Animation.AnimationListener{
+
+        @Override
+        public void onAnimationStart(Animation animation) {
+
+        }
+
+        @Override
+        public void onAnimationEnd(Animation animation) {
+            startDescalingXml();
+        }
+
+        @Override
+        public void onAnimationRepeat(Animation animation) {
+
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,6 +138,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void checkResult(boolean isHigh) {
         TextView txtViewQuestion = (TextView) findViewById(R.id.question);
         TextView txtViewAnswer = (TextView) findViewById(R.id.answer);
+        textView = findViewById(R.id.answer);
         int question = Integer.parseInt(txtViewQuestion.getText().toString());
         int answer = Integer.parseInt(txtViewAnswer.getText().toString());
         TextView txtResult = (TextView) findViewById(R.id.text_result);
@@ -130,6 +156,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 txtViewQuestion.setBackgroundColor(Color.parseColor("#e0ffff"));
                 txtViewAnswer.setBackgroundColor(Color.parseColor("#ffc0cb"));
                 background.setBackgroundColor(Color.parseColor("#ff7f50"));
+                startScalingXml();
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
@@ -151,6 +178,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 txtViewQuestion.setBackgroundColor(Color.parseColor("#e0ffff"));
                 txtViewAnswer.setBackgroundColor(Color.parseColor("#ffc0cb"));
                 background.setBackgroundColor(Color.parseColor("#ff7f50"));
+                startScalingXml();
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
@@ -202,6 +230,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView txtScore = (TextView) findViewById(R.id.text_score);
         int newScore = Integer.parseInt(txtScore.getText().toString()) + score;
         txtScore.setText(Integer.toString(newScore));
+    }
+
+    private void startScalingXml(){
+        Animation animation = AnimationUtils.loadAnimation(this,
+                R.anim.scale_animation);
+        animation.setAnimationListener(new MyAnimationListener());
+        textView.startAnimation(animation);
+    }
+    private void startDescalingXml(){
+        Animation animation = AnimationUtils.loadAnimation(this,
+                R.anim.descale_animation);
+        textView.startAnimation(animation);
     }
 
 }
