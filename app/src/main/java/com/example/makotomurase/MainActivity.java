@@ -4,8 +4,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.media.AudioAttributes;
 import android.media.SoundPool;
+import android.content.SharedPreferences;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Vibrator;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -17,6 +20,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private SoundPool soundPool;
     private int soundOne, soundTwo;
+
+    SharedPreferences pref;
+    SharedPreferences.Editor prefEditor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,9 +51,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         soundOne = soundPool.load(this, R.raw.cursor7, 1);
         soundTwo = soundPool.load(this, R.raw.decision1, 1);
 
+        pref=getSharedPreferences("AndoroidSeminor",MODE_PRIVATE);
+        prefEditor=pref.edit();
+
         // 起動時に関数を呼び出す
         setQuestionValue();
 
+    }
+    protected void onResume(){
+        super.onResume();
+
+        TextView Score=(TextView)findViewById(R.id.text_score);
+        String readText=pref.getString("score","0");
+        Score.setText(readText);
+    }
+
+    protected void onPause(){
+        super.onPause();
+
+        TextView Score=(TextView)findViewById(R.id.text_score);
+        prefEditor.putString("score",Score.getText().toString());
+        prefEditor.commit();
     }
 
     @Override
@@ -113,6 +137,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
+                Vibrator vib =(Vibrator)getSystemService(VIBRATOR_SERVICE);
+                vib.vibrate(500);
             } else {
                 result = "DRAW";
                 score = 1;
@@ -124,6 +150,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
+                Vibrator vib =(Vibrator)getSystemService(VIBRATOR_SERVICE);
+                vib.vibrate(500);
             } else {
                 result = "DRAW";
                 score = 1;
@@ -167,5 +195,4 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int newScore = Integer.parseInt(txtScore.getText().toString()) + score;
         txtScore.setText(Integer.toString(newScore));
     }
-
 }
