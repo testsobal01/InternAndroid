@@ -178,7 +178,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int newScore = Integer.parseInt(txtScore.getText().toString()) + score;
         txtScore.setText(Integer.toString(newScore));
     }
-
+//
     protected void onPause(){
         super.onPause();
         //Toast.makeText(this,"",)
