@@ -14,10 +14,15 @@ import android.widget.Toast;
 
 import java.util.Random;
 
+import android.media.AudioManager;
+import android.media.SoundPool;
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     SharedPreferences pref;
     SharedPreferences.Editor prefEditor;
+    private SoundPool m_soundPool;
+    private int m_soundID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +38,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
 
+        m_soundPool = new SoundPool(1,AudioManager.STREAM_MUSIC,0);
+        m_soundID = m_soundPool.load(this.getApplicationContext(),R.raw.sound1,1);
 
         // 起動時に関数を呼び出す
         setQuestionValue();
@@ -107,6 +114,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 score = 2;
             } else if (question > answer) {
                 result = "LOSE";
+                m_soundPool.play(m_soundID,1.0F,1.0F,0,0,1.0F);
                 score = -1;
             } else {
                 result = "DRAW";
@@ -118,6 +126,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 score = 2;
             } else if (question < answer) {
                 result = "LOSE";
+                m_soundPool.play(m_soundID,1.0F,1.0F,0,0,1.0F);
                 score = -1;
             } else {
                 result = "DRAW";
