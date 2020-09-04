@@ -3,12 +3,14 @@ package com.example.makotomurase;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.Menu;
 import android.os.Vibrator;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -115,6 +117,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int question = Integer.parseInt(txtViewQuestion.getText().toString());
         int answer = Integer.parseInt(txtViewAnswer.getText().toString());
         TextView txtResult = (TextView) findViewById(R.id.text_result);
+        LinearLayout background = (LinearLayout) findViewById(R.id.background);
         // 結果を示す文字列を入れる変数を用意
         String result;
         int score = 0;
@@ -125,23 +128,42 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = "WIN";
                 score = 2;
+                txtViewQuestion.setBackgroundColor(Color.parseColor("#e0ffff"));
+                txtViewAnswer.setBackgroundColor(Color.parseColor("#ffc0cb"));
+                background.setBackgroundColor(Color.parseColor("#ff7f50"));
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
+                txtViewQuestion.setBackgroundColor(Color.parseColor("#ffc0cb"));
+                txtViewAnswer.setBackgroundColor(Color.parseColor("#e0ffff"));
+                background.setBackgroundColor(Color.parseColor("#87cefa"));
+
             } else {
                 result = "DRAW";
                 score = 1;
+                txtViewQuestion.setBackgroundColor(Color.parseColor("#adff2f"));
+                txtViewAnswer.setBackgroundColor(Color.parseColor("#adff2f"));
+                background.setBackgroundColor(Color.parseColor("#7fffd4"));
             }
         } else {
             if (question > answer) {
                 result = "WIN";
                 score = 2;
+                txtViewQuestion.setBackgroundColor(Color.parseColor("#e0ffff"));
+                txtViewAnswer.setBackgroundColor(Color.parseColor("#ffc0cb"));
+                background.setBackgroundColor(Color.parseColor("#ff7f50"));
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
+                txtViewQuestion.setBackgroundColor(Color.parseColor("#ffc0cb"));
+                txtViewAnswer.setBackgroundColor(Color.parseColor("#e0ffff"));
+                background.setBackgroundColor(Color.parseColor("#87cefa"));
             } else {
                 result = "DRAW";
                 score = 1;
+                txtViewQuestion.setBackgroundColor(Color.parseColor("#adff2f"));
+                txtViewAnswer.setBackgroundColor(Color.parseColor("#adff2f"));
+                background.setBackgroundColor(Color.parseColor("#7fffd4"));
             }
         }
 
