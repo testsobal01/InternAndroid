@@ -8,8 +8,10 @@ import android.os.CountDownTimer;
 import android.os.Vibrator;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.graphics.Color;
 
 import java.util.Random;
 
@@ -17,6 +19,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     SharedPreferences pref;
     SharedPreferences.Editor prefEditor;
+    TextView txtViewQuestion;
+    TextView txtViewAnswer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,23 +36,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
 
+
+
         // 起動時に関数を呼び出す
         setQuestionValue();
-        pref = getSharedPreferences("InternAndroid",MODE_PRIVATE);
+        pref = getSharedPreferences("InternAndroid", MODE_PRIVATE);
         prefEditor = pref.edit();
 
     }
 
-  
 
     @Override
     protected void onPause() {
         super.onPause();
         //確認用トースト
-        Toast.makeText(this,"onPause",Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "onPause", Toast.LENGTH_SHORT).show();
 
-        TextView textView = (TextView)findViewById(R.id.text_score);
-        prefEditor.putString("main_score",textView.getText().toString());
+        TextView textView = (TextView) findViewById(R.id.text_score);
+        prefEditor.putString("main_score", textView.getText().toString());
         prefEditor.commit();
     }
 
@@ -56,10 +61,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onResume() {
         super.onResume();
         //確認用トースト
-        Toast.makeText(this,"onResume",Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "onResume", Toast.LENGTH_SHORT).show();
 
-        TextView textView = (TextView)findViewById(R.id.text_score);
-        String readScore = pref.getString("main_score","");
+        TextView textView = (TextView) findViewById(R.id.text_score);
+        String readScore = pref.getString("main_score", "スコアが保存されていません");
         textView.setText(readScore);
 
     }
@@ -106,8 +111,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void checkResult(boolean isHigh) {
-        TextView txtViewQuestion = (TextView) findViewById(R.id.question);
-        TextView txtViewAnswer = (TextView) findViewById(R.id.answer);
+        txtViewQuestion = (TextView) findViewById(R.id.question);
+        txtViewAnswer = (TextView) findViewById(R.id.answer);
         int question = Integer.parseInt(txtViewQuestion.getText().toString());
         int answer = Integer.parseInt(txtViewAnswer.getText().toString());
         TextView txtResult = (TextView) findViewById(R.id.text_result);
@@ -122,25 +127,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = "WIN";
                 score = 2;
+                txtViewQuestion.setBackgroundColor(Color.CYAN);
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
                 vid.vibrate(500);
+                txtViewAnswer.setBackgroundColor(Color.GREEN);
             } else {
                 result = "DRAW";
                 score = 1;
+                txtViewQuestion.setBackgroundColor(Color.CYAN);
             }
         } else {
             if (question > answer) {
                 result = "WIN";
                 score = 2;
+                txtViewQuestion.setBackgroundColor(Color.CYAN);
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
                 vid.vibrate(500);
+                txtViewAnswer.setBackgroundColor(Color.GREEN);
             } else {
                 result = "DRAW";
                 score = 1;
+                txtViewQuestion.setBackgroundColor(Color.GREEN);
             }
         }
 
@@ -172,6 +183,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public void onFinish() {
                 // 3秒経過したら次の値をセット
                 setQuestionValue();
+                txtViewQuestion.setBackgroundColor(Color.MAGENTA);
+                txtViewAnswer.setBackgroundColor(Color.YELLOW);
             }
         }.start();
     }
