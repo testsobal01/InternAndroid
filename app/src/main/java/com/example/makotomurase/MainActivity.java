@@ -2,6 +2,8 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.media.AudioAttributes;
+import android.media.SoundPool;
 import android.content.SharedPreferences;
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,8 +18,12 @@ import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
+    private SoundPool soundPool;
+    private int soundOne, soundTwo;
+
     SharedPreferences pref;
     SharedPreferences.Editor prefEditor;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,6 +37,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
+
+        AudioAttributes audioAttributes = new AudioAttributes.Builder()
+                .setUsage(AudioAttributes.USAGE_GAME)
+                .setContentType(AudioAttributes.CONTENT_TYPE_SPEECH)
+                .build();
+
+        soundPool = new SoundPool.Builder()
+                .setAudioAttributes(audioAttributes)
+                .setMaxStreams(2)
+                .build();
+
+        soundOne = soundPool.load(this, R.raw.cursor7, 1);
+        soundTwo = soundPool.load(this, R.raw.decision1, 1);
 
         pref=getSharedPreferences("AndoroidSeminor",MODE_PRIVATE);
         prefEditor=pref.edit();
@@ -62,12 +81,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.button1:
                 setAnswerValue();
                 checkResult(true);
+                soundPool.play(soundTwo, 1.0f, 1.0f, 0, 0, 1);
                 break;
             case R.id.button2:
                 setAnswerValue();
                 checkResult(false);
+                soundPool.play(soundTwo, 1.0f, 1.0f, 0, 0, 1);
                 break;
             case R.id.button3:
+                soundPool.play(soundOne, 1.0f, 1.0f, 0, 0, 1);
                 setQuestionValue();
                 clearAnswerValue();
                 break;
