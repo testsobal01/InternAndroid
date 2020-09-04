@@ -3,6 +3,8 @@ package com.example.makotomurase;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.SharedPreferences;
+import android.media.AudioAttributes;
+import android.media.SoundPool;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
@@ -18,6 +20,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     SharedPreferences pref;
     SharedPreferences.Editor prefEditor;
+    private SoundPool soundPool;
+    private int winSoundId;//勝利時の効果音id
+    private int loseSoundId;//敗北時の効果音id
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +43,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         pref = getSharedPreferences("AndroidSeminor", MODE_PRIVATE);
         prefEditor = pref.edit();
+
+        AudioAttributes audioAttributes = new AudioAttributes.Builder()
+                .setUsage(AudioAttributes.USAGE_MEDIA)
+                .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+                .build();
+        soundPool = new SoundPool.Builder()
+                .setAudioAttributes(audioAttributes)
+                .setMaxStreams(2)
+                .build();
+        winSoundId = soundPool.load(this, R.raw.winsound1, 1);
+        loseSoundId = soundPool.load(this, R.raw.losesound1, 1);
 
     }
 
@@ -66,19 +82,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     @Override
-    protected void onPause(){
+    protected void onPause() {
         super.onPause();
         //onPause時にtext_scoreを読み込んでmain_score_inputにString型で保存
-        TextView textView = (TextView)findViewById(R.id.text_score);
+        TextView textView = (TextView) findViewById(R.id.text_score);
         prefEditor.putString("main_score_input", textView.getText().toString());
         prefEditor.commit();
     }
 
     @Override
-    protected void onResume(){
+    protected void onResume() {
         super.onResume();
         //onResume時にmain_score_inputからscoreを読んで,text_scoreにセット
-        TextView textView = (TextView)findViewById(R.id.text_score);
+        TextView textView = (TextView) findViewById(R.id.text_score);
         String readText = pref.getString("main_score_input", "0");
         textView.setText(readText);
     }
@@ -118,9 +134,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             // result には結果のみを入れる
             if (question < answer) {
                 result = "WIN";
+                sound(result);
                 score = 2;
             } else if (question > answer) {
                 result = "LOSE";
+                sound(result);
                 score = -1;
             } else {
                 result = "DRAW";
@@ -129,9 +147,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         } else {
             if (question > answer) {
                 result = "WIN";
+                sound(result);
                 score = 2;
             } else if (question < answer) {
                 result = "LOSE";
+                sound(result);
                 score = -1;
             } else {
                 result = "DRAW";
@@ -176,8 +196,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int newScore = Integer.parseInt(txtScore.getText().toString()) + score;
         txtScore.setText(Integer.toString(newScore));
     }
-    public void myVivrator(int time){
-        Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+
+    public void myVivrator(int time) {
+        Vibrator vib = (Vibrator) getSystemService(VIBRATOR_SERVICE);
         vib.vibrate(time);
+    }
+
+    public void sound(String result) {
+        if (result.equals("WIN")) {
+            soundPool.play(winSoundId, 1f, 1f, 0, 0, 1f);
+        } else if (result.equals("LOSE")) {
+            soundPool.play(loseSoundId, 1f, 1f, 0, 0, 1f);
+        }
     }
 }
