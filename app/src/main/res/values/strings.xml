@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">High　or Low</string>
+    <string name="app_name">パズドラ（偽）</string>
     <string name="btn_high">High</string>
     <string name="btn_low">Low</string>
     <string name="btn_restart">Restart</string>
