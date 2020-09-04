@@ -2,6 +2,7 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
@@ -13,6 +14,8 @@ import android.widget.Toast;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+    SharedPreferences pref;
+    SharedPreferences.Editor prefEditor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,8 +31,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
 
+        pref = getSharedPreferences("ScoreBord", MODE_PRIVATE);
+        prefEditor=pref.edit();
+
         // 起動時に関数を呼び出す
-        setQuestionValue();
+        setQuestionValue();//<-乱数を発生されるメソッド
 
     }
 
@@ -70,6 +76,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // 0から10の範囲で乱数を生成（+1する必要がある）
         int questionValue = r.nextInt(10 + 1);
         TextView txtView = (TextView) findViewById(R.id.question);
+        //画面右側のテキスト
         txtView.setText(Integer.toString(questionValue));
     }
 
@@ -126,7 +133,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // スコアを表示
         setScore(score);
-
+        //scoreboard();
     }
 
     private void setNextQuestion() {
@@ -148,10 +155,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }.start();
     }
 
+   protected void onResume(){
+        super.onResume();
+      TextView text=(TextView)findViewById(R.id.text_score);
+
+      String readText= pref.getString("anum","保存されていない");
+      text.setText(readText);
+
+   }
+
     private void setScore(int score) {
         TextView txtScore = (TextView) findViewById(R.id.text_score);
         int newScore = Integer.parseInt(txtScore.getText().toString()) + score;
         txtScore.setText(Integer.toString(newScore));
     }
 
+    protected void onPause(){
+        super.onPause();
+        //Toast.makeText(this,"",)
+        TextView textView=(TextView)findViewById(R.id.text_score);
+
+        prefEditor.putString("anum",textView.getText().toString());
+        prefEditor.commit();
+    }
 }
