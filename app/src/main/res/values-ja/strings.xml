@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">ハイ オア ロー</string>
+    <string name="btn_high">高</string>
+    <string name="btn_low">低</string>
+    <string name="btn_restart">やり直し</string>
+    <string name="label_score">結果：</string>
+</resources>

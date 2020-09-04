@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources><string name="app_name">Alto o bajo</string>
+    <string name="btn_high">Alto</string>
+    <string name="btn_low">bajo</string>
+    <string name="btn_restart">Reiniciar</string>
+    <string name="label_score">Puntuación：</string>
+</resources>
