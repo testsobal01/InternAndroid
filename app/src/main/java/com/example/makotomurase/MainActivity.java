@@ -38,6 +38,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+  
+
     @Override
     protected void onPause() {
         super.onPause();
@@ -56,8 +58,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Toast.makeText(this,"onResume",Toast.LENGTH_SHORT).show();
 
         TextView textView = (TextView)findViewById(R.id.text_score);
-       // String readScore = pref.getString("main_input","");
-      //  textView.setText(readScore);
+        String readScore = pref.getString("main_score","");
+        textView.setText(readScore);
 
     }
 
