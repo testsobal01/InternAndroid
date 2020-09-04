@@ -1,21 +1,29 @@
 package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentActivity;
 
 import android.content.SharedPreferences;
 import android.media.AudioAttributes;
 import android.media.SoundPool;
+import android.animation.Animator;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.RotateAnimation;
+import android.view.animation.ScaleAnimation;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.Random;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class MainActivity<zoom> extends AppCompatActivity implements View.OnClickListener {
+
+    private TextView tv;
 
 
     SharedPreferences pref;
@@ -37,6 +45,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
+
+        tv = findViewById(R.id.answer);
+
 
         // 起動時に関数を呼び出す
         setQuestionValue();
@@ -136,10 +147,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 result = "WIN";
                 sound(result);
                 score = 2;
+                startScale();
+                //startZoomXml();
             } else if (question > answer) {
                 result = "LOSE";
                 sound(result);
                 score = -1;
+                startRotation();
             } else {
                 result = "DRAW";
                 score = 1;
@@ -148,11 +162,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question > answer) {
                 result = "WIN";
                 sound(result);
+                startScale();
                 score = 2;
+                //startZoomXml();
             } else if (question < answer) {
                 result = "LOSE";
                 sound(result);
                 score = -1;
+                startRotation();
             } else {
                 result = "DRAW";
                 score = 1;
@@ -208,5 +225,39 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         } else if (result.equals("LOSE")) {
             soundPool.play(loseSoundId, 100, 1f, 0, 0, 1f);
         }
+    }
+
+    /*private void startZoomXml() {
+        Animation animation = AnimationUtils.loadAnimation(this, R.anim.zoom_animation);
+        tv.startAnimation(animation);
+    }*/
+
+    private void startScale() {
+        ScaleAnimation scaleAnimation = new ScaleAnimation(
+                1.0f, 4.0f, 1.0f,4.0f,
+                Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+        scaleAnimation.setDuration(500);
+        scaleAnimation.setRepeatCount(5);
+        scaleAnimation.setRepeatMode(Animation.REVERSE);
+        tv.startAnimation(scaleAnimation);
+    }
+
+    private void startRotation() {
+
+        // RotateAnimation(float fromDegrees, float toDegrees, int pivotXType, float pivotXValue, int pivotYType,float pivotYValue)
+        RotateAnimation rotate = new RotateAnimation(0.0f, 180.0f,
+                Animation.RELATIVE_TO_SELF, 0.5f,
+                Animation.RELATIVE_TO_SELF, 0.5f);
+
+        rotate.setDuration(3);
+        rotate.setRepeatCount(0);
+        rotate.setFillAfter(true);
+
+        tv.startAnimation(rotate);
+
+
+
+
+
     }
 }
