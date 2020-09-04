@@ -2,6 +2,7 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
@@ -13,6 +14,8 @@ import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
+    SharedPreferences pref;
+    SharedPreferences.Editor prefEditor;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,9 +30,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
 
+        pref=getSharedPreferences("AndoroidSeminor",MODE_PRIVATE);
+        prefEditor=pref.edit();
+
         // 起動時に関数を呼び出す
         setQuestionValue();
 
+    }
+    protected void onResume(){
+        super.onResume();
+
+        TextView Score=(TextView)findViewById(R.id.text_score);
+        String readText=pref.getString("score","0");
+        Score.setText(readText);
+    }
+
+    protected void onPause(){
+        super.onPause();
+
+        TextView Score=(TextView)findViewById(R.id.text_score);
+        prefEditor.putString("score",Score.getText().toString());
+        prefEditor.commit();
     }
 
     @Override
@@ -146,5 +167,4 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int newScore = Integer.parseInt(txtScore.getText().toString()) + score;
         txtScore.setText(Integer.toString(newScore));
     }
-
 }
