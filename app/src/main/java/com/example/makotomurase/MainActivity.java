@@ -9,6 +9,9 @@ import android.os.CountDownTimer;
 import android.os.Vibrator;
 import android.text.Layout;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.RotateAnimation;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -76,6 +79,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         }
 
+        Animation animation= AnimationUtils.loadAnimation(this,R.anim.anim);
+
+        findViewById(R.id.question).startAnimation(animation);
+        findViewById(R.id.answer).startAnimation(animation);
     }
 
     private void clearAnswerValue() {

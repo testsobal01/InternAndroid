@@ -14,9 +14,9 @@
             android:id="@+id/Top"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="60dp"
+            android:layout_gravity="center"
             android:text="@string/top"
-            android:layout_gravity="center"/>
+            android:textSize="60dp" />
 
     </LinearLayout>
 
