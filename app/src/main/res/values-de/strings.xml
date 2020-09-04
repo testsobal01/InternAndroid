@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">MakotoMurase</string>
+    <string name="app_name">hoch und niedrig</string>
     <string name="btn_high">hoch</string>
     <string name="btn_low">niedrig</string>
     <string name="btn_restart">neustart</string>
