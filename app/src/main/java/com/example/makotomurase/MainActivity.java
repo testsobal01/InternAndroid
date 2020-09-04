@@ -204,15 +204,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question > answer) {
                 result = "WIN";
                 score = 2;
-<<<<<<<HEAD
                 txtViewQuestion.setBackgroundColor(Color.parseColor("#e0ffff"));
                 txtViewAnswer.setBackgroundColor(Color.parseColor("#ffc0cb"));
                 background.setBackgroundColor(Color.parseColor("#ff7f50"));
                 startScalingXml();
-=======
                 soundPool.play(soundOne, 1.0f, 1.0f, 0, 0, 1);
 
->>>>>>>Add sound.
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
