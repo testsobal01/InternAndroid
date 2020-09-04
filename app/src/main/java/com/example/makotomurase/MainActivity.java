@@ -54,7 +54,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 vib1.vibrate(300);
                 setAnswerValue();
                 checkResult(true);
-                Animation_winner();
                 break;
             case R.id.button2:
                 Vibrator vib2 = (Vibrator)getSystemService(VIBRATOR_SERVICE);
@@ -111,6 +110,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 result = "WIN";
                 score = 2;
                 t1=findViewById(R.id.question);
+                Animation_winner();
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
@@ -123,6 +123,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 result = "WIN";
                 score = 2;
                 t1=findViewById(R.id.question);
+                Animation_winner();
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
