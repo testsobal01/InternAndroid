@@ -3,6 +3,8 @@ package com.example.makotomurase;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
@@ -101,6 +103,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView txtResult = (TextView) findViewById(R.id.text_result);
         // 結果を示す文字列を入れる変数を用意
         String result;
+        int color;
         int score = 0;
 
         // Highが押された
@@ -108,15 +111,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             // result には結果のみを入れる
             if (question < answer) {
                 result = "WIN";
+                color=R.color.colorRED;
                 score = 2;
                 t1=findViewById(R.id.question);
                 Animation_winner();
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
+                color=R.color.colorPrimary;
             } else {
                 result = "DRAW";
                 score = 1;
+                color=R.color.colorAccent;
             }
         } else {
             if (question > answer) {
@@ -124,12 +130,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 score = 2;
                 t1=findViewById(R.id.question);
                 Animation_winner();
+                color=R.color.colorRED;
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
+                color=R.color.colorPrimary;
             } else {
                 result = "DRAW";
                 score = 1;
+                color=R.color.colorAccent;
             }
         }
 
@@ -137,6 +146,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // 最後にまとめてToast表示の処理とTextViewへのセットを行う
         Toast.makeText(this, result, Toast.LENGTH_LONG).show();
         txtResult.setText("結果：" + question + ":" + answer + "(" + result + ")");
+        txtViewQuestion.setBackgroundColor(getResources().getColor(color));
+        txtViewAnswer.setBackgroundColor(getResources().getColor(color));
 
         // 続けて遊べるように値を更新
         setNextQuestion();
@@ -159,6 +170,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             @Override
             public void onFinish() {
+                TextView txtViewQuestion = (TextView) findViewById(R.id.question);
+                TextView txtViewAnswer = (TextView) findViewById(R.id.answer);
+                txtViewQuestion.setBackgroundColor(getResources().getColor(R.color.colorPINK));
+                txtViewAnswer.setBackgroundColor(getResources().getColor(R.color.colorYELLOW));
                 // 3秒経過したら次の値をセット
                 setQuestionValue();
             }
