@@ -114,7 +114,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
-                t1=findViewById(R.id.answer);
             } else {
                 result = "DRAW";
                 score = 1;
@@ -127,7 +126,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
-                t1=findViewById(R.id.answer);
             } else {
                 result = "DRAW";
                 score = 1;
