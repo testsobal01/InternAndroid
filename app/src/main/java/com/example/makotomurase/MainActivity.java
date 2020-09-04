@@ -15,20 +15,31 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.Random;
+
 import androidx.appcompat.app.AppCompatActivity;
+
 import android.os.Bundle;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.media.AudioAttributes;
+import android.media.SoundPool;
+import android.util.Log;
+import android.view.View;
+import android.view.animation.RotateAnimation;
+import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     SharedPreferences pref;
     SharedPreferences.Editor prefEditor;
-    private  TextView textView;
-    private class MyAnimationListener implements Animation.AnimationListener{
+    private TextView textView;
+    private SoundPool soundPool;
+    private int soundOne, soundTwo;
+
+    private class MyAnimationListener implements Animation.AnimationListener {
 
         @Override
         public void onAnimationStart(Animation animation) {
@@ -46,6 +57,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,21 +72,36 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
 
-        pref = getSharedPreferences("save_score",MODE_PRIVATE);
+        pref = getSharedPreferences("save_score", MODE_PRIVATE);
         prefEditor = pref.edit();
 
 
         // 起動時に関数を呼び出す
         setQuestionValue();
 
+        AudioAttributes audioAttributes = new AudioAttributes.Builder()
+                // USAGE_MEDIA
+                // USAGE_GAME
+                .setUsage(AudioAttributes.USAGE_GAME)
+                // CONTENT_TYPE_MUSIC
+                // CONTENT_TYPE_SPEECH, etc.
+                .setContentType(AudioAttributes.CONTENT_TYPE_SPEECH)
+                .build();
+
+        soundPool = new SoundPool.Builder()
+                .setAudioAttributes(audioAttributes)
+                .setMaxStreams(2)
+                .build();
+
+        soundOne = soundPool.load(this, R.raw.one, 1);
     }
 
 
     @Override
     protected void onPause() {
         super.onPause();
-        TextView textView = (TextView)findViewById(R.id.text_score);
-        prefEditor.putString("score",textView.getText().toString());
+        TextView textView = (TextView) findViewById(R.id.text_score);
+        prefEditor.putString("score", textView.getText().toString());
         prefEditor.commit();
 
     }
@@ -82,14 +109,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onResume() {
         super.onResume();
-        TextView textView = (TextView)findViewById(R.id.text_score);
-        String readText = pref.getString("score","保存されていません");
+        TextView textView = (TextView) findViewById(R.id.text_score);
+        String readText = pref.getString("score", "保存されていません");
         textView.setText(readText);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main_menu,menu);
+        getMenuInflater().inflate(R.menu.main_menu, menu);
         return true;
     }
 
@@ -100,7 +127,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.button1:
                 setAnswerValue();
                 checkResult(true);
-                Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+                Vibrator vib = (Vibrator) getSystemService(VIBRATOR_SERVICE);
                 vib.vibrate(1000);
                 break;
             case R.id.button2:
@@ -157,6 +184,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 txtViewAnswer.setBackgroundColor(Color.parseColor("#ffc0cb"));
                 background.setBackgroundColor(Color.parseColor("#ff7f50"));
                 startScalingXml();
+                soundPool.play(soundOne, 1.0f, 1.0f, 0, 0, 1);
+
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
@@ -175,10 +204,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question > answer) {
                 result = "WIN";
                 score = 2;
+<<<<<<<HEAD
                 txtViewQuestion.setBackgroundColor(Color.parseColor("#e0ffff"));
                 txtViewAnswer.setBackgroundColor(Color.parseColor("#ffc0cb"));
                 background.setBackgroundColor(Color.parseColor("#ff7f50"));
                 startScalingXml();
+=======
+                soundPool.play(soundOne, 1.0f, 1.0f, 0, 0, 1);
+
+>>>>>>>Add sound.
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
@@ -232,13 +266,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         txtScore.setText(Integer.toString(newScore));
     }
 
-    private void startScalingXml(){
+    private void startScalingXml() {
         Animation animation = AnimationUtils.loadAnimation(this,
                 R.anim.scale_animation);
         animation.setAnimationListener(new MyAnimationListener());
         textView.startAnimation(animation);
     }
-    private void startDescalingXml(){
+
+    private void startDescalingXml() {
         Animation animation = AnimationUtils.loadAnimation(this,
                 R.anim.descale_animation);
         textView.startAnimation(animation);
