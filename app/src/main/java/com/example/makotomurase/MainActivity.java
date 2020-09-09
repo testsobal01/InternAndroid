@@ -4,6 +4,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.media.AudioAttributes;
+import android.media.AudioManager;
+import android.media.SoundPool;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.Menu;
@@ -19,6 +23,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     SharedPreferences pref;
     SharedPreferences.Editor prefEditor;
+    SoundPool soundPool;
+    int soundId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +46,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // 起動時に関数を呼び出す
         setQuestionValue();
 
+        soundPool = new SoundPool(5, AudioManager.STREAM_MUSIC, 0);
+        soundId = soundPool.load(this, R.raw.sound, 1);
     }
 
     @Override
@@ -78,6 +86,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
                 vib. vibrate(70);
+                soundPool.play(soundId, 1.0f, 1.0f, 0, 0, 1.0f);
 
                 break;
             case R.id.button2:
@@ -87,6 +96,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Vibrator vib2 = (Vibrator)getSystemService(VIBRATOR_SERVICE);
                 vib2. vibrate(70);
 
+                soundPool.play(soundId, 1.0f, 1.0f, 0, 0, 1.0f);
                 break;
             case R.id.button3:
                 setQuestionValue();
