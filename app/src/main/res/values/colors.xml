@@ -3,4 +3,7 @@
     <color name="colorPrimary">#6200EE</color>
     <color name="colorPrimaryDark">#3700B3</color>
     <color name="colorAccent">#03DAC5</color>
+    <color name="Crimson">#DC143C</color>
+    <color name="MediumSlateBlue">#7B68EE</color>
+    <color name="LimeGreen">#32CD32</color>
 </resources>
