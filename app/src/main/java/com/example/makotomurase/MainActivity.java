@@ -2,7 +2,7 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
@@ -14,6 +14,8 @@ import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
+    SharedPreferences pref;
+    SharedPreferences.Editor prefEditor;
     private SoundPlayer soundPlayer;
 
 
@@ -31,10 +33,35 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
 
+
+        pref = getSharedPreferences("Score", MODE_PRIVATE);
+        prefEditor = pref.edit();
+
         // 起動時に関数を呼び出す
         setQuestionValue();
         soundPlayer = new SoundPlayer(this);
 
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        //Toast.makeText(this, "onPause", Toast.LENGTH_SHORT).show();
+
+        TextView textView = (TextView)findViewById(R.id.text_score);
+        prefEditor.putString("main_input", textView.getText().toString());
+        prefEditor.commit();
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        //Toast.makeText(this, "onResume", Toast.LENGTH_SHORT).show();
+
+        TextView textView = (TextView)findViewById(R.id.text_score);
+        String readText = pref.getString("main_input", "0");
+        textView.setText(readText);
     }
 
     @Override
@@ -52,10 +79,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.button3:
                 setQuestionValue();
                 clearAnswerValue();
+                clearScoreValue();
                 break;
 
         }
 
+    }
+
+    private void clearScoreValue() {
+        TextView txtScore = (TextView) findViewById(R.id.text_score);
+        txtScore.setText("0");
     }
 
     private void clearAnswerValue() {

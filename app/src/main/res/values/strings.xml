@@ -3,6 +3,8 @@
     </string>
     <string name="btn_high">HIGH</string>
     <string name="btn_low">LOW</string>
+    <string name="start_button">スタート</string>
+    <string name="app_name">MakotoMurase</string>
     <string name="btn_restart">Restart</string>
     <string name="label_score">Score：</string>
 </resources>
