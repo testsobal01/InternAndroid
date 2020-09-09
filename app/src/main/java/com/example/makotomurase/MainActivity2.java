@@ -3,10 +3,12 @@ package com.example.makotomurase;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+
 import android.media.AudioManager;
 import android.media.JetPlayer;
 import android.media.MediaPlayer;
 import android.media.SoundPool;
+
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -15,7 +17,9 @@ import android.widget.Button;
 public class MainActivity2 extends AppCompatActivity implements View.OnClickListener{
 
 
+
     MediaPlayer mediaPlayer;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,20 +36,12 @@ public class MainActivity2 extends AppCompatActivity implements View.OnClickList
 
     public void onClick(View view){
 
-
-
-
         switch(view.getId()) {
             case R.id.button_start:
-
-
-                mediaPlayer.start();
-
-
-
+                Log.d("hoge","hoge");
+                            mediaPlayer.start();
                 Intent intent = new Intent(this, MainActivity.class);
                 startActivity(intent);
-
 
                 break;
 

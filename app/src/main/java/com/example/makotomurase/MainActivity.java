@@ -2,9 +2,15 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+
 import android.media.MediaPlayer;
+
+import android.content.SharedPreferences;
+
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.util.Log;
+import android.os.Vibrator;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -15,9 +21,19 @@ import java.util.Random;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
 
+
     MediaPlayer mediaPlayer;
     MediaPlayer mediaPlayer_lose;
     MediaPlayer mediaPlayer_dog;
+
+
+    private SharedPreferences pref;
+    private SharedPreferences.Editor prefEditor;
+    private enum Result{
+        WIN,
+        LOSE,
+        DRAW
+    }
 
 
     @Override
@@ -28,6 +44,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.win);
         mediaPlayer_lose = MediaPlayer.create(getApplicationContext(), R.raw.haiboku);
         mediaPlayer_dog = MediaPlayer.create(getApplicationContext(), R.raw.dog2);
+
+        this.pref = getSharedPreferences("InternTeamD", MODE_PRIVATE);
+        this.prefEditor = pref.edit();
+
+        setScore(reqPrefScore());
+
 
         Button btn1 = (Button) findViewById(R.id.button1);
         btn1.setOnClickListener(this);
@@ -50,14 +72,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.button1:
                 setAnswerValue();
                 checkResult(true);
+                Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+                vib.vibrate(1000);
                 break;
             case R.id.button2:
                 setAnswerValue();
                 checkResult(false);
+                Vibrator vid = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+                vid.vibrate(1000);
                 break;
             case R.id.button3:
                 setQuestionValue();
                 clearAnswerValue();
+                setBackground(Result.DRAW);
                 break;
 
         }
@@ -102,28 +129,34 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 mediaPlayer.start();
                 score = 2;
+                setBackground(Result.WIN);
             } else if (question > answer) {
                 result = "LOSE";
                 mediaPlayer_lose.start();
                 score = -1;
+                setBackground(Result.LOSE);
             } else {
                 result = "DRAW";
                 mediaPlayer_dog.start();
                 score = 1;
+                setBackground(Result.DRAW);
             }
         } else {
             if (question > answer) {
                 result = "WIN";
                 mediaPlayer.start();
                 score = 2;
+                setBackground(Result.WIN);
             } else if (question < answer) {
                 result = "LOSE";
                 mediaPlayer_lose.start();
                 score = -1;
+                setBackground(Result.LOSE);
             } else {
                 result = "DRAW";
                 mediaPlayer_dog.start();
                 score = 1;
+                setBackground(Result.DRAW);
             }
         }
 
@@ -163,6 +196,36 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView txtScore = (TextView) findViewById(R.id.text_score);
         int newScore = Integer.parseInt(txtScore.getText().toString()) + score;
         txtScore.setText(Integer.toString(newScore));
+    }
+
+    public int reqPrefScore(){
+        int prefScore = this.pref.getInt("score", 0);
+        return prefScore;
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        TextView txtScore = (TextView) findViewById(R.id.text_score);
+        int score = Integer.parseInt(txtScore.getText().toString());
+
+        this.prefEditor.putInt("score", score);
+        this.prefEditor.commit();
+    }
+    
+    public void setBackground(Result result){
+        TextView txtView = (TextView) findViewById(R.id.answer);
+        switch (result){
+            case WIN:
+                txtView.setBackgroundResource(R.color.LawnGreen);
+                break;
+            case LOSE:
+                txtView.setBackgroundResource(R.color.Red);
+                break;
+            case DRAW:
+                txtView.setBackgroundResource(R.color.Lemon);
+                break;
+        }
     }
 
 }
