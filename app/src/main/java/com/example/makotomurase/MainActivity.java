@@ -1,7 +1,9 @@
 package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
@@ -63,6 +65,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void clearAnswerValue() {
         TextView txtView = (TextView) findViewById(R.id.answer);
         txtView.setText("値2");
+        initColor();
     }
 
     private void setQuestionValue() {
@@ -96,25 +99,32 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = "WIN";
                 score = 2;
+                changeColor(true);
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
+                changeColor(false);
             } else {
                 result = "DRAW";
                 score = 1;
+                initColor();
             }
         } else {
             if (question > answer) {
                 result = "WIN";
                 score = 2;
+                changeColor(true);
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
+                changeColor(false);
             } else {
                 result = "DRAW";
                 score = 1;
+                initColor();
             }
         }
+
 
 
         // 最後にまとめてToast表示の処理とTextViewへのセットを行う
@@ -154,4 +164,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         txtScore.setText(Integer.toString(newScore));
     }
 
+    private void changeColor(boolean isWin) {
+        TextView question = (TextView) findViewById(R.id.question);
+        TextView answer = (TextView) findViewById(R.id.answer);
+
+        Resources res = getResources();
+        int win_color = res.getColor(R.color.winColor);
+        int lose_color = res.getColor(R.color.loseColor);
+
+        if (isWin) {
+            question.setBackgroundColor(lose_color);
+            answer.setBackgroundColor(win_color);
+        } else {
+            question.setBackgroundColor(win_color);
+            answer.setBackgroundColor(lose_color);
+        }
+    }
+
+    private void initColor() {
+        TextView question = (TextView) findViewById(R.id.question);
+        TextView answer = (TextView) findViewById(R.id.answer);
+
+        Resources res = getResources();
+        int question_color = res.getColor(R.color.question_color);
+        int answer_color = res.getColor(R.color.answer_color);
+        question.setBackgroundColor(question_color);
+        answer.setBackgroundColor(answer_color);
+    }
 }

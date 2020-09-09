@@ -4,4 +4,8 @@
     <color name="colorPrimaryDark">#3700B3</color>
     <color name="colorAccent">#03DAC5</color>
     <color name="yellow">#FFD10F</color>
+    <color name="question_color">#ff00ff</color>
+    <color name="answer_color">#ffff00</color>
+    <color name="winColor">#0C91E8</color>
+    <color name="loseColor">#E50305</color>
 </resources>
