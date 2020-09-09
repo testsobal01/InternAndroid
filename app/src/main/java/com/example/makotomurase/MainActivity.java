@@ -3,6 +3,7 @@ package com.example.makotomurase;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.SharedPreferences;
+
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
@@ -16,6 +17,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     SharedPreferences pref;
     SharedPreferences.Editor prefEditor;
+    private SoundPlayer soundPlayer;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +40,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // 起動時に関数を呼び出す
         setQuestionValue();
+        soundPlayer = new SoundPlayer(this);
 
     }
 
@@ -99,6 +103,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int questionValue = r.nextInt(10 + 1);
         TextView txtView = (TextView) findViewById(R.id.question);
         txtView.setText(Integer.toString(questionValue));
+
     }
 
     private void setAnswerValue() {
@@ -106,6 +111,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int answerValue = r.nextInt(10 + 1);
         TextView txtView = (TextView) findViewById(R.id.answer);
         txtView.setText(Integer.toString(answerValue));
+
     }
 
     private void checkResult(boolean isHigh) {
@@ -124,9 +130,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = "WIN";
                 score = 2;
+                soundPlayer.playHitSound();
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
+                soundPlayer.playOverSound();
             } else {
                 result = "DRAW";
                 score = 1;
@@ -135,9 +143,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question > answer) {
                 result = "WIN";
                 score = 2;
+                soundPlayer.playHitSound();
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
+                soundPlayer.playOverSound();
             } else {
                 result = "DRAW";
                 score = 1;
@@ -154,6 +164,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // スコアを表示
         setScore(score);
+
+
+
 
     }
 
