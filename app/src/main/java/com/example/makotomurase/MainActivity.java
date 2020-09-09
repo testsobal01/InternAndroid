@@ -2,16 +2,20 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.os.Vibrator;
 
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
+    private Vibrator vib;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +31,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
 
+        vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+
         // 起動時に関数を呼び出す
         setQuestionValue();
 
@@ -37,10 +43,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int id = view.getId();
         switch (id) {
             case R.id.button1:
+                vib.vibrate(1000);
                 setAnswerValue();
                 checkResult(true);
                 break;
             case R.id.button2:
+                vib.vibrate(1000);
                 setAnswerValue();
                 checkResult(false);
                 break;
@@ -146,5 +154,4 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int newScore = Integer.parseInt(txtScore.getText().toString()) + score;
         txtScore.setText(Integer.toString(newScore));
     }
-
 }
