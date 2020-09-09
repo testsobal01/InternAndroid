@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.RotateAnimation;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,8 +24,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onPause() {
         super.onPause();
 
-        TextView score_text = (TextView)findViewById(R.id.text_score);
-        prefEditor.putString("score",score_text.getText().toString());
+        TextView score_text = (TextView) findViewById(R.id.text_score);
+        prefEditor.putString("score", score_text.getText().toString());
         prefEditor.commit();
     }
 
@@ -31,8 +33,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onResume() {
         super.onResume();
 
-        TextView score_text = (TextView)findViewById(R.id.text_score);
-        String pre_score = pref.getString("score","0");
+        TextView score_text = (TextView) findViewById(R.id.text_score);
+        String pre_score = pref.getString("score", "0");
         score_text.setText(pre_score);
     }
 
@@ -146,7 +148,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         }
 
-        final Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+        if (result == "WIN") {
+            RotateAnimation rotate = new RotateAnimation(0.0f, 360.0f,
+                    Animation.RELATIVE_TO_SELF, 0.5f,
+                    Animation.RELATIVE_TO_SELF, 0.5f);
+
+            // animation時間 msec
+            rotate.setDuration(3000);
+            // 繰り返し回数
+            rotate.setRepeatCount(1);
+            // animationが終わったそのまま表示にする
+            rotate.setFillAfter(true);
+            TextView txtView = (TextView) findViewById(R.id.answer);
+
+            //アニメーションの開始
+            txtView.startAnimation(rotate);
+        }
+
+        final Vibrator vib = (Vibrator) getSystemService(VIBRATOR_SERVICE);
 
         class countdown extends CountDownTimer {
             public countdown(long millisInFuture, long countDownInterval) {
@@ -164,17 +183,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         }
 
-        final countdown cd = new countdown(1000,250);
+        final countdown cd = new countdown(1000, 250);
 
         if (result == "WIN")
             vib.vibrate(1000);
 
-        else if (result == "LOSE"){
+        else if (result == "LOSE") {
             cd.start();
             vib.vibrate(200);
-        }
-
-        else
+        } else
             vib.vibrate(500);
 
         // 最後にまとめてToast表示の処理とTextViewへのセットを行う
