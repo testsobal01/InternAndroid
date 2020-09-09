@@ -3,6 +3,7 @@ package com.example.makotomurase;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.Menu;
@@ -135,23 +136,39 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = "WIN";
                 score = 2;
+                TextView txtView = (TextView) findViewById(R.id.question);
+                txtView.setBackgroundColor(Color.parseColor("#ff0000"));
+
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
+                TextView txtView = (TextView) findViewById(R.id.question);
+                txtView.setBackgroundColor(Color.parseColor("#0000ff"));
+
             } else {
                 result = "DRAW";
                 score = 1;
+                TextView txtView = (TextView) findViewById(R.id.question);
+                txtView.setBackgroundColor(Color.parseColor("#7fff00"));
             }
         } else {
             if (question > answer) {
                 result = "WIN";
                 score = 2;
+                TextView txtView = (TextView) findViewById(R.id.answer);
+                txtView.setBackgroundColor(Color.parseColor("#ff0000"));
+
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
+                TextView txtView = (TextView) findViewById(R.id.answer);
+                txtView.setBackgroundColor(Color.parseColor("#0000ff"));
+
             } else {
                 result = "DRAW";
                 score = 1;
+                TextView txtView = (TextView) findViewById(R.id.answer);
+                txtView.setBackgroundColor(Color.parseColor("#7fff00"));
             }
         }
 
