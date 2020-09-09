@@ -2,6 +2,7 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
@@ -12,6 +13,9 @@ import android.widget.Toast;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
+    SharedPreferences pref;
+    SharedPreferences.Editor prefEditor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,9 +31,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
 
+        pref = getSharedPreferences("AndroidScore",MODE_PRIVATE);
+        prefEditor = pref.edit();
+
         // 起動時に関数を呼び出す
         setQuestionValue();
 
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Toast.makeText(this,"保存",Toast.LENGTH_SHORT).show();
+
+        TextView textView = (TextView)findViewById(R.id.text_score);
+
+        prefEditor.putString("score",textView.getText().toString());
+        prefEditor.commit();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        TextView textView = (TextView)findViewById(R.id.text_score);
+        String readText = pref.getString("score","0");
+        textView.setText(readText);
     }
 
     @Override
@@ -47,6 +73,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.button3:
                 setQuestionValue();
                 clearAnswerValue();
+                resetScore();
                 break;
 
         }
@@ -147,4 +174,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         txtScore.setText(Integer.toString(newScore));
     }
 
+    private  void resetScore(){
+        TextView txtScore = (TextView) findViewById(R.id.text_score);
+        txtScore.setText(Integer.toString(0));
+    }
 }
