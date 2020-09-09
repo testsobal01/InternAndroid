@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Vibrator;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -109,6 +110,36 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         }
 
+        final Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+
+        class countdown extends CountDownTimer {
+            public countdown(long millisInFuture, long countDownInterval) {
+                super(millisInFuture, countDownInterval);
+            }
+
+            @Override
+            public void onTick(long l) {
+                vib.vibrate(200);
+            }
+
+            @Override
+            public void onFinish() {
+                vib.cancel();
+            }
+        }
+
+        final countdown cd = new countdown(1000,250);
+
+        if (result == "WIN")
+            vib.vibrate(1000);
+
+        else if (result == "LOSE"){
+            cd.start();
+            vib.vibrate(200);
+        }
+
+        else
+            vib.vibrate(500);
 
         // 最後にまとめてToast表示の処理とTextViewへのセットを行う
         Toast.makeText(this, result, Toast.LENGTH_LONG).show();
