@@ -60,8 +60,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View view) {
-        int id = view.getId();
-        switch (id) {
+            int id = view.getId();
+            switch (id) {
             case R.id.button1:
                 setAnswerValue();
                 checkResult(true);
