@@ -6,6 +6,8 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -79,6 +81,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int answerValue = r.nextInt(10 + 1);
         TextView txtView = (TextView) findViewById(R.id.answer);
         txtView.setText(Integer.toString(answerValue));
+        blinkText(txtView, 750, 50);
     }
 
     private void checkResult(boolean isHigh) {
@@ -153,5 +156,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView txtScore = (TextView) findViewById(R.id.text_score);
         int newScore = Integer.parseInt(txtScore.getText().toString()) + score;
         txtScore.setText(Integer.toString(newScore));
+        blinkText(txtScore, 100, 50);
+    }
+
+    private void blinkText(TextView txtView, long duration, long offset){
+        Animation anm = new AlphaAnimation(0.0f, 1.0f);
+        anm.setDuration(duration);
+        anm.setStartOffset(offset);
+        anm.setRepeatMode(Animation.REVERSE);
+        anm.setRepeatCount(0);
+        txtView.startAnimation(anm);
     }
 }
