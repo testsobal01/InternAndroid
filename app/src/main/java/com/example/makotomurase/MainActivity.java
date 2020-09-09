@@ -88,23 +88,35 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             // result には結果のみを入れる
             if (question < answer) {
                 result = "WIN";
+                txtViewQuestion.setBackgroundColor(getResources().getColor(R.color.Crimson));
+                txtViewAnswer.setBackgroundColor(getResources().getColor(R.color.MediumSlateBlue));
                 score = 2;
             } else if (question > answer) {
                 result = "LOSE";
+                txtViewQuestion.setBackgroundColor(getResources().getColor(R.color.MediumSlateBlue));
+                txtViewAnswer.setBackgroundColor(getResources().getColor(R.color.Crimson));
                 score = -1;
             } else {
                 result = "DRAW";
+                txtViewQuestion.setBackgroundColor(getResources().getColor(R.color.LimeGreen));
+                txtViewAnswer.setBackgroundColor(getResources().getColor(R.color.LimeGreen));
                 score = 1;
             }
         } else {
             if (question > answer) {
                 result = "WIN";
+                txtViewQuestion.setBackgroundColor(getResources().getColor(R.color.Crimson));
+                txtViewAnswer.setBackgroundColor(getResources().getColor(R.color.MediumSlateBlue));
                 score = 2;
             } else if (question < answer) {
                 result = "LOSE";
+                txtViewQuestion.setBackgroundColor(getResources().getColor(R.color.MediumSlateBlue));
+                txtViewAnswer.setBackgroundColor(getResources().getColor(R.color.Crimson));
                 score = -1;
             } else {
                 result = "DRAW";
+                txtViewQuestion.setBackgroundColor(getResources().getColor(R.color.LimeGreen));
+                txtViewAnswer.setBackgroundColor(getResources().getColor(R.color.LimeGreen));
                 score = 1;
             }
         }
