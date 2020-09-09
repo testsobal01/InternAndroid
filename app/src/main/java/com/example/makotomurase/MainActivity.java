@@ -5,6 +5,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.RotateAnimation;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -73,6 +76,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         txtView.setText(Integer.toString(answerValue));
     }
 
+    private void fadeout(TextView textView){
+        AlphaAnimation alphaFadeout = new AlphaAnimation(1.0f,0.0f);
+        alphaFadeout.setDuration(3000);
+        alphaFadeout.setFillAfter(false);
+
+        textView.startAnimation(alphaFadeout);
+    }
+
+    private void rotationY(TextView textView){
+        RotateAnimation rotate = new RotateAnimation(0.0f, 1080,
+                Animation.RELATIVE_TO_SELF, 0.5f,
+                Animation.RELATIVE_TO_SELF, 0.5f);
+
+        rotate.setDuration(3000);
+        rotate.setFillAfter(false);
+
+        textView.startAnimation(rotate);
+    }
+
     private void checkResult(boolean isHigh) {
         TextView txtViewQuestion = (TextView) findViewById(R.id.question);
         TextView txtViewAnswer = (TextView) findViewById(R.id.answer);
@@ -89,9 +111,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = "WIN";
                 score = 2;
+                rotationY(txtViewAnswer);
+                fadeout(txtViewQuestion);
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
+                rotationY(txtViewQuestion);
+                fadeout(txtViewAnswer);
             } else {
                 result = "DRAW";
                 score = 1;
@@ -100,15 +126,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question > answer) {
                 result = "WIN";
                 score = 2;
+                rotationY(txtViewAnswer);
+                fadeout(txtViewQuestion);
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
+                rotationY(txtViewQuestion);
+                fadeout(txtViewAnswer);
             } else {
                 result = "DRAW";
                 score = 1;
             }
         }
-
 
         // 最後にまとめてToast表示の処理とTextViewへのセットを行う
         Toast.makeText(this, result, Toast.LENGTH_LONG).show();
