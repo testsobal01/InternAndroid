@@ -3,4 +3,8 @@
     <color name="colorPrimary">#6200EE</color>
     <color name="colorPrimaryDark">#3700B3</color>
     <color name="colorAccent">#03DAC5</color>
+    <color name="Lemon">#FFFACD</color>
+    <color name="Red">#FF0000</color>
+    <color name="LawnGreen">#7CFC00	</color>
+    <color name="white">#FFFFFF</color>
 </resources>

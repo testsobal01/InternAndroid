@@ -18,6 +18,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private SharedPreferences pref;
     private SharedPreferences.Editor prefEditor;
+    private enum Result{
+        WIN,
+        LOSE,
+        DRAW
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +67,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.button3:
                 setQuestionValue();
                 clearAnswerValue();
+                setBackground(Result.DRAW);
                 break;
 
         }
@@ -104,23 +110,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = "WIN";
                 score = 2;
+                setBackground(Result.WIN);
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
+                setBackground(Result.LOSE);
             } else {
                 result = "DRAW";
                 score = 1;
+                setBackground(Result.DRAW);
             }
         } else {
             if (question > answer) {
                 result = "WIN";
                 score = 2;
+                setBackground(Result.WIN);
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
+                setBackground(Result.LOSE);
             } else {
                 result = "DRAW";
                 score = 1;
+                setBackground(Result.DRAW);
             }
         }
 
@@ -175,6 +187,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         this.prefEditor.putInt("score", score);
         this.prefEditor.commit();
+    }
+    
+    public void setBackground(Result result){
+        TextView txtView = (TextView) findViewById(R.id.answer);
+        switch (result){
+            case WIN:
+                txtView.setBackgroundResource(R.color.LawnGreen);
+                break;
+            case LOSE:
+                txtView.setBackgroundResource(R.color.Red);
+                break;
+            case DRAW:
+                txtView.setBackgroundResource(R.color.Lemon);
+                break;
+        }
     }
 
 }
