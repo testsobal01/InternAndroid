@@ -2,6 +2,7 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
@@ -13,11 +14,20 @@ import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
+
+    MediaPlayer mediaPlayer;
+    MediaPlayer mediaPlayer_lose;
+    MediaPlayer mediaPlayer_dog;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.win);
+        mediaPlayer_lose = MediaPlayer.create(getApplicationContext(), R.raw.haiboku);
+        mediaPlayer_dog = MediaPlayer.create(getApplicationContext(), R.raw.dog2);
 
         Button btn1 = (Button) findViewById(R.id.button1);
         btn1.setOnClickListener(this);
@@ -89,23 +99,30 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             // result には結果のみを入れる
             if (question < answer) {
                 result = "WIN";
+
+                mediaPlayer.start();
                 score = 2;
             } else if (question > answer) {
                 result = "LOSE";
+                mediaPlayer_lose.start();
                 score = -1;
             } else {
                 result = "DRAW";
+                mediaPlayer_dog.start();
                 score = 1;
             }
         } else {
             if (question > answer) {
                 result = "WIN";
+                mediaPlayer.start();
                 score = 2;
             } else if (question < answer) {
                 result = "LOSE";
+                mediaPlayer_lose.start();
                 score = -1;
             } else {
                 result = "DRAW";
+                mediaPlayer_dog.start();
                 score = 1;
             }
         }
