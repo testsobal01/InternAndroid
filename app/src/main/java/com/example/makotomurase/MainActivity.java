@@ -41,23 +41,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.button1:
                 setAnswerValue();
                 checkResult(true);
-
                 vib.vibrate(100);
-
                 break;
             case R.id.button2:
                 setAnswerValue();
                 checkResult(false);
-
                 vib.vibrate(100);
-
                 break;
             case R.id.button3:
                 setQuestionValue();
                 clearAnswerValue();
-
                 vib.vibrate(300);
-
                 break;
 
         }
