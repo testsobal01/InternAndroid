@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Vibrator;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -12,6 +13,10 @@ import android.widget.Toast;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+    private Vibrator vib;
+    private long pattern[] = {1000, 200, 700, 200, 400, 200};//バイブレーションのパターン
+    private long pattern2[] = {100, 400, 100, 300, 100, 300};//バイブレーションのパターン（数秒後にa秒間の振動、2秒待って、b秒間の振動、3秒待って、c秒間の振動）
+    // Vibratorクラスのインスタンス取得
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +40,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View view) {
         int id = view.getId();
+
+
         switch (id) {
             case R.id.button1:
                 setAnswerValue();
@@ -79,6 +86,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int question = Integer.parseInt(txtViewQuestion.getText().toString());
         int answer = Integer.parseInt(txtViewAnswer.getText().toString());
         TextView txtResult = (TextView) findViewById(R.id.text_result);
+        Vibrator vib = (Vibrator) getSystemService(VIBRATOR_SERVICE);
         // 結果を示す文字列を入れる変数を用意
         String result;
         int score = 0;
@@ -89,23 +97,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = "WIN";
                 score = 2;
+                vib.vibrate(3000);
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
+                vib.vibrate(pattern2, -1);// パターンを繰り返す
             } else {
+
                 result = "DRAW";
                 score = 1;
+                vib.vibrate(pattern, -1);
+
             }
         } else {
             if (question > answer) {
                 result = "WIN";
                 score = 2;
+                vib.vibrate(pattern2, -1);// パターンを繰り返す
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
+                vib.vibrate(3000);
             } else {
                 result = "DRAW";
                 score = 1;
+                vib.vibrate(pattern, -1);
             }
         }
 
