@@ -2,9 +2,13 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Vibrator;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -13,6 +17,7 @@ import android.widget.Toast;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+    private Resources res;
 
     SharedPreferences pref;
     SharedPreferences.Editor prefEditor;
@@ -23,6 +28,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        res = getResources();
 
         Button btn1 = (Button) findViewById(R.id.button1);
         btn1.setOnClickListener(this);
@@ -62,9 +68,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+    private void vibrate(int milliseconds) {
+        Vibrator vib = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+        vib.vibrate(milliseconds);
+    }
+
     private void clearAnswerValue() {
         TextView txtView = (TextView) findViewById(R.id.answer);
-        txtView.setText("値2");
+        txtView.setText(res.getString(R.string.answer_default_value));
     }
 
     private void setQuestionValue() {
@@ -118,10 +129,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         }
 
+        // 勝った時だけ振動する
+        // 結果によって結果表示部分の背景色を切り替える
+        if (result.equals("WIN")) {
+            vibrate(300);
+            txtResult.setBackgroundColor(Color.RED);
+        } else if (result.equals("LOSE")) {
+            txtResult.setBackgroundColor(Color.CYAN);
+        } else {
+            txtResult.setBackgroundColor(Color.TRANSPARENT);
+        }
 
         // 最後にまとめてToast表示の処理とTextViewへのセットを行う
         Toast.makeText(this, result, Toast.LENGTH_LONG).show();
-        txtResult.setText("結果：" + question + ":" + answer + "(" + result + ")");
+        txtResult.setText(res.getString(R.string.result) + question + ":" + answer + "(" + result + ")");
 
         // 続けて遊べるように値を更新
         setNextQuestion();
