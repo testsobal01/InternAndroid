@@ -7,4 +7,5 @@
     <string name="label_score">Score：</string>
     <string name="explanation">10 est réglé.</string>
     <string name="value2">valeur2</string>
+    <string name="text_result">résultat：</string>
 </resources>
