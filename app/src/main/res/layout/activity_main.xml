@@ -78,30 +78,52 @@
                 android:text="0" />
         </LinearLayout>
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <TextView
-                android:id="@+id/question"
-                android:layout_width="0dp"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="#ff00ff"
-                android:gravity="center"
-                android:text="値1"
-                android:textSize="60sp" />
+                android:layout_above="@id/bottom">
 
+                <TextView
+                    android:id="@+id/question"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="#ff00ff"
+                    android:gravity="center"
+                    android:text="値1"
+                    android:textSize="60sp" />
+
+                <TextView
+                    android:id="@+id/answer"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="#ffff00"
+                    android:gravity="center"
+                    android:text="@string/value2"
+                    android:textSize="60sp" />
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/bottom"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:src="@drawable/footer"/>
+            <!--
             <TextView
-                android:id="@+id/answer"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="#ffff00"
-                android:gravity="center"
-                android:text="@string/value2"
-                android:textSize="60sp" />
-        </LinearLayout>
+                android:id="@+id/sita"
+                android:layout_width="match_parent"
+                android:layout_alignParentBottom="true"
+                android:layout_height="wrap_content"
+                android:text="test"/>
+                -->
+
+        </RelativeLayout>
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
