@@ -2,6 +2,7 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
@@ -17,6 +18,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private long pattern[] = {1000, 200, 700, 200, 400, 200};//バイブレーションのパターン
     private long pattern2[] = {100, 400, 100, 300, 100, 300};//バイブレーションのパターン（数秒後にa秒間の振動、2秒待って、b秒間の振動、3秒待って、c秒間の振動）
     // Vibratorクラスのインスタンス取得
+
+    SharedPreferences pref;
+    SharedPreferences.Editor prefEditor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +39,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // 起動時に関数を呼び出す
         setQuestionValue();
 
+        pref = getSharedPreferences("makotomurase", MODE_PRIVATE);
+        prefEditor = pref.edit();
+
+
+
+
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        TextView txtScore = (TextView) findViewById(R.id.text_score);
+        prefEditor.putString("main_input", txtScore.getText().toString());
+        prefEditor.commit();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        TextView txtScore = (TextView) findViewById(R.id.text_score);
+        String readText = pref.getString("main_input", "保存されていません");
+        txtScore.setText(readText);
     }
 
     @Override
@@ -161,6 +188,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView txtScore = (TextView) findViewById(R.id.text_score);
         int newScore = Integer.parseInt(txtScore.getText().toString()) + score;
         txtScore.setText(Integer.toString(newScore));
+
     }
 
 }
