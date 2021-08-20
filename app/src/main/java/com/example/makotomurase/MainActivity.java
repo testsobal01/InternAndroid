@@ -1,7 +1,9 @@
 package com.example.makotomurase;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.animation.ObjectAnimator;
 import android.graphics.Color;
 import android.content.res.Resources;
 import android.media.AudioAttributes;
@@ -12,6 +14,7 @@ import android.os.Vibrator;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -84,6 +87,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 soundPool.play(soundOne, 1.0f, 1.0f, 0, 0, 1);
                 setQuestionValue();
                 clearAnswerValue();
+                resetScore();
                 break;
 
         }
@@ -195,8 +199,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void setScore(int score) {
         TextView txtScore = (TextView) findViewById(R.id.text_score);
+        int oldScore = Integer.parseInt(txtScore.getText().toString());
         int newScore = Integer.parseInt(txtScore.getText().toString()) + score;
+
+        if (newScore / 10 > oldScore / 10) {
+            ImageView iv = new ImageView(this);
+            iv.setImageResource(R.drawable.message);
+            iv.setAdjustViewBounds(true);
+            new AlertDialog.Builder(this)
+                    .setView(iv)
+                    .show();
+        }
+
+
         txtScore.setText(Integer.toString(newScore));
     }
 
+    private void resetScore() {
+        TextView txtScore = (TextView) findViewById(R.id.text_score);
+        txtScore.setText(Integer.toString(0));
+    }
 }
