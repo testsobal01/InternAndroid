@@ -7,6 +7,7 @@ import android.media.AudioAttributes;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.Build;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
@@ -14,6 +15,7 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -137,6 +139,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int question = Integer.parseInt(txtViewQuestion.getText().toString());
         int answer = Integer.parseInt(txtViewAnswer.getText().toString());
         TextView txtResult = (TextView) findViewById(R.id.text_result);
+        LinearLayout backcolor = (LinearLayout) findViewById(R.id.back_color);
         // 結果を示す文字列を入れる変数を用意
         String result;
         int score = 0;
@@ -148,24 +151,30 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 result = "WIN";
                 score = 2;
                 soundPool.play(sound_a, 1f, 1f, 0, 0,1f);
+                backcolor.setBackgroundColor(getResources().getColor(R.color.red));
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
+                backcolor.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
             } else {
                 result = "DRAW";
                 score = 1;
+                backcolor.setBackgroundColor(getResources().getColor(R.color.green));
             }
         } else {
             if (question > answer) {
                 result = "WIN";
                 score = 2;
                 soundPool.play(sound_a, 1f, 1f, 0, 0,1f);
+                backcolor.setBackgroundColor(getResources().getColor(R.color.red));
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
+                backcolor.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
             } else {
                 result = "DRAW";
                 score = 1;
+                backcolor.setBackgroundColor(getResources().getColor(R.color.green));
             }
         }
 
