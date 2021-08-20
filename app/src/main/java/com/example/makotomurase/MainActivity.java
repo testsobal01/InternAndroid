@@ -7,6 +7,10 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
+import android.view.animation.RotateAnimation;
+import android.view.animation.ScaleAnimation;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -64,10 +68,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         switch (id) {
             case R.id.button1:
                 setAnswerValue();
+                //setNumAnime();
                 checkResult(true);
                 break;
             case R.id.button2:
                 setAnswerValue();
+               // setNumAnime();
                 checkResult(false);
                 break;
             case R.id.button3:
@@ -199,5 +205,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             vib.vibrate(1000);
         }
     }
+
 
 }

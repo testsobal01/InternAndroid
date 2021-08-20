@@ -15,6 +15,8 @@ public class TitleActivity  extends AppCompatActivity implements View.OnClickLis
         setContentView(R.layout.activity_title);
         Button startButton = (Button) findViewById(R.id.startButton);
         startButton.setOnClickListener(this);
+        Button button2 = (Button)findViewById(R.id.endButton);
+        button2.setOnClickListener(this);
     }
 
     @Override
@@ -24,6 +26,9 @@ public class TitleActivity  extends AppCompatActivity implements View.OnClickLis
                 Intent intent=new Intent(this,MainActivity.class);
                 startActivity(intent);
                 break;
+            case R.id.endButton:
+                finish();
         }
     }
+
 }
