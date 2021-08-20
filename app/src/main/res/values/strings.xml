@@ -4,4 +4,10 @@
     <string name="btn_low">Low</string>
     <string name="btn_restart">Restart</string>
     <string name="label_score">Score：</string>
+    <string name="action_settings1">setting1</string>
+    <string name="action_settings2">setting2</string>
+    <string name="action_settings3">setting3</string>
+    <string name="setumei">10 is set.</string>
+    <string name="value1">value1</string>
+    <string name="value2">value2</string>
 </resources>

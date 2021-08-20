@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="btn_high">hoch</string>
+    <string name="btn_low">niedrig</string>
+    <string name="btn_restart">Neustart</string>
+    <string name="label_score">Punktzahl：</string>
+    <string name="action_settings1">Einstellung1</string>
+    <string name="action_settings2">Einstellung2</string>
+    <string name="action_settings3">Einstellung3</string>
+    <string name="setumei">10 ist eingestellt.</string>
+    <string name="value1">Wert1</string>
+    <string name="value2">Wert2</string>
+</resources>
