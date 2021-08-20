@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Vibrator;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -70,6 +71,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 checkResult(false);
                 break;
             case R.id.button3:
+                Biv(3);
                 setQuestionValue();
                 clearAnswerValue();
                 break;
@@ -112,9 +114,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (isHigh) {
             // result には結果のみを入れる
             if (question < answer) {
+                Biv(1);
                 result = "WIN";
                 score = 2;
             } else if (question > answer) {
+                Biv(2);
                 result = "LOSE";
                 score = -1;
             } else {
@@ -123,9 +127,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         } else {
             if (question > answer) {
+                Biv(1);
                 result = "WIN";
                 score = 2;
             } else if (question < answer) {
+                Biv(2);
                 result = "LOSE";
                 score = -1;
             } else {
@@ -170,6 +176,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView txtScore = (TextView) findViewById(R.id.text_score);
         int newScore = Integer.parseInt(txtScore.getText().toString()) + score;
         txtScore.setText(Integer.toString(newScore));
+    }
+
+    //* ------------------------------- *//
+    // 　　　バイブレーション機能             //
+    //                                　 //
+    //      WINの時、0.0８秒バイブ          //
+    //      LOSEの時、０.32秒バイブ         //
+    //      DRAWの時、バイブなし            //
+    //      RESTARTの時、１秒バイブ         //
+    //* ------------------------------　*//
+    private void Biv(int i) {
+        Vibrator vib = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+            // WINの時
+        if (i == 1) {
+            vib.vibrate(80);
+            //LOSEの時
+        } else if (i == 2) {
+            vib.vibrate(320);
+            // RESTARTの時
+        } else if (i == 3) {
+            vib.vibrate(1000);
+        }
     }
 
 }
