@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.SharedPreferences;
 import android.media.AudioManager;
 import android.media.SoundPool;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
@@ -25,6 +26,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
+        Intent intent = getIntent();
+        Bundle extra = intent.getExtras();
+
 
         Button btn1 = (Button) findViewById(R.id.button1);
         btn1.setOnClickListener(this);
@@ -64,10 +70,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView text = (TextView)findViewById(R.id.text_score);
         prefEditor.putString("main_input", text.getText().toString());
         prefEditor.commit();
+
     }
+
 
     @Override
     public void onClick(View view) {
+
         int id = view.getId();
         Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
         switch (id) {
