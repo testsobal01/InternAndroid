@@ -19,7 +19,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Vibrator vib;
     private long pattern[] = {1000, 200, 700, 200, 400, 200};//バイブレーションのパターン
     private long pattern2[] = {100, 400, 100, 300, 100, 300};//バイブレーションのパターン（数秒後にa秒間の振動、2秒待って、b秒間の振動、3秒待って、c秒間の振動）
-    int r1, g1, b1;
 
     // Vibratorクラスのインスタンス取得
 
@@ -125,7 +124,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 score = 2;
                 vib.vibrate(pattern2, -1);// パターンを繰り返す
                 myText1.setTextColor(Color.RED);
-                myText.setTextColor(Color.BLACK); 
+                myText.setTextColor(Color.BLACK);
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
