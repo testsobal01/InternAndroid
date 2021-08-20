@@ -3,11 +3,13 @@ package com.example.makotomurase;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -110,6 +112,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         String result;
         int score = 0;
 
+        //WIN, LOSE, DRAWによって色変化させる部分をTextview生成
+        TextView changeColor1 = (TextView)findViewById(R.id.text_result);
+        LinearLayout changeColor2 = (LinearLayout) findViewById(R.id.score_background);
+        TextView scoreString = (TextView)findViewById(R.id.score_string);
+        TextView scoreValue = (TextView)findViewById(R.id.text_score);
+
+        int winColor = Color.rgb(255,0,0);
+        int loseColor = Color.rgb(0, 0, 255);
+        int drawColor = Color.rgb(50, 255, 50);
+
         // Highが押された
         if (isHigh) {
             // result には結果のみを入れる
@@ -117,26 +129,45 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Biv(1);
                 result = "WIN";
                 score = 2;
+                changeColor1.setBackgroundColor(winColor);
+                changeColor2.setBackgroundColor(winColor);
             } else if (question > answer) {
                 Biv(2);
                 result = "LOSE";
                 score = -1;
+                changeColor2.setBackgroundColor(loseColor);
+                changeColor1.setBackgroundColor(loseColor);
+                changeColor1.setTextColor(Color.WHITE);
+                scoreString.setTextColor(Color.WHITE);
+                scoreValue.setTextColor(Color.WHITE);
             } else {
                 result = "DRAW";
                 score = 1;
+                changeColor1.setBackgroundColor(drawColor);
+                changeColor2.setBackgroundColor(drawColor);
             }
         } else {
             if (question > answer) {
                 Biv(1);
                 result = "WIN";
                 score = 2;
+                changeColor1.setBackgroundColor(winColor);
+                changeColor2.setBackgroundColor(winColor);
             } else if (question < answer) {
                 Biv(2);
                 result = "LOSE";
                 score = -1;
+                changeColor1.setBackgroundColor(loseColor);
+                changeColor2.setBackgroundColor(loseColor);
+                changeColor1.setTextColor(Color.WHITE);
+                scoreString.setTextColor(Color.WHITE);
+                scoreValue.setTextColor(Color.WHITE);
+                ;
             } else {
                 result = "DRAW";
                 score = 1;
+                changeColor1.setBackgroundColor(drawColor);
+                changeColor2.setBackgroundColor(drawColor);
             }
         }
 
