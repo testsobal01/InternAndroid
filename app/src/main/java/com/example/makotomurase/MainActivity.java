@@ -13,6 +13,8 @@ import android.os.CountDownTimer;
 import android.os.Vibrator;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.ScaleAnimation;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -161,13 +163,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         }
 
-        // 勝った時だけ振動する
         // 結果によって結果表示部分の背景色を切り替える
         if (result.equals("WIN")) {
+            // 勝った時だけ振動する
             vibrate(300);
             txtResult.setBackgroundColor(Color.RED);
+            scalingAnimation(txtViewAnswer);
         } else if (result.equals("LOSE")) {
             txtResult.setBackgroundColor(Color.CYAN);
+            scalingAnimation(txtViewQuestion);
         } else {
             txtResult.setBackgroundColor(Color.TRANSPARENT);
         }
@@ -222,6 +226,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView textview=(TextView)findViewById(R.id.text_score);
         int userId =pref.getInt("main_put",newScore);
         setScore(userId);
+    }
+    
+    private void scalingAnimation(TextView txtView){
+        // ScaleAnimation(float fromX, float toX, float fromY, float toY, int pivotXType, float pivotXValue, int pivotYType, float pivotYValue)
+        ScaleAnimation scaleAnimation = new ScaleAnimation(
+                1.0f, 1.0f, 1.0f,1.2f,
+                Animation.RELATIVE_TO_SELF,
+                0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+        // animation時間 msec
+        scaleAnimation.setDuration(500);
+        // 繰り返し回数
+        scaleAnimation.setRepeatCount(2);
+        // animationが終わったら元の状態を表示する
+        scaleAnimation.setFillAfter(false);
+        //アニメーションの開始
+        txtView.startAnimation(scaleAnimation);
     }
 
 }
