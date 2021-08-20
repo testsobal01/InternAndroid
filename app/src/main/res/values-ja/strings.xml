@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="btn_high">ハイ</string>
+    <string name="btn_low">ロー</string>
+    <string name="btn_restart">リスタート</string>
+    <string name="label_score">スコア:</string>
+    <string name="action_settings1">設定1</string>
+    <string name="action_settings2">設定2</string>
+    <string name="action_settings3">設定3</string>
+    <string name="setumei">10が設定されました。</string>
+    <string name="value1">値1</string>
+    <string name="value2">値2</string>
+</resources>
