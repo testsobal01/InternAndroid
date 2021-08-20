@@ -4,9 +4,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.graphics.Color;
 import android.content.res.Resources;
+import android.media.AudioAttributes;
+import android.media.SoundPool;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -16,6 +19,8 @@ import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private Resources res;
+    private SoundPool soundPool;
+    private int soundOne;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +40,30 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // 起動時に関数を呼び出す
         setQuestionValue();
 
+        AudioAttributes audioAttributes = new AudioAttributes.Builder()
+                // USAGE_MEDIA
+                // USAGE_GAME
+                .setUsage(AudioAttributes.USAGE_GAME)
+                // CONTENT_TYPE_MUSIC
+                // CONTENT_TYPE_SPEECH, etc.
+                .setContentType(AudioAttributes.CONTENT_TYPE_SPEECH)
+                .build();
+
+        soundPool = new SoundPool.Builder()
+                .setAudioAttributes(audioAttributes)
+                // ストリーム数に応じて
+                .setMaxStreams(2)
+                .build();
+
+        soundOne = soundPool.load(this, R.raw.sound, 1);
+
+        soundPool.setOnLoadCompleteListener(new SoundPool.OnLoadCompleteListener() {
+            @Override
+            public void onLoadComplete(SoundPool soundPool, int sampleId, int status) {
+                Log.d("debug","sampleId="+sampleId);
+                Log.d("debug","status="+status);
+            }
+        });
     }
 
     @Override
@@ -42,14 +71,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int id = view.getId();
         switch (id) {
             case R.id.button1:
+                soundPool.play(soundOne, 1.0f, 1.0f, 0, 0, 1);
                 setAnswerValue();
                 checkResult(true);
                 break;
             case R.id.button2:
+                soundPool.play(soundOne, 1.0f, 1.0f, 0, 0, 1);
                 setAnswerValue();
                 checkResult(false);
                 break;
             case R.id.button3:
+                soundPool.play(soundOne, 1.0f, 1.0f, 0, 0, 1);
                 setQuestionValue();
                 clearAnswerValue();
                 break;
