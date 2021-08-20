@@ -9,14 +9,17 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import java.util.Random;
+import android.media.AudioManager;
+import android.media.SoundPool;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     SharedPreferences pref;
     SharedPreferences.Editor prefEditor;
 
+    private SoundPool soundPool;
+    private int sound_start, sound_push, sound_win, sound_lose;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,6 +34,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
 
+        soundPool = new SoundPool(1,AudioManager.STREAM_MUSIC,0);
+        sound_push = soundPool.load(this.getApplicationContext(), R.raw.push, 1);
+        //sound_win = soundPool.load(this.getApplicationContext(), R.raw.win, 1);
+        //sound_lose = soundPool.load(this.getApplicationContext(), R.raw.lose, 1);
         // 起動時に関数を呼び出す
         setQuestionValue();
 
@@ -66,14 +73,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.button1:
                 setAnswerValue();
                 checkResult(true);
+                soundPool.play(sound_push, 1.0F, 1.0F, 0, 0, 1.0F);    // 音楽再生
                 break;
             case R.id.button2:
                 setAnswerValue();
                 checkResult(false);
+                soundPool.play(sound_push, 1.0F, 1.0F, 0, 0, 1.0F);    // 音楽再生
                 break;
             case R.id.button3:
                 setQuestionValue();
                 clearAnswerValue();
+                soundPool.play(sound_push, 1.0F, 1.0F, 0, 0, 1.0F);    // 音楽再生
                 break;
 
         }
