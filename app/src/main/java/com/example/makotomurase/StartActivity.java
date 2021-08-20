@@ -8,7 +8,6 @@ import android.view.View;
 import android.widget.Button;
 import android.media.AudioManager;
 import android.media.SoundPool;
-
 public class StartActivity extends AppCompatActivity implements View.OnClickListener{
     private SoundPool soundPool;
     private int sound_start, sound_tap, sound_win, sound_lose;
@@ -36,4 +35,5 @@ public class StartActivity extends AppCompatActivity implements View.OnClickList
                 break;
         }
     }
+
 }
