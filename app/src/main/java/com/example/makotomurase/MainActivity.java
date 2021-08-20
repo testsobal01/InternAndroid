@@ -2,8 +2,10 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Vibrator;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -51,6 +53,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         }
 
+    }
+
+    private void vibrate(int milliseconds) {
+        Vibrator vib = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+        vib.vibrate(milliseconds);
     }
 
     private void clearAnswerValue() {
@@ -109,6 +116,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         }
 
+        // 勝った時に振動する
+        if (result.equals("WIN")) {
+            vibrate(300);
+        }
 
         // 最後にまとめてToast表示の処理とTextViewへのセットを行う
         Toast.makeText(this, result, Toast.LENGTH_LONG).show();
