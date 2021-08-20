@@ -31,6 +31,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     SoundPool soundPool;
     int sound_a;
+    int sound_b;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +61,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
         sound_a = soundPool.load(this, R.raw.airhorn, 1);
+        sound_b = soundPool.load(this, R.raw.erro, 1);
 
         // 起動時に関数を呼び出す
         setQuestionValue();
@@ -159,6 +161,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 result = "LOSE";
                 score = -1;
                 backcolor.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                soundPool.play(sound_b, 1f, 1f, 0, 0,1f);
             } else {
                 result = "DRAW";
                 score = 1;
@@ -174,6 +177,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 result = "LOSE";
                 score = -1;
                 backcolor.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                soundPool.play(sound_b, 1f, 1f, 0, 0,1f);
             } else {
                 result = "DRAW";
                 score = 1;
