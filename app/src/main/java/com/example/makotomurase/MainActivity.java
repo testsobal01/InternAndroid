@@ -2,6 +2,8 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.content.res.Resources;
 import android.media.AudioAttributes;
@@ -22,6 +24,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private SoundPool soundPool;
     private int soundOne;
 
+    SharedPreferences pref;
+    SharedPreferences.Editor prefEditor;
+
+    int newScore;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,6 +43,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
+
+        pref = getSharedPreferences("AndroidSeminor",MODE_PRIVATE);
+        prefEditor=pref.edit();
 
         // 起動時に関数を呼び出す
         setQuestionValue();
@@ -197,6 +207,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView txtScore = (TextView) findViewById(R.id.text_score);
         int newScore = Integer.parseInt(txtScore.getText().toString()) + score;
         txtScore.setText(Integer.toString(newScore));
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        prefEditor.putInt("main_put", newScore);
+        prefEditor.commit();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        TextView textview=(TextView)findViewById(R.id.text_score);
+        int userId =pref.getInt("main_put",newScore);
+        setScore(userId);
     }
 
 }
