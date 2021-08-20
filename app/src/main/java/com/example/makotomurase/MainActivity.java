@@ -44,11 +44,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onPause() {
         super.onPause();
 
-        // 画面上のスコアを取得
+        // 画面上のスコアを取得して保存
         TextView textView = (TextView)findViewById(R.id.text_score);
         prefEditor.putString("score", textView.getText().toString());
         prefEditor.commit();
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        // 保存データを読み込んで表示
+        TextView textView = (TextView)findViewById(R.id.text_score);
+        String readText = pref.getString("score", "0");
+        textView.setText(readText);
     }
 
     @Override
