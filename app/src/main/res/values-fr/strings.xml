@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">teamD</string>
+    <string name="btn_high">Haut</string>
+    <string name="btn_low">Faible</string>
+    <string name="btn_restart">Redémarrer</string>
+    <string name="label_score">Score：</string>
+    <string name="current_limit">10 a été fixé.</string>
+    <string name="question_default_value">?</string>
+    <string name="answer_default_value">?</string>
+    <string name="result">résultat</string>
+</resources>
