@@ -2,8 +2,10 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Vibrator;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -12,6 +14,9 @@ import android.widget.Toast;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+    // データ保存するやつ
+    SharedPreferences pref;
+    SharedPreferences.Editor prefEditor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,23 +35,52 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // 起動時に関数を呼び出す
         setQuestionValue();
 
+        // "SaveFile"は保存先
+        pref = getSharedPreferences("SeveFile", MODE_PRIVATE);
+        prefEditor = pref.edit();
+
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        // 画面上のスコアを取得して保存
+        TextView textView = (TextView)findViewById(R.id.text_score);
+        prefEditor.putString("score", textView.getText().toString());
+        prefEditor.commit();
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        // 保存データを読み込んで表示
+        TextView textView = (TextView)findViewById(R.id.text_score);
+        String readText = pref.getString("score", "0");
+        textView.setText(readText);
     }
 
     @Override
     public void onClick(View view) {
+        Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
         int id = view.getId();
         switch (id) {
             case R.id.button1:
                 setAnswerValue();
                 checkResult(true);
+                vib.vibrate(100);
                 break;
             case R.id.button2:
                 setAnswerValue();
                 checkResult(false);
+                vib.vibrate(100);
                 break;
             case R.id.button3:
                 setQuestionValue();
                 clearAnswerValue();
+                vib.vibrate(300);
                 break;
 
         }
