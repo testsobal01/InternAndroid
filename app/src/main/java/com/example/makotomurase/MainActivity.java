@@ -28,9 +28,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     SoundPool soundPool;
     int sound_a;
-
-    SoundPool soundPool;
-    int sound_a;
     int sound_b;
 
     @Override
