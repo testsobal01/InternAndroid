@@ -11,6 +11,8 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -68,7 +70,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onPause();
 
         // 画面上のスコアを取得して保存
-        TextView textView = (TextView)findViewById(R.id.text_score);
+        TextView textView = (TextView) findViewById(R.id.text_score);
         prefEditor.putString("score", textView.getText().toString());
         prefEditor.commit();
 
@@ -79,14 +81,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onResume();
 
         // 保存データを読み込んで表示
-        TextView textView = (TextView)findViewById(R.id.text_score);
+        TextView textView = (TextView) findViewById(R.id.text_score);
         String readText = pref.getString("score", "0");
         textView.setText(readText);
     }
 
     @Override
     public void onClick(View view) {
-        Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+        Vibrator vib = (Vibrator) getSystemService(VIBRATOR_SERVICE);
         int id = view.getId();
         switch (id) {
             case R.id.button1:
@@ -167,10 +169,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         }
 
-
         // 最後にまとめてToast表示の処理とTextViewへのセットを行う
         Toast.makeText(this, result, Toast.LENGTH_LONG).show();
         txtResult.setText(question + ":" + answer + "(" + result + ")");
+
+        // 勝敗に合わせてアニメーション
+        TextView value1 = (TextView) findViewById(R.id.question);
+        TextView value2 = (TextView) findViewById(R.id.answer);
+        textAnimation(value1, value2, result);
 
         // 続けて遊べるように値を更新
         setNextQuestion();
@@ -203,6 +209,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView txtScore = (TextView) findViewById(R.id.text_score);
         int newScore = Integer.parseInt(txtScore.getText().toString()) + score;
         txtScore.setText(Integer.toString(newScore));
+    }
+
+    public void textAnimation(TextView v1, TextView v2, String result) {
+        int textDefaultSize = 60;
+        Animation crushAnimation = AnimationUtils.loadAnimation(this, R.anim.popup);
+
+        if(result == "WIN"){
+            v1.startAnimation(crushAnimation);
+        }else if(result == "LOSE"){
+            v2.startAnimation(crushAnimation);
+        }
+        v1.setTextSize(textDefaultSize);
+        v2.setTextSize(textDefaultSize);
     }
 
 }
