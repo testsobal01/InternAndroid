@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">北河達基</string>
+<string name="btn_high">勝ち</string>
+<string name="btn_low">負け</string>
+<string name="btn_restart">もう一回</string>
+<string name="label_score">得点：</string>
+</resources>
