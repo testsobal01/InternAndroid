@@ -2,11 +2,14 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -16,6 +19,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Vibrator vib;
     private long pattern[] = {1000, 200, 700, 200, 400, 200};//バイブレーションのパターン
     private long pattern2[] = {100, 400, 100, 300, 100, 300};//バイブレーションのパターン（数秒後にa秒間の振動、2秒待って、b秒間の振動、3秒待って、c秒間の振動）
+    int r1, g1, b1;
+
     // Vibratorクラスのインスタンス取得
 
     @Override
@@ -81,6 +86,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void checkResult(boolean isHigh) {
+        TextView myText = findViewById(R.id.question);
+        TextView myText1 = findViewById(R.id.answer);
         TextView txtViewQuestion = (TextView) findViewById(R.id.question);
         TextView txtViewAnswer = (TextView) findViewById(R.id.answer);
         int question = Integer.parseInt(txtViewQuestion.getText().toString());
@@ -90,7 +97,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // 結果を示す文字列を入れる変数を用意
         String result;
         int score = 0;
-
         // Highが押された
         if (isHigh) {
             // result には結果のみを入れる
@@ -98,30 +104,40 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 result = "WIN";
                 score = 2;
                 vib.vibrate(3000);
+                myText.setTextColor(Color.RED);
+                myText1.setTextColor(Color.BLACK);
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
                 vib.vibrate(pattern2, -1);// パターンを繰り返す
+                myText.setTextColor(Color.BLACK);
+                myText1.setTextColor(Color.RED);
             } else {
-
                 result = "DRAW";
                 score = 1;
                 vib.vibrate(pattern, -1);
-
+                myText.setTextColor(Color.BLUE);
+                myText1.setTextColor(Color.BLUE);
             }
         } else {
             if (question > answer) {
                 result = "WIN";
                 score = 2;
                 vib.vibrate(pattern2, -1);// パターンを繰り返す
+                myText1.setTextColor(Color.RED);
+                myText.setTextColor(Color.BLACK);
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
                 vib.vibrate(3000);
+                myText1.setTextColor(Color.BLACK);
+                myText.setTextColor(Color.RED);
             } else {
                 result = "DRAW";
                 score = 1;
                 vib.vibrate(pattern, -1);
+                myText.setTextColor(Color.BLUE);
+                myText1.setTextColor(Color.BLUE);
             }
         }
 
