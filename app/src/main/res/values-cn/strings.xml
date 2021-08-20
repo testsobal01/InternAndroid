@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">teamD</string>
+    <string name="btn_high">高</string>
+    <string name="btn_low">低</string>
+    <string name="btn_restart">重新启动</string>
+    <string name="label_score">得分：</string>
+    <string name="current_limit">10已被设定。</string>
+    <string name="question_default_value">?</string>
+    <string name="answer_default_value">?</string>
+    <string name="result">结果</string>
+</resources>
