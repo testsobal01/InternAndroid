@@ -6,11 +6,13 @@ import android.content.SharedPreferences;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -131,27 +133,40 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int score = 0;
 
         // Highが押された
+        LinearLayout background = (LinearLayout) findViewById(R.id.background);
         if (isHigh) {
+
             // result には結果のみを入れる
             if (question < answer) {
                 result = "WIN";
+                background.setBackgroundColor(Color.parseColor("#fc5858"));
+
                 score = 2;
             } else if (question > answer) {
                 result = "LOSE";
+                background.setBackgroundColor(Color.parseColor("#8693f7"));
+
                 score = -1;
             } else {
                 result = "DRAW";
+                background.setBackgroundColor(Color.parseColor("#b0fa78"));
+
                 score = 1;
             }
         } else {
             if (question > answer) {
                 result = "WIN";
+                background.setBackgroundColor(Color.parseColor("#fc5858"));
                 score = 2;
             } else if (question < answer) {
                 result = "LOSE";
+                background.setBackgroundColor(Color.parseColor("#8693f7"));
+
                 score = -1;
             } else {
                 result = "DRAW";
+                background.setBackgroundColor(Color.parseColor("#b0fa78"));
+
                 score = 1;
             }
         }
