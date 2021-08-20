@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Team_G</string>
+    <string name="app_name">Team-g</string>
     <string name="btn_high">High</string>
     <string name="btn_low">Low</string>
     <string name="btn_restart">Restart</string>
