@@ -125,7 +125,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 score = 2;
                 vib.vibrate(pattern2, -1);// パターンを繰り返す
                 myText1.setTextColor(Color.RED);
-                myText.setTextColor(Color.BLACK);
+                myText.setTextColor(Color.BLACK); 
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
