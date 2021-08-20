@@ -119,9 +119,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         }
 
-        // 勝った時に振動する
+        // 勝った時だけ振動する
+        // 結果によって結果表示部分の背景色を切り替える
         if (result.equals("WIN")) {
             vibrate(300);
+            txtResult.setBackgroundColor(Color.RED);
+        } else if (result.equals("LOSE")) {
+            txtResult.setBackgroundColor(Color.CYAN);
+        } else {
+            txtResult.setBackgroundColor(Color.TRANSPARENT);
         }
 
         // 最後にまとめてToast表示の処理とTextViewへのセットを行う
