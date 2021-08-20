@@ -29,6 +29,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     SoundPool soundPool;
     int sound_a;
 
+    SoundPool soundPool;
+    int sound_a;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
