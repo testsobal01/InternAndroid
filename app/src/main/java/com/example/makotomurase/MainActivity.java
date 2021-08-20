@@ -74,7 +74,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.button1:
                 setAnswerValue();
                 checkResult(true);
-                soundPlayer.playSemi();
+
                 break;
             case R.id.button2:
                 setAnswerValue();
@@ -84,7 +84,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 setQuestionValue();
                 clearAnswerValue();
                 vib.vibrate(3000);
-
+                soundPlayer.playSemi();
                 break;
 
         }
