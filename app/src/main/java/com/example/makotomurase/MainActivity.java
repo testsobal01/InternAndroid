@@ -8,6 +8,9 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -19,6 +22,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     SharedPreferences pref;
     SharedPreferences.Editor prefEditor;
+    TextView Anitext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,9 +43,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // 起動時に関数を呼び出す
         setQuestionValue();
-
+        Anitext = (TextView) findViewById(R.id.question);
     }
-
     @Override
     public void onClick(View view) {
         int id = view.getId();
@@ -85,7 +88,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void clearAnswerValue() {
         TextView txtView = (TextView) findViewById(R.id.answer);
-        txtView.setText("値2");
+        txtView.setText(getString(R.string.atai2));
         txtView.setBackgroundColor(Color.parseColor("#ffff00"));
 
         LinearLayout layoutTextAnswer = (LinearLayout) findViewById(R.id.text_answer);
@@ -126,22 +129,30 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = "WIN";
                 score = 2;
+                transAnimationTest(txtViewAnswer);
             } else if (question > answer) {
                 result = "LOSE";
+                transAnimationTest(txtViewQuestion);
                 score = -1;
             } else {
                 result = "DRAW";
                 score = 1;
+                transAnimationTest(txtViewQuestion);
+                transAnimationTest(txtViewAnswer);
             }
         } else {
             if (question > answer) {
                 result = "WIN";
+                transAnimationTest(txtViewAnswer);
                 score = 2;
             } else if (question < answer) {
                 result = "LOSE";
+                transAnimationTest(txtViewQuestion);
                 score = -1;
             } else {
                 result = "DRAW";
+                transAnimationTest(txtViewQuestion);
+                transAnimationTest(txtViewAnswer);
                 score = 1;
             }
         }
@@ -150,6 +161,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // 最後にまとめてToast表示の処理とTextViewへのセットを行う
         Toast.makeText(this, result, Toast.LENGTH_LONG).show();
         txtResult.setText("結果：" + question + ":" + answer + "(" + result + ")");
+        String res = getString(R.string.kekka);
+        txtResult.setText(res + question + ":" + answer + "(" + result + ")");
         setAnswerColor(result);
 
         // 続けて遊べるように値を更新
@@ -206,4 +219,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+    public void transAnimationTest( TextView v ){
+        TranslateAnimation trans = new TranslateAnimation(
+                // 自分の幅の2倍左の位置から開始
+                Animation.RELATIVE_TO_SELF, 1,
+                // 自分の幅の5倍左の位置（元の位置）で終了
+                Animation.RELATIVE_TO_SELF, 0,
+                // 縦には移動しない
+                Animation.RELATIVE_TO_SELF, 0,
+                Animation.RELATIVE_TO_SELF, 0);
+
+        // 2秒かけてアニメーションする
+        trans.setDuration( 1000 );
+
+        // アニメーション終了時の表示状態を維持する
+        trans.setFillEnabled(true);
+        trans.setFillAfter  (true);
+
+        // アニメーションを開始
+        v.startAnimation(trans);
+    }
 }
