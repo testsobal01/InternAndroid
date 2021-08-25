@@ -3,6 +3,7 @@ package com.example.makotomurase;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
@@ -11,6 +12,7 @@ import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -87,6 +89,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void clearAnswerValue() {
         TextView txtView = (TextView) findViewById(R.id.answer);
         txtView.setText(getString(R.string.atai2));
+        txtView.setBackgroundColor(Color.parseColor("#ffff00"));
+
+        LinearLayout layoutTextAnswer = (LinearLayout) findViewById(R.id.text_answer);
+        layoutTextAnswer.setBackgroundColor(Color.parseColor("#ffffff"));
+
+        TextView txtViewQuestion = (TextView) findViewById(R.id.question);
+        txtViewQuestion.setBackgroundColor(Color.parseColor("#ff00ff"));
     }
 
     private void setQuestionValue() {
@@ -151,8 +160,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // 最後にまとめてToast表示の処理とTextViewへのセットを行う
         Toast.makeText(this, result, Toast.LENGTH_LONG).show();
+        txtResult.setText("結果：" + question + ":" + answer + "(" + result + ")");
         String res = getString(R.string.kekka);
         txtResult.setText(res + question + ":" + answer + "(" + result + ")");
+        setAnswerColor(result);
 
         // 続けて遊べるように値を更新
         setNextQuestion();
@@ -185,6 +196,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView txtScore = (TextView) findViewById(R.id.text_score);
         int newScore = Integer.parseInt(txtScore.getText().toString()) + score;
         txtScore.setText(Integer.toString(newScore));
+    }
+
+    private void setAnswerColor(String _result) {
+        LinearLayout layoutTextAnswer = (LinearLayout) findViewById(R.id.text_answer);
+        TextView txtViewQuestion = (TextView) findViewById(R.id.question);
+        TextView txtViewAnswer = (TextView) findViewById(R.id.answer);
+        if (_result == "WIN") {
+            layoutTextAnswer.setBackgroundColor(Color.parseColor("#00bfff"));
+            txtViewQuestion.setBackgroundColor(Color.parseColor("#00bfff"));
+            txtViewAnswer.setBackgroundColor(Color.parseColor("#dc143c"));
+        }
+        else if (_result == "LOSE") {
+            layoutTextAnswer.setBackgroundColor(Color.parseColor("#dc143c"));
+            txtViewQuestion.setBackgroundColor(Color.parseColor("#dc143c"));
+            txtViewAnswer.setBackgroundColor(Color.parseColor("#00bfff"));
+        }
+        else {
+            layoutTextAnswer.setBackgroundColor(Color.parseColor("#c0c0c0"));
+            txtViewQuestion.setBackgroundColor(Color.parseColor("#c0c0c0"));
+            txtViewAnswer.setBackgroundColor(Color.parseColor("#c0c0c0"));
+        }
     }
 
     public void transAnimationTest( TextView v ){
