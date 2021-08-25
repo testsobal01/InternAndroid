@@ -5,6 +5,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.RotateAnimation;
+import android.view.animation.ScaleAnimation;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -12,6 +16,8 @@ import android.widget.Toast;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
+    TextView ans;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +32,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
+
+        ans = (TextView) findViewById(R.id.answer);
 
         // 起動時に関数を呼び出す
         setQuestionValue();
@@ -89,23 +97,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = "WIN";
                 score = 2;
+                startRotation();
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
+                blinkText(ans, 100, 200);
             } else {
                 result = "DRAW";
                 score = 1;
+                blinkText(ans, 100, 200);
             }
         } else {
             if (question > answer) {
                 result = "WIN";
                 score = 2;
+                startRotation();
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
+                blinkText(ans, 100, 200);
             } else {
                 result = "DRAW";
                 score = 1;
+                blinkText(ans, 100, 200);
             }
         }
 
@@ -146,5 +160,34 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int newScore = Integer.parseInt(txtScore.getText().toString()) + score;
         txtScore.setText(Integer.toString(newScore));
     }
+
+    private void startRotation() {
+
+        // RotateAnimation(float fromDegrees, float toDegrees, int pivotXType, float pivotXValue, int pivotYType,float pivotYValue)
+        RotateAnimation rotate = new RotateAnimation(0.0f, 360.0f,
+                Animation.RELATIVE_TO_SELF, 0.5f,
+                Animation.RELATIVE_TO_SELF, 0.5f);
+
+        // animation時間 msec
+        rotate.setDuration(1000);
+        // 繰り返し回数
+        rotate.setRepeatCount(1);
+        // animationが終わったそのまま表示にする
+        rotate.setFillAfter(true);
+
+        //アニメーションの開始
+        ans.startAnimation(rotate);
+
+    }
+
+    private void blinkText(TextView ans, long duration, long offset){
+        Animation anm = new AlphaAnimation(0.0f, 1.0f);
+        anm.setDuration(duration);
+        anm.setStartOffset(offset);
+        anm.setRepeatMode(Animation.REVERSE);
+        anm.setRepeatCount(Animation.INFINITE);
+        ans.startAnimation(anm);
+    }
+
 
 }
