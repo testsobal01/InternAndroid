@@ -6,9 +6,15 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
 import android.view.View;
+import android.view.animation.AnimationSet;
+import android.view.animation.CycleInterpolator;
+import android.view.animation.RotateAnimation;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 
 import java.util.Random;
 
@@ -92,11 +98,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 score = 2;
                 Vibrator vib= (Vibrator)getSystemService(VIBRATOR_SERVICE);
                 vib.vibrate(500);
+                TextView img =(TextView) findViewById(R.id.question);
+                RotateAnimation rotate = new RotateAnimation(0,360,30,90);
+                rotate.setDuration(500);
+                img.startAnimation(rotate);
+
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
                 Vibrator vib= (Vibrator)getSystemService(VIBRATOR_SERVICE);
                 vib.vibrate(100);
+                TextView img =(TextView) findViewById(R.id.answer);
+                RotateAnimation rotate = new RotateAnimation(0,360,30,90);
+                rotate.setDuration(500);
+                img.startAnimation(rotate);
 
             } else {
                 result = "DRAW";
@@ -111,12 +126,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 score = 2;
                 Vibrator vib= (Vibrator)getSystemService(VIBRATOR_SERVICE);
                 vib.vibrate(500);
+                TextView img =(TextView) findViewById(R.id.question);
+                RotateAnimation rotate = new RotateAnimation(0,360,30,90);
+                rotate.setDuration(500);
+                img.startAnimation(rotate);
 
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
                 Vibrator vib= (Vibrator)getSystemService(VIBRATOR_SERVICE);
                 vib.vibrate(100);
+                TextView img =(TextView) findViewById(R.id.answer);
+                RotateAnimation rotate = new RotateAnimation(0,360,30,90);
+                rotate.setDuration(500);
+                img.startAnimation(rotate);
 
             } else {
                 result = "DRAW";
