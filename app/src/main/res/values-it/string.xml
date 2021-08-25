@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Gioco Alto e Basso</string>
+    <string name="btn_high">Alto</string>
+    <string name="btn_low">Basso</string>
+    <string name="btn_restart">Riavviare</string>
+    <string name="label_score">Punteggio：</string>
+</resources>
