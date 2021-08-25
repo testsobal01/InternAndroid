@@ -6,6 +6,9 @@ import android.media.AudioAttributes;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.Build;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
@@ -20,11 +23,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     SoundPool soundPool;
     int mp3a;
+    SharedPreferences pref;
+    SharedPreferences.Editor prefEditor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //Intent intent = this.getIntent();
 
         Button btn1 = (Button) findViewById(R.id.button1);
         btn1.setOnClickListener(this);
@@ -55,10 +62,41 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // 起動時に関数を呼び出す
         setQuestionValue();
 
+        pref=getSharedPreferences("score",MODE_PRIVATE);
+        prefEditor=pref.edit();
+
     }
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        TextView textView=(TextView)findViewById(R.id.text_score);
+
+        prefEditor.putString("main_input",textView.getText().toString());
+        prefEditor.commit();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        TextView textView=(TextView)findViewById(R.id.text_score);
+
+        String readText=pref.getString("main_input","0");
+        textView.setText(readText);
+    }
+
+
+
+    @Override
     public void onClick(View view) {
+
         int id = view.getId();
         switch (id) {
             case R.id.button1:
@@ -111,6 +149,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         String result;
         int score = 0;
 
+        TextView answerTextView = (TextView)findViewById(R.id.answer);
+        TextView questionTextView = (TextView)findViewById(R.id.question);
+
         // Highが押された
         if (isHigh) {
             // result には結果のみを入れる
@@ -118,39 +159,56 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 result = "WIN";
                 vibration1();
                 score = 2;
+                answerTextView.setBackgroundColor(Color.parseColor("#FF0000"));
+
             } else if (question > answer) {
                 result = "LOSE";
                 vibration2();
                 score = -1;
+                answerTextView.setBackgroundColor(Color.parseColor("#4169e1"));
+
             } else {
                 result = "DRAW";
                 score = 1;
+                answerTextView.setBackgroundColor(Color.parseColor("#ffff00"));
+                questionTextView.setBackgroundColor(Color.parseColor("#ffff00"));
             }
         } else {
             if (question > answer) {
                 result = "WIN";
                 vibration1();
                 score = 2;
+                answerTextView.setBackgroundColor(Color.parseColor("#FF0000"));
+
             } else if (question < answer) {
                 result = "LOSE";
                 vibration2();
                 score = -1;
+                answerTextView.setBackgroundColor(Color.parseColor("#4169e1"));
+
             } else {
                 result = "DRAW";
                 score = 1;
+                answerTextView.setBackgroundColor(Color.parseColor("#ffff00"));
+                questionTextView.setBackgroundColor(Color.parseColor("#ffff00"));
             }
         }
 
-
         // 最後にまとめてToast表示の処理とTextViewへのセットを行う
         Toast.makeText(this, result, Toast.LENGTH_LONG).show();
-        txtResult.setText("結果：" + question + ":" + answer + "(" + result + ")");
+        String res = getString(R.string.result);
+        txtResult.setText(res + question + ":" + answer + "(" + result + ")");
 
         // 続けて遊べるように値を更新
         setNextQuestion();
 
         // スコアを表示
         setScore(score);
+
+        TextView txtScore = (TextView) findViewById(R.id.text_score);
+        if(txtScore.getText() == "10"){
+            Toast.makeText(this, "めっちゃすげぇ！！", Toast.LENGTH_LONG).show();
+        }
 
     }
 
