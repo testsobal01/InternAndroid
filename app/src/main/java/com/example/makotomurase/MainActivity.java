@@ -112,7 +112,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         }
 
-
         // 最後にまとめてToast表示の処理とTextViewへのセットを行う
         Toast.makeText(this, result, Toast.LENGTH_LONG).show();
         txtResult.setText("結果：" + question + ":" + answer + "(" + result + ")");
@@ -122,6 +121,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // スコアを表示
         setScore(score);
+
+        TextView txtScore = (TextView) findViewById(R.id.text_score);
+        if(txtScore.getText() == "10"){
+            Toast.makeText(this, "めっちゃすげぇ！！", Toast.LENGTH_LONG).show();
+        }
 
     }
 
