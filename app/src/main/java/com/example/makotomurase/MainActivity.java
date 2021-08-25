@@ -8,6 +8,7 @@ import android.os.CountDownTimer;
 import android.os.Vibrator;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,6 +18,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     SharedPreferences pref;
     SharedPreferences.Editor prefEditor;
+    ImageView imageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -195,6 +197,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
         int newScore = oldscore + score;
         txtScore.setText(Integer.toString(newScore));
+
+        if(newScore > 10){
+            imageView = findViewById(R.id.image_view);
+            imageView.setImageResource(R.drawable.img_congratulations);
+            imageView.setVisibility(View.VISIBLE);
+        }
     }
 
 }
