@@ -1,8 +1,8 @@
 package com.example.makotomurase;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.SharedPreferences;
+import android.media.AudioAttributes;
+import android.media.SoundPool;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
@@ -15,6 +15,10 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import android.content.Context;
+
+import androidx.appcompat.app.AppCompatActivity;
+
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -22,6 +26,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     TextView ans;
     SharedPreferences pref;
     SharedPreferences.Editor prefEditor;
+
+
+
+    private SoundPool soundPool;
+
+
+    private static Context context;
+    private static int koukaon;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +62,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         String readText = pref.getString("text_input","保存されていません");
         textView.setText(readText);
 
+        AudioAttributes attr = new AudioAttributes.Builder()
+                .setUsage(AudioAttributes.USAGE_MEDIA)
+                .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+                .build();
+        soundPool = new SoundPool.Builder()
+                .setAudioAttributes(attr)
+                .setMaxStreams(1)
+                .build();
+        koukaon = soundPool.load(this,R.raw.koukaon,1);
     }
 
     @Override
@@ -64,6 +85,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 prefEditor.putString("text_input",textView.getText().toString());
                 prefEditor.commit();
+                Sound();
                 break;
             case R.id.button2:
                 setAnswerValue();
@@ -72,6 +94,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 prefEditor.putString("text_input",textView.getText().toString());
                 prefEditor.commit();
+                Sound();
                 break;
             case R.id.button3:
                 setQuestionValue();
@@ -80,6 +103,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 prefEditor.putString("text_input",textView.getText().toString());
                 prefEditor.commit();
+                Sound();
                 break;
 
         }
@@ -206,6 +230,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
         int newScore = oldscore + score;
         txtScore.setText(Integer.toString(newScore));
+    }
+
+    private void Sound(){
+        soundPool.play(koukaon, 1.0f, 1.0f, 1, 0, 1.0f);
     }
 
     private void startRotation() {
