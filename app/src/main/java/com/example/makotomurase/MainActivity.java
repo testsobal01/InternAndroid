@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         TextView textView=(TextView)findViewById(R.id.text_score);
 
-        String readText=pref.getString("main_input","結果がありません");
+        String readText=pref.getString("main_input","0");
         textView.setText(readText);
     }
 
