@@ -5,4 +5,5 @@
     <string name="btn_low">Meugler</string>
     <string name="btn_restart">Redémarrage</string>
     <string name="label_score">Score：</string>
+    <string name="img_imageview">imageview</string>
 </resources>

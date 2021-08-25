@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ImageView;
 
 import java.util.Random;
 
@@ -41,6 +42,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
         TextView textView = (TextView)findViewById(R.id.text_score);
+        ImageView imageView2 = findViewById(R.id.imageview);
+        imageView2.setImageResource(R.drawable.base);
+
 
         String readText = pref.getString("text_input","保存されていません");
         textView.setText(readText);

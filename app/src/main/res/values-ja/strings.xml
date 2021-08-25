@@ -6,5 +6,6 @@
     <string name="btn_restart">リスタート</string>
     <string name="label_score">スコア：</string>
 
+    <string name="img_imageview">imageview</string>
 </resources>
 
