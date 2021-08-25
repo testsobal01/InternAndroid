@@ -40,9 +40,10 @@
         </LinearLayout>
 
         <TextView
+            android:id="@+id/settei"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="10が設定されています。" />
+            android:text="@string/settei" />
 
 
         <TextView
@@ -51,24 +52,48 @@
             android:layout_height="wrap_content" />
 
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:id="@+id/text_answer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/label_score" />
+                android:text="10が設定されています。" />
 
             <TextView
-                android:id="@+id/text_score"
+                android:id="@+id/text_result"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="0" />
+                android:layout_height="wrap_content" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/label_score" />
+
+                <TextView
+                    android:id="@+id/text_score"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0" />
+            </LinearLayout>
         </LinearLayout>
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="2dp"
+            android:background="#000000"/>
+
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
 
             <TextView
                 android:id="@+id/question"
@@ -77,8 +102,9 @@
                 android:layout_weight="1"
                 android:background="#ff00ff"
                 android:gravity="center"
-                android:text="値1"
+                android:text="@string/atai1"
                 android:textSize="60sp" />
+
 
             <TextView
                 android:id="@+id/answer"
@@ -87,7 +113,7 @@
                 android:layout_weight="1"
                 android:background="#ffff00"
                 android:gravity="center"
-                android:text="値2"
+                android:text="@string/atai2"
                 android:textSize="60sp" />
         </LinearLayout>
     </LinearLayout>

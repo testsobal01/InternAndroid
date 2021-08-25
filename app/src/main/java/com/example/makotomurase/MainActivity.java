@@ -3,11 +3,16 @@ package com.example.makotomurase;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.TranslateAnimation;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.media.AudioAttributes;
@@ -21,6 +26,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     SharedPreferences pref;
     SharedPreferences.Editor prefEditor;
+    TextView Anitext;
 
     SoundPool soundPool;    // 効果音を鳴らす本体（コンポ）
     int mp3button;          // 効果音データ（mp3）
@@ -65,9 +71,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // 起動時に関数を呼び出す
         setQuestionValue();
-
+        Anitext = (TextView) findViewById(R.id.question);
     }
-
     @Override
     public void onClick(View view) {
         int id = view.getId();
@@ -112,7 +117,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void clearAnswerValue() {
         TextView txtView = (TextView) findViewById(R.id.answer);
-        txtView.setText("値2");
+        txtView.setText(getString(R.string.atai2));
+        txtView.setBackgroundColor(Color.parseColor("#ffff00"));
+
+        LinearLayout layoutTextAnswer = (LinearLayout) findViewById(R.id.text_answer);
+        layoutTextAnswer.setBackgroundColor(Color.parseColor("#ffffff"));
+
+        TextView txtViewQuestion = (TextView) findViewById(R.id.question);
+        txtViewQuestion.setBackgroundColor(Color.parseColor("#ff00ff"));
     }
 
     private void setQuestionValue() {
@@ -147,27 +159,35 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 result = "WIN";
                 soundPool.play(mp3win,1f , 1f, 0, 0, 1f);
                 score = 2;
+                transAnimationTest(txtViewAnswer);
             } else if (question > answer) {
                 result = "LOSE";
                 soundPool.play(mp3lose,1f , 1f, 0, 0, 1f);
+                transAnimationTest(txtViewQuestion);
                 score = -1;
             } else {
                 result = "DRAW";
                 soundPool.play(mp3draw,1f , 1f, 0, 0, 1f);
                 score = 1;
+                transAnimationTest(txtViewQuestion);
+                transAnimationTest(txtViewAnswer);
             }
         } else {
             if (question > answer) {
                 result = "WIN";
                 soundPool.play(mp3win,1f , 1f, 0, 0, 1f);
+                transAnimationTest(txtViewAnswer);
                 score = 2;
             } else if (question < answer) {
                 result = "LOSE";
                 soundPool.play(mp3lose,1f , 1f, 0, 0, 1f);
+                transAnimationTest(txtViewQuestion);
                 score = -1;
             } else {
                 result = "DRAW";
                 soundPool.play(mp3draw,1f , 1f, 0, 0, 1f);
+                transAnimationTest(txtViewQuestion);
+                transAnimationTest(txtViewAnswer);
                 score = 1;
             }
         }
@@ -176,6 +196,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // 最後にまとめてToast表示の処理とTextViewへのセットを行う
         Toast.makeText(this, result, Toast.LENGTH_LONG).show();
         txtResult.setText("結果：" + question + ":" + answer + "(" + result + ")");
+        String res = getString(R.string.kekka);
+        txtResult.setText(res + question + ":" + answer + "(" + result + ")");
+        setAnswerColor(result);
 
         // 続けて遊べるように値を更新
         setNextQuestion();
@@ -210,4 +233,45 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         txtScore.setText(Integer.toString(newScore));
     }
 
+    private void setAnswerColor(String _result) {
+        LinearLayout layoutTextAnswer = (LinearLayout) findViewById(R.id.text_answer);
+        TextView txtViewQuestion = (TextView) findViewById(R.id.question);
+        TextView txtViewAnswer = (TextView) findViewById(R.id.answer);
+        if (_result == "WIN") {
+            layoutTextAnswer.setBackgroundColor(Color.parseColor("#00bfff"));
+            txtViewQuestion.setBackgroundColor(Color.parseColor("#00bfff"));
+            txtViewAnswer.setBackgroundColor(Color.parseColor("#dc143c"));
+        }
+        else if (_result == "LOSE") {
+            layoutTextAnswer.setBackgroundColor(Color.parseColor("#dc143c"));
+            txtViewQuestion.setBackgroundColor(Color.parseColor("#dc143c"));
+            txtViewAnswer.setBackgroundColor(Color.parseColor("#00bfff"));
+        }
+        else {
+            layoutTextAnswer.setBackgroundColor(Color.parseColor("#c0c0c0"));
+            txtViewQuestion.setBackgroundColor(Color.parseColor("#c0c0c0"));
+            txtViewAnswer.setBackgroundColor(Color.parseColor("#c0c0c0"));
+        }
+    }
+
+    public void transAnimationTest( TextView v ){
+        TranslateAnimation trans = new TranslateAnimation(
+                // 自分の幅の2倍左の位置から開始
+                Animation.RELATIVE_TO_SELF, 1,
+                // 自分の幅の5倍左の位置（元の位置）で終了
+                Animation.RELATIVE_TO_SELF, 0,
+                // 縦には移動しない
+                Animation.RELATIVE_TO_SELF, 0,
+                Animation.RELATIVE_TO_SELF, 0);
+
+        // 2秒かけてアニメーションする
+        trans.setDuration( 1000 );
+
+        // アニメーション終了時の表示状態を維持する
+        trans.setFillEnabled(true);
+        trans.setFillAfter  (true);
+
+        // アニメーションを開始
+        v.startAnimation(trans);
+    }
 }
