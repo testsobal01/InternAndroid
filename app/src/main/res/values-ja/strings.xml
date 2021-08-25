@@ -9,6 +9,6 @@
     <string name="atai1">値1</string>
     <string name="atai2">値2</string>
     <string name="kekka">結果：</string>
-    <string name="StartTitle_text">スタート画面</string>
+    <string name="StartTitle_text">High&amp;Low</string>
     <string name="Start_text">スタート</string>
 </resources>
