@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
@@ -63,7 +64,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         TextView textView=(TextView)findViewById(R.id.text_score);
 
-        String readText=pref.getString("main_input","結果がありません");
+        String readText=pref.getString("main_input","0");
         textView.setText(readText);
     }
 
@@ -71,6 +72,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View view) {
+
         int id = view.getId();
         switch (id) {
             case R.id.button1:
@@ -120,31 +122,47 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         String result;
         int score = 0;
 
+        TextView answerTextView = (TextView)findViewById(R.id.answer);
+        TextView questionTextView = (TextView)findViewById(R.id.question);
+
         // Highが押された
         if (isHigh) {
             // result には結果のみを入れる
             if (question < answer) {
                 result = "WIN";
                 score = 2;
+                answerTextView.setBackgroundColor(Color.parseColor("#FF0000"));
+
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
+                answerTextView.setBackgroundColor(Color.parseColor("#4169e1"));
+
             } else {
                 result = "DRAW";
                 score = 1;
+                answerTextView.setBackgroundColor(Color.parseColor("#ffff00"));
+                questionTextView.setBackgroundColor(Color.parseColor("#ffff00"));
             }
         } else {
             if (question > answer) {
                 result = "WIN";
                 score = 2;
+                answerTextView.setBackgroundColor(Color.parseColor("#FF0000"));
+
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
+                answerTextView.setBackgroundColor(Color.parseColor("#4169e1"));
+
             } else {
                 result = "DRAW";
                 score = 1;
+                answerTextView.setBackgroundColor(Color.parseColor("#ffff00"));
+                questionTextView.setBackgroundColor(Color.parseColor("#ffff00"));
             }
         }
+
 
 
         // 最後にまとめてToast表示の処理とTextViewへのセットを行う
