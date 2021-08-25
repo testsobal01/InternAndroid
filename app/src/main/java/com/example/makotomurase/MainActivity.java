@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Vibrator;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -37,6 +38,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int id = view.getId();
         switch (id) {
             case R.id.button1:
+                vibration1();
                 setAnswerValue();
                 checkResult(true);
                 break;
@@ -88,9 +90,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             // result には結果のみを入れる
             if (question < answer) {
                 result = "WIN";
+                vibration1();
                 score = 2;
             } else if (question > answer) {
                 result = "LOSE";
+                vibration2();
                 score = -1;
             } else {
                 result = "DRAW";
@@ -99,9 +103,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         } else {
             if (question > answer) {
                 result = "WIN";
+                vibration1();
                 score = 2;
             } else if (question < answer) {
                 result = "LOSE";
+                vibration2();
                 score = -1;
             } else {
                 result = "DRAW";
@@ -145,6 +151,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView txtScore = (TextView) findViewById(R.id.text_score);
         int newScore = Integer.parseInt(txtScore.getText().toString()) + score;
         txtScore.setText(Integer.toString(newScore));
+    }
+
+    private void vibration1(){
+        Vibrator vib1 = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+        vib1.vibrate(100);
+    }
+
+    private void vibration2(){
+        Vibrator vib2 = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+        vib2.vibrate(800);
     }
 
 }
