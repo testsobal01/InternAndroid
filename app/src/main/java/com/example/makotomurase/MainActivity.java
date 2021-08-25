@@ -1,23 +1,43 @@
 package com.example.makotomurase;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.media.AudioAttributes;
+import android.media.SoundPool;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.RotateAnimation;
+import android.view.animation.ScaleAnimation;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ImageView;
+
+import android.content.Context;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
+    TextView ans;
     SharedPreferences pref;
     SharedPreferences.Editor prefEditor;
+    ImageView imageView;
+
+
+
+    private SoundPool soundPool;
+
+
+    private static Context context;
+    private static int koukaon;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,9 +53,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
 
+        ans = (TextView) findViewById(R.id.answer);
         pref = getSharedPreferences("InternAndroid",MODE_PRIVATE);
         prefEditor = pref.edit();
-
 
         // 起動時に関数を呼び出す
         setQuestionValue();
@@ -49,6 +69,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         String readText = pref.getString("text_input","保存されていません");
         textView.setText(readText);
 
+        AudioAttributes attr = new AudioAttributes.Builder()
+                .setUsage(AudioAttributes.USAGE_MEDIA)
+                .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+                .build();
+        soundPool = new SoundPool.Builder()
+                .setAudioAttributes(attr)
+                .setMaxStreams(1)
+                .build();
+        koukaon = soundPool.load(this,R.raw.koukaon,1);
     }
 
     @Override
@@ -63,6 +92,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 prefEditor.putString("text_input",textView.getText().toString());
                 prefEditor.commit();
+                Sound();
                 break;
             case R.id.button2:
                 setAnswerValue();
@@ -71,6 +101,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 prefEditor.putString("text_input",textView.getText().toString());
                 prefEditor.commit();
+                Sound();
                 break;
             case R.id.button3:
                 setQuestionValue();
@@ -79,6 +110,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 prefEditor.putString("text_input",textView.getText().toString());
                 prefEditor.commit();
+                Sound();
                 break;
 
         }
@@ -139,23 +171,41 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = "WIN";
                 score = 2;
+                txtViewQuestion.setBackgroundColor(Color.RED);
+                txtViewAnswer.setBackgroundColor(Color.RED);
+                startRotation();
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
+                blinkText(ans, 100, 200);
+                txtViewQuestion.setBackgroundColor(Color.BLUE);
+                txtViewAnswer.setBackgroundColor(Color.BLUE);
             } else {
                 result = "DRAW";
                 score = 1;
+                blinkText(ans, 100, 200);
+                txtViewQuestion.setBackgroundColor(Color.GREEN);
+                txtViewAnswer.setBackgroundColor(Color.GREEN);
             }
         } else {
             if (question > answer) {
                 result = "WIN";
                 score = 2;
+                txtViewQuestion.setBackgroundColor(Color.RED);
+                txtViewAnswer.setBackgroundColor(Color.RED);
+                startRotation();
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
+                blinkText(ans, 100, 200);
+                txtViewQuestion.setBackgroundColor(Color.BLUE);
+                txtViewAnswer.setBackgroundColor(Color.BLUE);
             } else {
                 result = "DRAW";
                 score = 1;
+                blinkText(ans, 100, 200);
+                txtViewQuestion.setBackgroundColor(Color.GREEN);
+                txtViewAnswer.setBackgroundColor(Color.GREEN);
             }
         }
 
@@ -199,6 +249,45 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
         int newScore = oldscore + score;
         txtScore.setText(Integer.toString(newScore));
+
+        if(newScore > 10){
+            imageView = findViewById(R.id.image_view);
+            imageView.setImageResource(R.drawable.img_congratulations);
+            imageView.setVisibility(View.VISIBLE);
+        }
     }
+
+    private void Sound(){
+        soundPool.play(koukaon, 1.0f, 1.0f, 1, 0, 1.0f);
+    }
+
+    private void startRotation() {
+
+        // RotateAnimation(float fromDegrees, float toDegrees, int pivotXType, float pivotXValue, int pivotYType,float pivotYValue)
+        RotateAnimation rotate = new RotateAnimation(0.0f, 360.0f,
+                Animation.RELATIVE_TO_SELF, 0.5f,
+                Animation.RELATIVE_TO_SELF, 0.5f);
+
+        // animation時間 msec
+        rotate.setDuration(1000);
+        // 繰り返し回数
+        rotate.setRepeatCount(1);
+        // animationが終わったそのまま表示にする
+        rotate.setFillAfter(true);
+
+        //アニメーションの開始
+        ans.startAnimation(rotate);
+
+    }
+
+    private void blinkText(TextView ans, long duration, long offset){
+        Animation anm = new AlphaAnimation(0.0f, 1.0f);
+        anm.setDuration(duration);
+        anm.setStartOffset(offset);
+        anm.setRepeatMode(Animation.REVERSE);
+        anm.setRepeatCount(Animation.INFINITE);
+        ans.startAnimation(anm);
+    }
+
 
 }
