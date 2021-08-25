@@ -8,6 +8,8 @@ import android.media.AudioAttributes;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.Build;
+import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
@@ -23,6 +25,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     SharedPreferences pref;
     SharedPreferences.Editor prefEditor;
+    private Random r;
 
     SoundPool soundPool;    // 効果音を鳴らす本体
     int mp3;          // 効果音データ（mp3）
@@ -141,9 +144,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = "WIN";
                 score = 2;
+                ChangeColor1();
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
+                ChangeColor2();
             } else {
                 result = "DRAW";
                 score = 1;
@@ -152,9 +157,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question > answer) {
                 result = "WIN";
                 score = 2;
+                ChangeColor1();
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
+                ChangeColor2();
             } else {
                 result = "DRAW";
                 score = 1;
@@ -216,6 +223,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //スコアが保存されていない場合
         String readText = pref.getString("temp_score", "0");
         textView.setText(readText);
+    }
+
+    //勝敗の色を変える
+    public void ChangeColor1() {
+        //  win の側を赤に　loseの方を　青に
+
+        TextView textView= (TextView) findViewById(R.id.answer);
+        textView.setBackgroundColor(Color.RED);
+
+        TextView txtView= (TextView) findViewById(R.id.question);
+        txtView.setBackgroundColor(Color.BLUE);
+    }
+
+    public void ChangeColor2(){
+        //  win の側を赤に　loseの方を　青に
+
+        TextView textView= (TextView) findViewById(R.id.question);
+        textView.setBackgroundColor(Color.RED);
+
+        TextView txtView= (TextView) findViewById(R.id.answer);
+        txtView.setBackgroundColor(Color.BLUE);
     }
 
 }
