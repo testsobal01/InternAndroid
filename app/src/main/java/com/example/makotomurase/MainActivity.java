@@ -23,7 +23,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     SharedPreferences.Editor prefEditor;
 
     SoundPool soundPool;    // 効果音を鳴らす本体（コンポ）
-    int mp3a;          // 効果音データ（mp3）
+    int mp3button;          // 効果音データ（mp3）
+    int mp3win;
+    int mp3lose;
+    int mp3draw;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +58,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     .build();
         }
 
-        mp3a = soundPool.load(this, R.raw.button, 1);
+        mp3button = soundPool.load(this, R.raw.button, 1);
+        mp3win = soundPool.load(this, R.raw.win, 1);
+        mp3lose = soundPool.load(this, R.raw.lose, 1);
+        mp3draw = soundPool.load(this, R.raw.draw, 1);
 
         // 起動時に関数を呼び出す
         setQuestionValue();
@@ -68,19 +74,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
         switch (id) {
             case R.id.button1:
-                soundPool.play(mp3a,1f , 1f, 0, 0, 1f);
                 vib.vibrate(1000);
                 setAnswerValue();
                 checkResult(true);
                 break;
             case R.id.button2:
-                soundPool.play(mp3a,1f , 1f, 0, 0, 1f);
                 vib.vibrate(2000);
                 setAnswerValue();
                 checkResult(false);
                 break;
             case R.id.button3:
-                soundPool.play(mp3a,1f , 1f, 0, 0, 1f);
+                soundPool.play(mp3button,1f , 1f, 0, 0, 1f);
                 vib.vibrate(3000);
                 setQuestionValue();
                 clearAnswerValue();
@@ -141,23 +145,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             // result には結果のみを入れる
             if (question < answer) {
                 result = "WIN";
+                soundPool.play(mp3win,1f , 1f, 0, 0, 1f);
                 score = 2;
             } else if (question > answer) {
                 result = "LOSE";
+                soundPool.play(mp3lose,1f , 1f, 0, 0, 1f);
                 score = -1;
             } else {
                 result = "DRAW";
+                soundPool.play(mp3draw,1f , 1f, 0, 0, 1f);
                 score = 1;
             }
         } else {
             if (question > answer) {
                 result = "WIN";
+                soundPool.play(mp3win,1f , 1f, 0, 0, 1f);
                 score = 2;
             } else if (question < answer) {
                 result = "LOSE";
+                soundPool.play(mp3lose,1f , 1f, 0, 0, 1f);
                 score = -1;
             } else {
                 result = "DRAW";
+                soundPool.play(mp3draw,1f , 1f, 0, 0, 1f);
                 score = 1;
             }
         }

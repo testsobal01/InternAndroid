@@ -13,7 +13,7 @@ import android.view.View;
 public class StartActivity extends AppCompatActivity {
 
     SoundPool soundPool;    // 効果音を鳴らす本体（コンポ）
-    int mp3b;          // 効果音データ（mp3）
+    int mp3start;          // 効果音データ（mp3）
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,11 +33,11 @@ public class StartActivity extends AppCompatActivity {
                     .build();
         }
 
-        mp3b = soundPool.load(this, R.raw.start, 1);
+        mp3start = soundPool.load(this, R.raw.start, 1);
     }
     public void startGame(View view)
     {
-        soundPool.play(mp3b,1f , 1f, 0, 0, 1f);
+        soundPool.play(mp3start,1f , 1f, 0, 0, 1f);
         startActivity(new Intent(getApplicationContext(),MainActivity.class));
     }
 }
