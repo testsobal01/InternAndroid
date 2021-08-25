@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">MiyazakiMiki</string>
+    <string name="app_name">Team-C</string>
     <string name="btn_high">ハイ</string>
     <string name="btn_low">ロー</string>
     <string name="btn_restart">リスタート</string>
