@@ -1,7 +1,9 @@
 package com.example.makotomurase;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
@@ -11,7 +13,11 @@ import android.widget.Toast;
 
 import java.util.Random;
 
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
+    SharedPreferences pref;
+    SharedPreferences.Editor prefEditor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +35,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // 起動時に関数を呼び出す
         setQuestionValue();
+
+        //プリファレンス
+        pref = getSharedPreferences("InternAndroid", MODE_PRIVATE);
+        prefEditor = pref.edit();
 
     }
 
@@ -145,6 +155,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView txtScore = (TextView) findViewById(R.id.text_score);
         int newScore = Integer.parseInt(txtScore.getText().toString()) + score;
         txtScore.setText(Integer.toString(newScore));
+    }
+
+    protected void onPause() {
+        super.onPause();
+
+        TextView textView = (TextView) findViewById(R.id.text_score);
+        prefEditor.putString("temp_score", textView.getText().toString());
+        prefEditor.commit();
+
+    }
+
+    protected void onResume() {
+        super.onResume();
+
+        TextView textView = (TextView) findViewById(R.id.text_score);
+
+        //スコアが保存されていない場合
+        String readText = pref.getString("temp_score", "0");
+        textView.setText(readText);
     }
 
 }
