@@ -2,8 +2,10 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Vibrator;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
@@ -18,6 +20,8 @@ import java.util.Random;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     TextView ans;
+    SharedPreferences pref;
+    SharedPreferences.Editor prefEditor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,30 +38,69 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btn3.setOnClickListener(this);
 
         ans = (TextView) findViewById(R.id.answer);
+        pref = getSharedPreferences("InternAndroid",MODE_PRIVATE);
+        prefEditor = pref.edit();
 
         // 起動時に関数を呼び出す
         setQuestionValue();
+
+
+        TextView textView = (TextView)findViewById(R.id.text_score);
+
+        String readText = pref.getString("text_input","保存されていません");
+        textView.setText(readText);
 
     }
 
     @Override
     public void onClick(View view) {
         int id = view.getId();
+        TextView textView;
         switch (id) {
             case R.id.button1:
                 setAnswerValue();
                 checkResult(true);
+                textView = (TextView)findViewById(R.id.text_score);
+
+                prefEditor.putString("text_input",textView.getText().toString());
+                prefEditor.commit();
                 break;
             case R.id.button2:
                 setAnswerValue();
                 checkResult(false);
+                textView = (TextView)findViewById(R.id.text_score);
+
+                prefEditor.putString("text_input",textView.getText().toString());
+                prefEditor.commit();
                 break;
             case R.id.button3:
                 setQuestionValue();
                 clearAnswerValue();
+                textView = (TextView)findViewById(R.id.text_score);
+
+                prefEditor.putString("text_input",textView.getText().toString());
+                prefEditor.commit();
                 break;
 
         }
+        Vibrator vib = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+        vib.vibrate(250);
+    }
+
+    @Override
+
+    protected void onPause() {
+        super.onPause();
+        Toast.makeText(this,"onPause",Toast.LENGTH_SHORT).show();
+
+    }
+
+    @Override
+
+    protected void onResume() {
+        super.onResume();
+        Toast.makeText(this,"onResume",Toast.LENGTH_SHORT).show();
+
 
     }
 
@@ -157,7 +200,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void setScore(int score) {
         TextView txtScore = (TextView) findViewById(R.id.text_score);
-        int newScore = Integer.parseInt(txtScore.getText().toString()) + score;
+        int oldscore =0;
+        if(!txtScore.getText().toString().equals("保存されていません")){
+            oldscore = Integer.parseInt(txtScore.getText().toString());
+        }
+        int newScore = oldscore + score;
         txtScore.setText(Integer.toString(newScore));
     }
 
