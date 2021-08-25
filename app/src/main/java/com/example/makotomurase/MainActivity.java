@@ -10,6 +10,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.media.AudioAttributes;
+import android.media.AudioManager;
+import android.media.SoundPool;
+import android.os.Build;
 
 import java.util.Random;
 
@@ -17,6 +21,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     SharedPreferences pref;
     SharedPreferences.Editor prefEditor;
+
+    SoundPool soundPool;    // 効果音を鳴らす本体（コンポ）
+    int mp3a;          // 効果音データ（mp3）
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +42,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         pref = getSharedPreferences("team-e",MODE_PRIVATE);
         prefEditor = pref.edit();
 
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            soundPool = new SoundPool(5, AudioManager.STREAM_MUSIC, 0);
+        } else {
+            AudioAttributes attr = new AudioAttributes.Builder()
+                    .setUsage(AudioAttributes.USAGE_MEDIA)
+                    .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+                    .build();
+            soundPool = new SoundPool.Builder()
+                    .setAudioAttributes(attr)
+                    .setMaxStreams(5)
+                    .build();
+        }
+
+        mp3a = soundPool.load(this, R.raw.button, 1);
+
         // 起動時に関数を呼び出す
         setQuestionValue();
 
@@ -46,16 +68,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
         switch (id) {
             case R.id.button1:
+                soundPool.play(mp3a,1f , 1f, 0, 0, 1f);
                 vib.vibrate(1000);
                 setAnswerValue();
                 checkResult(true);
                 break;
             case R.id.button2:
+                soundPool.play(mp3a,1f , 1f, 0, 0, 1f);
                 vib.vibrate(2000);
                 setAnswerValue();
                 checkResult(false);
                 break;
             case R.id.button3:
+                soundPool.play(mp3a,1f , 1f, 0, 0, 1f);
                 vib.vibrate(3000);
                 setQuestionValue();
                 clearAnswerValue();
