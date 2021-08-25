@@ -39,17 +39,7 @@
 
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/settei"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/settei" />
 
-
-        <TextView
-            android:id="@+id/text_result"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
 
         <LinearLayout
             android:id="@+id/text_answer"
@@ -58,9 +48,11 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/settei"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="10が設定されています。" />
+                android:text="@string/settei" />
+
 
             <TextView
                 android:id="@+id/text_result"
