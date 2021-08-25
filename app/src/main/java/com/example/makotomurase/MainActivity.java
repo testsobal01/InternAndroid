@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -128,6 +130,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 result = "DRAW";
                 score = 1;
             }
+
+            blinkText(txtViewQuestion,1000,500);
+
         }
 
 
@@ -185,6 +190,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //スコアが保存されていない場合
         String readText = pref.getString("temp_score", "0");
         textView.setText(readText);
+    }
+
+    private void blinkText(TextView txtView,long duration,long offset){
+        Animation anm = new AlphaAnimation(0.0f,1.0f);
+        anm.setDuration(duration);
+        anm.setStartOffset(offset);
+        anm.setRepeatCount(Animation.REVERSE);
+        anm.setRepeatCount(Animation.INFINITE);
+        txtView.startAnimation(anm);
     }
 
 }
