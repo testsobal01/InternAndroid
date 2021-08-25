@@ -2,9 +2,14 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Vibrator;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -12,6 +17,10 @@ import android.widget.Toast;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
+    SharedPreferences pref;
+    SharedPreferences.Editor prefEditor;
+    TextView Anitext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,30 +36,52 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
 
+        pref = getSharedPreferences("team-e",MODE_PRIVATE);
+        prefEditor = pref.edit();
+
         // 起動時に関数を呼び出す
         setQuestionValue();
-
+        Anitext = (TextView) findViewById(R.id.question);
     }
-
     @Override
     public void onClick(View view) {
         int id = view.getId();
+        Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
         switch (id) {
             case R.id.button1:
+                vib.vibrate(1000);
                 setAnswerValue();
                 checkResult(true);
                 break;
             case R.id.button2:
+                vib.vibrate(2000);
                 setAnswerValue();
                 checkResult(false);
                 break;
             case R.id.button3:
+                vib.vibrate(3000);
                 setQuestionValue();
                 clearAnswerValue();
                 break;
 
         }
 
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        TextView textView = (TextView)findViewById(R.id.text_score);
+        prefEditor.putString("keep_score",textView.getText().toString());
+        prefEditor.commit();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        TextView textView = (TextView)findViewById(R.id.text_score);
+        String readText = pref.getString("keep_score","0");
+        textView.setText(readText);
     }
 
     private void clearAnswerValue() {
@@ -89,22 +120,30 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = "WIN";
                 score = 2;
+                transAnimationTest(txtViewAnswer);
             } else if (question > answer) {
                 result = "LOSE";
+                transAnimationTest(txtViewQuestion);
                 score = -1;
             } else {
                 result = "DRAW";
                 score = 1;
+                transAnimationTest(txtViewQuestion);
+                transAnimationTest(txtViewAnswer);
             }
         } else {
             if (question > answer) {
                 result = "WIN";
+                transAnimationTest(txtViewAnswer);
                 score = 2;
             } else if (question < answer) {
                 result = "LOSE";
+                transAnimationTest(txtViewQuestion);
                 score = -1;
             } else {
                 result = "DRAW";
+                transAnimationTest(txtViewQuestion);
+                transAnimationTest(txtViewAnswer);
                 score = 1;
             }
         }
@@ -148,4 +187,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         txtScore.setText(Integer.toString(newScore));
     }
 
+    public void transAnimationTest( TextView v ){
+        TranslateAnimation trans = new TranslateAnimation(
+                // 自分の幅の2倍左の位置から開始
+                Animation.RELATIVE_TO_SELF, 1,
+                // 自分の幅の5倍左の位置（元の位置）で終了
+                Animation.RELATIVE_TO_SELF, 0,
+                // 縦には移動しない
+                Animation.RELATIVE_TO_SELF, 0,
+                Animation.RELATIVE_TO_SELF, 0);
+
+        // 2秒かけてアニメーションする
+        trans.setDuration( 1000 );
+
+        // アニメーション終了時の表示状態を維持する
+        trans.setFillEnabled(true);
+        trans.setFillAfter  (true);
+
+        // アニメーションを開始
+        v.startAnimation(trans);
+    }
 }
