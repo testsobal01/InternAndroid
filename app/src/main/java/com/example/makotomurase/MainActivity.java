@@ -4,6 +4,10 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.SharedPreferences;
+import android.media.AudioAttributes;
+import android.media.AudioManager;
+import android.media.SoundPool;
+import android.os.Build;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
@@ -23,10 +27,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     SharedPreferences.Editor prefEditor;
     private Random r;
 
+    SoundPool soundPool;    // 効果音を鳴らす本体
+    int mp3;          // 効果音データ（mp3）
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            soundPool = new SoundPool(5, AudioManager.STREAM_MUSIC, 0);
+        } else {
+            AudioAttributes attr = new AudioAttributes.Builder()
+                    .setUsage(AudioAttributes.USAGE_MEDIA)
+                    .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+                    .build();
+            soundPool = new SoundPool.Builder()
+                    .setAudioAttributes(attr)
+                    .setMaxStreams(5)
+                    .build();
+        }
+
+        mp3 = soundPool.load(this, R.raw.bgm, 1);
+        //CDを入れて読み込む時の読み込み処理
+
+    // 電源を入れて初期化する
 
         Button btn1 = (Button) findViewById(R.id.button1);
         btn1.setOnClickListener(this);
@@ -43,12 +68,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //プリファレンス
         pref = getSharedPreferences("InternAndroid", MODE_PRIVATE);
         prefEditor = pref.edit();
-
     }
 
     @Override
-
     public void onClick(View view) {
+        on();
         int id = view.getId();
         switch (id) {
             case R.id.button1:
@@ -70,11 +94,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.button1:
             case R.id.button2:
             case R.id.button3:
+                //各ボタンにバイブレーション実装。
                 Vibrator vib =(Vibrator) getSystemService(VIBRATOR_SERVICE);
                 vib.vibrate(1000);
                 break;
+                //バイブレーションを１秒間鳴らす。
         }
 
+    }
+
+    public void on(){
+        //再生ボタン押された時の再生処理
+        soundPool.play(mp3,1f , 1f, 0, 0, 1f);
     }
 
     private void clearAnswerValue() {
