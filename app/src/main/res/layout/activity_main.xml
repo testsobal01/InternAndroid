@@ -36,7 +36,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="10が設定されています。" />
+        android:text="@string/setting" />
 
 
     <TextView
@@ -69,9 +69,9 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="#ff00ff"
+            android:background="@color/default1"
             android:gravity="center"
-            android:text="値1"
+            android:text="@string/atai1"
             android:textSize="60sp" />
 
         <TextView
@@ -79,9 +79,9 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="#ffff00"
+            android:background="@color/default2"
             android:gravity="center"
-            android:text="値2"
+            android:text="@string/atai2"
             android:textSize="60sp" />
     </LinearLayout>
 
