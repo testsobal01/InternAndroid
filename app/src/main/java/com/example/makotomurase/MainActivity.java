@@ -2,6 +2,7 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
@@ -89,23 +90,35 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = "WIN";
                 score = 2;
+                txtViewQuestion.setBackgroundColor(getResources().getColor(R.color.colorWin1));
+                txtViewAnswer.setBackgroundColor(getResources().getColor(R.color.colorWin2));
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
+                txtViewQuestion.setBackgroundColor(getResources().getColor(R.color.colorLose1));
+                txtViewAnswer.setBackgroundColor(getResources().getColor(R.color.colorLose2));
             } else {
                 result = "DRAW";
                 score = 1;
+                txtViewQuestion.setBackgroundColor(getResources().getColor(R.color.default1));
+                txtViewAnswer.setBackgroundColor(getResources().getColor(R.color.default2));
             }
         } else {
             if (question > answer) {
                 result = "WIN";
                 score = 2;
+                txtViewQuestion.setBackgroundColor(getResources().getColor(R.color.colorWin1));
+                txtViewAnswer.setBackgroundColor(getResources().getColor(R.color.colorWin2));
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
+                txtViewQuestion.setBackgroundColor(getResources().getColor(R.color.colorLose1));
+                txtViewAnswer.setBackgroundColor(getResources().getColor(R.color.colorLose2));
             } else {
                 result = "DRAW";
                 score = 1;
+                txtViewQuestion.setBackgroundColor(getResources().getColor(R.color.default1));
+                txtViewAnswer.setBackgroundColor(getResources().getColor(R.color.default2));
             }
         }
 
