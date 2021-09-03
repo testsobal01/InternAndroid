@@ -3,8 +3,10 @@ package com.example.makotomurase;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.graphics.Color;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Vibrator;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -13,6 +15,10 @@ import android.widget.Toast;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
+    // プリファレンスとプレファレンスの編集クラスの定義
+    SharedPreferences pref;
+    SharedPreferences.Editor prefEditor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,9 +34,38 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
 
+        //　バイブレーション機能の追加
+        Vibrator vib0 = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+        vib0.vibrate(500);
+      
+        // プリファレンスの生成
+        pref = getSharedPreferences("AndroidIntern", MODE_PRIVATE);
+        prefEditor = pref.edit();
+
         // 起動時に関数を呼び出す
         setQuestionValue();
 
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        // Toast.makeText(this, "onPause", Toast.LENGTH_SHORT).show();
+        // プリファレンスの保存
+        TextView scoreTextView = (TextView) findViewById(R.id.text_score);
+        prefEditor.putString("score", scoreTextView.getText().toString());
+        prefEditor.commit();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        // プリファレンスの読み込み
+        TextView scoreTextView = (TextView) findViewById(R.id.text_score);
+        String readScoreText = pref.getString("score", "0");
+        scoreTextView.setText(readScoreText);
     }
 
     @Override
@@ -38,14 +73,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int id = view.getId();
         switch (id) {
             case R.id.button1:
+                //　バイブレーション機能の追加
+                Vibrator vib1 = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+                vib1.vibrate(150);
+
                 setAnswerValue();
                 checkResult(true);
                 break;
+
             case R.id.button2:
+                //　バイブレーション機能の追加
+                Vibrator vib2 = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+                vib2.vibrate(150);
+
                 setAnswerValue();
                 checkResult(false);
                 break;
+
             case R.id.button3:
+                //　バイブレーション機能の追加
+                Vibrator vib3 = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+                vib3.vibrate(150);
+
                 setQuestionValue();
                 clearAnswerValue();
                 break;
