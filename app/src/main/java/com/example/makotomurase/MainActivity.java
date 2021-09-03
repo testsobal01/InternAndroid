@@ -1,5 +1,6 @@
 package com.example.makotomurase;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -212,13 +213,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // 続けて遊べるように値を更新
         setNextQuestion();
 
+        // スコアを取得
+        TextView txtScore = (TextView) findViewById(R.id.text_score);
+        int scoreValue1 = Integer.parseInt(txtScore.getText().toString());
         // スコアを表示
         setScore(score);
 
-        TextView txtScore = (TextView) findViewById(R.id.text_score);
-        int scoreValue = Integer.parseInt(txtScore.getText().toString());
-        if (scoreValue >= 10) {
+        int scoreValue2 = Integer.parseInt(txtScore.getText().toString());
+        int score10Diff = (scoreValue2 / 10) - (scoreValue1 / 10);
+        if (score10Diff >= 1) {
             soundPlayer.playCelebSound();
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("おめでとう！");
+            builder.setMessage(txtResult.getText().toString());
+            builder.show();
         }
 
     }
