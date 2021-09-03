@@ -1,10 +1,10 @@
 package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
-
-import android.graphics.Color;
+import android.provider.ContactsContract;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.graphics.Color;
 import android.os.Vibrator;
 import android.view.View;
 import android.widget.Button;
@@ -52,7 +52,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 setQuestionValue();
                 clearAnswerValue();
                 break;
-
         }
 
     }
