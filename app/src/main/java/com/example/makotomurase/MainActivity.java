@@ -2,6 +2,7 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
@@ -82,6 +83,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // 結果を示す文字列を入れる変数を用意
         String result;
         int score = 0;
+        View view1 =(View) findViewById(R.id.question);
+        View view2 =(View) findViewById(R.id.answer);
 
         // Highが押された
         if (isHigh) {
@@ -89,23 +92,35 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = "WIN";
                 score = 2;
+                view1.setBackgroundColor(Color.parseColor("#0000ff"));
+                view2.setBackgroundColor(Color.parseColor("#ff0000"));
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
+                view1.setBackgroundColor(Color.parseColor("#ff0000"));
+                view2.setBackgroundColor(Color.parseColor("#0000ff"));
             } else {
                 result = "DRAW";
                 score = 1;
+                view1.setBackgroundColor(Color.parseColor("#ff00ff"));
+                view2.setBackgroundColor(Color.parseColor("#ffff00"));
             }
         } else {
             if (question > answer) {
                 result = "WIN";
                 score = 2;
+                view1.setBackgroundColor(Color.parseColor("#0000ff"));
+                view2.setBackgroundColor(Color.parseColor("#ff0000"));
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
+                view1.setBackgroundColor(Color.parseColor("#ff0000"));
+                view2.setBackgroundColor(Color.parseColor("#0000ff"));
             } else {
                 result = "DRAW";
                 score = 1;
+                view1.setBackgroundColor(Color.parseColor("#ff00ff"));
+                view2.setBackgroundColor(Color.parseColor("#ffff00"));
             }
         }
 
