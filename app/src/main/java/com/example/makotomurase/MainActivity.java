@@ -13,6 +13,8 @@ import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
+    SoundPlayer soundPlayer;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,6 +32,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // 起動時に関数を呼び出す
         setQuestionValue();
 
+        soundPlayer = new SoundPlayer(this);
+
     }
 
     @Override
@@ -39,14 +43,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.button1:
                 setAnswerValue();
                 checkResult(true);
+                soundPlayer.playHitSound();
                 break;
             case R.id.button2:
                 setAnswerValue();
                 checkResult(false);
+                soundPlayer.playOverSound();
                 break;
             case R.id.button3:
                 setQuestionValue();
                 clearAnswerValue();
+                soundPlayer.playResetSound();
                 break;
 
         }
@@ -119,6 +126,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // スコアを表示
         setScore(score);
+
+        TextView txtScore = (TextView) findViewById(R.id.text_score);
+        int scoreValue = Integer.parseInt(txtScore.getText().toString());
+        if (scoreValue >= 10) {
+            soundPlayer.playCelebSound();
+        }
 
     }
 
