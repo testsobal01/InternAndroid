@@ -4,6 +4,7 @@
     <string name="btn_low">Low</string>
     <string name="btn_restart">Restart</string>
     <string name="label_score">Score：</string>
+    <string name="img_description">image1</string>
     <string name="message">10 is set.</string>
     <string name="message2">value2</string>
     <string name="message3">result:</string>
