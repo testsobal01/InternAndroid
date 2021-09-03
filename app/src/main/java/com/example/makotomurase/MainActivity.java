@@ -2,6 +2,7 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -14,6 +15,9 @@ import android.widget.Toast;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+    SharedPreferences pref;
+    SharedPreferences.Editor prefEditor;
+    int score = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +36,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // 起動時に関数を呼び出す
         setQuestionValue();
 
+        pref = getSharedPreferences("AndroidSeninor", MODE_PRIVATE);
+        prefEditor = pref.edit();
+
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        TextView textView = (TextView)findViewById(R.id.text_score);
+        prefEditor.putString("main_input",textView.getText().toString());
+        prefEditor.commit();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        TextView textView =(TextView)findViewById(R.id.text_score);
+        String readText = pref.getString("main_input","0");
+        textView.setText(readText);
     }
 
     @Override
@@ -41,7 +64,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.button1:
                 setAnswerValue();
                 checkResult(true);
-                Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+                Vibrator vib = (Vibrator) getSystemService(VIBRATOR_SERVICE);
                 vib.vibrate(5000);
                 break;
             case R.id.button2:
@@ -51,6 +74,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.button3:
                 setQuestionValue();
                 clearAnswerValue();
+                TextView txtScore = (TextView) findViewById(R.id.text_score);
+                int new_Score = 0;
+                txtScore.setText(Integer.toString(new_Score));
                 break;
 
         }
@@ -85,7 +111,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView txtResult = (TextView) findViewById(R.id.text_result);
         // 結果を示す文字列を入れる変数を用意
         String result;
-        int score = 0;
+
 
         // Highが押された
         if (isHigh) {
