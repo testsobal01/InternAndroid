@@ -14,7 +14,13 @@ import android.view.MenuItem;
 import android.os.Vibrator;
 import android.view.View;
 import android.view.animation.RotateAnimation;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.AnimationSet;
+import android.view.animation.RotateAnimation;
+import android.view.animation.ScaleAnimation;
+import android.view.animation.TranslateAnimation;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -200,14 +206,30 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void setScore(int score) {
-        TextView textView = (TextView) findViewById(R.id.text_score);
-        String text = textView.getText().toString();
-
+      
+        TextView txtScore = (TextView) findViewById(R.id.text_score);
+        String text = txtScore.getText().toString();
+      
         if (text.equals("保存されていません")) {
             textView.setText(Integer.toString(score));
         } else {
             int newScore = Integer.parseInt(textView.getText().toString()) + score;
             textView.setText(Integer.toString(newScore));
+        }
+      
+        int newScore = Integer.parseInt(text) + score;
+        txtScore.setText(Integer.toString(newScore));
+        if(newScore >= 10) {
+            ImageView img = (ImageView) findViewById(R.id.Winner1);
+            img.setImageResource(R.drawable.pose_win_girl);
+            AnimationSet set = new AnimationSet(true);
+
+            RotateAnimation rotate = new RotateAnimation(0,720,img.getWidth()/2,img.getHeight()/2);
+            set.addAnimation(rotate);
+
+            set.setDuration(2000);
+            img.startAnimation(set);
+          
         }
     }
 
