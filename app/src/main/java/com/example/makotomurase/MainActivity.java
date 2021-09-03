@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Vibrator;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -31,6 +32,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // 起動時に関数を呼び出す
         setQuestionValue();
 
+
+
     }
 
     @Override
@@ -40,14 +43,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.button1:
                 setAnswerValue();
                 checkResult(true);
+                Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+                vib.vibrate(5000);
                 break;
+
             case R.id.button2:
                 setAnswerValue();
                 checkResult(false);
+                Vibrator vib2 = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+                vib2.vibrate(5000);
                 break;
+
             case R.id.button3:
                 setQuestionValue();
                 clearAnswerValue();
+                Vibrator vib3 = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+                vib3.vibrate(5000);
                 break;
 
         }
@@ -83,41 +94,48 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // 結果を示す文字列を入れる変数を用意
         String result;
         int score = 0;
+      
         View view1 =(View) findViewById(R.id.question);
         View view2 =(View) findViewById(R.id.answer);
+      
+        String resultText = getString(R.string.label_result);//結果テキストを変数に代入
+        String winText = getString(R.string.label_win);
+        String loseText = getString(R.string.label_lose);
+        String drawText = getString(R.string.label_draw);
+      
 
         // Highが押された
         if (isHigh) {
             // result には結果のみを入れる
             if (question < answer) {
-                result = "WIN";
+                result = winText;
                 score = 2;
                 view1.setBackgroundColor(Color.parseColor("#0000ff"));
                 view2.setBackgroundColor(Color.parseColor("#ff0000"));
             } else if (question > answer) {
-                result = "LOSE";
+                result = loseText;
                 score = -1;
                 view1.setBackgroundColor(Color.parseColor("#ff0000"));
                 view2.setBackgroundColor(Color.parseColor("#0000ff"));
             } else {
-                result = "DRAW";
+                result = drawText;
                 score = 1;
                 view1.setBackgroundColor(Color.parseColor("#ff00ff"));
                 view2.setBackgroundColor(Color.parseColor("#ffff00"));
             }
         } else {
             if (question > answer) {
-                result = "WIN";
+                result = winText;
                 score = 2;
                 view1.setBackgroundColor(Color.parseColor("#0000ff"));
                 view2.setBackgroundColor(Color.parseColor("#ff0000"));
             } else if (question < answer) {
-                result = "LOSE";
+                result = loseText;
                 score = -1;
                 view1.setBackgroundColor(Color.parseColor("#ff0000"));
                 view2.setBackgroundColor(Color.parseColor("#0000ff"));
             } else {
-                result = "DRAW";
+                result = drawText;
                 score = 1;
                 view1.setBackgroundColor(Color.parseColor("#ff00ff"));
                 view2.setBackgroundColor(Color.parseColor("#ffff00"));
@@ -127,7 +145,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // 最後にまとめてToast表示の処理とTextViewへのセットを行う
         Toast.makeText(this, result, Toast.LENGTH_LONG).show();
-        txtResult.setText("結果：" + question + ":" + answer + "(" + result + ")");
+        txtResult.setText(resultText + question + ":" + answer + "(" + result + ")");
 
         // 続けて遊べるように値を更新
         setNextQuestion();
