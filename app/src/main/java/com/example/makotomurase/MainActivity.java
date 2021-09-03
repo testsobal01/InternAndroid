@@ -2,6 +2,8 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
@@ -109,10 +111,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         }
 
+        if(result=="WIN"){
+            txtViewAnswer.setBackgroundColor(Color.RED);
+        }
+        else if(result=="DRAW"){
+            txtViewAnswer.setBackgroundColor(Color.YELLOW);
+        }
+        else if(result=="LOSE"){
+            txtViewAnswer.setBackgroundColor(Color.argb(255,135,206,235));
+        }
+
 
         // 最後にまとめてToast表示の処理とTextViewへのセットを行う
         Toast.makeText(this, result, Toast.LENGTH_LONG).show();
         txtResult.setText("結果：" + question + ":" + answer + "(" + result + ")");
+
+
 
         // 続けて遊べるように値を更新
         setNextQuestion();
