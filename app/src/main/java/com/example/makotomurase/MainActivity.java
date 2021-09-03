@@ -104,6 +104,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Vibrator vib3 = (Vibrator) getSystemService(VIBRATOR_SERVICE);
                 vib3.vibrate(5000);
                 soundPool.play(sound, 1.0f, 1.0f, 0, 0, 1);
+                View view1 = (View) findViewById(R.id.question_back);
+                View view2 = (View) findViewById(R.id.answer_back);
+                view1.setBackgroundColor(Color.parseColor("#ff00ff"));
+                view2.setBackgroundColor(Color.parseColor("#ffff00"));
                 break;
 
         }
