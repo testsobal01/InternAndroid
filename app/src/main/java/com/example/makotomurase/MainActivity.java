@@ -18,6 +18,8 @@ import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
+    SoundPlayer soundPlayer;
+  
     // プリファレンスとプレファレンスの編集クラスの定義
     SharedPreferences pref;
     SharedPreferences.Editor prefEditor;
@@ -68,6 +70,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // 起動時に関数を呼び出す
         setQuestionValue();
 
+        soundPlayer = new SoundPlayer(this);
+
     }
 
     @Override
@@ -102,6 +106,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 setAnswerValue();
                 checkResult(true);
+                soundPlayer.playHitSound();
                 break;
 
             case R.id.button2:
@@ -111,6 +116,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 setAnswerValue();
                 checkResult(false);
+                soundPlayer.playOverSound();
                 break;
 
             case R.id.button3:
@@ -120,6 +126,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 setQuestionValue();
                 clearAnswerValue();
+                soundPlayer.playResetSound();
                 break;
         }
 
@@ -207,6 +214,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // スコアを表示
         setScore(score);
+
+        TextView txtScore = (TextView) findViewById(R.id.text_score);
+        int scoreValue = Integer.parseInt(txtScore.getText().toString());
+        if (scoreValue >= 10) {
+            soundPlayer.playCelebSound();
+        }
 
     }
 
