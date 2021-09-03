@@ -14,10 +14,15 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.graphics.Color;
+import android.media.SoundPool;
+import android.media.AudioManager;
 
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
+    private SoundPool m_soundPool;
+    private int button,lose1,lose2,restart,start,win1,win2;
 
     private Animation animation;
   
@@ -43,6 +48,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // 起動時に関数を呼び出す
         setQuestionValue();
 
+        m_soundPool = new SoundPool(1,AudioManager.STREAM_MUSIC,0);
+        button = m_soundPool.load(this.getApplicationContext(), R.raw.button, 1);
+        lose2 = m_soundPool.load(this.getApplicationContext(), R.raw.  lose2, 1);
+        restart = m_soundPool.load(this.getApplicationContext(), R.raw.restart, 1);
+        win1 = m_soundPool.load(this.getApplicationContext(), R.raw.win1, 1);
 
         pref=getSharedPreferences("AndroidSeminor",MODE_PRIVATE);
         prefEditor=pref.edit();
@@ -57,23 +67,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 vib.vibrate(50);
                 setAnswerValue();
                 checkResult(true);
+                m_soundPool.play(button, 1.0f, 1.0f, 1, 0, 1.0f);
                 break;
             case R.id.button2:
                 Vibrator vib2=(Vibrator)getSystemService(VIBRATOR_SERVICE);
                 vib2.vibrate(50);
                 setAnswerValue();
                 checkResult(false);
+                m_soundPool.play(button, 1.0f, 1.0f, 1, 0, 1.0f);
                 break;
             case R.id.button3:
                 Vibrator vib3=(Vibrator)getSystemService(VIBRATOR_SERVICE);
                 vib3.vibrate(50);
                 setQuestionValue();
                 clearAnswerValue();
+                m_soundPool.play(restart, 1.0f, 1.0f, 1, 0, 1.0f);
                 break;
 
         }
 
     }
+
 
     private void clearAnswerValue() {
         TextView txtView = (TextView) findViewById(R.id.answer);
@@ -139,14 +153,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if(result == "WIN") {
             txtResult.setTextColor(Color.RED);
             back.setBackgroundColor(Color.RED);
+            m_soundPool.play(win1, 1.0f, 1.0f, 2, 0, 1.0f);
             txtViewAnswer.startAnimation(animation);
         }else if(result == "LOSE"){
             txtResult.setTextColor(Color.BLUE);
             back.setBackgroundColor(Color.BLUE);
+            m_soundPool.play(lose2, 1.0f, 1.0f, 2, 0, 1.0f);
             txtViewQuestion.startAnimation(animation);
         }else{
             txtResult.setTextColor(Color.BLACK);
             back.setBackgroundColor(Color.BLACK);
+            m_soundPool.play(restart, 1.0f, 1.0f, 1, 0, 1.0f);
         }
         ans.show();
 
