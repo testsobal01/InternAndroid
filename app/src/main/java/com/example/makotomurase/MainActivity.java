@@ -7,13 +7,18 @@ import android.os.CountDownTimer;
 import android.graphics.Color;
 import android.os.Vibrator;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
+    private ImageView imageView;//イメージビュー作成
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +39,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+    private void blinkText(TextView txtView, long duration, long offset){
+        Animation anm = new AlphaAnimation(0.0f, 1.0f);
+        anm.setDuration(duration);
+        anm.setStartOffset(offset);
+        anm.setRepeatMode(Animation.REVERSE);
+        anm.setRepeatCount(Animation.INFINITE);
+        txtView.startAnimation(anm);
+    }
+
     @Override
     public void onClick(View view) {
         int id = view.getId();
@@ -42,8 +56,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 setAnswerValue();
                 checkResult(true);
                 Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
-                vib.vibrate(5000);
-                break;
+                vib.vibrate(10000);
+
             case R.id.button2:
                 setAnswerValue();
                 checkResult(false);
