@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -14,6 +16,8 @@ import android.graphics.Color;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
+    private Animation animation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +32,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
+
+        animation = AnimationUtils.loadAnimation(this, R.anim.animation_set);
 
         // 起動時に関数を呼び出す
         setQuestionValue();
@@ -125,9 +131,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if(result == "WIN") {
             txtResult.setTextColor(Color.RED);
             back.setBackgroundColor(Color.RED);
+            txtViewAnswer.startAnimation(animation);
         }else if(result == "LOSE"){
             txtResult.setTextColor(Color.BLUE);
             back.setBackgroundColor(Color.BLUE);
+            txtViewQuestion.startAnimation(animation);
         }else{
             txtResult.setTextColor(Color.BLACK);
             back.setBackgroundColor(Color.BLACK);
