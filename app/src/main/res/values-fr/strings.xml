@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">TakumaHirano</string>
+    <string name="btn_high">haute</string>
+    <string name="btn_low">Meugler</string>
+    <string name="btn_restart">Redémarrage</string>
+    <string name="label_score">But：</string>
+    <string name="message">10 est réglé.</string>
+    <string name="message2">valeur2</string>
+    <string name="message3">résultat:</string>
+</resources>
