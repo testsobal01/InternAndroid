@@ -2,6 +2,7 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.ColorSpace;
 import android.os.Bundle;
@@ -16,6 +17,27 @@ import android.widget.Toast;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+    SharedPreferences pref;
+    SharedPreferences.Editor prefEditor;
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        TextView textView = (TextView) findViewById(R.id.text_score);
+
+        String readText = pref.getString("main_input", "保存されていません");
+        textView.setText(readText);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        TextView textView = (TextView) findViewById(R.id.text_score);
+
+        prefEditor.putString("main_input", textView.getText().toString());
+        prefEditor.commit();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +56,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // 起動時に関数を呼び出す
         setQuestionValue();
 
+        pref = getSharedPreferences("AndroidSeminor", MODE_PRIVATE);
+        prefEditor = pref.edit();
+
     }
 
     @Override
@@ -41,19 +66,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int id = view.getId();
         switch (id) {
             case R.id.button1:
-                Vibrator vib=(Vibrator)getSystemService(VIBRATOR_SERVICE);
+                Vibrator vib = (Vibrator) getSystemService(VIBRATOR_SERVICE);
                 vib.vibrate(300);
                 setAnswerValue();
                 checkResult(true);
                 break;
             case R.id.button2:
-                Vibrator vib2=(Vibrator)getSystemService(VIBRATOR_SERVICE);
+                Vibrator vib2 = (Vibrator) getSystemService(VIBRATOR_SERVICE);
                 vib2.vibrate(300);
                 setAnswerValue();
                 checkResult(false);
                 break;
             case R.id.button3:
-                Vibrator vib3=(Vibrator)getSystemService(VIBRATOR_SERVICE);
+                Vibrator vib3 = (Vibrator) getSystemService(VIBRATOR_SERVICE);
                 vib3.vibrate(300);
                 setQuestionValue();
                 clearAnswerValue();
@@ -159,9 +184,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void setScore(int score) {
-        TextView txtScore = (TextView) findViewById(R.id.text_score);
-        int newScore = Integer.parseInt(txtScore.getText().toString()) + score;
-        txtScore.setText(Integer.toString(newScore));
+        TextView textView = (TextView) findViewById(R.id.text_score);
+        String text = textView.getText().toString();
+
+        if (text.equals("保存されていません")) {
+            textView.setText(Integer.toString(score));
+        } else {
+            int newScore = Integer.parseInt(textView.getText().toString()) + score;
+            textView.setText(Integer.toString(newScore));
+        }
     }
 
 }
+
