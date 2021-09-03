@@ -2,6 +2,7 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
@@ -48,8 +49,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 setQuestionValue();
                 clearAnswerValue();
                 break;
-
         }
+
 
     }
 
@@ -109,6 +110,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         }
 
+        switch (score){
+            case 2:
+                txtViewAnswer.setBackgroundColor(Color.RED);
+                txtViewQuestion.setBackgroundColor(Color.BLUE);
+                break;
+            case -1:
+                txtViewAnswer.setText(txtViewAnswer.getText().toString());
+                txtViewAnswer.setBackgroundColor(Color.BLUE);
+                txtViewQuestion.setBackgroundColor(Color.RED);
+                break;
+            case 1:
+                txtViewAnswer.setText(txtViewAnswer.getText().toString());
+                txtViewAnswer.setBackgroundColor(Color.YELLOW);
+                txtViewQuestion.setBackgroundColor(Color.YELLOW);
+        }
 
         // 最後にまとめてToast表示の処理とTextViewへのセットを行う
         Toast.makeText(this, result, Toast.LENGTH_LONG).show();
@@ -121,6 +137,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setScore(score);
 
     }
+
 
     private void setNextQuestion() {
         // 第１引数がカウントダウン時間、第２引数は途中経過を受け取る間隔
