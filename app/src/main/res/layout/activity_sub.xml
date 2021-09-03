@@ -17,8 +17,8 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="team-a"
-            android:textSize="100sp" />
+            android:text="★team-a★"
+            android:textSize="80sp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -26,7 +26,7 @@
             android:layout_marginLeft="60dp"
             android:gravity="center"
             android:text="中川　世羅"
-            android:textSize="40sp" />
+            android:textSize="55sp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -34,7 +34,7 @@
             android:layout_marginLeft="60dp"
             android:gravity="center"
             android:text="小西　優香"
-            android:textSize="40sp" />
+            android:textSize="55sp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -42,7 +42,7 @@
             android:layout_marginLeft="60dp"
             android:gravity="center"
             android:text="堀田　唯人"
-            android:textSize="40sp" />
+            android:textSize="55sp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -50,7 +50,7 @@
             android:layout_marginLeft="60dp"
             android:gravity="center"
             android:text="長井　徹也"
-            android:textSize="40sp" />
+            android:textSize="55sp" />
 
 
     </LinearLayout>
@@ -64,7 +64,8 @@
         android:layout_marginBottom="50dp"
         android:gravity="center"
         android:text="start"
-        android:textSize="80sp" />
+        android:textSize="70sp"
+        android:background="#ffa"/>
 
 
 </LinearLayout>

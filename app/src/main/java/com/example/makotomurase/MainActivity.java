@@ -115,6 +115,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Toast.makeText(this, result, Toast.LENGTH_LONG).show();
         txtResult.setText("結果：" + question + ":" + answer + "(" + result + ")");
 
+        if(score >= 10){
+
+            Intent intent2 = new Intent(this, SubActivity2.class);
+            intent2.putExtra("KEY", "おめでとう");
+            startActivity(intent2);
+
+        }
+
         // 続けて遊べるように値を更新
         setNextQuestion();
 
