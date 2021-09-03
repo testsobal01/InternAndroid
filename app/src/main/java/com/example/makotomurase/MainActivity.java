@@ -7,6 +7,8 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -123,12 +125,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         if(result=="WIN"){
             txtViewAnswer.setBackgroundColor(Color.RED);
+            blinkText(txtViewQuestion,1000,100);
         }
         else if(result=="DRAW"){
             txtViewAnswer.setBackgroundColor(Color.YELLOW);
+            blinkText(txtViewQuestion,1000,100);
+            blinkText(txtViewAnswer,1000,100);
+
         }
         else if(result=="LOSE"){
             txtViewAnswer.setBackgroundColor(Color.argb(255,135,206,235));
+            blinkText(txtViewAnswer,1000,100);
         }
 
 
@@ -169,6 +176,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView txtScore = (TextView) findViewById(R.id.text_score);
         int newScore = Integer.parseInt(txtScore.getText().toString()) + score;
         txtScore.setText(Integer.toString(newScore));
+    }
+
+    private void blinkText(TextView txtView, long duration, long offset){
+        Animation anm = new AlphaAnimation(0.0f, 1.0f);
+        anm.setDuration(duration);
+        anm.setStartOffset(offset);
+        anm.setRepeatMode(Animation.REVERSE);
+        anm.setRepeatCount(Animation.RELATIVE_TO_PARENT);
+        txtView.startAnimation(anm);
     }
 
 }
