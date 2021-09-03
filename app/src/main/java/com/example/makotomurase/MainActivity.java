@@ -2,7 +2,6 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
@@ -13,9 +12,6 @@ import android.widget.Toast;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
-
-    SharedPreferences pref; //プリファレンス
-    SharedPreferences.Editor prefEditor;    //プリファレンス編集クラス
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,21 +30,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // 起動時に関数を呼び出す
         setQuestionValue();
 
-        //保存先ファイル名_scorekeep
-        pref = getSharedPreferences("scorekeep", MODE_PRIVATE);
-        prefEditor = pref.edit();
-
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-        //スコア取得
-        TextView textView = (TextView) findViewById(R.id.text_score);
-        //保存したスコアを取得するためのファイル指定。保存されていない用のメッセージ
-        String readText = pref.getString("score_input","0");
-        textView.setText(readText);
     }
 
     @Override
@@ -66,11 +47,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.button3:
                 setQuestionValue();
                 clearAnswerValue();
-
-                TextView textView = (TextView) findViewById(R.id.text_score);
-                textView.setText("0");
-
                 break;
+
         }
 
     }
@@ -167,17 +145,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView txtScore = (TextView) findViewById(R.id.text_score);
         int newScore = Integer.parseInt(txtScore.getText().toString()) + score;
         txtScore.setText(Integer.toString(newScore));
-    }
-
-    @Override
-    protected void onPause(){
-        super.onPause();
-
-        //テキストビュー取得
-        TextView textView = (TextView)findViewById(R.id.text_score);
-        //この箱に文字列保存
-        prefEditor.putString("score_input",textView.getText().toString());
-        prefEditor.commit();
     }
 
 }
