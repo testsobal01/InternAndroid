@@ -15,6 +15,9 @@ import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
+    // Sound
+    private SoundPlayer soundPlayer;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,6 +35,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // 起動時に関数を呼び出す
         setQuestionValue();
 
+        soundPlayer = new SoundPlayer(this);
+
     }
 
     @Override
@@ -39,14 +44,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int id = view.getId();
         switch (id) {
             case R.id.button1:
+                soundPlayer.playSoundOne();
                 setAnswerValue();
                 checkResult(true);
                 break;
             case R.id.button2:
+                soundPlayer.playSoundOne();
                 setAnswerValue();
                 checkResult(false);
                 break;
             case R.id.button3:
+                soundPlayer.playSoundOne();
                 setQuestionValue();
                 clearAnswerValue();
                 break;
@@ -87,6 +95,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // Highが押された
         if (isHigh) {
+            soundPlayer.playSoundOne();
             // result には結果のみを入れる
             if (question < answer) {
                 result = "WIN";
@@ -99,6 +108,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 score = 1;
             }
         } else {
+            soundPlayer.playSoundOne();
             if (question > answer) {
                 result = "WIN";
                 score = 2;
