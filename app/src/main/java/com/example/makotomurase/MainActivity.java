@@ -2,6 +2,8 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
@@ -10,9 +12,13 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.BreakIterator;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
+    SharedPreferences pref;
+    SharedPreferences.Editor prefEditor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,9 +37,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // 起動時に関数を呼び出す
         setQuestionValue();
 
-
+        pref = getSharedPreferences("score_input", MODE_PRIVATE);
+        prefEditor = pref.edit();
 
     }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Toast.makeText(this, "onResume", Toast.LENGTH_SHORT).show();
+
+        TextView textView = (TextView) findViewById(R.id.text_score);
+        String readText = pref.getString("score_input", "0");
+        textView.setText(readText);
+    }
+
 
     @Override
     public void onClick(View view) {
@@ -42,21 +61,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.button1:
                 setAnswerValue();
                 checkResult(true);
-                Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+                Vibrator vib = (Vibrator) getSystemService(VIBRATOR_SERVICE);
                 vib.vibrate(5000);
                 break;
 
             case R.id.button2:
                 setAnswerValue();
                 checkResult(false);
-                Vibrator vib2 = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+                Vibrator vib2 = (Vibrator) getSystemService(VIBRATOR_SERVICE);
                 vib2.vibrate(5000);
                 break;
 
             case R.id.button3:
                 setQuestionValue();
                 clearAnswerValue();
-                Vibrator vib3 = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+                Vibrator vib3 = (Vibrator) getSystemService(VIBRATOR_SERVICE);
                 vib3.vibrate(5000);
                 break;
 
@@ -137,6 +156,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+    private void setScore(int score) {
+        TextView txtScore = (TextView) findViewById(R.id.text_score);
+        int newScore = Integer.parseInt(txtScore.getText().toString()) + score;
+        txtScore.setText(Integer.toString(newScore));
+    }
+
     private void setNextQuestion() {
         // 第１引数がカウントダウン時間、第２引数は途中経過を受け取る間隔
         // 単位はミリ秒（1秒＝1000ミリ秒）
@@ -146,20 +171,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public void onTick(long l) {
                 // 途中経過を受け取った時に何かしたい場合
                 // 今回は特に何もしない
+
+
             }
 
             @Override
             public void onFinish() {
                 // 3秒経過したら次の値をセット
                 setQuestionValue();
+
             }
         }.start();
     }
 
-    private void setScore(int score) {
-        TextView txtScore = (TextView) findViewById(R.id.text_score);
-        int newScore = Integer.parseInt(txtScore.getText().toString()) + score;
-        txtScore.setText(Integer.toString(newScore));
-    }
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Toast.makeText(this, "onPause", Toast.LENGTH_SHORT).show();
 
+        TextView textView = (TextView) findViewById(R.id.text_score);
+
+        prefEditor.putString("score_input", textView.getText().toString());
+        prefEditor.commit();
+    }
 }
+
+
