@@ -3,16 +3,26 @@ package com.example.makotomurase;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Vibrator;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.graphics.Color;
 
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
+    private Animation animation;
+  
+    SharedPreferences pref;
+    SharedPreferences.Editor prefEditor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,9 +38,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
 
+        animation = AnimationUtils.loadAnimation(this, R.anim.animation_set);
+
         // 起動時に関数を呼び出す
         setQuestionValue();
 
+
+        pref=getSharedPreferences("AndroidSeminor",MODE_PRIVATE);
+        prefEditor=pref.edit();
     }
 
     @Override
@@ -38,14 +53,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int id = view.getId();
         switch (id) {
             case R.id.button1:
+                Vibrator vib=(Vibrator)getSystemService(VIBRATOR_SERVICE);
+                vib.vibrate(50);
                 setAnswerValue();
                 checkResult(true);
                 break;
             case R.id.button2:
+                Vibrator vib2=(Vibrator)getSystemService(VIBRATOR_SERVICE);
+                vib2.vibrate(50);
                 setAnswerValue();
                 checkResult(false);
                 break;
             case R.id.button3:
+                Vibrator vib3=(Vibrator)getSystemService(VIBRATOR_SERVICE);
+                vib3.vibrate(50);
                 setQuestionValue();
                 clearAnswerValue();
                 break;
@@ -112,8 +133,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
         // 最後にまとめてToast表示の処理とTextViewへのセットを行う
-        Toast.makeText(this, result, Toast.LENGTH_LONG).show();
+        Toast ans = Toast.makeText(this, result, Toast.LENGTH_LONG);
+        View back = ans.getView();
         txtResult.setText("結果：" + question + ":" + answer + "(" + result + ")");
+        if(result == "WIN") {
+            txtResult.setTextColor(Color.RED);
+            back.setBackgroundColor(Color.RED);
+            txtViewAnswer.startAnimation(animation);
+        }else if(result == "LOSE"){
+            txtResult.setTextColor(Color.BLUE);
+            back.setBackgroundColor(Color.BLUE);
+            txtViewQuestion.startAnimation(animation);
+        }else{
+            txtResult.setTextColor(Color.BLACK);
+            back.setBackgroundColor(Color.BLACK);
+        }
+        ans.show();
 
         // 続けて遊べるように値を更新
         setNextQuestion();
@@ -147,5 +182,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int newScore = Integer.parseInt(txtScore.getText().toString()) + score;
         txtScore.setText(Integer.toString(newScore));
     }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        TextView textView=(TextView)findViewById(R.id.text_score);
+
+        prefEditor.putInt("main_input", Integer.parseInt(textView.getText().toString()));
+        prefEditor.commit();
+
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        TextView textView=(TextView)findViewById(R.id.text_score);
+
+        int readText=pref.getInt("main_input", 0);
+        textView.setText(Integer.toString(readText));
+
+
+
+    }
+
 
 }
