@@ -2,10 +2,14 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -20,6 +24,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private SoundPool m_soundPool;
     private int button,lose1,lose2,restart,start,win1,win2;
 
+    private Animation animation;
+  
+    SharedPreferences pref;
+    SharedPreferences.Editor prefEditor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +43,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
 
+        animation = AnimationUtils.loadAnimation(this, R.anim.animation_set);
+
         // 起動時に関数を呼び出す
         setQuestionValue();
 
@@ -44,7 +54,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         restart = m_soundPool.load(this.getApplicationContext(), R.raw.restart, 1);
         win1 = m_soundPool.load(this.getApplicationContext(), R.raw.win1, 1);
 
-
+        pref=getSharedPreferences("AndroidSeminor",MODE_PRIVATE);
+        prefEditor=pref.edit();
     }
 
     @Override
@@ -143,10 +154,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             txtResult.setTextColor(Color.RED);
             back.setBackgroundColor(Color.RED);
             m_soundPool.play(win1, 1.0f, 1.0f, 2, 0, 1.0f);
+            txtViewAnswer.startAnimation(animation);
         }else if(result == "LOSE"){
             txtResult.setTextColor(Color.BLUE);
             back.setBackgroundColor(Color.BLUE);
             m_soundPool.play(lose2, 1.0f, 1.0f, 2, 0, 1.0f);
+            txtViewQuestion.startAnimation(animation);
         }else{
             txtResult.setTextColor(Color.BLACK);
             back.setBackgroundColor(Color.BLACK);
@@ -186,5 +199,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int newScore = Integer.parseInt(txtScore.getText().toString()) + score;
         txtScore.setText(Integer.toString(newScore));
     }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        TextView textView=(TextView)findViewById(R.id.text_score);
+
+        prefEditor.putInt("main_input", Integer.parseInt(textView.getText().toString()));
+        prefEditor.commit();
+
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        TextView textView=(TextView)findViewById(R.id.text_score);
+
+        int readText=pref.getInt("main_input", 0);
+        textView.setText(Integer.toString(readText));
+
+
+
+    }
+
 
 }
