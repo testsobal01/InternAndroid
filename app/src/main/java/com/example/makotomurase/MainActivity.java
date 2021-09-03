@@ -2,6 +2,8 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.media.AudioAttributes;
+import android.media.SoundPool;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
@@ -14,6 +16,8 @@ import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
+    private int sound;
+    private  SoundPool soundPool;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,6 +31,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
+
+        AudioAttributes audioAttributes=new AudioAttributes.Builder()
+                .setUsage(AudioAttributes.USAGE_NOTIFICATION)
+                .setContentType(AudioAttributes.CONTENT_TYPE_UNKNOWN)
+                .build();
+
+        soundPool=new SoundPool.Builder()
+                .setAudioAttributes(audioAttributes)
+                .setMaxStreams(1)
+                .build();
+
+        sound=soundPool.load(this,R.raw.button,1);
 
         // 起動時に関数を呼び出す
         setQuestionValue();
@@ -44,6 +60,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 checkResult(true);
                 Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
                 vib.vibrate(5000);
+                soundPool.play(sound,1.0f,1.0f,0,0,1);
                 break;
 
             case R.id.button2:
@@ -51,6 +68,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 checkResult(false);
                 Vibrator vib2 = (Vibrator)getSystemService(VIBRATOR_SERVICE);
                 vib2.vibrate(5000);
+                soundPool.play(sound,1.0f,1.0f,0,0,1);
                 break;
 
             case R.id.button3:
@@ -58,6 +76,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 clearAnswerValue();
                 Vibrator vib3 = (Vibrator)getSystemService(VIBRATOR_SERVICE);
                 vib3.vibrate(5000);
+                soundPool.play(sound,1.0f,1.0f,0,0,1);
                 break;
 
         }
