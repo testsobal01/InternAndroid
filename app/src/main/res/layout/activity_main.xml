@@ -8,7 +8,8 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_weight="0.02">
 
         <Button
             android:id="@+id/button1"
@@ -36,17 +37,20 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_weight="0.01"
         android:text="10が設定されています。" />
 
 
     <TextView
         android:id="@+id/text_result"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_weight="0.01" />
 
     <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_weight="0.01">
 
         <TextView
             android:layout_width="wrap_content"
@@ -62,13 +66,14 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:layout_weight="0.85">
 
         <FrameLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="#ff00ff" >
+            android:background="#ff00ff">
 
             <TextView
                 android:id="@+id/question"
@@ -77,13 +82,14 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="値1"
-                android:textSize="60sp" /></FrameLayout>
+                android:textSize="60sp" />
+        </FrameLayout>
 
         <FrameLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="#ffff00" >
+            android:background="#ffff00">
 
             <TextView
                 android:id="@+id/answer"
@@ -92,7 +98,16 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="値2"
-                android:textSize="60sp" /></FrameLayout>
+                android:textSize="60sp" />
+        </FrameLayout>
     </LinearLayout>
+
+    <ImageView
+        android:src="@mipmap/futter_image"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.1"
+        android:scaleType="centerCrop"
+        />
 
 </LinearLayout>
