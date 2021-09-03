@@ -3,6 +3,7 @@ package com.example.makotomurase;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.animation.ObjectAnimator;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.ColorSpace;
@@ -12,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.os.Vibrator;
 import android.view.View;
+import android.view.animation.RotateAnimation;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -131,6 +133,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 result = "WIN";
                 linearlayout.setBackgroundColor(Color.rgb(234, 145, 152));
                 score = 2;
+                RotateAnimation rotate = new RotateAnimation(0, 360, txtViewAnswer.getWidth()/2, txtViewAnswer.getHeight()/2); // imgの中心を軸に、0度から360度にかけて回転
+                rotate.setDuration(3000); // 3000msかけてアニメーションする
+                txtViewAnswer.startAnimation(rotate); // アニメーション適用
             } else if (question > answer) {
                 result = "LOSE";
                 linearlayout.setBackgroundColor(Color.rgb(143, 168, 232));
@@ -145,6 +150,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 result = "WIN";
                 linearlayout.setBackgroundColor(Color.rgb(234, 145, 152));
                 score = 2;
+
+                RotateAnimation rotate = new RotateAnimation(0, 360, txtViewQuestion.getWidth()/2, txtViewQuestion.getHeight()/2); // imgの中心を軸に、0度から360度にかけて回転
+                rotate.setDuration(3000); // 3000msかけてアニメーションする
+                txtViewQuestion.startAnimation(rotate); // アニメーション適用
             } else if (question < answer) {
                 result = "LOSE";
                 linearlayout.setBackgroundColor(Color.rgb(143, 168, 232));
