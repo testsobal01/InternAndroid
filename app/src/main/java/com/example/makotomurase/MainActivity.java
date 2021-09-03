@@ -1,9 +1,12 @@
 package com.example.makotomurase;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -31,6 +34,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setQuestionValue();
 
     }
+
+
 
     @Override
     public void onClick(View view) {
@@ -111,8 +116,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
         // 最後にまとめてToast表示の処理とTextViewへのセットを行う
+        //String message3 = getString(R.string.message3);
+        String s = getResources().getString(R.string.message3);
         Toast.makeText(this, result, Toast.LENGTH_LONG).show();
-        txtResult.setText("結果：" + question + ":" + answer + "(" + result + ")");
+        txtResult.setText(s+ question + ":" + answer + "(" + result + ")");
 
         // 続けて遊べるように値を更新
         setNextQuestion();
@@ -146,5 +153,4 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int newScore = Integer.parseInt(txtScore.getText().toString()) + score;
         txtScore.setText(Integer.toString(newScore));
     }
-
 }
