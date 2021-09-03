@@ -13,4 +13,6 @@
     <string name="lose">LOSE</string>
     <string name="draw">DRAW</string>
     <string name="atai3">値2</string>
+    <string name="finalmessage1">スコアが高かったため　豪華な勝利演出を受ける</string>
+    <string name="finalmessage2">みんなから￥1000もらうが一回休み。</string>
 </resources>

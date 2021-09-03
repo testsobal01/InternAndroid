@@ -5,6 +5,7 @@
     <string name="btn_low">NIEDRIG</string>
     <string name="btn_restart">NEU STARTEN</string>
     <string name="label_score">Noten：</string>
+    <string name="title_button">Starte das Spiel</string>
     <string name="setting">10 ist eingestellt.</string>
     <string name="atai1">Num1</string>
     <string name="atai2">Num2</string>
@@ -13,4 +14,6 @@
     <string name="lose">Verloren</string>
     <string name="draw">Unentschieden</string>
     <string name="atai3">Num2</string>
+    <string name="finalmessage1">Der Highscore machte ihn zu einem schönen Gewinner.</string>
+    <string name="finalmessage2">Sie können 1000 Yen von den Leuten um Sie herum bekommen, aber ich werde einmal eine Pause machen.</string>
 </resources>

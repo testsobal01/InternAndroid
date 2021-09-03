@@ -2,6 +2,7 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.provider.ContactsContract;
@@ -187,6 +188,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void setScore(int score) {
         TextView txtScore = (TextView) findViewById(R.id.text_score);
         int newScore = Integer.parseInt(txtScore.getText().toString()) + score;
+        if(newScore >=10){
+            Intent intent = new Intent(this, FinalActivity.class);
+            startActivity(intent);
+        }
         txtScore.setText(Integer.toString(newScore));
     }
 
