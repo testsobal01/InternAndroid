@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Vibrator;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
@@ -56,6 +57,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 checkResult(false);
                 break;
             case R.id.button3:
+                Vibrator vid = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+                vid.vibrate(1000);
                 soundPlayer.playSoundOne();
                 setQuestionValue();
                 clearAnswerValue();
