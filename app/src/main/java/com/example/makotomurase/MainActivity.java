@@ -10,6 +10,7 @@ import android.os.CountDownTimer;
 import android.os.Vibrator;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -42,6 +43,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // プリファレンスの生成
         pref = getSharedPreferences("AndroidIntern", MODE_PRIVATE);
         prefEditor = pref.edit();
+
+        //フッター画像の挿入（1つ目）
+        ImageView imageView1 =findViewById(R.id.footer1);
+        imageView1.setImageResource(R.drawable.footer02);
+
+        //フッター画像の挿入（2つ目）
+        ImageView imageView2 =findViewById(R.id.footer2);
+        imageView2.setImageResource(R.drawable.footer02);
+
+        //フッター画像の挿入（3つ目）
+        ImageView imageView3 =findViewById(R.id.footer3);
+        imageView3.setImageResource(R.drawable.footer02);
+
+        //フッター画像の挿入（4つ目）
+        ImageView imageView4 =findViewById(R.id.footer4);
+        imageView4.setImageResource(R.drawable.footer02);
+
+        //フッター画像の挿入（5つ目）
+        ImageView imageView5 =findViewById(R.id.footer5);
+        imageView5.setImageResource(R.drawable.footer02);
+
 
         // 起動時に関数を呼び出す
         setQuestionValue();

@@ -20,7 +20,7 @@
     </application>
 
 
-    //マニフェストファイルにpermissionの指定を追加
+    <!--マニフェストファイルにpermissionの指定を追加-->
     <uses-permission android:name="android.permission.VIBRATE"></uses-permission>
 
 </manifest>
