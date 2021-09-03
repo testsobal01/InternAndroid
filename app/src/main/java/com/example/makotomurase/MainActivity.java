@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         m_soundPool = new SoundPool(1,AudioManager.STREAM_MUSIC,0);
         button = m_soundPool.load(this.getApplicationContext(), R.raw.button, 1);
         lose2 = m_soundPool.load(this.getApplicationContext(), R.raw.  lose2, 1);
-        restart = m_soundPool.load(this.getApplicationContext(), R.raw.restart, 1);
+        start = m_soundPool.load(this.getApplicationContext(), R.raw.start, 1);
         win1 = m_soundPool.load(this.getApplicationContext(), R.raw.win1, 1);
 
         pref=getSharedPreferences("AndroidSeminor",MODE_PRIVATE);
@@ -81,7 +81,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 vib3.vibrate(50);
                 setQuestionValue();
                 clearAnswerValue();
-                m_soundPool.play(restart, 1.0f, 1.0f, 1, 0, 1.0f);
+                m_soundPool.play(start, 1.0f, 1.0f, 1, 0, 1.0f);
                 break;
 
         }
