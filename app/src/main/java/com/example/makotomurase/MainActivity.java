@@ -7,11 +7,16 @@ import android.content.SharedPreferences;
 import android.media.AudioAttributes;
 import android.media.SoundPool;
 import android.graphics.Color;
+import android.animation.AnimatorInflater;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
 import android.view.View;
+import android.view.animation.TranslateAnimation;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,8 +29,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     SharedPreferences.Editor prefEditor;
 
     private int sound;
-    private  SoundPool soundPool;
-  
+    private SoundPool soundPool;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,17 +45,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
 
-        AudioAttributes audioAttributes=new AudioAttributes.Builder()
+        AudioAttributes audioAttributes = new AudioAttributes.Builder()
                 .setUsage(AudioAttributes.USAGE_NOTIFICATION)
                 .setContentType(AudioAttributes.CONTENT_TYPE_UNKNOWN)
                 .build();
 
-        soundPool=new SoundPool.Builder()
+        soundPool = new SoundPool.Builder()
                 .setAudioAttributes(audioAttributes)
                 .setMaxStreams(1)
                 .build();
 
-        sound=soundPool.load(this,R.raw.button,1);
+        sound = soundPool.load(this, R.raw.button, 1);
 
         // 起動時に関数を呼び出す
         setQuestionValue();
@@ -75,13 +80,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View view) {
         int id = view.getId();
+        animationImageReset();
         switch (id) {
             case R.id.button1:
                 setAnswerValue();
                 checkResult(true);
                 Vibrator vib = (Vibrator) getSystemService(VIBRATOR_SERVICE);
                 vib.vibrate(5000);
-                soundPool.play(sound,1.0f,1.0f,0,0,1);
+                soundPool.play(sound, 1.0f, 1.0f, 0, 0, 1);
                 break;
 
             case R.id.button2:
@@ -89,7 +95,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 checkResult(false);
                 Vibrator vib2 = (Vibrator) getSystemService(VIBRATOR_SERVICE);
                 vib2.vibrate(5000);
-                soundPool.play(sound,1.0f,1.0f,0,0,1);
+                soundPool.play(sound, 1.0f, 1.0f, 0, 0, 1);
                 break;
 
             case R.id.button3:
@@ -97,7 +103,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 clearAnswerValue();
                 Vibrator vib3 = (Vibrator) getSystemService(VIBRATOR_SERVICE);
                 vib3.vibrate(5000);
-                soundPool.play(sound,1.0f,1.0f,0,0,1);
+                soundPool.play(sound, 1.0f, 1.0f, 0, 0, 1);
                 break;
 
         }
@@ -133,15 +139,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // 結果を示す文字列を入れる変数を用意
         String result;
         int score = 0;
-      
-        View view1 =(View) findViewById(R.id.question);
-        View view2 =(View) findViewById(R.id.answer);
-      
+
+        View view1 = (View) findViewById(R.id.question_back);
+        View view2 = (View) findViewById(R.id.answer_back);
+
         String resultText = getString(R.string.label_result);//結果テキストを変数に代入
         String winText = getString(R.string.label_win);
         String loseText = getString(R.string.label_lose);
         String drawText = getString(R.string.label_draw);
-      
+
+
+        String text1 = txtViewQuestion.getText().toString();
+        String text2 = txtViewAnswer.getText().toString();
+
 
         // Highが押された
         if (isHigh) {
@@ -151,11 +161,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 score = 2;
                 view1.setBackgroundColor(Color.parseColor("#0000ff"));
                 view2.setBackgroundColor(Color.parseColor("#ff0000"));
+                View view = (View) findViewById(R.id.answer);
+                ObjectAnimator animation = ObjectAnimator.ofFloat(view, "rotationY", 1000f);
+                animation.setDuration(2500);
+                animation.start();
             } else if (question > answer) {
                 result = loseText;
                 score = -1;
                 view1.setBackgroundColor(Color.parseColor("#ff0000"));
                 view2.setBackgroundColor(Color.parseColor("#0000ff"));
+                View view = (View) findViewById(R.id.answer);
+                ObjectAnimator animation = ObjectAnimator.ofFloat(view, "rotationY", 1000f);
+                animation.setDuration(2500);
+                animation.start();
             } else {
                 result = drawText;
                 score = 1;
@@ -167,12 +185,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 result = winText;
                 score = 2;
                 view1.setBackgroundColor(Color.parseColor("#0000ff"));
-                view2.setBackgroundColor(Color.parseColor("#ff0000"));
+                view2.setBackgroundColor(Color.parseColor("#ff0000"));;
+                View view = (View) findViewById(R.id.question);
+                ObjectAnimator animation = ObjectAnimator.ofFloat(view, "rotationY", 1000f);
+                animation.setDuration(2500);
+                animation.start();
             } else if (question < answer) {
                 result = loseText;
                 score = -1;
                 view1.setBackgroundColor(Color.parseColor("#ff0000"));
                 view2.setBackgroundColor(Color.parseColor("#0000ff"));
+                View view = (View) findViewById(R.id.question);
+                ObjectAnimator animation = ObjectAnimator.ofFloat(view, "rotationY", 1000f);
+                animation.setDuration(2500);
+                animation.start();
+
             } else {
                 result = drawText;
                 score = 1;
@@ -191,6 +218,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // スコアを表示
         setScore(score);
+
 
     }
 
@@ -232,6 +260,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         prefEditor.putString("score_input", textView.getText().toString());
         prefEditor.commit();
     }
+
+
+    private void animationImageReset() {
+        View imageView1;
+        imageView1 = findViewById(R.id.question);
+        View imageView2;
+        imageView2 = findViewById(R.id.answer);
+        ObjectAnimator.ofFloat(imageView1, "rotationY", 0.0f, 0.0f).start();
+        ObjectAnimator.ofFloat(imageView2, "rotationY", 0.0f, 0.0f).start();
+    }
 }
+
 
 
