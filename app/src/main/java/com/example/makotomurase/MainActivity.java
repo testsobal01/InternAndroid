@@ -1,5 +1,6 @@
 package com.example.makotomurase;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.SharedPreferences;
@@ -7,6 +8,8 @@ import android.graphics.Color;
 import android.graphics.ColorSpace;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.os.Vibrator;
 import android.view.View;
 import android.widget.Button;
@@ -60,6 +63,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         prefEditor = pref.edit();
 
     }
+
+
 
     @Override
     public void onClick(View view) {
@@ -153,8 +158,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
         // 最後にまとめてToast表示の処理とTextViewへのセットを行う
+        //String message3 = getString(R.string.message3);
+        String s = getResources().getString(R.string.message3);
         Toast.makeText(this, result, Toast.LENGTH_LONG).show();
-        txtResult.setText("結果：" + question + ":" + answer + "(" + result + ")");
+        txtResult.setText(s+ question + ":" + answer + "(" + result + ")");
 
         // 続けて遊べるように値を更新
         setNextQuestion();
