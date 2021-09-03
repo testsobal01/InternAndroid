@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void clearAnswerValue() {
         TextView txtView = (TextView) findViewById(R.id.answer);
-        txtView.setText("値2");
+        txtView.setText(R.string.atai3);
     }
 
     private void setQuestionValue() {
@@ -91,34 +91,34 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (isHigh) {
             // result には結果のみを入れる
             if (question < answer) {
-                result = "WIN";
+                result = getString(R.string.win);
                 score = 2;
                 txtViewQuestion.setBackgroundColor(getResources().getColor(R.color.colorWin1));
                 txtViewAnswer.setBackgroundColor(getResources().getColor(R.color.colorWin2));
             } else if (question > answer) {
-                result = "LOSE";
+                result = getString(R.string.lose);
                 score = -1;
                 txtViewQuestion.setBackgroundColor(getResources().getColor(R.color.colorLose1));
                 txtViewAnswer.setBackgroundColor(getResources().getColor(R.color.colorLose2));
             } else {
-                result = "DRAW";
+                result = getString(R.string.draw);
                 score = 1;
                 txtViewQuestion.setBackgroundColor(getResources().getColor(R.color.default1));
                 txtViewAnswer.setBackgroundColor(getResources().getColor(R.color.default2));
             }
         } else {
             if (question > answer) {
-                result = "WIN";
+                result = getString(R.string.win);
                 score = 2;
                 txtViewQuestion.setBackgroundColor(getResources().getColor(R.color.colorWin1));
                 txtViewAnswer.setBackgroundColor(getResources().getColor(R.color.colorWin2));
             } else if (question < answer) {
-                result = "LOSE";
+                result = getString(R.string.lose);
                 score = -1;
                 txtViewQuestion.setBackgroundColor(getResources().getColor(R.color.colorLose1));
                 txtViewAnswer.setBackgroundColor(getResources().getColor(R.color.colorLose2));
             } else {
-                result = "DRAW";
+                result = getString(R.string.draw);
                 score = 1;
                 txtViewQuestion.setBackgroundColor(getResources().getColor(R.color.default1));
                 txtViewAnswer.setBackgroundColor(getResources().getColor(R.color.default2));
@@ -128,7 +128,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // 最後にまとめてToast表示の処理とTextViewへのセットを行う
         Toast.makeText(this, result, Toast.LENGTH_LONG).show();
-        txtResult.setText("結果：" + question + ":" + answer + "(" + result + ")");
+        txtResult.setText(getString(R.string.kekka) + question + ":" + answer + "(" + result + ")");
 
         // 続けて遊べるように値を更新
         setNextQuestion();
