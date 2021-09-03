@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.media.AudioAttributes;
 import android.media.SoundPool;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
@@ -112,10 +113,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // 結果を示す文字列を入れる変数を用意
         String result;
         int score = 0;
+      
+        View view1 =(View) findViewById(R.id.question);
+        View view2 =(View) findViewById(R.id.answer);
+      
         String resultText = getString(R.string.label_result);//結果テキストを変数に代入
         String winText = getString(R.string.label_win);
         String loseText = getString(R.string.label_lose);
         String drawText = getString(R.string.label_draw);
+      
 
         // Highが押された
         if (isHigh) {
@@ -123,23 +129,35 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = winText;
                 score = 2;
+                view1.setBackgroundColor(Color.parseColor("#0000ff"));
+                view2.setBackgroundColor(Color.parseColor("#ff0000"));
             } else if (question > answer) {
                 result = loseText;
                 score = -1;
+                view1.setBackgroundColor(Color.parseColor("#ff0000"));
+                view2.setBackgroundColor(Color.parseColor("#0000ff"));
             } else {
                 result = drawText;
                 score = 1;
+                view1.setBackgroundColor(Color.parseColor("#ff00ff"));
+                view2.setBackgroundColor(Color.parseColor("#ffff00"));
             }
         } else {
             if (question > answer) {
                 result = winText;
                 score = 2;
+                view1.setBackgroundColor(Color.parseColor("#0000ff"));
+                view2.setBackgroundColor(Color.parseColor("#ff0000"));
             } else if (question < answer) {
                 result = loseText;
                 score = -1;
+                view1.setBackgroundColor(Color.parseColor("#ff0000"));
+                view2.setBackgroundColor(Color.parseColor("#0000ff"));
             } else {
                 result = drawText;
                 score = 1;
+                view1.setBackgroundColor(Color.parseColor("#ff00ff"));
+                view2.setBackgroundColor(Color.parseColor("#ffff00"));
             }
         }
 
