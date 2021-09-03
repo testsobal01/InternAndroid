@@ -3,12 +3,16 @@ package com.example.makotomurase;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.graphics.Color;
+import android.graphics.ColorSpace;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.os.Vibrator;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -42,14 +46,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int id = view.getId();
         switch (id) {
             case R.id.button1:
+                Vibrator vib=(Vibrator)getSystemService(VIBRATOR_SERVICE);
+                vib.vibrate(300);
                 setAnswerValue();
                 checkResult(true);
                 break;
             case R.id.button2:
+                Vibrator vib2=(Vibrator)getSystemService(VIBRATOR_SERVICE);
+                vib2.vibrate(300);
                 setAnswerValue();
                 checkResult(false);
                 break;
             case R.id.button3:
+                Vibrator vib3=(Vibrator)getSystemService(VIBRATOR_SERVICE);
+                vib3.vibrate(300);
                 setQuestionValue();
                 clearAnswerValue();
                 break;
@@ -84,6 +94,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int question = Integer.parseInt(txtViewQuestion.getText().toString());
         int answer = Integer.parseInt(txtViewAnswer.getText().toString());
         TextView txtResult = (TextView) findViewById(R.id.text_result);
+        LinearLayout linearlayout = (LinearLayout) findViewById(R.id.linearlayout);
         // 結果を示す文字列を入れる変数を用意
         String result;
         int score = 0;
@@ -93,23 +104,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             // result には結果のみを入れる
             if (question < answer) {
                 result = "WIN";
+                linearlayout.setBackgroundColor(Color.rgb(234, 145, 152));
                 score = 2;
             } else if (question > answer) {
                 result = "LOSE";
+                linearlayout.setBackgroundColor(Color.rgb(143, 168, 232));
                 score = -1;
             } else {
                 result = "DRAW";
+                linearlayout.setBackgroundColor(Color.rgb(142, 229, 152));
                 score = 1;
             }
         } else {
             if (question > answer) {
                 result = "WIN";
+                linearlayout.setBackgroundColor(Color.rgb(234, 145, 152));
                 score = 2;
             } else if (question < answer) {
                 result = "LOSE";
+                linearlayout.setBackgroundColor(Color.rgb(143, 168, 232));
                 score = -1;
             } else {
                 result = "DRAW";
+                linearlayout.setBackgroundColor(Color.rgb(142, 229, 152));
                 score = 1;
             }
         }
