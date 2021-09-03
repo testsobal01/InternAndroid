@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+        <string name="app_name">MakotoMurase</string>
+        <string name="btn_high">Alto</string>
+        <string name="btn_low">Basso</string>
+        <string name="btn_restart">ricomincia</string>
+        <string name="label_score">punto：</string>
+</resources>
