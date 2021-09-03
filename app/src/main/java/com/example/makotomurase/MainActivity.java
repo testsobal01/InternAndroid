@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.graphics.Color;
 
 import java.util.Random;
 
@@ -118,8 +119,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
         // 最後にまとめてToast表示の処理とTextViewへのセットを行う
-        Toast.makeText(this, result, Toast.LENGTH_LONG).show();
+        Toast ans = Toast.makeText(this, result, Toast.LENGTH_LONG);
+        View back = ans.getView();
         txtResult.setText("結果：" + question + ":" + answer + "(" + result + ")");
+        if(result == "WIN") {
+            txtResult.setTextColor(Color.RED);
+            back.setBackgroundColor(Color.RED);
+        }else if(result == "LOSE"){
+            txtResult.setTextColor(Color.BLUE);
+            back.setBackgroundColor(Color.BLUE);
+        }else{
+            txtResult.setTextColor(Color.BLACK);
+            back.setBackgroundColor(Color.BLACK);
+        }
+        ans.show();
 
         // 続けて遊べるように値を更新
         setNextQuestion();
