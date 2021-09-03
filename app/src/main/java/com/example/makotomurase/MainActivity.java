@@ -4,6 +4,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.AudioAttributes;
+import android.media.SoundPool;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
@@ -20,6 +23,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     SharedPreferences pref;
     SharedPreferences.Editor prefEditor;
 
+    private int sound;
+    private  SoundPool soundPool;
+  
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,6 +39,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
+
+        AudioAttributes audioAttributes=new AudioAttributes.Builder()
+                .setUsage(AudioAttributes.USAGE_NOTIFICATION)
+                .setContentType(AudioAttributes.CONTENT_TYPE_UNKNOWN)
+                .build();
+
+        soundPool=new SoundPool.Builder()
+                .setAudioAttributes(audioAttributes)
+                .setMaxStreams(1)
+                .build();
+
+        sound=soundPool.load(this,R.raw.button,1);
 
         // 起動時に関数を呼び出す
         setQuestionValue();
@@ -63,6 +81,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 checkResult(true);
                 Vibrator vib = (Vibrator) getSystemService(VIBRATOR_SERVICE);
                 vib.vibrate(5000);
+                soundPool.play(sound,1.0f,1.0f,0,0,1);
                 break;
 
             case R.id.button2:
@@ -70,6 +89,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 checkResult(false);
                 Vibrator vib2 = (Vibrator) getSystemService(VIBRATOR_SERVICE);
                 vib2.vibrate(5000);
+                soundPool.play(sound,1.0f,1.0f,0,0,1);
                 break;
 
             case R.id.button3:
@@ -77,6 +97,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 clearAnswerValue();
                 Vibrator vib3 = (Vibrator) getSystemService(VIBRATOR_SERVICE);
                 vib3.vibrate(5000);
+                soundPool.play(sound,1.0f,1.0f,0,0,1);
                 break;
 
         }
@@ -112,10 +133,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // 結果を示す文字列を入れる変数を用意
         String result;
         int score = 0;
+      
+        View view1 =(View) findViewById(R.id.question);
+        View view2 =(View) findViewById(R.id.answer);
+      
         String resultText = getString(R.string.label_result);//結果テキストを変数に代入
         String winText = getString(R.string.label_win);
         String loseText = getString(R.string.label_lose);
         String drawText = getString(R.string.label_draw);
+      
 
         // Highが押された
         if (isHigh) {
@@ -123,23 +149,35 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = winText;
                 score = 2;
+                view1.setBackgroundColor(Color.parseColor("#0000ff"));
+                view2.setBackgroundColor(Color.parseColor("#ff0000"));
             } else if (question > answer) {
                 result = loseText;
                 score = -1;
+                view1.setBackgroundColor(Color.parseColor("#ff0000"));
+                view2.setBackgroundColor(Color.parseColor("#0000ff"));
             } else {
                 result = drawText;
                 score = 1;
+                view1.setBackgroundColor(Color.parseColor("#ff00ff"));
+                view2.setBackgroundColor(Color.parseColor("#ffff00"));
             }
         } else {
             if (question > answer) {
                 result = winText;
                 score = 2;
+                view1.setBackgroundColor(Color.parseColor("#0000ff"));
+                view2.setBackgroundColor(Color.parseColor("#ff0000"));
             } else if (question < answer) {
                 result = loseText;
                 score = -1;
+                view1.setBackgroundColor(Color.parseColor("#ff0000"));
+                view2.setBackgroundColor(Color.parseColor("#0000ff"));
             } else {
                 result = drawText;
                 score = 1;
+                view1.setBackgroundColor(Color.parseColor("#ff00ff"));
+                view2.setBackgroundColor(Color.parseColor("#ffff00"));
             }
         }
 
