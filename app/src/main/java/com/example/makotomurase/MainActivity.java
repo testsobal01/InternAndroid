@@ -22,7 +22,7 @@ import java.util.Random;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private SoundPool m_soundPool;
-    private int button,lose1,lose2,restart,start,win1,win2;
+    private int button,lose2,restart,start,win1,;
 
     private Animation animation;
   
