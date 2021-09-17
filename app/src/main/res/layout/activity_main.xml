@@ -36,7 +36,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="10が設定されています。" />
+        android:text="@string/comment" />
 
 
     <TextView
@@ -71,7 +71,7 @@
             android:layout_weight="1"
             android:background="#ff00ff"
             android:gravity="center"
-            android:text="値1"
+            android:text="@string/value1"
             android:textSize="60sp" />
 
         <TextView
@@ -81,7 +81,7 @@
             android:layout_weight="1"
             android:background="#ffff00"
             android:gravity="center"
-            android:text="値2"
+            android:text="@string/value2"
             android:textSize="60sp" />
     </LinearLayout>
 

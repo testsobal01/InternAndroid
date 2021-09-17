@@ -1,7 +1,14 @@
 <resources>
-    <string name="app_name">MakotoMurase</string>
+    <string name="app_name">Game E</string>
     <string name="btn_high">High</string>
     <string name="btn_low">Low</string>
     <string name="btn_restart">Restart</string>
     <string name="label_score">Score：</string>
+    <string name="comment">10 is set.</string>
+    <string name="value1">Value1</string>
+    <string name="value2">Value2</string>
+    <string name="win">WIN</string>
+    <string name="lose">LOSE</string>
+    <string name="draw">DRAW</string>
+    <string name="result">Result</string>
 </resources>

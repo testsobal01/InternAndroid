@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">ゲーム　E</string>
+    <string name="btn_high">大</string>
+    <string name="btn_low">小</string>
+    <string name="btn_restart">リセット</string>
+    <string name="label_score">スコア</string>
+    <string name="comment">10が設定されています。</string>
+    <string name="value1">値1</string>
+    <string name="value2">値2</string>
+    <string name="win">勝ち</string>
+    <string name="lose">負け</string>
+    <string name="draw">引き分け</string>
+    <string name="result">結果</string>
+</resources>
