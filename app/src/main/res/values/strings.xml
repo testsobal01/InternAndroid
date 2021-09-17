@@ -10,4 +10,5 @@
     <string name="text4">DRAW</string>
     <string name="text5">WIN</string>
     <string name="text6">LOSE</string>
+    <string name="botton_start">START</string>
 </resources>
