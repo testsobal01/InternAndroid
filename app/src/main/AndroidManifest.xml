@@ -12,14 +12,16 @@
         <meta-data
             android:name="com.google.android.actions"
             android:resource="@xml/Scale_animation" />
-
-        <activity android:name=".MainActivity">
+        <activity android:name=".Title">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".MainActivity">
+        </activity>
     </application>
+    <uses-permission android:name="android.permission.VIBRATE"></uses-permission>
 
 </manifest>

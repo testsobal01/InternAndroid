@@ -2,16 +2,26 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Vibrator;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ShareActionProvider;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
+    SharedPreferences pref;
+    SharedPreferences.Editor prefEditor;
+
+    int score;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,27 +40,66 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // 起動時に関数を呼び出す
         setQuestionValue();
 
+        pref = getSharedPreferences("AndroidSeminor", MODE_PRIVATE);
+        prefEditor = pref.edit();
+
     }
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        TextView textView = (TextView)findViewById(R.id.text_score);
+        textView.setText(Integer.toString(score));
+    }
+
+
+        @Override
+        protected void onPause() {
+            super.onPause();
+            TextView textView = (TextView)findViewById(R.id.text_score);
+            prefEditor.putString("input", textView.getText().toString());
+            prefEditor.commit();
+        }
+
+        @Override
+        protected void onResume() {
+            super.onResume();
+
+            TextView textView = (TextView)findViewById(R.id.text_score);
+            String readtext = pref.getString("input", "0");
+            textView.setText(readtext);
+        }
+
+    @Override
     public void onClick(View view) {
+        TextView txtViewQuestion2 = (TextView) findViewById(R.id.question);
+        TextView txtViewAnswer2 = (TextView) findViewById(R.id.answer);
         int id = view.getId();
         switch (id) {
             case R.id.button1:
                 setAnswerValue();
                 checkResult(true);
+                Vibrator vib = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+                vib.vibrate(300);
                 break;
             case R.id.button2:
                 setAnswerValue();
                 checkResult(false);
+                Vibrator vib2 = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+                vib2.vibrate(300);
                 break;
             case R.id.button3:
                 setQuestionValue();
                 clearAnswerValue();
+                Vibrator vib3 = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+                vib3.vibrate(100);
+                TextView textView = (TextView)findViewById(R.id.text_score);
+                textView.setText("0");
+                txtViewAnswer2.setBackgroundColor(0xffffff00);
+                txtViewQuestion2.setBackgroundColor(0xffff00ff);
                 break;
-
         }
-
     }
 
     private void clearAnswerValue() {
@@ -81,7 +130,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView txtResult = (TextView) findViewById(R.id.text_result);
         // 結果を示す文字列を入れる変数を用意
         String result;
-        int score = 0;
+        //int score = 0;
 
         // Highが押された
         if (isHigh) {
@@ -89,23 +138,35 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = "WIN";
                 score = 2;
+                txtViewAnswer.setBackgroundColor(0xffffd700);
+                txtViewQuestion.setBackgroundColor(0xff808080);
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
+                txtViewAnswer.setBackgroundColor(0xff808080);
+                txtViewQuestion.setBackgroundColor(0xff7f00ff);
             } else {
                 result = "DRAW";
                 score = 1;
+                txtViewAnswer.setBackgroundColor(0xffa9a9a9);
+                txtViewQuestion.setBackgroundColor(0xffa9a9a9);
             }
         } else {
             if (question > answer) {
                 result = "WIN";
                 score = 2;
+                txtViewAnswer.setBackgroundColor(0xffffd700);
+                txtViewQuestion.setBackgroundColor(0xff808080);
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
+                txtViewAnswer.setBackgroundColor(0xff808080);
+                txtViewQuestion.setBackgroundColor(0xff7f00ff);
             } else {
                 result = "DRAW";
                 score = 1;
+                txtViewAnswer.setBackgroundColor(0xffa9a9a9);
+                txtViewQuestion.setBackgroundColor(0xffa9a9a9);
             }
         }
 
@@ -121,6 +182,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setScore(score);
 
     }
+
 
     private void setNextQuestion() {
         // 第１引数がカウントダウン時間、第２引数は途中経過を受け取る間隔
@@ -143,8 +205,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void setScore(int score) {
         TextView txtScore = (TextView) findViewById(R.id.text_score);
-        int newScore = Integer.parseInt(txtScore.getText().toString()) + score;
-        txtScore.setText(Integer.toString(newScore));
+        score = Integer.parseInt(txtScore.getText().toString()) + score;
+        txtScore.setText(Integer.toString(score));
     }
-
 }
