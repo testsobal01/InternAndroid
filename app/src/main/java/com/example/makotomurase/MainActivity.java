@@ -23,6 +23,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     int score;
 
+    private SoundPlayer soundPlayer;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,6 +45,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         pref = getSharedPreferences("AndroidSeminor", MODE_PRIVATE);
         prefEditor = pref.edit();
 
+        soundPlayer = new SoundPlayer(this);
     }
 
     @Override
@@ -82,12 +85,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 checkResult(true);
                 Vibrator vib = (Vibrator) getSystemService(VIBRATOR_SERVICE);
                 vib.vibrate(300);
+                soundPlayer.playHitSound();
                 break;
             case R.id.button2:
                 setAnswerValue();
                 checkResult(false);
                 Vibrator vib2 = (Vibrator) getSystemService(VIBRATOR_SERVICE);
                 vib2.vibrate(300);
+                soundPlayer.playHitSound();
                 break;
             case R.id.button3:
                 setQuestionValue();
@@ -98,6 +103,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 textView.setText("0");
                 txtViewAnswer2.setBackgroundColor(0xffffff00);
                 txtViewQuestion2.setBackgroundColor(0xffff00ff);
+                soundPlayer.playOverSound();
                 break;
         }
     }
