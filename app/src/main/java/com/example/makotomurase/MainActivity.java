@@ -2,6 +2,7 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
@@ -12,6 +13,9 @@ import android.widget.Toast;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
+    SharedPreferences pref;
+    SharedPreferences.Editor prefEditor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,8 +31,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
 
+        pref = getSharedPreferences("nanae-tsuji-b-2",MODE_PRIVATE);
+        prefEditor = pref.edit();
+
+
         // 起動時に関数を呼び出す
         setQuestionValue();
+
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+          Toast.makeText(this,"onPause",Toast.LENGTH_SHORT).show();
+
+          TextView textView = (TextView)findViewById(R.id.text_score);
+
+          prefEditor.putString("main_input", textView.getText().toString());
+          prefEditor.commit();
 
     }
 
@@ -52,6 +72,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Toast.makeText(this,"onResume",Toast.LENGTH_SHORT).show();
+
+        TextView textView =(TextView)findViewById(R.id.text_score);
+         String readText = pref.getString("main_input","0");
+         textView.setText(readText);
+
+    }
+
 
     private void clearAnswerValue() {
         TextView txtView = (TextView) findViewById(R.id.answer);
