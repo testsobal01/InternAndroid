@@ -90,6 +90,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 clearAnswerValue();
                 Vibrator vib3 = (Vibrator)getSystemService(VIBRATOR_SERVICE);
                 vib3.vibrate(100);
+                TextView textView = (TextView)findViewById(R.id.text_score);
+                textView.setText("0");
                 break;
         }
     }
