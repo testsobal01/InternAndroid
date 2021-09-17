@@ -2,6 +2,7 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
@@ -14,6 +15,9 @@ import android.graphics.Color;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
+    SharedPreferences pref;
+    SharedPreferences.Editor prefEditor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +36,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // 起動時に関数を呼び出す
         setQuestionValue();
 
+        pref=getSharedPreferences("function2-team-a",MODE_PRIVATE);
+        prefEditor=pref.edit();
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        TextView txtScore = (TextView) findViewById(R.id.text_score);
+        prefEditor.putString("score_input", txtScore.getText().toString());
+        prefEditor.commit();
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        TextView txtScore = (TextView) findViewById(R.id.text_score);
+        String readText=pref.getString("score_input","0");
+        txtScore.setText(readText);
     }
 
     @Override
@@ -54,8 +83,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 txtViewQuestion.setTextColor(Color.BLACK);
                 TextView txtViewAnswer = (TextView) findViewById(R.id.answer);
                 txtViewAnswer.setTextColor(Color.BLACK);
+                clearScore();
                 break;
         }
+
+
 
     }
 
@@ -98,28 +130,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (isHigh) {
             // result には結果のみを入れる
             if (question < answer) {
-                result = "WIN";
+                result = getString(R.string.text5);
                 txtViewQuestion.setTextColor(Color.RED);
                 score = 2;
             } else if (question > answer) {
-                result = "LOSE";
+                result = getString(R.string.text6);
                 txtViewQuestion.setTextColor(Color.BLUE);
                 score = -1;
             } else {
-                result = "DRAW";
+                result = getString(R.string.text4);
                 score = 1;
             }
         } else {
             if (question > answer) {
-                result = "WIN";
+                result = getString(R.string.text5);
                 txtViewAnswer.setTextColor(Color.RED);
                 score = 2;
             } else if (question < answer) {
-                result = "LOSE";
+                result = getString(R.string.text6);
                 txtViewAnswer.setTextColor(Color.BLUE);
                 score = -1;
             } else {
-                result = "DRAW";
+                result = getString(R.string.text4);
                 score = 1;
             }
         }
@@ -166,4 +198,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         txtScore.setText(Integer.toString(newScore));
     }
 
+    private void clearScore() {
+        TextView txtScore = (TextView) findViewById(R.id.text_score);
+        txtScore.setText(Integer.toString(0));
+    }
 }

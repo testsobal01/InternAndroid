@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">比較數字</string>
+    <string name="btn_high">高的</string>
+    <string name="btn_low">低的</string>
+    <string name="btn_restart">重新開始</string>
+    <string name="label_score">分數：</string>
+    <string name="text1">10 已设置。</string>
+    <string name="text2">值1</string>
+    <string name="text3">值2</string>
+    <string name="text4">畫</string>
+    <string name="text5">贏</string>
+    <string name="text6">失去</string>
+</resources>
