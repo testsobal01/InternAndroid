@@ -45,6 +45,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 checkResult(false);
                 break;
             case R.id.button3:
+                setQuestionValue();
+                clearAnswerValue();
                 Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
                 vib.vibrate(5000);
                 break;
