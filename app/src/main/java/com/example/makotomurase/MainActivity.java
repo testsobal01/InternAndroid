@@ -1,7 +1,9 @@
 package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.ViewCompat;
 
+import android.animation.ValueAnimator;   //animate
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
@@ -76,8 +78,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void checkResult(boolean isHigh) {
-        TextView txtViewQuestion = (TextView) findViewById(R.id.question);
-        TextView txtViewAnswer = (TextView) findViewById(R.id.answer);
+        final TextView txtViewQuestion = (TextView) findViewById(R.id.question);
+        final TextView txtViewAnswer = (TextView) findViewById(R.id.answer);
         int question = Integer.parseInt(txtViewQuestion.getText().toString());
         int answer = Integer.parseInt(txtViewAnswer.getText().toString());
         TextView txtResult = (TextView) findViewById(R.id.text_result);
@@ -100,27 +102,110 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = win;
                 score = 2;
+
+                ValueAnimator animation = ValueAnimator.ofFloat(0f, 1500f);
+                animation.setDuration(3000);
+
+                animation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                    @Override
+                    public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                        float animatedValue = (float)valueAnimator.getAnimatedValue();
+                        txtViewQuestion.setTranslationY(animatedValue);
+                    }
+                });
+
+                animation.start();
+
+
             } else if (question > answer) {
                 result = lose;
                 score = -1;
                 Vibrator vib = (Vibrator) getSystemService(VIBRATOR_SERVICE);
                 vib.vibrate(100);
+
+                ValueAnimator animation = ValueAnimator.ofFloat(0f, 0.1f);
+                animation.setDuration(3000);
+                animation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                    @Override
+                    public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                        float animatedValue = (float)valueAnimator.getAnimatedValue();
+                        txtViewQuestion.setTranslationY(animatedValue);
+                        txtViewAnswer.setTranslationY(animatedValue);
+                    }
+                });
+
+                animation.start();
+
             } else {
                 result = draw;
                 score = 1;
+
+                ValueAnimator animation = ValueAnimator.ofFloat(0f, 0.1f);
+                animation.setDuration(3000);
+                animation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                    @Override
+                    public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                        float animatedValue = (float)valueAnimator.getAnimatedValue();
+                        txtViewQuestion.setTranslationY(animatedValue);
+                        txtViewAnswer.setTranslationY(animatedValue);
+                    }
+                });
+
+                animation.start();
+
             }
         } else {
             if (question > answer) {
                 result = win;
                 score = 2;
+
+                ValueAnimator animation = ValueAnimator.ofFloat(0f, 3000f);
+                animation.setDuration(3000);
+                animation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                    @Override
+                    public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                        float animatedValue = (float)valueAnimator.getAnimatedValue();
+                        txtViewAnswer.setTranslationY(animatedValue);
+                    }
+                });
+
+                animation.start();
+
             } else if (question < answer) {
                 result = lose;
                 Vibrator vib = (Vibrator) getSystemService(VIBRATOR_SERVICE);
                 vib.vibrate(100);
                 score = -1;
+
+                ValueAnimator animation = ValueAnimator.ofFloat(0f, 0.1f);
+                animation.setDuration(3000);
+                animation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                    @Override
+                    public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                        float animatedValue = (float)valueAnimator.getAnimatedValue();
+                        txtViewAnswer.setTranslationY(animatedValue);
+                        txtViewQuestion.setTranslationY(animatedValue);
+                    }
+                });
+
+                animation.start();
+
             } else {
                 result = draw;
                 score = 1;
+
+                ValueAnimator animation = ValueAnimator.ofFloat(0f, 0.1f);
+                animation.setDuration(3000);
+                animation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                    @Override
+                    public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                        float animatedValue = (float)valueAnimator.getAnimatedValue();
+                        txtViewAnswer.setTranslationY(animatedValue);
+                        txtViewQuestion.setTranslationY(animatedValue);
+                    }
+                });
+
+                animation.start();
             }
         }
 
@@ -136,6 +221,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setScore(score);
 
     }
+
+//    private void start() {
+//    }
 
     private void setNextQuestion() {
         // 第１引数がカウントダウン時間、第２引数は途中経過を受け取る間隔
