@@ -2,10 +2,13 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.animation.Animator;
+import android.animation.ObjectAnimator;
 import android.content.SharedPreferences;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Vibrator;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -47,7 +50,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         mSoundPool = new SoundPool(1,AudioManager.STREAM_MUSIC,0);
         mSoundId = mSoundPool.load(this,R.raw.win,1);
-
 
     }
 
@@ -133,9 +135,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 mSoundPool.play(mSoundId,1.0F,1.0F,0,0,1.0F);
                 result = "WIN";
                 score = 2;
+                animation2();
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
+                Vibrator vib = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+                vib.vibrate(500);
+                animation();
             } else {
                 result = "DRAW";
                 score = 1;
@@ -145,9 +151,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 mSoundPool.play(mSoundId,1.0F,1.0F,0,0,1.0F);
                 result = "WIN";
                 score = 2;
+                animation2();
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
+                Vibrator vib = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+                vib.vibrate(500);
+                animation();
             } else {
                 result = "DRAW";
                 score = 1;
@@ -158,6 +168,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // 最後にまとめてToast表示の処理とTextViewへのセットを行う
         Toast.makeText(this, result, Toast.LENGTH_LONG).show();
         txtResult.setText("結果：" + question + ":" + answer + "(" + result + ")");
+
 
         // 続けて遊べるように値を更新
         setNextQuestion();
@@ -190,6 +201,62 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView txtScore = (TextView) findViewById(R.id.text_score);
         int newScore = Integer.parseInt(txtScore.getText().toString()) + score;
         txtScore.setText(Integer.toString(newScore));
+    }
+
+    public void animation() {
+        final TextView txtView = (TextView) findViewById(R.id.question);
+        ObjectAnimator animation = ObjectAnimator.ofFloat(txtView, "rotationX", 360f);
+        animation.setDuration(500);
+        animation.addListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animator) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animator) {
+                txtView.setRotationX(0f);
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animator) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animator) {
+
+            }
+        });
+        animation.start();
+    }
+
+    public void animation2() {
+        final TextView txtView = (TextView) findViewById(R.id.answer);
+        ObjectAnimator animation = ObjectAnimator.ofFloat(txtView, "rotationX", 360f);
+        animation.setDuration(500);
+        animation.addListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animator) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animator) {
+                txtView.setRotationX(0f);
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animator) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animator) {
+
+            }
+        });
+        animation.start();
     }
 
 }
