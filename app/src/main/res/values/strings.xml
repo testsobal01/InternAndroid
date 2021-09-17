@@ -1,8 +1,8 @@
 <resources>
-    <string name="app_name">MakotoMurase</string>
-    <string name="main_text">Hello World!</string>
+    <string name="app_name">RandomNumberBattlers</string>
     <string name="btn_high">High</string>
     <string name="btn_low">Low</string>
     <string name="btn_restart">Restart</string>
     <string name="label_score">Score：</string>
+    <string name="button1">Random Number Battlers</string>>
 </resources>
