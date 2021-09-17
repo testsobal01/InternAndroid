@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Vibrator;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -85,13 +86,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // Highが押された
         if (isHigh) {
-            // result には結果のみを入れる
+            // result には結果のみを入れif (score>10){
+            //                Vibrator vib = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+            //                vib.vibrate(5000);
+            //            }
             if (question < answer) {
                 result = "WIN";
                 score = 2;
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
+                Vibrator vib = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+                vib.vibrate(100);
             } else {
                 result = "DRAW";
                 score = 1;
@@ -102,6 +108,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 score = 2;
             } else if (question < answer) {
                 result = "LOSE";
+                Vibrator vib = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+                vib.vibrate(100);
                 score = -1;
             } else {
                 result = "DRAW";
