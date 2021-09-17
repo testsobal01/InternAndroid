@@ -9,7 +9,7 @@
     <string name="value1">valeur1</string>
     <string name="value2">valeur2</string>
     <string name="win">VICTOIRE</string>
-    <string name="lose">VAINCRE</string>
+    <string name="lose">PERDRE</string>
     <string name="draw">DESSINER</string>
     <string name="result">Résultat</string>
     <string name="start">Début</string>
