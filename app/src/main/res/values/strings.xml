@@ -11,4 +11,5 @@
     <string name="lose">LOSE</string>
     <string name="draw">DRAW</string>
     <string name="result">Result</string>
+    <string name="start">Start</string>
 </resources>

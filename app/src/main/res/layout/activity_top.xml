@@ -15,7 +15,7 @@
         android:layout_marginBottom="100dp"
         android:textColor="#673AB7"
         android:gravity="center"
-        android:text="ゲームe"
+        android:text="@string/app_name"
         android:textSize="70dp"
         android:textStyle="bold|italic"/>
 
@@ -34,7 +34,7 @@
             android:textColor="#FFFFFF"
             android:textSize="30dp"
             android:textStyle="bold|italic"
-            android:text="スタート" />
+            android:text="@string/start" />
     </FrameLayout>
 
 

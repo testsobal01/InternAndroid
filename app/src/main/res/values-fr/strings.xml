@@ -12,4 +12,5 @@
     <string name="lose">VAINCRE</string>
     <string name="draw">DESSINER</string>
     <string name="result">Résultat</string>
+    <string name="start">Début</string>
 </resources>
