@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Jeu E</string>
+    <string name="btn_high">haut</string>
+    <string name="btn_low">meugler</string>
+    <string name="btn_restart">redémarrage</string>
+    <string name="label_score">Score：</string>
+    <string name="comment">10 est défini.</string>
+    <string name="value1">valeur1</string>
+    <string name="value2">valeur2</string>
+    <string name="win">VICTOIRE</string>
+    <string name="lose">VAINCRE</string>
+    <string name="draw">DESSINER</string>
+    <string name="result">Résultat</string>
+</resources>
