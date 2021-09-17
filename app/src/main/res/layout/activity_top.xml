@@ -10,7 +10,7 @@
     android:layout_gravity="center_vertical">
 
     <TextView
-        android:text="teamD app"
+        android:text="@string/TOP"
         android:textSize="60sp"
         android:layout_margin="50dp"
         android:layout_width="wrap_content"
@@ -26,8 +26,8 @@
 
     <Button
         android:id="@+id/send_button"
-        android:text="START"
-        android:textSize="50sp"
+        android:text="@string/START"
+        android:textSize="30sp"
         android:layout_margin="100dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

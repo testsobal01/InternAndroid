@@ -5,4 +5,6 @@
     <string name="btn_low">低い</string>
     <string name="btn_restart">リスタート</string>
     <string name="label_score">スコア：</string>
+    <string name="START">スタート</string>
+    <string name="TOP">チームD アプリ</string>
 </resources>

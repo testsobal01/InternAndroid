@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Toast.makeText(this, "onResume", Toast.LENGTH_SHORT).show();
 
         TextView textView = (TextView)findViewById(R. id.text_score);
-        String readText = pref.getString("score_input", "保存されていません");
+        String readText = pref.getString("score_input", "0");
         textView.setText(readText);
     }
 
