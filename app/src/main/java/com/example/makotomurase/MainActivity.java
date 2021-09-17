@@ -13,13 +13,18 @@ import android.widget.Toast;
 
 import java.util.Random;
 
+import android.media.AudioManager;
+import android.media.SoundPool;
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     SharedPreferences pref;
     SharedPreferences.Editor prefEditor;
 
-    int i=0;
-  
+    int i = 0;
+    private int mSoundId;
+    private SoundPool mSoundPool;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,14 +39,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
 
-        pref = getSharedPreferences("nanae-tsuji-b-2",MODE_PRIVATE);
+        pref = getSharedPreferences("nanae-tsuji-b-2", MODE_PRIVATE);
         prefEditor = pref.edit();
 
         // 起動時に関数を呼び出す
         setQuestionValue();
 
-
-
+        mSoundPool = new SoundPool(1,AudioManager.STREAM_MUSIC,0);
+        mSoundId = mSoundPool.load(this,R.raw.win,1);
 
 
     }
@@ -49,12 +54,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onPause() {
         super.onPause();
-          Toast.makeText(this,"onPause",Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "onPause", Toast.LENGTH_SHORT).show();
 
-          TextView textView = (TextView)findViewById(R.id.text_score);
+        TextView textView = (TextView) findViewById(R.id.text_score);
 
-          prefEditor.putString("main_input", textView.getText().toString());
-          prefEditor.commit();
+        prefEditor.putString("main_input", textView.getText().toString());
+        prefEditor.commit();
 
     }
 
@@ -82,11 +87,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onResume() {
         super.onResume();
-        Toast.makeText(this,"onResume",Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "onResume", Toast.LENGTH_SHORT).show();
 
-        TextView textView =(TextView)findViewById(R.id.text_score);
-         String readText = pref.getString("main_input","0");
-         textView.setText(readText);
+        TextView textView = (TextView) findViewById(R.id.text_score);
+        String readText = pref.getString("main_input", "0");
+        textView.setText(readText);
 
     }
 
@@ -125,6 +130,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (isHigh) {
             // result には結果のみを入れる
             if (question < answer) {
+                mSoundPool.play(mSoundId,1.0F,1.0F,0,0,1.0F);
                 result = "WIN";
                 score = 2;
             } else if (question > answer) {
@@ -136,6 +142,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         } else {
             if (question > answer) {
+                mSoundPool.play(mSoundId,1.0F,1.0F,0,0,1.0F);
                 result = "WIN";
                 score = 2;
             } else if (question < answer) {
