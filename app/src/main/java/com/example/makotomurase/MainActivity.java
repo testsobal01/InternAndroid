@@ -88,23 +88,36 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             // result には結果のみを入れる
             if (question < answer) {
                 result = "WIN";
+                txtViewAnswer.setBackgroundColor(0xFFff0000);
+                txtViewQuestion.setBackgroundColor(0xFF4169e1);
                 score = 2;
             } else if (question > answer) {
                 result = "LOSE";
+                txtViewAnswer.setBackgroundColor(0xFF4169e1);
+                txtViewQuestion.setBackgroundColor(0xFFff0000);
                 score = -1;
             } else {
                 result = "DRAW";
+                txtViewAnswer.setBackgroundColor(0xFFffff00);
+                txtViewQuestion.setBackgroundColor(0xFFffff00);
                 score = 1;
             }
         } else {
             if (question > answer) {
                 result = "WIN";
+                txtViewQuestion.setBackgroundColor(0xFFff0000);
+                txtViewAnswer.setBackgroundColor(0xFF4169e1);
                 score = 2;
             } else if (question < answer) {
+                txtViewQuestion.setBackgroundColor(0xFF4169e1);
+                txtViewAnswer.setBackgroundColor(0xFFff0000);
                 result = "LOSE";
                 score = -1;
             } else {
                 result = "DRAW";
+                txtViewAnswer.setBackgroundColor(0xFFffff00);
+                txtViewQuestion.setBackgroundColor(0xFFffff00);
+
                 score = 1;
             }
         }
