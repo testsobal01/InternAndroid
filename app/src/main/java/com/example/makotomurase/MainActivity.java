@@ -2,6 +2,8 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.animation.Animator;
+import android.animation.ObjectAnimator;
 import android.content.SharedPreferences;
 import android.content.Intent;
 import android.os.Bundle;
@@ -19,8 +21,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     SharedPreferences pref;
     SharedPreferences.Editor prefEditor;
 
-    int i=0;
-  
+    int i = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,14 +37,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
 
-        pref = getSharedPreferences("nanae-tsuji-b-2",MODE_PRIVATE);
+        pref = getSharedPreferences("nanae-tsuji-b-2", MODE_PRIVATE);
         prefEditor = pref.edit();
 
         // 起動時に関数を呼び出す
         setQuestionValue();
-
-
-
 
 
     }
@@ -50,12 +49,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onPause() {
         super.onPause();
-          Toast.makeText(this,"onPause",Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "onPause", Toast.LENGTH_SHORT).show();
 
-          TextView textView = (TextView)findViewById(R.id.text_score);
+        TextView textView = (TextView) findViewById(R.id.text_score);
 
-          prefEditor.putString("main_input", textView.getText().toString());
-          prefEditor.commit();
+        prefEditor.putString("main_input", textView.getText().toString());
+        prefEditor.commit();
 
     }
 
@@ -83,11 +82,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onResume() {
         super.onResume();
-        Toast.makeText(this,"onResume",Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "onResume", Toast.LENGTH_SHORT).show();
 
-        TextView textView =(TextView)findViewById(R.id.text_score);
-         String readText = pref.getString("main_input","0");
-         textView.setText(readText);
+        TextView textView = (TextView) findViewById(R.id.text_score);
+        String readText = pref.getString("main_input", "0");
+        textView.setText(readText);
 
     }
 
@@ -128,11 +127,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = "WIN";
                 score = 2;
+                animation2();
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
-                Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+                Vibrator vib = (Vibrator) getSystemService(VIBRATOR_SERVICE);
                 vib.vibrate(500);
+                animation();
             } else {
                 result = "DRAW";
                 score = 1;
@@ -141,11 +142,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question > answer) {
                 result = "WIN";
                 score = 2;
+                animation2();
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
-                Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+                Vibrator vib = (Vibrator) getSystemService(VIBRATOR_SERVICE);
                 vib.vibrate(500);
+                animation();
             } else {
                 result = "DRAW";
                 score = 1;
@@ -156,6 +159,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // 最後にまとめてToast表示の処理とTextViewへのセットを行う
         Toast.makeText(this, result, Toast.LENGTH_LONG).show();
         txtResult.setText("結果：" + question + ":" + answer + "(" + result + ")");
+
 
         // 続けて遊べるように値を更新
         setNextQuestion();
@@ -188,6 +192,62 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView txtScore = (TextView) findViewById(R.id.text_score);
         int newScore = Integer.parseInt(txtScore.getText().toString()) + score;
         txtScore.setText(Integer.toString(newScore));
+    }
+
+    public void animation() {
+        final TextView txtView = (TextView) findViewById(R.id.question);
+        ObjectAnimator animation = ObjectAnimator.ofFloat(txtView, "rotationX", 360f);
+        animation.setDuration(500);
+        animation.addListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animator) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animator) {
+                txtView.setRotationX(0f);
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animator) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animator) {
+
+            }
+        });
+        animation.start();
+    }
+
+    public void animation2() {
+        final TextView txtView = (TextView) findViewById(R.id.answer);
+        ObjectAnimator animation = ObjectAnimator.ofFloat(txtView, "rotationX", 360f);
+        animation.setDuration(500);
+        animation.addListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animator) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animator) {
+                txtView.setRotationX(0f);
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animator) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animator) {
+
+            }
+        });
+        animation.start();
     }
 
 }
