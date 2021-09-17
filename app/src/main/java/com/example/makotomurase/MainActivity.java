@@ -4,17 +4,24 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ShareActionProvider;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
+    SharedPreferences pref;
+    SharedPreferences.Editor prefEditor;
+
+    int score;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +40,36 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // 起動時に関数を呼び出す
         setQuestionValue();
 
+        pref = getSharedPreferences("AndroidSeminor", MODE_PRIVATE);
+        prefEditor = pref.edit();
+
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        TextView textView = (TextView)findViewById(R.id.text_score);
+        textView.setText(Integer.toString(score));
+    }
+
+
+        @Override
+        protected void onPause() {
+            super.onPause();
+            TextView textView = (TextView)findViewById(R.id.text_score);
+            prefEditor.putString("input", textView.getText().toString());
+            prefEditor.commit();
+        }
+
+        @Override
+        protected void onResume() {
+            super.onResume();
+
+            TextView textView = (TextView)findViewById(R.id.text_score);
+            String readtext = pref.getString("input", "0");
+            textView.setText(readtext);
+        }
 
     @Override
     public void onClick(View view) {
@@ -61,10 +97,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 txtViewAnswer2.setBackgroundColor(0xffffff00);
                 txtViewQuestion2.setBackgroundColor(0xffff00ff);
                 break;
-
-
         }
-
     }
 
     private void clearAnswerValue() {
@@ -95,7 +128,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView txtResult = (TextView) findViewById(R.id.text_result);
         // 結果を示す文字列を入れる変数を用意
         String result;
-        int score = 0;
+        //int score = 0;
 
         // Highが押された
         if (isHigh) {
@@ -170,8 +203,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void setScore(int score) {
         TextView txtScore = (TextView) findViewById(R.id.text_score);
-        int newScore = Integer.parseInt(txtScore.getText().toString()) + score;
-        txtScore.setText(Integer.toString(newScore));
+        score = Integer.parseInt(txtScore.getText().toString()) + score;
+        txtScore.setText(Integer.toString(score));
     }
-
 }
