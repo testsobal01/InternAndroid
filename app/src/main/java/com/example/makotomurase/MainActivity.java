@@ -93,24 +93,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (isHigh) {
             // result には結果のみを入れる
             if (question < answer) {
-                result = "WIN";
+                result = getString(R.string.text5);
                 score = 2;
             } else if (question > answer) {
-                result = "LOSE";
+                result = getString(R.string.text6);
                 score = -1;
             } else {
-                result = "DRAW";
+                result = getString(R.string.text4);
                 score = 1;
             }
         } else {
             if (question > answer) {
-                result = "WIN";
+                result = getString(R.string.text5);
                 score = 2;
             } else if (question < answer) {
-                result = "LOSE";
+                result = getString(R.string.text6);
                 score = -1;
             } else {
-                result = "DRAW";
+                result = getString(R.string.text4);
                 score = 1;
             }
         }
