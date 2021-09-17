@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Zahlen vergleichen</string>
+    <string name="btn_high">Hoch</string>
+    <string name="btn_low">Niedrig</string>
+    <string name="btn_restart">Neu Starten</string>
+    <string name="label_score">Spielstand：</string>
+    <string name="text1">10 ist eingestellt.</string>
+    <string name="text2">Wert1</string>
+    <string name="text3">Wert2</string>
+    <string name="text4">ZEICHNEN</string>
+    <string name="text5">GEWINNEN</string>
+    <string name="text6">NS</string>
+</resources>
