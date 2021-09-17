@@ -3,6 +3,7 @@ package com.example.makotomurase;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.SharedPreferences;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
@@ -17,6 +18,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     SharedPreferences pref;
     SharedPreferences.Editor prefEditor;
 
+    int i=0;
+  
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,9 +37,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         pref = getSharedPreferences("nanae-tsuji-b-2",MODE_PRIVATE);
         prefEditor = pref.edit();
 
-
         // 起動時に関数を呼び出す
         setQuestionValue();
+
+
+
+
 
     }
 
