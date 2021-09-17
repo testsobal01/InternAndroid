@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.graphics.Color;
 
 import java.util.Random;
 
@@ -49,13 +50,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.button3:
                 setQuestionValue();
                 clearAnswerValue();
+                TextView txtViewQuestion = (TextView) findViewById(R.id.question);
+                txtViewQuestion.setTextColor(Color.BLACK);
+                TextView txtViewAnswer = (TextView) findViewById(R.id.answer);
+                txtViewAnswer.setTextColor(Color.BLACK);
                 break;
         }
 
     }
 
-    private void vibrator(){
-        Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+    private void vibrator() {
+        Vibrator vib = (Vibrator) getSystemService(VIBRATOR_SERVICE);
         vib.vibrate(100);
     }
 
@@ -94,9 +99,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             // result には結果のみを入れる
             if (question < answer) {
                 result = "WIN";
+                txtViewQuestion.setTextColor(Color.RED);
                 score = 2;
             } else if (question > answer) {
                 result = "LOSE";
+                txtViewQuestion.setTextColor(Color.BLUE);
                 score = -1;
             } else {
                 result = "DRAW";
@@ -105,9 +112,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         } else {
             if (question > answer) {
                 result = "WIN";
+                txtViewAnswer.setTextColor(Color.RED);
                 score = 2;
             } else if (question < answer) {
                 result = "LOSE";
+                txtViewAnswer.setTextColor(Color.BLUE);
                 score = -1;
             } else {
                 result = "DRAW";
@@ -143,6 +152,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public void onFinish() {
                 // 3秒経過したら次の値をセット
                 setQuestionValue();
+                TextView txtViewQuestion = (TextView) findViewById(R.id.question);
+                txtViewQuestion.setTextColor(Color.BLACK);
+                TextView txtViewAnswer = (TextView) findViewById(R.id.answer);
+                txtViewAnswer.setTextColor(Color.BLACK);
             }
         }.start();
     }
