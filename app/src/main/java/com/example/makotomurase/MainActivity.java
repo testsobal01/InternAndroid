@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -107,6 +108,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // 0から10の範囲で乱数を生成（+1する必要がある）
         int questionValue = r.nextInt(10 + 1);
         TextView txtView = (TextView) findViewById(R.id.question);
+
         txtView.setText(String.valueOf(questionValue));
         buttonEnabled(true);
     }
@@ -134,9 +136,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = "WIN";
                 score = 2;
+                alphaAnimationTest(txtViewAnswer);
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
+                alphaAnimationTest(txtViewQuestion);
             } else {
                 result = "DRAW";
                 score = 1;
@@ -145,14 +149,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question > answer) {
                 result = "WIN";
                 score = 2;
+                alphaAnimationTest(txtViewAnswer);
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
+                alphaAnimationTest(txtViewQuestion);
             } else {
                 result = "DRAW";
                 score = 1;
             }
         }
+
 
 
         // 最後にまとめてToast表示の処理とTextViewへのセットを行う
@@ -200,6 +207,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void buttonEnabled(boolean status) {
         btn1.setEnabled(status);
         btn2.setEnabled(status);
+    }
+
+    // 透過アニメーションの例
+    void alphaAnimationTest( View v ){
+        AlphaAnimation alpha = new AlphaAnimation(
+                0.0f,  // 開始時の透明度（0は完全に透過）
+                1.0f); // 終了時の透明度（1は全く透過しない）
+
+        // 3秒かけてアニメーションする
+        alpha.setDuration( 3000 );
+
+        // アニメーション終了時の表示状態を維持する
+        alpha.setFillEnabled(true);
+        alpha.setFillAfter  (true);
+
+        // アニメーションを開始
+        v.startAnimation(alpha);
     }
 
 }
