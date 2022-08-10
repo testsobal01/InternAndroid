@@ -2,6 +2,8 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
@@ -12,6 +14,13 @@ import android.widget.Toast;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
+    final static String FILENAME = "Preference.xml";
+
+int score;
+
+    SharedPreferences sp;
+    SharedPreferences.Editor e;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,10 +36,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
 
+        sp = this.getSharedPreferences(FILENAME, Context.MODE_PRIVATE);
+
         // 起動時に関数を呼び出す
         setQuestionValue();
 
     }
+
 
     @Override
     public void onClick(View view) {
@@ -145,6 +157,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView txtScore = (TextView) findViewById(R.id.text_score);
         int newScore = Integer.parseInt(txtScore.getText().toString()) + score;
         txtScore.setText(Integer.toString(newScore));
+        this.score = newScore;
+    }
+
+    protected void onPause() {
+        super.onPause();
+        e = sp.edit();
+        e.putInt("id", score);
+        e.apply();
+    }
+
+    protected void onResume() {
+        super.onResume();
+        int value = sp.getInt("id", 0);
+        score = value;
+        setScore(score);
     }
 
 }
