@@ -38,6 +38,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         pref = getSharedPreferences("AndroidSeminar", MODE_PRIVATE);
 
 
+        counter = new CountDownTimer(0, 0) {
+
+            @Override
+            public void onTick(long l) {
+            }
+
+            @Override
+            public void onFinish() {
+            }
+        }.start();
+
         // 起動時に関数を呼び出す
         setQuestionValue();
 
@@ -175,6 +186,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public void vibration() {
+
         Vibrator vib = (Vibrator) getSystemService(VIBRATOR_SERVICE);
         vib.vibrate(500);
     }
@@ -183,4 +195,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btn1.setEnabled(status);
         btn2.setEnabled(status);
     }
+
 }
+
