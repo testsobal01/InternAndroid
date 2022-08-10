@@ -3,6 +3,7 @@ package com.example.makotomurase;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
@@ -95,6 +96,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView txtView = (TextView) findViewById(R.id.answer);
         txtView.setText("値2");
         TextView txtScore = (TextView) findViewById(R.id.text_score);
+
         prefEditor = pref.edit();
         prefEditor.putString("main_import", "0");
         prefEditor.apply();
@@ -158,6 +160,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // 最後にまとめてToast表示の処理とTextViewへのセットを行う
         Toast.makeText(this, result, Toast.LENGTH_LONG).show();
         txtResult.setText(getString(R.string.result_text, question, answer, result));
+        if (result == "WIN") {
+            txtViewAnswer.setBackgroundColor(Color.BLUE);
+            txtViewQuestion.setBackgroundColor(Color.RED);
+        } else if (result == "LOSE") {
+            txtViewAnswer.setBackgroundColor(Color.RED);
+            txtViewQuestion.setBackgroundColor(Color.BLUE);
+        } else {
+            txtViewAnswer.setBackgroundColor(Color.YELLOW);
+            txtViewQuestion.setBackgroundColor(Color.YELLOW);
+        }
+
         // 続けて遊べるように値を更新
         setNextQuestion();
 
