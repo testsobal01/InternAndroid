@@ -21,10 +21,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     Button btn2;
     CountDownTimer counter;
 
+    private SoundPlayer soundPlayer;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        soundPlayer = new SoundPlayer(this);
 
         btn1 = (Button) findViewById(R.id.button_high);
         btn1.setOnClickListener(this);
@@ -88,6 +92,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             counter.cancel();
             setQuestionValue();
             clearAnswerValue();
+            soundPlayer.playHitSound();
         }
     }
 
