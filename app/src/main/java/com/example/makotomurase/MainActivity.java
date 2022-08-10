@@ -35,20 +35,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View view) {
         int id = view.getId();
-        switch (id) {
-            case R.id.button1:
-                setAnswerValue();
-                checkResult(true);
-                break;
-            case R.id.button2:
-                setAnswerValue();
-                checkResult(false);
-                break;
-            case R.id.button3:
-                setQuestionValue();
-                clearAnswerValue();
-                break;
-
+        if (id == R.id.button1) {
+            setAnswerValue();
+            checkResult(true);
+        } else if (id == R.id.button2) {
+            setAnswerValue();
+            checkResult(false);
+        } else if (id == R.id.button3) {
+            setQuestionValue();
+            clearAnswerValue();
         }
 
     }
