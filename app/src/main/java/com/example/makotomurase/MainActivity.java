@@ -27,17 +27,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        btn1 = (Button) findViewById(R.id.button_high);
+        btn1 = findViewById(R.id.button_high);
         btn1.setOnClickListener(this);
 
-        btn2 = (Button) findViewById(R.id.button_low);
+        btn2 = findViewById(R.id.button_low);
         btn2.setOnClickListener(this);
 
-        Button btn3 = (Button) findViewById(R.id.button_restart);
+        Button btn3 = findViewById(R.id.button_restart);
         btn3.setOnClickListener(this);
 
         pref = getSharedPreferences("AndroidSeminar", MODE_PRIVATE);
-
 
         counter = new CountDownTimer(0, 0) {
 
@@ -59,7 +58,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onResume() {
         super.onResume();
 
-        TextView txtScore = (TextView) findViewById(R.id.text_score);
+        TextView txtScore = findViewById(R.id.text_score);
         String read_txt = pref.getString("main_import", "0");
         txtScore.setText(read_txt);
     }
@@ -68,7 +67,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onPause() {
         super.onPause();
 
-        TextView txtScore = (TextView) findViewById(R.id.text_score);
+        TextView txtScore = findViewById(R.id.text_score);
         prefEditor = pref.edit();
         prefEditor.putString("main_import", txtScore.getText().toString());
         prefEditor.apply();
@@ -93,9 +92,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void clearAnswerValue() {
-        TextView txtView = (TextView) findViewById(R.id.answer);
+        TextView txtView = findViewById(R.id.answer);
         txtView.setText("値2");
-        TextView txtScore = (TextView) findViewById(R.id.text_score);
+        TextView txtScore = findViewById(R.id.text_score);
 
         prefEditor = pref.edit();
         prefEditor.putString("main_import", "0");
@@ -108,7 +107,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Random r = new Random();
         // 0から10の範囲で乱数を生成（+1する必要がある）
         int questionValue = r.nextInt(10 + 1);
-        TextView txtView = (TextView) findViewById(R.id.question);
+        TextView txtView = findViewById(R.id.question);
         txtView.setText(String.valueOf(questionValue));
         buttonEnabled(true);
     }
@@ -116,16 +115,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void setAnswerValue() {
         Random r = new Random();
         int answerValue = r.nextInt(10 + 1);
-        TextView txtView = (TextView) findViewById(R.id.answer);
+        TextView txtView = findViewById(R.id.answer);
         txtView.setText(String.valueOf(answerValue));
     }
 
     private void checkResult(boolean isHigh) {
-        TextView txtViewQuestion = (TextView) findViewById(R.id.question);
-        TextView txtViewAnswer = (TextView) findViewById(R.id.answer);
+        TextView txtViewQuestion = findViewById(R.id.question);
+        TextView txtViewAnswer = findViewById(R.id.answer);
         int question = Integer.parseInt(txtViewQuestion.getText().toString());
         int answer = Integer.parseInt(txtViewAnswer.getText().toString());
-        TextView txtResult = (TextView) findViewById(R.id.text_result);
+        TextView txtResult = findViewById(R.id.text_result);
         // 結果を示す文字列を入れる変数を用意
         String result;
         int score;
@@ -156,14 +155,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         }
 
-
         // 最後にまとめてToast表示の処理とTextViewへのセットを行う
         Toast.makeText(this, result, Toast.LENGTH_LONG).show();
         txtResult.setText(getString(R.string.result_text, question, answer, result));
-        if (result == "WIN") {
+        if (result.equals("WIN")) {
             txtViewAnswer.setBackgroundColor(Color.BLUE);
             txtViewQuestion.setBackgroundColor(Color.RED);
-        } else if (result == "LOSE") {
+        } else if (result.equals("LOSE")) {
             txtViewAnswer.setBackgroundColor(Color.RED);
             txtViewQuestion.setBackgroundColor(Color.BLUE);
         } else {
@@ -176,7 +174,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // スコアを表示
         setScore(score);
-
     }
 
     private void setNextQuestion() {
@@ -199,13 +196,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void setScore(int score) {
-        TextView txtScore = (TextView) findViewById(R.id.text_score);
+        TextView txtScore = findViewById(R.id.text_score);
         int newScore = Integer.parseInt(txtScore.getText().toString()) + score;
         txtScore.setText(String.valueOf(newScore));
     }
 
     public void vibration() {
-
         Vibrator vib = (Vibrator) getSystemService(VIBRATOR_SERVICE);
         vib.vibrate(500);
     }
