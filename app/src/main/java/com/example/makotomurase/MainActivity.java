@@ -26,9 +26,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     SharedPreferences pref;
     SharedPreferences.Editor prefEditor;
     int x = 0;
+    int cwn = 0;//連勝数
 
     SoundPool soundPool;
     int sound;
+    int sound02;
 
     @Override
     protected void onPause() {
@@ -66,7 +68,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     .build();
         }
         sound = soundPool.load(this, R.raw.sound, 1);
-
+        sound02 = soundPool.load(this, R.raw.sound02, 1);
         Button btn1 = (Button) findViewById(R.id.button1);
         btn1.setOnClickListener(this);
 
@@ -102,6 +104,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 vib.vibrate(500);
                 setQuestionValue();
                 clearAnswerValue();
+                cwn = 0;
                 LinearLayout layout = (LinearLayout) findViewById(R.id.display);
                 layout.setBackgroundColor(Color.argb(255, 255, 255, 255));
                 break;
@@ -153,28 +156,40 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = "WIN";
                 score = 2;
+                cwn++;
+                if (cwn % 5 == 0) {
+                    soundPool.play(sound02, 1f, 1f, 0, 0, 1f);
+                }
                 layout.setBackgroundColor(Color.argb(200, 255, 0, 0));
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
+                cwn = 0;
                 layout.setBackgroundColor(Color.argb(200, 0, 0, 255));
             } else {
                 result = "DRAW";
                 score = 1;
+                cwn = 0;
                 layout.setBackgroundColor(Color.argb(255, 255, 255, 255));
             }
         } else {
             if (question > answer) {
                 result = "WIN";
                 score = 2;
+                cwn++;
+                if (cwn % 5 == 0) {
+                    soundPool.play(sound02, 1f, 1f, 0, 0, 1f);
+                }
                 layout.setBackgroundColor(Color.argb(200, 255, 0, 0));
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
+                cwn = 0;
                 layout.setBackgroundColor(Color.argb(200, 0, 0, 255));
             } else {
                 result = "DRAW";
                 score = 1;
+                cwn = 0;
                 layout.setBackgroundColor(Color.argb(255, 255, 255, 255));
             }
         }
