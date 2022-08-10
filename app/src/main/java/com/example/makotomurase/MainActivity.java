@@ -26,17 +26,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-         btn1 = (Button) findViewById(R.id.button_high);
+        btn1 = (Button) findViewById(R.id.button_high);
         btn1.setOnClickListener(this);
 
-         btn2 = (Button) findViewById(R.id.button_low);
+        btn2 = (Button) findViewById(R.id.button_low);
         btn2.setOnClickListener(this);
 
         Button btn3 = (Button) findViewById(R.id.button_restart);
         btn3.setOnClickListener(this);
 
-        pref=getSharedPreferences("AndroidSeminor",MODE_PRIVATE);
-        prefEditor=pref.edit();
+        pref = getSharedPreferences("AndroidSeminar", MODE_PRIVATE);
+
 
         // 起動時に関数を呼び出す
         setQuestionValue();
@@ -47,18 +47,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onResume() {
         super.onResume();
 
-        TextView txtScore=(TextView)findViewById(R.id.text_score);
-        String readtxt=pref.getString("main_import","0");
-        txtScore.setText(readtxt);
+        TextView txtScore = (TextView) findViewById(R.id.text_score);
+        String read_txt = pref.getString("main_import", "0");
+        txtScore.setText(read_txt);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
 
-        TextView txtScore=(TextView)findViewById(R.id.text_score);
-        prefEditor.putString("main_import",txtScore.getText().toString());
-        prefEditor.commit();
+        TextView txtScore = (TextView) findViewById(R.id.text_score);
+        prefEditor = pref.edit();
+        prefEditor.putString("main_import", txtScore.getText().toString());
+        prefEditor.apply();
     }
 
     @Override
@@ -173,12 +174,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         txtScore.setText(String.valueOf(newScore));
     }
 
-    public void vibration(){
-        Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+    public void vibration() {
+        Vibrator vib = (Vibrator) getSystemService(VIBRATOR_SERVICE);
         vib.vibrate(500);
     }
 
-    private void buttonEnabled(boolean status){
+    private void buttonEnabled(boolean status) {
         btn1.setEnabled(status);
         btn2.setEnabled(status);
     }
