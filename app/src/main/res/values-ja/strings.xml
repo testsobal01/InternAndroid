@@ -6,4 +6,6 @@
     <string name="btn_restart">再起動</string>
     <string name="label_score">得点：</string>
     <string name="text">10が設定されています。</string>
+    <string name="dialog_title">おめでとう</string>
+    <string name="dialog_body">現在の得点：</string>
 </resources>

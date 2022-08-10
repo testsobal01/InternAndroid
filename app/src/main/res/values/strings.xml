@@ -7,4 +7,6 @@
     <string name="text">10が設定されています。</string>
     <string name="result_text">結果：%1$d:%2$d (%3$s)</string>
     <string name="btn_start_text">START!</string>
+    <string name="dialog_title">おめでとう</string>
+    <string name="dialog_body">現在の得点：</string>
 </resources>

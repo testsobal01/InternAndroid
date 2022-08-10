@@ -6,4 +6,6 @@
     <string name="btn_restart">Restart</string>
     <string name="label_score">Score：</string>
     <string name="text">10 is set.</string>
+    <string name="dialog_title">congratulations!</string>
+    <string name="dialog_body">Current score:</string>
 </resources>

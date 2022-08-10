@@ -2,6 +2,8 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -22,6 +24,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     Button btn1;
     Button btn2;
     CountDownTimer counter;
+    boolean score_dialog_flag = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,6 +89,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             setAnswerValue();
             checkResult(false);
         } else if (id == R.id.button_restart) {
+            score_dialog_flag = false;
             counter.cancel();
             setQuestionValue();
             clearAnswerValue();
@@ -204,6 +208,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView txtScore = findViewById(R.id.text_score);
         int newScore = Integer.parseInt(txtScore.getText().toString()) + score;
         txtScore.setText(String.valueOf(newScore));
+
+        if (newScore >= 10 && score_dialog_flag == false) {
+            score_dialog_flag = true;
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle(getString(R.string.dialog_title));
+            builder.setMessage(getString(R.string.dialog_body) + newScore);
+            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                }
+            });
+            AlertDialog dialog = builder.create();
+            dialog.show();
+        } else if (newScore < 10 && score_dialog_flag == true) {
+            score_dialog_flag = false;
+        }
     }
 
     public void vibration() {
@@ -217,17 +237,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     // 透過アニメーションの例
-    void alphaAnimationTest( View v ){
+    void alphaAnimationTest(View v) {
         AlphaAnimation alpha = new AlphaAnimation(
                 0.0f,  // 開始時の透明度（0は完全に透過）
                 1.0f); // 終了時の透明度（1は全く透過しない）
 
         // 3秒かけてアニメーションする
-        alpha.setDuration( 3000 );
+        alpha.setDuration(3000);
 
         // アニメーション終了時の表示状態を維持する
         alpha.setFillEnabled(true);
-        alpha.setFillAfter  (true);
+        alpha.setFillAfter(true);
 
         // アニメーションを開始
         v.startAnimation(alpha);

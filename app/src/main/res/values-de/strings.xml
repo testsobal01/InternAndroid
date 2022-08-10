@@ -6,4 +6,6 @@
     <string name="btn_restart">neu starten</string>
     <string name="label_score">Punktzahl：</string>
     <string name="text">10 ist eingestellt.</string>
+    <string name="dialog_title">Herzlichen Glückwunsch!</string>
+    <string name="dialog_body">Momentaner Punktestand:</string>
 </resources>
