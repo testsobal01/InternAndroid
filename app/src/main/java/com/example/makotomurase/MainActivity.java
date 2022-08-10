@@ -7,6 +7,10 @@ import android.graphics.Color;
 
 import android.content.SharedPreferences;
 
+import android.media.AudioAttributes;
+import android.media.AudioManager;
+import android.media.SoundPool;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
@@ -23,10 +27,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     SharedPreferences.Editor prefEditor;
     int x = 0;
 
+    SoundPool soundPool;
+    int sound;
+
     @Override
     protected void onPause() {
         super.onPause();
-        prefEditor.putInt("main_input",x);
+        prefEditor.putInt("main_input", x);
         prefEditor.commit();
         //Toast.makeText(this, String.valueOf(x),Toast.LENGTH_SHORT).show();
     }
@@ -35,15 +42,30 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onResume() {
         super.onResume();
-        x = pref.getInt("main_input",0);
+        x = pref.getInt("main_input", 0);
         TextView txtScore = (TextView) findViewById(R.id.text_score);
         txtScore.setText(Integer.toString(x));
 
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            soundPool = new SoundPool(5, AudioManager.STREAM_MUSIC, 0);
+        } else {
+            AudioAttributes attr = new AudioAttributes.Builder()
+                    .setUsage(AudioAttributes.USAGE_MEDIA)
+                    .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+                    .build();
+            soundPool = new SoundPool.Builder()
+                    .setAudioAttributes(attr)
+                    .setMaxStreams(5)
+                    .build();
+        }
+        sound = soundPool.load(this, R.raw.sound, 1);
 
         Button btn1 = (Button) findViewById(R.id.button1);
         btn1.setOnClickListener(this);
@@ -54,7 +76,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
 
-        pref = getSharedPreferences("InternAndroid",MODE_PRIVATE);
+        pref = getSharedPreferences("InternAndroid", MODE_PRIVATE);
         prefEditor = pref.edit();
 
         // 起動時に関数を呼び出す
@@ -76,7 +98,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 checkResult(false);
                 break;
             case R.id.button3:
-                Vibrator vib=(Vibrator)getSystemService(VIBRATOR_SERVICE);
+                Vibrator vib = (Vibrator) getSystemService(VIBRATOR_SERVICE);
                 vib.vibrate(500);
                 setQuestionValue();
                 clearAnswerValue();
@@ -85,7 +107,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
 
         }
-
+        soundPool.play(sound, 1f, 1f, 0, 0, 1f);
     }
 
     @Override
