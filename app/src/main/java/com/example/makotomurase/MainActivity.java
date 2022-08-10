@@ -2,7 +2,11 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+
 import android.graphics.Color;
+
+import android.content.SharedPreferences;
+
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
@@ -14,7 +18,27 @@ import android.widget.Toast;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+    SharedPreferences pref;
+    SharedPreferences.Editor prefEditor;
+    int x = 0;
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        prefEditor.putInt("main_input",x);
+        prefEditor.commit();
+        //Toast.makeText(this, String.valueOf(x),Toast.LENGTH_SHORT).show();
+    }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        x = pref.getInt("main_input",0);
+        TextView txtScore = (TextView) findViewById(R.id.text_score);
+        txtScore.setText(Integer.toString(x));
+
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,8 +53,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
 
+        pref = getSharedPreferences("InternAndroid",MODE_PRIVATE);
+        prefEditor = pref.edit();
+
         // 起動時に関数を呼び出す
         setQuestionValue();
+
 
     }
 
@@ -54,6 +82,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
 
         }
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
 
     }
 
@@ -156,6 +190,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView txtScore = (TextView) findViewById(R.id.text_score);
         int newScore = Integer.parseInt(txtScore.getText().toString()) + score;
         txtScore.setText(Integer.toString(newScore));
+        x = newScore;
     }
 
 }
