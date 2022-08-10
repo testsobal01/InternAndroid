@@ -1,7 +1,11 @@
 <resources>
-    <string name="app_name">MakotoMurase</string>
+    <string name="app_name">TEAM G</string>
     <string name="btn_high">High</string>
     <string name="btn_low">Low</string>
     <string name="btn_restart">Restart</string>
     <string name="label_score">Score：</string>
+    <string name="title1">HIGH</string>
+    <string name="title2">and</string>
+    <string name="title3">ROW</string>
+    <string name="start">START</string>
 </resources>

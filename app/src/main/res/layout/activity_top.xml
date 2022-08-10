@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/heavenandhell"
+    tools:context=".TopActivity">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/title1"
+        android:textColor="#00008b"
+        android:textSize="80sp"
+        android:paddingTop="50sp"
+        android:paddingLeft="20sp"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/title2"
+        android:textColor="#ff8c00"
+        android:textSize="60sp"
+        android:layout_gravity="center"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/title3"
+        android:textColor="#dc143c"
+        android:textSize="80sp"
+        android:layout_gravity="right"
+        android:paddingRight="20sp"
+        android:paddingBottom="80sp"
+        />
+
+    <Button
+        android:id="@+id/startButton"
+        android:layout_width="200sp"
+        android:layout_height="100sp"
+        android:layout_gravity="center"
+        app:backgroundTint="#ffa500"
+        android:textSize="40sp"
+        android:text="@string/start" />
+
+
+
+</LinearLayout>
