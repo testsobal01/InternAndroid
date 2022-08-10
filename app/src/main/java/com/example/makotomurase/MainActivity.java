@@ -3,8 +3,10 @@ package com.example.makotomurase;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Vibrator;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -14,10 +16,17 @@ import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
+    private SoundPlayer soundPlayer;
+
+    SharedPreferences pref;
+    SharedPreferences.Editor prefEditor;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        soundPlayer = new SoundPlayer(this);
 
         Button btn1 = (Button) findViewById(R.id.button1);
         btn1.setOnClickListener(this);
@@ -27,6 +36,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
+
+        // "AndroidSeminar"は、保存する先のファイル名のようなもの
+        pref = getSharedPreferences("AndroidSeminar", MODE_PRIVATE);
+        prefEditor = pref.edit();
 
         // 起動時に関数を呼び出す
         setQuestionValue();
@@ -38,14 +51,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int id = view.getId();
         switch (id) {
             case R.id.button1:
+                soundPlayer.playHitSound();
                 setAnswerValue();
                 checkResult(true);
+                Vibrator vib = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+                vib.vibrate(50);
                 break;
             case R.id.button2:
+                soundPlayer.playHitSound();
                 setAnswerValue();
                 checkResult(false);
                 break;
             case R.id.button3:
+                soundPlayer.playHitSound();
                 setQuestionValue();
                 clearAnswerValue();
                 break;
@@ -147,6 +165,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView txtScore = (TextView) findViewById(R.id.text_score);
         int newScore = Integer.parseInt(txtScore.getText().toString()) + score;
         txtScore.setText(Integer.toString(newScore));
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        // 画面上の文字列を保持するため、テキストビューを取得
+        TextView textView = (TextView)findViewById(R.id.text_score);
+        // "main_input"というキー名（箱）に、文字列を保存
+        prefEditor.putString("main_input", textView.getText().toString());
+        prefEditor.commit();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        // 画面上に文字列をセットするため、テキストビューを取得
+        TextView textView = (TextView)findViewById(R.id.text_score);
+        // 保存した値をキー名（main_input）を指定して取得
+        // 一度も保存されていない場合もあり得るので、その時に代わりに表示する文字列も指定する
+        String readText = pref.getString("main_input", "0");
+        textView.setText(readText);
     }
 
 }
