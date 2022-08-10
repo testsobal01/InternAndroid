@@ -4,4 +4,11 @@
     <string name="btn_low">Low</string>
     <string name="btn_restart">Restart</string>
     <string name="label_score">Score：</string>
+    <string name="question">value 1</string>
+    <string name="answer">value 2</string>
+    <string name="explanation">10 is set.</string>
+    <string name="win">WIN</string>
+    <string name="lose">LOSE</string>
+    <string name="draw">DRAW</string>
+    <string name="result">result</string>
 </resources>
