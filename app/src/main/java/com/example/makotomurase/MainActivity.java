@@ -2,6 +2,10 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.media.AudioAttributes;
+import android.media.AudioManager;
+import android.media.SoundPool;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
@@ -12,6 +16,11 @@ import android.widget.Toast;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
+    // ① 準備（コンポを部屋に置く・コピペOK）
+    SoundPool soundPool;    // 効果音を鳴らす本体（コンポ）
+    int mp3b;          // 効果音データ（mp3）
+    int mp3c;          // 効果音データ（mp3）
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +39,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // 起動時に関数を呼び出す
         setQuestionValue();
 
+        // ② 初期化（電源を入れる・コピペOK）
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            soundPool = new SoundPool(5, AudioManager.STREAM_MUSIC, 0);
+        } else {
+            AudioAttributes attr = new AudioAttributes.Builder()
+                    .setUsage(AudioAttributes.USAGE_MEDIA)
+                    .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+                    .build();
+            soundPool = new SoundPool.Builder()
+                    .setAudioAttributes(attr)
+                    .setMaxStreams(5)
+                    .build();
+        }
+
+        // ③ 読込処理(CDを入れる)
+        mp3b = soundPool.load(this, R.raw.b, 1);
+        mp3c = soundPool.load(this, R.raw.c, 1);
     }
 
     @Override
@@ -88,9 +114,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             // result には結果のみを入れる
             if (question < answer) {
                 result = "WIN";
+                soundPool.play(mp3b,1f , 1f, 0, 0, 1f);
                 score = 2;
             } else if (question > answer) {
                 result = "LOSE";
+                soundPool.play(mp3c,1f , 1f, 0, 0, 1f);
                 score = -1;
             } else {
                 result = "DRAW";
@@ -99,9 +127,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         } else {
             if (question > answer) {
                 result = "WIN";
+                soundPool.play(mp3b,1f , 1f, 0, 0, 1f);
                 score = 2;
             } else if (question < answer) {
                 result = "LOSE";
+                soundPool.play(mp3c,1f , 1f, 0, 0, 1f);
                 score = -1;
             } else {
                 result = "DRAW";
