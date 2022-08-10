@@ -17,16 +17,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     SharedPreferences pref;
     SharedPreferences.Editor prefEditor;
+    Button btn1;
+    Button btn2;
+    CountDownTimer counter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Button btn1 = (Button) findViewById(R.id.button_high);
+         btn1 = (Button) findViewById(R.id.button_high);
         btn1.setOnClickListener(this);
 
-        Button btn2 = (Button) findViewById(R.id.button_low);
+         btn2 = (Button) findViewById(R.id.button_low);
         btn2.setOnClickListener(this);
 
         Button btn3 = (Button) findViewById(R.id.button_restart);
@@ -61,13 +64,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View view) {
         int id = view.getId();
+        buttonEnabled(false);
         if (id == R.id.button_high) {
             setAnswerValue();
+            vibration();
             checkResult(true);
         } else if (id == R.id.button_low) {
             setAnswerValue();
             checkResult(false);
         } else if (id == R.id.button_restart) {
+            counter.cancel();
             setQuestionValue();
             clearAnswerValue();
         }
@@ -84,6 +90,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int questionValue = r.nextInt(10 + 1);
         TextView txtView = (TextView) findViewById(R.id.question);
         txtView.setText(String.valueOf(questionValue));
+        buttonEnabled(true);
     }
 
     private void setAnswerValue() {
@@ -144,7 +151,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void setNextQuestion() {
         // 第１引数がカウントダウン時間、第２引数は途中経過を受け取る間隔
         // 単位はミリ秒（1秒＝1000ミリ秒）
-        new CountDownTimer(3000, 1000) {
+        counter = new CountDownTimer(3000, 1000) {
 
             @Override
             public void onTick(long l) {
@@ -171,4 +178,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         vib.vibrate(500);
     }
 
+    private void buttonEnabled(boolean status){
+        btn1.setEnabled(status);
+        btn2.setEnabled(status);
+    }
 }
