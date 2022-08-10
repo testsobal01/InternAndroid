@@ -2,11 +2,16 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+
+import android.graphics.Color;
+
 import android.content.SharedPreferences;
+
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -72,6 +77,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.button3:
                 setQuestionValue();
                 clearAnswerValue();
+                LinearLayout layout = (LinearLayout) findViewById(R.id.display);
+                layout.setBackgroundColor(Color.argb(255, 255, 255, 255));
                 break;
 
         }
@@ -105,6 +112,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void checkResult(boolean isHigh) {
+        LinearLayout layout = (LinearLayout) findViewById(R.id.display);
         TextView txtViewQuestion = (TextView) findViewById(R.id.question);
         TextView txtViewAnswer = (TextView) findViewById(R.id.answer);
         int question = Integer.parseInt(txtViewQuestion.getText().toString());
@@ -120,23 +128,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = "WIN";
                 score = 2;
+                layout.setBackgroundColor(Color.argb(200, 255, 0, 0));
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
+                layout.setBackgroundColor(Color.argb(200, 0, 0, 255));
             } else {
                 result = "DRAW";
                 score = 1;
+                layout.setBackgroundColor(Color.argb(255, 255, 255, 255));
             }
         } else {
             if (question > answer) {
                 result = "WIN";
                 score = 2;
+                layout.setBackgroundColor(Color.argb(200, 255, 0, 0));
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
+                layout.setBackgroundColor(Color.argb(200, 0, 0, 255));
             } else {
                 result = "DRAW";
                 score = 1;
+                layout.setBackgroundColor(Color.argb(255, 255, 255, 255));
             }
         }
 
