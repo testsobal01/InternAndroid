@@ -3,7 +3,9 @@ package com.example.makotomurase;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 
@@ -20,6 +22,9 @@ import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
+
+    int battle=0;
+    int rescore=0;
 
     SharedPreferences pref; // プリファレンス用変数
     SharedPreferences.Editor prefEditor; // プリファレンス編集用変数
@@ -45,7 +50,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // 起動時に関数を呼び出す
         setQuestionValue();
 
-
+        // 結果表示ボタン
+        Button rebtn = (Button) findViewById(R.id.button4);
+        rebtn.setOnClickListener(this);
     }
 
 
@@ -93,6 +100,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
                 vib.vibrate(2000);
                 break;
+            case R.id.button4:
+                Toast.makeText(this, battle+"回戦中"+rescore+"勝利", Toast.LENGTH_LONG).show();
+                break;
+
 
         }
 
@@ -128,6 +139,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         String result;
         int score = 0;
 
+
         // Highが押された
         if (isHigh) {
             // result には結果のみを入れる
@@ -154,6 +166,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         }
 
+        battle++;
+        if(result=="WIN"){
+            rescore++;
+        }
 
         // 最後にまとめてToast表示の処理とTextViewへのセットを行う
         Toast.makeText(this, result, Toast.LENGTH_LONG).show();
@@ -191,5 +207,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int newScore = Integer.parseInt(txtScore.getText().toString()) + score;
         txtScore.setText(Integer.toString(newScore));
     }
+
 
 }
