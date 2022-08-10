@@ -63,6 +63,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int id = view.getId();
         if (id == R.id.button_high) {
             setAnswerValue();
+            vibration();
             checkResult(true);
         } else if (id == R.id.button_low) {
             setAnswerValue();
