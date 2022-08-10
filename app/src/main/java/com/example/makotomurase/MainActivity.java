@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -135,9 +136,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = "WIN";
                 score = 2;
+                alphaAnimationTest(txtViewAnswer);
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
+                alphaAnimationTest(txtViewQuestion);
             } else {
                 result = "DRAW";
                 score = 1;
@@ -146,9 +149,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question > answer) {
                 result = "WIN";
                 score = 2;
+                alphaAnimationTest(txtViewAnswer);
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
+                alphaAnimationTest(txtViewQuestion);
             } else {
                 result = "DRAW";
                 score = 1;
@@ -209,6 +214,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void buttonEnabled(boolean status) {
         btn1.setEnabled(status);
         btn2.setEnabled(status);
+    }
+
+    // 透過アニメーションの例
+    void alphaAnimationTest( View v ){
+        AlphaAnimation alpha = new AlphaAnimation(
+                0.0f,  // 開始時の透明度（0は完全に透過）
+                1.0f); // 終了時の透明度（1は全く透過しない）
+
+        // 3秒かけてアニメーションする
+        alpha.setDuration( 3000 );
+
+        // アニメーション終了時の表示状態を維持する
+        alpha.setFillEnabled(true);
+        alpha.setFillAfter  (true);
+
+        // アニメーションを開始
+        v.startAnimation(alpha);
     }
 
 }
