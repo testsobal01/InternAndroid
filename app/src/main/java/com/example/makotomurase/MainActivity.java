@@ -6,7 +6,11 @@ import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+
+import android.view.MotionEvent;
+
 import android.os.Vibrator;
+
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -15,6 +19,7 @@ import android.widget.Toast;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
 
     SharedPreferences pref; // プリファレンス用変数
     SharedPreferences.Editor prefEditor; // プリファレンス編集用変数
@@ -40,7 +45,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // 起動時に関数を呼び出す
         setQuestionValue();
 
+
     }
+
 
     @Override
     protected void onPause() {
