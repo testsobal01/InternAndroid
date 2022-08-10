@@ -6,6 +6,7 @@ import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Vibrator;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -82,6 +83,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.button3:
                 setQuestionValue();
                 clearAnswerValue();
+                Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+                vib.vibrate(2000);
                 break;
 
         }
