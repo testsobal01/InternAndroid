@@ -2,10 +2,15 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+
 import android.media.AudioAttributes;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.Build;
+
+import android.content.Context;
+import android.content.SharedPreferences;
+
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
@@ -17,10 +22,19 @@ import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
+
     // ① 準備（コンポを部屋に置く・コピペOK）
     SoundPool soundPool;    // 効果音を鳴らす本体（コンポ）
     int mp3b;          // 効果音データ（mp3）
     int mp3c;          // 効果音データ（mp3）
+
+    final static String FILENAME = "Preference.xml";
+
+int score;
+
+    SharedPreferences sp;
+    SharedPreferences.Editor e;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +49,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
+
+        sp = this.getSharedPreferences(FILENAME, Context.MODE_PRIVATE);
 
         // 起動時に関数を呼び出す
         setQuestionValue();
@@ -57,6 +73,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mp3b = soundPool.load(this, R.raw.b, 1);
         mp3c = soundPool.load(this, R.raw.c, 1);
     }
+
 
     @Override
     public void onClick(View view) {
@@ -175,6 +192,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView txtScore = (TextView) findViewById(R.id.text_score);
         int newScore = Integer.parseInt(txtScore.getText().toString()) + score;
         txtScore.setText(Integer.toString(newScore));
+        this.score = newScore;
+    }
+
+    protected void onPause() {
+        super.onPause();
+        e = sp.edit();
+        e.putInt("id", score);
+        e.apply();
+    }
+
+    protected void onResume() {
+        super.onResume();
+        int value = sp.getInt("id", 0);
+        score = value;
+        setScore(score);
     }
 
 }
