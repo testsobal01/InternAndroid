@@ -98,7 +98,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void clearAnswerValue() {
         TextView txtView = findViewById(R.id.answer);
-        txtView.setText("値2");
+        txtView.setText(getString(R.string.text_hatena));
         TextView txtScore = findViewById(R.id.text_score);
 
         prefEditor = pref.edit();
