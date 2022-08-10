@@ -94,11 +94,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void clearAnswerValue() {
         TextView txtView = (TextView) findViewById(R.id.answer);
         txtView.setText("値2");
-        TextView txtScore=(TextView)findViewById(R.id.text_score);
-        prefEditor.putString("main_import","0");
-        prefEditor.commit();
-        String readtxt=pref.getString("main_import","0");
-        txtScore.setText(readtxt);
+        TextView txtScore = (TextView) findViewById(R.id.text_score);
+        prefEditor = pref.edit();
+        prefEditor.putString("main_import", "0");
+        prefEditor.apply();
+        String read_txt = pref.getString("main_import", "0");
+        txtScore.setText(read_txt);
     }
 
     private void setQuestionValue() {
