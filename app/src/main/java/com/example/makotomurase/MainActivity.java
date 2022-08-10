@@ -13,10 +13,14 @@ import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
+    private SoundPlayer soundPlayer;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        soundPlayer = new SoundPlayer(this);
 
         Button btn1 = (Button) findViewById(R.id.button1);
         btn1.setOnClickListener(this);
@@ -37,14 +41,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int id = view.getId();
         switch (id) {
             case R.id.button1:
+                soundPlayer.playHitSound();
                 setAnswerValue();
                 checkResult(true);
                 break;
             case R.id.button2:
+                soundPlayer.playHitSound();
                 setAnswerValue();
                 checkResult(false);
                 break;
             case R.id.button3:
+                soundPlayer.playHitSound();
                 setQuestionValue();
                 clearAnswerValue();
                 break;
