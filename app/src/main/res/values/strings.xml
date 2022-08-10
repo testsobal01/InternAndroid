@@ -5,4 +5,6 @@
     <string name="btn_restart">Restart</string>
     <string name = "btn_languages">Languages</string>
     <string name="label_score">Score：</string>
+    <string name="button_1">start</string>
+    <string name="next">次へ</string>
 </resources>
