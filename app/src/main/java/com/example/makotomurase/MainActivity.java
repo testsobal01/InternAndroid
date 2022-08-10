@@ -18,13 +18,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Button btn1 = (Button) findViewById(R.id.button1);
+        Button btn1 = (Button) findViewById(R.id.button_high);
         btn1.setOnClickListener(this);
 
-        Button btn2 = (Button) findViewById(R.id.button2);
+        Button btn2 = (Button) findViewById(R.id.button_low);
         btn2.setOnClickListener(this);
 
-        Button btn3 = (Button) findViewById(R.id.button3);
+        Button btn3 = (Button) findViewById(R.id.button_restart);
         btn3.setOnClickListener(this);
 
         // 起動時に関数を呼び出す
@@ -35,13 +35,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View view) {
         int id = view.getId();
-        if (id == R.id.button1) {
+        if (id == R.id.button_high) {
             setAnswerValue();
             checkResult(true);
-        } else if (id == R.id.button2) {
+        } else if (id == R.id.button_low) {
             setAnswerValue();
             checkResult(false);
-        } else if (id == R.id.button3) {
+        } else if (id == R.id.button_restart) {
             setQuestionValue();
             clearAnswerValue();
         }
