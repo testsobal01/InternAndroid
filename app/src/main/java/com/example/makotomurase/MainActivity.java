@@ -40,8 +40,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     @Override
-    protected void onPostResume() {
-        super.onPostResume();
+    protected void onResume() {
+        super.onResume();
 
         TextView txtScore=(TextView)findViewById(R.id.text_score);
         String readtxt=pref.getString("main_import","0");
