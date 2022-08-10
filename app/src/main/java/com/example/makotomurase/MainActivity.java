@@ -2,11 +2,15 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -20,6 +24,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     Button btn1;
     Button btn2;
     CountDownTimer counter;
+    boolean score_dialog_flag = false;
 
     private SoundPlayer soundPlayer;
 
@@ -27,20 +32,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         soundPlayer = new SoundPlayer(this);
 
-        btn1 = (Button) findViewById(R.id.button_high);
+        btn1 = findViewById(R.id.button_high);
+
         btn1.setOnClickListener(this);
 
-        btn2 = (Button) findViewById(R.id.button_low);
+        btn2 = findViewById(R.id.button_low);
         btn2.setOnClickListener(this);
 
-        Button btn3 = (Button) findViewById(R.id.button_restart);
+        Button btn3 = findViewById(R.id.button_restart);
         btn3.setOnClickListener(this);
 
         pref = getSharedPreferences("AndroidSeminar", MODE_PRIVATE);
-
 
         counter = new CountDownTimer(0, 0) {
 
@@ -62,7 +66,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onResume() {
         super.onResume();
 
-        TextView txtScore = (TextView) findViewById(R.id.text_score);
+        TextView txtScore = findViewById(R.id.text_score);
         String read_txt = pref.getString("main_import", "0");
         txtScore.setText(read_txt);
     }
@@ -71,7 +75,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onPause() {
         super.onPause();
 
-        TextView txtScore = (TextView) findViewById(R.id.text_score);
+        TextView txtScore = findViewById(R.id.text_score);
         prefEditor = pref.edit();
         prefEditor.putString("main_import", txtScore.getText().toString());
         prefEditor.apply();
@@ -89,6 +93,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             setAnswerValue();
             checkResult(false);
         } else if (id == R.id.button_restart) {
+            score_dialog_flag = false;
             counter.cancel();
             setQuestionValue();
             clearAnswerValue();
@@ -97,9 +102,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void clearAnswerValue() {
-        TextView txtView = (TextView) findViewById(R.id.answer);
-        txtView.setText("値2");
-        TextView txtScore = (TextView) findViewById(R.id.text_score);
+        TextView txtView = findViewById(R.id.answer);
+        txtView.setText(getString(R.string.text_hatena));
+        TextView txtScore = findViewById(R.id.text_score);
+
         prefEditor = pref.edit();
         prefEditor.putString("main_import", "0");
         prefEditor.apply();
@@ -111,7 +117,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Random r = new Random();
         // 0から10の範囲で乱数を生成（+1する必要がある）
         int questionValue = r.nextInt(10 + 1);
-        TextView txtView = (TextView) findViewById(R.id.question);
+        TextView txtView = findViewById(R.id.question);
         txtView.setText(String.valueOf(questionValue));
         buttonEnabled(true);
     }
@@ -119,16 +125,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void setAnswerValue() {
         Random r = new Random();
         int answerValue = r.nextInt(10 + 1);
-        TextView txtView = (TextView) findViewById(R.id.answer);
+        TextView txtView = findViewById(R.id.answer);
         txtView.setText(String.valueOf(answerValue));
     }
 
     private void checkResult(boolean isHigh) {
-        TextView txtViewQuestion = (TextView) findViewById(R.id.question);
-        TextView txtViewAnswer = (TextView) findViewById(R.id.answer);
+        TextView txtViewQuestion = findViewById(R.id.question);
+        TextView txtViewAnswer = findViewById(R.id.answer);
         int question = Integer.parseInt(txtViewQuestion.getText().toString());
         int answer = Integer.parseInt(txtViewAnswer.getText().toString());
-        TextView txtResult = (TextView) findViewById(R.id.text_result);
+        TextView txtResult = findViewById(R.id.text_result);
         // 結果を示す文字列を入れる変数を用意
         String result;
         int score;
@@ -139,9 +145,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = "WIN";
                 score = 2;
+                alphaAnimationTest(txtViewAnswer);
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
+                alphaAnimationTest(txtViewQuestion);
             } else {
                 result = "DRAW";
                 score = 1;
@@ -150,25 +158,36 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question > answer) {
                 result = "WIN";
                 score = 2;
+                alphaAnimationTest(txtViewAnswer);
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
+                alphaAnimationTest(txtViewQuestion);
             } else {
                 result = "DRAW";
                 score = 1;
             }
         }
 
-
         // 最後にまとめてToast表示の処理とTextViewへのセットを行う
         Toast.makeText(this, result, Toast.LENGTH_LONG).show();
         txtResult.setText(getString(R.string.result_text, question, answer, result));
+        if (result.equals("WIN")) {
+            txtViewAnswer.setBackgroundColor(Color.BLUE);
+            txtViewQuestion.setBackgroundColor(Color.RED);
+        } else if (result.equals("LOSE")) {
+            txtViewAnswer.setBackgroundColor(Color.RED);
+            txtViewQuestion.setBackgroundColor(Color.BLUE);
+        } else {
+            txtViewAnswer.setBackgroundColor(Color.YELLOW);
+            txtViewQuestion.setBackgroundColor(Color.YELLOW);
+        }
+
         // 続けて遊べるように値を更新
         setNextQuestion();
 
         // スコアを表示
         setScore(score);
-
     }
 
     private void setNextQuestion() {
@@ -191,13 +210,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void setScore(int score) {
-        TextView txtScore = (TextView) findViewById(R.id.text_score);
+        TextView txtScore = findViewById(R.id.text_score);
         int newScore = Integer.parseInt(txtScore.getText().toString()) + score;
         txtScore.setText(String.valueOf(newScore));
+
+        if (newScore >= 10 && score_dialog_flag == false) {
+            score_dialog_flag = true;
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle(getString(R.string.dialog_title));
+            builder.setMessage(getString(R.string.dialog_body) + newScore);
+            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                }
+            });
+            AlertDialog dialog = builder.create();
+            dialog.show();
+        } else if (newScore < 10 && score_dialog_flag == true) {
+            score_dialog_flag = false;
+        }
     }
 
     public void vibration() {
-
         Vibrator vib = (Vibrator) getSystemService(VIBRATOR_SERVICE);
         vib.vibrate(500);
     }
@@ -205,6 +239,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void buttonEnabled(boolean status) {
         btn1.setEnabled(status);
         btn2.setEnabled(status);
+    }
+
+    // 透過アニメーションの例
+    void alphaAnimationTest(View v) {
+        AlphaAnimation alpha = new AlphaAnimation(
+                0.0f,  // 開始時の透明度（0は完全に透過）
+                1.0f); // 終了時の透明度（1は全く透過しない）
+
+        // 3秒かけてアニメーションする
+        alpha.setDuration(3000);
+
+        // アニメーション終了時の表示状態を維持する
+        alpha.setFillEnabled(true);
+        alpha.setFillAfter(true);
+
+        // アニメーションを開始
+        v.startAnimation(alpha);
     }
 
 }

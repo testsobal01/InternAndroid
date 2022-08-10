@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">GAME</string>
+    <string name="btn_high">High</string>
+    <string name="btn_low">Low</string>
+    <string name="btn_restart">Restart</string>
+    <string name="label_score">Score：</string>
+    <string name="text">10 is set.</string>
+
+    <string name="dialog_title">congratulations!</string>
+    <string name="dialog_body">Current score:</string>
+
+    <string name="result_text">Result：%1$d:%2$d (%3$s)</string>
+    <string name="btn_start_text">START!</string>
+    <string name="text_hatena">？</string>
+
+</resources>
