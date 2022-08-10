@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">MakotoMurase</string>
+    <string name="app_name">GAME</string>
     <string name="btn_high">hoch</string>
     <string name="btn_low">niedrig</string>
     <string name="btn_restart">neu starten</string>
     <string name="label_score">Punktzahl：</string>
     <string name="text">10 ist eingestellt.</string>
+    <string name="result_text">Ergebnis：%1$d:%2$d (%3$s)</string>
+    <string name="btn_start_text">ANFANG!</string>
+    <string name="text_hatena">？</string>
 </resources>

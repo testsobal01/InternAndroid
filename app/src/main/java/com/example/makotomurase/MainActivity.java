@@ -94,7 +94,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void clearAnswerValue() {
         TextView txtView = findViewById(R.id.answer);
-        txtView.setText("値2");
+        txtView.setText(getString(R.string.text_hatena));
         TextView txtScore = findViewById(R.id.text_score);
 
         prefEditor = pref.edit();
@@ -217,17 +217,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     // 透過アニメーションの例
-    void alphaAnimationTest( View v ){
+    void alphaAnimationTest(View v) {
         AlphaAnimation alpha = new AlphaAnimation(
                 0.0f,  // 開始時の透明度（0は完全に透過）
                 1.0f); // 終了時の透明度（1は全く透過しない）
 
         // 3秒かけてアニメーションする
-        alpha.setDuration( 3000 );
+        alpha.setDuration(3000);
 
         // アニメーション終了時の表示状態を維持する
         alpha.setFillEnabled(true);
-        alpha.setFillAfter  (true);
+        alpha.setFillAfter(true);
 
         // アニメーションを開始
         v.startAnimation(alpha);
