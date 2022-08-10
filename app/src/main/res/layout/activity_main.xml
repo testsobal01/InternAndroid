@@ -6,6 +6,7 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -15,14 +16,18 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/btn_high" />
+            android:background="#FFC0CB"
+            android:text="@string/btn_high"
+            android:textColor="#FF0000" />
 
         <Button
             android:id="@+id/button_low"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/btn_low" />
+            android:background="#ADD8E6"
+            android:text="@string/btn_low"
+            android:textColor="#0000FF" />
 
         <Button
             android:id="@+id/button_restart"
