@@ -15,10 +15,10 @@ public class SubActivity extends AppCompatActivity {
     }
 
     public void onClick(View v) {
-        // ①インテントの作成
+        // インテントの作成
         Intent intent = new Intent(this, MainActivity.class);
 
-        // ②遷移先画面の起動
+        // 遷移先画面の起動
         if (intent.resolveActivity(getPackageManager()) != null) {
             startActivity(intent);
         }
