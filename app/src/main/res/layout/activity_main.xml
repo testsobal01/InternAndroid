@@ -17,6 +17,9 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/btn_high"
+            android:textColor="#AA000000"
+            android:background="@drawable/button_background"
+            android:layout_margin="1dp"
             style="?android:attr/buttonBarButtonStyle"/>
 
         <Button
@@ -25,6 +28,9 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/btn_low"
+            android:textColor="#AA000000"
+            android:background="@drawable/button_background2"
+            android:layout_margin="1dp"
             style="?android:attr/buttonBarButtonStyle"/>
 
         <Button
@@ -33,6 +39,9 @@
             android:layout_height="wrap_content"
             android:layout_weight="2"
             android:text="@string/btn_restart"
+            android:textColor="#AA000000"
+            android:background="@drawable/button_background3"
+            android:layout_margin="1dp"
             style="?android:attr/buttonBarButtonStyle"/>
 
     </LinearLayout>
@@ -40,7 +49,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="10が設定されています。" />
+        android:text="@string/text_1" />
 
 
     <TextView
@@ -61,7 +70,7 @@
             android:id="@+id/text_score"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="0" />
+            android:text="@string/first_score" />
     </LinearLayout>
 
     <LinearLayout
@@ -75,7 +84,7 @@
             android:layout_weight="1"
             android:background="#ff00ff"
             android:gravity="center"
-            android:text="値1"
+            android:text="@string/text_value1"
             android:textSize="60sp" />
 
         <TextView
@@ -85,7 +94,7 @@
             android:layout_weight="1"
             android:background="#ffff00"
             android:gravity="center"
-            android:text="値2"
+            android:text="@string/text_value2"
             android:textSize="60sp" />
     </LinearLayout>
 

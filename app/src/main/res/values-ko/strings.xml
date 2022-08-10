@@ -5,4 +5,8 @@
     <string name="btn_low">낮은</string>
     <string name="btn_restart">재시작</string>
     <string name="label_score">점수：</string>
+    <string name="text_value1">최초의</string>
+    <string name="text_value2">둘째</string>
+    <string name="first_score">0</string>
+    <string name="text_1">10개가 설정되어 있습니다.</string>
 </resources>

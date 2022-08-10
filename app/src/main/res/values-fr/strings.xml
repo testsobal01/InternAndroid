@@ -5,4 +5,8 @@
     <string name="btn_low">Bas</string>
     <string name="btn_restart">Redémarrer</string>
     <string name="label_score">Score：</string>
+    <string name="text_value1">Première</string>
+    <string name="text_value2">Deuxième</string>
+    <string name="first_score">0</string>
+    <string name="text_1">10 sont prévus.</string>
 </resources>

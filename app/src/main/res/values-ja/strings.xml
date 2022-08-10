@@ -5,4 +5,8 @@
     <string name="btn_low">低い</string>
     <string name="btn_restart">もう一度やり直す</string>
     <string name="label_score">成績：</string>
+    <string name="text_value1">値１</string>
+    <string name="text_value2">値２</string>
+    <string name="first_score">0</string>
+    <string name="text_1">10が設定されています。</string>
 </resources>
