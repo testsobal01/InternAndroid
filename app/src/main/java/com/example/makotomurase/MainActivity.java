@@ -9,6 +9,7 @@ import android.content.SharedPreferences;
 
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Vibrator;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -75,6 +76,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 checkResult(false);
                 break;
             case R.id.button3:
+                Vibrator vib=(Vibrator)getSystemService(VIBRATOR_SERVICE);
+                vib.vibrate(500);
                 setQuestionValue();
                 clearAnswerValue();
                 LinearLayout layout = (LinearLayout) findViewById(R.id.display);
