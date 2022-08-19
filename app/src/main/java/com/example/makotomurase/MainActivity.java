@@ -13,6 +13,8 @@ import android.widget.Toast;
 
 import java.util.Random;
 
+import android.os.CountDownTimer;
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     //プリファレンスでのスコア保存
@@ -76,19 +78,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
 
     public void onClick(View view) {
+        TextView txtResult = (TextView) findViewById(R.id.text_score);
         int id = view.getId();
         switch (id) {
             case R.id.button1:
                 setAnswerValue();
                 checkResult(true);
+                setNextQuestion();
                 break;
             case R.id.button2:
                 setAnswerValue();
                 checkResult(false);
+                setNextQuestion();
                 break;
             case R.id.button3:
-                Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
-                vib.vibrate(300);
+
+                setScore(0,true);
                 setQuestionValue();
                 clearAnswerValue();
                 break;
@@ -99,7 +104,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void clearAnswerValue() {
         TextView txtView = (TextView) findViewById(R.id.answer);
-        txtView.setText("値2");
+        txtView.setText("?");
     }
 
     private void setQuestionValue() {
@@ -158,11 +163,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Toast.makeText(this, result, Toast.LENGTH_LONG).show();
         txtResult.setText("結果：" + question + ":" + answer + "(" + result + ")");
 
-        // 続けて遊べるように値を更新
-        setNextQuestion();
-
         // スコアを表示
-        setScore(score);
+        setScore(score, false);
 
     }
 
@@ -185,12 +187,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }.start();
     }
 
-    private void setScore(int score) {
+    private void setScore(int score, boolean isReset) {
         TextView txtScore = (TextView) findViewById(R.id.text_score);
         int newScore = Integer.parseInt(txtScore.getText().toString()) + score;
+        if(isReset == true){
+            newScore = 0;
+        }
         txtScore.setText(Integer.toString(newScore));
     }
 
 
 
+
 }
+
