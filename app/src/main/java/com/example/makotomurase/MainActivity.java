@@ -18,6 +18,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     SharedPreferences pref;
     SharedPreferences.Editor prefEditor;
     private CountDownTimer timer;
+    private Toast toast;
 
 
     @Override
@@ -159,9 +160,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         }
 
-
         // 最後にまとめてToast表示の処理とTextViewへのセットを行う
-        Toast.makeText(this, result, Toast.LENGTH_LONG).show();
+        if (toast != null) toast.cancel();
+        toast = Toast.makeText(this, result, Toast.LENGTH_LONG);
+        toast.show();
         txtResult.setText("結果：" + question + ":" + answer + "(" + result + ")");
 
         // 続けて遊べるように値を更新
