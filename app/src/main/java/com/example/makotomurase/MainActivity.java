@@ -82,7 +82,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 setQuestionValue();
                 clearAnswerValue();
                 Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
-                //vib.vibrate(500);
+                vib.vibrate(500);
 
                 break;
 
