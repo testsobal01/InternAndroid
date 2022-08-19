@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.view.View;
 import android.widget.TextView;
 
@@ -21,6 +22,8 @@ public class StartActivity extends AppCompatActivity {
     }
 
     public void startGame(View view) {
+        Vibrator vib=(Vibrator)getSystemService(VIBRATOR_SERVICE);
+        vib.vibrate(50);
         startActivity(new Intent(getApplicationContext(), MainActivity.class));
     }
 }
