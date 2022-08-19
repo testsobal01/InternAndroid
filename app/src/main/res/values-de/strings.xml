@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">MakotoMurase</string>
+    <string name="btn_high">Hoch</string>
+    <string name="btn_low">niedrig</string>
+    <string name="btn_restart">zurücksetzen</string>
+    <string name="label_score">Ergebnis：</string>
+    <string name="label_10nisettei">auf 10 setzen</string>
+    <string name="label_kekka">Ergebnis</string>
+</resources>
