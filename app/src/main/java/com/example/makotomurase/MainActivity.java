@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 
 import android.content.Intent;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
@@ -58,9 +59,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onResume();
 
         TextView textView = (TextView)findViewById(R.id.text_score);
-
-
-        String readText = pref.getString("text_input","保存されていません");
+        String readText = pref.getString("text_input","0");
         textView.setText(readText);
     }
 
@@ -119,30 +118,57 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (isHigh) {
             // result には結果のみを入れる
             if (question < answer) {
+
                 result = "WIN";
                 score = 2;
+
+                TextView textView1 = findViewById(R.id.question);
+                textView1.setBackgroundColor(Color.RED);
+
+                TextView textView2 = findViewById(R.id.answer);
+                textView2.setBackgroundColor(Color.BLUE);
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
                 Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
                 vib.vibrate(300);
+
+                TextView textView1 = findViewById(R.id.question);
+                textView1.setBackgroundColor(Color.BLUE);
+
+                TextView textView2 = findViewById(R.id.answer);
+                textView2.setBackgroundColor(Color.RED);
             } else {
                 result = "DRAW";
                 score = 1;
             }
+
         } else {
             if (question > answer) {
                 result = "WIN";
                 score = 2;
+
+                TextView textView1 = findViewById(R.id.question);
+                textView1.setBackgroundColor(Color.RED);
+
+                TextView textView2 = findViewById(R.id.answer);
+                textView2.setBackgroundColor(Color.BLUE);
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
                 Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
                 vib.vibrate(300);
+
+                TextView textView1 = findViewById(R.id.question);
+                textView1.setBackgroundColor(Color.BLUE);
+
+                TextView textView2 = findViewById(R.id.answer);
+                textView2.setBackgroundColor(Color.RED);
             } else {
                 result = "DRAW";
                 score = 1;
             }
+
         }
 
 
