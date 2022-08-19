@@ -2,6 +2,7 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
@@ -12,6 +13,10 @@ import android.widget.Toast;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
+    int newScore;
+    SharedPreferences pref;
+    SharedPreferences.Editor editor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,9 +32,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
 
+        pref = getSharedPreferences("ScoreData", MODE_PRIVATE);
+        editor = pref.edit();
+        newScore = pref.getInt("input_score", 0);
+        setScore(newScore);
         // 起動時に関数を呼び出す
         setQuestionValue();
 
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        editor.putInt("input_score", newScore);
+        editor.commit();
     }
 
     @Override
@@ -143,7 +160,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void setScore(int score) {
         TextView txtScore = (TextView) findViewById(R.id.text_score);
-        int newScore = Integer.parseInt(txtScore.getText().toString()) + score;
+        newScore = Integer.parseInt(txtScore.getText().toString()) + score;
         txtScore.setText(Integer.toString(newScore));
     }
 
