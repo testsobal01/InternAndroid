@@ -11,6 +11,8 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.core.view.ViewCompat;
+
 import java.util.Random;
 
 import android.os.CountDownTimer;
@@ -20,6 +22,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     //プリファレンスでのスコア保存
     SharedPreferences pref;
     SharedPreferences. Editor prefEditer;
+    //
+    Boolean isWin = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -122,6 +126,36 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         txtView.setText(Integer.toString(answerValue));
     }
 
+    private void animationWin(){
+        TextView txtViewAnswer = (TextView) findViewById(R.id.answer);
+        // scaleを元に戻す
+        txtViewAnswer.setScaleX(1f);
+        txtViewAnswer.setScaleY(1f);
+
+        // scaleアニメーション開始
+        ViewCompat.animate(txtViewAnswer)
+                .setDuration(1000)
+                .scaleX(1.3f)
+                .scaleY(1.3f)
+                .start();
+        // ↑↑ここまでを追加↑↑
+    }
+
+    private void animationLorD(){
+        TextView txtViewAnswer = (TextView) findViewById(R.id.answer);
+        // scaleを元に戻す
+        txtViewAnswer.setScaleX(1.3f);
+        txtViewAnswer.setScaleY(1.3f);
+
+        // scaleアニメーション開始
+        ViewCompat.animate(txtViewAnswer)
+                .setDuration(1000)
+                .scaleX(1f)
+                .scaleY(1f)
+                .start();
+        // ↑↑ここまでを追加↑↑
+    }
+
     private void checkResult(boolean isHigh) {
         TextView txtViewQuestion = (TextView) findViewById(R.id.question);
         TextView txtViewAnswer = (TextView) findViewById(R.id.answer);
@@ -136,23 +170,39 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (isHigh) {
             // result には結果のみを入れる
             if (question < answer) {
+                if (!isWin) {
+                    animationWin();
+                }
+                isWin = true;
                 result = "WIN";
                 score = 2;
             } else if (question > answer) {
+                animationLorD();
+                isWin = false;
                 result = "LOSE";
                 score = -1;
             } else {
+                animationLorD();
+                isWin = false;
                 result = "DRAW";
                 score = 1;
             }
         } else {
             if (question > answer) {
                 result = "WIN";
+                if (!isWin) {
+                    animationWin();
+                }
+                isWin = true;
                 score = 2;
             } else if (question < answer) {
+                animationLorD();
+                isWin = false;
                 result = "LOSE";
                 score = -1;
             } else {
+                animationLorD();
+                isWin = false;
                 result = "DRAW";
                 score = 1;
             }
