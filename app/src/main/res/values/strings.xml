@@ -1,7 +1,13 @@
 <resources>
-    <string name="app_name">MakotoMurase</string>
+    <string name="app_name">HighAndLow</string>
     <string name="btn_high">High</string>
     <string name="btn_low">Low</string>
     <string name="btn_restart">Restart</string>
     <string name="label_score">Score：</string>
+
+    <string name="answer">？</string>
+    <string name="btn_start">Start</string>
+    <string name="ex_start">下のスタートボタンを押してね！</string>
+    <string name="down_arrow">↓</string>
+    <string name="version">ver1.0.0</string>
 </resources>
