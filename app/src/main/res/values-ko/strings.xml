@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">MakotoMurase</string>
+    <string name="btn_high">높은</string>
+    <string name="btn_low">낮은</string>
+    <string name="btn_restart">재시작</string>
+    <string name="label_score">점수：</string>
+</resources>
