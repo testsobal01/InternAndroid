@@ -2,6 +2,7 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
@@ -47,6 +48,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.button3:
                 setQuestionValue();
                 clearAnswerValue();
+                TextView txtViewQuestion = (TextView) findViewById(R.id.question);
+                TextView txtViewAnswer = (TextView) findViewById(R.id.answer);
+                txtViewQuestion.setBackgroundResource(R.color.colorQuestionDefault);
+                txtViewAnswer.setBackgroundResource(R.color.colorAnswerDefault);
                 break;
 
         }
@@ -89,9 +94,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = "WIN";
                 score = 2;
+                txtViewQuestion.setBackgroundResource(R.color.colorLose);
+                txtViewAnswer.setBackgroundResource(R.color.colorWin);
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
+                txtViewQuestion.setBackgroundResource(R.color.colorWin);
+                txtViewAnswer.setBackgroundResource(R.color.colorLose);
             } else {
                 result = "DRAW";
                 score = 1;
@@ -100,9 +109,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question > answer) {
                 result = "WIN";
                 score = 2;
+                txtViewQuestion.setBackgroundResource(R.color.colorLose);
+                txtViewAnswer.setBackgroundResource(R.color.colorWin);
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
+                txtViewQuestion.setBackgroundResource(R.color.colorWin);
+                txtViewAnswer.setBackgroundResource(R.color.colorLose);
+
             } else {
                 result = "DRAW";
                 score = 1;
@@ -119,6 +133,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // スコアを表示
         setScore(score);
+
+
 
     }
 

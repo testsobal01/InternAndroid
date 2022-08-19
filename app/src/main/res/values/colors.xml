@@ -3,4 +3,8 @@
     <color name="colorPrimary">#6200EE</color>
     <color name="colorPrimaryDark">#3700B3</color>
     <color name="colorAccent">#03DAC5</color>
+    <color name="colorWin">#FF0000</color>
+    <color name="colorLose">#0000FF</color>
+    <color name="colorQuestionDefault">#ff00ff</color>
+    <color name="colorAnswerDefault">#ffff00</color>
 </resources>
