@@ -2,9 +2,13 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+
 import android.graphics.Color;
+import android.content.SharedPreferences;
+
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Vibrator;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -13,6 +17,12 @@ import android.widget.Toast;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
+    SharedPreferences pref;
+    SharedPreferences.Editor prefEditor;
+    private CountDownTimer timer;
+    private Toast toast;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,24 +38,67 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
 
+
+        pref = getSharedPreferences("internTeam",MODE_PRIVATE);
+        prefEditor = pref.edit();
+
+        timer = new CountDownTimer(3000, 1000) {
+
+            @Override
+            public void onTick(long l) {
+                // 途中経過を受け取った時に何かしたい場合
+                // 今回は特に何もしない
+            }
+
+            @Override
+            public void onFinish() {
+                // 3秒経過したら次の値をセット
+                setQuestionValue();
+            }
+        };
+
+
         // 起動時に関数を呼び出す
         setQuestionValue();
 
     }
 
     @Override
+    protected void onPause() {
+        super.onPause();
+
+        TextView textView = (TextView)findViewById(R.id.text_score);
+
+        prefEditor.putString("score_data",textView.getText().toString());
+        prefEditor.commit();
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        TextView textView = (TextView)findViewById(R.id.text_score);
+
+        String readText = pref.getString("score_data","0");
+        textView.setText(readText);
+
+    }
+
+
+    @Override
     public void onClick(View view) {
         int id = view.getId();
+        timer.cancel();
         switch (id) {
             case R.id.button1:
-                setAnswerValue();
-                checkResult(true);
-                break;
             case R.id.button2:
                 setAnswerValue();
-                checkResult(false);
+                checkResult(id == R.id.button1);
                 break;
             case R.id.button3:
+                Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+                vib.vibrate(1000);
                 setQuestionValue();
                 clearAnswerValue();
                 TextView txtViewQuestion = (TextView) findViewById(R.id.question);
@@ -123,9 +176,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         }
 
-
         // 最後にまとめてToast表示の処理とTextViewへのセットを行う
-        Toast.makeText(this, result, Toast.LENGTH_LONG).show();
+        if (toast != null) toast.cancel();
+        toast = Toast.makeText(this, result, Toast.LENGTH_LONG);
+        toast.show();
         txtResult.setText("結果：" + question + ":" + answer + "(" + result + ")");
 
         // 続けて遊べるように値を更新
@@ -141,20 +195,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void setNextQuestion() {
         // 第１引数がカウントダウン時間、第２引数は途中経過を受け取る間隔
         // 単位はミリ秒（1秒＝1000ミリ秒）
-        new CountDownTimer(3000, 1000) {
-
-            @Override
-            public void onTick(long l) {
-                // 途中経過を受け取った時に何かしたい場合
-                // 今回は特に何もしない
-            }
-
-            @Override
-            public void onFinish() {
-                // 3秒経過したら次の値をセット
-                setQuestionValue();
-            }
-        }.start();
+        timer.start();
     }
 
     private void setScore(int score) {
