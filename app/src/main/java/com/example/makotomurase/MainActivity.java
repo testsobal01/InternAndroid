@@ -6,6 +6,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.graphics.Color;
 import android.content.SharedPreferences;
 
+import android.media.AudioAttributes;
+import android.media.SoundPool;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
@@ -22,12 +24,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     SharedPreferences.Editor prefEditor;
     private CountDownTimer timer;
     private Toast toast;
-
+    private SoundManager soundManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        soundManager = new SoundManager(this);
 
         Button btn1 = (Button) findViewById(R.id.button1);
         btn1.setOnClickListener(this);
@@ -142,38 +146,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int score = 0;
 
         // Highが押された
-        if (isHigh) {
-            // result には結果のみを入れる
-            if (question < answer) {
-                result = "WIN";
-                score = 2;
-                txtViewQuestion.setBackgroundResource(R.color.colorLose);
-                txtViewAnswer.setBackgroundResource(R.color.colorWin);
-            } else if (question > answer) {
-                result = "LOSE";
-                score = -1;
-                txtViewQuestion.setBackgroundResource(R.color.colorWin);
-                txtViewAnswer.setBackgroundResource(R.color.colorLose);
-            } else {
-                result = "DRAW";
-                score = 1;
-            }
+        if (question == answer) {
+            result = "DRAW";
+            score = 1;
+            txtViewQuestion.setBackgroundResource(R.color.colorQuestionDefault);
+            txtViewAnswer.setBackgroundResource(R.color.colorAnswerDefault);
+            soundManager.draw();
+        } else if ((question < answer) ^ !isHigh) {
+            result = "WIN";
+            score = 2;
+            txtViewQuestion.setBackgroundResource(R.color.colorLose);
+            txtViewAnswer.setBackgroundResource(R.color.colorWin);
+            soundManager.win();
         } else {
-            if (question > answer) {
-                result = "WIN";
-                score = 2;
-                txtViewQuestion.setBackgroundResource(R.color.colorLose);
-                txtViewAnswer.setBackgroundResource(R.color.colorWin);
-            } else if (question < answer) {
-                result = "LOSE";
-                score = -1;
-                txtViewQuestion.setBackgroundResource(R.color.colorWin);
-                txtViewAnswer.setBackgroundResource(R.color.colorLose);
-
-            } else {
-                result = "DRAW";
-                score = 1;
-            }
+            result = "LOSE";
+            score = -1;
+            txtViewQuestion.setBackgroundResource(R.color.colorWin);
+            txtViewAnswer.setBackgroundResource(R.color.colorLose);
+            soundManager.lose();
         }
 
         // 最後にまとめてToast表示の処理とTextViewへのセットを行う
