@@ -2,12 +2,17 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+
+import android.graphics.Color;
+
 import android.content.SharedPreferences;
+
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -97,8 +102,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void clearAnswerValue() {
+        TextView linearLayout = findViewById(R.id.answer);
         TextView txtView = (TextView) findViewById(R.id.answer);
         txtView.setText("値2");
+        linearLayout.setBackgroundColor(Color.YELLOW);
+
     }
 
     private void setQuestionValue() {
@@ -122,6 +130,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int question = Integer.parseInt(txtViewQuestion.getText().toString());
         int answer = Integer.parseInt(txtViewAnswer.getText().toString());
         TextView txtResult = (TextView) findViewById(R.id.text_result);
+        TextView linearLayout = findViewById(R.id.answer);
         // 結果を示す文字列を入れる変数を用意
         String result;
         int score = 0;
@@ -137,9 +146,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 result = "LOSE";
                 score = -1;
                 soundplayer.playOverSound();
+                linearLayout.setBackgroundColor(Color.RED);
             } else {
                 result = "DRAW";
                 score = 1;
+                linearLayout.setBackgroundColor(Color.YELLOW);
             }
         } else {
             if (question > answer) {
@@ -150,9 +161,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 result = "LOSE";
                 score = -1;
                 soundplayer.playOverSound();
+                linearLayout.setBackgroundColor(Color.RED);
             } else {
                 result = "DRAW";
                 score = 1;
+                linearLayout.setBackgroundColor(Color.MAGENTA);
             }
         }
 
