@@ -19,4 +19,6 @@
         <activity android:name=".MainActivity"></activity>
     </application>
 
+    <uses-permission android:name="android.permission.VIBRATE"></uses-permission>
+
 </manifest>
