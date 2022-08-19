@@ -92,7 +92,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 setNextQuestion();
                 break;
             case R.id.button3:
-
+                Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+                vib.vibrate(300);
                 setScore(0,true);
                 setQuestionValue();
                 clearAnswerValue();
