@@ -5,4 +5,6 @@
     <string name="btn_low">कम</string>
     <string name="btn_restart">फिर शुरू करना</string>
     <string name="label_score">अंक：</string>
+    <string name="title">नंबर गेम</string>
+    <string name="start_button">प्रारंभ</string>
 </resources>

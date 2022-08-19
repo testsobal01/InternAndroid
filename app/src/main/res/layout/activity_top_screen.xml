@@ -22,6 +22,7 @@
             android:layout_gravity="center"
             android:gravity="center"
             android:text="@string/title"
+            android:textStyle="bold"
             android:textSize="100px"></TextView>
 
         <Button
@@ -31,7 +32,14 @@
             android:layout_gravity="center"
             android:gravity="center"
             android:text="@string/start_button"
-            android:textSize="80px"></Button>
+            android:background="@drawable/button_shape_background"
+            android:textSize="25dp"
+            android:paddingVertical="10dp"
+            android:paddingHorizontal="25dp"
+            android:layout_margin="10dp"
+            android:textColor="#ffffff"
+            android:textStyle="bold"
+            ></Button>
 
     </LinearLayout>
 
