@@ -2,6 +2,7 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
@@ -13,6 +14,10 @@ import android.widget.Toast;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
+    //プリファレンスでのスコア保存
+    SharedPreferences pref;
+    SharedPreferences. Editor prefEditer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,9 +36,45 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // 起動時に関数を呼び出す
         setQuestionValue();
 
+        //保存するファイル的なもの
+        pref = getSharedPreferences("AndroidSeminor", MODE_PRIVATE);
+        prefEditer = pref.edit();
+
+
+
     }
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        //保存のためのスコアの取得
+        TextView textView = (TextView) findViewById(R.id.text_score);
+
+        //フォルダにスコアを保存
+        prefEditer. putString("main_input",textView.getText().toString());
+        prefEditer.commit();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        //画面上に文字列をセットするため、テキストビューを取得
+        TextView textView = (TextView)findViewById(R.id.text_score);
+        //保存した値をキー名を指定して取得
+        //一度も保存されてない場合の文字列も追加する
+
+        String readText = pref.getString("main_input","0");
+        textView.setText(readText);
+    }
+
+    @Override
+
     public void onClick(View view) {
         int id = view.getId();
         switch (id) {
@@ -149,5 +190,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int newScore = Integer.parseInt(txtScore.getText().toString()) + score;
         txtScore.setText(Integer.toString(newScore));
     }
+
+
 
 }
