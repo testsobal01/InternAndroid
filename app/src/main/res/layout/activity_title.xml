@@ -16,13 +16,13 @@
             android:layout_height="wrap_content"
             android:textSize="50sp"
             android:textStyle="bold"
-            android:text="VS mach"></TextView>
+            android:text="VS match"></TextView>
 
         <Button
             android:id="@+id/button0"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            
+
             android:textSize="60sp"
             android:text="@string/btn_start"></Button>
 
