@@ -2,13 +2,18 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+
 import android.content.Intent;
+
+import android.graphics.Color;
+
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -74,7 +79,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void clearAnswerValue() {
         TextView txtView = (TextView) findViewById(R.id.answer);
-        txtView.setText("値2");
+        txtView.setText(R.string.answer);
     }
 
     private void setQuestionValue() {
@@ -106,38 +111,39 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (isHigh) {
             // result には結果のみを入れる
             if (question < answer) {
-                result = "WIN";
+                result = getString(R.string.one);
                 score = 2;
 
                 Vibrator vib=(Vibrator)getSystemService(VIBRATOR_SERVICE);
                 vib.vibrate(50);
             } else if (question > answer) {
-                result = "LOSE";
+                result = getString(R.string.two);
                 score = -1;
             } else {
-                result = "DRAW";
+                result = getString(R.string.three);
                 score = 1;
             }
         } else {
             if (question > answer) {
-                result = "WIN";
+                result = getString(R.string.one);
                 score = 2;
 
                 Vibrator vib=(Vibrator)getSystemService(VIBRATOR_SERVICE);
                 vib.vibrate(50);
             } else if (question < answer) {
-                result = "LOSE";
+                result = getString(R.string.two);
                 score = -1;
             } else {
-                result = "DRAW";
+                result = getString(R.string.three);
                 score = 1;
             }
         }
-
+        // 勝敗に応じて背景色を変更
+        changeBackgroundColor(result);
 
         // 最後にまとめてToast表示の処理とTextViewへのセットを行う
         Toast.makeText(this, result, Toast.LENGTH_LONG).show();
-        txtResult.setText("結果：" + question + ":" + answer + "(" + result + ")");
+        txtResult.setText(getString(R.string.four) + question + ":" + answer + "(" + result + ")");
 
         // 続けて遊べるように値を更新
         setNextQuestion();
@@ -170,6 +176,39 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView txtScore = (TextView) findViewById(R.id.text_score);
         newScore = Integer.parseInt(txtScore.getText().toString()) + score;
         txtScore.setText(Integer.toString(newScore));
+    }
+
+    private void changeBackgroundColor(String result){
+        final LinearLayout background = findViewById(R.id.bg);
+        final TextView qValueBG = findViewById(R.id.question);
+        final TextView aValueBG = findViewById(R.id.answer);
+
+        if(result.equals("WIN")){
+            background.setBackgroundColor(Color.rgb(255, 64, 0));
+            qValueBG.setBackgroundColor(Color.rgb(255, 64, 0));
+            aValueBG.setBackgroundColor(Color.rgb(255, 64, 0));
+        }
+        else if(result.equals("LOSE")){
+            background.setBackgroundColor(Color.rgb(0, 127, 255));
+            qValueBG.setBackgroundColor(Color.rgb(0, 127, 255));
+            aValueBG.setBackgroundColor(Color.rgb(0, 127, 255));
+        }
+
+        new CountDownTimer(3000, 1000) {
+
+            @Override
+            public void onTick(long l) {
+                // 途中経過を受け取った時に何かしたい場合
+                // 今回は特に何もしない
+            }
+
+            @Override
+            public void onFinish() {
+                background.setBackgroundColor(Color.rgb(255,255,255));
+                qValueBG.setBackgroundColor(Color.rgb(255,0,255));
+                aValueBG.setBackgroundColor(Color.rgb(255,255,0));
+            }
+        }.start();
     }
 
 }
