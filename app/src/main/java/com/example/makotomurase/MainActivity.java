@@ -34,6 +34,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         TextView text=(TextView)findViewById((R.id.text_score));
         String defaltText =pref.getString("score_input","0");
+
         text.setText(defaltText);
     }
 
