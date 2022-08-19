@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">まことむらせ</string>
+    <string name="btn_start">スタート</string>
     <string name="btn_high">高い</string>
     <string name="btn_low">低い</string>
     <string name="btn_restart">リセット</string>
