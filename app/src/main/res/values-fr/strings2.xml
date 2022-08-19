@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">ÉLEVÉ＆BAS</string>
+    <string name="btn_high">ÉLEVÉ</string>
+    <string name="btn_low">BAS</string>
+    <string name="btn_restart">Redémarrer</string>
+    <string name="label_score">Score：</string>
+    <string name="ten" translatable="false">10estdéfini.</string>
+    <string name="answer" translatable="false">valeur2</string>
+    <string name="question" translatable="false">valeur1</string>
+    <string name="one">GAGNER</string>
+    <string name="two">PERDRE</string>
+    <string name="three">DESSINER</string>
+    <string name="four">résultat</string>
+</resources>

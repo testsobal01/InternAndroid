@@ -1,7 +1,14 @@
 <resources>
-    <string name="app_name">MakotoMurase</string>
+    <string name="app_name">HIGH＆LOW</string>
     <string name="btn_high">High</string>
     <string name="btn_low">Low</string>
     <string name="btn_restart">Restart</string>
     <string name="label_score">Score：</string>
+    <string name="ten" translatable="false">10が設定されています。</string>
+    <string name="answer" translatable="false">値2</string>
+    <string name="question" translatable="false">値1</string>
+    <string name="one">WIN</string>
+    <string name="two">LOSE</string>
+    <string name="three">DRAW</string>
+    <string name="four">結果</string>
 </resources>
