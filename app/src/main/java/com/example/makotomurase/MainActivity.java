@@ -3,6 +3,7 @@ package com.example.makotomurase;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
@@ -81,10 +82,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.button1:
                 setAnswerValue();
                 checkResult(true);
+                // 続けて遊べるように値を更新
+                setNextQuestion(true);
+
                 break;
             case R.id.button2:
                 setAnswerValue();
                 checkResult(false);
+                // 続けて遊べるように値を更新
+                setNextQuestion(false);
+
                 break;
             case R.id.button3:
                 Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
@@ -133,23 +140,35 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = "WIN";
                 score = 2;
+                txtViewAnswer.setBackgroundColor(Color.RED);
+                txtViewQuestion.setBackgroundColor(Color.BLUE);
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
+                txtViewAnswer.setBackgroundColor(Color.BLUE);
+                txtViewQuestion.setBackgroundColor(Color.RED);
             } else {
                 result = "DRAW";
                 score = 1;
+                txtViewAnswer.setBackgroundColor(Color.GRAY);
+                txtViewQuestion.setBackgroundColor(Color.GRAY);
             }
         } else {
             if (question > answer) {
                 result = "WIN";
                 score = 2;
+                txtViewAnswer.setBackgroundColor(Color.RED);
+                txtViewQuestion.setBackgroundColor(Color.BLUE);
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
+                txtViewAnswer.setBackgroundColor(Color.BLUE);
+                txtViewQuestion.setBackgroundColor(Color.RED);
             } else {
                 result = "DRAW";
                 score = 1;
+                txtViewAnswer.setBackgroundColor(Color.GRAY);
+                txtViewQuestion.setBackgroundColor(Color.GRAY);
             }
         }
 
@@ -158,15 +177,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Toast.makeText(this, result, Toast.LENGTH_LONG).show();
         txtResult.setText("結果：" + question + ":" + answer + "(" + result + ")");
 
-        // 続けて遊べるように値を更新
-        setNextQuestion();
-
         // スコアを表示
         setScore(score);
 
     }
 
-    private void setNextQuestion() {
+    private void setNextQuestion(final boolean isHigh) {
         // 第１引数がカウントダウン時間、第２引数は途中経過を受け取る間隔
         // 単位はミリ秒（1秒＝1000ミリ秒）
         new CountDownTimer(3000, 1000) {
@@ -181,6 +197,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public void onFinish() {
                 // 3秒経過したら次の値をセット
                 setQuestionValue();
+                checkResult(isHigh);
             }
         }.start();
     }
