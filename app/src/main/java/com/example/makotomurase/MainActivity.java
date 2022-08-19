@@ -2,6 +2,7 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -99,6 +100,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         txtView.setText(Integer.toString(answerValue));
     }
 
+    @SuppressLint("ResourceAsColor")
     private void checkResult(boolean isHigh) {
         TextView txtViewQuestion = (TextView) findViewById(R.id.question);
         TextView txtViewAnswer = (TextView) findViewById(R.id.answer);
@@ -114,23 +116,35 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             // result には結果のみを入れる
             if (question < answer) {
                 result = getString(R.string.win);
+                txtViewAnswer.setBackgroundColor(getResources().getColor(R.color.colorRed));
+                txtViewQuestion.setBackgroundColor(getResources().getColor(R.color.colorBlue));
                 score = 2;
             } else if (question > answer) {
                 result = getString(R.string.lose);
+                txtViewAnswer.setBackgroundColor(getResources().getColor(R.color.colorBlue));
+                txtViewQuestion.setBackgroundColor(getResources().getColor(R.color.colorRed));
                 score = -1;
             } else {
                 result = getString(R.string.drow);
+                txtViewAnswer.setBackgroundColor(getResources().getColor(R.color.colorGreen));
+                txtViewQuestion.setBackgroundColor(getResources().getColor(R.color.colorGreen));
                 score = 1;
             }
         } else {
             if (question > answer) {
                 result = getString(R.string.win);
+                txtViewAnswer.setBackgroundColor(getResources().getColor(R.color.colorRed));
+                txtViewQuestion.setBackgroundColor(getResources().getColor(R.color.colorBlue));
                 score = 2;
             } else if (question < answer) {
                 result = getString(R.string.lose);
+                txtViewAnswer.setBackgroundColor(getResources().getColor(R.color.colorBlue));
+                txtViewQuestion.setBackgroundColor(getResources().getColor(R.color.colorRed));
                 score = -1;
             } else {
                 result = getString(R.string.win);
+                txtViewAnswer.setBackgroundColor(getResources().getColor(R.color.colorGreen));
+                txtViewQuestion.setBackgroundColor(getResources().getColor(R.color.colorGreen));
                 score = 1;
             }
         }
