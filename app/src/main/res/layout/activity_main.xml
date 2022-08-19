@@ -15,6 +15,13 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:background="#F86459"
+            android:drawableLeft="@android:drawable/btn_star_big_on"
+            android:drawableTop="@android:drawable/btn_star_big_on"
+            android:drawableRight="@android:drawable/btn_star_big_on"
+            android:drawableBottom="@android:drawable/btn_star_big_on"
+            android:fontFamily="@font/abril_fatface"
+            android:foreground="?android:attr/listChoiceIndicatorMultiple"
             android:text="@string/btn_high" />
 
         <Button
@@ -22,6 +29,15 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:background="#2196F3"
+            android:drawableStart="@android:drawable/btn_star_big_on"
+            android:drawableLeft="@android:drawable/btn_star_big_on"
+            android:drawableTop="@android:drawable/btn_star_big_on"
+            android:drawableEnd="@android:drawable/btn_star_big_on"
+            android:drawableRight="@android:drawable/btn_star_big_on"
+            android:drawableBottom="@android:drawable/btn_star_big_on"
+            android:fontFamily="@font/abril_fatface"
+            android:foreground="?android:attr/listChoiceIndicatorMultiple"
             android:text="@string/btn_low" />
 
         <Button
@@ -29,6 +45,17 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="2"
+            android:background="#DAD3D3"
+            android:drawableStart="@android:drawable/btn_star_big_on"
+            android:drawableLeft="@android:drawable/btn_star_big_on"
+            android:drawableTop="@android:drawable/btn_star_big_on"
+            android:drawableEnd="@android:drawable/btn_star_big_on"
+            android:drawableRight="@android:drawable/btn_star_big_on"
+            android:drawableBottom="@android:drawable/btn_star_big_on"
+            android:fontFamily="@font/abril_fatface"
+            android:foreground="?android:attr/listChoiceIndicatorMultiple"
+            android:scrollbarTrackHorizontal="@android:drawable/button_onoff_indicator_off"
+            android:soundEffectsEnabled="false"
             android:text="@string/btn_restart" />
 
     </LinearLayout>
@@ -42,6 +69,7 @@
     <TextView
         android:id="@+id/text_result"
         android:layout_width="wrap_content"
+        android:text="@string/label_kekka"
         android:layout_height="wrap_content" />
 
     <LinearLayout
@@ -69,7 +97,12 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="#ff00ff"
+            android:background="#9C27B0"
+            android:drawableStart="@android:drawable/btn_star_big_on"
+            android:drawableTop="@android:drawable/btn_star_big_on"
+            android:drawableEnd="@android:drawable/btn_star_big_on"
+            android:drawableBottom="@android:drawable/btn_star_big_on"
+            android:fontFamily="@font/abril_fatface"
             android:gravity="center"
             android:text="値1"
             android:textSize="60sp" />
@@ -79,9 +112,16 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="#ffff00"
+            android:background="#673AB7"
+            android:drawableStart="@android:drawable/btn_star_big_on"
+            android:drawableLeft="@android:drawable/btn_star_big_on"
+            android:drawableTop="@android:drawable/btn_star_big_on"
+            android:drawableEnd="@android:drawable/btn_star_big_on"
+            android:drawableRight="@android:drawable/btn_star_big_on"
+            android:drawableBottom="@android:drawable/btn_star_big_on"
+            android:fontFamily="@font/abril_fatface"
             android:gravity="center"
-            android:text="値2"
+            android:text="High or Low?"
             android:textSize="60sp" />
     </LinearLayout>
 
