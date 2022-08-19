@@ -5,6 +5,5 @@
     <string name="btn_restart">Restart</string>
     <string name="label_score">Score：</string>
     <string name="title">数字遊び</string>
-    <string name="sub_title">- Sobal Android Seminor -</string>
     <string name="start_button">スタート</string>
 </resources>
