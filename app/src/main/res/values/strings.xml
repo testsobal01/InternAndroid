@@ -1,11 +1,15 @@
 
+<resources>
+    <string name="app_name">直感を信じよ！数字HIGH＆LOWゲーム</string>
 
-    <resources>
-    <string name="app_name">MakotoMurase</string>
     <string name="btn_high">High</string>
     <string name="btn_low">Low</string>
     <string name="btn_restart">Restart</string>
     <string name="label_score">Score：</string>
+
+    <string name="btn_start">START</string>
+
     <string name="label_10nisettei">Set 10</string>
     <string name="label_kekka">Result</string>
+
 </resources>
