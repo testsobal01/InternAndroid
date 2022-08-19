@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
+import android.media.AudioManager;
+import android.media.SoundPool;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
@@ -17,6 +19,8 @@ import java.util.Random;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     SharedPreferences pref;
     SharedPreferences.Editor prefEditor;
+    int sound_id;
+    SoundPool soundpool;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,6 +37,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         pref = getSharedPreferences("AndroidSeminor",MODE_PRIVATE);
         prefEditor = pref.edit();
+
+        soundpool = new SoundPool(1, AudioManager.STREAM_MUSIC,0);
+        sound_id = soundpool.load(this, R.raw.water,1);
 
 
         // 起動時に関数を呼び出す
@@ -64,16 +71,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.button1:
                 setAnswerValue();
                 checkResult(true);
+                soundpool.play(sound_id,1.0f,1.0f,0,0,1.0f);
                 break;
             case R.id.button2:
                 setAnswerValue();
                 checkResult(false);
+                soundpool.play(sound_id,1.0f,1.0f,0,0,1.0f);
                 break;
             case R.id.button3:
                 setQuestionValue();
                 clearAnswerValue();
                 Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
-                vib.vibrate(500);
+                //vib.vibrate(500);
+
                 break;
 
         }
