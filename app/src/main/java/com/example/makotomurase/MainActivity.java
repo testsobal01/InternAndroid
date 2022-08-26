@@ -3,9 +3,13 @@ package com.example.makotomurase;
 import androidx.appcompat.app.AppCompatActivity;
 
 
+import android.graphics.Color;
+
+
 import android.content.Intent;
 
 import android.content.SharedPreferences;
+
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
@@ -145,6 +149,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 result = "DRAW";
                 score = 1;
             }
+        }
+
+        if(score==2){
+            txtViewQuestion.setBackgroundColor(Color.BLUE);
+            txtViewAnswer.setBackgroundColor(0xFFFF0000);
+            txtResult.setBackgroundColor(0xFFFF66FF);
+        }else if(score==1){
+            txtViewQuestion.setBackgroundColor(Color.CYAN);
+            txtViewAnswer.setBackgroundColor(Color.CYAN);
+            txtResult.setBackgroundColor(0xFF999933);
+        }else if(score==-1){
+            txtViewQuestion.setBackgroundColor(Color.RED);
+            txtViewAnswer.setBackgroundColor(Color.BLUE);
+            txtResult.setBackgroundColor(0xFF99CCFF);
         }
 
 
