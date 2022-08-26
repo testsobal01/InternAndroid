@@ -15,6 +15,7 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -69,6 +70,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mp3a = soundPool.load(this, R.raw.ok, 1);
         mp3b = soundPool.load(this, R.raw.error, 1);
         mp3c = soundPool.load(this, R.raw.draw, 1);
+
+        ImageView imageView = findViewById(R.id.image_view);
+        imageView.setImageResource(R.drawable.hutta);
+
     }
 
     public void onA(){
@@ -100,7 +105,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onResume();
         TextView txtScore = (TextView) findViewById(R.id.text_score);
 
-        String readText=pref.getString("main_input","保存されていません");
+        String readText=pref.getString("main_input", "0");
         txtScore.setText(readText);
     }
 

@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 
 public class TopScreen extends AppCompatActivity implements View.OnClickListener {
 
@@ -16,6 +17,7 @@ public class TopScreen extends AppCompatActivity implements View.OnClickListener
 
         Button start = findViewById(R.id.start);
         start.setOnClickListener(this);
+
     }
 
     @Override
