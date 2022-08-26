@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
 
-        pref = getSharedPreferences("AndroidSeminor",MODE_PRIVATE);
+        pref = getSharedPreferences("MakotoMurase",MODE_PRIVATE);
         prefEditor = pref.edit();
 
         // 起動時に関数を呼び出す
@@ -106,6 +106,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected  void onResume(){
         super.onResume();
         TextView txtScore = (TextView) findViewById(R.id.text_score);
+
 
         String readText=pref.getString("main_input","0");
         txtScore.setText(readText);
@@ -248,6 +249,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         txtScore.setText(Integer.toString(newScore));
     }
 
+
     private void setAnime(){
         TextView txtViewQuestion = (TextView) findViewById(R.id.question);
         ScaleAnimation scaleAnimation = new ScaleAnimation(1.0f, 0.0f, 1.0f, 0.0f,
@@ -289,5 +291,4 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         txtViewAnswer.startAnimation(animationSet);
     }
-
 }
