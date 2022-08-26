@@ -4,6 +4,10 @@
     <string name="btn_low">Low</string>
     <string name="btn_restart">Restart</string>
     <string name="label_score">Score：</string>
+
     <string name="summary">日本語で表示しています。</string>
     <string name="language">show ing English</string>
+
+    <string name="startbutton">スタート</string>
+
 </resources>
