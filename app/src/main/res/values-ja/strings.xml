@@ -1,3 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="app_name">iwasaki yuhi</string>
+    <string name="btn_high">ボタン1</string>
+    <string name="btn_low">ボタン2</string>
+    <string name="btn_restart">Restart</string>
+    <string name="label_score">Score：</string>
+    <string name="summary">Displaying the Engliseh.</string>
+    <string name="language">日本語で表示する</string>
+
 </resources>

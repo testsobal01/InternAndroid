@@ -1,3 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="app_name">iwasaki yuhi</string>
+    <string name="btn_high">haute</string>
+    <string name="btn_low">bas</string>
+    <string name="btn_restart">redémarrer</string>
+    <string name="label_score">Score：</string>
+    <string name="summary">フランス語で表示しています。</string>
+    <string name="language">afficher en japonais</string>
 </resources>
