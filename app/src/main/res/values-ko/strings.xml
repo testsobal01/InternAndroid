@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+<string name="app_name">이와사키 에이지</string>
+<string name="btn_high">높은</string>
+<string name="btn_low">낮은</string>
+<string name="btn_restart">재시작</string>
+<string name="label_score">득점：</string>
+<string name="textview1">10이 설정되었습니다.</string>
+<string name="label_result">결과</string>
+<string name="label_win">승리</string>
+<string name="label_lose">잃다</string>
+<string name="label_draw">무승부</string>
+
+</resources>

@@ -129,24 +129,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (isHigh) {
             // result には結果のみを入れる
             if (question < answer) {
-                result = "WIN";
+                result = getString(R.string.label_win);
                 score = 2;
             } else if (question > answer) {
-                result = "LOSE";
+                result = getString(R.string.label_lose);
                 score = -1;
             } else {
-                result = "DRAW";
+                result = getString(R.string.label_draw);;
                 score = 1;
             }
         } else {
             if (question > answer) {
-                result = "WIN";
+                result = getString(R.string.label_win);
                 score = 2;
             } else if (question < answer) {
-                result = "LOSE";
+                result = getString(R.string.label_lose);
                 score = -1;
             } else {
-                result = "DRAW";
+                result = getString(R.string.label_draw);
                 score = 1;
             }
         }
@@ -168,7 +168,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // 最後にまとめてToast表示の処理とTextViewへのセットを行う
         Toast.makeText(this, result, Toast.LENGTH_LONG).show();
-        txtResult.setText("結果：" + question + ":" + answer + "(" + result + ")");
+        txtResult.setText(getString(R.string.label_result)+"：" + question + ":" + answer + "(" + result + ")");
 
         // 続けて遊べるように値を更新
         setNextQuestion();
