@@ -2,9 +2,13 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+
 import android.content.Intent;
+
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Vibrator;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -13,6 +17,14 @@ import android.widget.Toast;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
+
+    SharedPreferences pref;
+    SharedPreferences.Editor prefEditor;
+
+    // 結果を示す文字列を入れる変数を用意
+    String result;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +39,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
+
+        pref = getSharedPreferences("MakotoMurase",MODE_PRIVATE);
+        prefEditor = pref.edit();
 
         // 起動時に関数を呼び出す
         setQuestionValue();
@@ -52,6 +67,30 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         }
 
+        if(view.getId() == R.id.button1  || view.getId() == R.id.button2){
+            if(result.equals("WIN")){
+                Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+                vib.vibrate(500);
+            }
+        }
+    }
+
+    @Override
+    protected void onPause(){
+        super.onPause();
+        Toast.makeText(this, "Pause", Toast.LENGTH_SHORT).show();
+        TextView textScore = (TextView) findViewById(R.id.text_score);
+        prefEditor.putString("main_input",textScore.getText().toString());
+        prefEditor.commit();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Toast.makeText(this,"Resume",Toast.LENGTH_SHORT).show();
+        TextView textScore = (TextView) findViewById(R.id.text_score);
+        String readText = pref.getString("main_input","");
+        textScore.setText(readText);
     }
 
     private void clearAnswerValue() {
@@ -80,8 +119,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int question = Integer.parseInt(txtViewQuestion.getText().toString());
         int answer = Integer.parseInt(txtViewAnswer.getText().toString());
         TextView txtResult = (TextView) findViewById(R.id.text_result);
-        // 結果を示す文字列を入れる変数を用意
-        String result;
         int score = 0;
 
         // Highが押された
