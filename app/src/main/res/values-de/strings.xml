@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="app_name">MakotoMurase</string>
+    <string name="btn_high">High</string>
+    <string name="btn_low">Low</string>
+    <string name="btn_restart">Restart</string>
+    <string name="label_score">Score：</string>
+    <string name="action_settings">Einstellung 1</string>
+    <string name="action_settings2">Einstellung 2</string>
+    <string name="action_settings3">Einstellung 3</string>
+    <string name="action_settings4">auf 10 setzen</string>
+    <string name="action_settings5">Wert 1</string>
+    <string name="action_settings6">Wert 2</string>
+    <string name="action_settings7">Ergebnis</string>
+    <string name="action_settings8">gewinnen</string>
+    <string name="action_settings9">verlieren</string>
+    <string name="action_settings10">zeichnen</string>
+
+</resources>

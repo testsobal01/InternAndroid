@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">まさひろいずみや</string>
+    <string name="btn_high">高い</string>
+    <string name="btn_low">低い</string>
+    <string name="btn_restart">再起動</string>
+    <string name="label_score">スコア：</string>
+    <string name="action_settings">設定1</string>
+    <string name="action_settings2">設定2</string>
+    <string name="action_settings3">設定3</string>
+    <string name="action_settings4">10に設定します</string>
+    <string name="action_settings5">値１</string>
+    <string name="action_settings6">値2</string>
+    <string name="action_settings7">結果</string>
+    <string name="action_settings8">勝ち</string>
+    <string name="action_settings9">負け</string>
+    <string name="action_settings10">引き分け</string>
+
+
+</resources>
