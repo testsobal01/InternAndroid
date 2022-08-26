@@ -2,8 +2,11 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Vibrator;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -27,22 +30,32 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
 
+        TextView textView = findViewById(R.id.text_setting);
+        textView.setText(getString(R.string.setting));
+
+        TextView textView2 = findViewById(R.id.text_result);
+        textView2.setText(getString(R.string.result));
+
         // 起動時に関数を呼び出す
         setQuestionValue();
+        startScore();
 
     }
 
     @Override
     public void onClick(View view) {
+        Vibrator vib=(Vibrator)getSystemService(VIBRATOR_SERVICE);
         int id = view.getId();
         switch (id) {
             case R.id.button1:
                 setAnswerValue();
                 checkResult(true);
+                vib.vibrate(5000);
                 break;
             case R.id.button2:
                 setAnswerValue();
                 checkResult(false);
+                vib.vibrate(5000);
                 break;
             case R.id.button3:
                 setQuestionValue();
@@ -83,6 +96,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         String result;
         int score = 0;
 
+
         // Highが押された
         if (isHigh) {
             // result には結果のみを入れる
@@ -112,7 +126,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // 最後にまとめてToast表示の処理とTextViewへのセットを行う
         Toast.makeText(this, result, Toast.LENGTH_LONG).show();
-        txtResult.setText("結果：" + question + ":" + answer + "(" + result + ")");
+        txtResult.setText(getString(R.string.result) + question + ":" + answer + "(" + result + ")");
 
         // 続けて遊べるように値を更新
         setNextQuestion();
@@ -141,10 +155,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }.start();
     }
 
-    private void setScore(int score) {
+    private void setScore(int score) {//スコアを計算し、プリファレンスにスコアを記録する
         TextView txtScore = (TextView) findViewById(R.id.text_score);
         int newScore = Integer.parseInt(txtScore.getText().toString()) + score;
         txtScore.setText(Integer.toString(newScore));
+
+        SharedPreferences dataStore=getSharedPreferences("Score",MODE_PRIVATE);
+        Editor editor=dataStore.edit();
+        editor.putInt("Score",newScore);
+        editor.apply();
     }
+
+    private void startScore(){//プリファレンスからスコアを読み込む
+        SharedPreferences dataStore=getSharedPreferences("Score",MODE_PRIVATE);
+        int readScore= dataStore.getInt("Score",0);
+        TextView txtScore = (TextView) findViewById(R.id.text_score);
+        txtScore.setText(Integer.toString(readScore));
+    }
+
 
 }
