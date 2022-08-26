@@ -2,10 +2,15 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+
 import android.media.AudioAttributes;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.Build;
+
+import android.content.SharedPreferences;
+import android.graphics.Color;
+
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
@@ -17,10 +22,15 @@ import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
+
     SoundPool soundPool;
     int mp3a;
     int mp3b;
     int mp3c;
+
+    SharedPreferences pref;
+    SharedPreferences.Editor prefEditor;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +45,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
+
+        pref = getSharedPreferences("AndroidSeminor",MODE_PRIVATE);
+        prefEditor = pref.edit();
 
         // 起動時に関数を呼び出す
         setQuestionValue();
@@ -71,6 +84,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onC(){
         // 再生処理 (再生ボタン)
         soundPool.play(mp3c,1f , 1f, 0, 0, 1f);
+    }
+
+    @Override
+    protected void onPause(){
+        super.onPause();
+
+        TextView txtScore = (TextView) findViewById(R.id.text_score);
+        prefEditor.putString("main_input",txtScore.getText().toString());
+        prefEditor.commit();
+    }
+
+    @Override
+    protected  void onResume(){
+        super.onResume();
+        TextView txtScore = (TextView) findViewById(R.id.text_score);
+
+        String readText=pref.getString("main_input","保存されていません");
+        txtScore.setText(readText);
     }
 
     @Override
@@ -131,28 +162,40 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 result = "WIN";
                 onA();
                 score = 2;
+                txtViewQuestion.setBackgroundColor(Color.WHITE);
+                txtViewAnswer.setBackgroundColor(Color.RED);
             } else if (question > answer) {
                 result = "LOSE";
                 onB();
                 score = -1;
+                txtViewQuestion.setBackgroundColor(Color.RED);
+                txtViewAnswer.setBackgroundColor(Color.WHITE);
             } else {
                 result = "DRAW";
                 onC();
                 score = 1;
+                txtViewQuestion.setBackgroundColor(Color.BLUE);
+                txtViewAnswer.setBackgroundColor(Color.BLUE);
             }
         } else {
             if (question > answer) {
                 result = "WIN";
                 onA();
                 score = 2;
+                txtViewQuestion.setBackgroundColor(Color.RED);
+                txtViewAnswer.setBackgroundColor(Color.WHITE);
             } else if (question < answer) {
                 result = "LOSE";
                 onB();
                 score = -1;
+                txtViewQuestion.setBackgroundColor(Color.WHITE);
+                txtViewAnswer.setBackgroundColor(Color.RED);
             } else {
                 result = "DRAW";
                 onC();
                 score = 1;
+                txtViewQuestion.setBackgroundColor(Color.BLUE);
+                txtViewAnswer.setBackgroundColor(Color.BLUE);
             }
         }
 
