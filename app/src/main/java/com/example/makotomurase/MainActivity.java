@@ -2,6 +2,9 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.media.AudioAttributes;
+import android.media.MediaPlayer;
+import android.media.SoundPool;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
@@ -12,6 +15,11 @@ import android.widget.Toast;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
+    SoundPool soundPool;
+    int mp3a;
+    int mp3b;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +38,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // 起動時に関数を呼び出す
         setQuestionValue();
 
+        AudioAttributes audioAttributes = new AudioAttributes.Builder()
+                .setUsage(AudioAttributes.USAGE_ALARM).setContentType
+                        (AudioAttributes.CONTENT_TYPE_SPEECH).build();
+
+        soundPool = new SoundPool.Builder().setAudioAttributes
+                (audioAttributes).setMaxStreams(1).build();
+
+        mp3a = soundPool.load(this, R.raw.mp3a, 1);
     }
 
     @Override
@@ -39,17 +55,41 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.button1:
                 setAnswerValue();
                 checkResult(true);
+                //soundPool.play(mp3a, 1f, 1f, 0 ,0, 1f);
+                MediaPlayer mp = MediaPlayer.create(this, R.raw.mp3a);
+                try{
+                    mp.prepare();
+                }catch (Exception e){
+
+                }
+                mp.start();
                 break;
             case R.id.button2:
                 setAnswerValue();
                 checkResult(false);
+                //soundPool.play(mp3a, 1f, 1f, 0 ,0, 1f);
+                MediaPlayer mp1 = MediaPlayer.create(this, R.raw.mp3a);
+                try{
+                    mp1.prepare();
+                }catch (Exception e){
+
+                }
+                mp1.start();
                 break;
             case R.id.button3:
                 setQuestionValue();
                 clearAnswerValue();
+                MediaPlayer mp2 = MediaPlayer.create(this, R.raw.mp3b);
+                try{
+                    mp2.prepare();
+                }catch (Exception e){
+
+                }
+                mp2.start();
                 break;
 
         }
+
 
     }
 
