@@ -2,13 +2,19 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+
 import android.content.SharedPreferences;
 import android.content.Intent;
 import android.graphics.Color;
+
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.RotateAnimation;
+import android.view.animation.ScaleAnimation;
+import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -127,6 +133,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             // result には結果のみを入れる
             if (question < answer) {
                 result = "WIN";
+                RotateAnimation rotate = new RotateAnimation(
+                        0.0f, 360.0f,
+                        Animation.RELATIVE_TO_SELF, 0.5f,
+                        Animation.RELATIVE_TO_SELF, 0.5f);
+                rotate.setDuration(1000);
+                rotate.setRepeatCount(0);
+                rotate.setFillAfter(true);
+                txtViewAnswer.startAnimation(rotate);
                 score = 2;
                 TextView back1 = (TextView) findViewById(R.id.question);
                 back1.setBackgroundColor(Color.rgb(0, 255, 255));
@@ -150,6 +164,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         } else {
             if (question > answer) {
                 result = "WIN";
+                RotateAnimation rotate = new RotateAnimation(
+                        0.0f, 360.0f,
+                        Animation.RELATIVE_TO_SELF, 0.5f,
+                        Animation.RELATIVE_TO_SELF, 0.5f);
+                rotate.setDuration(1000);
+                rotate.setRepeatCount(0);
+                rotate.setFillAfter(true);
+                txtViewAnswer.startAnimation(rotate);
                 score = 2;
                 TextView back1 = (TextView) findViewById(R.id.question);
                 back1.setBackgroundColor(Color.rgb(255, 0, 0));
