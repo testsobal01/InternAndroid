@@ -5,11 +5,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.media.AudioAttributes;
 import android.media.AudioManager;
 import android.media.SoundPool;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,6 +40,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     public MainActivity() {
     }
+    
+    SharedPreferences pref;
+    SharedPreferences.Editor prefEditor;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +51,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
         /*sndPool = new SoundPool(1,AudioManager.STREAM_MUSIC,0);
         sndID = sndPool.load(this.getApplicationContext(),R.raw.hit,1);*/
+
+
 
         Button btn1 = (Button) findViewById(R.id.button1);
         btn1.setOnClickListener(this);
@@ -66,34 +74,62 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         sndID3 = sndPool.load(getBaseContext(), oto3, 1);
         sndID4 = sndPool.load(getBaseContext(), oto4, 1);
 
-        // 起動時に関数を呼び出す
+
+
+        ImageView imageView2 = findViewById(R.id.droid);
+        imageView2.setImageResource(R.drawable.droid);
+
+
+        pref  = getSharedPreferences("AndroidSeminor", MODE_PRIVATE);
+        prefEditor = pref.edit();
+        // 起動時に関数を呼び出す;
+
+
         setQuestionValue();
 
 
     }
 
     @Override
+    protected void onPause() {
+        super.onPause();
+        Toast.makeText(this, "onPause", Toast.LENGTH_SHORT).show();
+
+        TextView textView = (TextView)findViewById(R.id.text_score);
+        prefEditor.putString("main_input",textView.getText().toString());
+        prefEditor.commit();
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Toast.makeText(this,"onResume",Toast.LENGTH_SHORT).show();
+
+
+        TextView textView = (TextView)findViewById(R.id.text_score);
+
+       String readText = pref.getString("main_input","0");
+        textView.setText(readText);
+    }
+
+   //@Override
     public void onClick(View view) {
         int id = view.getId();
         switch (id) {
             case R.id.button1:
-                /*Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
-                vib.vibrate(700);*/
                 setAnswerValue();
                 checkResult(true);
                 break;
             case R.id.button2:
-                /*Vibrator vib2 = (Vibrator)getSystemService(VIBRATOR_SERVICE);
-                vib2.vibrate(700);*/
                 setAnswerValue();
                 checkResult(false);
                 break;
             case R.id.button3:
-                /*Vibrator vib3 = (Vibrator)getSystemService(VIBRATOR_SERVICE);
-                vib3.vibrate(700);*/
                 setQuestionValue();
                 clearAnswerValue();
                 break;
+
 
         }
 
@@ -102,7 +138,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void clearAnswerValue() {
         sndPool.play(sndID4, 1f, 1f, 0, 0, 1);
         TextView txtView = (TextView) findViewById(R.id.answer);
-        txtView.setText("値2");
+        txtView.setText(getResources().getString(R.string.action_settings6));
     }
 
     private void setQuestionValue() {
@@ -134,7 +170,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (isHigh) {
             // result には結果のみを入れる
             if (question < answer) {
-                //sndPool.play(sndID, 1.0F, 1.0F, 0, 0, 1.0F);
                 sndPool.play(sndID, 1f, 1f, 0, 0, 1);
                 result = "WIN";
                 score = 2;
@@ -149,12 +184,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 score = -1;
             } else {
                 sndPool.play(sndID3, 1f, 1f, 0, 0, 1);
-                result = "DRAW";
+                result = getResources().getString(R.string.action_settings8);
+                score = 2;
+            } else if (question > answer) {
+
+                result = getResources().getString(R.string.action_settings9);
+
+                Vibrator vib = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+                vib.vibrate(500);
+
+                score = -1;
+            } else {
+                result = getResources().getString(R.string.action_settings10);
                 score = 1;
             }
         } else {
             if (question > answer) {
-                //sndPool.play(sndID, 1.0F, 1.0F, 0, 0, 1.0F);
                 sndPool.play(sndID, 1f, 1f, 0, 0, 1);
                 result = "WIN";
                 score = 2;
@@ -166,7 +211,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 score = -1;
             } else {
                 sndPool.play(sndID3, 1f, 1f, 0, 0, 1);
-                result = "DRAW";
+                result = getResources().getString(R.string.action_settings8);
+                score = 2;
+            } else if (question < answer) {
+
+                result = getResources().getString(R.string.action_settings9);
+
+                Vibrator vib = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+                vib.vibrate(500);
+
+                score = -1;
+            } else {
+                result = getResources().getString(R.string.action_settings10);
                 score = 1;
             }
         }
@@ -174,7 +230,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // 最後にまとめてToast表示の処理とTextViewへのセットを行う
         Toast.makeText(this, result, Toast.LENGTH_LONG).show();
-        txtResult.setText("結果：" + question + ":" + answer + "(" + result + ")");
+        txtResult.setText(getResources().getString(R.string.action_settings7) + question + ":" + answer + "(" + result + ")");
 
         // 続けて遊べるように値を更新
         setNextQuestion();
@@ -209,5 +265,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         txtScore.setText(Integer.toString(newScore));
         
     }
+
+
 
 }
