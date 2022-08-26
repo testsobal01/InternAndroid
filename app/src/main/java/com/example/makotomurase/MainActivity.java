@@ -2,12 +2,17 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.animation.ValueAnimator;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
+import android.view.animation.RotateAnimation;
+import android.view.animation.ScaleAnimation;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -55,7 +60,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onResume();
         TextView txtScore = (TextView) findViewById(R.id.text_score);
 
-        String readText=pref.getString("main_input","保存されていません");
+        String readText=pref.getString("main_input","0");
         txtScore.setText(readText);
     }
 
@@ -120,11 +125,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 score = 2;
                 txtViewQuestion.setBackgroundColor(Color.WHITE);
                 txtViewAnswer.setBackgroundColor(Color.RED);
+                setAnime();
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
                 txtViewQuestion.setBackgroundColor(Color.RED);
                 txtViewAnswer.setBackgroundColor(Color.WHITE);
+                setAnimeAnswer();
             } else {
                 result = "DRAW";
                 score = 1;
@@ -137,11 +144,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 score = 2;
                 txtViewQuestion.setBackgroundColor(Color.RED);
                 txtViewAnswer.setBackgroundColor(Color.WHITE);
+                setAnime();
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
                 txtViewQuestion.setBackgroundColor(Color.WHITE);
                 txtViewAnswer.setBackgroundColor(Color.RED);
+                setAnimeAnswer();
             } else {
                 result = "DRAW";
                 score = 1;
@@ -186,6 +195,48 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView txtScore = (TextView) findViewById(R.id.text_score);
         int newScore = Integer.parseInt(txtScore.getText().toString()) + score;
         txtScore.setText(Integer.toString(newScore));
+    }
+
+    private void setAnime(){
+        TextView txtViewQuestion = (TextView) findViewById(R.id.question);
+        ScaleAnimation scaleAnimation = new ScaleAnimation(1.0f, 0.0f, 1.0f, 0.0f,
+                Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+        // animation時間 msec
+        scaleAnimation.setDuration(2000);
+
+        RotateAnimation rotate = new RotateAnimation(0.0f, 120.0f,
+                Animation.RELATIVE_TO_PARENT, 0.0f, Animation.RELATIVE_TO_PARENT, 0.5f);
+        // animation時間 msec
+        rotate.setDuration(2000);
+
+        AnimationSet animationSet = new AnimationSet( true );
+
+        // animationSetにそれぞれ追加する
+        animationSet.addAnimation( scaleAnimation );
+        animationSet.addAnimation( rotate );
+
+        txtViewQuestion.startAnimation(animationSet);
+    }
+
+    private void setAnimeAnswer(){
+        TextView txtViewAnswer = (TextView) findViewById(R.id.answer);
+        ScaleAnimation scaleAnimation = new ScaleAnimation(1.0f, 0.0f, 1.0f, 0.0f,
+                Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+        // animation時間 msec
+        scaleAnimation.setDuration(2000);
+
+        RotateAnimation rotate = new RotateAnimation(0.0f, 120.0f,
+                Animation.RELATIVE_TO_PARENT, 0.0f, Animation.RELATIVE_TO_PARENT, 0.5f);
+        // animation時間 msec
+        rotate.setDuration(2000);
+
+        AnimationSet animationSet = new AnimationSet( true );
+
+        // animationSetにそれぞれ追加する
+        animationSet.addAnimation( scaleAnimation );
+        animationSet.addAnimation( rotate );
+
+        txtViewAnswer.startAnimation(animationSet);
     }
 
 }
