@@ -1,6 +1,17 @@
 package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.res.ResourcesCompat;
+
+
+import android.animation.ValueAnimator;
+
+import android.graphics.Color;
+
+
+import android.content.Intent;
+
+import android.content.SharedPreferences;
 
 import android.media.AudioAttributes;
 import android.media.AudioManager;
@@ -18,11 +29,17 @@ import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
+
+    SharedPreferences pref;
+    SharedPreferences.Editor prefEditor;
+
     // 結果を示す文字列を入れる変数を用意
     String result;
 
+
     SoundPool soundPool;
     int sound_id = 0;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +77,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
+
+        pref = getSharedPreferences("MakotoMurase",MODE_PRIVATE);
+        prefEditor = pref.edit();
 
         // 起動時に関数を呼び出す
         setQuestionValue();
@@ -100,6 +120,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+    @Override
+    protected void onPause(){
+        super.onPause();
+        Toast.makeText(this, "Pause", Toast.LENGTH_SHORT).show();
+        TextView textScore = (TextView) findViewById(R.id.text_score);
+        prefEditor.putString("main_input",textScore.getText().toString());
+        prefEditor.commit();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Toast.makeText(this,"Resume",Toast.LENGTH_SHORT).show();
+        TextView textScore = (TextView) findViewById(R.id.text_score);
+        String readText = pref.getString("main_input","");
+        textScore.setText(readText);
+    }
+
     private void clearAnswerValue() {
         TextView txtView = (TextView) findViewById(R.id.answer);
         txtView.setText("値2");
@@ -132,32 +170,46 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (isHigh) {
             // result には結果のみを入れる
             if (question < answer) {
-                result = "WIN";
+                result = getString(R.string.label_win);
                 score = 2;
             } else if (question > answer) {
-                result = "LOSE";
+                result = getString(R.string.label_lose);
                 score = -1;
             } else {
-                result = "DRAW";
+                result = getString(R.string.label_draw);;
                 score = 1;
             }
         } else {
             if (question > answer) {
-                result = "WIN";
+                result = getString(R.string.label_win);
                 score = 2;
             } else if (question < answer) {
-                result = "LOSE";
+                result = getString(R.string.label_lose);
                 score = -1;
             } else {
-                result = "DRAW";
+                result = getString(R.string.label_draw);
                 score = 1;
             }
+        }
+
+        if(score==2){
+            txtViewQuestion.setBackgroundColor(Color.BLUE);
+            txtViewAnswer.setBackgroundColor(0xFFFF0000);
+            txtResult.setBackgroundColor(0xFFFF66FF);
+        }else if(score==1){
+            txtViewQuestion.setBackgroundColor(Color.CYAN);
+            txtViewAnswer.setBackgroundColor(Color.CYAN);
+            txtResult.setBackgroundColor(0xFF999933);
+        }else if(score==-1){
+            txtViewQuestion.setBackgroundColor(Color.RED);
+            txtViewAnswer.setBackgroundColor(Color.BLUE);
+            txtResult.setBackgroundColor(0xFF99CCFF);
         }
 
 
         // 最後にまとめてToast表示の処理とTextViewへのセットを行う
         Toast.makeText(this, result, Toast.LENGTH_LONG).show();
-        txtResult.setText("結果：" + question + ":" + answer + "(" + result + ")");
+        txtResult.setText(getString(R.string.label_result)+"：" + question + ":" + answer + "(" + result + ")");
 
         // 続けて遊べるように値を更新
         setNextQuestion();

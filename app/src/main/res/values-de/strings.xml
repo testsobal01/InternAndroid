@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">EijiIwasaki</string>
+    <string name="btn_high">HOCH</string>
+    <string name="btn_low">NIEDRIG</string>
+    <string name="btn_restart">NEUSTART</string>
+    <string name="label_score">PUNKTZAHL:</string>
+    <string name="textview1">10 ist eingestellt.</string>
+    <string name="label_result">ERGEBNIS</string>
+    <string name="label_win">GEWINNEN</string>
+    <string name="label_lose">VERLIEREN</string>
+    <string name="label_draw">ZEICHNEN</string>
+
+</resources>
