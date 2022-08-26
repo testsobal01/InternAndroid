@@ -2,6 +2,8 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
@@ -35,6 +37,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // 起動時に関数を呼び出す
         setQuestionValue();
+        startScore();
 
     }
 
@@ -88,6 +91,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // 結果を示す文字列を入れる変数を用意
         String result;
         int score = 0;
+
 
         // Highが押された
         if (isHigh) {
@@ -147,10 +151,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }.start();
     }
 
-    private void setScore(int score) {
+    private void setScore(int score) {//スコアを計算し、プリファレンスにスコアを記録する
         TextView txtScore = (TextView) findViewById(R.id.text_score);
         int newScore = Integer.parseInt(txtScore.getText().toString()) + score;
         txtScore.setText(Integer.toString(newScore));
+
+        SharedPreferences dataStore=getSharedPreferences("Score",MODE_PRIVATE);
+        Editor editor=dataStore.edit();
+        editor.putInt("Score",newScore);
+        editor.apply();
     }
+
+    private void startScore(){//プリファレンスからスコアを読み込む
+        SharedPreferences dataStore=getSharedPreferences("Score",MODE_PRIVATE);
+        int readScore= dataStore.getInt("Score",0);
+        TextView txtScore = (TextView) findViewById(R.id.text_score);
+        txtScore.setText(Integer.toString(readScore));
+    }
+
 
 }
