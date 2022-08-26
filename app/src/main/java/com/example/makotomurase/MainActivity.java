@@ -18,6 +18,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
+
         Button btn1 = (Button) findViewById(R.id.button1);
         btn1.setOnClickListener(this);
 
@@ -26,6 +28,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
+
+
 
         // 起動時に関数を呼び出す
         setQuestionValue();
@@ -49,13 +53,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 clearAnswerValue();
                 break;
 
+
         }
 
     }
 
     private void clearAnswerValue() {
         TextView txtView = (TextView) findViewById(R.id.answer);
-        txtView.setText("値2");
+        txtView.setText(getResources().getString(R.string.action_settings6));
     }
 
     private void setQuestionValue() {
@@ -87,24 +92,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (isHigh) {
             // result には結果のみを入れる
             if (question < answer) {
-                result = "WIN";
+                result = getResources().getString(R.string.action_settings8);
                 score = 2;
             } else if (question > answer) {
-                result = "LOSE";
+                result = getResources().getString(R.string.action_settings9);
                 score = -1;
             } else {
-                result = "DRAW";
+                result = getResources().getString(R.string.action_settings10);
                 score = 1;
             }
         } else {
             if (question > answer) {
-                result = "WIN";
+                result = getResources().getString(R.string.action_settings8);
                 score = 2;
             } else if (question < answer) {
-                result = "LOSE";
+                result = getResources().getString(R.string.action_settings9);
                 score = -1;
             } else {
-                result = "DRAW";
+                result = getResources().getString(R.string.action_settings10);
                 score = 1;
             }
         }
@@ -112,7 +117,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // 最後にまとめてToast表示の処理とTextViewへのセットを行う
         Toast.makeText(this, result, Toast.LENGTH_LONG).show();
-        txtResult.setText("結果：" + question + ":" + answer + "(" + result + ")");
+        txtResult.setText(getResources().getString(R.string.action_settings7) + question + ":" + answer + "(" + result + ")");
 
         // 続けて遊べるように値を更新
         setNextQuestion();
@@ -146,5 +151,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int newScore = Integer.parseInt(txtScore.getText().toString()) + score;
         txtScore.setText(Integer.toString(newScore));
     }
+
+
 
 }

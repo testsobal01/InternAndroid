@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Masahiro Izumiya</string>
+    <string name="btn_high">haute</string>
+    <string name="btn_low">bas</string>
+    <string name="btn_restart">redémarrer</string>
+    <string name="label_score">Score：</string>
+    <string name="action_settings">paramètre 1</string>
+    <string name="action_settings2">paramètre 2</string>
+    <string name="action_settings3">paramètre 3</string>
+    <string name="action_settings4">1mis à 10</string>
+    <string name="action_settings5">valeur 1</string>
+    <string name="action_settings6">valeur 2</string>
+    <string name="action_settings7">résultat</string>
+    <string name="action_settings8">gagner</string>
+    <string name="action_settings9">perdre</string>
+    <string name="action_settings10">dessiner</string>
+
+</resources>
