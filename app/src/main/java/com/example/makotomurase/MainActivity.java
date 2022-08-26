@@ -2,6 +2,9 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.media.AudioAttributes;
+import android.media.AudioManager;
+import android.media.SoundPool;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
@@ -10,14 +13,38 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
 import java.util.Random;
 
+import static android.media.AudioManager.STREAM_MUSIC;
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
+    private SoundPool sndPool;
+    private int sndID;
+    private int sndID2;
+    private int sndID3;
+    private int sndID4;
+    private int sndID5;
+
+
+    private int oto;
+    private int oto2;
+    private int oto3;
+    private int oto4;
+    private int oto5;
+
+
+
+    public MainActivity() {
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        /*sndPool = new SoundPool(1,AudioManager.STREAM_MUSIC,0);
+        sndID = sndPool.load(this.getApplicationContext(),R.raw.hit,1);*/
 
         Button btn1 = (Button) findViewById(R.id.button1);
         btn1.setOnClickListener(this);
@@ -27,9 +54,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
+        sndPool = null;
+        AudioAttributes audioAttributes = new AudioAttributes.Builder().setUsage(AudioAttributes.USAGE_ALARM).setContentType(AudioAttributes.CONTENT_TYPE_SPEECH).build();
+        sndPool = new SoundPool.Builder().setAudioAttributes(audioAttributes).setMaxStreams(1).build();
+        oto = getResources().getIdentifier("hit", "raw", getPackageName());
+        oto2 = getResources().getIdentifier("over", "raw", getPackageName());
+        oto3 = getResources().getIdentifier("draw", "raw", getPackageName());
+        oto4 = getResources().getIdentifier("restart", "raw", getPackageName());
+        sndID = sndPool.load(getBaseContext(), oto, 1);
+        sndID2 = sndPool.load(getBaseContext(), oto2, 1);
+        sndID3 = sndPool.load(getBaseContext(), oto3, 1);
+        sndID4 = sndPool.load(getBaseContext(), oto4, 1);
 
         // 起動時に関数を呼び出す
         setQuestionValue();
+
 
     }
 
@@ -38,20 +77,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int id = view.getId();
         switch (id) {
             case R.id.button1:
-                Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
-                vib.vibrate(700);
+                /*Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+                vib.vibrate(700);*/
                 setAnswerValue();
                 checkResult(true);
                 break;
             case R.id.button2:
-                Vibrator vib2 = (Vibrator)getSystemService(VIBRATOR_SERVICE);
-                vib2.vibrate(700);
+                /*Vibrator vib2 = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+                vib2.vibrate(700);*/
                 setAnswerValue();
                 checkResult(false);
                 break;
             case R.id.button3:
-                Vibrator vib3 = (Vibrator)getSystemService(VIBRATOR_SERVICE);
-                vib3.vibrate(700);
+                /*Vibrator vib3 = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+                vib3.vibrate(700);*/
                 setQuestionValue();
                 clearAnswerValue();
                 break;
@@ -61,6 +100,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void clearAnswerValue() {
+        sndPool.play(sndID4, 1f, 1f, 0, 0, 1);
         TextView txtView = (TextView) findViewById(R.id.answer);
         txtView.setText("値2");
     }
@@ -94,23 +134,38 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (isHigh) {
             // result には結果のみを入れる
             if (question < answer) {
+                //sndPool.play(sndID, 1.0F, 1.0F, 0, 0, 1.0F);
+                sndPool.play(sndID, 1f, 1f, 0, 0, 1);
                 result = "WIN";
                 score = 2;
             } else if (question > answer) {
+                Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+                vib.vibrate(500);
+                sndPool.play(sndID2, 1f, 1f, 0, 0, 1);
                 result = "LOSE";
+                if(question-answer==10){
+
+                }
                 score = -1;
             } else {
+                sndPool.play(sndID3, 1f, 1f, 0, 0, 1);
                 result = "DRAW";
                 score = 1;
             }
         } else {
             if (question > answer) {
+                //sndPool.play(sndID, 1.0F, 1.0F, 0, 0, 1.0F);
+                sndPool.play(sndID, 1f, 1f, 0, 0, 1);
                 result = "WIN";
                 score = 2;
             } else if (question < answer) {
+                Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+                vib.vibrate(500);
+                sndPool.play(sndID2, 1f, 1f, 0, 0, 1);
                 result = "LOSE";
                 score = -1;
             } else {
+                sndPool.play(sndID3, 1f, 1f, 0, 0, 1);
                 result = "DRAW";
                 score = 1;
             }
@@ -152,6 +207,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView txtScore = (TextView) findViewById(R.id.text_score);
         int newScore = Integer.parseInt(txtScore.getText().toString()) + score;
         txtScore.setText(Integer.toString(newScore));
+        
     }
 
 }
