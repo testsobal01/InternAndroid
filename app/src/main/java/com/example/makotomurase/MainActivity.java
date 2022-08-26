@@ -2,16 +2,24 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Vibrator;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
+    SharedPreferences pref;
+    SharedPreferences.Editor prefEditor;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,24 +39,61 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
 
-        // 起動時に関数を呼び出す
+        ImageView imageView2 = findViewById(R.id.droid);
+        imageView2.setImageResource(R.drawable.droid);
+
+
+        pref  = getSharedPreferences("AndroidSeminor", MODE_PRIVATE);
+        prefEditor = pref.edit();
+        // 起動時に関数を呼び出す;
+
+
         setQuestionValue();
 
     }
 
     @Override
+    protected void onPause() {
+        super.onPause();
+        Toast.makeText(this, "onPause", Toast.LENGTH_SHORT).show();
+
+        TextView textView = (TextView)findViewById(R.id.text_score);
+        prefEditor.putString("main_input",textView.getText().toString());
+        prefEditor.commit();
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Toast.makeText(this,"onResume",Toast.LENGTH_SHORT).show();
+
+
+        TextView textView = (TextView)findViewById(R.id.text_score);
+
+       String readText = pref.getString("main_input","0");
+        textView.setText(readText);
+    }
+
+   //@Override
     public void onClick(View view) {
         int id = view.getId();
         switch (id) {
             case R.id.button1:
+                /*Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+                vib.vibrate(500);*/
                 setAnswerValue();
                 checkResult(true);
                 break;
             case R.id.button2:
+                /*Vibrator vib2 = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+                vib2.vibrate(500);*/
                 setAnswerValue();
                 checkResult(false);
                 break;
             case R.id.button3:
+                /*Vibrator vib3 = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+                vib3.vibrate(500);*/
                 setQuestionValue();
                 clearAnswerValue();
                 break;
@@ -95,7 +140,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 result = getResources().getString(R.string.action_settings8);
                 score = 2;
             } else if (question > answer) {
+
                 result = getResources().getString(R.string.action_settings9);
+
+                Vibrator vib = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+                vib.vibrate(500);
+
                 score = -1;
             } else {
                 result = getResources().getString(R.string.action_settings10);
@@ -106,7 +156,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 result = getResources().getString(R.string.action_settings8);
                 score = 2;
             } else if (question < answer) {
+
                 result = getResources().getString(R.string.action_settings9);
+
+                Vibrator vib = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+                vib.vibrate(500);
+
                 score = -1;
             } else {
                 result = getResources().getString(R.string.action_settings10);

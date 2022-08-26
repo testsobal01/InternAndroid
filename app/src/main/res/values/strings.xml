@@ -4,6 +4,7 @@
     <string name="btn_low">Low</string>
     <string name="btn_restart">Restart</string>
     <string name="label_score">Score：</string>
+
     <string name="action_settings">設定1</string>
     <string name="action_settings2">設定2</string>
     <string name="action_settings3">設定3</string>
@@ -16,5 +17,8 @@
     <string name="action_settings10">draw</string>
 
 
+
+
+    <string name="start_button">START</string>
 
 </resources>
