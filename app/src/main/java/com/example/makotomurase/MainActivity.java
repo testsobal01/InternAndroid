@@ -2,12 +2,19 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.media.AudioAttributes;
+import android.media.MediaPlayer;
+import android.media.SoundPool;
+
 import android.graphics.Color;
 import android.content.SharedPreferences;
+
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.RotateAnimation;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -16,9 +23,14 @@ import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
+
+    SoundPool soundPool;
+
+
     //プリファレンス生成
     SharedPreferences pref;
     SharedPreferences.Editor prefEditor;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +53,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // 起動時に関数を呼び出す
         setQuestionValue();
 
+        AudioAttributes audioAttributes = new AudioAttributes.Builder()
+                .setUsage(AudioAttributes.USAGE_ALARM).setContentType
+                        (AudioAttributes.CONTENT_TYPE_SPEECH).build();
+
+        soundPool = new SoundPool.Builder().setAudioAttributes
+                (audioAttributes).setMaxStreams(1).build();
+
     }
 
     @Override
@@ -52,17 +71,41 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 vib.vibrate(5000);
                 setAnswerValue();
                 checkResult(true);
+                //soundPool.play(mp3a, 1f, 1f, 0 ,0, 1f);
+                MediaPlayer mp = MediaPlayer.create(this, R.raw.mp3a);
+                try{
+                    mp.prepare();
+                }catch (Exception e){
+
+                }
+                mp.start();
                 break;
             case R.id.button2:
                 setAnswerValue();
                 checkResult(false);
+                //soundPool.play(mp3a, 1f, 1f, 0 ,0, 1f);
+                MediaPlayer mp1 = MediaPlayer.create(this, R.raw.mp3a);
+                try{
+                    mp1.prepare();
+                }catch (Exception e){
+
+                }
+                mp1.start();
                 break;
             case R.id.button3:
                 setQuestionValue();
                 clearAnswerValue();
+                MediaPlayer mp2 = MediaPlayer.create(this, R.raw.mp3b);
+                try{
+                    mp2.prepare();
+                }catch (Exception e){
+
+                }
+                mp2.start();
                 break;
 
         }
+
 
     }
 
@@ -168,6 +211,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // スコアを表示
         setScore(score);
 
+        //回転アニメーション
+        RotateAnimation(result);
+
     }
 
     private void setNextQuestion() {
@@ -193,6 +239,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView txtScore = (TextView) findViewById(R.id.text_score);
         int newScore = Integer.parseInt(txtScore.getText().toString()) + score;
         txtScore.setText(Integer.toString(newScore));
+    }
+
+    private void RotateAnimation(String result){
+        TextView txtViewQuestion = (TextView) findViewById(R.id.question);
+        TextView txtViewAnswer = (TextView) findViewById(R.id.answer);
+
+        RotateAnimation rotate = new RotateAnimation(0.0f, 360.0f,
+                Animation.RELATIVE_TO_SELF, 0.5f,
+                Animation.RELATIVE_TO_SELF, 0.5f);
+        rotate.setDuration(3000);
+        rotate.setFillAfter(true);
+        switch (result){
+            case "WIN":
+                txtViewAnswer.startAnimation(rotate);
+                break;
+
+            case "LOSE":
+                txtViewQuestion.startAnimation(rotate);
+                break;
+
+            case "DRAW":
+                txtViewAnswer.startAnimation(rotate);
+                txtViewQuestion.startAnimation(rotate);
+                break;
+        }
     }
 
 }
