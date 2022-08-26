@@ -2,12 +2,20 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+
 import android.animation.ValueAnimator;
+
+
+import android.media.AudioAttributes;
+import android.media.AudioManager;
+import android.media.SoundPool;
+import android.os.Build;
+
 import android.content.SharedPreferences;
 import android.graphics.Color;
+
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.os.Vibrator;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
@@ -21,8 +29,15 @@ import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
+
+    SoundPool soundPool;
+    int mp3a;
+    int mp3b;
+    int mp3c;
+
     SharedPreferences pref;
     SharedPreferences.Editor prefEditor;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +59,38 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // 起動時に関数を呼び出す
         setQuestionValue();
 
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            soundPool = new SoundPool(5, AudioManager.STREAM_MUSIC, 0);
+        } else {
+            AudioAttributes attr = new AudioAttributes.Builder()
+                    .setUsage(AudioAttributes.USAGE_MEDIA)
+                    .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+                    .build();
+            soundPool = new SoundPool.Builder()
+                    .setAudioAttributes(attr)
+                    .setMaxStreams(5)
+                    .build();
+        }
+
+        // 読込処理(CDを入れる)
+        mp3a = soundPool.load(this, R.raw.ok, 1);
+        mp3b = soundPool.load(this, R.raw.error, 1);
+        mp3c = soundPool.load(this, R.raw.draw, 1);
+    }
+
+    public void onA(){
+        // 再生処理(再生ボタン)
+        soundPool.play(mp3a,1f , 1f, 0, 0, 1f);
+    }
+
+    public void onB(){
+        // 再生処理 (再生ボタン)
+        soundPool.play(mp3b,1f , 1f, 0, 0, 1f);
+    }
+
+    public void onC(){
+        // 再生処理 (再生ボタン)
+        soundPool.play(mp3c,1f , 1f, 0, 0, 1f);
     }
 
     @Override
@@ -69,8 +116,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int id = view.getId();
         switch (id) {
             case R.id.button1:
-                Vibrator vib= (Vibrator)getSystemService(VIBRATOR_SERVICE);
-                vib.vibrate(5000);
                 setAnswerValue();
                 checkResult(true);
                 break;
@@ -122,18 +167,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             // result には結果のみを入れる
             if (question < answer) {
                 result = "WIN";
+                onA();
                 score = 2;
                 txtViewQuestion.setBackgroundColor(Color.WHITE);
                 txtViewAnswer.setBackgroundColor(Color.RED);
                 setAnime();
             } else if (question > answer) {
                 result = "LOSE";
+                onB();
                 score = -1;
                 txtViewQuestion.setBackgroundColor(Color.RED);
                 txtViewAnswer.setBackgroundColor(Color.WHITE);
                 setAnimeAnswer();
             } else {
                 result = "DRAW";
+                onC();
                 score = 1;
                 txtViewQuestion.setBackgroundColor(Color.BLUE);
                 txtViewAnswer.setBackgroundColor(Color.BLUE);
@@ -141,18 +189,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         } else {
             if (question > answer) {
                 result = "WIN";
+                onA();
                 score = 2;
                 txtViewQuestion.setBackgroundColor(Color.RED);
                 txtViewAnswer.setBackgroundColor(Color.WHITE);
                 setAnime();
             } else if (question < answer) {
                 result = "LOSE";
+                onB();
                 score = -1;
                 txtViewQuestion.setBackgroundColor(Color.WHITE);
                 txtViewAnswer.setBackgroundColor(Color.RED);
                 setAnimeAnswer();
             } else {
                 result = "DRAW";
+                onC();
                 score = 1;
                 txtViewQuestion.setBackgroundColor(Color.BLUE);
                 txtViewAnswer.setBackgroundColor(Color.BLUE);
