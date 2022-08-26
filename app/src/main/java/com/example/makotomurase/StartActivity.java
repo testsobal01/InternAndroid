@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.view.View;
 import android.widget.Button;
 
@@ -22,6 +23,8 @@ public class StartActivity extends AppCompatActivity implements View.OnClickList
     public void onClick(View view) {
         int id = view.getId();
         if (id == R.id.stbutton1) {
+            Vibrator vib4 = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+            vib4.vibrate(100);
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
         }

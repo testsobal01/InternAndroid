@@ -8,7 +8,6 @@
     </style>
     <style name="stbutton1">
         <item name="android:background">@color/colorPrimary</item>
-        <item name="a">@color/colorPrimary</item>
     </style>
 
 </resources>

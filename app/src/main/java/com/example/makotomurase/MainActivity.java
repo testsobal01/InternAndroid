@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Vibrator;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -45,16 +46,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int id = view.getId();
         switch (id) {
             case R.id.button1:
+                Vibrator vib1= (Vibrator)getSystemService(VIBRATOR_SERVICE);
+                vib1.vibrate(100);
                 setAnswerValue();
                 checkResult(true);
                 onPause();
                 break;
             case R.id.button2:
+                Vibrator vib2 = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+                vib2.vibrate(100);
                 setAnswerValue();
                 checkResult(false);
                 onPause();
                 break;
             case R.id.button3:
+                Vibrator vib3 = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+                vib3.vibrate(100);
                 setQuestionValue();
                 clearAnswerValue();
                 break;
