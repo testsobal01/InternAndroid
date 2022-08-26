@@ -10,6 +10,7 @@ import android.content.SharedPreferences;
 
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.view.Menu;
 import android.os.Vibrator;
 import android.view.View;
 import android.widget.Button;
@@ -64,6 +65,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // 起動時に関数を呼び出す
         setQuestionValue();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_manu,menu);
+        return true;
     }
 
     @Override

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">团队B</string>
+    <string name="btn_high">高的</string>
+    <string name="btn_low">低的</string>
+    <string name="btn_restart">重新开始</string>
+    <string name="label_score">结果：</string>
+    <string name="label_setting">设置为 10</string>
+    <string name="lavel_value2">价值2</string>
+    <string name="lavel_value1">价值1</string>
+</resources>
