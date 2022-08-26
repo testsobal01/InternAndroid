@@ -3,6 +3,8 @@ package com.example.makotomurase;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.SharedPreferences;
+import android.media.AudioAttributes;
+import android.media.SoundPool;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
@@ -17,6 +19,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     SharedPreferences pref;
     SharedPreferences.Editor prefEditor;
+    public SoundPool soundPool;
+    public int[] action = { 0,0,0,0 };
     int newScore = 0;
     int score = 0;
     int num;
@@ -57,6 +61,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         pref = getSharedPreferences("AndroidSeminor",MODE_PRIVATE);
         prefEditor = pref.edit();
 
+        AudioAttributes audioAttributes = new AudioAttributes.Builder()
+                .setUsage(AudioAttributes.USAGE_MEDIA)
+                .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+                .build();
+        soundPool = new SoundPool.Builder()
+                .setAudioAttributes(audioAttributes)
+                .setMaxStreams(3)
+                .build();
+
+        action[0] = soundPool.load(this, R.raw.bom, 1   );
+        action[1] = soundPool.load(this, R.raw.yeah, 1);
+        action[2] = soundPool.load(this, R.raw.oh, 1);
+        action[3] = soundPool.load(this, R.raw.katu, 1);
+
         // 起動時に関数を呼び出す
         setQuestionValue();
     }
@@ -86,6 +104,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 score = 0;
                 TextView txtScore = (TextView) findViewById(R.id.text_score);
                 txtScore.setText(Integer.toString(score));
+                soundPool.play(action[0], 1f , 1f, 0, 0, 1f);
                 break;
 
         }
@@ -128,23 +147,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = "WIN";
                 score = 2;
+                soundPool.play(action[1], 1f , 1f, 0, 0, 1f);
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
+                soundPool.play(action[3], 1f , 1f, 0, 0, 1f);
             } else {
                 result = "DRAW";
                 score = 1;
+                soundPool.play(action[2], 1f , 1f, 0, 0, 1f);
             }
         } else {
             if (question > answer) {
                 result = "WIN";
                 score = 2;
+                soundPool.play(action[1], 1f , 1f, 0, 0, 1f);
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
+                soundPool.play(action[3], 1f , 1f, 0, 0, 1f);
             } else {
                 result = "DRAW";
                 score = 1;
+                soundPool.play(action[2], 1f , 1f, 0, 0, 1f);
             }
         }
 
