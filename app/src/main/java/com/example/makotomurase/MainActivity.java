@@ -17,8 +17,6 @@ import java.util.Random;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     SoundPool soundPool;
-    int mp3a;
-    int mp3b;
 
 
     @Override
@@ -45,7 +43,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         soundPool = new SoundPool.Builder().setAudioAttributes
                 (audioAttributes).setMaxStreams(1).build();
 
-        mp3a = soundPool.load(this, R.raw.mp3a, 1);
     }
 
     @Override
