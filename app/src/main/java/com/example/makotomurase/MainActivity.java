@@ -8,6 +8,7 @@ import android.os.CountDownTimer;
 import android.os.Vibrator;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,9 +34,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
 
+
+        ImageView imageView2 = findViewById(R.id.droid);
+        imageView2.setImageResource(R.drawable.droid);
+
+
         pref  = getSharedPreferences("AndroidSeminor", MODE_PRIVATE);
         prefEditor = pref.edit();
         // 起動時に関数を呼び出す;
+
         setQuestionValue();
 
     }
@@ -127,7 +134,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 result = "WIN";
                 score = 2;
             } else if (question > answer) {
-                Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+                Vibrator vib = (Vibrator) getSystemService(VIBRATOR_SERVICE);
                 vib.vibrate(500);
                 result = "LOSE";
                 score = -1;
@@ -140,7 +147,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 result = "WIN";
                 score = 2;
             } else if (question < answer) {
-                Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+                Vibrator vib = (Vibrator) getSystemService(VIBRATOR_SERVICE);
                 vib.vibrate(500);
                 result = "LOSE";
                 score = -1;
