@@ -15,6 +15,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:background="@drawable/shape_sample"
             android:text="@string/btn_high" />
 
         <Button
@@ -22,6 +23,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:background="@drawable/shape_sample2"
             android:text="@string/btn_low" />
 
         <Button
@@ -29,6 +31,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="2"
+            android:background="#A1FF81BC"
             android:text="@string/btn_restart" />
 
     </LinearLayout>
@@ -69,7 +72,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="#ff00ff"
+            android:background="#2263EAEF"
             android:gravity="center"
             android:text="値1"
             android:textSize="60sp" />
@@ -79,11 +82,10 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="#ffff00"
+            android:background="#2FE881FF"
             android:gravity="center"
             android:text="値2"
             android:textSize="60sp" />
-
 
     </LinearLayout>
 
@@ -97,8 +99,5 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center" />
     </LinearLayout>
-
-
-
 
 </LinearLayout>
