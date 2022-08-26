@@ -4,11 +4,13 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.SharedPreferences;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -46,24 +48,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int id = view.getId();
         switch (id) {
             case R.id.button1:
-                Vibrator vib1= (Vibrator)getSystemService(VIBRATOR_SERVICE);
+                Vibrator vib1 = (Vibrator) getSystemService(VIBRATOR_SERVICE);
                 vib1.vibrate(100);
                 setAnswerValue();
                 checkResult(true);
                 onPause();
                 break;
             case R.id.button2:
-                Vibrator vib2 = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+                Vibrator vib2 = (Vibrator) getSystemService(VIBRATOR_SERVICE);
                 vib2.vibrate(100);
                 setAnswerValue();
                 checkResult(false);
                 onPause();
                 break;
             case R.id.button3:
-                Vibrator vib3 = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+                Vibrator vib3 = (Vibrator) getSystemService(VIBRATOR_SERVICE);
                 vib3.vibrate(100);
                 setQuestionValue();
                 clearAnswerValue();
+                TextView txtView = (TextView) findViewById(R.id.question);
+                txtView.setBackgroundColor(Color.rgb(255,0,255));
+                TextView txtScore = (TextView) findViewById(R.id.text_score);
+                txtScore.setText(Integer.toString(0));
                 break;
 
         }
@@ -72,7 +78,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     protected void onResume() {
         super.onResume();
-        TextView textView=(TextView)findViewById(R.id.text_score);
+        TextView textView = (TextView) findViewById(R.id.text_score);
         String readText = String.valueOf(pref.getInt("Score_Point", 0));
         textView.setText(readText);
     }
@@ -87,6 +93,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void clearAnswerValue() {
         TextView txtView = (TextView) findViewById(R.id.answer);
         txtView.setText("値2");
+        txtView.setBackgroundColor(Color.rgb(255,255,0));
     }
 
     private void setQuestionValue() {
@@ -121,23 +128,47 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = "WIN";
                 score = 2;
+                TextView back1 = (TextView) findViewById(R.id.question);
+                back1.setBackgroundColor(Color.rgb(0, 255, 255));
+                TextView back2 = (TextView) findViewById(R.id.answer);
+                back2.setBackgroundColor(Color.rgb(255, 0, 0));
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
+                TextView back1 = (TextView) findViewById(R.id.question);
+                back1.setBackgroundColor(Color.rgb(255, 0, 0));
+                TextView back2 = (TextView) findViewById(R.id.answer);
+                back2.setBackgroundColor(Color.rgb(0, 255, 255));
             } else {
                 result = "DRAW";
                 score = 1;
+                TextView back1 = (TextView) findViewById(R.id.question);
+                back1.setBackgroundColor(Color.rgb(0, 255, 0));
+                TextView back2 = (TextView) findViewById(R.id.answer);
+                back2.setBackgroundColor(Color.rgb(0, 255, 0));
             }
         } else {
             if (question > answer) {
                 result = "WIN";
                 score = 2;
+                TextView back1 = (TextView) findViewById(R.id.question);
+                back1.setBackgroundColor(Color.rgb(255, 0, 0));
+                TextView back2 = (TextView) findViewById(R.id.answer);
+                back2.setBackgroundColor(Color.rgb(0, 255, 255));
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
+                TextView back1 = (TextView) findViewById(R.id.question);
+                back1.setBackgroundColor(Color.rgb(0, 255, 255));
+                TextView back2 = (TextView) findViewById(R.id.answer);
+                back2.setBackgroundColor(Color.rgb(255, 0, 0));
             } else {
                 result = "DRAW";
                 score = 1;
+                TextView back1 = (TextView) findViewById(R.id.question);
+                back1.setBackgroundColor(Color.rgb(0, 255, 0));
+                TextView back2 = (TextView) findViewById(R.id.answer);
+                back2.setBackgroundColor(Color.rgb(0, 255, 0));
             }
         }
 

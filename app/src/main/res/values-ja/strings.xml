@@ -7,5 +7,6 @@
     <string name="label_score">Score：</string>
     <string name="summary">Displaying the Engliseh.</string>
     <string name="language">日本語で表示する</string>
+    <string name="startbutton">スタート</string>
 
 </resources>
