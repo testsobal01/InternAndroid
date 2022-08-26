@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.RotateAnimation;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -168,6 +170,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // スコアを表示
         setScore(score);
 
+        //回転アニメーション
+        RotateAnimation(result);
+
     }
 
     private void setNextQuestion() {
@@ -193,6 +198,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView txtScore = (TextView) findViewById(R.id.text_score);
         int newScore = Integer.parseInt(txtScore.getText().toString()) + score;
         txtScore.setText(Integer.toString(newScore));
+    }
+
+    private void RotateAnimation(String result){
+        TextView txtViewQuestion = (TextView) findViewById(R.id.question);
+        TextView txtViewAnswer = (TextView) findViewById(R.id.answer);
+
+        RotateAnimation rotate = new RotateAnimation(0.0f, 360.0f,
+                Animation.RELATIVE_TO_SELF, 0.5f,
+                Animation.RELATIVE_TO_SELF, 0.5f);
+        rotate.setDuration(3000);
+        rotate.setFillAfter(true);
+        switch (result){
+            case "WIN":
+                txtViewAnswer.startAnimation(rotate);
+                break;
+
+            case "LOSE":
+                txtViewQuestion.startAnimation(rotate);
+                break;
+
+            case "DRAW":
+                txtViewAnswer.startAnimation(rotate);
+                txtViewQuestion.startAnimation(rotate);
+                break;
+        }
     }
 
 }
