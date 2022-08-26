@@ -1,7 +1,10 @@
 package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.res.ResourcesCompat;
 
+
+import android.animation.ValueAnimator;
 
 import android.graphics.Color;
 
