@@ -38,20 +38,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int id = view.getId();
         switch (id) {
             case R.id.button1:
-                Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
-                vib.vibrate(700);
+                /*Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+                vib.vibrate(500);*/
                 setAnswerValue();
                 checkResult(true);
                 break;
             case R.id.button2:
-                Vibrator vib2 = (Vibrator)getSystemService(VIBRATOR_SERVICE);
-                vib2.vibrate(700);
+                /*Vibrator vib2 = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+                vib2.vibrate(500);*/
                 setAnswerValue();
                 checkResult(false);
                 break;
             case R.id.button3:
-                Vibrator vib3 = (Vibrator)getSystemService(VIBRATOR_SERVICE);
-                vib3.vibrate(700);
+                /*Vibrator vib3 = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+                vib3.vibrate(500);*/
                 setQuestionValue();
                 clearAnswerValue();
                 break;
@@ -97,6 +97,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 result = "WIN";
                 score = 2;
             } else if (question > answer) {
+                Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+                vib.vibrate(500);
                 result = "LOSE";
                 score = -1;
             } else {
@@ -108,6 +110,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 result = "WIN";
                 score = 2;
             } else if (question < answer) {
+                Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+                vib.vibrate(500);
                 result = "LOSE";
                 score = -1;
             } else {
