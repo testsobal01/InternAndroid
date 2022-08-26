@@ -5,9 +5,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.media.AudioAttributes;
 import android.media.MediaPlayer;
 import android.media.SoundPool;
+
+import android.graphics.Color;
+import android.content.SharedPreferences;
+
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Vibrator;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.RotateAnimation;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -16,7 +23,13 @@ import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
+
     SoundPool soundPool;
+
+
+    //プリファレンス生成
+    SharedPreferences pref;
+    SharedPreferences.Editor prefEditor;
 
 
     @Override
@@ -32,6 +45,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
+
+        //プリファレンス呼び出し
+        pref = getSharedPreferences("AndroidScore", MODE_PRIVATE);
+        prefEditor = pref.edit();
 
         // 起動時に関数を呼び出す
         setQuestionValue();
@@ -50,6 +67,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int id = view.getId();
         switch (id) {
             case R.id.button1:
+                Vibrator vib = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+                vib.vibrate(5000);
                 setAnswerValue();
                 checkResult(true);
                 //soundPool.play(mp3a, 1f, 1f, 0 ,0, 1f);
@@ -90,6 +109,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        Toast.makeText(this, "onResume", Toast.LENGTH_SHORT).show();
+
+        TextView scoreTextView = (TextView) findViewById(R.id.text_score);
+        String readText = pref.getString("score", "0");
+        scoreTextView.setText(readText);
+
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        Toast.makeText(this, "onPause", Toast.LENGTH_SHORT).show();
+
+        TextView scoreTextView = (TextView) findViewById(R.id.text_score);
+        prefEditor.putString("score", scoreTextView.getText().toString());
+        prefEditor.commit();
+    }
+
     private void clearAnswerValue() {
         TextView txtView = (TextView) findViewById(R.id.answer);
         txtView.setText("値2");
@@ -126,23 +168,35 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = "WIN";
                 score = 2;
+                txtViewAnswer.setBackgroundColor(Color.RED);
+                txtViewQuestion.setBackgroundColor(Color.BLUE);
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
+                txtViewAnswer.setBackgroundColor(Color.BLUE);
+                txtViewQuestion.setBackgroundColor(Color.RED);
             } else {
                 result = "DRAW";
                 score = 1;
+                txtViewAnswer.setBackgroundColor(Color.GREEN);
+                txtViewQuestion.setBackgroundColor(Color.GREEN);
             }
         } else {
             if (question > answer) {
                 result = "WIN";
                 score = 2;
+                txtViewAnswer.setBackgroundColor(Color.RED);
+                txtViewQuestion.setBackgroundColor(Color.BLUE);
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
+                txtViewAnswer.setBackgroundColor(Color.BLUE);
+                txtViewQuestion.setBackgroundColor(Color.RED);
             } else {
                 result = "DRAW";
                 score = 1;
+                txtViewAnswer.setBackgroundColor(Color.GREEN);
+                txtViewQuestion.setBackgroundColor(Color.GREEN);
             }
         }
 
@@ -156,6 +210,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // スコアを表示
         setScore(score);
+
+        //回転アニメーション
+        RotateAnimation(result);
 
     }
 
@@ -182,6 +239,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView txtScore = (TextView) findViewById(R.id.text_score);
         int newScore = Integer.parseInt(txtScore.getText().toString()) + score;
         txtScore.setText(Integer.toString(newScore));
+    }
+
+    private void RotateAnimation(String result){
+        TextView txtViewQuestion = (TextView) findViewById(R.id.question);
+        TextView txtViewAnswer = (TextView) findViewById(R.id.answer);
+
+        RotateAnimation rotate = new RotateAnimation(0.0f, 360.0f,
+                Animation.RELATIVE_TO_SELF, 0.5f,
+                Animation.RELATIVE_TO_SELF, 0.5f);
+        rotate.setDuration(3000);
+        rotate.setFillAfter(true);
+        switch (result){
+            case "WIN":
+                txtViewAnswer.startAnimation(rotate);
+                break;
+
+            case "LOSE":
+                txtViewQuestion.startAnimation(rotate);
+                break;
+
+            case "DRAW":
+                txtViewAnswer.startAnimation(rotate);
+                txtViewQuestion.startAnimation(rotate);
+                break;
+        }
     }
 
 }
