@@ -16,10 +16,14 @@ import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
+    private SoundPlayer soundPlayer;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        soundPlayer = new SoundPlayer(this);
 
         Button btn1 = (Button) findViewById(R.id.button1);
         btn1.setOnClickListener(this);
@@ -103,23 +107,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = "WIN";
                 score = 2;
+                soundPlayer.playWinSound();
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
+                soundPlayer.playLoseSound();
             } else {
                 result = "DRAW";
                 score = 1;
+                soundPlayer.playDrawSound();
             }
         } else {
             if (question > answer) {
                 result = "WIN";
                 score = 2;
+                soundPlayer.playWinSound();
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
+                soundPlayer.playLoseSound();
             } else {
                 result = "DRAW";
                 score = 1;
+                soundPlayer.playDrawSound();
             }
         }
 
