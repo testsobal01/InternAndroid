@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Vibrator;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -12,6 +13,9 @@ import android.widget.Toast;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
+    // 結果を示す文字列を入れる変数を用意
+    String result;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +55,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         }
 
+        if(view.getId() == R.id.button1  || view.getId() == R.id.button2){
+            if(result.equals("WIN")){
+                Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+                vib.vibrate(500);
+            }
+        }
     }
 
     private void clearAnswerValue() {
@@ -79,8 +89,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int question = Integer.parseInt(txtViewQuestion.getText().toString());
         int answer = Integer.parseInt(txtViewAnswer.getText().toString());
         TextView txtResult = (TextView) findViewById(R.id.text_result);
-        // 結果を示す文字列を入れる変数を用意
-        String result;
         int score = 0;
 
         // Highが押された
