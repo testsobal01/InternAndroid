@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">チームB</string>
+    <string name="btn_high">低い</string>
+    <string name="btn_low">高い</string>
+    <string name="btn_restart">もういっかい</string>
+    <string name="label_score">結果：</string>
+    <string name="label_setting">10に設定されています。</string>
+    <string name="lavel_value1">値1</string>
+    <string name="lavel_value2">値2</string>
+</resources>
