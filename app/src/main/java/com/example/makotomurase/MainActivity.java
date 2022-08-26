@@ -2,9 +2,16 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.animation.ArgbEvaluator;
+import android.animation.ValueAnimator;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.content.SharedPreferences;
+
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.Menu;
+import android.os.Vibrator;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -14,9 +21,34 @@ import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
+    SharedPreferences pref;
+    SharedPreferences.Editor prefEditor;
+    int newScore = 0;
+    int score = 0;
+    int num;
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        prefEditor.putInt("main_input",newScore);
+        prefEditor.commit();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        score = pref.getInt("main_input",num);
+        TextView txtScore = (TextView) findViewById(R.id.text_score);
+        txtScore.setText(Integer.toString(score));
+
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_main);
 
         Button btn1 = (Button) findViewById(R.id.button1);
@@ -28,9 +60,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
 
+        pref = getSharedPreferences("AndroidSeminor",MODE_PRIVATE);
+        prefEditor = pref.edit();
+
         // 起動時に関数を呼び出す
         setQuestionValue();
-
     }
 
     @Override
@@ -44,21 +78,32 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int id = view.getId();
         switch (id) {
             case R.id.button1:
+                Vibrator vib=(Vibrator)getSystemService(VIBRATOR_SERVICE);
+                vib.vibrate(250);
                 setAnswerValue();
                 checkResult(true);
                 break;
             case R.id.button2:
+                Vibrator vib2=(Vibrator)getSystemService(VIBRATOR_SERVICE);
+                vib2.vibrate(250);
                 setAnswerValue();
                 checkResult(false);
                 break;
+
             case R.id.button3:
+                Vibrator vib3=(Vibrator)getSystemService(VIBRATOR_SERVICE);
+                vib3.vibrate(100);
                 setQuestionValue();
                 clearAnswerValue();
+                score = 0;
+                TextView txtScore = (TextView) findViewById(R.id.text_score);
+                txtScore.setText(Integer.toString(score));
                 break;
 
         }
 
     }
+
 
     private void clearAnswerValue() {
         TextView txtView = (TextView) findViewById(R.id.answer);
@@ -88,7 +133,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView txtResult = (TextView) findViewById(R.id.text_result);
         // 結果を示す文字列を入れる変数を用意
         String result;
-        int score = 0;
 
         // Highが押された
         if (isHigh) {
@@ -96,9 +140,45 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = "WIN";
                 score = 2;
+                TextView view = (TextView) findViewById(R.id.question);
+                //View view;
+                int colorFrom = ((ColorDrawable)view.getBackground()).getColor();
+                int colorTo = Color.RED;
+                ValueAnimator colorAnimation = ValueAnimator.ofObject(new ArgbEvaluator(), colorFrom, colorTo);
+                colorAnimation.setDuration(5000);
+                colorAnimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+
+                    @Override
+                    public void onAnimationUpdate(ValueAnimator animator) {
+                        TextView view = (TextView) findViewById(R.id.question);
+                        //view.setBackgroundColor((int) animator.getAnimatedValue());
+                        view.setTextColor((int)animator.getAnimatedValue());
+                    }
+
+                });
+                colorAnimation.start();
+
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
+                TextView view = (TextView) findViewById(R.id.question);
+                //View view;
+                int colorFrom = ((ColorDrawable)view.getBackground()).getColor();
+                int colorTo = Color.BLUE;
+                ValueAnimator colorAnimation = ValueAnimator.ofObject(new ArgbEvaluator(), colorFrom, colorTo);
+                colorAnimation.setDuration(5000);
+                colorAnimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+
+                    @Override
+                    public void onAnimationUpdate(ValueAnimator animator) {
+                        TextView view = (TextView) findViewById(R.id.question);
+                        //view.setBackgroundColor((int) animator.getAnimatedValue());
+                        view.setTextColor((int)animator.getAnimatedValue());
+                    }
+
+                });
+                colorAnimation.start();
+
             } else {
                 result = "DRAW";
                 score = 1;
@@ -107,12 +187,65 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question > answer) {
                 result = "WIN";
                 score = 2;
+                TextView view = (TextView) findViewById(R.id.question);
+                //View view;
+                int colorFrom = ((ColorDrawable)view.getBackground()).getColor();
+                int colorTo = Color.RED;
+                ValueAnimator colorAnimation = ValueAnimator.ofObject(new ArgbEvaluator(), colorFrom, colorTo);
+                colorAnimation.setDuration(5000);
+                colorAnimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+
+                    @Override
+                    public void onAnimationUpdate(ValueAnimator animator) {
+                        TextView view = (TextView) findViewById(R.id.question);
+                        //view.setBackgroundColor((int) animator.getAnimatedValue());
+                        view.setTextColor((int)animator.getAnimatedValue());
+
+                    }
+
+                });
+                colorAnimation.start();
+
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
+                TextView view = (TextView) findViewById(R.id.question);
+                //View view;
+                int colorFrom = ((ColorDrawable)view.getBackground()).getColor();
+                int colorTo = Color.BLUE;
+                ValueAnimator colorAnimation = ValueAnimator.ofObject(new ArgbEvaluator(), colorFrom, colorTo);
+                colorAnimation.setDuration(5000);
+                colorAnimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+
+                    @Override
+                    public void onAnimationUpdate(ValueAnimator animator) {
+                        TextView view = (TextView) findViewById(R.id.question);
+                        //view.setBackgroundColor((int) animator.getAnimatedValue());
+                        view.setTextColor((int)animator.getAnimatedValue());
+                    }
+
+                });
+                colorAnimation.start();
             } else {
                 result = "DRAW";
                 score = 1;
+                TextView view = (TextView) findViewById(R.id.question);
+                //View view;
+                int colorFrom = ((ColorDrawable)view.getBackground()).getColor();
+                int colorTo = Color.GRAY;
+                ValueAnimator colorAnimation = ValueAnimator.ofObject(new ArgbEvaluator(), colorFrom, colorTo);
+                colorAnimation.setDuration(5000);
+                colorAnimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+
+                    @Override
+                    public void onAnimationUpdate(ValueAnimator animator) {
+                        TextView view = (TextView) findViewById(R.id.question);
+                        //view.setBackgroundColor((int) animator.getAnimatedValue());
+                        view.setTextColor((int)animator.getAnimatedValue());
+                    }
+
+                });
+                colorAnimation.start();
             }
         }
 
@@ -150,7 +283,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void setScore(int score) {
         TextView txtScore = (TextView) findViewById(R.id.text_score);
-        int newScore = Integer.parseInt(txtScore.getText().toString()) + score;
+        newScore = Integer.parseInt(txtScore.getText().toString()) + score;
         txtScore.setText(Integer.toString(newScore));
     }
 
