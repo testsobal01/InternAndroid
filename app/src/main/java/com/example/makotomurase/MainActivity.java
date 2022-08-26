@@ -2,6 +2,10 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.media.AudioAttributes;
+import android.media.AudioManager;
+import android.media.SoundPool;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
@@ -17,10 +21,36 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     // 結果を示す文字列を入れる変数を用意
     String result;
 
+    SoundPool soundPool;
+    int sound_id = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP){
+            soundPool = new SoundPool(1, AudioManager.STREAM_MUSIC, 0);
+        }else {
+            AudioAttributes audioAttributes = new AudioAttributes.Builder()
+                    // USAGE_MEDIA
+                    // USAGE_GAME
+                    .setUsage(AudioAttributes.USAGE_GAME)
+                    // CONTENT_TYPE_MUSIC
+                    // CONTENT_TYPE_SPEECH, etc.
+                    .setContentType(AudioAttributes.CONTENT_TYPE_SPEECH)
+                    .build();
+
+            // ストリーム数に応じて
+            soundPool = new SoundPool.Builder()
+                    .setAudioAttributes(audioAttributes)
+                    // ストリーム数に応じて
+                    .setMaxStreams(1)
+                    .build();
+        }
+
+        sound_id = soundPool.load(this, R.raw.aaa, 1);
+
+
 
         Button btn1 = (Button) findViewById(R.id.button1);
         btn1.setOnClickListener(this);
@@ -38,9 +68,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View view) {
+
+
+
+        soundPool.play(sound_id,  1.0F, 1.0F, 0, 0, 1.0F);
+
         int id = view.getId();
         switch (id) {
             case R.id.button1:
+
                 setAnswerValue();
                 checkResult(true);
                 break;
@@ -61,6 +97,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 vib.vibrate(500);
             }
         }
+
     }
 
     private void clearAnswerValue() {
