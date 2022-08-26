@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Nom_b</string>
+    <string name="btn_high">haute</string>
+    <string name="btn_low">bas</string>
+    <string name="btn_restart">Redémarrer</string>
+    <string name="label_score">score：</string>
+    <string name="label_setting">mis à 10</string>
+    <string name="lavel_value1">valeur1</string>
+    <string name="lavel_value2">valeur2</string>
+</resources>

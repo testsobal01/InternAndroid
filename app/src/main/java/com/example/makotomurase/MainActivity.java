@@ -2,11 +2,18 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.animation.ArgbEvaluator;
+import android.animation.ValueAnimator;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.content.SharedPreferences;
+
 import android.media.AudioAttributes;
 import android.media.SoundPool;
+
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.view.Menu;
 import android.os.Vibrator;
 import android.view.View;
 import android.widget.Button;
@@ -80,6 +87,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_manu,menu);
+        return true;
+    }
+
+    @Override
     public void onClick(View view) {
         int id = view.getId();
         switch (id) {
@@ -148,28 +161,236 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 result = "WIN";
                 score = 2;
                 soundPool.play(action[1], 1f , 1f, 0, 0, 1f);
+                TextView view = (TextView) findViewById(R.id.question);
+                //View view;
+                int colorFrom = ((ColorDrawable)view.getBackground()).getColor();
+                int colorTo = Color.RED;
+                ValueAnimator colorAnimation = ValueAnimator.ofObject(new ArgbEvaluator(), colorFrom, colorTo);
+                colorAnimation.setDuration(5000);
+                colorAnimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+
+                    @Override
+                    public void onAnimationUpdate(ValueAnimator animator) {
+                        TextView view = (TextView) findViewById(R.id.question);
+                        //view.setBackgroundColor((int) animator.getAnimatedValue());
+                        view.setTextColor((int)animator.getAnimatedValue());
+                    }
+
+                });
+                colorAnimation.start();
+                TextView view1 = (TextView) findViewById(R.id.question);
+                //View view;
+                int colorFrom1 = ((ColorDrawable)view.getBackground()).getColor();
+                int colorTo1 = Color.GREEN;
+                ValueAnimator colorAnimation1 = ValueAnimator.ofObject(new ArgbEvaluator(), colorFrom1, colorTo1);
+                colorAnimation1.setDuration(1000);
+                colorAnimation1.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+
+                    @Override
+                    public void onAnimationUpdate(ValueAnimator animator) {
+                        TextView view = (TextView) findViewById(R.id.question);
+                        view.setBackgroundColor((int) animator.getAnimatedValue());
+                        //view.setTextColor((int)animator.getAnimatedValue());
+                    }
+
+                });
+                colorAnimation1.start();
+
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
                 soundPool.play(action[3], 1f , 1f, 0, 0, 1f);
+                TextView view = (TextView) findViewById(R.id.question);
+                //View view;
+                int colorFrom = ((ColorDrawable)view.getBackground()).getColor();
+                int colorTo = Color.BLUE;
+                ValueAnimator colorAnimation = ValueAnimator.ofObject(new ArgbEvaluator(), colorFrom, colorTo);
+                colorAnimation.setDuration(3000);
+                colorAnimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+
+                    @Override
+                    public void onAnimationUpdate(ValueAnimator animator) {
+                        TextView view = (TextView) findViewById(R.id.question);
+                        //view.setBackgroundColor((int) animator.getAnimatedValue());
+                        view.setTextColor((int)animator.getAnimatedValue());
+                    }
+
+                });
+                colorAnimation.start();
+                TextView view1 = (TextView) findViewById(R.id.question);
+                //View view;
+                int colorFrom1 = ((ColorDrawable)view.getBackground()).getColor();
+                int colorTo1 = Color.TRANSPARENT;
+                ValueAnimator colorAnimation1 = ValueAnimator.ofObject(new ArgbEvaluator(), colorFrom1, colorTo1);
+                colorAnimation1.setDuration(1000);
+                colorAnimation1.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+
+                    @Override
+                    public void onAnimationUpdate(ValueAnimator animator) {
+                        TextView view = (TextView) findViewById(R.id.question);
+                        view.setBackgroundColor((int) animator.getAnimatedValue());
+                        //view.setTextColor((int)animator.getAnimatedValue());
+                    }
+
+                });
+                colorAnimation1.start();
+
             } else {
                 result = "DRAW";
                 score = 1;
                 soundPool.play(action[2], 1f , 1f, 0, 0, 1f);
+                TextView view = (TextView) findViewById(R.id.question);
+                //View view;
+                int colorFrom = ((ColorDrawable)view.getBackground()).getColor();
+                int colorTo = Color.GRAY;
+                ValueAnimator colorAnimation = ValueAnimator.ofObject(new ArgbEvaluator(), colorFrom, colorTo);
+                colorAnimation.setDuration(3000);
+                colorAnimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+
+                    @Override
+                    public void onAnimationUpdate(ValueAnimator animator) {
+                        TextView view = (TextView) findViewById(R.id.question);
+                        //view.setBackgroundColor((int) animator.getAnimatedValue());
+                        view.setTextColor((int)animator.getAnimatedValue());
+                    }
+
+                });
+                colorAnimation.start();
+                TextView view1 = (TextView) findViewById(R.id.question);
+                //View view;
+                int colorFrom1 = ((ColorDrawable)view.getBackground()).getColor();
+                int colorTo1 = Color.YELLOW;
+                ValueAnimator colorAnimation1 = ValueAnimator.ofObject(new ArgbEvaluator(), colorFrom1, colorTo1);
+                colorAnimation1.setDuration(1000);
+                colorAnimation1.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+
+                    @Override
+                    public void onAnimationUpdate(ValueAnimator animator) {
+                        TextView view = (TextView) findViewById(R.id.question);
+                        view.setBackgroundColor((int) animator.getAnimatedValue());
+                        //view.setTextColor((int)animator.getAnimatedValue());
+                    }
+
+                });
+                colorAnimation1.start();
             }
         } else {
             if (question > answer) {
                 result = "WIN";
                 score = 2;
                 soundPool.play(action[1], 1f , 1f, 0, 0, 1f);
+                TextView view = (TextView) findViewById(R.id.question);
+                //View view;
+                int colorFrom = ((ColorDrawable)view.getBackground()).getColor();
+                int colorTo = Color.RED;
+                ValueAnimator colorAnimation = ValueAnimator.ofObject(new ArgbEvaluator(), colorFrom, colorTo);
+                colorAnimation.setDuration(3000);
+                colorAnimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+
+                    @Override
+                    public void onAnimationUpdate(ValueAnimator animator) {
+                        TextView view = (TextView) findViewById(R.id.question);
+                        //view.setBackgroundColor((int) animator.getAnimatedValue());
+                        view.setTextColor((int)animator.getAnimatedValue());
+
+                    }
+
+                });
+                colorAnimation.start();
+                TextView view1 = (TextView) findViewById(R.id.question);
+                //View view;
+                int colorFrom1 = ((ColorDrawable)view.getBackground()).getColor();
+                int colorTo1 = Color.GREEN;
+                ValueAnimator colorAnimation1 = ValueAnimator.ofObject(new ArgbEvaluator(), colorFrom1, colorTo1);
+                colorAnimation1.setDuration(1000);
+                colorAnimation1.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+
+                    @Override
+                    public void onAnimationUpdate(ValueAnimator animator) {
+                        TextView view = (TextView) findViewById(R.id.question);
+                        view.setBackgroundColor((int) animator.getAnimatedValue());
+                        //view.setTextColor((int)animator.getAnimatedValue());
+                    }
+
+                });
+                colorAnimation1.start();
+
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
                 soundPool.play(action[3], 1f , 1f, 0, 0, 1f);
+                TextView view = (TextView) findViewById(R.id.question);
+                //View view;
+                int colorFrom = ((ColorDrawable)view.getBackground()).getColor();
+                int colorTo = Color.BLUE;
+                ValueAnimator colorAnimation = ValueAnimator.ofObject(new ArgbEvaluator(), colorFrom, colorTo);
+                colorAnimation.setDuration(3000);
+                colorAnimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+
+                    @Override
+                    public void onAnimationUpdate(ValueAnimator animator) {
+                        TextView view = (TextView) findViewById(R.id.question);
+                        //view.setBackgroundColor((int) animator.getAnimatedValue());
+                        view.setTextColor((int)animator.getAnimatedValue());
+                    }
+
+                });
+                colorAnimation.start();
+                TextView view1 = (TextView) findViewById(R.id.question);
+                //View view;
+                int colorFrom1 = ((ColorDrawable)view.getBackground()).getColor();
+                int colorTo1 = Color.TRANSPARENT;
+                ValueAnimator colorAnimation1 = ValueAnimator.ofObject(new ArgbEvaluator(), colorFrom1, colorTo1);
+                colorAnimation1.setDuration(1000);
+                colorAnimation1.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+
+                    @Override
+                    public void onAnimationUpdate(ValueAnimator animator) {
+                        TextView view = (TextView) findViewById(R.id.question);
+                        view.setBackgroundColor((int) animator.getAnimatedValue());
+                        //view.setTextColor((int)animator.getAnimatedValue());
+                    }
+
+                });
+                colorAnimation1.start();
             } else {
                 result = "DRAW";
                 score = 1;
                 soundPool.play(action[2], 1f , 1f, 0, 0, 1f);
+                TextView view = (TextView) findViewById(R.id.question);
+                //View view;
+                int colorFrom = ((ColorDrawable)view.getBackground()).getColor();
+                int colorTo = Color.GRAY;
+                ValueAnimator colorAnimation = ValueAnimator.ofObject(new ArgbEvaluator(), colorFrom, colorTo);
+                colorAnimation.setDuration(3000);
+                colorAnimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+
+                    @Override
+                    public void onAnimationUpdate(ValueAnimator animator) {
+                        TextView view = (TextView) findViewById(R.id.question);
+                        //view.setBackgroundColor((int) animator.getAnimatedValue());
+                        view.setTextColor((int)animator.getAnimatedValue());
+                    }
+
+                });
+                colorAnimation.start();
+                TextView view1 = (TextView) findViewById(R.id.question);
+                //View view;
+                int colorFrom1 = ((ColorDrawable)view.getBackground()).getColor();
+                int colorTo1 = Color.YELLOW;
+                ValueAnimator colorAnimation1 = ValueAnimator.ofObject(new ArgbEvaluator(), colorFrom1, colorTo1);
+                colorAnimation1.setDuration(1000);
+                colorAnimation1.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+
+                    @Override
+                    public void onAnimationUpdate(ValueAnimator animator) {
+                        TextView view = (TextView) findViewById(R.id.question);
+                        view.setBackgroundColor((int) animator.getAnimatedValue());
+                        //view.setTextColor((int)animator.getAnimatedValue());
+                    }
+
+                });
+                colorAnimation1.start();
             }
         }
 

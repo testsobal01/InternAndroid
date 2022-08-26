@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">team_b</string>
+    <string name="lavel_value2">valore2</string>
+    <string name="label_setting">impostato su 10</string>
+    <string name="lavel_value1">valore1</string>
+    <string name="label_score">" punto："</string>
+    <string name="btn_restart">ricomincia</string>
+    <string name="btn_high">alto</string>
+    <string name="btn_low">basso</string>
+</resources>

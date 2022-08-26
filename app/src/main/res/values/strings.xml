@@ -1,11 +1,20 @@
 <resources>
+    <string name="app_name">team_b</string>
     <string name="app_name">Team_B</string>
     <string name="btn_high">High</string>
     <string name="btn_low">Low</string>
     <string name="btn_restart">Restart</string>
     <string name="label_score">Score：</string>
+    <string name="label_setting">set to 10</string>
+    <string name="lavel_value1">value1</string>
+    <string name="lavel_value2">value2</string>
+    <string name="action_settings" translatable="false">English</string>
+    <string name="action_settings2" translatable="false">日本語</string>
+    <string name="action_settings3" translatable="false">Français</string>
+    <string name="action_settings4" translatable="false">Italiano</string>
+    <string name="action_settings5" translatable="false">中国人</string>
     <string name="label_title0">High</string>
     <string name="label_title1">and</string>
     <string name="label_title2">Low</string>
-    <string name="label_start">Start</string>
+    <string name="label_start">　Start　</string>
 </resources>
