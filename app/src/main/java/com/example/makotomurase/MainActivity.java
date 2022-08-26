@@ -2,6 +2,7 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.SharedPreferences;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -13,6 +14,9 @@ import android.widget.Toast;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
+    SharedPreferences pref;
+    SharedPreferences.Editor prefEditor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +32,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
 
+        pref = getSharedPreferences("SaveData", MODE_PRIVATE);
+        prefEditor = pref.edit();
+
         // 起動時に関数を呼び出す
         setQuestionValue();
 
@@ -40,10 +47,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.button1:
                 setAnswerValue();
                 checkResult(true);
+                onPause();
                 break;
             case R.id.button2:
                 setAnswerValue();
                 checkResult(false);
+                onPause();
                 break;
             case R.id.button3:
                 setQuestionValue();
@@ -52,6 +61,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         }
 
+    }
+
+    protected void onResume() {
+        super.onResume();
+        TextView textView=(TextView)findViewById(R.id.text_score);
+        String readText = String.valueOf(pref.getInt("Score_Point", 0));
+        textView.setText(readText);
+    }
+
+    protected void onPause() {
+        super.onPause();
+        TextView textView = (TextView) findViewById(R.id.text_score);
+        prefEditor.putInt("Score_Point", Integer.parseInt(textView.getText().toString()));
+        prefEditor.commit();
     }
 
     private void clearAnswerValue() {
@@ -65,6 +88,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int questionValue = r.nextInt(10 + 1);
         TextView txtView = (TextView) findViewById(R.id.question);
         txtView.setText(Integer.toString(questionValue));
+        onResume();
     }
 
     private void setAnswerValue() {
