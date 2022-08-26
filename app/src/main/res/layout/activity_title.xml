@@ -36,44 +36,23 @@
             tools:ignore="Suspicious0dp" />
     </LinearLayout>
 
-    <Button
-        android:id="@+id/button_start"
+    <LinearLayout
+
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginLeft="100dp"
-        android:layout_marginTop="100dp"
-        android:layout_marginRight="100dp"
-        android:layout_marginBottom="50dp"
         android:layout_weight="3"
-        android:background="@drawable/buttonlayout"
-        android:bottomLeftRadius="10dp"
-        android:bottomRightRadius="10dp"
-
         android:gravity="center"
-        android:text="@string/label_start"
-        android:textColor="#2572E5"
-        android:textSize="50dp"
-        android:topLeftRadius="10dp"
-        android:topRightRadius="10dp">
+        android:orientation="vertical">
 
-
-    </Button>
-
-<!--    <selector xmlns:android="http://schemas.android.com/apk/res/android">-->
-
-<!--        <item>-->
-
-<!--            <shape android:shape="rectangle">-->
-
-<!--                <corners-->
-<!--                    android:bottomLeftRadius="10dp"-->
-<!--                    android:bottomRightRadius="10dp"-->
-<!--                    android:topLeftRadius="10dp"-->
-<!--                    android:topRightRadius="10dp" />-->
-
-<!--                <solid android:color="#ffff00" />-->
-<!--            </shape>-->
-<!--        </item>-->
-<!--    </selector>-->
-
+        <Button
+            android:id="@+id/button_start"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/buttonlayout"
+            android:gravity="center"
+            android:text="@string/label_start"
+            android:textColor="#2572E5"
+            android:textSize="50dp">
+        </Button>
+    </LinearLayout>
 </LinearLayout>
