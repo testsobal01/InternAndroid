@@ -5,10 +5,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-<<<<<<< HEAD
-=======
-import android.view.Menu;
->>>>>>> 46a97026e7b55aaf40296eed84ee18653b3f03b3
 import android.os.Vibrator;
 import android.view.View;
 import android.widget.Button;
@@ -74,13 +70,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.button1:
                 setAnswerValue();
                 checkResult(true);
-<<<<<<< HEAD
 
                 soundPlayer.playHitSound();
-=======
-                Vibrator vib = (Vibrator) getSystemService(VIBRATOR_SERVICE);
-                vib.vibrate(5000);
->>>>>>> 46a97026e7b55aaf40296eed84ee18653b3f03b3
                 break;
             case R.id.button2:
                 setAnswerValue();
