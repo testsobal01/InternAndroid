@@ -83,8 +83,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+    int score;
+
     private void clearAnswerValue() {
         TextView txtView = (TextView) findViewById(R.id.answer);
+        TextView txtScore = (TextView) findViewById(R.id.text_score);
+        score = 0;
+        txtScore.setText(Integer.toString(score));
         txtView.setText(getString(R.string.value2));
     }
 
@@ -115,7 +120,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView txtResult = (TextView) findViewById(R.id.text_result);
         // 結果を示す文字列を入れる変数を用意
         String result;
-        int score = 0;
 
         // Highが押された
         if (isHigh) {
