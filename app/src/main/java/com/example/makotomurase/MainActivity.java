@@ -71,7 +71,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onResume() {
         super.onResume();
         TextView textView = (TextView)findViewById(R.id.text_score);
-        String readText = pref.getString("main_input", "保存されていません");
+        String readText = pref.getString("main_input", "0");
         textView.setText(readText);
     }
 
@@ -85,14 +85,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // 0から10の範囲で乱数を生成（+1する必要がある）
         int questionValue = r.nextInt(10 + 1);
         TextView txtView = (TextView) findViewById(R.id.question);
-        txtView.setText(Integer.toString(questionValue));
+        txtView.setText(String.valueOf(questionValue));
     }
 
     private void setAnswerValue() {
         Random r = new Random();
         int answerValue = r.nextInt(10 + 1);
         TextView txtView = (TextView) findViewById(R.id.answer);
-        txtView.setText(Integer.toString(answerValue));
+        txtView.setText(String.valueOf(answerValue));
     }
 
     private void checkResult(boolean isHigh) {
@@ -166,7 +166,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void setScore(int score) {
         TextView txtScore = (TextView) findViewById(R.id.text_score);
         int newScore = Integer.parseInt(txtScore.getText().toString()) + score;
-        txtScore.setText(Integer.toString(newScore));
+        txtScore.setText(String.valueOf(newScore));
     }
 
 }
