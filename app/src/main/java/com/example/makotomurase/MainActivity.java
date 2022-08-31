@@ -99,7 +99,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 result = "DRAW";
                 score = 1;
                 Vibrator vib= (Vibrator)getSystemService(VIBRATOR_SERVICE);
-                vib.vibrate(500);
+                vib.vibrate(200);
             }
         } else {
             if (question > answer) {
@@ -114,7 +114,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 result = "DRAW";
                 score = 1;
                 Vibrator vib= (Vibrator)getSystemService(VIBRATOR_SERVICE);
-                vib.vibrate(500);
+                vib.vibrate(200);
             }
         }
 
