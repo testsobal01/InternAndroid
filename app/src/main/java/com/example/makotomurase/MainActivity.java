@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onResume();
 
         TextView textView = (TextView)findViewById(R.id.text_score);
-        String readText = pref.getString("main_input", "保存されていません");
+        String readText = pref.getString("main_input", "0");
         textView.setText(readText);
     }
 
@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //画面上の文字列を保存するため、テキストビューを取得
         TextView textView = (TextView)findViewById(R.id.text_score);
         //"main_input"というキー名（箱）に、文字列を保存
-        prefEditor.putInt("main_input", Integer.parseInt(textView.getText().toString()));
+        prefEditor.putString("main_input", textView.getText().toString());
         prefEditor.commit();
     }
 
