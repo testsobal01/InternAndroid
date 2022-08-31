@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Команда Н</string>
+    <string name="btn_high">высокая</string>
+    <string name="btn_low">низкий</string>
+    <string name="btn_restart">перезагрузить</string>
+    <string name="label_score">Счет：</string>
+</resources>
