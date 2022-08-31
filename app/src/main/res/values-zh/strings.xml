@@ -11,4 +11,7 @@
     <string name="lose">失去</string>
     <string name="draw">相同的</string>
     <string name="result">结果：</string>
+    <string name="app_title">随机数战</string>
+    <string name="button_start">开始</string>
+    <string name="button_end">结尾</string>
 </resources>
