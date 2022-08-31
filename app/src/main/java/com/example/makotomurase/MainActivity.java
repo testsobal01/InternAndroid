@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Vibrator;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -37,10 +38,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int id = view.getId();
         switch (id) {
             case R.id.button1:
+                vibrate(2000);
                 setAnswerValue();
                 checkResult(true);
                 break;
             case R.id.button2:
+                vibrate(2000);
                 setAnswerValue();
                 checkResult(false);
                 break;
@@ -145,6 +148,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView txtScore = (TextView) findViewById(R.id.text_score);
         int newScore = Integer.parseInt(txtScore.getText().toString()) + score;
         txtScore.setText(Integer.toString(newScore));
+    }
+
+    private void vibrate(int time){
+        Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+        vib.vibrate(time);
     }
 
 }
