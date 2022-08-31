@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.view.Menu;
 import android.os.Vibrator;
 import android.view.View;
 import android.widget.Button;
@@ -18,6 +17,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     SharedPreferences pref;
     SharedPreferences.Editor prefEditor;
+
+    SoundPlayer soundPlayer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +40,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         pref = getSharedPreferences("AndroidSeminor", MODE_PRIVATE);
         prefEditor = pref.edit();
 
+        soundPlayer = new SoundPlayer(this);
     }
 
     @Override
@@ -57,7 +59,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         TextView textView = (TextView)findViewById(R.id.text_score);
 
-        String readText = pref.getString("main_input","保存されていません");
+        String readText = pref.getString("main_input","0");
         textView.setText(readText);
     }
 
@@ -68,20 +70,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.button1:
                 setAnswerValue();
                 checkResult(true);
-                Vibrator vib = (Vibrator) getSystemService(VIBRATOR_SERVICE);
-                vib.vibrate(5000);
+
+                soundPlayer.playHitSound();
                 break;
             case R.id.button2:
                 setAnswerValue();
                 checkResult(false);
+                soundPlayer.playHitSound();
                 break;
             case R.id.button3:
                 setQuestionValue();
                 clearAnswerValue();
+                Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+                vib.vibrate(500);
+                soundPlayer.playOverSound();
                 break;
-
         }
-
     }
 
     private void clearAnswerValue() {
