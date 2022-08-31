@@ -3,6 +3,7 @@ package com.example.makotomurase;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
@@ -46,6 +47,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View view) {
+        TextView txtViewQuestion = (TextView) findViewById(R.id.question);
+        TextView txtViewAnswer = (TextView) findViewById(R.id.answer);
         int id = view.getId();
         switch (id) {
             case R.id.button1:
@@ -57,6 +60,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 checkResult(false);
                 break;
             case R.id.button3:
+                // 背景色(初期値)
+                txtViewAnswer.setBackgroundColor(Color.rgb(255,255,0));
+                // 背景色(初期値)
+                txtViewQuestion.setBackgroundColor(Color.rgb(255,0,255));
                 setQuestionValue();
                 clearAnswerValue();
                 break;
@@ -117,14 +124,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = word_win;
                 score = 2;
+                // 背景色(勝ち,赤)
+                txtViewAnswer.setBackgroundColor(Color.RED);
+                // 背景色(負け,灰色)
+                txtViewQuestion.setBackgroundColor(Color.GRAY);
             } else if (question > answer) {
                 result = word_lose;
                 score = -1;
+                // 背景色(勝ち,赤)
+                txtViewQuestion.setBackgroundColor(Color.RED);
+                // 背景色(負け,灰色)
+                txtViewAnswer.setBackgroundColor(Color.GRAY);
                 Vibrator vib= (Vibrator)getSystemService(VIBRATOR_SERVICE);
                 vib.vibrate(500);
             } else {
                 result = word_draw;
                 score = 1;
+                // 背景色(引き分け,緑)
+                txtViewQuestion.setBackgroundColor(Color.GREEN);
+                // 背景色(引き分け,緑)
+                txtViewAnswer.setBackgroundColor(Color.GREEN);
                 Vibrator vib= (Vibrator)getSystemService(VIBRATOR_SERVICE);
                 vib.vibrate(200);
             }
@@ -132,14 +151,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question > answer) {
                 result = word_win;
                 score = 2;
+                // 背景色(勝ち,赤)
+                txtViewAnswer.setBackgroundColor(Color.RED);
+                // 背景色(負け,灰色)
+                txtViewQuestion.setBackgroundColor(Color.GRAY);
             } else if (question < answer) {
                 result = word_lose;
                 score = -1;
+                // 背景色(勝ち,赤)
+                txtViewQuestion.setBackgroundColor(Color.RED);
+                // 背景色(負け,灰色)
+                txtViewAnswer.setBackgroundColor(Color.GRAY);
                 Vibrator vib= (Vibrator)getSystemService(VIBRATOR_SERVICE);
                 vib.vibrate(500);
             } else {
                 result = word_draw;
                 score = 1;
+                // 背景色(引き分け,緑)
+                txtViewQuestion.setBackgroundColor(Color.GREEN);
+                // 背景色(引き分け,緑)
+                txtViewAnswer.setBackgroundColor(Color.GREEN);
                 Vibrator vib= (Vibrator)getSystemService(VIBRATOR_SERVICE);
                 vib.vibrate(200);
             }
