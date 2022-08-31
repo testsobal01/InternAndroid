@@ -15,6 +15,11 @@ import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
+    SoundPlayer soundPlayer;
+
+    SharedPreferences pref;
+    SharedPreferences.Editor prefEditor;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,6 +37,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // 起動時に関数を呼び出す
         setQuestionValue();
 
+        soundPlayer = new SoundPlayer(this);
+
+        pref = getSharedPreferences("GameScore", MODE_PRIVATE);
+        prefEditor = pref.edit();
     }
 
     @Override
@@ -43,14 +52,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 checkResult(true);
                 Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
                 vib.vibrate(5000);
+                soundPlayer.playHitSound();
                 break;
             case R.id.button2:
                 setAnswerValue();
                 checkResult(false);
+                soundPlayer.playOverSound();
                 break;
             case R.id.button3:
                 setQuestionValue();
                 clearAnswerValue();
+                soundPlayer.playTestSound();
                 break;
 
         }
