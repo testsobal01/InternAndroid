@@ -3,10 +3,13 @@ package com.example.makotomurase;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.media.SoundPool;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.os.VibrationAttributes;
+import android.media.AudioAttributes;
 import android.os.Vibrator;
+import android.view.SoundEffectConstants;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -18,6 +21,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -38,6 +42,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View view) {
 
+        SoundPool soundPool;
+        int soundReset;
+
+        AudioAttributes audioAttributes = new AudioAttributes.Builder()
+                // USAGE_MEDIA
+                // USAGE_GAME
+                .setUsage(AudioAttributes.USAGE_GAME)
+                // CONTENT_TYPE_MUSIC
+                // CONTENT_TYPE_SPEECH, etc.
+                .setContentType(AudioAttributes.CONTENT_TYPE_SPEECH)
+                .build();
+
+        soundPool = new SoundPool.Builder()
+                .setAudioAttributes(audioAttributes)
+                // ストリーム数に応じて
+                .setMaxStreams(2)
+                .build();
+
+        // reset.mp3 をロードしておく
+        soundReset = soundPool.load(this, R.raw.reset, 1);
+
         int id = view.getId();
         switch (id) {
             case R.id.button1:
@@ -49,7 +74,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 checkResult(false);
                 break;
             case R.id.button3:
-                Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+                soundPool.play(soundReset, 1.0f, 1.0f, 0, 0, 1);
+                Vibrator vib = (Vibrator) getSystemService(VIBRATOR_SERVICE);
                 vib.vibrate(500);
                 setQuestionValue();
                 clearAnswerValue();
@@ -80,6 +106,34 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void checkResult(boolean isHigh) {
+
+        SoundPool soundPool;
+        int soundCorrect, soundWrong, soundDraw;
+
+        AudioAttributes audioAttributes = new AudioAttributes.Builder()
+                // USAGE_MEDIA
+                // USAGE_GAME
+                .setUsage(AudioAttributes.USAGE_GAME)
+                // CONTENT_TYPE_MUSIC
+                // CONTENT_TYPE_SPEECH, etc.
+                .setContentType(AudioAttributes.CONTENT_TYPE_SPEECH)
+                .build();
+
+        soundPool = new SoundPool.Builder()
+                .setAudioAttributes(audioAttributes)
+                // ストリーム数に応じて
+                .setMaxStreams(2)
+                .build();
+
+        // correct.mp3 をロードしておく
+        soundCorrect = soundPool.load(this, R.raw.correct, 1);
+
+        // wrong.mp3 をロードしておく
+        soundWrong = soundPool.load(this, R.raw.wrong, 1);
+
+        // draw.mp3 をロードしておく
+        soundDraw = soundPool.load(this, R.raw.draw, 1);
+
         TextView txtViewQuestion = (TextView) findViewById(R.id.question);
         TextView txtViewAnswer = (TextView) findViewById(R.id.answer);
         int question = Integer.parseInt(txtViewQuestion.getText().toString());
@@ -93,11 +147,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (isHigh) {
             // result には結果のみを入れる
             if (question < answer) {
+                soundPool.play(soundCorrect, 1.0f, 1.0f, 0, 0, 1);
                 result = "WIN";
                 score = 2;
             } else if (question > answer) {
+                soundPool.play(soundWrong, 1.0f, 1.0f, 0, 0, 1);
                 result = "LOSE";
-                Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+                Vibrator vib = (Vibrator) getSystemService(VIBRATOR_SERVICE);
                 vib.vibrate(500);
                 score = -1;
             } else {
@@ -106,15 +162,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         } else {
             if (question > answer) {
+                soundPool.play(soundCorrect, 1.0f, 1.0f, 0, 0, 1);
                 result = "WIN";
                 score = 2;
             } else if (question < answer) {
+                soundPool.play(soundWrong, 1.0f, 1.0f, 0, 0, 1);
                 result = "LOSE";
-                Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+                Vibrator vib = (Vibrator) getSystemService(VIBRATOR_SERVICE);
                 vib.vibrate(500);
                 score = -1;
             } else {
                 result = "DRAW";
+                soundPool.play(soundDraw, 1.0f, 1.0f, 0, 0, 1);
                 score = 1;
             }
         }
