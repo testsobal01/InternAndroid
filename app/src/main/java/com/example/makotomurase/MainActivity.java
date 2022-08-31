@@ -2,6 +2,8 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.graphics.Color;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
@@ -13,7 +15,8 @@ import android.widget.Toast;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
-
+    SharedPreferences pref;
+    SharedPreferences.Editor prefEditor;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,6 +34,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // 起動時に関数を呼び出す
         setQuestionValue();
 
+        pref = getSharedPreferences("AndroidSeminor", MODE_PRIVATE);
+        prefEditor = pref.edit();
+
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        TextView textView = (TextView)findViewById(R.id.text_score);
+
+        prefEditor.putString("main_input",textView.getText().toString());
+        prefEditor.commit();
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        TextView textView = (TextView)findViewById(R.id.text_score);
+        String readText = pref.getString("main_input","0");
+        textView.setText(readText);
     }
 
     @Override
@@ -65,15 +90,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView txtScore = (TextView) findViewById(R.id.text_score);
         score = 0;
         txtScore.setText(Integer.toString(score));
-        txtView.setText("値2");
+        txtView.setText(getString(R.string.value2));
     }
 
     private void setQuestionValue() {
         Random r = new Random();
         // 0から10の範囲で乱数を生成（+1する必要がある）
         int questionValue = r.nextInt(10 + 1);
-        TextView txtView = (TextView) findViewById(R.id.question);
-        txtView.setText(Integer.toString(questionValue));
+        //背景色のリセット
+        TextView txtView_que= (TextView) findViewById(R.id.question);
+        txtView_que.setBackgroundColor(Color.parseColor("#ff00ff"));
+        txtView_que.setText(Integer.toString(questionValue));
+        TextView txtView_ans = (TextView) findViewById(R.id.answer);
+        txtView_ans.setBackgroundColor(Color.parseColor("#ffff00"));
     }
 
     private void setAnswerValue() {
@@ -96,35 +125,70 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (isHigh) {
             // result には結果のみを入れる
             if (question < answer) {
-                result = "WIN";
+                result = getString(R.string.win);
                 score = 2;
+                //背景色の変更
+                TextView txtView_que = (TextView) findViewById(R.id.question);
+                txtView_que.setBackgroundColor(Color.parseColor("#FF7F50"));
+                TextView txtView_ans = (TextView) findViewById(R.id.answer);
+                txtView_ans.setBackgroundColor(Color.parseColor("#6A5ACD"));
+                
             } else if (question > answer) {
-                result = "LOSE";
+                result = getString((R.string.lose));
                 score = -1;
+                //背景色の変更
+                TextView txtView_que = (TextView) findViewById(R.id.question);
+                txtView_que.setBackgroundColor(Color.parseColor("#6A5ACD"));
+                TextView txtView_ans = (TextView) findViewById(R.id.answer);
+                txtView_ans.setBackgroundColor(Color.parseColor("#FF7F50"));
             } else {
-                result = "DRAW";
+                result = getString(R.string.draw);
                 score = 1;
+                //背景色の変更
+                TextView txtView_que = (TextView) findViewById(R.id.question);
+                txtView_que.setBackgroundColor(Color.parseColor("#808080"));
+                TextView txtView_ans = (TextView) findViewById(R.id.answer);
+                txtView_ans.setBackgroundColor(Color.parseColor("#808080"));
             }
         } else {
             if (question > answer) {
-                result = "WIN";
+                result = getString(R.string.win);
                 score = 2;
+                //背景色の変更
+                TextView txtView_que = (TextView) findViewById(R.id.question);
+                txtView_que.setBackgroundColor(Color.parseColor("#FF7F50"));
+                TextView txtView_ans = (TextView) findViewById(R.id.answer);
+                txtView_ans.setBackgroundColor(Color.parseColor("#6A5ACD"));
             } else if (question < answer) {
-                result = "LOSE";
+                result = getString(R.string.lose);
                 score = -1;
+                //背景色の変更
+                TextView txtView_que = (TextView) findViewById(R.id.question);
+                txtView_que.setBackgroundColor(Color.parseColor("#6A5ACD"));
+                TextView txtView_ans = (TextView) findViewById(R.id.answer);
+                txtView_ans.setBackgroundColor(Color.parseColor("#FF7F50"));
             } else {
-                result = "DRAW";
+                result = getString(R.string.draw);
                 score = 1;
+                //背景色の変更
+                TextView txtView_que = (TextView) findViewById(R.id.question);
+                txtView_que.setBackgroundColor(Color.parseColor("#808080"));
+                TextView txtView_ans = (TextView) findViewById(R.id.answer);
+                txtView_ans.setBackgroundColor(Color.parseColor("#808080"));
+
+
             }
         }
 
 
         // 最後にまとめてToast表示の処理とTextViewへのセットを行う
         Toast.makeText(this, result, Toast.LENGTH_LONG).show();
-        txtResult.setText("結果：" + question + ":" + answer + "(" + result + ")");
+        txtResult.setText(getString(R.string.result) + question + ":" + answer + "(" + result + ")");
 
         // 続けて遊べるように値を更新
+
         setNextQuestion();
+
 
         // スコアを表示
         setScore(score);
@@ -149,6 +213,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         }.start();
     }
+
+
 
     private void setScore(int score) {
         TextView txtScore = (TextView) findViewById(R.id.text_score);
