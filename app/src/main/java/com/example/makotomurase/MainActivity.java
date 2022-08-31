@@ -2,8 +2,10 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Vibrator;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -12,6 +14,9 @@ import android.widget.Toast;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
+    SharedPreferences pref;
+    SharedPreferences.Editor prefEditor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +31,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
+
+        pref = getSharedPreferences("TeamF", MODE_PRIVATE);
+        prefEditor = pref.edit();
+
+        TextView txtScore = (TextView) findViewById(R.id.text_score);
+        int score = pref.getInt("game_score", 0);
+        txtScore.setText(Integer.toString(score));
 
         // 起動時に関数を呼び出す
         setQuestionValue();
@@ -53,9 +65,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        // スコアを保存
+        TextView txtScore = (TextView) findViewById(R.id.text_score);
+        prefEditor.putInt("game_score", Integer.parseInt(txtScore.getText().toString()));
+        prefEditor.commit();
+
+    }
+
     private void clearAnswerValue() {
+        String word = getString(R.string.atai);
         TextView txtView = (TextView) findViewById(R.id.answer);
-        txtView.setText("値2");
+        txtView.setText(word);
     }
 
     private void setQuestionValue() {
@@ -82,37 +106,49 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // 結果を示す文字列を入れる変数を用意
         String result;
         int score = 0;
+        String word_win = getString(R.string.win);
+        String word_lose = getString(R.string.lose);
+        String word_draw = getString(R.string.draw);
+        String word_result = getString(R.string.result);
 
         // Highが押された
         if (isHigh) {
             // result には結果のみを入れる
             if (question < answer) {
-                result = "WIN";
+                result = word_win;
                 score = 2;
             } else if (question > answer) {
-                result = "LOSE";
+                result = word_lose;
                 score = -1;
+                Vibrator vib= (Vibrator)getSystemService(VIBRATOR_SERVICE);
+                vib.vibrate(500);
             } else {
-                result = "DRAW";
+                result = word_draw;
                 score = 1;
+                Vibrator vib= (Vibrator)getSystemService(VIBRATOR_SERVICE);
+                vib.vibrate(200);
             }
         } else {
             if (question > answer) {
-                result = "WIN";
+                result = word_win;
                 score = 2;
             } else if (question < answer) {
-                result = "LOSE";
+                result = word_lose;
                 score = -1;
+                Vibrator vib= (Vibrator)getSystemService(VIBRATOR_SERVICE);
+                vib.vibrate(500);
             } else {
-                result = "DRAW";
+                result = word_draw;
                 score = 1;
+                Vibrator vib= (Vibrator)getSystemService(VIBRATOR_SERVICE);
+                vib.vibrate(200);
             }
         }
 
 
         // 最後にまとめてToast表示の処理とTextViewへのセットを行う
         Toast.makeText(this, result, Toast.LENGTH_LONG).show();
-        txtResult.setText("結果：" + question + ":" + answer + "(" + result + ")");
+        txtResult.setText(word_result + question + ":" + answer + "(" + result + ")");
 
         // 続けて遊べるように値を更新
         setNextQuestion();
