@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         soundPool = new SoundPool.Builder()
                 .setAudioAttributes(audioAttributes)
-                .setMaxStreams(3)
+                .setMaxStreams(4)
                 .build();
 
         sound1 = soundPool.load(this, R.raw.win, 1);
