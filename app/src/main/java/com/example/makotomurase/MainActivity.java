@@ -2,16 +2,22 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+    private TextView textView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +40,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View view) {
+        textView = findViewById(R.id.answer);
+        Animation animation= AnimationUtils.loadAnimation(this,
+                R.anim.zoomin);
+        textView.startAnimation(animation);
         int id = view.getId();
         switch (id) {
             case R.id.button1:
@@ -89,23 +99,41 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = "WIN";
                 score = 2;
-            } else if (question > answer) {
+                TextView myText = findViewById(R.id.answer);
+                myText.setTextColor(Color.RED);
+
+
+            }
+            else if (question > answer) {
                 result = "LOSE";
                 score = -1;
-            } else {
+                TextView myText = findViewById(R.id.answer);
+                myText.setTextColor(Color.BLUE);
+            }
+            else {
                 result = "DRAW";
                 score = 1;
+                TextView myText = findViewById(R.id.answer);
+                myText.setTextColor(Color.GREEN);
             }
         } else {
             if (question > answer) {
                 result = "WIN";
                 score = 2;
+                TextView myText = findViewById(R.id.answer);
+                myText.setTextColor(Color.RED);
+
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
+                TextView myText = findViewById(R.id.answer);
+                myText.setTextColor(Color.BLUE);
+
             } else {
                 result = "DRAW";
                 score = 1;
+                TextView myText = findViewById(R.id.answer);
+                myText.setTextColor(Color.GREEN);
             }
         }
 
