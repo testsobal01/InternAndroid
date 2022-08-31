@@ -3,10 +3,13 @@ package com.example.makotomurase;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.ScaleAnimation;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -56,13 +59,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         TextView textView = (TextView)findViewById(R.id.text_score);
 
-        String readText = pref.getString("main_input","保存されていません");
+        String readText = pref.getString("main_input","0");
         textView.setText(readText);
     }
 
     @Override
     public void onClick(View view) {
         int id = view.getId();
+
+
         switch (id) {
             case R.id.button1:
                 setAnswerValue();
@@ -109,6 +114,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int question = Integer.parseInt(txtViewQuestion.getText().toString());
         int answer = Integer.parseInt(txtViewAnswer.getText().toString());
         TextView txtResult = (TextView) findViewById(R.id.text_result);
+
+        AlphaAnimation animation = new AlphaAnimation(0,1);
+
         // 結果を示す文字列を入れる変数を用意
         String result;
         int score = 0;
@@ -119,23 +127,46 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = "WIN";
                 score = 2;
+
+                animation.setDuration(2000);
+                txtViewAnswer.startAnimation(animation);
+                txtViewAnswer.setTextColor(Color.BLUE);
+
+
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
+
+                animation.setDuration(2000);
+                txtViewAnswer.startAnimation(animation);
+                txtViewAnswer.setTextColor(Color.RED);
+
             } else {
                 result = "DRAW";
                 score = 1;
+                txtViewAnswer.setTextColor(Color.BLACK);
             }
         } else {
             if (question > answer) {
                 result = "WIN";
                 score = 2;
+
+                animation.setDuration(2000);
+                txtViewAnswer.startAnimation(animation);
+                txtViewAnswer.setTextColor(Color.BLUE);
+
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
+
+                animation.setDuration(2000);
+                txtViewAnswer.startAnimation(animation);
+                txtViewAnswer.setTextColor(Color.RED);
+
             } else {
                 result = "DRAW";
                 score = 1;
+                txtViewAnswer.setTextColor(Color.BLACK);
             }
         }
 
