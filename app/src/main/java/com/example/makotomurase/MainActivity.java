@@ -3,6 +3,10 @@ package com.example.makotomurase;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.SharedPreferences;
+import android.media.AudioAttributes;
+import android.media.AudioManager;
+import android.media.SoundPool;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
@@ -17,6 +21,8 @@ import android.widget.Toast;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+    SoundPool soundPool;
+    int sound2;
 
     SharedPreferences pref;
     SharedPreferences.Editor prefEditor;
@@ -45,6 +51,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // 起動時に関数を呼び出す
         setQuestionValue();
 
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            soundPool = new SoundPool(5, AudioManager.STREAM_MUSIC, 0);
+        } else {
+            AudioAttributes attr = new AudioAttributes.Builder()
+                    .setUsage(AudioAttributes.USAGE_MEDIA)
+                    .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+                    .build();
+            soundPool = new SoundPool.Builder()
+                    .setAudioAttributes(attr)
+                    .setMaxStreams(5)
+                    .build();
+        }
+
+        sound2 = soundPool.load(this, R.raw.ransuu, 1);
+
     }
 
     @Override
@@ -52,14 +73,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int id = view.getId();
         switch (id) {
             case R.id.button1:
+                soundPool.play(sound2, 1f, 1f, 0, 0,1f);
                 setAnswerValue();
                 checkResult(true);
                 break;
             case R.id.button2:
+                soundPool.play(sound2, 1f, 1f, 0, 0,1f);
                 setAnswerValue();
                 checkResult(false);
                 break;
             case R.id.button3:
+                soundPool.play(sound2, 1f, 1f, 0, 0,1f);
                 setQuestionValue();
                 clearAnswerValue();
                 break;

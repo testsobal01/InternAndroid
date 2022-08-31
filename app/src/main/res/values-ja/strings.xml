@@ -11,4 +11,7 @@
     <string name="lose">負け</string>
     <string name="draw">引き分け</string>
     <string name="result">結果：</string>
+    <string name="app_title">乱数バトル</string>
+    <string name="button_start">開始</string>
+    <string name="button_end">終了</string>
 </resources>

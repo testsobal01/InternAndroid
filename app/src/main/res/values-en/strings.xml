@@ -11,4 +11,7 @@
     <string name="lose">LOSE</string>
     <string name="draw">DRAW</string>
     <string name="result">Result：</string>
+    <string name="app_title">Random Number Battle</string>
+    <string name="button_start">Start</string>
+    <string name="button_end">End</string>
 </resources>
