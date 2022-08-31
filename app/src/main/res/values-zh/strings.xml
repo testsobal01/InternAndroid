@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">MakotoMurase</string>
+    <string name="btn_high">大值</string>
+    <string name="btn_low">小值</string>
+    <string name="btn_restart">重新开始</string>
+    <string name="label_score">分数：</string>
+    <string name="message">10 已设置。</string>
+    <string name="atai">值 2</string>
+    <string name="win">赢</string>
+    <string name="lose">失去</string>
+    <string name="draw">相同的</string>
+    <string name="result">结果：</string>
+</resources>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">MakotoMurase</string>
+    <string name="btn_high">값이 큰</string>
+    <string name="btn_low">값이 작다</string>
+    <string name="btn_restart">재시작</string>
+    <string name="label_score">점수：</string>
+    <string name="message">10이 설정됩니다.</string>
+    <string name="atai">값 2</string>
+    <string name="win">이기다</string>
+    <string name="lose">잃다</string>
+    <string name="draw">동일</string>
+    <string name="result">결과：</string>
+</resources>

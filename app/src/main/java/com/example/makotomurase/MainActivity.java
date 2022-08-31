@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Vibrator;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
@@ -79,8 +80,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void clearAnswerValue() {
+        String word = getString(R.string.atai);
         TextView txtView = (TextView) findViewById(R.id.answer);
-        txtView.setText("値2");
+        txtView.setText(word);
     }
 
     private void setQuestionValue() {
@@ -107,41 +109,53 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // 結果を示す文字列を入れる変数を用意
         String result;
         int score = 0;
+        String word_win = getString(R.string.win);
+        String word_lose = getString(R.string.lose);
+        String word_draw = getString(R.string.draw);
+        String word_result = getString(R.string.result);
 
         // Highが押された
         if (isHigh) {
             // result には結果のみを入れる
             if (question < answer) {
-                result = "WIN";
+                result = word_win;
                 score = 2;
                 startAnimation(0);
             } else if (question > answer) {
-                result = "LOSE";
+                result = word_lose;
                 score = -1;
                 startAnimation(2);
+                Vibrator vib= (Vibrator)getSystemService(VIBRATOR_SERVICE);
+                vib.vibrate(500);
             } else {
-                result = "DRAW";
+                result = word_draw;
                 score = 1;
+                Vibrator vib= (Vibrator)getSystemService(VIBRATOR_SERVICE);
+                vib.vibrate(200);
             }
         } else {
             if (question > answer) {
-                result = "WIN";
+                result = word_win;
                 score = 2;
                 startAnimation(1);
             } else if (question < answer) {
-                result = "LOSE";
+                result = word_lose;
                 score = -1;
                 startAnimation(2);
+                Vibrator vib= (Vibrator)getSystemService(VIBRATOR_SERVICE);
+                vib.vibrate(500);
             } else {
-                result = "DRAW";
+                result = word_draw;
                 score = 1;
+                Vibrator vib= (Vibrator)getSystemService(VIBRATOR_SERVICE);
+                vib.vibrate(200);
             }
         }
 
 
         // 最後にまとめてToast表示の処理とTextViewへのセットを行う
         Toast.makeText(this, result, Toast.LENGTH_LONG).show();
-        txtResult.setText("結果：" + question + ":" + answer + "(" + result + ")");
+        txtResult.setText(word_result + question + ":" + answer + "(" + result + ")");
 
         // 続けて遊べるように値を更新
         setNextQuestion();
