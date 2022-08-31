@@ -63,16 +63,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int id = view.getId();
         //バイブレーションの追加
         Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
-        vib.vibrate(5000);
 
         switch (id) {
             case R.id.button1:
                 setAnswerValue();
                 checkResult(true);
+                vib.vibrate(1000);
                 break;
             case R.id.button2:
                 setAnswerValue();
                 checkResult(false);
+                vib.vibrate(1000);
                 break;
             case R.id.button3:
                 setQuestionValue();
