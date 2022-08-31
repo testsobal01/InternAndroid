@@ -77,6 +77,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.button3:
                 setQuestionValue();
                 clearAnswerValue();
+                clearColor();
                 break;
 
         }
@@ -119,23 +120,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = "WIN";
                 score = 2;
+                colorChangeWin();
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
+                colorChangeLose();
             } else {
                 result = "DRAW";
                 score = 1;
+                colorChangeDraw();
             }
         } else {
             if (question > answer) {
                 result = "WIN";
+                colorChangeWin();
                 score = 2;
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
+                colorChangeLose();
             } else {
                 result = "DRAW";
                 score = 1;
+                colorChangeDraw();
             }
         }
 
@@ -167,6 +174,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public void onFinish() {
                 // 3秒経過したら次の値をセット
                 setQuestionValue();
+                clearColor();
             }
         }.start();
     }
@@ -180,6 +188,38 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void Vibration(){
         Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
         vib.vibrate(500);
+    }
+
+    private void clearColor(){
+        TextView txtViewQuestion = (TextView) findViewById(R.id.question);
+        TextView txtViewAnswer = (TextView) findViewById(R.id.answer);
+
+        txtViewQuestion.setBackgroundColor(getResources().getColor(R.color.magenda));
+        txtViewAnswer.setBackgroundColor(getResources().getColor(R.color.yellow));
+    }
+
+    private void colorChangeDraw(){
+        TextView txtViewQuestion = (TextView) findViewById(R.id.question);
+        TextView txtViewAnswer = (TextView) findViewById(R.id.answer);
+
+        txtViewQuestion.setBackgroundColor(getResources().getColor(R.color.green));
+        txtViewAnswer.setBackgroundColor(getResources().getColor(R.color.green));
+    }
+
+    private void colorChangeWin(){
+        TextView txtViewQuestion = (TextView) findViewById(R.id.question);
+        TextView txtViewAnswer = (TextView) findViewById(R.id.answer);
+
+        txtViewQuestion.setBackgroundColor(getResources().getColor(R.color.red));
+        txtViewAnswer.setBackgroundColor(getResources().getColor(R.color.red));
+    }
+
+    private void colorChangeLose(){
+        TextView txtViewQuestion = (TextView) findViewById(R.id.question);
+        TextView txtViewAnswer = (TextView) findViewById(R.id.answer);
+
+        txtViewQuestion.setBackgroundColor(getResources().getColor(R.color.blue));
+        txtViewAnswer.setBackgroundColor(getResources().getColor(R.color.blue));
     }
 
 }
