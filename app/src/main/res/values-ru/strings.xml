@@ -5,4 +5,5 @@
     <string name="btn_low">низкий</string>
     <string name="btn_restart">перезагрузить</string>
     <string name="label_score">Счет：</string>
+    <string name="btn_startmenu">Начало</string>
 </resources>

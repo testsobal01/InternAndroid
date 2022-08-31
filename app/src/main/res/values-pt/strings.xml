@@ -5,4 +5,5 @@
     <string name="btn_low">baixo</string>
     <string name="btn_restart">Redefinir</string>
     <string name="label_score">Pontuação：</string>
+    <string name="btn_startmenu">começar</string>
 </resources>

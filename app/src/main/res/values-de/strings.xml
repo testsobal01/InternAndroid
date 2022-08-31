@@ -5,4 +5,5 @@
     <string name="btn_low">niedrig</string>
     <string name="btn_restart">zurücksetzen</string>
     <string name="label_score">Punktzahl：</string>
+    <string name="btn_startmenu">Anfang</string>
 </resources>

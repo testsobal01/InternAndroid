@@ -5,4 +5,5 @@
     <string name="btn_low">कम</string>
     <string name="btn_restart">रीसेट</string>
     <string name="label_score">अंक：</string>
+    <string name="btn_startmenu">प्रारंभ</string>
 </resources>

@@ -5,4 +5,5 @@
     <string name="btn_low">낮은</string>
     <string name="btn_restart">리셋</string>
     <string name="label_score">점수：</string>
+    <string name="btn_startmenu">시작</string>
 </resources>

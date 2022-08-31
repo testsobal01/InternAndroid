@@ -5,4 +5,5 @@
     <string name="btn_low">bas</string>
     <string name="btn_restart">réinitialiser</string>
     <string name="label_score">Score：</string>
+    <string name="btn_startmenu">début</string>
 </resources>
