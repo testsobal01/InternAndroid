@@ -2,6 +2,7 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
@@ -50,6 +51,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.button3:
                 setQuestionValue();
                 clearAnswerValue();
+                TextView right = findViewById(R.id.answer);
+                right.setBackgroundColor(Color.YELLOW);
+                TextView left = findViewById(R.id.question);
+                left.setBackgroundColor(Color.MAGENTA);
+
                 break;
 
         }
@@ -92,23 +98,49 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = "WIN";
                 score = 2;
+                TextView right = findViewById(R.id.answer);
+                right.setBackgroundColor(Color.RED);
+                TextView left = findViewById(R.id.question);
+                left.setBackgroundColor(Color.WHITE);
+
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
+                TextView right = findViewById(R.id.answer);
+                right.setBackgroundColor(Color.WHITE);
+                TextView left = findViewById(R.id.question);
+                left.setBackgroundColor(Color.RED);
+
             } else {
                 result = "DRAW";
                 score = 1;
+                TextView right = findViewById(R.id.answer);
+                right.setBackgroundColor(Color.GRAY);
+                TextView left = findViewById(R.id.question);
+                left.setBackgroundColor(Color.GRAY);
             }
         } else {
             if (question > answer) {
                 result = "WIN";
                 score = 2;
+                TextView right = findViewById(R.id.answer);
+                right.setBackgroundColor(Color.RED);
+                TextView left = findViewById(R.id.question);
+                left.setBackgroundColor(Color.WHITE);
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
+                TextView right = findViewById(R.id.answer);
+                right.setBackgroundColor(Color.WHITE);
+                TextView left = findViewById(R.id.question);
+                left.setBackgroundColor(Color.RED);
             } else {
                 result = "DRAW";
                 score = 1;
+                TextView right = findViewById(R.id.answer);
+                right.setBackgroundColor(Color.GRAY);
+                TextView left = findViewById(R.id.question);
+                left.setBackgroundColor(Color.GRAY);
             }
         }
 
