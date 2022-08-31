@@ -4,8 +4,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Vibrator;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -18,6 +20,9 @@ import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private TextView textView;
+
+    SharedPreferences pref;
+    SharedPreferences.Editor prefEditor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +37,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
+
+        //"AndroidSeminor"は、保存先のファイル名のようなもの
+        pref = getSharedPreferences("AndroidSeminor", MODE_PRIVATE);
+        prefEditor = pref.edit();
 
         // 起動時に関数を呼び出す
         setQuestionValue();
@@ -60,6 +69,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
 
         }
+        Vibrator v = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+        v.vibrate(1000);
 
     }
 
@@ -175,4 +186,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         txtScore.setText(Integer.toString(newScore));
     }
 
+    @Override
+    protected void onPause(){
+        super.onPause();
+        Toast.makeText(this,"onPause",Toast.LENGTH_SHORT).show();
+
+        //画面状の文字列を保持するため、テキストビューを取得
+        TextView textView=(TextView)findViewById(R.id.text_score);
+        //"main_input"というキー名（箱）に、文字列を保存
+        prefEditor.putString("main_input",textView.getText().toString());
+        prefEditor.commit();
+        }
+
+    protected void onResume() {
+        super.onResume();
+        Toast.makeText(this, "onResume", Toast.LENGTH_SHORT).show();
+
+        //画面上に文字列を設定するため、テキストビューを取得
+        TextView textView = (TextView) findViewById(R.id.text_score);
+        //保存した値をキー名（main_input)を指定して取得。
+        //一度も保存されていない場合もあり得るので、その時に代わりに表示する文字列も指定する
+        String readText = pref.getString("main_input", "0");
+        textView.setText(readText);
+    }
 }
