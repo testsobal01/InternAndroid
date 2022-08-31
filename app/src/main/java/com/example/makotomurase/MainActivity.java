@@ -1,8 +1,12 @@
 package com.example.makotomurase;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.VibrationAttributes;
@@ -17,6 +21,7 @@ import java.util.Random;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private SharedPreferences data;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,6 +43,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         data = getSharedPreferences("Data", MODE_PRIVATE);
         int score = data.getInt("score", 0);
         setScore(score);
+
+        //背景色の初期化
+        TextView textQuestion = findViewById(R.id.question);
+        TextView textAnswer = findViewById(R.id.answer);
+        textQuestion.setBackgroundColor(getResources().getColor(R.color.colorInitCpu));
+        textAnswer.setBackgroundColor(getResources().getColor(R.color.colorInitPlayer));
     }
 
     @Override
@@ -66,6 +77,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void clearAnswerValue() {
         TextView txtView = (TextView) findViewById(R.id.answer);
         txtView.setText("値2");
+
+        //色状態のリセット
+        TextView textQuestion = findViewById(R.id.question);
+        TextView textAnswer = findViewById(R.id.answer);
+        textQuestion.setBackgroundColor(getResources().getColor(R.color.colorInitCpu));
+        textAnswer.setBackgroundColor(getResources().getColor(R.color.colorInitPlayer));
     }
 
     private void setQuestionValue() {
@@ -83,6 +100,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         txtView.setText(Integer.toString(answerValue));
     }
 
+    //@RequiresApi(api = Build.VERSION_CODES.M)
     private void checkResult(boolean isHigh) {
         TextView txtViewQuestion = (TextView) findViewById(R.id.question);
         TextView txtViewAnswer = (TextView) findViewById(R.id.answer);
@@ -123,6 +141,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         }
 
+        TextView textQuestion = findViewById(R.id.question);
+        TextView textAnswer = findViewById(R.id.answer);
+        if(result.equals("WIN")){//プレイヤーの勝ち
+            textQuestion.setBackgroundColor(getResources().getColor(R.color.colorLose));
+            textAnswer.setBackgroundColor(getResources().getColor(R.color.colorWin));
+        }else if(result.equals("DRAW")){//引き分け
+            textQuestion.setBackgroundColor(getResources().getColor(R.color.colorInitCpu));
+            textAnswer.setBackgroundColor(getResources().getColor(R.color.colorInitPlayer));
+        }else{//プレイヤーの負け
+            textQuestion.setBackgroundColor(getResources().getColor(R.color.colorWin));
+            textAnswer.setBackgroundColor(getResources().getColor(R.color.colorLose));
+        }
 
         // 最後にまとめてToast表示の処理とTextViewへのセットを行う
         Toast.makeText(this, result, Toast.LENGTH_LONG).show();
