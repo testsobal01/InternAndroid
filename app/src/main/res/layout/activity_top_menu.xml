@@ -13,11 +13,13 @@
         android:orientation="vertical">
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="0dp"
+            android:layout_weight="1">
 
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="300dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:gravity="center"
                 android:letterSpacing="1.1"
                 android:text="@string/app_title"
@@ -26,7 +28,8 @@
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
             android:orientation="horizontal">
 
             <Button
@@ -34,16 +37,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="200dp"
                 android:layout_weight="@integer/material_motion_duration_long_1"
-                android:text="@string/button_start">
+                android:backgroundTint="#F44336"
+                android:text="@string/button_start" />
 
-            </Button>
             <Button
                 android:id="@+id/button_end"
                 android:layout_width="wrap_content"
                 android:layout_height="200dp"
                 android:layout_weight="@integer/material_motion_duration_long_1"
-                android:text="@string/button_end">
-            </Button>
+                android:backgroundTint="#03A9F4"
+                android:text="@string/button_end" />
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>
