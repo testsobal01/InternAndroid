@@ -65,12 +65,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int id = view.getId();
         switch (id) {
             case R.id.button1:
-                vibrate(2000);
+                vibrate(150);
                 setAnswerValue();
                 checkResult(true);
                 break;
             case R.id.button2:
-                vibrate(2000);
+                vibrate(150);
                 setAnswerValue();
                 checkResult(false);
                 break;
