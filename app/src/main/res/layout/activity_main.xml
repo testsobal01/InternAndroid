@@ -92,8 +92,6 @@
         android:gravity="bottom"
         android:orientation="horizontal">
 
-    </LinearLayout>
-
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="140dp"
@@ -101,5 +99,7 @@
         android:contentDescription="footer"
         android:scaleType="centerCrop"
         android:src="@drawable/pop_honjitsuno_koukoku" />
+
+    </LinearLayout>
 
 </LinearLayout>
