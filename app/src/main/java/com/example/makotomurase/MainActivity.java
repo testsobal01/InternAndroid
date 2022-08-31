@@ -6,6 +6,9 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.RotateAnimation;
+import android.view.animation.ScaleAnimation;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -111,9 +114,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = "WIN";
                 score = 2;
+                startAnimation(0);
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
+                startAnimation(2);
             } else {
                 result = "DRAW";
                 score = 1;
@@ -122,9 +127,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question > answer) {
                 result = "WIN";
                 score = 2;
+                startAnimation(1);
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
+                startAnimation(2);
             } else {
                 result = "DRAW";
                 score = 1;
@@ -169,4 +176,72 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         txtScore.setText(Integer.toString(newScore));
     }
 
+    private void startAnimation(final int type) {
+        final TextView txtViewQuestion = findViewById(R.id.question);
+        final TextView txtViewAnswer = findViewById(R.id.answer);
+        long time = 1000;
+
+        // 縮小アニメーション
+        final ScaleAnimation scaleSmallAnimation = new ScaleAnimation(
+                2.0f, 1.0f, 2.0f,1.0f,
+                Animation.RELATIVE_TO_SELF,
+                0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+        scaleSmallAnimation.setDuration(time);
+        scaleSmallAnimation.setRepeatCount(0);
+        scaleSmallAnimation.setFillAfter(true);
+        // 拡大アニメーション
+        final ScaleAnimation scaleBigAnimation = new ScaleAnimation(
+                1.0f, 2.0f, 1.0f,2.0f,
+                Animation.RELATIVE_TO_SELF,
+                0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+        scaleBigAnimation.setDuration(time);
+        scaleBigAnimation.setRepeatCount(0);
+        scaleBigAnimation.setFillAfter(true);
+        scaleBigAnimation.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+            }
+
+            // 拡大アニメーション終了後
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                switch (type) {
+                    case 0:
+                        txtViewAnswer.startAnimation(scaleSmallAnimation);
+                        break;
+                    case 1:
+                        txtViewQuestion.startAnimation(scaleSmallAnimation);
+                        break;
+                }
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+            }
+        });
+        // 回転アニメーション
+        final RotateAnimation rotateAnimation = new RotateAnimation(0.0f, 360.0f,
+                Animation.RELATIVE_TO_SELF, 0.5f,
+                Animation.RELATIVE_TO_SELF, 0.5f);
+        rotateAnimation.setDuration(time / 2);
+        rotateAnimation.setRepeatCount(0);
+        rotateAnimation.setFillAfter(false);
+
+        switch (type) {
+            case 0:
+                txtViewQuestion.setZ(0);
+                txtViewAnswer.setZ(10);
+                txtViewAnswer.startAnimation(scaleBigAnimation);
+                break;
+            case 1:
+                txtViewQuestion.setZ(10);
+                txtViewAnswer.setZ(0);
+                txtViewQuestion.startAnimation(scaleBigAnimation);
+                break;
+            case 2:
+                txtViewAnswer.setZ(100);
+                txtViewAnswer.startAnimation(rotateAnimation);
+                break;
+        }
+    }
 }
