@@ -10,15 +10,17 @@
     <TextView
         android:id="@+id/titletext"
         android:layout_width="match_parent"
-        android:layout_height="450dp"
+        android:layout_height="0dp"
+        android:layout_weight="4"
         android:gravity="center"
         android:text="@string/toppage"
-        android:textSize="90sp" />
+        android:textSize="70sp" />
 
     <Button
         android:id="@+id/startbutton"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="0dp"
+        android:layout_weight="3"
         android:gravity="center"
         android:text="@string/startbutton" />
 
