@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">टीम एच</string>
+    <string name="btn_high">उच्च</string>
+    <string name="btn_low">कम</string>
+    <string name="btn_restart">रीसेट</string>
+    <string name="label_score">अंक：</string>
+</resources>
