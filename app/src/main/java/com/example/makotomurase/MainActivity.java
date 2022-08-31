@@ -2,6 +2,7 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
@@ -87,23 +88,36 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (isHigh) {
             // result には結果のみを入れる
             if (question < answer) {
+                View tv = findViewById(R.id.text_result);
+                tv.setBackgroundColor(Color.RED);
+
                 result = "WIN";
                 score = 2;
             } else if (question > answer) {
+                View tv = findViewById(R.id.text_result);
+                tv.setBackgroundColor(Color.BLUE);
                 result = "LOSE";
                 score = -1;
             } else {
+                View tv = findViewById(R.id.text_result);
+                tv.setBackgroundColor(Color.WHITE);
                 result = "DRAW";
                 score = 1;
             }
         } else {
             if (question > answer) {
+                View tv = findViewById(R.id.text_result);
+                tv.setBackgroundColor(Color.RED);
                 result = "WIN";
                 score = 2;
             } else if (question < answer) {
+                View tv = findViewById(R.id.text_result);
+                tv.setBackgroundColor(Color.BLUE);
                 result = "LOSE";
                 score = -1;
             } else {
+                View tv = findViewById(R.id.text_result);
+                tv.setBackgroundColor(Color.WHITE);
                 result = "DRAW";
                 score = 1;
             }
