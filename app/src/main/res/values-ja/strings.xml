@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">ナンバーゲーム</string>
+    <string name="app_name">ハイアンドロー</string>
     <string name="btn_high">高い</string>
     <string name="btn_low">低い</string>
     <string name="btn_restart">もう一度</string>
