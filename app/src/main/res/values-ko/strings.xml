@@ -11,4 +11,7 @@
     <string name="lose">잃다</string>
     <string name="draw">동일</string>
     <string name="result">결과：</string>
+    <string name="app_title">난수 전투</string>
+    <string name="button_start">시작</string>
+    <string name="button_end">종료</string>
 </resources>
