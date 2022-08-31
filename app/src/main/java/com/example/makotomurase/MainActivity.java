@@ -2,6 +2,8 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.media.AudioAttributes;
+import android.media.SoundPool;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
@@ -13,10 +15,27 @@ import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
+    public SoundPool soundPool;
+    public int sound1, sound2, sound3;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        AudioAttributes audioAttributes = new AudioAttributes.Builder()
+                .setUsage(AudioAttributes.USAGE_MEDIA)
+                .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+                .build();
+
+        soundPool = new SoundPool.Builder()
+                .setAudioAttributes(audioAttributes)
+                .setMaxStreams(3)
+                .build();
+
+        sound1 = soundPool.load(this, R.raw.win, 1);
+        sound2 = soundPool.load(this, R.raw.lose,1);
+        sound3 = soundPool.load(this, R.raw.restart, 1);
 
         Button btn1 = (Button) findViewById(R.id.button1);
         btn1.setOnClickListener(this);
@@ -47,6 +66,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.button3:
                 setQuestionValue();
                 clearAnswerValue();
+                soundPool.play(sound3, 1.0f, 1.0f, 0, 0,1);
                 break;
 
         }
@@ -89,9 +109,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = "WIN";
                 score = 2;
+                soundPool.play(sound1, 1.0f, 1.0f, 0, 0, 1);
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
+                soundPool.play(sound2, 1.0f, 1.0f, 0, 0, 1);
             } else {
                 result = "DRAW";
                 score = 1;
@@ -100,8 +122,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question > answer) {
                 result = "WIN";
                 score = 2;
+                soundPool.play(sound1, 1.0f, 1.0f, 0, 0, 1);
             } else if (question < answer) {
                 result = "LOSE";
+                soundPool.play(sound2, 1.0f, 1.0f, 0, 0, 1);
                 score = -1;
             } else {
                 result = "DRAW";
