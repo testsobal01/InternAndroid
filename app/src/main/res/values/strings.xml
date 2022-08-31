@@ -11,4 +11,6 @@
     <string name="win">Win(^-^)v</string>
     <string name="lose">Lose(°ﾛ°；)</string>
     <string name="draw">DRAW(･_･)</string>
+    <string name="top_title">High and Low</string>
+    <string name="start_button">始める</string>
 </resources>
