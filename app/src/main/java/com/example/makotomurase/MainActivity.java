@@ -3,11 +3,13 @@ package com.example.makotomurase;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -88,6 +90,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int answer = Integer.parseInt(txtViewAnswer.getText().toString());
 
         TextView txtResult = (TextView) findViewById(R.id.text_result);
+        LinearLayout Haikei = (LinearLayout)findViewById(R.id.Haikeinoiro);
 
         // 結果を示す文字列を入れる変数を用意
         String result;
@@ -98,23 +101,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             // result には結果のみを入れる
             if (question < answer) {
                 result = "WIN";
+                Haikei.setBackgroundColor(Color.RED);
                 score = 2;
             } else if (question > answer) {
                 result = "LOSE";
+                Haikei.setBackgroundColor(Color.BLUE);
                 score = -1;
             } else {
                 result = "DRAW";
+                Haikei.setBackgroundColor(Color.WHITE);
                 score = 1;
             }
         } else {
             if (question > answer) {
                 result = "WIN";
+                Haikei.setBackgroundColor(Color.RED);
                 score = 2;
             } else if (question < answer) {
                 result = "LOSE";
+                Haikei.setBackgroundColor(Color.BLUE);
                 score = -1;
             } else {
                 result = "DRAW";
+                Haikei.setBackgroundColor(Color.WHITE);
                 score = 1;
             }
         }
