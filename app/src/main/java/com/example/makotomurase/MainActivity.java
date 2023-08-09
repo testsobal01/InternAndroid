@@ -1,7 +1,10 @@
 package com.example.makotomurase;
 
+import static androidx.core.view.ViewCompat.setBackground;
+
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
@@ -46,7 +49,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             clearAnswerValue();
             clearScoreValue();
         }
-
+        if(id == R.id.button3){
+            findViewById(R.id.linearLayout1)
+                    .setBackgroundColor(getResources().getColor(R.color.white));
+        }
 
 
 
@@ -94,10 +100,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 result = "WIN";
                 score = 2;
                 Vibrator vib = (Vibrator) getSystemService(VIBRATOR_SERVICE);
-                vib.vibrate(300);
+                vib.vibrate(500);
+                findViewById(R.id.linearLayout1)
+                        .setBackgroundColor(getResources().getColor(R.color.bg_color));
+
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
+                findViewById(R.id.linearLayout1)
+                        .setBackgroundColor(getResources().getColor(R.color.bg_color2));
             } else {
                 result = "DRAW";
                 score = 1;
@@ -107,14 +118,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 result = "WIN";
                 score = 2;
                 Vibrator vib = (Vibrator) getSystemService(VIBRATOR_SERVICE);
-                vib.vibrate(300);
+                vib.vibrate(500);
+                setBackgroundTint(getResources().getColor(R.color.bg_color));
+
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
+                findViewById(R.id.linearLayout1)
+                        .setBackgroundColor(getResources().getColor(R.color.bg_color2));
             } else {
                 result = "DRAW";
                 score = 1;
             }
+
         }
 
         // 最後にまとめてToast表示の処理とTextViewへのセットを行う
@@ -125,6 +141,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setNextQuestion();
         // スコアを表示
         setScore(score);
+    }
+
+    private void setBackgroundTint(int color) {
     }
 
     private void setNextQuestion() {
