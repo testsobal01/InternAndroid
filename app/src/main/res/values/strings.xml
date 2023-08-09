@@ -4,4 +4,7 @@
     <string name="btn_low">Low</string>
     <string name="btn_restart">Restart</string>
     <string name="label_score">Score：</string>
+    <string name="game_title">High and Low Game</string>
+    <string name="sub_title">楽しいよ</string>
+    <string name="start_text">Start!</string>
 </resources>
