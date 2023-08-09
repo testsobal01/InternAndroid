@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             checkResult(false);
         } else if (id == R.id.button3) {
             Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
-            vib.vibrate(5000);
+            vib.vibrate(200);
             setQuestionValue();
             clearAnswerValue();
             clearScoreValue();
