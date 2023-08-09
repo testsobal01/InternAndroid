@@ -2,7 +2,11 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.animation.ArgbEvaluator;
+import android.animation.ValueAnimator;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
@@ -41,6 +45,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View view) {
         int id = view.getId();
+        View background = findViewById(R.id.background);
         if (id == R.id.button1) {
             setAnswerValue();
             checkResult(true);
@@ -52,6 +57,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             setQuestionValue();
             clearAnswerValue();
             clearScoreValue();
+            background.setBackgroundColor(Color.WHITE);
+
         }
         Vibrator vib=(Vibrator) getSystemService(VIBRATOR_SERVICE);
         vib.vibrate(1000);
@@ -87,10 +94,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int answer = Integer.parseInt(txtViewAnswer.getText().toString());
 
         TextView txtResult = (TextView) findViewById(R.id.text_result);
+        View background = findViewById(R.id.background);
 
         // 結果を示す文字列を入れる変数を用意
         String result;
         int score;
+        int wincolor = Color.GREEN;
+        int losecolor = Color.CYAN;
+        int drawcolor = Color.WHITE;
 
         // Highが押された
         if (isHigh) {
@@ -98,23 +109,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = "WIN";
                 score = 2;
+                background.setBackgroundColor(wincolor);
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
+                background.setBackgroundColor(losecolor);
             } else {
                 result = "DRAW";
                 score = 1;
+                background.setBackgroundColor(drawcolor);
             }
         } else {
             if (question > answer) {
                 result = "WIN";
                 score = 2;
+                background.setBackgroundColor(wincolor);
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
+                background.setBackgroundColor(losecolor);
             } else {
                 result = "DRAW";
                 score = 1;
+                background.setBackgroundColor(drawcolor);
             }
         }
 
