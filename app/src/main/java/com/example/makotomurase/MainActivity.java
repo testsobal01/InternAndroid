@@ -2,6 +2,7 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
@@ -29,6 +30,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // 起動時に関数を呼び出す
         setQuestionValue();
+//        Intent intent = getIntent();
+//        Bundle extra = intent.getExtras();
+////        String intentString = extra.getString("KEY");
+//
+////        TextView textwiew = (TextView)findViewById(R.id.contents_text2);
+////        textView.setText(intentString);
+
     }
 
     @Override
