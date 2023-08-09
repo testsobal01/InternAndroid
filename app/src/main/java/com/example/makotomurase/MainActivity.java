@@ -2,6 +2,10 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.media.AudioAttributes;
+import android.media.AudioManager;
+import android.media.SoundPool;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
@@ -12,20 +16,47 @@ import android.widget.Toast;
 
 import java.util.Random;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
+    int mp3a;
+    SoundPool soundPool;
+    public void play_mp3a(){soundPool.play(mp3a,1f , 1f, 0, 0, 1f);};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        //soundPoolの初期化
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+
+            //1個目のパラメーターはリソースの数に合わせる
+            soundPool = new SoundPool(2, AudioManager.STREAM_MUSIC, 0);
+
+        } else {
+            AudioAttributes attr = new AudioAttributes.Builder()
+                    .setUsage(AudioAttributes.USAGE_MEDIA)
+                    .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+                    .build();
+            soundPool = new SoundPool.Builder()
+                    .setAudioAttributes(attr)
+                    //パラメーターはリソースの数に合わせる
+                    .setMaxStreams(2)
+                    .build();
+        }
+        //音楽の読み込み
+        mp3a = soundPool.load(this, R.raw.title , 1);
+
         setContentView(R.layout.activity_main);
+
         Button btn1 = findViewById(R.id.button1);
+        play_mp3a();//音楽再生用のメソッドを呼び出す
         btn1.setOnClickListener(this);
 
         Button btn2 = findViewById(R.id.button2);
+        play_mp3a();//音楽再生用のメソッドを呼び出す
         btn2.setOnClickListener(this);
 
         Button btn3 = (Button) findViewById(R.id.button3);
+        play_mp3a();//音楽再生用のメソッドを呼び出す
         btn3.setOnClickListener(this);
 
         // 起動時に関数を呼び出す
