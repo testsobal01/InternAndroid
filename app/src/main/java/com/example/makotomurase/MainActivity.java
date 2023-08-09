@@ -3,6 +3,7 @@ package com.example.makotomurase;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.SharedPreferences;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
@@ -14,8 +15,11 @@ import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
+    private static boolean first = false;
+
     SharedPreferences pref;
     SharedPreferences.Editor prefEditor;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,6 +39,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         pref = getSharedPreferences("MakotoMurase",MODE_PRIVATE);
         prefEditor = pref.edit();
+      
+        if (!first) {
+            first = true;
+            Intent intent = new Intent(this, TopActivity.class);
+            startActivity(intent);
+        }
     }
 
     @Override
