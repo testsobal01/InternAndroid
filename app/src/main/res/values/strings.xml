@@ -4,4 +4,6 @@
     <string name="btn_low">Low</string>
     <string name="btn_restart">Restart</string>
     <string name="label_score">Score：</string>
+    <string name="contents_text2">JUN</string>
+    <string name="img_description1">image1</string>
 </resources>
