@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">ItsukiHirano</string>
+    <string name="btn_high">costoso</string>
+    <string name="btn_low">Basso</string>
+    <string name="btn_restart">ricomincia</string>
+    <string name="kekka">risultato</string>
+    <string name="label_score">punto</string>
+    <string name="presen">10 è impostato.</string>
+    <string name="atai">valore 1</string>
+    <string name="suuzi">valore 2</string>
+    <string name="kati">vittoria</string>
+    <string name="make">sconfitta</string>
+    <string name="hikiwake">disegno</string>
+</resources>
