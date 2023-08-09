@@ -1,7 +1,14 @@
 <resources>
-    <string name="app_name">MakotoMurase</string>
-    <string name="btn_high">High</string>
-    <string name="btn_low">Low</string>
-    <string name="btn_restart">Restart</string>
-    <string name="label_score">Score：</string>
+    <string name="app_name">ItsukiHirano</string>
+    <string name="btn_high">高い</string>
+    <string name="btn_low">低い</string>
+    <string name="btn_restart">再始動</string>
+    <string name="kekka">結果</string>
+    <string name="label_score">得点:</string>
+    <string name="presen">10が設定されています。</string>
+    <string name="atai">値1</string>
+    <string name="suuzi">値2</string>
+<string name="kati">勝利</string>
+    <string name="make">敗北</string>
+    <string name="hikiwake">引き分け</string>
 </resources>
