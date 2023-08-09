@@ -65,14 +65,14 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="200dp">
 
             <TextView
                 android:id="@+id/question"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="#ff00ff"
+                android:background="#FFFACD"
                 android:gravity="center"
                 android:text="@string/value1"
                 android:textSize="60sp" />
@@ -82,10 +82,27 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="#ffff00"
+                android:background="#FFE4E1"
                 android:gravity="center"
                 android:text="@string/value2"
                 android:textSize="60sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+        <ImageView
+            android:id="@+id/rokkaku"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"/>
+
+        <ImageView
+            android:id="@+id/maru"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"/>
         </LinearLayout>
 
     </LinearLayout>

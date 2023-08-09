@@ -7,6 +7,7 @@ import android.os.CountDownTimer;
 import android.os.Vibrator;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,6 +29,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
 
+        ImageView rokkaku = findViewById(R.id.rokkaku);
+        rokkaku.setImageResource(R.drawable.character_rokkaku1);
+
+        ImageView maru = findViewById(R.id.maru);
+        maru.setImageResource(R.drawable.character_maru1);
+
         // 起動時に関数を呼び出す
         setQuestionValue();
     }
@@ -47,6 +54,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             setQuestionValue();
             clearAnswerValue();
             clearScoreValue();
+            ImageView rokkaku = findViewById(R.id.rokkaku);
+            rokkaku.setImageResource(R.drawable.character_rokkaku1);
+            ImageView maru = findViewById(R.id.maru);
+            maru.setImageResource(R.drawable.character_maru1);
         }
     }
 
@@ -91,24 +102,49 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = "WIN";
                 score = 2;
+                ImageView rokkaku = findViewById(R.id.rokkaku);
+                rokkaku.setImageResource(R.drawable.character_rokkaku3);
+                ImageView maru = findViewById(R.id.maru);
+                maru.setImageResource(R.drawable.character_maru2);
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
+                ImageView rokkaku = findViewById(R.id.rokkaku);
+                rokkaku.setImageResource(R.drawable.character_rokkaku2);
+                ImageView maru = findViewById(R.id.maru);
+                maru.setImageResource(R.drawable.character_maru3);
             } else {
                 result = "DRAW";
                 score = 1;
+                ImageView rokkaku = findViewById(R.id.rokkaku);
+                rokkaku.setImageResource(R.drawable.character_rokkaku4);
+                ImageView maru = findViewById(R.id.maru);
+                maru.setImageResource(R.drawable.character_maru4);
             }
         } else {
             if (question > answer) {
                 result = "WIN";
                 score = 2;
+                ImageView rokkaku = findViewById(R.id.rokkaku);
+                rokkaku.setImageResource(R.drawable.character_rokkaku3);
+                ImageView maru = findViewById(R.id.maru);
+                maru.setImageResource(R.drawable.character_maru2);
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
+                ImageView rokkaku = findViewById(R.id.rokkaku);
+                rokkaku.setImageResource(R.drawable.character_rokkaku2);
+                ImageView maru = findViewById(R.id.maru);
+                maru.setImageResource(R.drawable.character_maru3);
             } else {
                 result = "DRAW";
                 score = 1;
+                ImageView rokkaku = findViewById(R.id.rokkaku);
+                rokkaku.setImageResource(R.drawable.character_rokkaku4);
+                ImageView maru = findViewById(R.id.maru);
+                maru.setImageResource(R.drawable.character_maru4);
             }
+
         }
 
         // 最後にまとめてToast表示の処理とTextViewへのセットを行う
@@ -119,6 +155,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setNextQuestion();
         // スコアを表示
         setScore(score);
+
     }
 
     private void setNextQuestion() {
@@ -149,5 +186,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView txtScore = (TextView) findViewById(R.id.text_score);
         txtScore.setText("0");
     }
+
+
 }
 
