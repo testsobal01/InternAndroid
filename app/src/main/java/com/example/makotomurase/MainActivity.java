@@ -98,7 +98,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             } else {
                 result = "DRAW";
                 score = 1;
-                txtViewAnswer.setBackgroundColor(getResources().getColor(R.color.purple));
+                txtViewAnswer.setBackgroundColor(getResources().getColor(R.color.green));
             }
         } else {
             if (question > answer) {
@@ -112,7 +112,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             } else {
                 result = "DRAW";
                 score = 1;
-                txtViewAnswer.setBackgroundColor(getResources().getColor(R.color.purple));
+                txtViewAnswer.setBackgroundColor(getResources().getColor(R.color.green));
             }
         }
 
