@@ -7,6 +7,10 @@ import android.animation.ValueAnimator;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.media.AudioAttributes;
+import android.media.AudioManager;
+import android.media.SoundPool;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
@@ -20,6 +24,11 @@ import java.util.Random;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     SharedPreferences pref;
     SharedPreferences.Editor prefEditor;
+    SoundPool soundPool;
+    int winSound;
+    int loseSound;
+    int drawSound;
+    int restartSound;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +46,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         pref = getSharedPreferences("MakotoMurase", MODE_PRIVATE);
         prefEditor = pref.edit();
+
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            soundPool = new SoundPool(5, AudioManager.STREAM_MUSIC, 0);
+        } else {
+            AudioAttributes attr = new AudioAttributes.Builder()
+                    .setUsage(AudioAttributes.USAGE_MEDIA)
+                    .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+                    .build();
+            soundPool = new SoundPool.Builder()
+                    .setAudioAttributes(attr)
+                    .setMaxStreams(5)
+                    .build();
+        }
+        winSound = soundPool.load(this, R.raw.win, 1);
+        loseSound = soundPool.load(this, R.raw.lose, 1);
+        drawSound = soundPool.load(this, R.raw.draw,1);
+        restartSound = soundPool.load(this, R.raw.restart,1);
+
 
         // 起動時に関数を呼び出す
         setQuestionValue();
@@ -58,6 +85,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             clearAnswerValue();
             clearScoreValue();
             background.setBackgroundColor(Color.WHITE);
+            soundPool.play(restartSound,1f , 1f, 0, 0, 1f);
 
         }
         Vibrator vib=(Vibrator) getSystemService(VIBRATOR_SERVICE);
@@ -110,28 +138,34 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 result = "WIN";
                 score = 2;
                 background.setBackgroundColor(wincolor);
+                soundPool.play(winSound,1f , 1f, 0, 0, 1f);
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
                 background.setBackgroundColor(losecolor);
+                soundPool.play(loseSound,1f , 1f, 0, 0, 1f);
             } else {
                 result = "DRAW";
                 score = 1;
                 background.setBackgroundColor(drawcolor);
+                soundPool.play(drawSound,1f , 1f, 0, 0, 1f);
             }
         } else {
             if (question > answer) {
                 result = "WIN";
                 score = 2;
                 background.setBackgroundColor(wincolor);
+                soundPool.play(winSound,1f , 1f, 0, 0, 1f);
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
                 background.setBackgroundColor(losecolor);
+                soundPool.play(loseSound,1f , 1f, 0, 0, 1f);
             } else {
                 result = "DRAW";
                 score = 1;
                 background.setBackgroundColor(drawcolor);
+                soundPool.play(drawSound,1f , 1f, 0, 0, 1f);
             }
         }
 
