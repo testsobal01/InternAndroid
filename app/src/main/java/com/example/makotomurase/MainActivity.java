@@ -2,8 +2,12 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.media.AudioManager;
+import android.media.MediaPlayer;
+import android.media.SoundPool;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Vibrator;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -12,6 +16,8 @@ import android.widget.Toast;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
+    private MediaPlayer mediaPlayer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,9 +38,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+
+        int mediaResource = getResources().getIdentifier("nonnbiriatama", "raw", getPackageName());
+        mediaPlayer = MediaPlayer.create(this, mediaResource);
+        mediaPlayer.start();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mediaPlayer.stop();
+    }
+
+    @Override
     public void onClick(View view) {
         int id = view.getId();
         if (id == R.id.button1) {
+            Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+            vib.vibrate(500);
+
             setAnswerValue();
             checkResult(true);
         } else if (id == R.id.button2) {
@@ -88,23 +112,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = "WIN";
                 score = 2;
+                txtViewAnswer.setBackgroundColor(getResources().getColor(R.color.red));
+
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
+                txtViewAnswer.setBackgroundColor(getResources().getColor(R.color.blue));
+
             } else {
                 result = "DRAW";
                 score = 1;
+                txtViewAnswer.setBackgroundColor(getResources().getColor(R.color.green));
             }
         } else {
             if (question > answer) {
                 result = "WIN";
                 score = 2;
+                txtViewAnswer.setBackgroundColor(getResources().getColor(R.color.blue));
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
+                txtViewAnswer.setBackgroundColor(getResources().getColor(R.color.red));
             } else {
                 result = "DRAW";
                 score = 1;
+                txtViewAnswer.setBackgroundColor(getResources().getColor(R.color.green));
             }
         }
 
