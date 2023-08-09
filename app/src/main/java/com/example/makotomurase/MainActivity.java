@@ -101,7 +101,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int score;
         int wincolor = Color.GREEN;
         int losecolor = Color.CYAN;
-        int drawcolor = Color.GRAY;
+        int drawcolor = Color.WHITE;
 
         // Highが押された
         if (isHigh) {
