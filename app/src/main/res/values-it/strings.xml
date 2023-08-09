@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="btn_high">Alta</string>
+    <string name="btn_low">Bassa</string>
+    <string name="btn_restart">Ricomincia</string>
+    <string name="label_score">Punto：</string>
+</resources>
