@@ -2,6 +2,7 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
@@ -12,6 +13,10 @@ import android.widget.Toast;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
+    SharedPreferences pref;
+    SharedPreferences.Editor prefEditor;
+    int score;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +32,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
 
+        pref = getSharedPreferences("team",MODE_PRIVATE);
+        prefEditor = pref.edit();
+
+        score = pref.getInt("main_input",0);
+
+        TextView txtScore = (TextView) findViewById(R.id.text_score);
+        txtScore.setText(String.valueOf(score));
         // 起動時に関数を呼び出す
         setQuestionValue();
     }
@@ -80,33 +92,39 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // 結果を示す文字列を入れる変数を用意
         String result;
-        int score;
 
         // Highが押された
         if (isHigh) {
             // result には結果のみを入れる
             if (question < answer) {
                 result = "WIN";
-                score = 2;
+                score += 2;
+                prefEditor.putInt("main_input",score);
             } else if (question > answer) {
                 result = "LOSE";
-                score = -1;
+                score += -1;
+                prefEditor.putInt("main_input",score);
             } else {
                 result = "DRAW";
-                score = 1;
+                score += 1;
+                prefEditor.putInt("main_input",score);
             }
         } else {
             if (question > answer) {
                 result = "WIN";
-                score = 2;
+                score += 2;
+                prefEditor.putInt("main_input",score);
             } else if (question < answer) {
                 result = "LOSE";
-                score = -1;
+                score += -1;
+                prefEditor.putInt("main_input",score);
             } else {
                 result = "DRAW";
-                score = 1;
+                score += 1;
+                prefEditor.putInt("main_input",score);
             }
         }
+        prefEditor.commit();
 
         // 最後にまとめてToast表示の処理とTextViewへのセットを行う
         Toast.makeText(this, result, Toast.LENGTH_LONG).show();
@@ -138,11 +156,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void setScore(int score) {
         TextView txtScore = (TextView) findViewById(R.id.text_score);
-        int newScore = Integer.parseInt(txtScore.getText().toString()) + score;
-        txtScore.setText(Integer.toString(newScore));
+        txtScore.setText(String.valueOf(score));
     }
 
     private void clearScoreValue() {
+        pref.edit().clear().commit();
+        score = 0;
         TextView txtScore = (TextView) findViewById(R.id.text_score);
         txtScore.setText("0");
     }
