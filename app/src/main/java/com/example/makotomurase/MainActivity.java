@@ -8,7 +8,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-
+import android.content.Context;
+import android.os.Vibrator;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -33,6 +34,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View view) {
+
         int id = view.getId();
         if (id == R.id.button1) {
             setAnswerValue();
@@ -88,6 +90,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = "WIN";
                 score = 2;
+                ((Vibrator) getSystemService(Context.VIBRATOR_SERVICE)).vibrate(1000);
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
@@ -99,6 +102,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question > answer) {
                 result = "WIN";
                 score = 2;
+                ((Vibrator) getSystemService(Context.VIBRATOR_SERVICE)).vibrate(1000);
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
