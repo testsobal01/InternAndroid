@@ -7,6 +7,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.ScaleAnimation;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -104,9 +106,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = "WIN";
                 score = 2;
+                winAnimation(txtViewQuestion);
+                winAnimation(txtViewAnswer);
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
+                loseAnimation(txtViewQuestion);
+                loseAnimation(txtViewAnswer);
             } else {
                 result = "DRAW";
                 score = 1;
@@ -115,9 +121,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question > answer) {
                 result = "WIN";
                 score = 2;
+                winAnimation(txtViewQuestion);
+                winAnimation(txtViewAnswer);
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
+                loseAnimation(txtViewQuestion);
+                loseAnimation(txtViewAnswer);
             } else {
                 result = "DRAW";
                 score = 1;
@@ -161,6 +171,30 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void clearScoreValue() {
         TextView txtScore = (TextView) findViewById(R.id.text_score);
         txtScore.setText("0");
+    }
+
+    private void winAnimation(TextView view) {
+        float scale = 1.0f;
+        ScaleAnimation scaleAnimation = new ScaleAnimation(
+                scale, scale-0.1f, scale, scale-0.1f,
+                Animation.RELATIVE_TO_SELF, 0.5f,
+                Animation.RELATIVE_TO_SELF, 0.5f
+        );
+        scaleAnimation.setDuration(150);
+        scaleAnimation.setRepeatCount(5);
+        view.startAnimation(scaleAnimation);
+    }
+
+    private void loseAnimation(TextView view) {
+        float scale = 1.0f;
+        ScaleAnimation scaleAnimation = new ScaleAnimation(
+                        scale, scale-0.3f, scale, scale-0.3f,
+                        Animation.RELATIVE_TO_SELF, 0.5f,
+                        Animation.RELATIVE_TO_SELF, 0.5f
+                );
+        scaleAnimation.setDuration(1000);
+        scaleAnimation.setRepeatCount(0);
+        view.startAnimation(scaleAnimation);
     }
 
     @Override
