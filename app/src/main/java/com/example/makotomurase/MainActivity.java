@@ -4,8 +4,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.SharedPreferences;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.text.style.BackgroundColorSpan;
 import android.os.Vibrator;
 import android.view.View;
 import android.widget.Button;
@@ -142,6 +144,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setNextQuestion();
         // スコアを表示
         setScore(score);
+
+        if (result == "WIN"){
+            TextView col = (TextView)findViewById(R.id.question);
+            col.setBackgroundColor(Color.GREEN);
+
+            TextView or = (TextView)findViewById(R.id.answer);
+            or.setBackgroundColor(Color.GREEN);
+        }
+
+        if (result == "LOSE"){
+            TextView ba = (TextView)findViewById(R.id.question);
+            ba.setBackgroundColor(Color.RED);
+
+            TextView ck = (TextView)findViewById(R.id.answer);
+            ck.setBackgroundColor(Color.RED);
+        }
     }
 
     private void setNextQuestion() {
@@ -158,6 +176,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public void onFinish() {
                 // 3秒経過したら次の値をセット
                 setQuestionValue();
+
+                TextView gro = (TextView)findViewById(R.id.question);
+                gro.setBackgroundColor(Color.parseColor("#ff00ff"));
+
+                TextView und = (TextView)findViewById(R.id.answer);
+                und.setBackgroundColor(Color.parseColor("#ffff00"));
             }
         }.start();
     }
