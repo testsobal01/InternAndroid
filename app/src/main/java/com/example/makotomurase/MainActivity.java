@@ -2,6 +2,8 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.SharedPreferences;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
@@ -13,6 +15,11 @@ import android.widget.Toast;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
+    private static boolean first = false;
+
+    SharedPreferences pref;
+    SharedPreferences.Editor prefEditor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,8 +38,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // 起動時に関数を呼び出す
         setQuestionValue();
 
+
         ImageView imageView = findViewById(R.id.footer);
         imageView.setImageResource(R.drawable.footer);
+      
+        pref = getSharedPreferences("MakotoMurase",MODE_PRIVATE);
+        prefEditor = pref.edit();
+      
+        if (!first) {
+            first = true;
+            Intent intent = new Intent(this, TopActivity.class);
+            startActivity(intent);
+        }
+
+      
     }
 
     @Override
@@ -149,6 +168,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void clearScoreValue() {
         TextView txtScore = (TextView) findViewById(R.id.text_score);
         txtScore.setText("0");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        TextView textView = (TextView)findViewById(R.id.text_score);
+        prefEditor.putString("KEY",textView.getText().toString());
+        prefEditor.commit();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        TextView textView = (TextView)findViewById(R.id.text_score);
+        String readText = pref.getString("KEY","保存されていません");
+        textView.setText(readText);
     }
 }
 
