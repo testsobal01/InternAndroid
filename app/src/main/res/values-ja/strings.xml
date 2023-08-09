@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-  <string name="app_name">MakotoMurase</string>
+  <string name="app_name">幸せになれるゲーム</string>
   <string name="btn_high">高い</string>
   <string name="btn_low">低い</string>
   <string name="btn_restart">再開する</string>
