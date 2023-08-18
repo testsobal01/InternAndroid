@@ -159,6 +159,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 public void onAnimationCancel(Animator animation) {
                     super.onAnimationCancel(animation);
                     canseled = true;
+                    set_win.end();
+                    txtViewAnswer.setTextColor(ContextCompat.getColor(MainActivity.this, R.color.black));
                 }
 
                 @Override
