@@ -38,7 +38,6 @@
                 android:layout_weight="2"
                 android:text="@string/btn_restart"
                 android:textColor="@drawable/color_selector"/>
-
         </LinearLayout>
 
         <TextView
@@ -88,7 +87,9 @@
                 android:layout_weight="1"
                 android:background="#ffff00"
                 android:gravity="center"
+
                 android:text="@string/a2"
+
                 android:textSize="60sp" />
         </LinearLayout>
 
