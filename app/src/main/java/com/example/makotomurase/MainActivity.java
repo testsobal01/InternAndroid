@@ -4,6 +4,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.animation.Animator;
+import android.animation.AnimatorInflater;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.AnimatorSet;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
@@ -18,6 +22,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     SharedPreferences pref;
     SharedPreferences.Editor prefEditor;
+    AnimatorSet set_win;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,6 +62,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View view) {
+        if(set_win != null)set_win.cancel();
         int id = view.getId();
         if (id == R.id.button1) {
             setAnswerValue();
@@ -118,6 +124,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 result = "WIN";
                 score = 2;
                 vib(50);//バイブレーションを追加
+                setAnimation(txtViewAnswer);
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
@@ -130,6 +137,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 result = "WIN";
                 score = 2;
                 vib(50);//バイブレーションを追加
+                setAnimation(txtViewAnswer);
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
@@ -147,6 +155,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setNextQuestion();
         // スコアを表示
         setScore(score);
+        if(set_win != null){
+            set_win.start();
+            set_win.addListener(new AnimatorListenerAdapter() {
+                private boolean canseled;
+                @Override
+                public void onAnimationCancel(Animator animation) {
+                    super.onAnimationCancel(animation);
+                    canseled = true;
+                    set_win.end();
+                    txtViewAnswer.setTextColor(ContextCompat.getColor(MainActivity.this, R.color.black));
+                }
+
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    super.onAnimationEnd(animation);
+                    if(!canseled)set_win.start();
+                }
+
+                @Override
+                public void onAnimationStart(Animator animation) {
+                    super.onAnimationStart(animation);
+                    canseled = false;
+                }
+            });
+        }
     }
 
     //三秒後にクエスチョンを再生成
@@ -186,5 +219,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         vib.vibrate(t);
         //checkResultのWIN時とbutton3クリック時にバイブレーション
     }//追加したバイブレーション機能
+
+    private void setAnimation(TextView win){
+        set_win = (AnimatorSet) AnimatorInflater.loadAnimator(this,R.animator.win_animation);
+        set_win.setTarget(win);
+    }
+
 }
 
