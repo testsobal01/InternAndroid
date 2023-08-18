@@ -3,6 +3,7 @@ package com.example.makotomurase;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
@@ -24,12 +25,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         Button btn1 = findViewById(R.id.button1);
         btn1.setOnClickListener(this);
+        btn1.setBackgroundColor(getResources().getColor(R.color.green));
 
         Button btn2 = findViewById(R.id.button2);
         btn2.setOnClickListener(this);
+        btn2.setBackgroundColor(getResources().getColor(R.color.green));
 
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
+        btn3.setBackgroundColor(getResources().getColor(R.color.green));
 
         //プリファレンスの生成
         pref = getSharedPreferences("HIGH OR LOW",MODE_PRIVATE);
