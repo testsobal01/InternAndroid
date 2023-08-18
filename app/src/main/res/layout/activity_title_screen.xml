@@ -4,14 +4,54 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".TitleScreen">
+    tools:context=".TitleScreen"
+    android:background="@color/darkslateblue"
+    android:orientation="vertical"
+    >
+
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/yellow"
+        android:textSize="70sp"
+        android:text="@string/title_high"
+        android:layout_gravity="left"
+        android:typeface="monospace"
+        android:textStyle="bold"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:textSize="90sp"
+        android:text="@string/title_and"
+        android:layout_gravity="center"
+        android:textStyle="bold"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/pink"
+        android:textSize="70sp"
+        android:text="@string/title_low"
+        android:layout_gravity="right"
+        android:typeface="monospace"
+        android:textStyle="bold"
+        />
 
     <Button
         android:id="@+id/btn_start"
-        android:layout_width="wrap_content"
+        android:backgroundTint="@color/orange"
+        android:layout_width="390dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
         android:layout_gravity="center"
+        android:layout_weight="1"
+        android:textColor="@color/white"
+        android:textSize="70sp"
+        android:typeface="monospace"
+        android:textStyle="bold"
         android:text="@string/btn_start" />
 
 </LinearLayout>
