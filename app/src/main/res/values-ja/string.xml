@@ -6,4 +6,12 @@
     <string name="btn_restart">もう1回</string>
     <string name="label_score">スコア：</string>
     <string name="ten">10が設定されています。：</string>
+    <string name="high">HIGH</string>
+    <string name="low">LOW</string>
+    <string name="or">OR</string>
+    <string name="play_button">PLAY</string>
+    <string name="win">WIN</string>
+    <string name="lose">LOSE</string>
+    <string name="animation_count">400</string>
+    <string name="result">結果：</string>
 </resources>

@@ -6,4 +6,12 @@
     <string name="btn_restart">Uudelleenkäynnistää</string>
     <string name="label_score">Pisteet：</string>
     <string name="ten">10 on asetettu</string>
+    <string name="high">HIGH</string>
+    <string name="low">LOW</string>
+    <string name="or">OR</string>
+    <string name="play_button">Pelata</string>
+    <string name="win">WIN</string>
+    <string name="lose">LOSE</string>
+    <string name="animation_count">400</string>
+    <string name="result">tulos：</string>
 </resources>
