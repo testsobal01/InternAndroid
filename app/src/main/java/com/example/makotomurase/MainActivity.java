@@ -1,5 +1,6 @@
 package com.example.makotomurase;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.graphics.Color;
@@ -7,6 +8,8 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -208,5 +211,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         textView.setText(readText);
 
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(@NonNull Menu menu){
+        getMenuInflater().inflate(R.menu.main_option_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        finish();
+
+        return super.onOptionsItemSelected(item);
+    }
+
+
 }
 
