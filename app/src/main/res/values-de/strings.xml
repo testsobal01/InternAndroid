@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">HIGH AND LOW</string>
+    <string name="btn_high">hoch</string>
+    <string name="btn_low">niedrig</string>
+    <string name="btn_restart">Neustart</string>
+    <string name="label_score">Punktzahl</string>
+    <string name="text_10">10 ist eingestellt.</string>
+    <string name="size_2">Wert2</string>
+    <string name="win_0">Gewinnen</string>
+    <string name="lose_0">Verlieren</string>
+    <string name="draw_0">Ziehen</string>
+</resources>
