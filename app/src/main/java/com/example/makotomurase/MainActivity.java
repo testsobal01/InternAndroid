@@ -4,8 +4,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.app.Activity;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Vibrator;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -47,14 +49,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View view) {
+
+
         int id = view.getId();
         if (id == R.id.button1) {
             setAnswerValue();
             checkResult(true);
-        } else if (id == R.id.button2) {
+
+            Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+            vib.vibrate(1git 00);
+        }
+
+        else if (id == R.id.button2) {
             setAnswerValue();
             checkResult(false);
-        } else if (id == R.id.button3) {
+
+            Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+            vib.vibrate(50);
+        }
+
+        else if (id == R.id.button3) {
+            Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+            vib.vibrate(50);
             setQuestionValue();
             clearAnswerValue();
             clearScoreValue();
@@ -80,7 +96,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void clearAnswerValue() {
         TextView txtView = (TextView) findViewById(R.id.answer);
-        txtView.setText("値2");
+        txtView.setText(String.format("%s", getString(R.string.label_atai)));
     }
 
     private void setQuestionValue() {
@@ -108,6 +124,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int answer = Integer.parseInt(txtViewAnswer.getText().toString());
 
         TextView txtResult = (TextView) findViewById(R.id.text_result);
+
 
         // 結果を示す文字列を入れる変数を用意
         String result;
@@ -141,7 +158,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // 最後にまとめてToast表示の処理とTextViewへのセットを行う
         Toast.makeText(this, result, Toast.LENGTH_LONG).show();
-        txtResult.setText("結果：" + question + ":" + answer + "(" + result + ")");
+        txtResult.setText(String.format("%s" + question + ":" + answer + "(" + result + ")", getString(R.string.label_result)));
 
         // 続けて遊べるように値を更新
         setNextQuestion();
