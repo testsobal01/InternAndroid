@@ -9,4 +9,7 @@
     <string name="low">LOW</string>
     <string name="or">OR</string>
     <string name="play_button">PLAY</string>
+    <string name="win">WIN</string>
+    <string name="lose">LOSE</string>
+    <string name="animation_count">400</string>
 </resources>
