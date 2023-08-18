@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">HIGH OR LOW</string>
+    <string name="btn_high">高い</string>
+    <string name="btn_low">低い</string>
+    <string name="btn_restart">もう1回</string>
+    <string name="label_score">スコア：</string>
+    <string name="ten">10が設定されています。：</string>
+</resources>

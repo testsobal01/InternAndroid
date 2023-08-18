@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">MakotoMurase</string>
+    <string name="btn_high">Korkea</string>
+    <string name="btn_low">Matala</string>
+    <string name="btn_restart">Uudelleenkäynnistää</string>
+    <string name="label_score">Pisteet：</string>
+    <string name="ten">10 on asetettu</string>
+</resources>
