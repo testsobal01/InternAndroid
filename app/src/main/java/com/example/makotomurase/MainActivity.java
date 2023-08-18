@@ -2,6 +2,8 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.media.AudioAttributes;
+import android.media.SoundPool;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
@@ -12,6 +14,9 @@ import android.widget.Toast;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
+    //sound
+    private SoundPlayer soundPlayer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +31,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
+
+        soundPlayer = new SoundPlayer(this);
 
         // 起動時に関数を呼び出す
         setQuestionValue();
@@ -88,23 +95,46 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = "WIN";
                 score = 2;
+
+                //勝った時の効果音
+                soundPlayer.playWinSound();
+
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
+
+                //負けた時の効果音
+                soundPlayer.playLoseSound();
+
             } else {
                 result = "DRAW";
                 score = 1;
+
+                //ドローの効果音
+                soundPlayer.playDrawSound();
+
             }
         } else {
             if (question > answer) {
                 result = "WIN";
                 score = 2;
+
+                //勝った時の効果音
+                soundPlayer.playWinSound();
+
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
+
+                //負けた時の効果音
+                soundPlayer.playLoseSound();
+
             } else {
                 result = "DRAW";
                 score = 1;
+
+                //ドローの効果音
+                soundPlayer.playDrawSound();
             }
         }
 
