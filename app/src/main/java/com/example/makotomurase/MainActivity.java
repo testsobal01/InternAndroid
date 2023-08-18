@@ -137,18 +137,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 txtView.setBackgroundColor(Color.GREEN);
             }
 
-
-        // 最後にまとめてToast表示の処理とTextViewへのセットを行う
-        Toast.makeText(this, result, Toast.LENGTH_LONG).show();
-
-        txtResult.setText(getString(R.string.label_score) + question + ":" + answer + "(" + result + ")");
-
-
             // 続けて遊べるように値を更新
             setNextQuestion();
             // スコアを表示
             setScore(score);
         }
+      // 最後にまとめてToast表示の処理とTextViewへのセットを行う
+        Toast.makeText(this, result, Toast.LENGTH_LONG).show();
+
+        txtResult.setText(getString(R.string.label_score) + question + ":" + answer + "(" + result + ")");
+
+        
     }
 
     private void setNextQuestion() {//カウントダウン
