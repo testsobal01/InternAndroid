@@ -1,13 +1,20 @@
 package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.res.ResourcesCompat;
 
+import android.animation.ArgbEvaluator;
+import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
 import android.graphics.Color;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -54,7 +61,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (id == R.id.button1) {
             setAnswerValue();
             checkResult(true);
-
+            startScalingXml(view);
             //バイブレーション機能
             Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
             vib.vibrate(1000);
@@ -62,6 +69,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         } else if (id == R.id.button2) {
             setAnswerValue();
             checkResult(false);
+            startScalingXml1(view);
 
             //バイブレーション機能
             Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
@@ -167,6 +175,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         }.start();
     }
+
+
+    private void startScalingXml(View view){
+        Animation animation = AnimationUtils.loadAnimation(this,
+                R.anim.scale_animation);
+        TextView animTextView = findViewById(R.id.answer);
+
+        animTextView.startAnimation(animation);
+    }
+
+    private void startScalingXml1(View view){
+        Animation animation = AnimationUtils.loadAnimation(this,
+                R.anim.scale_animation);
+        TextView animTextView = findViewById(R.id.answer);
+
+        animTextView.startAnimation(animation);
+    }
+
 
     private void setScore(int score) {
         TextView txtScore = (TextView) findViewById(R.id.text_score);
