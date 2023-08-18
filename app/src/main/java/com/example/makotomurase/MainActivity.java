@@ -2,9 +2,15 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+
 import android.animation.AnimatorInflater;
 import android.animation.AnimatorSet;
+
+import android.content.Context;
+import android.content.SharedPreferences;
+
 import android.app.Activity;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
@@ -17,7 +23,12 @@ import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
+
     AnimatorSet set;
+
+    SharedPreferences pref;
+    SharedPreferences.Editor editor;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +46,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // 起動時に関数を呼び出す
         setQuestionValue();
+
+        TextView textView = findViewById(R.id.text_score);
+        pref = getSharedPreferences("score", MODE_PRIVATE);
+        editor = pref.edit();
+        if (pref.getString("score", "0") == "0") {
+            editor.putString("score", textView.getText().toString());
+        }
+        editor.commit();
+
     }
 
     @Override
@@ -65,6 +85,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             clearAnswerValue();
             clearScoreValue();
         }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        // Toast.makeText(this, "onPause", Toast.LENGTH_SHORT).show();
+        TextView textView = findViewById(R.id.text_score);
+        editor.putString("score", textView.getText().toString());
+        editor.commit();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // Toast.makeText(this,"onResume",Toast.LENGTH_SHORT).show();
+        TextView txtScore = findViewById(R.id.text_score);
+        txtScore.setText(pref.getString("score", ""));
     }
 
     private void clearAnswerValue() {
@@ -115,6 +152,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = "WIN";
                 score = 2;
+
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
@@ -135,6 +173,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         }
 
+
         if (score == 2) {
             set = (AnimatorSet) AnimatorInflater.loadAnimator(MainActivity.this, R.animator.blink_animation);
             set.setTarget(txtViewAnswer);
@@ -145,6 +184,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             set.setTarget(txtViewQuestion);
             onStart();
         }
+
+
+        setBackGroundColor(result);
 
 
         // 最後にまとめてToast表示の処理とTextViewへのセットを行う
@@ -158,6 +200,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
     }
+
+
 
     private void setNextQuestion() {
         // 第１引数がカウントダウン時間、第２引数は途中経過を受け取る間隔
@@ -188,10 +232,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         txtScore.setText("0");
     }
 
+
     @Override
     protected void onStart() {
         super.onStart();
         set.start();
     }
+  
+    private void setBackGroundColor(String result){
+        TextView txtViewQuestion = findViewById(R.id.question);
+        TextView txtViewAnswer = findViewById(R.id.answer);
+
+        if(result.equals("WIN")){
+            txtViewQuestion.setBackgroundColor(Color.parseColor("#FF0000"));
+            txtViewAnswer.setBackgroundColor(Color.parseColor("#FF7F00"));
+        }
+        else if(result.equals("LOSE")){
+            txtViewQuestion.setBackgroundColor(Color.parseColor("#007FFF"));
+            txtViewAnswer.setBackgroundColor(Color.parseColor("#00FFFF"));
+        }
+        else if(result.equals("DRAW")){
+            txtViewQuestion.setBackgroundColor(Color.parseColor("#FF7F00"));
+            txtViewAnswer.setBackgroundColor(Color.parseColor("#FFFF00"));
+        }
+
+    }
 }
+
 
