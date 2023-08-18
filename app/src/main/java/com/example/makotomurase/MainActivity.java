@@ -2,6 +2,7 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
@@ -13,6 +14,9 @@ import android.widget.Toast;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+    //プリファレンスの作成
+    SharedPreferences pref;
+    SharedPreferences.Editor prefEditor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +34,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // 起動時に関数を呼び出す
         setQuestionValue();
+
+        //プリファレンスの保存先
+        pref = getSharedPreferences("SaveScore", MODE_PRIVATE);
+        prefEditor = pref.edit();
+
+        //プリファレンスの読み込み
+        TextView textView = (TextView) findViewById(R.id.text_score);
+        String readText = pref.getString("SaveScore","保存されていません");
+        textView.setText(readText);
+
     }
 
     @Override
@@ -61,6 +75,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             vib.vibrate(1000);
 
         }
+
     }
 
     private void clearAnswerValue() {
@@ -156,6 +171,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView txtScore = (TextView) findViewById(R.id.text_score);
         int newScore = Integer.parseInt(txtScore.getText().toString()) + score;
         txtScore.setText(Integer.toString(newScore));
+
+        //プリファレンスの保存
+        TextView textView = (TextView) findViewById(R.id.text_score);
+
+        prefEditor.putString("SaveScore", textView.getText().toString());
+        prefEditor.commit();
     }
 
     private void clearScoreValue() {
