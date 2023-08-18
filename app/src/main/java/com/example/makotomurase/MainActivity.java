@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,7 +18,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     SharedPreferences pref;
 
     SharedPreferences. Editor prefEditor;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,6 +102,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int answer = Integer.parseInt(txtViewAnswer.getText().toString());
 
         TextView txtResult = (TextView) findViewById(R.id.text_result);
+        //mainLayout = findViewById(R.id.answer);
 
         // 結果を示す文字列を入れる変数を用意
         String result;
@@ -113,23 +114,35 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = "WIN";
                 score = 2;
+                txtViewQuestion.setBackgroundColor(getResources().getColor(R.color.winner_orange_color));
+                txtViewAnswer.setBackgroundColor(getResources().getColor(R.color.winner_yellow_color));
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
+                txtViewQuestion.setBackgroundColor(getResources().getColor(R.color.loser_orange_color));
+                txtViewAnswer.setBackgroundColor(getResources().getColor(R.color.loser_yellow_color));
             } else {
                 result = "DRAW";
                 score = 1;
+                txtViewQuestion.setBackgroundColor(getResources().getColor(R.color.drow_color));
+                txtViewAnswer.setBackgroundColor(getResources().getColor(R.color.drow_color));
             }
         } else {
             if (question > answer) {
                 result = "WIN";
                 score = 2;
+                txtViewQuestion.setBackgroundColor(getResources().getColor(R.color.winner_orange_color));
+                txtViewAnswer.setBackgroundColor(getResources().getColor(R.color.winner_yellow_color));
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
+                txtViewQuestion.setBackgroundColor(getResources().getColor(R.color.loser_orange_color));
+                txtViewAnswer.setBackgroundColor(getResources().getColor(R.color.loser_yellow_color));
             } else {
                 result = "DRAW";
                 score = 1;
+                txtViewQuestion.setBackgroundColor(getResources().getColor(R.color.drow_color));
+                txtViewAnswer.setBackgroundColor(getResources().getColor(R.color.drow_color));
             }
         }
 
@@ -168,8 +181,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void clearScoreValue() {
+        TextView txtViewQuestion = findViewById(R.id.question);
+        TextView txtViewAnswer = findViewById(R.id.answer);
         TextView txtScore = (TextView) findViewById(R.id.text_score);
         txtScore.setText("0");
+        txtViewQuestion.setBackgroundColor(getResources().getColor(R.color.default_orange));
+        txtViewAnswer.setBackgroundColor(getResources().getColor(R.color.default_yellow));
     }
 }
 
