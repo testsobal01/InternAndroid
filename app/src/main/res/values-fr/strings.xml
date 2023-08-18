@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">MakotoMurase</string>
+    <string name="app_name">HIGH＆LOW</string>
     <string name="text">10 est défini.</string>
     <string name="btn_high">élevé</string>
     <string name="btn_low">bas</string>
@@ -8,4 +8,8 @@
     <string name="result_text">Résultat</string>
     <string name="label_score">Score：</string>
     <string name="value2">Valeur2</string>
+    <string name="btn_start">すたあと</string>
+    <string name="title_high">ＨＩＧＨ</string>
+    <string name="title_and">ＡＮＤ</string>
+    <string name="title_low">ＬＯＷ</string>
 </resources>
