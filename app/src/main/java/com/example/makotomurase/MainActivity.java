@@ -2,7 +2,9 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.animation.ObjectAnimator;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
@@ -68,6 +70,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             setQuestionValue();
             clearAnswerValue();
             clearScoreValue();
+            TextView queColor = findViewById(R.id.question);
+            TextView ansColor = findViewById(R.id.answer);
+            ansColor.setBackgroundColor(Color.rgb(255,255,0));
+            queColor.setBackgroundColor(Color.rgb(255,0,255));
         }
     }
 
@@ -101,6 +107,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int answer = Integer.parseInt(txtViewAnswer.getText().toString());
 
         TextView txtResult = (TextView) findViewById(R.id.text_result);
+
 
         // 結果を示す文字列を入れる変数を用意
         String result;
@@ -136,10 +143,49 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Toast.makeText(this, result, Toast.LENGTH_LONG).show();
         txtResult.setText("結果：" + question + ":" + answer + "(" + result + ")");
 
+        switch (score){
+            case 2:
+                TextView queColor = findViewById(R.id.question);
+                TextView ansColor = findViewById(R.id.answer);
+                ansColor.setBackgroundColor(Color.rgb(0,255,127));
+                queColor.setBackgroundColor(Color.rgb(0,255,127));
+
+                ObjectAnimator queAnimator = ObjectAnimator.ofFloat( queColor, "scaleX", 0f, 1f );
+                ObjectAnimator ansAnimator = ObjectAnimator.ofFloat(ansColor, "scaleX", 0f, 1f);
+                queAnimator.setDuration( 3000 );
+                ansAnimator.setDuration( 3000 );
+                queAnimator.start();
+                ansAnimator.start();
+
+                break;
+            case 1:
+                queColor = findViewById(R.id.question);
+                ansColor = findViewById(R.id.answer);
+                ansColor.setBackgroundColor(Color.rgb(	255,255,0));
+                queColor.setBackgroundColor(Color.rgb(	255,255,0));
+                break;
+            case -1:
+                queColor = findViewById(R.id.question);
+                ansColor = findViewById(R.id.answer);
+                ansColor.setBackgroundColor(Color.rgb(255,0,0));
+                queColor.setBackgroundColor(Color.rgb(255,0,0));
+
+                queAnimator = ObjectAnimator.ofFloat(queColor, "alpha", 0f,1f);
+                ansAnimator = ObjectAnimator.ofFloat(ansColor, "alpha", 0f,1f);
+                queAnimator.setDuration( 1000 );
+                ansAnimator.setDuration( 1000 );
+                queAnimator.start();
+                ansAnimator.start();
+
+                break;
+        }
+
         // 続けて遊べるように値を更新
         setNextQuestion();
+
         // スコアを表示
         setScore(score);
+
     }
 
     private void setNextQuestion() {
