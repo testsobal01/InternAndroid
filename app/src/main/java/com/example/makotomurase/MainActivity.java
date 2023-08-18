@@ -4,16 +4,25 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.media.AudioAttributes;
 import android.media.SoundPool;
+
+import android.graphics.Color;
+import android.content.SharedPreferences;
+
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Vibrator;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+    //プリファレンスの作成
+    SharedPreferences pref;
+    SharedPreferences.Editor prefEditor;
 
     //sound
     private SoundPlayer soundPlayer;
@@ -36,6 +45,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // 起動時に関数を呼び出す
         setQuestionValue();
+
+        //プリファレンスの保存先
+        pref = getSharedPreferences("SaveScore", MODE_PRIVATE);
+        prefEditor = pref.edit();
+
+        //プリファレンスの読み込み
+        TextView textView = (TextView) findViewById(R.id.text_score);
+        String readText = pref.getString("SaveScore","保存されていません");
+        textView.setText(readText);
+
     }
 
     @Override
@@ -44,14 +63,30 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (id == R.id.button1) {
             setAnswerValue();
             checkResult(true);
+
+            //バイブレーション機能
+            Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+            vib.vibrate(1000);
+
         } else if (id == R.id.button2) {
             setAnswerValue();
             checkResult(false);
+
+            //バイブレーション機能
+            Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+            vib.vibrate(1000);
+
         } else if (id == R.id.button3) {
             setQuestionValue();
             clearAnswerValue();
             clearScoreValue();
+
+            //バイブレーション機能
+            Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+            vib.vibrate(1000);
+
         }
+
     }
 
     private void clearAnswerValue() {
@@ -75,7 +110,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView txtView = findViewById(R.id.answer);
         txtView.setText(Integer.toString(answerValue));
     }
-
     private void checkResult(boolean isHigh) {
         TextView txtViewQuestion = findViewById(R.id.question);
         TextView txtViewAnswer = findViewById(R.id.answer);
@@ -170,6 +204,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView txtScore = (TextView) findViewById(R.id.text_score);
         int newScore = Integer.parseInt(txtScore.getText().toString()) + score;
         txtScore.setText(Integer.toString(newScore));
+
+        //プリファレンスの保存
+        TextView textView = (TextView) findViewById(R.id.text_score);
+
+        prefEditor.putString("SaveScore", textView.getText().toString());
+        prefEditor.commit();
     }
 
     private void clearScoreValue() {
