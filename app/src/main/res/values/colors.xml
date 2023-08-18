@@ -15,4 +15,10 @@
     <color name="blue">#1d2088</color>
     <color name="purple">#920783</color>
 
+
+    <color name="nomal_Left_color">#C85554</color>
+    <color name="nomal_Right_color">#5383C3</color>
+    <color name="Win_Left_color">#FF4E3A</color>
+    <color name="Lose_Right_color">#99c5ff</color>
+
 </resources>

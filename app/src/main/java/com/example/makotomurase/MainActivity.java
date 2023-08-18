@@ -3,6 +3,7 @@ package com.example.makotomurase;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
+
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.animation.Animator;
@@ -15,6 +16,14 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
 import android.util.Log;
+
+import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.os.Bundle;
+import android.os.CountDownTimer;
+import android.view.ContextThemeWrapper;
+
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -116,6 +125,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView txtViewQuestion = findViewById(R.id.question);
         TextView txtViewAnswer = findViewById(R.id.answer);
 
+
         int question = Integer.parseInt(txtViewQuestion.getText().toString());
         int answer = Integer.parseInt(txtViewAnswer.getText().toString());
 
@@ -150,16 +160,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = "WIN";
                 score = 2;
+
                 vib(50);//バイブレーションを追加
                 soundPool.play(soundWin, 1.0f, 1.0f, 0, 0, 1);
                 setAnimation(txtViewAnswer);
+
+                backgroundColor(score);//背景の追加
+
             } else if (question > answer) {
                 result = "LOSE";
                 soundPool.play(soundLose, 1.0f, 1.0f, 0, 0, 1);
                 score = -1;
+                backgroundColor(score);//背景の追加
             } else {
                 result = "DRAW";
                 score = 1;
+                backgroundColor(score);//背景の追加
             }
         } else {
             if (question > answer) {
@@ -175,6 +191,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             } else {
                 result = "DRAW";
                 score = 1;
+                backgroundColor(score);//背景の追加
             }
         }
 
@@ -246,6 +263,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         txtScore.setText("0");
     }
 
+
     private void vib(int t){
         Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
         vib.vibrate(t);
@@ -257,5 +275,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         set_win.setTarget(win);
     }
 
-}
 
+    private void backgroundColor(int i) {
+        TextView txtViewQuestion = findViewById(R.id.question);
+        TextView txtViewAnswer = findViewById(R.id.answer);
+        if (i == 2) {
+            txtViewQuestion.setBackground(new ColorDrawable(getResources().getColor(R.color.Win_Left_color)));//背景色変更
+            txtViewAnswer.setBackground(new ColorDrawable(getResources().getColor(R.color.nomal_Right_color)));//背景色変更
+        }else if(i ==1){
+            txtViewAnswer.setBackground(new ColorDrawable(getResources().getColor(R.color.nomal_Right_color)));//背景色変更
+            txtViewQuestion.setBackground(new ColorDrawable(getResources().getColor(R.color.nomal_Left_color)));//背景色変更
+        }else if(i == -1){
+            txtViewAnswer.setBackground(new ColorDrawable(getResources().getColor(R.color.Lose_Right_color)));//背景色変更
+            txtViewQuestion.setBackground(new ColorDrawable(getResources().getColor(R.color.nomal_Left_color)));//背景色変更
+
+
+        }
+
+
+    }//背景変更機能の追加
+}
