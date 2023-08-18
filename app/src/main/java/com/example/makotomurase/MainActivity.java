@@ -2,6 +2,7 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
@@ -41,6 +42,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             setAnswerValue();
             checkResult(false);
         } else if (id == R.id.button3) {
+            resetBackColor();
             setQuestionValue();
             clearAnswerValue();
             clearScoreValue();
@@ -88,9 +90,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = "WIN";
                 score = 2;
+                winChangeBackColor();
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
+                loseChangeBackColor();
             } else {
                 result = "DRAW";
                 score = 1;
@@ -99,9 +103,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question > answer) {
                 result = "WIN";
                 score = 2;
+                winChangeBackColor();
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
+                loseChangeBackColor();
             } else {
                 result = "DRAW";
                 score = 1;
@@ -145,6 +151,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void clearScoreValue() {
         TextView txtScore = (TextView) findViewById(R.id.text_score);
         txtScore.setText("0");
+    }
+
+    public void winChangeBackColor(){
+        TextView textBackColor_a=(TextView) findViewById(R.id.answer);
+        TextView textBackColor_q=(TextView) findViewById(R.id.question);
+        textBackColor_a.setBackgroundColor(getResources().getColor(R.color.rainbow));
+        textBackColor_q.setBackgroundColor(Color.YELLOW);
+    }
+    public void loseChangeBackColor(){
+        TextView textBackColor_a=(TextView) findViewById(R.id.answer);
+        TextView textBackColor_q=(TextView) findViewById(R.id.question);
+        textBackColor_a.setBackgroundColor(getResources().getColor(R.color.lightblue));
+        textBackColor_q.setBackgroundColor(Color.YELLOW);
+    }
+
+    public void resetBackColor(){
+        TextView textBackColor_a=(TextView) findViewById(R.id.answer);
+        TextView textBackColor_q=(TextView) findViewById(R.id.question);
+        textBackColor_q.setBackgroundColor(Color.YELLOW);
+        textBackColor_a.setBackgroundColor(Color.MAGENTA);
     }
 }
 
