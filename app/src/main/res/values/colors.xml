@@ -4,11 +4,15 @@
     <color name="white">#FFFFFFFF</color>
     <color name="soft_red">#F06060</color>
     <color name="soft_blue">#D3DEF1</color>
+
+    <color name="green">#556b2f</color>
+
     <color name="red">#e60000</color>
     <color name="orange">#f39800</color>
     <color name="yellow">#fff100</color>
-    <color name="green">#009944</color>
+
     <color name="sky">#0068b7</color>
     <color name="blue">#1d2088</color>
     <color name="purple">#920783</color>
+
 </resources>
