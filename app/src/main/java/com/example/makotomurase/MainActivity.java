@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Vibrator;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -12,6 +13,7 @@ import android.widget.Toast;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,21 +31,30 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // 起動時に関数を呼び出す
         setQuestionValue();
+
     }
 
     @Override
     public void onClick(View view) {
-        int id = view.getId();
-        if (id == R.id.button1) {
-            setAnswerValue();
-            checkResult(true);
-        } else if (id == R.id.button2) {
-            setAnswerValue();
-            checkResult(false);
-        } else if (id == R.id.button3) {
-            setQuestionValue();
-            clearAnswerValue();
-            clearScoreValue();
+
+            int id = view.getId();
+            if (id == R.id.button1) {
+                setAnswerValue();
+                checkResult(true);
+//                    Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+//                    vib.vibrate(50);
+
+            } else if (id == R.id.button2) {
+                setAnswerValue();
+                checkResult(false);
+//                Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+//                long[] pattern = {0,50,25,50};//ずっとなり続ける！
+//                vib.vibrate(pattern, -1);
+            } else if (id == R.id.button3) {
+                setQuestionValue();
+                clearAnswerValue();
+                clearScoreValue();
+
         }
     }
 
@@ -86,23 +97,37 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (isHigh) {
             // result には結果のみを入れる
             if (question < answer) {
+                Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+                long[] pattern = {0,100,45,100};
+                vib.vibrate(pattern, -1);//1にするとずっとなり続ける
                 result = "WIN";
                 score = 2;
             } else if (question > answer) {
+                Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+                vib.vibrate(300);
                 result = "LOSE";
                 score = -1;
             } else {
+                Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+                vib.vibrate(50);
                 result = "DRAW";
                 score = 1;
             }
         } else {
             if (question > answer) {
+                Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+                long[] pattern = {0,100,45,100};
+                vib.vibrate(pattern, -1);
                 result = "WIN";
                 score = 2;
             } else if (question < answer) {
+                Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+                vib.vibrate(300);
                 result = "LOSE";
                 score = -1;
             } else {
+                Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+                vib.vibrate(50);
                 result = "DRAW";
                 score = 1;
             }
