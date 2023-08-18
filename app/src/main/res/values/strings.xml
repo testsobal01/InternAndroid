@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MakotoMurase</string>
+    <string name="app_name">Team_e</string>
     <string name="btn_high">High</string>
     <string name="btn_low">Low</string>
     <string name="btn_restart">Restart</string>
@@ -8,4 +8,6 @@
     <string name="a1">Value1</string>
     <string name="a2">Value2</string>
     <string name="kekka">result</string>
+    <string name="game_name">Let\' Guess Random Number</string>
+    <string name="explanation"></string>
 </resources>
