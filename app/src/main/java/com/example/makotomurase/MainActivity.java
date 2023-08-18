@@ -5,14 +5,17 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Vibrator;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
 
     SharedPreferences pref;
 
@@ -38,21 +41,30 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // 起動時に関数を呼び出す
         setQuestionValue();
+
     }
 
     @Override
     public void onClick(View view) {
-        int id = view.getId();
-        if (id == R.id.button1) {
-            setAnswerValue();
-            checkResult(true);
-        } else if (id == R.id.button2) {
-            setAnswerValue();
-            checkResult(false);
-        } else if (id == R.id.button3) {
-            setQuestionValue();
-            clearAnswerValue();
-            clearScoreValue();
+
+            int id = view.getId();
+            if (id == R.id.button1) {
+                setAnswerValue();
+                checkResult(true);
+//                    Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+//                    vib.vibrate(50);
+
+            } else if (id == R.id.button2) {
+                setAnswerValue();
+                checkResult(false);
+//                Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+//                long[] pattern = {0,50,25,50};//ずっとなり続ける！
+//                vib.vibrate(pattern, -1);
+            } else if (id == R.id.button3) {
+                setQuestionValue();
+                clearAnswerValue();
+                clearScoreValue();
+
         }
     }
 
@@ -74,7 +86,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void clearAnswerValue() {
         TextView txtView = (TextView) findViewById(R.id.answer);
-        txtView.setText("値2");
+        txtView.setText(getString(R.string.value2));
     }
 
     private void setQuestionValue() {
@@ -102,6 +114,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int answer = Integer.parseInt(txtViewAnswer.getText().toString());
 
         TextView txtResult = (TextView) findViewById(R.id.text_result);
+        //mainLayout = findViewById(R.id.answer);
 
         // 結果を示す文字列を入れる変数を用意
         String result;
@@ -111,31 +124,57 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (isHigh) {
             // result には結果のみを入れる
             if (question < answer) {
+                Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+                long[] pattern = {0,100,45,100};
+                vib.vibrate(pattern, -1);//1にするとずっとなり続ける
                 result = "WIN";
                 score = 2;
+                txtViewQuestion.setBackgroundColor(getResources().getColor(R.color.winner_orange_color));
+                txtViewAnswer.setBackgroundColor(getResources().getColor(R.color.winner_yellow_color));
             } else if (question > answer) {
+                Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+                vib.vibrate(300);
                 result = "LOSE";
                 score = -1;
+                txtViewQuestion.setBackgroundColor(getResources().getColor(R.color.loser_orange_color));
+                txtViewAnswer.setBackgroundColor(getResources().getColor(R.color.loser_yellow_color));
             } else {
+                Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+                vib.vibrate(50);
                 result = "DRAW";
                 score = 1;
+                txtViewQuestion.setBackgroundColor(getResources().getColor(R.color.drow_color));
+                txtViewAnswer.setBackgroundColor(getResources().getColor(R.color.drow_color));
             }
         } else {
             if (question > answer) {
+                Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+                long[] pattern = {0,100,45,100};
+                vib.vibrate(pattern, -1);
                 result = "WIN";
                 score = 2;
+                txtViewQuestion.setBackgroundColor(getResources().getColor(R.color.winner_orange_color));
+                txtViewAnswer.setBackgroundColor(getResources().getColor(R.color.winner_yellow_color));
             } else if (question < answer) {
+                Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+                vib.vibrate(300);
                 result = "LOSE";
                 score = -1;
+                txtViewQuestion.setBackgroundColor(getResources().getColor(R.color.loser_orange_color));
+                txtViewAnswer.setBackgroundColor(getResources().getColor(R.color.loser_yellow_color));
             } else {
+                Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+                vib.vibrate(50);
                 result = "DRAW";
                 score = 1;
+                txtViewQuestion.setBackgroundColor(getResources().getColor(R.color.drow_color));
+                txtViewAnswer.setBackgroundColor(getResources().getColor(R.color.drow_color));
             }
         }
 
         // 最後にまとめてToast表示の処理とTextViewへのセットを行う
         Toast.makeText(this, result, Toast.LENGTH_LONG).show();
-        txtResult.setText("結果：" + question + ":" + answer + "(" + result + ")");
+        txtResult.setText(getString(R.string.result_text) + ":" + question + ":" + answer + "(" + result + ")");
 
         // 続けて遊べるように値を更新
         setNextQuestion();
@@ -168,8 +207,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void clearScoreValue() {
+        TextView txtViewQuestion = findViewById(R.id.question);
+        TextView txtViewAnswer = findViewById(R.id.answer);
         TextView txtScore = (TextView) findViewById(R.id.text_score);
         txtScore.setText("0");
+        txtViewQuestion.setBackgroundColor(getResources().getColor(R.color.default_orange));
+        txtViewAnswer.setBackgroundColor(getResources().getColor(R.color.default_yellow));
     }
 }
 
