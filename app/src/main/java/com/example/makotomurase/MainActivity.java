@@ -2,11 +2,7 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-
-import android.graphics.Color;
-
 import android.content.SharedPreferences;
-
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
@@ -14,7 +10,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-
 
 import java.util.Random;
 
@@ -37,10 +32,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
 
-
         pref = getSharedPreferences("TeamProduct", MODE_PRIVATE);
         prefEditor = pref.edit();
-
         // 起動時に関数を呼び出す
         setQuestionValue();//値の設定
     }
@@ -53,7 +46,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             setAnswerValue();
             checkResult(true);
             vib.vibrate(300);
-
         } else if (id == R.id.button2) {
             setAnswerValue();
             checkResult(false);
@@ -102,41 +94,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         String result;
         int score;
 
-        TextView txtView = (TextView) findViewById(R.id.answer);
-
         // Highが押された
         if (isHigh) {
             // result には結果のみを入れる
             if (question < answer) {
                 result = getString(R.string.win_0);
                 score = 2;
-                txtView.setBackgroundColor(Color.RED);
             } else if (question > answer) {
                 result = getString(R.string.lose_0);
                 score = -1;
-                txtView.setBackgroundColor(Color.BLUE);
             } else {
                 result = getString(R.string.draw_0);
                 score = 1;
-                txtView.setBackgroundColor(Color.GREEN);
             }
-
         } else {
             if (question > answer) {
                 result = getString(R.string.win_0);
                 score = 2;
-                txtView.setBackgroundColor(Color.RED);
             } else if (question < answer) {
                 result = getString(R.string.lose_0);
                 score = -1;
-                txtView.setBackgroundColor(Color.BLUE);
-
             } else {
                 result = getString(R.string.draw_0);
                 score = 1;
-                txtView.setBackgroundColor(Color.GREEN);
             }
-
+        }
 
         // 最後にまとめてToast表示の処理とTextViewへのセットを行う
         Toast.makeText(this, result, Toast.LENGTH_LONG).show();
@@ -144,11 +126,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         txtResult.setText(getString(R.string.label_score) + question + ":" + answer + "(" + result + ")");
 
 
-            // 続けて遊べるように値を更新
-            setNextQuestion();
-            // スコアを表示
-            setScore(score);
-        }
+        // 続けて遊べるように値を更新
+        setNextQuestion();
+        // スコアを表示
+        setScore(score);
     }
 
     private void setNextQuestion() {//カウントダウン
