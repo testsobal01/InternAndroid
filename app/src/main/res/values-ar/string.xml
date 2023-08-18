@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">ارتفاع أو انخفاض</string>
+    <string name="btn_high">عالي</string>
+    <string name="btn_low">قليل</string>
+    <string name="btn_restart">إعادة تشغيل</string>
+    <string name="label_score">نتيجة：</string>
+    <string name="ten" translatable="false">تم تعيين 10</string>
+</resources>
