@@ -1,6 +1,7 @@
 package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -8,9 +9,12 @@ import android.animation.Animator;
 import android.animation.AnimatorInflater;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
+import android.media.AudioAttributes;
+import android.media.SoundPool;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -23,6 +27,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     SharedPreferences pref;
     SharedPreferences.Editor prefEditor;
     AnimatorSet set_win;
+
+    //音の準備
+    private SoundPool soundPool;
+    private int soundWin, soundLose;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -113,6 +121,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         TextView txtResult = (TextView) findViewById(R.id.text_result);
 
+        //音の準備
+        AudioAttributes audioAttributes = new AudioAttributes.Builder()
+                // USAGE_MEDIA
+                // USAGE_GAME
+                .setUsage(AudioAttributes.USAGE_GAME)
+                // CONTENT_TYPE_MUSIC
+                // CONTENT_TYPE_SPEECH, etc.
+                .setContentType(AudioAttributes.CONTENT_TYPE_SPEECH)
+                .build();
+        soundPool = new SoundPool.Builder()
+                .setAudioAttributes(audioAttributes)
+                .setMaxStreams(2).build();
+        soundWin = soundPool.load(this,R.raw.win,1);
+        soundLose = soundPool.load(this,R.raw.lose,1);
+        soundPool.setOnLoadCompleteListener((soundPool, sampleId, status) -> {
+            Log.d("debug","sampleId="+sampleId);
+            Log.d("debug","status="+status);
+        });
+
         // 結果を示す文字列を入れる変数を用意
         String result;
         int score;
@@ -124,9 +151,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 result = "WIN";
                 score = 2;
                 vib(50);//バイブレーションを追加
+                soundPool.play(soundWin, 1.0f, 1.0f, 0, 0, 1);
                 setAnimation(txtViewAnswer);
             } else if (question > answer) {
                 result = "LOSE";
+                soundPool.play(soundLose, 1.0f, 1.0f, 0, 0, 1);
                 score = -1;
             } else {
                 result = "DRAW";
@@ -137,10 +166,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 result = "WIN";
                 score = 2;
                 vib(50);//バイブレーションを追加
+                soundPool.play(soundWin, 1.0f, 1.0f, 0, 0, 1);
                 setAnimation(txtViewAnswer);
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
+                soundPool.play(soundLose, 1.0f, 1.0f, 0, 0, 1);
             } else {
                 result = "DRAW";
                 score = 1;
