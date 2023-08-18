@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.graphics.Color;
 import android.content.SharedPreferences;
+import android.media.AudioManager;
+import android.media.SoundPool;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
@@ -38,7 +40,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // 起動時に関数を呼び出す
         setQuestionValue();
-
+        Sound();
         pref = getSharedPreferences("AndroidSeminor", MODE_PRIVATE);
         prefEditor = pref.edit();
     }
@@ -53,8 +55,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         prefEditor.commit();
     }
 
-
-
+    //連打したかどうかを判別する変数
+    int pushButtonCheck=0;
     @Override
     public void onClick(View view) {
         int id = view.getId();
@@ -68,9 +70,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             resetBackColor();
 
+            //4-バイブレーション
             Vibrator vib=(Vibrator)getSystemService((VIBRATOR_SERVICE));
             vib.vibrate(300);
-
+            Sound();
             setQuestionValue();
             clearAnswerValue();
             clearScoreValue();
@@ -155,19 +158,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void setNextQuestion() {
         // 第１引数がカウントダウン時間、第２引数は途中経過を受け取る間隔
         // 単位はミリ秒（1秒＝1000ミリ秒）
-        new CountDownTimer(3000, 1000) {
+        CountDownTimer cdt=new CountDownTimer(3000, 1000) {
             @Override
             public void onTick(long l) {
-                // 途中経過を受け取った時に何かしたい場合
-                // 今回は特に何もしない
+            pushButtonCheck++;
             }
 
             @Override
             public void onFinish() {
                 // 3秒経過したら次の値をセット
                 setQuestionValue();
+                Sound();
+                pushButtonCheck=0;
             }
         }.start();
+        if(pushButtonCheck!=0){
+            cdt.cancel();
+        }
     }
 
     private void setScore(int score) {
@@ -180,13 +187,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView txtScore = (TextView) findViewById(R.id.text_score);
         txtScore.setText("0");
     }
-
+    //6-勝った時の背景色変更
     public void winChangeBackColor(){
         TextView textBackColor_a=(TextView) findViewById(R.id.answer);
         TextView textBackColor_q=(TextView) findViewById(R.id.question);
         textBackColor_a.setBackgroundColor(getResources().getColor(R.color.rainbow));
         textBackColor_q.setBackgroundColor(Color.YELLOW);
     }
+    //6-負けた時の背景色変更
     public void loseChangeBackColor(){
         TextView textBackColor_a=(TextView) findViewById(R.id.answer);
         TextView textBackColor_q=(TextView) findViewById(R.id.question);
@@ -194,11 +202,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         textBackColor_q.setBackgroundColor(Color.YELLOW);
     }
 
+    //6-背景色のリセット
     public void resetBackColor(){
         TextView textBackColor_a=(TextView) findViewById(R.id.answer);
         TextView textBackColor_q=(TextView) findViewById(R.id.question);
-        textBackColor_q.setBackgroundColor(Color.YELLOW);
-        textBackColor_a.setBackgroundColor(Color.MAGENTA);
+        textBackColor_a.setBackgroundColor(Color.YELLOW);
+        textBackColor_q.setBackgroundColor(Color.MAGENTA);
+    }
+    //8-効果音の追加
+    public void Sound(){
+        SoundPool sndPl=new SoundPool(1, AudioManager.STREAM_MUSIC,0);
+        int sndId=sndPl.load(this.getApplicationContext(),R.raw.quiz_start,0);
+        sndPl.play(sndId,1.0F,1.0F,0,0,1.0F);
     }
 
     @Override
