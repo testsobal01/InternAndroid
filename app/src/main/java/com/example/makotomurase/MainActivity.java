@@ -2,6 +2,8 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.app.Activity;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -15,6 +17,9 @@ import android.widget.Toast;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
+    SharedPreferences pref;
+    SharedPreferences.Editor editor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +37,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // 起動時に関数を呼び出す
         setQuestionValue();
+
+        TextView textView = findViewById(R.id.text_score);
+        pref = getSharedPreferences("score", MODE_PRIVATE);
+        editor = pref.edit();
+        if (pref.getString("score", "0") == "0") {
+            editor.putString("score", textView.getText().toString());
+        }
+        editor.commit();
+
     }
 
     @Override
@@ -64,9 +78,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        // Toast.makeText(this, "onPause", Toast.LENGTH_SHORT).show();
+        TextView textView = findViewById(R.id.text_score);
+        editor.putString("score", textView.getText().toString());
+        editor.commit();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // Toast.makeText(this,"onResume",Toast.LENGTH_SHORT).show();
+        TextView txtScore = findViewById(R.id.text_score);
+        txtScore.setText(pref.getString("score", ""));
+    }
+
     private void clearAnswerValue() {
         TextView txtView = (TextView) findViewById(R.id.answer);
-        txtView.setText("値2");
+        txtView.setText(String.format("%s", getString(R.string.label_atai)));
     }
 
     private void setQuestionValue() {
@@ -94,6 +125,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int answer = Integer.parseInt(txtViewAnswer.getText().toString());
 
         TextView txtResult = (TextView) findViewById(R.id.text_result);
+
 
         // 結果を示す文字列を入れる変数を用意
         String result;
@@ -130,7 +162,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // 最後にまとめてToast表示の処理とTextViewへのセットを行う
         Toast.makeText(this, result, Toast.LENGTH_LONG).show();
-        txtResult.setText("結果：" + question + ":" + answer + "(" + result + ")");
+        txtResult.setText(String.format("%s" + question + ":" + answer + "(" + result + ")", getString(R.string.label_result)));
 
         // 続けて遊べるように値を更新
         setNextQuestion();
