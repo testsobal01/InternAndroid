@@ -3,6 +3,8 @@ package com.example.makotomurase;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.SharedPreferences;
+import android.media.AudioAttributes;
+import android.media.SoundPool;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
@@ -12,11 +14,25 @@ import android.widget.Toast;
 
 import java.util.Random;
 
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     SharedPreferences pref;
 
-    SharedPreferences. Editor prefEditor;
+    SharedPreferences.Editor prefEditor;
+
+
+    AudioAttributes audioAttributes = new AudioAttributes.Builder()
+            .setUsage(AudioAttributes.USAGE_MEDIA)
+            .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+            .build();
+    SoundPool soundPool = new SoundPool.Builder()
+            .setAudioAttributes(audioAttributes)
+            .setMaxStreams(3)
+            .build();
+
+
+    int[] act = {0, 0, 0, 0};
 
 
     @Override
@@ -35,6 +51,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         pref = getSharedPreferences("AndroidSeminor", MODE_PRIVATE);
         prefEditor = pref.edit();
+
+        act[0] = soundPool.load(this, R.raw.win, 1);
+        act[1] = soundPool.load(this, R.raw.lose, 1);
+        act[2] = soundPool.load(this, R.raw.draw, 1);
+        act[3] = soundPool.load(this, R.raw.reset, 1);
 
         // 起動時に関数を呼び出す
         setQuestionValue();
@@ -57,18 +78,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     @Override
-    protected void onPause(){
-        super. onPause();
+    protected void onPause() {
+        super.onPause();
         TextView textView = (TextView) findViewById(R.id.text_score);
         prefEditor.putString("main_input", textView.getText().toString());
-        prefEditor. commit();
+        prefEditor.commit();
     }
 
     @Override
-    protected void onResume(){
-        super. onResume();
+    protected void onResume() {
+        super.onResume();
         TextView textView = (TextView) findViewById(R.id.text_score);
-        String readText = pref. getString("main_input","0");
+        String readText = pref.getString("main_input", "0");
         textView.setText(readText);
     }
 
@@ -113,23 +134,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = "WIN";
                 score = 2;
+                soundPool.play(act[0],1f,1f,0,0,1f);
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
+                soundPool.play(act[1],1f,1f,0,0,1f);
             } else {
                 result = "DRAW";
                 score = 1;
+                soundPool.play(act[2],1f,1f,0,0,1f);
             }
         } else {
             if (question > answer) {
                 result = "WIN";
                 score = 2;
+                soundPool.play(act[0],1f,1f,0,0,1f);
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
+                soundPool.play(act[1],1f,1f,0,0,1f);
             } else {
                 result = "DRAW";
                 score = 1;
+                soundPool.play(act[2],1f,1f,0,0,1f);
             }
         }
 
@@ -170,6 +197,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void clearScoreValue() {
         TextView txtScore = (TextView) findViewById(R.id.text_score);
         txtScore.setText("0");
+        soundPool.play(act[3],1f,1f,0,0,1f);
     }
 }
 
