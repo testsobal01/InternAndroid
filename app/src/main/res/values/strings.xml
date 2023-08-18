@@ -7,4 +7,5 @@
     <string name="result_text">Result</string>
     <string name="label_score">Score：</string>
     <string name="value2">value2</string>
+    <string name="btn_start">Start</string>
 </resources>
