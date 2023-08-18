@@ -2,4 +2,15 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="palevioletred">#db7093</color>
+    <color name="chartreuse">#7fff00</color>
+    <color name="honeydew">#f0fff0</color>
+    <color name="yellow">#ffff00</color>
+    <color name="cadetblue">#5f9ea0</color>
+    <color name="darkslateblue">#483d8d</color>
+    <color name="pink">#ffc0cb</color>
+    <color name="peachpuff">#ffdab9</color>
+    <color name="orange">#ff8c00</color>
+    <color name="seagreen">#2e8b57</color>
+
 </resources>
