@@ -30,10 +30,10 @@
             android:layout_weight="1"
             android:gravity="center"
             android:layout_gravity="center"
+
             android:text="@string/start_button"
             android:textSize="30dp"
             android:background="@drawable/partsdesign_start"/>
-
     </LinearLayout>
 
 </LinearLayout>
