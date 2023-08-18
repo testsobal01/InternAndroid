@@ -1,5 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="palevioletred">#db7093</color>
+    <color name="chartreuse">#7fff00</color>
+    <color name="honeydew">#f0fff0</color>
+    <color name="yellow">#ffff00</color>
+    <color name="cadetblue">#5f9ea0</color>
+    <color name="darkslateblue">#483d8d</color>
+    <color name="pink">#ffc0cb</color>
+    <color name="peachpuff">#ffdab9</color>
+    <color name="orange">#ff8c00</color>
+    <color name="seagreen">#2e8b57</color>
+
+
     <color name="winner_yellow_color">#FFD600</color>
     <color name="default_yellow">#FFEE58</color>
     <color name="loser_yellow_color">#80DEEA</color>
@@ -7,4 +22,5 @@
     <color name="winner_orange_color">#F57C00</color>
     <color name="default_orange">#FFB74D</color>
     <color name="loser_orange_color">#00BCD4</color>
+
 </resources>
