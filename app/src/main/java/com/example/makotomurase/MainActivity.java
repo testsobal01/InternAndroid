@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Vibrator;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -40,16 +41,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View view) {//各ボタンを押したときの処理
         int id = view.getId();
+        Vibrator vib = (Vibrator) getSystemService(VIBRATOR_SERVICE);
         if (id == R.id.button1) {
             setAnswerValue();
             checkResult(true);
+            vib.vibrate(300);
         } else if (id == R.id.button2) {
             setAnswerValue();
             checkResult(false);
+            vib.vibrate(300);
         } else if (id == R.id.button3) {
-            setQuestionValue();//値1の生成
-            clearAnswerValue();//値2に変更
-            clearScoreValue();//比較できないのでscoreを0にする
+
+            setQuestionValue();
+            clearAnswerValue();
+            clearScoreValue();
+            vib.vibrate(300);
         }
     }
 
