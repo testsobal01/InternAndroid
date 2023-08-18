@@ -2,6 +2,7 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
@@ -9,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+
 
 import java.util.Random;
 
@@ -28,6 +30,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
 
+
+
         // 起動時に関数を呼び出す
         setQuestionValue();
     }
@@ -40,6 +44,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             setAnswerValue();
             checkResult(true);
             vib.vibrate(300);
+
         } else if (id == R.id.button2) {
             setAnswerValue();
             checkResult(false);
@@ -87,40 +92,51 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         String result;
         int score;
 
+        TextView txtView = (TextView) findViewById(R.id.answer);
+
         // Highが押された
         if (isHigh) {
             // result には結果のみを入れる
             if (question < answer) {
                 result = "WIN";
                 score = 2;
+                txtView.setBackgroundColor(Color.RED);
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
+                txtView.setBackgroundColor(Color.BLUE);
             } else {
                 result = "DRAW";
                 score = 1;
+                txtView.setBackgroundColor(Color.GREEN);
             }
+
         } else {
             if (question > answer) {
                 result = "WIN";
                 score = 2;
+                txtView.setBackgroundColor(Color.RED);
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
+                txtView.setBackgroundColor(Color.BLUE);
+
             } else {
                 result = "DRAW";
                 score = 1;
+                txtView.setBackgroundColor(Color.GREEN);
             }
+
+
+            // 最後にまとめてToast表示の処理とTextViewへのセットを行う
+            Toast.makeText(this, result, Toast.LENGTH_LONG).show();
+            txtResult.setText("結果：" + question + ":" + answer + "(" + result + ")");
+
+            // 続けて遊べるように値を更新
+            setNextQuestion();
+            // スコアを表示
+            setScore(score);
         }
-
-        // 最後にまとめてToast表示の処理とTextViewへのセットを行う
-        Toast.makeText(this, result, Toast.LENGTH_LONG).show();
-        txtResult.setText("結果：" + question + ":" + answer + "(" + result + ")");
-
-        // 続けて遊べるように値を更新
-        setNextQuestion();
-        // スコアを表示
-        setScore(score);
     }
 
     private void setNextQuestion() {
