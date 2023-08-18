@@ -2,6 +2,7 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.graphics.Color;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -61,8 +62,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             setAnswerValue();
             checkResult(false);
         } else if (id == R.id.button3) {
+
+            resetBackColor();
+
             Vibrator vib=(Vibrator)getSystemService((VIBRATOR_SERVICE));
             vib.vibrate(300);
+
             setQuestionValue();
             clearAnswerValue();
             clearScoreValue();
@@ -110,9 +115,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = "WIN";
                 score = 2;
+                winChangeBackColor();
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
+                loseChangeBackColor();
             } else {
                 result = "DRAW";
                 score = 1;
@@ -121,9 +128,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question > answer) {
                 result = "WIN";
                 score = 2;
+                winChangeBackColor();
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
+                loseChangeBackColor();
             } else {
                 result = "DRAW";
                 score = 1;
@@ -169,6 +178,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         txtScore.setText("0");
     }
 
+    public void winChangeBackColor(){
+        TextView textBackColor_a=(TextView) findViewById(R.id.answer);
+        TextView textBackColor_q=(TextView) findViewById(R.id.question);
+        textBackColor_a.setBackgroundColor(getResources().getColor(R.color.rainbow));
+        textBackColor_q.setBackgroundColor(Color.YELLOW);
+    }
+    public void loseChangeBackColor(){
+        TextView textBackColor_a=(TextView) findViewById(R.id.answer);
+        TextView textBackColor_q=(TextView) findViewById(R.id.question);
+        textBackColor_a.setBackgroundColor(getResources().getColor(R.color.lightblue));
+        textBackColor_q.setBackgroundColor(Color.YELLOW);
+    }
+
+    public void resetBackColor(){
+        TextView textBackColor_a=(TextView) findViewById(R.id.answer);
+        TextView textBackColor_q=(TextView) findViewById(R.id.question);
+        textBackColor_q.setBackgroundColor(Color.YELLOW);
+        textBackColor_a.setBackgroundColor(Color.MAGENTA);
+    }
 
     @Override
     protected void onPostResume() {
@@ -178,6 +206,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //保存した値をキー名を指定して取得(保存されていない場合の文字列も指定)
         String readText = pref.getString("text_score","保存されていません");
         textView.setText(readText);
+
     }
 }
 
