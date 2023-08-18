@@ -5,5 +5,13 @@
     <string name="btn_low">قليل</string>
     <string name="btn_restart">إعادة تشغيل</string>
     <string name="label_score">نتيجة：</string>
-    <string name="ten" translatable="false">تم تعيين 10</string>
+    <string name="ten" translatable="false">تم تعيين 10</string>]
+    <string name="high">HIGH</string>
+    <string name="low">LOW</string>
+    <string name="or">OR</string>
+    <string name="play_button">يلعب</string>
+    <string name="win">WIN</string>
+    <string name="lose">LOSE</string>
+    <string name="animation_count">400</string>
+    <string name="result">نتيجة：</string>
 </resources>

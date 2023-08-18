@@ -1,6 +1,7 @@
 package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import android.content.SharedPreferences;
 import android.animation.Animator;
@@ -145,7 +146,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // 最後にまとめてToast表示の処理とTextViewへのセットを行う
         Toast.makeText(this, result, Toast.LENGTH_LONG).show();
-        txtResult.setText("結果：" + question + ":" + answer + "(" + result + ")");
+        txtResult.setText("" + question + ":" + answer + "(" + result + ")");
 
         // 続けて遊べるように値を更新
         setNextQuestion();
@@ -160,6 +161,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     super.onAnimationCancel(animation);
                     canseled = true;
                     set_win.end();
+                    set_win=null;
                     txtViewAnswer.setTextColor(ContextCompat.getColor(MainActivity.this, R.color.black));
                 }
 
