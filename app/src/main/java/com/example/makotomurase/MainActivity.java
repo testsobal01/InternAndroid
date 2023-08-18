@@ -2,13 +2,20 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.SharedPreferences;
+import android.media.AudioAttributes;
+import android.media.SoundPool;
+
 import android.graphics.Color;
+import android.content.SharedPreferences;
+
+import android.graphics.Color;
+
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,6 +25,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     //プリファレンスの作成
     SharedPreferences pref;
     SharedPreferences.Editor prefEditor;
+
+    //sound
+    private SoundPlayer soundPlayer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +42,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
+
+        soundPlayer = new SoundPlayer(this);
 
         // 起動時に関数を呼び出す
         setQuestionValue();
@@ -81,7 +93,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void clearAnswerValue() {
         TextView txtView = (TextView) findViewById(R.id.answer);
-        txtView.setText("値2");
+        String atai2= getString(R.string.a2);
+        txtView.setText(atai2);
     }
 
     private void setQuestionValue() {
@@ -100,7 +113,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView txtView = findViewById(R.id.answer);
         txtView.setText(Integer.toString(answerValue));
     }
-
     private void checkResult(boolean isHigh) {
         TextView txtViewQuestion = findViewById(R.id.question);
         TextView txtViewAnswer = findViewById(R.id.answer);
@@ -120,23 +132,46 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = "WIN";
                 score = 2;
+
+                //勝った時の効果音
+                soundPlayer.playWinSound();
+
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
+
+                //負けた時の効果音
+                soundPlayer.playLoseSound();
+
             } else {
                 result = "DRAW";
                 score = 1;
+
+                //ドローの効果音
+                soundPlayer.playDrawSound();
+
             }
         } else {
             if (question > answer) {
                 result = "WIN";
                 score = 2;
+
+                //勝った時の効果音
+                soundPlayer.playWinSound();
+
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
+
+                //負けた時の効果音
+                soundPlayer.playLoseSound();
+
             } else {
                 result = "DRAW";
                 score = 1;
+
+                //ドローの効果音
+                soundPlayer.playDrawSound();
             }
         }
 
@@ -154,8 +189,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
         // 最後にまとめてToast表示の処理とTextViewへのセットを行う
+        String resu= getString(R.string.kekka);
+
         Toast.makeText(this, result, Toast.LENGTH_LONG).show();
-        txtResult.setText("結果：" + question + ":" + answer + "(" + result + ")");
+        txtResult.setText(resu+ question + ":" + answer + "(" + result + ")");
 
         // 続けて遊べるように値を更新
         setNextQuestion();
