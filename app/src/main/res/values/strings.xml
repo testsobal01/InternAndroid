@@ -1,8 +1,7 @@
 <resources>
-    <string name="app_name">TeamProduct</string>
+    <string name="app_name">MakotoMurase</string>
     <string name="btn_high">High</string>
     <string name="btn_low">Low</string>
-    <striAng name="btn_restart">Restart</striA
-        ng>
+    <string name="btn_restart">Restart</string>
     <string name="label_score">Score：</string>
 </resources>
