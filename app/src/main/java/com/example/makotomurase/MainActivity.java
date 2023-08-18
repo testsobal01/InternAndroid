@@ -3,6 +3,7 @@ package com.example.makotomurase;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
@@ -139,6 +140,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         }
 
+        //勝敗で背景の色を変える
+        if (score == 2){
+            txtViewQuestion.setBackgroundColor(Color.rgb(255,10,132));
+            txtViewAnswer.setBackgroundColor(Color.rgb(255,132,10));
+        } else if (score == -1) {
+            txtViewQuestion.setBackgroundColor(Color.rgb(209,209,255));
+            txtViewAnswer.setBackgroundColor(Color.rgb(211,221,221));
+        }else if (score == 1){
+            txtViewQuestion.setBackgroundColor(Color.rgb(137,255,196));
+            txtViewAnswer.setBackgroundColor(Color.rgb(193,255,132));
+        }
+
+
         // 最後にまとめてToast表示の処理とTextViewへのセットを行う
         Toast.makeText(this, result, Toast.LENGTH_LONG).show();
         txtResult.setText("結果：" + question + ":" + answer + "(" + result + ")");
@@ -182,6 +196,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void clearScoreValue() {
         TextView txtScore = (TextView) findViewById(R.id.text_score);
         txtScore.setText("0");
+        //背景色のリセット
+        TextView txtViewQuestion = findViewById(R.id.question);
+        txtViewQuestion.setBackgroundColor(Color.rgb(255,0,255));
+        TextView txtViewAnswer = findViewById(R.id.answer);
+        txtViewAnswer.setBackgroundColor(Color.rgb(255,255,0));
+
     }
 }
 
