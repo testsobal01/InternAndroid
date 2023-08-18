@@ -8,4 +8,7 @@
     <string name="a1">値1</string>
     <string name="a2">値2</string>
     <string name="kekka">結果</string>
+    <string name="game_name">Let\'s Guess Random Number</string>
+    <string name="answer">値1</string>
+    <string name="question">値2</string>
 </resources>
