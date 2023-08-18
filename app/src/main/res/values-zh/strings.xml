@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">HIGH AND LOW</string>
+    <string name="btn_high">高的</string>
+    <string name="btn_low">低的</string>
+    <string name="btn_restart">重新开始</string>
+    <string name="label_score">分數：</string>
+    <string name="text_10">10已設定。</string>
+    <string name="size_2">值2</string>
+    <string name="win_0">贏</string>
+    <string name="lose_0">失去</string>
+    <string name="draw_0">畫</string>
+</resources>
