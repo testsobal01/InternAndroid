@@ -13,6 +13,9 @@
     <string name="a2">Value2</string>
     <string name="kekka">result</string>
 
-    <string name="game_name">Let\' Guess Random Number</string>
+    <string name="game_name">Let\'s Guess Random Number</string>
+
+
     <string name="explanation"></string>
+
 </resources>
