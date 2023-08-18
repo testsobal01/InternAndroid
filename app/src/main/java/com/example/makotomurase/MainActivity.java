@@ -2,16 +2,26 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+
+import android.graphics.Color;
+
+import android.content.SharedPreferences;
+
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Vibrator;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
+    SharedPreferences pref;
+    SharedPreferences.Editor prefEditor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,34 +39,43 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
 
+
+        pref = getSharedPreferences("TeamProduct", MODE_PRIVATE);
+        prefEditor = pref.edit();
+
         // 起動時に関数を呼び出す
-        setQuestionValue();
+        setQuestionValue();//値の設定
     }
 
     @Override
-    public void onClick(View view) {
-
+    public void onClick(View view) {//各ボタンを押したときの処理
 
         int id = view.getId();
+        Vibrator vib = (Vibrator) getSystemService(VIBRATOR_SERVICE);
         if (id == R.id.button1) {
             setAnswerValue();
             checkResult(true);
+            vib.vibrate(300);
+
         } else if (id == R.id.button2) {
             setAnswerValue();
             checkResult(false);
+            vib.vibrate(300);
         } else if (id == R.id.button3) {
+
             setQuestionValue();
             clearAnswerValue();
             clearScoreValue();
+            vib.vibrate(300);
         }
     }
 
-    private void clearAnswerValue() {
+    private void clearAnswerValue() {//restartのときだけ
         TextView txtView = (TextView) findViewById(R.id.answer);
-        txtView.setText("値2");
+        txtView.setText(getString(R.string.size_2));
     }
 
-    private void setQuestionValue() {
+    private void setQuestionValue() {//値1の変更
         Random r = new Random();
         // 0から10の範囲で乱数を生成（+1する必要がある）
         int questionValue = r.nextInt(10 + 1);
@@ -86,46 +105,59 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         String result;
         int score;
 
+        TextView txtView = (TextView) findViewById(R.id.answer);
+
         // Highが押された
         if (isHigh) {
             // result には結果のみを入れる
             if (question < answer) {
-                result = "WIN";
+                result = getString(R.string.win_0);
                 score = 2;
+                txtView.setBackgroundColor(Color.RED);
             } else if (question > answer) {
-                result = "LOSE";
+                result = getString(R.string.lose_0);
                 score = -1;
+                txtView.setBackgroundColor(Color.BLUE);
             } else {
-                result = "DRAW";
+                result = getString(R.string.draw_0);
                 score = 1;
+                txtView.setBackgroundColor(Color.GREEN);
             }
+
         } else {
             if (question > answer) {
-                result = "WIN";
+                result = getString(R.string.win_0);
                 score = 2;
+                txtView.setBackgroundColor(Color.RED);
             } else if (question < answer) {
-                result = "LOSE";
+                result = getString(R.string.lose_0);
                 score = -1;
+                txtView.setBackgroundColor(Color.BLUE);
+
             } else {
-                result = "DRAW";
+                result = getString(R.string.draw_0);
                 score = 1;
+                txtView.setBackgroundColor(Color.GREEN);
             }
+
+            // 続けて遊べるように値を更新
+            setNextQuestion();
+            // スコアを表示
+            setScore(score);
         }
-
-        // 最後にまとめてToast表示の処理とTextViewへのセットを行う
+      // 最後にまとめてToast表示の処理とTextViewへのセットを行う
         Toast.makeText(this, result, Toast.LENGTH_LONG).show();
-        txtResult.setText("結果：" + question + ":" + answer + "(" + result + ")");
 
-        // 続けて遊べるように値を更新
-        setNextQuestion();
-        // スコアを表示
-        setScore(score);
+        txtResult.setText(getString(R.string.label_score) + question + ":" + answer + "(" + result + ")");
+
+        
     }
 
-    private void setNextQuestion() {
+    private void setNextQuestion() {//カウントダウン
         // 第１引数がカウントダウン時間、第２引数は途中経過を受け取る間隔
         // 単位はミリ秒（1秒＝1000ミリ秒）
         new CountDownTimer(3000, 1000) {
+            int score;
             @Override
             public void onTick(long l) {
                 // 途中経過を受け取った時に何かしたい場合
@@ -135,20 +167,42 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onFinish() {
                 // 3秒経過したら次の値をセット
-                setQuestionValue();
+                setQuestionValue();//再度値1の変更
+                setScore(score);
             }
         }.start();
     }
 
-    private void setScore(int score) {
+    private void setScore(int score) {//スコア表示
         TextView txtScore = (TextView) findViewById(R.id.text_score);
-        int newScore = Integer.parseInt(txtScore.getText().toString()) + score;
+        int newScore = Integer.parseInt(txtScore.getText().toString()) + score;//表示されるスコア
+
         txtScore.setText(Integer.toString(newScore));
+        TextView textView = (TextView)findViewById(R.id.text_score);
+        prefEditor.putString("label_score", textView.getText().toString());
+        prefEditor.commit();
     }
 
-    private void clearScoreValue() {
+    private void clearScoreValue() {//restartのときだけ
         TextView txtScore = (TextView) findViewById(R.id.text_score);
         txtScore.setText("0");
+    }
+
+    @Override
+    protected void onPause(){//保存
+        super.onPause();
+        TextView textView = (TextView)findViewById(R.id.text_score);//保存のためのテキストビュー取得
+        prefEditor.putString("label_score", textView.getText().toString());//文字列保存
+        prefEditor.commit();
+    }
+
+    @Override
+    protected void onResume(){//読み込み
+        super.onResume();
+        TextView tv = (TextView) findViewById(R.id.text_score);
+        String readText = pref.getString("label_score", "0");
+        tv.setText(readText);
+
     }
 }
 

@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">masato watanabe</string>
+    <string name="btn_high">높은</string>
+    <string name="btn_low">낮은</string>
+    <string name="btn_restart">재시작</string>
+    <string name="label_score">점수：</string>
+    <string name="text_10">10이 설정됩니다.</string>
+    <string name="size_2">값2</string>
+    <string name="win_0">이기다</string>
+    <string name="lose_0">잃다</string>
+    <string name="draw_0">그리다</string>
+
+</resources>
