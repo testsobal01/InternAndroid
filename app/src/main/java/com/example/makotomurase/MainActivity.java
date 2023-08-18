@@ -2,6 +2,7 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
@@ -12,6 +13,9 @@ import android.widget.Toast;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
+    SharedPreferences pref;
+    SharedPreferences.Editor prefEditor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,7 +33,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // 起動時に関数を呼び出す
         setQuestionValue();
+
+        pref = getSharedPreferences("AndroidSeminor", MODE_PRIVATE);
+        prefEditor = pref.edit();
     }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        //テキストビューの取得
+        TextView textView = (TextView) findViewById(R. id.text_score);
+        //text_result(キー名)に文字列を保存
+        prefEditor.putString("text_score", textView.getText().toString());
+        prefEditor.commit();
+    }
+
+
 
     @Override
     public void onClick(View view) {
@@ -145,6 +164,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void clearScoreValue() {
         TextView txtScore = (TextView) findViewById(R.id.text_score);
         txtScore.setText("0");
+    }
+
+
+    @Override
+    protected void onPostResume() {
+        super.onPostResume();
+        //テキストビューの取得
+        TextView textView = (TextView) findViewById(R. id.text_score);
+        //保存した値をキー名を指定して取得(保存されていない場合の文字列も指定)
+        String readText = pref.getString("text_score","保存されていません");
+        textView.setText(readText);
     }
 }
 
