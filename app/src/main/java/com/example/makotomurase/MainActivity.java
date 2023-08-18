@@ -121,10 +121,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = "WIN";
                 score = 2;
+                winSound();
                 winChangeBackColor();
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
+                lowSound();
                 loseChangeBackColor();
             } else {
                 result = "DRAW";
@@ -134,10 +136,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question > answer) {
                 result = "WIN";
                 score = 2;
+                winSound();
                 winChangeBackColor();
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
+                lowSound();
                 loseChangeBackColor();
             } else {
                 result = "DRAW";
@@ -213,6 +217,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void Sound(){
         SoundPool sndPl=new SoundPool(1, AudioManager.STREAM_MUSIC,0);
         int sndId=sndPl.load(this.getApplicationContext(),R.raw.quiz_start,0);
+        sndPl.play(sndId,1.0F,1.0F,0,0,1.0F);
+    }
+    public void winSound(){
+        SoundPool sndPl=new SoundPool(1, AudioManager.STREAM_MUSIC,0);
+        int sndId=sndPl.load(this.getApplicationContext(),R.raw.quiz_win2,0);
+        sndPl.play(sndId,1.0F,1.0F,0,0,1.0F);
+    }
+    public void lowSound(){
+        SoundPool sndPl=new SoundPool(1, AudioManager.STREAM_MUSIC,0);
+        int sndId=sndPl.load(this.getApplicationContext(),R.raw.quiz_lose1,0);
         sndPl.play(sndId,1.0F,1.0F,0,0,1.0F);
     }
 
