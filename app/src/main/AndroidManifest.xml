@@ -26,5 +26,5 @@
             android:exported="true">
         </activity>
     </application>
-    <uses-permission android:name="android.permisson.VIBRATE"></uses-permission>>
+
 </manifest>

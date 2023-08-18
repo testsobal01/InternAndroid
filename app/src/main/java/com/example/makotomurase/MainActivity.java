@@ -2,6 +2,8 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.animation.AnimatorInflater;
+import android.animation.AnimatorSet;
 import android.app.Activity;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -14,6 +16,8 @@ import android.widget.Toast;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
+    AnimatorSet set;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +47,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             checkResult(true);
 
             Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
-            vib.vibrate(1git 00);
+            vib.vibrate(100);
         }
 
         else if (id == R.id.button2) {
@@ -75,6 +79,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         TextView txtView = findViewById(R.id.question);
         txtView.setText(Integer.toString(questionValue));
+
+        set = (AnimatorSet) AnimatorInflater.loadAnimator(MainActivity.this, R.animator.blink_animation);
+        set.setTarget(txtView);
+        // onStart();
     }
 
     private void setAnswerValue() {
@@ -83,6 +91,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         TextView txtView = findViewById(R.id.answer);
         txtView.setText(Integer.toString(answerValue));
+
+
     }
 
     private void checkResult(boolean isHigh) {
@@ -125,6 +135,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         }
 
+        if (score == 2) {
+            set = (AnimatorSet) AnimatorInflater.loadAnimator(MainActivity.this, R.animator.blink_animation);
+            set.setTarget(txtViewAnswer);
+            onStart();
+        }
+        else if (score == -1) {
+            set = (AnimatorSet) AnimatorInflater.loadAnimator(MainActivity.this, R.animator.blink_animation);
+            set.setTarget(txtViewQuestion);
+            onStart();
+        }
+
+
         // 最後にまとめてToast表示の処理とTextViewへのセットを行う
         Toast.makeText(this, result, Toast.LENGTH_LONG).show();
         txtResult.setText(String.format("%s" + question + ":" + answer + "(" + result + ")", getString(R.string.label_result)));
@@ -133,6 +155,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setNextQuestion();
         // スコアを表示
         setScore(score);
+
+
     }
 
     private void setNextQuestion() {
@@ -162,6 +186,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void clearScoreValue() {
         TextView txtScore = (TextView) findViewById(R.id.text_score);
         txtScore.setText("0");
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        set.start();
     }
 }
 
