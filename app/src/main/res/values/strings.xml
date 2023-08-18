@@ -4,8 +4,15 @@
     <string name="btn_low">Low</string>
     <string name="btn_restart">Restart</string>
     <string name="label_score">Score：</string>
+
     <string name="answer">値1</string>
     <string name="question">値2</string>
+
+    <string name="settei">10 is set.</string>
+    <string name="a1">Value1</string>
+    <string name="a2">Value2</string>
+    <string name="kekka">result</string>
+
     <string name="game_name">Let\' Guess Random Number</string>
     <string name="explanation"></string>
 </resources>

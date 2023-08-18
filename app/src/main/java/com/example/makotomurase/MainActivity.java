@@ -3,11 +3,20 @@ package com.example.makotomurase;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.res.ResourcesCompat;
 
+
 import android.animation.ArgbEvaluator;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
+
+import android.media.AudioAttributes;
+import android.media.SoundPool;
+
+
 import android.graphics.Color;
 import android.content.SharedPreferences;
+
+import android.graphics.Color;
+
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
@@ -27,6 +36,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     SharedPreferences pref;
     SharedPreferences.Editor prefEditor;
 
+    //sound
+    private SoundPlayer soundPlayer;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,6 +52,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
+
+        soundPlayer = new SoundPlayer(this);
 
         // 起動時に関数を呼び出す
         setQuestionValue();
@@ -90,7 +104,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void clearAnswerValue() {
         TextView txtView = (TextView) findViewById(R.id.answer);
-        txtView.setText("値2");
+        String atai2= getString(R.string.a2);
+        txtView.setText(atai2);
     }
 
     private void setQuestionValue() {
@@ -128,29 +143,67 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = "WIN";
                 score = 2;
+
+                //勝った時の効果音
+                soundPlayer.playWinSound();
+
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
+
+                //負けた時の効果音
+                soundPlayer.playLoseSound();
+
             } else {
                 result = "DRAW";
                 score = 1;
+
+                //ドローの効果音
+                soundPlayer.playDrawSound();
+
             }
         } else {
             if (question > answer) {
                 result = "WIN";
                 score = 2;
+
+                //勝った時の効果音
+                soundPlayer.playWinSound();
+
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
+
+                //負けた時の効果音
+                soundPlayer.playLoseSound();
+
             } else {
                 result = "DRAW";
                 score = 1;
+
+                //ドローの効果音
+                soundPlayer.playDrawSound();
             }
         }
 
+        //勝敗で背景の色を変える
+        if (score == 2){
+            txtViewQuestion.setBackgroundColor(Color.rgb(255,10,132));
+            txtViewAnswer.setBackgroundColor(Color.rgb(255,132,10));
+        } else if (score == -1) {
+            txtViewQuestion.setBackgroundColor(Color.rgb(209,209,255));
+            txtViewAnswer.setBackgroundColor(Color.rgb(211,221,221));
+        }else if (score == 1){
+            txtViewQuestion.setBackgroundColor(Color.rgb(137,255,196));
+            txtViewAnswer.setBackgroundColor(Color.rgb(193,255,132));
+        }
+
+
         // 最後にまとめてToast表示の処理とTextViewへのセットを行う
+        String resu= getString(R.string.kekka);
+
         Toast.makeText(this, result, Toast.LENGTH_LONG).show();
-        txtResult.setText("結果：" + question + ":" + answer + "(" + result + ")");
+        txtResult.setText(resu+ question + ":" + answer + "(" + result + ")");
 
         // 続けて遊べるように値を更新
         setNextQuestion();
@@ -209,6 +262,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void clearScoreValue() {
         TextView txtScore = (TextView) findViewById(R.id.text_score);
         txtScore.setText("0");
+        //背景色のリセット
+        TextView txtViewQuestion = findViewById(R.id.question);
+        txtViewQuestion.setBackgroundColor(Color.rgb(255,0,255));
+        TextView txtViewAnswer = findViewById(R.id.answer);
+        txtViewAnswer.setBackgroundColor(Color.rgb(255,255,0));
+
     }
 }
 
