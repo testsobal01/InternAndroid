@@ -3,6 +3,7 @@ package com.example.makotomurase;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
@@ -43,7 +44,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             checkResult(true);
 
             Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
-            vib.vibrate(1git 00);
+            vib.vibrate(100);
         }
 
         else if (id == R.id.button2) {
@@ -104,6 +105,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = "WIN";
                 score = 2;
+
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
@@ -124,6 +126,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         }
 
+        setBackGroundColor(result);
+
         // 最後にまとめてToast表示の処理とTextViewへのセットを行う
         Toast.makeText(this, result, Toast.LENGTH_LONG).show();
         txtResult.setText("結果：" + question + ":" + answer + "(" + result + ")");
@@ -133,6 +137,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // スコアを表示
         setScore(score);
     }
+
+
 
     private void setNextQuestion() {
         // 第１引数がカウントダウン時間、第２引数は途中経過を受け取る間隔
@@ -162,5 +168,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView txtScore = (TextView) findViewById(R.id.text_score);
         txtScore.setText("0");
     }
+
+    private void setBackGroundColor(String result){
+        TextView txtViewQuestion = findViewById(R.id.question);
+        TextView txtViewAnswer = findViewById(R.id.answer);
+
+        if(result.equals("WIN")){
+            txtViewQuestion.setBackgroundColor(Color.parseColor("#FF0000"));
+            txtViewAnswer.setBackgroundColor(Color.parseColor("#FF7F00"));
+        }
+        else if(result.equals("LOSE")){
+            txtViewQuestion.setBackgroundColor(Color.parseColor("#007FFF"));
+            txtViewAnswer.setBackgroundColor(Color.parseColor("#00FFFF"));
+        }
+        else if(result.equals("DRAW")){
+            txtViewQuestion.setBackgroundColor(Color.parseColor("#FF7F00"));
+            txtViewAnswer.setBackgroundColor(Color.parseColor("#FFFF00"));
+        }
+    }
 }
+
 
