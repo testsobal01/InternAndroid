@@ -2,11 +2,19 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+
 import android.animation.ObjectAnimator;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+
+
+import android.content.Intent;
+
+
+
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Vibrator;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -23,7 +31,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         Button btn1 = findViewById(R.id.button1);
         btn1.setOnClickListener(this);
 
@@ -63,9 +70,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (id == R.id.button1) {
             setAnswerValue();
             checkResult(true);
+            Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+            vib.vibrate(500);
         } else if (id == R.id.button2) {
             setAnswerValue();
             checkResult(false);
+            Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+            vib.vibrate(500);
         } else if (id == R.id.button3) {
             setQuestionValue();
             clearAnswerValue();
@@ -87,8 +98,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // 0から10の範囲で乱数を生成（+1する必要がある）
         int questionValue = r.nextInt(10 + 1);
 
-        TextView txtView = findViewById(R.id.question);
-        txtView.setText(Integer.toString(questionValue));
+        TextView queView = findViewById(R.id.question);
+        TextView ansView = findViewById(R.id.answer);
+        queView.setText(Integer.toString(questionValue));
+        ansView.setBackgroundColor(Color.rgb(255,255,0));
+        queView.setBackgroundColor(Color.rgb(255,0,255));
     }
 
     private void setAnswerValue() {
@@ -142,6 +156,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // 最後にまとめてToast表示の処理とTextViewへのセットを行う
         Toast.makeText(this, result, Toast.LENGTH_LONG).show();
         txtResult.setText("結果：" + question + ":" + answer + "(" + result + ")");
+        switch(score){
+            case 2:
+                TextView queColor2 = (TextView)findViewById(R.id.question);
+                TextView ansColor2 = (TextView)findViewById(R.id.answer);
+                queColor2.setBackgroundColor(Color.rgb(0,250,154));
+                ansColor2.setBackgroundColor(Color.rgb(0,250,154));
+                break;
+            case 1:
+                TextView queColor1 = (TextView)findViewById(R.id.question);
+                TextView ansColor1 = (TextView)findViewById(R.id.answer);
+                queColor1.setBackgroundColor(Color.rgb(255,255,0));
+                ansColor1.setBackgroundColor(Color.rgb(255,255,0));
+                break;
+            case -1:
+                TextView queColor = (TextView)findViewById(R.id.question);
+                TextView ansColor = (TextView)findViewById(R.id.answer);
+                queColor.setBackgroundColor(Color.rgb(255,69,0));
+                ansColor.setBackgroundColor(Color.rgb(255,69,0));
+                break;
+        }
 
         switch (score){
             case 2:
