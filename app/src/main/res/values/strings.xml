@@ -5,4 +5,8 @@
     <string name="btn_restart">Restart</string>
     <string name="label_score">Score：</string>
     <string name="ten" translatable="false">10が設定されています。：</string>
+    <string name="high">HIGH</string>
+    <string name="low">LOW</string>
+    <string name="or">OR</string>
+    <string name="play_button">PLAY</string>
 </resources>
