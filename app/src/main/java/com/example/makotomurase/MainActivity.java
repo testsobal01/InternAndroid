@@ -2,6 +2,7 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
@@ -14,6 +15,8 @@ import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
+    SharedPreferences pref;
+    SharedPreferences.Editor prefEditor;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,8 +31,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
 
+        //プリファレンスの生成
+        pref = getSharedPreferences("HIGH OR LOW",MODE_PRIVATE);
+        prefEditor = pref.edit();
+        TextView txtScore = (TextView) findViewById(R.id.text_score);
+        int readscore = pref.getInt("HIGH OR LOW",0);
+        txtScore.setText(Integer.toString(readscore));
+
         // 起動時に関数を呼び出す
         setQuestionValue();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        //スコアの保存
+        TextView txtScore = (TextView) findViewById(R.id.text_score);
+        prefEditor.putInt("HIGH OR LOW", Integer.parseInt(txtScore.getText().toString()));
+        prefEditor.commit();
     }
 
     @Override
@@ -49,11 +68,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+    //アンサーをリセット
     private void clearAnswerValue() {
         TextView txtView = (TextView) findViewById(R.id.answer);
         txtView.setText("?");
     }
 
+    //クエスチョンの生成
     private void setQuestionValue() {
         Random r = new Random();
         // 0から10の範囲で乱数を生成（+1する必要がある）
@@ -63,6 +84,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         txtView.setText(Integer.toString(questionValue));
     }
 
+    //アンサーの生成
     private void setAnswerValue() {
         Random r = new Random();
         int answerValue = r.nextInt(10 + 1);
@@ -71,6 +93,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         txtView.setText(Integer.toString(answerValue));
     }
 
+    //結果の生成
     private void checkResult(boolean isHigh) {
         TextView txtViewQuestion = findViewById(R.id.question);
         TextView txtViewAnswer = findViewById(R.id.answer);
@@ -122,6 +145,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setScore(score);
     }
 
+    //三秒後にクエスチョンを再生成
     private void setNextQuestion() {
         // 第１引数がカウントダウン時間、第２引数は途中経過を受け取る間隔
         // 単位はミリ秒（1秒＝1000ミリ秒）
@@ -140,12 +164,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }.start();
     }
 
+    //スコアの表示
     private void setScore(int score) {
         TextView txtScore = (TextView) findViewById(R.id.text_score);
         int newScore = Integer.parseInt(txtScore.getText().toString()) + score;
         txtScore.setText(Integer.toString(newScore));
     }
 
+    //スコアのリセット
     private void clearScoreValue() {
         TextView txtScore = (TextView) findViewById(R.id.text_score);
         txtScore.setText("0");
