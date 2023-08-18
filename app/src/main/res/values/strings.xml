@@ -4,4 +4,6 @@
     <string name="btn_low">Low</string>
     <string name="btn_restart">Restart</string>
     <string name="label_score">Score：</string>
+    <string name="top_app_name">High &amp; Low</string>
+    <string name="game_start">Game Start</string>
 </resources>
