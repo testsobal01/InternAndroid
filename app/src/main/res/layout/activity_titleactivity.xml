@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Titleactivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+
+        <TextView
+            android:id="@+id/appname"
+            android:layout_width="match_parent"
+            android:layout_height="131dp"
+            android:background="#BFA274ED"
+            android:fontFamily="sans-serif-black"
+            android:text="number size comparison game"
+            android:textAllCaps="false"
+            android:textColor="#FDFFFF"
+            android:textSize="48sp"
+            android:textStyle="bold"
+            android:typeface="normal" />
+
+        <Button
+            android:id="@+id/button10"
+            android:layout_width="match_parent"
+            android:layout_height="321dp"
+
+            android:background="#EA0C0C"
+            android:backgroundTintMode="src_in"
+            android:fontFamily="sans-serif-black"
+            android:onClick="startGame"
+            android:text="START!!!!!!!\n touch the button"
+            android:textColor="@color/white"
+            android:textSize="34sp"
+            android:textStyle="bold"
+            app:iconTintMode="src_over"
+            app:strokeColor="#AA1B1B" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#8D3AEA"
+            android:fontFamily="sans-serif-condensed"
+            android:lineSpacingExtra="24sp"
+            android:text="Can you clear this most difficult game that is hot topic?"
+
+            android:textColor="#FFFFFE"
+            android:textSize="40dp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+
+    </LinearLayout>
