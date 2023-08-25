@@ -1,7 +1,9 @@
 package com.example.makotomurase;
 
+import androidx.annotation.ColorInt;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
@@ -52,7 +54,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void clearAnswerValue() {
         TextView txtView = (TextView) findViewById(R.id.answer);
-        txtView.setText("値2");
+        txtView.setText("値２");
     }
 
     private void setQuestionValue() {
@@ -91,29 +93,44 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = "WIN";
                 score = 2;
+                txtViewAnswer.setBackgroundColor(Color.rgb(150, 0, 0));
+                txtViewQuestion.setBackgroundColor(Color.rgb(0, 0, 0));
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
+                txtViewQuestion.setBackgroundColor(Color.rgb(0, 0, 0));
+                txtViewAnswer.setBackgroundColor(Color.rgb(0, 0, 150));
+
             } else {
                 result = "DRAW";
                 score = 1;
+                txtViewAnswer.setBackgroundColor(Color.rgb(0, 0, 0));
+                txtViewQuestion.setBackgroundColor(Color.rgb(0, 0, 0));
             }
         } else {
             if (question > answer) {
                 result = "WIN";
                 score = 2;
+                txtViewAnswer.setBackgroundColor(Color.rgb(0, 0, 0));
+                txtViewQuestion.setBackgroundColor(Color.rgb(150, 0, 0));
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
+                txtViewAnswer.setBackgroundColor(Color.rgb(0, 0, 150));
+                txtViewQuestion.setBackgroundColor(Color.rgb(0, 0, 0));
             } else {
                 result = "DRAW";
                 score = 1;
+                txtViewAnswer.setBackgroundColor(Color.rgb(0, 0, 0));
+                txtViewQuestion.setBackgroundColor(Color.rgb(0, 0, 0));
             }
         }
 
         // 最後にまとめてToast表示の処理とTextViewへのセットを行う
         Toast.makeText(this, result, Toast.LENGTH_LONG).show();
         txtResult.setText("結果：" + question + ":" + answer + "(" + result + ")");
+
+
 
         // 続けて遊べるように値を更新
         setNextQuestion();
