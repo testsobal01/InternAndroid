@@ -1,8 +1,13 @@
 package com.example.makotomurase;
 
+import androidx.annotation.ColorInt;
 import androidx.appcompat.app.AppCompatActivity;
 
+
+import android.graphics.Color;
+
 import android.content.SharedPreferences;
+
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
@@ -83,6 +88,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         txtView.setText(Integer.toString(answerValue));
     }
 
+    // (b-6) 右側の背景色を変更する関数
+    private void setAnswerColor(String result) {
+        TextView txtView = findViewById(R.id.answer);
+
+        if(result == "WIN"){ // 勝利
+            txtView.setBackgroundColor(Color.RED);
+        } else if (result == "LOSE") { // 敗北
+            txtView.setBackgroundColor(Color.BLUE);
+        } else if (result == "DRAW") { // 引き分け
+            txtView.setBackgroundColor(Color.GREEN);
+        } else if (result == "RESET") {
+            txtView.setBackgroundColor(Color.YELLOW);
+        } else { // 例外
+            Toast.makeText(this, "不正なresult：" + result, Toast.LENGTH_LONG).show();
+        }
+    }
+
     private void checkResult(boolean isHigh) {
         TextView txtViewQuestion = findViewById(R.id.question);
         TextView txtViewAnswer = findViewById(R.id.answer);
@@ -124,6 +146,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // 最後にまとめてToast表示の処理とTextViewへのセットを行う
         Toast.makeText(this, result, Toast.LENGTH_LONG).show();
+
+        setAnswerColor(result);
+
         Locale locale = Locale.getDefault();
         String lang = locale.getLanguage();
         if (lang.equals("ja")) {
@@ -133,6 +158,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             // その他の言語環境、通常英語が選択される
             txtResult.setText("Result：" + question + ":" + answer + "(" + result + ")");
         }
+
 
 
         // 続けて遊べるように値を更新
@@ -155,6 +181,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public void onFinish() {
                 // 3秒経過したら次の値をセット
                 setQuestionValue();
+                setAnswerColor("RESET");
             }
         }.start();
     }
