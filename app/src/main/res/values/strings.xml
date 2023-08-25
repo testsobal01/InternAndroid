@@ -4,4 +4,7 @@
     <string name="btn_low">Low</string>
     <string name="btn_restart">Restart</string>
     <string name="label_score">Score：</string>
+    <string name="text1">10 is set.</string>
+    <string name="startname">value 2</string>
+    <string name="result">result:</string>
 </resources>

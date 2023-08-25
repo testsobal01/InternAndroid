@@ -3,15 +3,19 @@ package com.example.makotomurase;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.media.AudioAttributes;
 import android.media.SoundPool;
 
+
+import org.w3c.dom.Text;
 
 import java.util.Random;
 
@@ -83,6 +87,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             setQuestionValue();
             clearAnswerValue();
             clearScoreValue();
+            clearBackgroundColor();
         }
     }
 
@@ -108,9 +113,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         txtView.setText(Integer.toString(answerValue));
     }
 
+    private void clearBackgroundColor() {
+        TextView txtViewQuestion = findViewById(R.id.question);
+        TextView txtViewAnswer = findViewById(R.id.answer);
+        txtViewQuestion.setBackgroundColor(Color.parseColor("#ff00ff"));
+        txtViewAnswer.setBackgroundColor(Color.parseColor("#ffff00"));
+    }
+
     private void checkResult(boolean isHigh) {
         TextView txtViewQuestion = findViewById(R.id.question);
         TextView txtViewAnswer = findViewById(R.id.answer);
+
 
         int question = Integer.parseInt(txtViewQuestion.getText().toString());
         int answer = Integer.parseInt(txtViewAnswer.getText().toString());
@@ -132,34 +145,42 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 result = "LOSE";
                 score = -1;
                 soundPool.play(soundTwo, 1.0f, 1.0f, 0, 0, 1);
-
+                txtViewQuestion.setBackgroundColor(Color.LTGRAY);
+                txtViewAnswer.setBackgroundColor(Color.CYAN);
             } else {
                 result = "DRAW";
                 score = 1;
                 soundPool.play(soundThree, 1.0f, 1.0f, 0, 0, 1);
-
+                txtViewQuestion.setBackgroundColor(Color.GREEN);
+                txtViewAnswer.setBackgroundColor(Color.GREEN);
             }
         } else {
             if (question > answer) {
                 result = "WIN";
                 soundPool.play(soundOne, 1.0f, 1.0f, 0, 0, 1);
                 score = 2;
+                txtViewQuestion.setBackgroundColor(Color.CYAN);
+                txtViewAnswer.setBackgroundColor(Color.LTGRAY);
             } else if (question < answer) {
                 result = "LOSE";
                 soundPool.play(soundTwo, 1.0f, 1.0f, 0, 0, 1);
                 score = -1;
+                txtViewQuestion.setBackgroundColor(Color.LTGRAY);
+                txtViewAnswer.setBackgroundColor(Color.CYAN);
             } else {
                 result = "DRAW";
                 score = 1;
                 soundPool.play(soundThree, 1.0f, 1.0f, 0, 0, 1);
 
+                txtViewQuestion.setBackgroundColor(Color.GREEN);
+                txtViewAnswer.setBackgroundColor(Color.GREEN);
             }
         }
 
         // 最後にまとめてToast表示の処理とTextViewへのセットを行う
         Toast.makeText(this, result, Toast.LENGTH_LONG).show();
-        txtResult.setText("結果：" + question + ":" + answer + "(" + result + ")");
-
+        String s = getResources().getString(R.string.result);
+        txtResult.setText(s + question + ":" + answer + "(" + result + ")");
         // 続けて遊べるように値を更新
         setNextQuestion();
         // スコアを表示
@@ -170,6 +191,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // 第１引数がカウントダウン時間、第２引数は途中経過を受け取る間隔
         // 単位はミリ秒（1秒＝1000ミリ秒）
         new CountDownTimer(3000, 1000) {
+
             @Override
             public void onTick(long l) {
                 // 途中経過を受け取った時に何かしたい場合
@@ -180,6 +202,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public void onFinish() {
                 // 3秒経過したら次の値をセット
                 setQuestionValue();
+                clearBackgroundColor();
             }
         }.start();
     }
