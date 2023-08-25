@@ -77,7 +77,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         txtView.setText(Integer.toString(answerValue));
     }
 
-    private void set
+    private void setWinningStreak(int score, int win){
+        TextView txtView = findViewById(R.id.score_result);
+        txtView.setText("Score: "+score+"                                                                                  "+win+"連勝");
+    }
 
     private void checkResult(boolean isHigh) {
         TextView txtViewQuestion = findViewById(R.id.question);
@@ -91,6 +94,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // 結果を示す文字列を入れる変数を用意
         String result;
         int score;
+        int win=0;
 
         // Highが押された
         if (isHigh) {
@@ -98,29 +102,36 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = "WIN";
                 score = 2;
+                win=win+1;
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
+                win=0;
             } else {
                 result = "DRAW";
                 score = 1;
+                win=0;
             }
         } else {
             if (question > answer) {
                 result = "WIN";
                 score = 2;
+                win=win+1;
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
+                win=0;
             } else {
                 result = "DRAW";
                 score = 1;
+                win=0;
             }
         }
 
         // 最後にまとめてToast表示の処理とTextViewへのセットを行う
         Toast.makeText(this, result, Toast.LENGTH_LONG).show();
         txtResult.setText("結果：" + question + ":" + answer + "(" + result + ")");
+
 
         // 続けて遊べるように値を更新
         setNextQuestion();
