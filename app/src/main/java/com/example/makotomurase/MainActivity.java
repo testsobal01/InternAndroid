@@ -3,6 +3,9 @@ package com.example.makotomurase;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.media.AudioAttributes;
+import android.media.SoundPool;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
@@ -19,6 +22,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     SharedPreferences pref;
     SharedPreferences.Editor prefEditor;
 
+    // soundPool周りの変数を宣言(b-6)
+    private SoundPool soundPool;
+    private int soundCorrect, soundIncorrect, soundDraw;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,6 +39,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
+
+        //soundPoolに音声を読み込む(b-6)
+        AudioAttributes audioAttributes = new AudioAttributes.Builder()
+                .setUsage(AudioAttributes.USAGE_GAME)
+                .setContentType(AudioAttributes.CONTENT_TYPE_SPEECH)
+                .build();
+
+        soundPool = new SoundPool.Builder()
+                .setAudioAttributes(audioAttributes)
+                .setMaxStreams(3)
+                .build();
+
+        soundCorrect = soundPool.load(this, R.raw.correct, 1);
+        soundIncorrect = soundPool.load(this, R.raw.incorrect, 1);
+        soundDraw = soundPool.load(this, R.raw.draw, 1);
 
         // プリファレンスのインスタンスを生成(b-2)
         pref = getSharedPreferences("TeamB", MODE_PRIVATE);
@@ -83,6 +105,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         txtView.setText(Integer.toString(answerValue));
     }
 
+    private void playSound(String index){
+        int soundIndex;
+
+        if(index == "WIN"){ // 勝利
+            soundIndex = soundCorrect;
+        } else if(index == "LOSE"){ // 敗北
+            soundIndex = soundIncorrect;
+        } else if(index == "DRAW"){ // 引き分け
+            soundIndex = soundDraw;
+        } else { // 例外
+            String error_msg = "注意:playSound関数より、次の不正なindexが渡されました。：" + index;
+            Toast.makeText(this, error_msg, Toast.LENGTH_LONG).show();
+            soundIndex = soundCorrect;
+        }
+        soundPool.play(soundIndex, 1.0f, 1.0f, 0, 0, 1);
+    }
     private void checkResult(boolean isHigh) {
         TextView txtViewQuestion = findViewById(R.id.question);
         TextView txtViewAnswer = findViewById(R.id.answer);
@@ -134,6 +172,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             txtResult.setText("Result：" + question + ":" + answer + "(" + result + ")");
         }
 
+        // リザルトに応じた効果音を鳴らす(b-8)
+        playSound(result);
+        // リザルトに応じて背景色を変更(b-6)
+        setAnswerColor(result);
 
         // 続けて遊べるように値を更新
         setNextQuestion();
@@ -168,6 +210,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void clearScoreValue() {
         TextView txtScore = (TextView) findViewById(R.id.text_score);
         txtScore.setText("0");
+    }
+
+    // (b-6) 右側の背景色を変更する関数
+    private void setAnswerColor(String result) {
+        TextView txtView = findViewById(R.id.answer);
+
+        if(result == "WIN"){ // 勝利
+            txtView.setBackgroundColor(Color.RED);
+        } else if (result == "LOSE") { // 敗北
+            txtView.setBackgroundColor(Color.BLUE);
+        } else if (result == "DRAW") { // 引き分け
+            txtView.setBackgroundColor(Color.GREEN);
+        } else if (result == "RESET") {
+            txtView.setBackgroundColor(Color.YELLOW);
+        } else { // 例外
+            Toast.makeText(this, "不正なresult：" + result, Toast.LENGTH_LONG).show();
+        }
     }
 
     @Override
