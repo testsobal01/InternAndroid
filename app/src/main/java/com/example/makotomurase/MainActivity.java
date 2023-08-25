@@ -13,6 +13,7 @@ import java.util.Locale;
 import java.util.Random;
 import android.content.Context;
 import android.os.Vibrator;
+import android.graphics.Color;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -43,6 +44,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             TextView txtView = (TextView) findViewById(R.id.answer);
             txtView.setText("Value2");
         }
+
+        TextView txtView = (TextView) findViewById(R.id.answer);
+        txtView.setBackgroundColor(Color.WHITE);
     }
 
     @Override
@@ -72,6 +76,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             TextView txtView = (TextView) findViewById(R.id.answer);
             txtView.setText("Value2");
         }
+        TextView txtView = (TextView) findViewById(R.id.answer);
+        txtView.setBackgroundColor(Color.WHITE);
     }
 
     private void setQuestionValue() {
@@ -109,6 +115,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             // result には結果のみを入れる
             if (question < answer) {
                 score = 2;
+                TextView txtView = (TextView) findViewById(R.id.answer);
+                txtView.setBackgroundColor(Color.parseColor("#00bfff"));
                 if (locale.equals(Locale.JAPAN)||language.equals(Locale.JAPANESE)) {
                     result = "勝ち";
                 }else{
@@ -116,6 +124,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
             } else if (question > answer) {
                 score = -1;
+                TextView txtView = (TextView) findViewById(R.id.answer);
+                txtView.setBackgroundColor(Color.parseColor("#ff6347"));
                 if (locale.equals(Locale.JAPAN)||language.equals(Locale.JAPANESE)) {
                     result = "負け";
                 }else{
@@ -123,6 +133,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
             } else {
                 score = 1;
+                TextView txtView = (TextView) findViewById(R.id.answer);
+                txtView.setBackgroundColor(Color.parseColor("#ffd700"));
                 if (locale.equals(Locale.JAPAN)||language.equals(Locale.JAPANESE)) {
                     result = "引き分け";
                 }else{
@@ -132,6 +144,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         } else {
             if (question > answer) {
                 score = 2;
+                TextView txtView = (TextView) findViewById(R.id.answer);
+                txtView.setBackgroundColor(Color.parseColor("#00bfff"));
                 if (locale.equals(Locale.JAPAN)||language.equals(Locale.JAPANESE)) {
                     result = "勝ち";
                 }else{
@@ -139,6 +153,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
             } else if (question < answer) {
                 score = -1;
+                TextView txtView = (TextView) findViewById(R.id.answer);
+                txtView.setBackgroundColor(Color.parseColor("#ff6347"));
                 if (locale.equals(Locale.JAPAN)||language.equals(Locale.JAPANESE)) {
                     result = "負け";
                 }else{
@@ -147,6 +163,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             } else {
                 score = 1;
+                TextView txtView = (TextView) findViewById(R.id.answer);
+                txtView.setBackgroundColor(Color.parseColor("#ffd700"));
                 if (locale.equals(Locale.JAPAN)||language.equals(Locale.JAPANESE)) {
                     result = "引き分け";
                 }else{

@@ -1,8 +1,10 @@
 <resources>
-    <string name="app_name">team-e</string>
+    <string name="app_name">MakotoMurase</string>
     <string name="btn_high">大</string>
     <string name="btn_low">小</string>
     <string name="btn_restart">はじめから</string>
     <string name="label_score">得点：</string>
     <string name="settei">10が設定されています。</string>
+    <string name="btn_start">はじめる</string>
+    <string name="message_start">ハイアンドロー</string>
 </resources>
