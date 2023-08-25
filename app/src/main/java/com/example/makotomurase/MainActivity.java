@@ -10,6 +10,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.Random;
+import android.content.Context;
+import android.os.Vibrator;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -37,13 +39,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (id == R.id.button1) {
             setAnswerValue();
             checkResult(true);
+            ((Vibrator)getSystemService(Context.VIBRATOR_SERVICE)).vibrate(100);
         } else if (id == R.id.button2) {
             setAnswerValue();
             checkResult(false);
+            ((Vibrator)getSystemService(Context.VIBRATOR_SERVICE)).vibrate(100);
         } else if (id == R.id.button3) {
             setQuestionValue();
             clearAnswerValue();
             clearScoreValue();
+            ((Vibrator)getSystemService(Context.VIBRATOR_SERVICE)).vibrate(100);
         }
     }
 
