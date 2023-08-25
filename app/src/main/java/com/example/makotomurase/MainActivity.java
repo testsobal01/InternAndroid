@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.os.Vibrator;
 
 import java.util.Random;
 
@@ -37,14 +38,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (id == R.id.button1) {
             setAnswerValue();
             checkResult(true);
+            Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+            vib.vibrate(80);
         } else if (id == R.id.button2) {
             setAnswerValue();
             checkResult(false);
+            Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+            vib.vibrate(80);
         } else if (id == R.id.button3) {
             setQuestionValue();
             clearAnswerValue();
             clearScoreValue();
+            Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+            vib.vibrate(80);
         }
+
+
     }
 
     private void clearAnswerValue() {
