@@ -2,9 +2,10 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-
 import android.graphics.Color;
 import android.content.SharedPreferences;
+import android.animation.AnimatorInflater;
+import android.animation.AnimatorSet;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
@@ -13,6 +14,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.os.Vibrator;
 
+import org.w3c.dom.Text;
+
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -20,6 +23,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     SharedPreferences pref;
     SharedPreferences.Editor prefEditor;
 
+    AnimatorSet set,set2; //アニメーションを定義するオブジェクト宣言
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,6 +37,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
+
+        //アニメーション設定　
+        TextView textView_qes = findViewById(R.id.question);
+        TextView textView_ans = findViewById(R.id.answer);
+        set = (AnimatorSet) AnimatorInflater.loadAnimator(MainActivity.this,R.animator.h_animation);
+        set.setTarget(textView_qes);
+        set.setTarget(textView_ans);
+
+        set2 = (AnimatorSet) AnimatorInflater.loadAnimator(MainActivity.this,R.animator.rotation_animation);
+        set2.setTarget(textView_qes);
+        set2.setTarget(textView_ans);
 
         // 起動時に関数を呼び出す
         setQuestionValue();
@@ -133,6 +148,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 score = -1;
                 txtViewAnswer.setBackgroundColor(Color.rgb(135,206,250));
                 txtViewQuestion.setBackgroundColor(Color.rgb(255,127,80));
+                onStart();
+                set2.start();
             } else {
                 result = "DRAW";
                 score = 1;
@@ -150,6 +167,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 score = -1;
                 txtViewAnswer.setBackgroundColor(Color.rgb(135,206,250));
                 txtViewQuestion.setBackgroundColor(Color.rgb(255,127,80));
+
+                onStart();
+                set2.start();
             } else {
                 result = "DRAW";
                 score = 1;
@@ -196,5 +216,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView txtScore = (TextView) findViewById(R.id.text_score);
         txtScore.setText("0");
     }
+
+    @Override
+    public void onStart(){ //アニメーション開始　メソッド
+        super.onStart();
+        set.start();
+    }
 }
+
+
 
