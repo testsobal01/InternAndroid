@@ -9,58 +9,81 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_margin="20dp">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="60dp">
 
             <Button
                 android:id="@+id/button1"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/btn_high" />
+                android:layout_height="match_parent"
+                android:text="@string/btn_high"
+                android:textSize="30dp"
+                android:textStyle="bold"
+                android:backgroundTint="@color/yellow"
+                android:textColor="@color/perple" />
 
             <Button
                 android:id="@+id/button2"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/btn_low" />
+                android:layout_height="match_parent"
+                android:layout_marginHorizontal="10dp"
+                android:text="@string/btn_low"
+                android:textSize="30dp"
+                android:textStyle="bold"
+                android:backgroundTint="@color/yellow"
+                android:textColor="@color/perple"/>
 
             <Button
                 android:id="@+id/button3"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:text="@string/btn_restart" />
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:text="@string/btn_restart"
+                android:textSize="30dp"
+                android:textStyle="bold"
+                android:backgroundTint="@color/yellow"
+                android:textColor="@color/perple"/>
         </LinearLayout>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="10が設定されています。" />
+            android:layout_marginTop="5dp"
+            android:text="10が設定されています。"
+            android:textSize="15dp" />
 
         <TextView
             android:id="@+id/text_result"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:textSize="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_gravity="center" />
 
         <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:layout_gravity="center">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/label_score" />
+                android:text="@string/label_score"
+                android:textSize="20dp"/>
 
             <TextView
                 android:id="@+id/text_score"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="0" />
+                android:text="0"
+                android:textSize="20dp"/>
         </LinearLayout>
 
         <LinearLayout
