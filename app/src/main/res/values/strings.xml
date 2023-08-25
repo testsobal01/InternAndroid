@@ -2,6 +2,10 @@
     <string name="app_name">MakotoMurase</string>
     <string name="btn_high">High</string>
     <string name="btn_low">Low</string>
+    <string name="text_01">10 is set.</string>
     <string name="btn_restart">Restart</string>
+    <string name="result_text">result:%1$d:%2$d(%3$s)</string>
     <string name="label_score">Score：</string>
+    <string name="second_value">value2</string>
+
 </resources>
