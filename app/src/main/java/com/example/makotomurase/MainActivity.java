@@ -1,11 +1,13 @@
 package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.annotation.SuppressLint;
 import android.graphics.Color;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Vibrator;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -14,6 +16,25 @@ import android.widget.Toast;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
+    SharedPreferences pref;
+    SharedPreferences.Editor prefEditor;
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        TextView textView = (TextView) findViewById(R.id.text_score);
+        String readText = pref.getString("remember_score","0");
+        textView.setText(readText);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        TextView textView = (TextView) findViewById(R.id.text_score);
+        prefEditor.putString("remember_score",textView.getText().toString());
+        prefEditor.commit();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +52,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // 起動時に関数を呼び出す
         setQuestionValue();
+
+        pref = getSharedPreferences("AndroidSem",MODE_PRIVATE);
+        prefEditor = pref.edit();
     }
 
     @Override
@@ -39,13 +63,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (id == R.id.button1) {
             setAnswerValue();
             checkResult(true);
+            ((Vibrator)
+                    getSystemService(Context.VIBRATOR_SERVICE)).vibrate(250);
         } else if (id == R.id.button2) {
             setAnswerValue();
             checkResult(false);
+            ((Vibrator)
+                    getSystemService(Context.VIBRATOR_SERVICE)).vibrate(250);
         } else if (id == R.id.button3) {
             setQuestionValue();
             clearAnswerValue();
             clearScoreValue();
+            ((Vibrator)
+            getSystemService(Context.VIBRATOR_SERVICE)).vibrate(500);
         }
     }
 
