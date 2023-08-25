@@ -42,6 +42,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View view) {
         int id = view.getId();
         if (id == R.id.button1) {
+
             setAnswerValue();
             checkResult(true);
         } else if (id == R.id.button2) {
@@ -172,6 +173,9 @@ prefEditor.commit();
     private void clearScoreValue() {
         TextView txtScore = (TextView) findViewById(R.id.text_score);
         txtScore.setText("0");
+    }
+    private void title(){
+
     }
 }
 
