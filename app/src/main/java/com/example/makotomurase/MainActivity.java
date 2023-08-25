@@ -9,11 +9,16 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.media.AudioAttributes;
+import android.media.SoundPool;
+
 
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
+    private SoundPool soundPool;
+    private int soundOne, soundTwo, soundThree,soundFour;
     SharedPreferences pref;
     SharedPreferences.Editor prefEditor;
 
@@ -37,6 +42,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // 起動時に関数を呼び出す
         setQuestionValue();
+
+        AudioAttributes audioAttributes = new AudioAttributes.Builder()
+                // USAGE_MEDIA
+                // USAGE_GAME
+                .setUsage(AudioAttributes.USAGE_GAME)
+                // CONTENT_TYPE_MUSIC
+                // CONTENT_TYPE_SPEECH, etc.
+                .setContentType(AudioAttributes.CONTENT_TYPE_SPEECH)
+                .build();
+
+        soundPool = new SoundPool.Builder()
+                .setAudioAttributes(audioAttributes)
+                // ストリーム数に応じて
+                .setMaxStreams(2)
+                .build();
+
+        // one.wav をロードしておく
+        soundOne = soundPool.load(this, R.raw.othr09, 1);
+
+        // two.wav をロードしておく
+        soundTwo = soundPool.load(this, R.raw.othr10, 1);
+
+        soundThree = soundPool.load(this, R.raw.cncl06, 1);
+        soundFour = soundPool.load(this, R.raw.cncl07, 1);
+
     }
 
     @Override
@@ -49,6 +79,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             setAnswerValue();
             checkResult(false);
         } else if (id == R.id.button3) {
+            soundPool.play(soundFour, 1.0f, 1.0f, 0, 0, 1);
             setQuestionValue();
             clearAnswerValue();
             clearScoreValue();
@@ -96,23 +127,32 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = "WIN";
                 score = 2;
+                soundPool.play(soundOne, 1.0f, 1.0f, 0, 0, 1);
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
+                soundPool.play(soundTwo, 1.0f, 1.0f, 0, 0, 1);
+
             } else {
                 result = "DRAW";
                 score = 1;
+                soundPool.play(soundThree, 1.0f, 1.0f, 0, 0, 1);
+
             }
         } else {
             if (question > answer) {
                 result = "WIN";
+                soundPool.play(soundOne, 1.0f, 1.0f, 0, 0, 1);
                 score = 2;
             } else if (question < answer) {
                 result = "LOSE";
+                soundPool.play(soundTwo, 1.0f, 1.0f, 0, 0, 1);
                 score = -1;
             } else {
                 result = "DRAW";
                 score = 1;
+                soundPool.play(soundThree, 1.0f, 1.0f, 0, 0, 1);
+
             }
         }
 
