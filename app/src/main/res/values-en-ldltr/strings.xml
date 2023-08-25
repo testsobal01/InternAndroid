@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">team-e</string>
+    <string name="btn_high">HIGH</string>
+    <string name="btn_low">LOW</string>
+    <string name="btn_restart">RESTART</string>
+    <string name="label_score">Score：</string>
+    <string name="settei">The upper limit is set at 10.</string>
+</resources>
