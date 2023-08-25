@@ -18,8 +18,8 @@ import java.util.Locale;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
-    private TextView textScore, textScoreOperator, textScoreAdd, textQuestionNumber, textAnswerNumber;
-    private int questionNumber, answerNumber, score = 0;
+    private TextView textRange, textScore, textScoreOperator, textScoreAdd, textQuestionNumber, textAnswerNumber;
+    private int questionNumber, answerNumber, score = 0, range = 10;
     private final Handler handler = new Handler();
     private final Runnable handlerRunnable = () -> handler.post(this::setQuestionValue);
 
@@ -53,12 +53,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void init() {
         linkViewIds();
+        readIntent();
         registerViewListeners();
     }
 
+    private void readIntent() {
+        range = getIntent().getIntExtra(Constrants.KEY_INTENT_RANGE, 10);
+        textRange.setText(String.valueOf(range));
+    }
+
     private void linkViewIds() {
+        textRange = findViewById(R.id.text_range);
         textScoreOperator = findViewById(R.id.text_score_operator);
-        textScoreAdd = findViewById(R.id.text_score_operator);
+        textScoreAdd = findViewById(R.id.text_score_add);
         textScore = findViewById(R.id.text_score);
         textQuestionNumber = findViewById(R.id.question);
         textAnswerNumber = findViewById(R.id.answer);
@@ -148,7 +155,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void setAnswerValue() {
         Random r = new Random();
-        answerNumber = r.nextInt(10 + 1);
+        answerNumber = r.nextInt(range + 1);
 
         TextView txtView = findViewById(R.id.answer);
         txtView.setText(String.format(Locale.getDefault(), "%d", answerNumber));

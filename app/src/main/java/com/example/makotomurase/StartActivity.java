@@ -13,6 +13,7 @@ import android.widget.NumberPicker;
 
 public class StartActivity extends AppCompatActivity {
     private Button buttonNewGame, buttonContinue, buttonSettings;
+    private int range = 10;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +54,7 @@ public class StartActivity extends AppCompatActivity {
     private void startMainActivity(Constrants.START_OPTION mode) {
         Intent intent = new Intent(this, MainActivity.class);
         intent.putExtra(Constrants.KEY_INTENT_START_OPTION, mode);
+        intent.putExtra(Constrants.KEY_INTENT_RANGE, range);
         startActivity(intent);
     }
 
@@ -67,15 +69,12 @@ public class StartActivity extends AppCompatActivity {
         nPicker.setMaxValue(Constrants.RANGE_RANDOM_MAX);
         nPicker.setMinValue(Constrants.RANGE_RANDOM_MIN);
         //TODO: データ保存の実装待ち
-        //nPicker.setValue(randomNumberRange);
+        nPicker.setValue(range);
         nPicker.setWrapSelectorWheel(false);
-        /*
         btnHigh.setOnClickListener(v -> {
-            randomNumberRange = nPicker.getValue();
-            updateStatusText();
+            range = nPicker.getValue();
             dialog.dismiss();
-            makeToast(R.string.updated_range, randomNumberRange);
-        });*/
+        });
         btnLow.setOnClickListener(v -> dialog.dismiss());
         dialog.show();
     }

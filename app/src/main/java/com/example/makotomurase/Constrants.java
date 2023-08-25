@@ -5,6 +5,7 @@ public class Constrants {
         NEW, CONTINUE
     }
     public final static String KEY_INTENT_START_OPTION = "start_option";
+    public final static String KEY_INTENT_RANGE = "random_range";
     public static final int RANGE_RANDOM_MAX = 50;
     public static final int RANGE_RANDOM_MIN = 10;
     public static final int SCORE_WIN = 20;
