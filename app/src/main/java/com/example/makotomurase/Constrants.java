@@ -14,5 +14,4 @@ public class Constrants {
     public static final int DELAY_NEXT_TEXT_UPDATE = 500;
     public static final int DELAY_AFTER_GAME = 1000;
     public static final int DURATION_ANIM_NUMBER = 700;
-
 }

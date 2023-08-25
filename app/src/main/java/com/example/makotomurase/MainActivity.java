@@ -9,6 +9,7 @@ import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.os.Handler;
+
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -23,22 +24,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private final Handler handler = new Handler();
     private final Runnable handlerRunnable = () -> handler.post(this::setQuestionValue);
 
+    SharedPreferences pref;
+    SharedPreferences.Editor prefEditor;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         init();
+
     }
 
     @Override
     public void onClick(View view) {
         int id = view.getId();
         if (id == R.id.button1) {
+
             animateRandomNumberTextView(textAnswerNumber, () -> {
                 setAnswerValue();
                 checkResult(true);
             });
+
         } else if (id == R.id.button2) {
             animateRandomNumberTextView(textAnswerNumber, () -> {
                 setAnswerValue();
@@ -50,6 +58,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             clearScoreValue();
         }
     }
+
 
     private void init() {
         linkViewIds();
@@ -100,6 +109,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      * StartActivityからはここを呼んでね！
      */
     public void startNewGame(StartActivity _safeChecker) {
+
         setQuestionValue();
     }
 

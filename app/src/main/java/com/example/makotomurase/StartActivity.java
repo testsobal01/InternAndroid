@@ -6,14 +6,17 @@ import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
+
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+
 import android.widget.Button;
 import android.widget.NumberPicker;
 
 public class StartActivity extends AppCompatActivity {
     private Button buttonNewGame, buttonContinue, buttonSettings;
     private int range = 10;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +26,7 @@ public class StartActivity extends AppCompatActivity {
         //TODO: Intentからモード取得
         init();
         applyAnimations();
+
     }
 
     private void init() {
@@ -42,6 +46,7 @@ public class StartActivity extends AppCompatActivity {
         buttonSettings.setOnClickListener(view -> showNumberPicker());
     }
 
+
     private void applyAnimations() {
         Animation animFade = AnimationUtils.loadAnimation(this, R.anim.animation_title);
         findViewById(R.id.text_title).startAnimation(animFade);
@@ -55,6 +60,7 @@ public class StartActivity extends AppCompatActivity {
         Intent intent = new Intent(this, MainActivity.class);
         intent.putExtra(Constrants.KEY_INTENT_START_OPTION, mode);
         intent.putExtra(Constrants.KEY_INTENT_RANGE, range);
+
         startActivity(intent);
     }
 
@@ -69,12 +75,14 @@ public class StartActivity extends AppCompatActivity {
         nPicker.setMaxValue(Constrants.RANGE_RANDOM_MAX);
         nPicker.setMinValue(Constrants.RANGE_RANDOM_MIN);
         //TODO: データ保存の実装待ち
+
         nPicker.setValue(range);
         nPicker.setWrapSelectorWheel(false);
         btnHigh.setOnClickListener(v -> {
             range = nPicker.getValue();
             dialog.dismiss();
         });
+
         btnLow.setOnClickListener(v -> dialog.dismiss());
         dialog.show();
     }

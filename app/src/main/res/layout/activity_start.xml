@@ -7,7 +7,9 @@
     tools:context=".StartActivity">
 
     <View
+
         android:id="@+id/view_background"
+
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:alpha="0.65"
@@ -18,6 +20,7 @@
 
     <Space
         android:id="@+id/space_top_title"
+
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -28,6 +31,7 @@
 
     <TextView
         android:id="@+id/text_title"
+
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif-thin"
@@ -37,10 +41,12 @@
         android:textSize="64sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+
         app:layout_constraintTop_toBottomOf="@+id/space_top_title" />
 
     <TextView
         android:id="@+id/text_subtitle"
+
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
@@ -50,7 +56,9 @@
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+
         app:layout_constraintTop_toBottomOf="@id/text_title" />
+
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -59,7 +67,9 @@
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+
         app:layout_constraintTop_toBottomOf="@+id/text_subtitle">
+
 
         <LinearLayout
             android:layout_width="wrap_content"
