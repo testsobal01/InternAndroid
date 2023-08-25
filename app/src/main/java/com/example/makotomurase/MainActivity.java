@@ -2,6 +2,7 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
@@ -12,6 +13,10 @@ import android.widget.Toast;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
+    SharedPreferences pref;
+    SharedPreferences.Editor prefEditor;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +34,47 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // 起動時に関数を呼び出す
         setQuestionValue();
+
+        pref = getSharedPreferences("AndroidSeminor",MODE_PRIVATE);
+        prefEditor = pref.edit();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Toast.makeText(this, "onPause", Toast.LENGTH_SHORT).show();
+
+        TextView txtResult =(TextView)findViewById(R.id.text_result);
+        prefEditor.putString("result",txtResult.getText().toString());
+        prefEditor.commit();
+        TextView txtScore =(TextView)findViewById(R.id.text_score);
+        prefEditor.putString("score",txtScore.getText().toString());
+        prefEditor.commit();
+        TextView txtViewQuestion =(TextView)findViewById(R.id.question);
+        prefEditor.putString("question",txtViewQuestion.getText().toString());
+        prefEditor.commit();
+        TextView txtViewAnswer =(TextView)findViewById(R.id.answer);
+        prefEditor.putString("answer",txtViewAnswer.getText().toString());
+        prefEditor.commit();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Toast.makeText(this, "onResume", Toast.LENGTH_SHORT).show();
+
+        TextView txtResult = (TextView) findViewById(R.id.text_result);
+        String readresult = pref.getString("result","");
+        txtResult.setText(readresult);
+        TextView txtScore = (TextView) findViewById(R.id.text_score);
+        String readscore = pref.getString("score","");
+        txtScore.setText(readscore);
+        TextView txtViewQuestion = (TextView) findViewById(R.id.question);
+        String readquestion = pref.getString("question","");
+        txtViewQuestion.setText(readquestion);
+        TextView txtViewAnswer = (TextView) findViewById(R.id.answer);
+        String readanswer = pref.getString("answer","");
+        txtViewAnswer.setText(readanswer);
     }
 
     @Override
