@@ -65,16 +65,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Toast.makeText(this, "onResume", Toast.LENGTH_SHORT).show();
 
         TextView txtResult = (TextView) findViewById(R.id.text_result);
-        String readresult = pref.getString("result","");
+        String readresult = pref.getString("result","0");
         txtResult.setText(readresult);
         TextView txtScore = (TextView) findViewById(R.id.text_score);
-        String readscore = pref.getString("score","");
+        String readscore = pref.getString("score","0");
         txtScore.setText(readscore);
         TextView txtViewQuestion = (TextView) findViewById(R.id.question);
-        String readquestion = pref.getString("question","");
+        String readquestion = pref.getString("question","0");
         txtViewQuestion.setText(readquestion);
         TextView txtViewAnswer = (TextView) findViewById(R.id.answer);
-        String readanswer = pref.getString("answer","");
+        String readanswer = pref.getString("answer","0");
         txtViewAnswer.setText(readanswer);
     }
 
@@ -94,6 +94,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             clearAnswerValue();
             clearScoreValue();
         }
+    }
+
+    public void startNewGame() {
+        setQuestionValue();
     }
 
     private void clearAnswerValue() {

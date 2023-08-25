@@ -1,9 +1,16 @@
 <resources>
-    <string name="app_name">未定</string>
+
+    <string name="app_name">D-Team</string>
     <string name="btn_high">High</string>
     <string name="btn_low">Low</string>
     <string name="btn_restart">Restart</string>
     <string name="label_score">Score：</string>
     <string name="text1">10が設定されています</string>
-
+    <string name="new_game">NEW GAME</string>
+    <string name="continue_game">CONTINUE</string>
+    <string name="settings">SETTINGS</string>
+    <string name="app_description">A Sobal\'s joint development project.</string>
+    <string name="title_picker">最大値設定</string>
+    <string name="cancel">Cancel</string>
+    <string name="ok">OK</string>
 </resources>
