@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -18,6 +20,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     SharedPreferences pref;
     SharedPreferences.Editor prefEditor;
+
+    Animation animation;
 
     @Override
     protected void onResume() {
@@ -48,6 +52,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
+
+        animation = AnimationUtils. loadAnimation(this, R.anim.animation);
 
         // 起動時に関数を呼び出す
         setQuestionValue();
@@ -119,23 +125,35 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = "WIN";
                 score = 2;
+                TextView textview1 = findViewById(R. id.answer);
+                textview1. startAnimation(animation);
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
             } else {
                 result = "DRAW";
                 score = 1;
+                TextView textview2 = findViewById(R. id.question);
+                textview2. startAnimation(animation);
+                TextView textview3 = findViewById(R. id.answer);
+                textview3. startAnimation(animation);
             }
         } else {
             if (question > answer) {
                 result = "WIN";
                 score = 2;
+                TextView textview4 = findViewById(R. id.question);
+                textview4. startAnimation(animation);
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
             } else {
                 result = "DRAW";
                 score = 1;
+                TextView textview5 = findViewById(R. id.question);
+                textview5. startAnimation(animation);
+                TextView textview6 = findViewById(R. id.answer);
+                textview6. startAnimation(animation);
             }
         }
 
