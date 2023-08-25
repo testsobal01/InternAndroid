@@ -6,16 +6,21 @@ import android.graphics.Color;
 import android.content.SharedPreferences;
 import android.animation.AnimatorInflater;
 import android.animation.AnimatorSet;
+import android.content.res.AssetManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.os.Vibrator;
 
 import org.w3c.dom.Text;
 
+import java.io.InputStream;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -48,6 +53,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         set2 = (AnimatorSet) AnimatorInflater.loadAnimator(MainActivity.this,R.animator.rotation_animation);
         set2.setTarget(textView_qes);
         set2.setTarget(textView_ans);
+
+
+        //画像
+        ImageView imageView3 = findViewById(R.id.image);
+
+        AssetManager assets = getResources().getAssets();
+
+        // try-with-resources
+        try (InputStream istream = assets.open("img.jpg")){
+            Bitmap bitmap = BitmapFactory.decodeStream(istream);
+            imageView3.setImageBitmap(bitmap);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
 
         // 起動時に関数を呼び出す
         setQuestionValue();
