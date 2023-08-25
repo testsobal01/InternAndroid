@@ -1,7 +1,6 @@
 package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -10,12 +9,15 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.w3c.dom.Text;
+
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     SharedPreferences pref;
     SharedPreferences.Editor prefEditor;
+    int win=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +54,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             setQuestionValue();
             clearAnswerValue();
             clearScoreValue();
+            clearWinningStreak();
         }
     }
 
@@ -77,9 +80,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         txtView.setText(Integer.toString(answerValue));
     }
 
-    private void setWinningStreak(int score, int win){
-        TextView txtView = findViewById(R.id.score_result);
-        txtView.setText("Score: "+score+"                                                                                  "+win+"連勝");
+    private void setWinningStreak(int win){
+        TextView txtView = findViewById(R.id.winningStreak);
+        txtView.setText(win+"連勝");
     }
 
     private void checkResult(boolean isHigh) {
@@ -94,7 +97,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // 結果を示す文字列を入れる変数を用意
         String result;
         int score;
-        int win=0;
+
 
         // Highが押された
         if (isHigh) {
@@ -103,28 +106,34 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 result = "WIN";
                 score = 2;
                 win=win+1;
+                setWinningStreak(win);
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
                 win=0;
+                clearWinningStreak();
             } else {
                 result = "DRAW";
                 score = 1;
                 win=0;
+                clearWinningStreak();
             }
         } else {
             if (question > answer) {
                 result = "WIN";
                 score = 2;
                 win=win+1;
+                setWinningStreak(win);
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
                 win=0;
+                clearWinningStreak();
             } else {
                 result = "DRAW";
                 score = 1;
                 win=0;
+                clearWinningStreak();
             }
         }
 
@@ -166,6 +175,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void clearScoreValue() {
         TextView txtScore = (TextView) findViewById(R.id.text_score);
         txtScore.setText("0");
+    }
+    private void clearWinningStreak(){
+        TextView txtWinningValue =(TextView)  findViewById(R.id.winningStreak);
+        txtWinningValue.setText("");
     }
 
     @Override
