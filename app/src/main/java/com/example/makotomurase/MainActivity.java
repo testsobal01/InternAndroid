@@ -3,7 +3,11 @@ package com.example.makotomurase;
 import androidx.annotation.ColorInt;
 import androidx.appcompat.app.AppCompatActivity;
 
+
 import android.graphics.Color;
+
+import android.content.SharedPreferences;
+
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
@@ -11,9 +15,14 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.Locale;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
+    // プリファレンスクラスを定義(b-2)
+    SharedPreferences pref;
+    SharedPreferences.Editor prefEditor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +37,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
+
+        // プリファレンスのインスタンスを生成(b-2)
+        pref = getSharedPreferences("TeamB", MODE_PRIVATE);
+        prefEditor = pref.edit();
+
+        // 保存されているスコアを読み込んで反映(b-2)
+        int score = pref.getInt("score", 0);
+        setScore(score);
 
         // 起動時に関数を呼び出す
         setQuestionValue();
@@ -129,8 +146,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // 最後にまとめてToast表示の処理とTextViewへのセットを行う
         Toast.makeText(this, result, Toast.LENGTH_LONG).show();
-        txtResult.setText("結果：" + question + ":" + answer + "(" + result + ")");
+
         setAnswerColor(result);
+
+        Locale locale = Locale.getDefault();
+        String lang = locale.getLanguage();
+        if (lang.equals("ja")) {
+            // 日本語環境
+            txtResult.setText("結果：" + question + ":" + answer + "(" + result + ")");
+        } else {
+            // その他の言語環境、通常英語が選択される
+            txtResult.setText("Result：" + question + ":" + answer + "(" + result + ")");
+        }
+
+
 
         // 続けて遊べるように値を更新
         setNextQuestion();
@@ -166,6 +195,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void clearScoreValue() {
         TextView txtScore = (TextView) findViewById(R.id.text_score);
         txtScore.setText("0");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        // スコアを取得
+        TextView txtScore = (TextView) findViewById(R.id.text_score);
+        int score = Integer.parseInt(txtScore.getText().toString());
+
+        // スコアを保存
+        prefEditor.putInt("score", score);
+        prefEditor.commit();
     }
 }
 
