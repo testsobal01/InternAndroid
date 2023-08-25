@@ -7,17 +7,17 @@
     tools:context=".StartActivity">
 
     <View
-        android:id="@+id/view"
+        android:id="@+id/view_background"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:alpha="0.65"
         android:background="@drawable/background_start"
         android:rotation="-50"
-        android:scaleX="2"
+        android:scaleX="3"
         android:scaleY="2" />
 
     <Space
-        android:id="@+id/space"
+        android:id="@+id/space_top_title"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -27,7 +27,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/text_title"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif-thin"
@@ -37,10 +37,10 @@
         android:textSize="64sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/space" />
+        app:layout_constraintTop_toBottomOf="@+id/space_top_title" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/text_subtitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
@@ -50,7 +50,7 @@
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textView" />
+        app:layout_constraintTop_toBottomOf="@id/text_title" />
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -59,7 +59,7 @@
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2">
+        app:layout_constraintTop_toBottomOf="@+id/text_subtitle">
 
         <LinearLayout
             android:layout_width="wrap_content"

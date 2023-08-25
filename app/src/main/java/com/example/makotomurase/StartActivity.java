@@ -6,7 +6,8 @@ import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.NumberPicker;
 
@@ -18,7 +19,9 @@ public class StartActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
 
+        //TODO: Intentからモード取得
         init();
+        applyAnimations();
     }
 
     private void init() {
@@ -36,6 +39,15 @@ public class StartActivity extends AppCompatActivity {
         buttonNewGame.setOnClickListener(view -> startMainActivity(Constrants.START_OPTION.NEW));
         buttonContinue.setOnClickListener(view -> startMainActivity(Constrants.START_OPTION.CONTINUE));
         buttonSettings.setOnClickListener(view -> showNumberPicker());
+    }
+
+    private void applyAnimations() {
+        Animation animFade = AnimationUtils.loadAnimation(this, R.anim.animation_title);
+        findViewById(R.id.text_title).startAnimation(animFade);
+        findViewById(R.id.text_subtitle).startAnimation(animFade);
+
+        Animation animRotate = AnimationUtils.loadAnimation(this, R.anim.animation_rotate_background);
+        findViewById(R.id.view_background).startAnimation(animRotate);
     }
 
     private void startMainActivity(Constrants.START_OPTION mode) {
