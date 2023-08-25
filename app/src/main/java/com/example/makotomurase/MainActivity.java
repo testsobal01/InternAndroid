@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.Locale;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -123,7 +124,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // 最後にまとめてToast表示の処理とTextViewへのセットを行う
         Toast.makeText(this, result, Toast.LENGTH_LONG).show();
-        txtResult.setText("結果：" + question + ":" + answer + "(" + result + ")");
+        Locale locale = Locale.getDefault();
+        String lang = locale.getLanguage();
+        if (lang.equals("ja")) {
+            // 日本語環境
+            txtResult.setText("結果：" + question + ":" + answer + "(" + result + ")");
+        } else {
+            // その他の言語環境、通常英語が選択される
+            txtResult.setText("Result：" + question + ":" + answer + "(" + result + ")");
+        }
+
 
         // 続けて遊べるように値を更新
         setNextQuestion();
