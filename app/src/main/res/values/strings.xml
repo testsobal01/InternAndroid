@@ -4,5 +4,6 @@
     <string name="btn_high">High</string>
     <string name="btn_low">Low</string>
     <string name="btn_restart">Restart</string>
-    <string name="label_score">得点：</string>
+    <string name="label_score">Score：</string>
+
 </resources>
