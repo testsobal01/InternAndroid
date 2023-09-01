@@ -1,18 +1,24 @@
 package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-
+import android.media.AudioAttributes;
+import android.media.SoundPool;
+import android.util.Log;
+import android.view.animation.RotateAnimation;
+import android.widget.Button;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
+    private SoundPool soundPool;
+    private int soundOne, soundTwo,soundThree;
+    private Button button1, button2,button3;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,9 +32,66 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
-
         // 起動時に関数を呼び出す
         setQuestionValue();
+        AudioAttributes audioAttributes = new AudioAttributes.Builder()
+
+                .setUsage(AudioAttributes.USAGE_GAME)
+
+                .setContentType(AudioAttributes.CONTENT_TYPE_SPEECH)
+                .build();
+
+        soundPool = new SoundPool.Builder()
+                .setAudioAttributes(audioAttributes)
+
+                .setMaxStreams(3)
+                .build();
+
+        soundOne = soundPool.load(this, R.raw.one, 1);
+
+        soundTwo = soundPool.load(this, R.raw.two, 1);
+
+        soundThree = soundPool.load(this, R.raw.three, 1);
+
+        soundPool.setOnLoadCompleteListener((soundPool, sampleId, status) -> {
+            Log.d("debug","sampleId="+sampleId);
+            Log.d("debug","status="+status);
+
+            button1 = findViewById(R.id.button1);
+            button2 = findViewById(R.id.button2);
+            button3 = findViewById(R.id.button3);
+
+            button1.setOnClickListener( v -> {
+
+                // play(ロードしたID, 左音量, 右音量, 優先度, ループ,再生速度)
+                soundPool.play(soundOne, 1.0f, 1.0f, 0, 0, 1);
+
+                // ボタンの回転アニメーション
+                RotateAnimation buttonRotation = new RotateAnimation(
+                        0, 180, (float)(button1.getWidth()/2), (float)(button1.getHeight()/2));
+                buttonRotation.setDuration(2000);
+                button1.startAnimation(buttonRotation);
+            });
+
+            button2.setOnClickListener( v -> {
+                soundPool.play(soundTwo, 1.0f, 1.0f, 1, 0, 1);
+
+                // ボタンの回転アニメーション
+                RotateAnimation buttonRotation = new RotateAnimation(
+                        0, 180, (float)(button2.getWidth()/2), (float)(button2.getHeight()/2));
+                buttonRotation.setDuration(2000);
+                button2.startAnimation(buttonRotation);
+            });
+            button3.setOnClickListener( v -> {
+                soundPool.play(soundThree, 1.0f, 1.0f, 1, 0, 1);
+
+                // ボタンの回転アニメーション
+                RotateAnimation buttonRotation = new RotateAnimation(
+                        0, 180, (float)(button3.getWidth()/2), (float)(button3.getHeight()/2));
+                buttonRotation.setDuration(2000);
+                button3.startAnimation(buttonRotation);
+            });
+        });
     }
 
     @Override
