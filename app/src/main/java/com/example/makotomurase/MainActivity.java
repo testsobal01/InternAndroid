@@ -4,6 +4,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
+import android.media.SoundPool;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
@@ -138,6 +141,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 score = 1;
                 txtViewAnswer.setBackgroundColor(Color.YELLOW);
                 txtViewQuestion.setBackgroundColor(Color.YELLOW);
+                txtViewAnswer.clearAnimation();
+                txtViewQuestion.clearAnimation();
             }
         } else {
             if (question > answer) {
@@ -159,6 +164,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 score = 1;
                 txtViewAnswer.setBackgroundColor(Color.YELLOW);
                 txtViewQuestion.setBackgroundColor(Color.YELLOW);
+                txtViewAnswer.clearAnimation();
+                txtViewQuestion.clearAnimation();
             }
         }
 
@@ -197,8 +204,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void clearScoreValue() {
+        TextView txtViewQuestion = findViewById(R.id.question);
+        TextView txtViewAnswer = findViewById(R.id.answer);
         TextView txtScore = (TextView) findViewById(R.id.text_score);
         txtScore.setText("0");
+        txtViewAnswer.clearAnimation();
+        txtViewQuestion.clearAnimation();
     }
 
     protected void onPause(){
