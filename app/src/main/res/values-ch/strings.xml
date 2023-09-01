@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">MakotoMurase</string>
+    <string name="btn_high">高</string>
+    <string name="btn_low">低</string>
+    <string name="btn_restart">重启</string>
+    <string name="btn_setting">设置为 10。</string>
+    <string name="label_score">总谱：</string>
+    <string name="action_settings">设置</string>
+    <string name="action_settings2">设置2</string>
+    <string name="action_settings3">设置3</string>
+</resources>

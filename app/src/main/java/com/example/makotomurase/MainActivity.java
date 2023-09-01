@@ -2,7 +2,11 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+
 import android.graphics.Color;
+
+import android.content.SharedPreferences;
+
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
@@ -18,6 +22,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
+    SharedPreferences pref;
+    SharedPreferences.Editor prefEditor;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +45,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // 起動時に関数を呼び出す
         setQuestionValue();
 
+
+        pref = getSharedPreferences("AndroidSeminor",MODE_PRIVATE);
+        prefEditor = pref.edit();
+
+        TextView txtScore =(TextView)findViewById(R.id.text_score);
+        String readText = pref.getString("main_input", "0");
+        txtScore.setText(readText);
     }
 
     @Override
@@ -58,7 +74,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void clearAnswerValue() {
         TextView txtView = (TextView) findViewById(R.id.answer);
-        txtView.setText("値2");
+        txtView.setText("?");
     }
 
     private void setQuestionValue() {
@@ -121,17 +137,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 score = 1;
                 txtViewQuestion.setBackgroundColor(Color.rgb(0,255,0));
             }
-        }
 
-        // 最後にまとめてToast表示の処理とTextViewへのセットを行う
+        }
         Toast.makeText(this, result, Toast.LENGTH_LONG).show();
         txtResult.setText("結果：" + question + ":" + answer + "(" + result + ")");
 
-        // 続けて遊べるように値を更新
+// 続けて遊べるように値を更新
         setNextQuestion();
         // スコアを表示
         setScore(score);
-    }
+
+
+        }
+
+
+    protected void onPause() {
+        super.onPause();
+      // 最後にまとめてToast表示の処理とTextViewへのセットを行う
+        TextView txtScore = (TextView) findViewById(R.id.text_score);
+       prefEditor.putString("main_input", txtScore.getText().toString());
+       prefEditor.commit();
+        }
+
 
     private void setNextQuestion() {
         // 第１引数がカウントダウン時間、第２引数は途中経過を受け取る間隔
@@ -161,5 +188,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView txtScore = (TextView) findViewById(R.id.text_score);
         txtScore.setText("0");
     }
+
+
 }
 
