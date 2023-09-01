@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -37,9 +39,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (id == R.id.button1) {
             setAnswerValue();
             checkResult(true);
+
         } else if (id == R.id.button2) {
             setAnswerValue();
             checkResult(false);
+
+
         } else if (id == R.id.button3) {
             setQuestionValue();
             clearAnswerValue();
@@ -88,6 +93,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = "WIN";
                 score = 2;
+
+                Vibrator vib = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+                vib.vibrate(2000);
+
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
@@ -99,6 +108,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question > answer) {
                 result = "WIN";
                 score = 2;
+
+                Vibrator vib = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+                vib.vibrate(2000);
+
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
