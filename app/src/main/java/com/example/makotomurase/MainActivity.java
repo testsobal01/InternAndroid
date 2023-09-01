@@ -2,8 +2,13 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+
+import android.media.AudioManager;
+import android.media.SoundPool;
+
 import android.content.SharedPreferences;
 import android.graphics.Color;
+
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
@@ -22,6 +27,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     Vibrator vibrator;
 
+
+    SoundPool sndPool;
+    int sndID;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,6 +47,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
 
+        sndPool = new SoundPool(1, AudioManager.STREAM_MUSIC, 0);
+        sndID = sndPool.load(this, R.raw.botan, 0);
+
         // 起動時に関数を呼び出す
         setQuestionValue();
 
@@ -48,6 +60,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View view) {
         int id = view.getId();
+
+        sndPool.play(sndID,1.0F, 1.0F, 0, 0,1.0F);
+
         if (id == R.id.button1) {
             setAnswerValue();
             checkResult(true);
@@ -202,4 +217,5 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         textView.setText(readText);
     }
 }
+
 
