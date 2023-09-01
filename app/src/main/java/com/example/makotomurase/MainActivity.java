@@ -2,7 +2,11 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+
+import android.graphics.Color;
+
 import android.content.SharedPreferences;
+
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
@@ -113,9 +117,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = "WIN";
                 score = 2;
+                TextView tv1 = findViewById(R.id.answer);
+                tv1.setBackgroundColor(Color.CYAN);
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
+                TextView tv2 = findViewById(R.id.question);
+                tv2.setBackgroundColor(Color.MAGENTA);
             } else {
                 result = "DRAW";
                 score = 1;
@@ -124,9 +132,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question > answer) {
                 result = "WIN";
                 score = 2;
+                TextView tv2 = findViewById(R.id.question);
+                tv2.setBackgroundColor(Color.LTGRAY);
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
+                TextView tv1 = findViewById(R.id.answer);
+                tv1.setBackgroundColor(Color.WHITE);
             } else {
                 result = "DRAW";
                 score = 1;
