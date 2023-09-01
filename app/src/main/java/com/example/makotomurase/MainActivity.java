@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Vibrator;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -106,6 +107,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 result = "DRAW";
                 score = 1;
             }
+        }
+
+        switch (score) {
+            case 2:
+                Vibrator vib2 = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+                vib2.vibrate(1000);
+                break;
+            case 1:
+                Vibrator vib1 = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+                vib1.vibrate(500);
+                break;
         }
 
         // 最後にまとめてToast表示の処理とTextViewへのセットを行う
