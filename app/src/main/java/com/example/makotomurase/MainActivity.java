@@ -2,6 +2,8 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.res.Resources;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
@@ -88,23 +90,47 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = "WIN";
                 score = 2;
+                TextView txtView = findViewById(R.id.question);
+                txtView.setBackgroundColor(getResources().getColor(R.color.red));
+                TextView txtView1 = findViewById(R.id.answer);
+                txtView1.setBackgroundColor(getResources().getColor(R.color.red));
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
+                TextView txtView = findViewById(R.id.question);
+                txtView.setBackgroundColor(getResources().getColor(R.color.blue));
+                TextView txtView1 = findViewById(R.id.answer);
+                txtView1.setBackgroundColor(getResources().getColor(R.color.blue));
             } else {
                 result = "DRAW";
                 score = 1;
+                TextView txtView = findViewById(R.id.question);
+                txtView.setBackgroundColor(getResources().getColor(R.color.green));
+                TextView txtView1 = findViewById(R.id.answer);
+                txtView1.setBackgroundColor(getResources().getColor(R.color.green));
             }
         } else {
             if (question > answer) {
                 result = "WIN";
                 score = 2;
+                TextView txtView = findViewById(R.id.question);
+                txtView.setBackgroundColor(getResources().getColor(R.color.red));
+                TextView txtView1 = findViewById(R.id.answer);
+                txtView1.setBackgroundColor(getResources().getColor(R.color.red));
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
+                TextView txtView = findViewById(R.id.question);
+                txtView.setBackgroundColor(getResources().getColor(R.color.blue));
+                TextView txtView1 = findViewById(R.id.answer);
+                txtView1.setBackgroundColor(getResources().getColor(R.color.blue));
             } else {
                 result = "DRAW";
                 score = 1;
+                TextView txtView = findViewById(R.id.question);
+                txtView.setBackgroundColor(getResources().getColor(R.color.green));
+                TextView txtView1 = findViewById(R.id.answer);
+                txtView1.setBackgroundColor(getResources().getColor(R.color.green));
             }
         }
 
@@ -132,6 +158,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public void onFinish() {
                 // 3秒経過したら次の値をセット
                 setQuestionValue();
+
+                TextView txtView = findViewById(R.id.question);
+                txtView.setBackgroundColor(getResources().getColor(R.color.magenta));
+                TextView txtView1 = findViewById(R.id.answer);
+                txtView1.setBackgroundColor(getResources().getColor(R.color.yellow));
             }
         }.start();
     }
@@ -148,6 +179,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     @Override
-    public void onBackPressed() { }
+    public void onBackPressed() {
+    }
 }
 
