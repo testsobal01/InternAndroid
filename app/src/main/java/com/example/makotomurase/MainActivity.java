@@ -2,8 +2,10 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Vibrator;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -37,19 +39,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (id == R.id.button1) {
             setAnswerValue();
             checkResult(true);
+
         } else if (id == R.id.button2) {
             setAnswerValue();
             checkResult(false);
+
         } else if (id == R.id.button3) {
             setQuestionValue();
             clearAnswerValue();
             clearScoreValue();
+
+            TextView textView3=findViewById(R.id.answer);
+            textView3.setBackgroundColor(Color.parseColor("#ffff00"));
+            textView3.setTextColor(Color.parseColor("#FF000000"));
+
         }
     }
 
     private void clearAnswerValue() {
         TextView txtView = (TextView) findViewById(R.id.answer);
-        txtView.setText("値2");
+        String word = getString(R.string.answer);
+        txtView.setText(word);
+
     }
 
     private void setQuestionValue() {
@@ -59,6 +70,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         TextView txtView = findViewById(R.id.question);
         txtView.setText(Integer.toString(questionValue));
+
     }
 
     private void setAnswerValue() {
@@ -84,33 +96,66 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // Highが押された
         if (isHigh) {
+
             // result には結果のみを入れる
             if (question < answer) {
                 result = "WIN";
                 score = 2;
+
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
+
             } else {
                 result = "DRAW";
                 score = 1;
+
             }
         } else {
             if (question > answer) {
                 result = "WIN";
                 score = 2;
+
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
+
             } else {
                 result = "DRAW";
                 score = 1;
             }
+
+        }
+        if (score==2){
+            TextView textview1 = findViewById(R.id.answer);
+            textview1.setBackgroundColor(Color.parseColor("#FF9800"));
+            textview1.setTextColor(Color.parseColor("#FF000000"));
+
+        } else if (score==-1) {
+            TextView textView2 =findViewById(R.id.answer);
+            textView2.setBackgroundColor(Color.parseColor("#0000FF"));
+            textView2.setTextColor(Color.parseColor("#FFFFFFFF"));
+
+        }else {
+            TextView textView3=findViewById(R.id.answer);
+            textView3.setBackgroundColor(Color.parseColor("#ffff00"));
+            textView3.setTextColor(Color.parseColor("#FF000000"));
+        }
+
+        switch (score) {
+            case 2:
+                Vibrator vib2 = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+                vib2.vibrate(1000);
+                break;
+            case 1:
+                Vibrator vib1 = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+                vib1.vibrate(500);
+                break;
         }
 
         // 最後にまとめてToast表示の処理とTextViewへのセットを行う
         Toast.makeText(this, result, Toast.LENGTH_LONG).show();
-        txtResult.setText("結果：" + question + ":" + answer + "(" + result + ")");
+        txtResult.setText("：" + question + ":" + answer + "(" + result + ")");
 
         // 続けて遊べるように値を更新
         setNextQuestion();
