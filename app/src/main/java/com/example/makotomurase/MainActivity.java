@@ -2,6 +2,7 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
@@ -27,9 +28,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
 
-        String strW = getResources().getString(R.string.WIN);
-        String strL = getResources().getString(R.string.LOSE);
-        String strD = getResources().getString(R.string.DRAW);
 
         // 起動時に関数を呼び出す
         setQuestionValue();
@@ -37,17 +35,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View view) {
+
+        MediaPlayer mp =MediaPlayer.create(this,R.raw.kikaionn);
+        mp.start();
+
         int id = view.getId();
         if (id == R.id.button1) {
             setAnswerValue();
             checkResult(true);
+
         } else if (id == R.id.button2) {
             setAnswerValue();
             checkResult(false);
+
         } else if (id == R.id.button3) {
             setQuestionValue();
             clearAnswerValue();
             clearScoreValue();
+
         }
     }
 
@@ -80,6 +85,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void checkResult(boolean isHigh) {
         TextView txtViewQuestion = findViewById(R.id.question);
         TextView txtViewAnswer = findViewById(R.id.answer);
+        MediaPlayer mp =MediaPlayer.create(this,R.raw.kikaionn);
 
         int question = Integer.parseInt(txtViewQuestion.getText().toString());
         int answer = Integer.parseInt(txtViewAnswer.getText().toString());
@@ -99,23 +105,30 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result =strW;
                 score = 2;
+
+
             } else if (question > answer) {
                 result = strL;
                 score = -1;
+
             } else {
                 result = strD;
                 score = 1;
+
             }
         } else {
             if (question > answer) {
                 result = strW;
                 score = 2;
+
             } else if (question < answer) {
                 result = strL;
                 score = -1;
+
             } else {
                 result = strD;
                 score = 1;
+
             }
         }
 
