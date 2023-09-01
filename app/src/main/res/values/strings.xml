@@ -4,7 +4,11 @@
     <string name="btn_low">Low</string>
     <string name="btn_restart">Restart</string>
     <string name="label_score">Score：</string>
+
+    <string name="app_start">Start</string>
+
     <string name="standard">10 is set.</string>
     <string name="answer">value 2</string>
     <string name="result">result</string>
+
 </resources>
