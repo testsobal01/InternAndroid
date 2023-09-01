@@ -3,7 +3,9 @@ package com.example.makotomurase;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
+
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
@@ -16,10 +18,18 @@ import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
+    SharedPreferences pref;
+    SharedPreferences.Editor prefEditor;
+
+    // Sound
+    private SoundPlayer soundPlayer;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        //効果音クラスのインスタンス
+        soundPlayer = new SoundPlayer(this);
 
         Button btn1 = findViewById(R.id.button1);
         btn1.setOnClickListener(this);
@@ -34,6 +44,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         nextbt.setOnClickListener(this);
         // 起動時に関数を呼び出す
         setQuestionValue();
+
+        //プリファレンス設定
+        pref = getSharedPreferences("save",MODE_PRIVATE);
+        prefEditor = pref.edit();
     }
 
     @Override
@@ -107,28 +121,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = "WIN";
                 score = 2;
-
+                soundPlayer.playMaruSound();
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
-
+                soundPlayer.playBatuSound();
             } else {
                 result = "DRAW";
                 score = 1;
-
+                soundPlayer.playDrawSound();
             }
         } else {
             if (question > answer) {
                 result = "WIN";
                 score = 2;
-
+                soundPlayer.playMaruSound();
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
-
+                soundPlayer.playBatuSound();
             } else {
                 result = "DRAW";
                 score = 1;
+                soundPlayer.playDrawSound();
             }
 
         }
@@ -196,6 +211,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void clearScoreValue() {
         TextView txtScore = (TextView) findViewById(R.id.text_score);
         txtScore.setText("0");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        // 画面上の文字を取得するためテキストビューを取得
+        TextView textView = (TextView)findViewById(R.id.text_score);
+        //saveというキーに文字列を保存
+        prefEditor.putString("save",textView.getText().toString());
+        prefEditor.commit();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        //textViewの取得
+        TextView textView = (TextView)findViewById(R.id.text_score);
+        //
+        String readText = pref.getString("save","0");
+        textView.setText(readText);
     }
 }
 
