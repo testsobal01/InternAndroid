@@ -1,3 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="btn_high">高的</string>
+    <string name="btn_low">低的</string>
+    <string name="btn_restart">重新开始</string>
+    <string name="settei1">10已设定</string>
+    <string name="label_score">分数:</string>
+
 </resources>
