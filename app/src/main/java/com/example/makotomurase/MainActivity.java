@@ -3,9 +3,12 @@ package com.example.makotomurase;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.ScaleAnimation;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -113,9 +116,60 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = "WIN";
                 score = 2;
+
+                TextView tv1 = findViewById(R.id.answer);
+                ScaleAnimation scaleAnimation = new ScaleAnimation(1.0f, 2.0f, 1.0f,2.0f);
+                // animation時間 msec
+                scaleAnimation.setDuration(1000);
+                // 繰り返し回数
+                scaleAnimation.setRepeatCount(0);
+                // animationが終わったそのまま表示にする
+                scaleAnimation.setFillAfter(false);
+                scaleAnimation.setBackgroundColor(Color.MAGENTA);
+                //アニメーションの開始
+                tv1.startAnimation(scaleAnimation);
+
+                TextView tv2 = findViewById(R.id.question);
+                new ScaleAnimation(1.0f, 0.5f, 1.0f,0.5f);
+                // animation時間 msec
+                scaleAnimation.setDuration(1000);
+                // 繰り返し回数
+                scaleAnimation.setRepeatCount(0);
+                // animationが終わったそのまま表示にする
+                scaleAnimation.setFillAfter(false);
+                scaleAnimation.setBackgroundColor(Color.CYAN);
+                //アニメーションの開始
+                tv2.startAnimation(scaleAnimation);
+
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
+
+                TextView tv1 = findViewById(R.id.answer);
+
+                ScaleAnimation scaleAnimation = new ScaleAnimation(1.0f, 0.5f, 1.0f,0.5f);
+
+                // animation時間 msec
+                scaleAnimation.setDuration(1000);
+                // 繰り返し回数
+                scaleAnimation.setRepeatCount(0);
+                // animationが終わったそのまま表示にする
+                scaleAnimation.setFillAfter(false);
+                scaleAnimation.setBackgroundColor(Color.RED);
+                //アニメーションの開始
+                tv1.startAnimation(scaleAnimation);
+                TextView tv2 = findViewById(R.id.question);
+                new ScaleAnimation(1.0f, 2.0f, 1.0f,2.0f);
+                // animation時間 msec
+                scaleAnimation.setDuration(1000);
+                // 繰り返し回数
+                scaleAnimation.setRepeatCount(0);
+                // animationが終わったそのまま表示にする
+                scaleAnimation.setFillAfter(false);
+                scaleAnimation.setBackgroundColor(Color.WHITE);
+                //アニメーションの開始
+                tv2.startAnimation(scaleAnimation);
+
             } else {
                 result = "DRAW";
                 score = 1;
@@ -124,9 +178,60 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question > answer) {
                 result = "WIN";
                 score = 2;
+
+                TextView tv1 = findViewById(R.id.answer);
+
+                ScaleAnimation scaleAnimation = new ScaleAnimation(1.0f, 0.5f, 1.0f,0.5f);
+
+                // animation時間 msec
+                scaleAnimation.setDuration(1000);
+                // 繰り返し回数
+                scaleAnimation.setRepeatCount(0);
+                // animationが終わったそのまま表示にする
+                scaleAnimation.setFillAfter(false);
+                scaleAnimation.setBackgroundColor(Color.GRAY);
+                //アニメーションの開始
+                tv1.startAnimation(scaleAnimation);
+                TextView tv2 = findViewById(R.id.question);
+                new ScaleAnimation(1.0f, 2.0f, 1.0f,2.0f);
+                // animation時間 msec
+                scaleAnimation.setDuration(1000);
+                // 繰り返し回数
+                scaleAnimation.setRepeatCount(0);
+                // animationが終わったそのまま表示にする
+                scaleAnimation.setFillAfter(false);
+                scaleAnimation.setBackgroundColor(Color.LTGRAY);
+                //アニメーションの開始
+                tv2.startAnimation(scaleAnimation);
+
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
+
+                TextView tv1 = findViewById(R.id.answer);
+                ScaleAnimation scaleAnimation = new ScaleAnimation(1.0f, 2.0f, 1.0f,2.0f);
+                // animation時間 msec
+                scaleAnimation.setDuration(1000);
+                // 繰り返し回数
+                scaleAnimation.setRepeatCount(0);
+                // animationが終わったそのまま表示にする
+                scaleAnimation.setFillAfter(false);
+                scaleAnimation.setBackgroundColor(Color.BLUE);
+                //アニメーションの開始
+                tv1.startAnimation(scaleAnimation);
+
+                TextView tv2 = findViewById(R.id.question);
+                new ScaleAnimation(1.0f, 0.5f, 1.0f,0.5f);
+                // animation時間 msec
+                scaleAnimation.setDuration(1000);
+                // 繰り返し回数
+                scaleAnimation.setRepeatCount(0);
+                // animationが終わったそのまま表示にする
+                scaleAnimation.setFillAfter(false);
+                scaleAnimation.setBackgroundColor(Color.DKGRAY);
+                //アニメーションの開始
+                tv2.startAnimation(scaleAnimation);
+
             } else {
                 result = "DRAW";
                 score = 1;
