@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.RotateAnimation;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -92,9 +94,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             // result には結果のみを入れる
             if (question < answer) {
                 result = "WIN";
+                startRotationAnswer();
                 score = 2;
             } else if (question > answer) {
                 result = "LOSE";
+                startRotationQuestion();
                 score = -1;
             } else {
                 result = "DRAW";
@@ -103,9 +107,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         } else {
             if (question > answer) {
                 result = "WIN";
+                startRotationAnswer();
                 score = 2;
             } else if (question < answer) {
                 result = "LOSE";
+                startRotationQuestion();
                 score = -1;
             } else {
                 result = "DRAW";
@@ -152,7 +158,47 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         txtScore.setText("0");
     }
 
-    @Override
-    public void onBackPressed() { }
+    public void startRotationQuestion(){
+
+        TextView txtViewQuestion = findViewById(R.id.question);
+
+        // RotateAnimation(float fromDegrees, float toDegrees, int pivotXType, float pivotXValue, int pivotYType,float pivotYValue)
+        RotateAnimation rotate = new RotateAnimation(0.0f, 360.0f,
+                Animation.RELATIVE_TO_SELF, 0.5f,
+                Animation.RELATIVE_TO_SELF, 0.5f);
+
+        // animation時間 msec
+        rotate.setDuration(3000);
+        // 繰り返し回数
+        rotate.setRepeatCount(0);
+        // animationが終わったそのまま表示にする
+        rotate.setFillAfter(true);
+
+        //アニメーションの開始
+        txtViewQuestion.startAnimation(rotate);
+
+    }
+
+    public void startRotationAnswer(){
+
+        TextView txtViewAnswer = findViewById(R.id.answer);
+
+        // RotateAnimation(float fromDegrees, float toDegrees, int pivotXType, float pivotXValue, int pivotYType,float pivotYValue)
+        RotateAnimation rotate = new RotateAnimation(0.0f, 360.0f,
+                Animation.RELATIVE_TO_SELF, 0.5f,
+                Animation.RELATIVE_TO_SELF, 0.5f);
+
+        // animation時間 msec
+        rotate.setDuration(3000);
+        // 繰り返し回数
+        rotate.setRepeatCount(0);
+        // animationが終わったそのまま表示にする
+        rotate.setFillAfter(true);
+
+        //アニメーションの開始
+        txtViewAnswer.startAnimation(rotate);
+
+    }
+
 }
 
