@@ -8,11 +8,16 @@ import android.media.SoundPool;
 
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
+import android.media.SoundPool;
 
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -85,6 +90,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+    private void blinkText(TextView txtView, long duration, long offset){
+        Animation anm = new AlphaAnimation(0.0f, 1.0f);
+        anm.setDuration(duration);
+        anm.setStartOffset(offset);
+        anm.setRepeatMode(Animation.REVERSE);
+        anm.setRepeatCount(Animation.INFINITE);
+        txtView.startAnimation(anm);
+    }
+
     private void clearAnswerValue() {
         TextView txtView = (TextView) findViewById(R.id.answer);
         txtView.setText("値2");
@@ -128,16 +142,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 score = 2;
                 txtViewAnswer.setBackgroundColor(Color.RED);
                 txtViewQuestion.setBackgroundColor(Color.BLUE);
+                txtViewQuestion.clearAnimation();
+                blinkText(txtViewAnswer, 1500, 300);
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
                 txtViewAnswer.setBackgroundColor(Color.BLUE);
                 txtViewQuestion.setBackgroundColor(Color.RED);
+                txtViewAnswer.clearAnimation();
+                blinkText(txtViewQuestion, 1500, 300);
             } else {
                 result = "DRAW";
                 score = 1;
                 txtViewAnswer.setBackgroundColor(Color.YELLOW);
                 txtViewQuestion.setBackgroundColor(Color.YELLOW);
+                txtViewAnswer.clearAnimation();
+                txtViewQuestion.clearAnimation();
             }
         } else {
             if (question > answer) {
@@ -145,16 +165,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 score = 2;
                 txtViewAnswer.setBackgroundColor(Color.BLUE);
                 txtViewQuestion.setBackgroundColor(Color.RED);
+                txtViewAnswer.clearAnimation();
+                blinkText(txtViewQuestion, 1500, 300);
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
                 txtViewAnswer.setBackgroundColor(Color.RED);
                 txtViewQuestion.setBackgroundColor(Color.BLUE);
+                txtViewQuestion.clearAnimation();
+                blinkText(txtViewAnswer, 1500, 300);
             } else {
                 result = "DRAW";
                 score = 1;
                 txtViewAnswer.setBackgroundColor(Color.YELLOW);
                 txtViewQuestion.setBackgroundColor(Color.YELLOW);
+                txtViewAnswer.clearAnimation();
+                txtViewQuestion.clearAnimation();
             }
         }
 
@@ -193,8 +219,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void clearScoreValue() {
+        TextView txtViewQuestion = findViewById(R.id.question);
+        TextView txtViewAnswer = findViewById(R.id.answer);
         TextView txtScore = (TextView) findViewById(R.id.text_score);
         txtScore.setText("0");
+        txtViewAnswer.clearAnimation();
+        txtViewQuestion.clearAnimation();
     }
 
     protected void onPause(){
