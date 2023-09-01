@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">team-C</string>
+    <string name="btn_high">High</string>
+    <string name="btn_low">Low</string>
+    <string name="btn_restart">Restart</string>
+    <string name="label_score">Score：</string>
+    <string name="TEXT">Set to 10.</string>
+    <string name="text1">DATA2</string>
+    <string name="text3">Result:</string>
+    <string name="WIN">WIN</string>
+    <string name="LOSE">LOSE</string>
+    <string name="DRAW">DRAW</string>
+</resources>

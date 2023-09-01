@@ -1,7 +1,13 @@
 <resources>
-    <string name="app_name">MakotoMurase</string>
-    <string name="btn_high">High</string>
-    <string name="btn_low">Low</string>
-    <string name="btn_restart">Restart</string>
-    <string name="label_score">Score：</string>
+    <string name="app_name">team-C</string>
+    <string name="btn_high">高い</string>
+    <string name="btn_low">低い</string>
+    <string name="btn_restart">リスタート</string>
+    <string name="label_score">スコア：</string>
+    <string name="TEXT">10が設定されています。</string>
+    <string name="text1">値2</string>
+    <string name="text3">結果:</string>
+    <string name="WIN">勝利</string>
+    <string name="LOSE">敗北</string>
+    <string name="DRAW">引き分け</string>
 </resources>
