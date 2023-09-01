@@ -1,24 +1,46 @@
 package com.example.makotomurase;
 
+import static android.widget.Toast.LENGTH_SHORT;
+
 import androidx.appcompat.app.AppCompatActivity;
+
+
+import android.app.admin.DevicePolicyManager;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
+
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import android.media.AudioAttributes;
 import android.media.SoundPool;
 import android.util.Log;
 import android.view.animation.RotateAnimation;
 import android.widget.Button;
+
+
+import java.text.BreakIterator;
+
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
+
     private SoundPool soundPool;
     private int soundOne, soundTwo,soundThree;
     private Button button1, button2,button3;
+
+    SharedPreferences pref;
+    SharedPreferences.Editor prefEditor;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,6 +54,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
+
+
+        pref = getSharedPreferences("Androidseminer", MODE_PRIVATE);
+        prefEditor = pref.edit();
+
         // 起動時に関数を呼び出す
         setQuestionValue();
         AudioAttributes audioAttributes = new AudioAttributes.Builder()
@@ -100,9 +127,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (id == R.id.button1) {
             setAnswerValue();
             checkResult(true);
+
         } else if (id == R.id.button2) {
             setAnswerValue();
             checkResult(false);
+
+
         } else if (id == R.id.button3) {
             setQuestionValue();
             clearAnswerValue();
@@ -136,22 +166,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView txtViewQuestion = findViewById(R.id.question);
         TextView txtViewAnswer = findViewById(R.id.answer);
 
+        int score;
         int question = Integer.parseInt(txtViewQuestion.getText().toString());
         int answer = Integer.parseInt(txtViewAnswer.getText().toString());
-
         TextView txtResult = (TextView) findViewById(R.id.text_result);
 
         // 結果を示す文字列を入れる変数を用意
         String result;
-        int score;
 
         // Highが押された
-        if (isHigh) {
-            // result には結果のみを入れる
-            if (question < answer) {
+        if (!isHigh) {
+            if (question > answer) {
                 result = "WIN";
                 score = 2;
-            } else if (question > answer) {
+                Vibrator vib = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+                vib.vibrate(2000);
+            } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
             } else {
@@ -159,10 +189,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 score = 1;
             }
         } else {
-            if (question > answer) {
+            // result には結果のみを入れる
+            if (question < answer) {
                 result = "WIN";
                 score = 2;
-            } else if (question < answer) {
+                Vibrator vib = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+                vib.vibrate(2000);
+            } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
             } else {
@@ -208,6 +241,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void clearScoreValue() {
         TextView txtScore = (TextView) findViewById(R.id.text_score);
         txtScore.setText("0");
+    }
+    @Override
+    public void onPause() {
+        super.onPause();
+        TextView textView = (TextView) findViewById(R.id.text_score);
+        prefEditor.putString("main_input", textView.getText().toString());
+        prefEditor.commit();
+    }
+    @Override
+    protected void onResume(){
+        super.onResume();
+        TextView textView = (TextView) findViewById(R.id.text_score);
+        String readText = pref.getString("main_input", "0");
+        textView.setText(readText);
     }
 }
 
