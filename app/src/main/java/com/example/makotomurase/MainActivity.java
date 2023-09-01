@@ -1,7 +1,7 @@
 package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
-
+import android.graphics.Color;
 
 import android.content.Intent;
 
@@ -122,23 +122,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result =strW;
                 score = 2;
+                txtResult.setBackgroundColor(Color.parseColor("#ee7800"));
             } else if (question > answer) {
                 result = strL;
                 score = -1;
+                txtResult.setBackgroundColor(Color.CYAN);
             } else {
                 result = strD;
                 score = 1;
+                txtResult.setBackgroundColor(Color.GREEN);
             }
         } else {
             if (question > answer) {
                 result = strW;
                 score = 2;
+                txtResult.setBackgroundColor(Color.parseColor("#ee7800"));
             } else if (question < answer) {
                 result = strL;
                 score = -1;
+                txtResult.setBackgroundColor(Color.CYAN);
             } else {
                 result = strD;
                 score = 1;
+                txtResult.setBackgroundColor(Color.GREEN);
             }
         }
 
