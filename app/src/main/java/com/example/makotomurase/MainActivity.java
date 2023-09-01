@@ -2,18 +2,38 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+
 import android.content.res.Resources;
 import android.graphics.Color;
+
+import android.content.SharedPreferences;
+
 import android.os.Bundle;
 import android.os.CountDownTimer;
+
+import android.preference.PreferenceManager;
+import android.view.Menu;
+import android.view.MenuInflater;
+
+import android.os.Vibrator;
+
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.RotateAnimation;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
 
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
+    SharedPreferences sharedPref;
+
+    SharedPreferences pref;
+    SharedPreferences.Editor prefEditor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,6 +41,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
 
         Button btn1 = findViewById(R.id.button1);
+        Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE) ;
+        vib.vibrate(1000);
         btn1.setOnClickListener(this);
 
         Button btn2 = findViewById(R.id.button2);
@@ -29,12 +51,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
 
+        // "AndroidSeminor" は、保存する先のファイル名のようなもの
+        pref = getSharedPreferences("AndroidSeminor", MODE_PRIVATE);
+        prefEditor = pref.edit();
+
+
         // 起動時に関数を呼び出す
         setQuestionValue();
     }
 
     @Override
     public void onClick(View view) {
+        Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE) ;
+        vib.vibrate(1000);
         int id = view.getId();
         if (id == R.id.button1) {
             setAnswerValue();
@@ -89,6 +118,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             // result には結果のみを入れる
             if (question < answer) {
                 result = "WIN";
+                startRotationAnswer();
                 score = 2;
                 TextView txtView = findViewById(R.id.question);
                 txtView.setBackgroundColor(getResources().getColor(R.color.red));
@@ -96,6 +126,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 txtView1.setBackgroundColor(getResources().getColor(R.color.red));
             } else if (question > answer) {
                 result = "LOSE";
+                startRotationQuestion();
                 score = -1;
                 TextView txtView = findViewById(R.id.question);
                 txtView.setBackgroundColor(getResources().getColor(R.color.blue));
@@ -112,6 +143,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         } else {
             if (question > answer) {
                 result = "WIN";
+                startRotationAnswer();
                 score = 2;
                 TextView txtView = findViewById(R.id.question);
                 txtView.setBackgroundColor(getResources().getColor(R.color.red));
@@ -119,6 +151,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 txtView1.setBackgroundColor(getResources().getColor(R.color.red));
             } else if (question < answer) {
                 result = "LOSE";
+                startRotationQuestion();
                 score = -1;
                 TextView txtView = findViewById(R.id.question);
                 txtView.setBackgroundColor(getResources().getColor(R.color.blue));
@@ -178,8 +211,71 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         txtScore.setText("0");
     }
 
+
     @Override
-    public void onBackPressed() {
+    protected void onPause() {
+        super.onPause();
+        Toast.makeText(this, "onPause", Toast.LENGTH_SHORT).show();
+
+        TextView textView = (TextView)findViewById(R.id.text_score);
+        // "main_input"というキー名（箱）に、文字列を保存
+        prefEditor.putString("keep", textView.getText().toString());
+        prefEditor.commit();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Toast.makeText(this, "onResume", Toast.LENGTH_SHORT).show();
+
+        // 画面上に文字列をセットするため、テキストビューを取得
+        TextView textView = (TextView)findViewById(R.id.text_score);
+        // 保存した値をキー名（main_input）を指定して取得。
+        // 一度も保存されていない場合もありえるので、その時に変わりに表示する文字列も指定する
+        String readText = pref.getString("keep", "保存されていません");
+        textView.setText(readText);
+
+    }
+
+    public void startRotationQuestion(){
+
+        TextView txtViewQuestion = findViewById(R.id.question);
+
+        // RotateAnimation(float fromDegrees, float toDegrees, int pivotXType, float pivotXValue, int pivotYType,float pivotYValue)
+        RotateAnimation rotate = new RotateAnimation(0.0f, 360.0f,
+                Animation.RELATIVE_TO_SELF, 0.5f,
+                Animation.RELATIVE_TO_SELF, 0.5f);
+
+        // animation時間 msec
+        rotate.setDuration(3000);
+        // 繰り返し回数
+        rotate.setRepeatCount(0);
+        // animationが終わったそのまま表示にする
+        rotate.setFillAfter(true);
+
+        //アニメーションの開始
+        txtViewQuestion.startAnimation(rotate);
+
+    }
+
+    public void startRotationAnswer(){
+
+        TextView txtViewAnswer = findViewById(R.id.answer);
+
+        // RotateAnimation(float fromDegrees, float toDegrees, int pivotXType, float pivotXValue, int pivotYType,float pivotYValue)
+        RotateAnimation rotate = new RotateAnimation(0.0f, 360.0f,
+                Animation.RELATIVE_TO_SELF, 0.5f,
+                Animation.RELATIVE_TO_SELF, 0.5f);
+
+        // animation時間 msec
+        rotate.setDuration(3000);
+        // 繰り返し回数
+        rotate.setRepeatCount(0);
+        // animationが終わったそのまま表示にする
+        rotate.setFillAfter(true);
+
+        //アニメーションの開始
+        txtViewAnswer.startAnimation(rotate);
     }
 }
 
