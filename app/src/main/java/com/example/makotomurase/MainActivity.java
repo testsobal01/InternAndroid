@@ -7,6 +7,7 @@ import android.content.Intent;
 
 import android.content.SharedPreferences;
 
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
@@ -39,9 +40,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btn3.setOnClickListener(this);
 
 
+
         String strW = getResources().getString(R.string.WIN);
         String strL = getResources().getString(R.string.LOSE);
         String strD = getResources().getString(R.string.DRAW);
+
 
         //
         pref = getSharedPreferences("prefScore",MODE_PRIVATE);
@@ -56,17 +59,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View view) {
 
+
+        MediaPlayer mp =MediaPlayer.create(this,R.raw.kikaionn);
+        mp.start();
+
         int id = view.getId();
         if (id == R.id.button1) {
             setAnswerValue();
             checkResult(true);
+
         } else if (id == R.id.button2) {
             setAnswerValue();
             checkResult(false);
+
         } else if (id == R.id.button3) {
             setQuestionValue();
             clearAnswerValue();
             clearScoreValue();
+
         }
         if (id == R.id.button3){
                 Vibrator vib =(Vibrator) getSystemService(VIBRATOR_SERVICE);
@@ -103,6 +113,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void checkResult(boolean isHigh) {
         TextView txtViewQuestion = findViewById(R.id.question);
         TextView txtViewAnswer = findViewById(R.id.answer);
+        MediaPlayer mp =MediaPlayer.create(this,R.raw.kikaionn);
 
         int question = Integer.parseInt(txtViewQuestion.getText().toString());
         int answer = Integer.parseInt(txtViewAnswer.getText().toString());
