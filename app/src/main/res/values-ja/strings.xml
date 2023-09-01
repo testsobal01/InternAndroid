@@ -3,6 +3,9 @@
     <string name="app_name">MakotoMurase</string>
     <string name="btn_high">高い</string>
     <string name="btn_low">低い</string>
+    <string name="btn_start">開始</string>
     <string name="btn_restart">リスタート</string>
     <string name="label_score">得点：</string>
+    <string name="label_number">値２</string>
+    <string name="txt_result2">結果：</string>
 </resources>

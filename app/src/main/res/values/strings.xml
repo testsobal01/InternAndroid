@@ -4,5 +4,7 @@
     <string name="btn_low">Low</string>
     <string name="btn_start">START</string>
     <string name="btn_restart">Restart</string>
-    <string name="label_score">Score：</string>eiji
+    <string name="label_score">Score：</string>
+    <string name="label_number">Value 2</string>
+    <string name="txt_result2">Result：</string>
 </resources>

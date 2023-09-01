@@ -14,6 +14,7 @@ import android.widget.Toast;
 import android.content.Context;
 import android.os.Vibrator;
 
+import java.text.BreakIterator;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -91,6 +92,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         String result;
         int score;
 
+        String result2 =getString(R.string.txt_result2);
+
         // Highが押された
         if (isHigh) {
             // result には結果のみを入れる
@@ -135,7 +138,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // 最後にまとめてToast表示の処理とTextViewへのセットを行う
         Toast.makeText(this, result, Toast.LENGTH_LONG).show();
-        txtResult.setText("結果：" + question + ":" + answer + "(" + result + ")");
+        txtResult.setText(result2+ question + ":" + answer + "(" + result + ")");
 
         // 続けて遊べるように値を更新
         setNextQuestion();
