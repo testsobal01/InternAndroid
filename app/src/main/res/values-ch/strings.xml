@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">MakotoMurase</string>
+    <string name="app_name">highlow</string>
     <string name="btn_high">高</string>
     <string name="btn_low">低</string>
     <string name="btn_restart">重启</string>
@@ -9,4 +9,5 @@
     <string name="action_settings">设置</string>
     <string name="action_settings2">设置2</string>
     <string name="action_settings3">设置3</string>
+    <string name="button_start">开学典礼</string>
 </resources>

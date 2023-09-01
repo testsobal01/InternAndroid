@@ -1,5 +1,4 @@
 <resources>
-    <string name="app_name">MakotoMurase</string>
     <string name="btn_high">高い</string>
     <string name="btn_low">低い</string>
     <string name="btn_restart">再スタート</string>
@@ -8,4 +7,6 @@
     <string name="action_settings">設定1</string>
     <string name="action_settings2">設定2</string>
     <string name="action_settings3">設定3</string>
+    <string name="button_start">スタート</string>
+    <string name="app_name">highlow</string>
 </resources>
