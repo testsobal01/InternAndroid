@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">HOCH UND NIEDRIG</string>
+    <string name="btn_high">High</string>
+    <string name="btn_low">Niedrig</string>
+    <string name="btn_restart">Neustart</string>
+    <string name="label_score">Ergebnis：</string>
+</resources>
