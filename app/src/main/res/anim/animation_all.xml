@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<set xmlns:android="http://schemas.android.com/apk/res/android">
-    <objectAnimator
-        android:propertyName="alpha"
-        android:duration="500"
+<set xmlns:android="http://schemas.android.com/apk/res/android"
+    android:interpolator="@android:anim/decelerate_interpolator">
+    <alpha android:duration="70"
+        android:fromAlpha="0"
+        android:toAlpha="1"
+        android:startOffset="200"
         android:valueTo="0.5f"
-        android:repeatCount="-1"
-        android:repeatMode="reverse" />
+        android:repeatCount="2"
+        android:repeatMode="reverse"/>
 </set>
