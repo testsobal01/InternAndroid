@@ -1,25 +1,47 @@
 package com.example.makotomurase;
 
+import static android.widget.Toast.LENGTH_SHORT;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.ViewCompat;
 
 import android.animation.AnimatorInflater;
 import android.animation.AnimatorSet;
+import android.app.admin.DevicePolicyManager;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import android.media.AudioAttributes;
+import android.media.SoundPool;
+import android.util.Log;
+import android.view.animation.RotateAnimation;
+import android.widget.Button;
+
+
+import java.text.BreakIterator;
 
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
-
     AnimatorSet set;
     AnimatorSet set3;
+
+    private SoundPool soundPool;
+    private int soundOne, soundTwo,soundThree;
+    private Button button1, button2,button3;
+
+    SharedPreferences pref;
+    SharedPreferences.Editor prefEditor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +56,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
+
+
+        pref = getSharedPreferences("Androidseminer", MODE_PRIVATE);
+        prefEditor = pref.edit();
 
         // 起動時に関数を呼び出す
         setQuestionValue();
@@ -54,15 +80,82 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //アニメーション対称のオブジェクトを設定
         set3.setTarget(tst);
 
+        AudioAttributes audioAttributes = new AudioAttributes.Builder()
+
+                .setUsage(AudioAttributes.USAGE_GAME)
+
+                .setContentType(AudioAttributes.CONTENT_TYPE_SPEECH)
+                .build();
+
+        soundPool = new SoundPool.Builder()
+                .setAudioAttributes(audioAttributes)
+
+                .setMaxStreams(3)
+                .build();
+
+        soundOne = soundPool.load(this, R.raw.one, 1);
+
+        soundTwo = soundPool.load(this, R.raw.two, 1);
+
+        soundThree = soundPool.load(this, R.raw.three, 1);
+
+        soundPool.setOnLoadCompleteListener((soundPool, sampleId, status) -> {
+            Log.d("debug","sampleId="+sampleId);
+            Log.d("debug","status="+status);
+
+            button1 = findViewById(R.id.button1);
+            button2 = findViewById(R.id.button2);
+            button3 = findViewById(R.id.button3);
+
+            button1.setOnClickListener( v -> {
+
+                // play(ロードしたID, 左音量, 右音量, 優先度, ループ,再生速度)
+                soundPool.play(soundOne, 1.0f, 1.0f, 0, 0, 1);
+
+                // ボタンの回転アニメーション
+                RotateAnimation buttonRotation = new RotateAnimation(
+                        0, 180, (float)(button1.getWidth()/2), (float)(button1.getHeight()/2));
+                buttonRotation.setDuration(2000);
+                button1.startAnimation(buttonRotation);
+            });
+
+            button2.setOnClickListener( v -> {
+                soundPool.play(soundTwo, 1.0f, 1.0f, 1, 0, 1);
+
+                // ボタンの回転アニメーション
+                RotateAnimation buttonRotation = new RotateAnimation(
+                        0, 180, (float)(button2.getWidth()/2), (float)(button2.getHeight()/2));
+                buttonRotation.setDuration(2000);
+                button2.startAnimation(buttonRotation);
+            });
+            button3.setOnClickListener( v -> {
+                soundPool.play(soundThree, 1.0f, 1.0f, 1, 0, 1);
+
+                // ボタンの回転アニメーション
+                RotateAnimation buttonRotation = new RotateAnimation(
+                        0, 180, (float)(button3.getWidth()/2), (float)(button3.getHeight()/2));
+                buttonRotation.setDuration(2000);
+                button3.startAnimation(buttonRotation);
+            });
+        });
+
+
+        //画像挿入
+        ImageView myImage = findViewById(R.id.neko);
+        //画像名
+        String imageName = "nekone";
+        //ID取得
+        int resId = getResources().getIdentifier(imageName,"drawable", getPackageName());
+        //画像をセット
+        myImage.setImageResource(resId);
     }
-        @Override
-        protected void onStart() {
-            super.onStart();
-            //アニメーションの開始を宣言
-            set.start();
-        }
-
-
+  
+    @Override
+    protected void onStart() {
+        super.onStart();
+        //アニメーションの開始を宣言
+        set.start();
+    }
 
     @Override
     public void onClick(View view) {
@@ -109,29 +202,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView txtViewQuestion = findViewById(R.id.question);
         TextView txtViewAnswer = findViewById(R.id.answer);
 
+        int score;
         int question = Integer.parseInt(txtViewQuestion.getText().toString());
         int answer = Integer.parseInt(txtViewAnswer.getText().toString());
-
         TextView txtResult = (TextView) findViewById(R.id.text_result);
 
         // 結果を示す文字列を入れる変数を用意
         String result;
-        int score;
 
         // Highが押された
-        if (isHigh) {
-            // result には結果のみを入れる
-            if (question < answer) {
+        if (!isHigh) {
+            if (question > answer) {
                 result = "WIN";
                 score = 2;
-
-
                 set3.start();
-
                 Vibrator vib = (Vibrator) getSystemService(VIBRATOR_SERVICE);
                 vib.vibrate(2000);
-
-            } else if (question > answer) {
+            } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
 
@@ -140,16 +227,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 score = 1;
             }
         } else {
-            if (question > answer) {
+            // result には結果のみを入れる
+            if (question < answer) {
                 result = "WIN";
                 score = 2;
-
                 set3.start();
-
                 Vibrator vib = (Vibrator) getSystemService(VIBRATOR_SERVICE);
                 vib.vibrate(2000);
-
-            } else if (question < answer) {
+            } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
             } else {
@@ -197,6 +282,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void clearScoreValue() {
         TextView txtScore = (TextView) findViewById(R.id.text_score);
         txtScore.setText("0");
+    }
+    @Override
+    public void onPause() {
+        super.onPause();
+        TextView textView = (TextView) findViewById(R.id.text_score);
+        prefEditor.putString("main_input", textView.getText().toString());
+        prefEditor.commit();
+    }
+    @Override
+    protected void onResume(){
+        super.onResume();
+        TextView textView = (TextView) findViewById(R.id.text_score);
+        String readText = pref.getString("main_input", "0");
+        textView.setText(readText);
     }
 }
 
