@@ -2,8 +2,13 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+
+import android.media.AudioManager;
+import android.media.SoundPool;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Vibrator;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -12,6 +17,12 @@ import android.widget.Toast;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
+    SoundPool sandpool;
+    int sndID;
+
+    SharedPreferences pref;
+    SharedPreferences.Editor prefEditor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,16 +38,48 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
 
+        pref = getSharedPreferences("InternAndroid", MODE_PRIVATE);
+        prefEditor = pref.edit();
+
         // 起動時に関数を呼び出す
         setQuestionValue();
+        sandpool = new SoundPool(1, AudioManager.STREAM_MUSIC,1);
+        sndID = sandpool.load(this,R.raw.se1,0);
+    }
+    @Override
+    protected void onPause() {
+        super.onPause();
+        //Toast.makeText(this, "onPause", Toast.LENGTH_SHORT).show();
+
+        TextView textView = (TextView)findViewById(R.id.text_score);
+        prefEditor.putString("main_input", textView.getText().toString());
+        prefEditor.commit();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        //Toast.makeText(this, "onResume", Toast.LENGTH_SHORT).show();
+
+        TextView textView = (TextView) findViewById(R.id.text_score);
+        String readText = pref.getString("main_input", "0");
+        textView.setText(readText);
     }
 
     @Override
     public void onClick(View view) {
+
+        sandpool.play(sndID,1.0F,1.0F,0,0,1.0F);
+
         int id = view.getId();
+
         if (id == R.id.button1) {
             setAnswerValue();
             checkResult(true);
+
+            Vibrator vib = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+            vib.vibrate(5000);
+
         } else if (id == R.id.button2) {
             setAnswerValue();
             checkResult(false);
@@ -44,9 +87,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             setQuestionValue();
             clearAnswerValue();
             clearScoreValue();
+
         }
     }
-
     private void clearAnswerValue() {
         TextView txtView = (TextView) findViewById(R.id.answer);
         txtView.setText("値2");
@@ -145,6 +188,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void clearScoreValue() {
         TextView txtScore = (TextView) findViewById(R.id.text_score);
         txtScore.setText("0");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        //Toast.makeText(this, "onDestroy", Toast.LENGTH_SHORT).show();
     }
 }
 
