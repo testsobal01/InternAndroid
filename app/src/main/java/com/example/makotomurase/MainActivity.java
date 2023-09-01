@@ -8,6 +8,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.content.Context;
+import android.os.Vibrator;
 
 import java.util.Random;
 
@@ -45,7 +47,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             clearAnswerValue();
             clearScoreValue();
         }
-    }
+            ((Vibrator)getSystemService(Context.VIBRATOR_SERVICE)).vibrate(1000);
+        }
+
 
     private void clearAnswerValue() {
         TextView txtView = (TextView) findViewById(R.id.answer);
