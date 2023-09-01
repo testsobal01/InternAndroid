@@ -2,11 +2,18 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.animation.AnimatorInflater;
+import android.app.Activity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -16,6 +23,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     SharedPreferences pref;
     SharedPreferences.Editor prefEditor;
+    private TextView imagetv1;
+    private TextView imagetv2;
+    private Animation animation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +43,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         pref = getSharedPreferences("InternAndroid", MODE_PRIVATE);
         prefEditor = pref.edit();
+
+        imagetv1 = findViewById(R.id.question);
+        imagetv2 = findViewById(R.id.answer);
+        animation = AnimationUtils.loadAnimation(this, R.anim.animation_all);
+
+        //btn3.setOnClickListener( v-> imagetv2.startAnimation(animation));
 
         // 起動時に関数を呼び出す
         setQuestionValue();
@@ -114,9 +130,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             // result には結果のみを入れる
             if (question < answer) {
                 result = "WIN";
+                imagetv2.startAnimation(animation);
                 score = 2;
             } else if (question > answer) {
                 result = "LOSE";
+                imagetv1.startAnimation(animation);
                 score = -1;
             } else {
                 result = "DRAW";
@@ -126,9 +144,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question > answer) {
                 result = "WIN";
                 score = 2;
+                imagetv2.startAnimation(animation);
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
+                imagetv1.startAnimation(animation);
             } else {
                 result = "DRAW";
                 score = 1;
