@@ -1,10 +1,16 @@
 package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
+import android.graphics.Color;
+
+import android.content.Intent;
+
+import android.content.SharedPreferences;
 
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Vibrator;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -14,8 +20,13 @@ import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
+    SharedPreferences pref;
+    SharedPreferences.Editor prefEditor;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -29,12 +40,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btn3.setOnClickListener(this);
 
 
+
+        String strW = getResources().getString(R.string.WIN);
+        String strL = getResources().getString(R.string.LOSE);
+        String strD = getResources().getString(R.string.DRAW);
+
+
+        //
+        pref = getSharedPreferences("prefScore",MODE_PRIVATE);
+        prefEditor = pref.edit();
+
+
         // 起動時に関数を呼び出す
         setQuestionValue();
+
     }
 
     @Override
     public void onClick(View view) {
+
 
         MediaPlayer mp =MediaPlayer.create(this,R.raw.kikaionn);
         mp.start();
@@ -54,6 +78,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             clearScoreValue();
 
         }
+        if (id == R.id.button3){
+                Vibrator vib =(Vibrator) getSystemService(VIBRATOR_SERVICE);
+                vib.vibrate(5000);}
+
     }
 
     private void clearAnswerValue() {
@@ -105,30 +133,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result =strW;
                 score = 2;
-
-
+                txtResult.setBackgroundColor(Color.parseColor("#ee7800"));
             } else if (question > answer) {
                 result = strL;
                 score = -1;
-
+                txtResult.setBackgroundColor(Color.CYAN);
             } else {
                 result = strD;
                 score = 1;
-
+                txtResult.setBackgroundColor(Color.GREEN);
             }
         } else {
             if (question > answer) {
                 result = strW;
                 score = 2;
-
+                txtResult.setBackgroundColor(Color.parseColor("#ee7800"));
             } else if (question < answer) {
                 result = strL;
                 score = -1;
-
+                txtResult.setBackgroundColor(Color.CYAN);
             } else {
                 result = strD;
                 score = 1;
-
+                txtResult.setBackgroundColor(Color.GREEN);
             }
         }
 
@@ -169,6 +196,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void clearScoreValue() {
         TextView txtScore = (TextView) findViewById(R.id.text_score);
         txtScore.setText("0");
+    }
+
+    @Override
+    protected void onPause(){
+        super.onPause();
+        Toast.makeText(this, "onPause", Toast.LENGTH_SHORT).show();
+
+        TextView textView = (TextView)findViewById(R.id.text_score);
+        prefEditor.putString("pref_score", textView.getText().toString());
+        prefEditor.commit();
+    }
+
+    @Override
+    protected  void onResume(){
+        super.onResume();
+        Toast.makeText(this, "onResume",Toast.LENGTH_SHORT).show();
+
+        TextView textView = (TextView) findViewById(R.id.text_score);
+        String readText = pref.getString("pref_score","");
+        textView.setText(readText);
     }
 }
 
