@@ -11,6 +11,14 @@ import android.widget.Toast;
 
 import java.util.Random;
 
+
+import android.media.AudioAttributes;
+import android.media.SoundPool;
+
+import android.content.Context;
+import android.os.Vibrator;
+
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     @Override
@@ -45,6 +53,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             clearAnswerValue();
             clearScoreValue();
         }
+
+        ((Vibrator) getSystemService(Context.VIBRATOR_SERVICE)).vibrate(200);
+
+        soundPool.play(mySoundID, 1f, 1f, 0, 0, 1);
     }
 
     private void clearAnswerValue() {
