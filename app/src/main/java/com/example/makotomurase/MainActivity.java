@@ -1,7 +1,10 @@
 package com.example.makotomurase;
 
+import static androidx.core.view.ViewCompat.setBackground;
+
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
@@ -108,6 +111,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int answer = Integer.parseInt(txtViewAnswer.getText().toString());
 
         TextView txtResult = (TextView) findViewById(R.id.text_result);
+        TextView txtAnswer = (TextView) findViewById(R.id.answer);
+        TextView txtQuestion = (TextView) findViewById(R.id.question);
 
         // 結果を示す文字列を入れる変数を用意
         String result;
@@ -120,29 +125,44 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 soundPool.play(sound1,1f , 1f, 0, 0, 1f);
                 result = "WIN";
                 score = 2;
+                txtAnswer.setBackgroundColor(Color.RED);
+                txtQuestion.setBackgroundColor(Color.BLUE);
 
             } else if (question > answer) {
                 soundPool.play(sound2,1f , 1f, 0, 0, 1f);
                 result = "LOSE";
                 score = -1;
+                txtAnswer.setBackgroundColor(Color.BLUE);
+                txtQuestion.setBackgroundColor(Color.RED);
+
             } else {
                 soundPool.play(sound3,1f , 1f, 0, 0, 1f);
                 result = "DRAW";
                 score = 1;
+                txtAnswer.setBackgroundColor(Color.YELLOW);
+                txtQuestion.setBackgroundColor(Color.YELLOW);
             }
         } else {
             if (question > answer) {
                 soundPool.play(sound1,1f , 1f, 0, 0, 1f);
                 result = "WIN";
                 score = 2;
+                txtAnswer.setBackgroundColor(Color.RED);
+                txtQuestion.setBackgroundColor(Color.BLUE);
+
             } else if (question < answer) {
                 soundPool.play(sound2,1f , 1f, 0, 0, 1f);
                 result = "LOSE";
                 score = -1;
+                txtAnswer.setBackgroundColor(Color.BLUE);
+                txtQuestion.setBackgroundColor(Color.RED);
+
             } else {
                 soundPool.play(sound3,1f , 1f, 0, 0, 1f);
                 result = "DRAW";
                 score = 1;
+                txtAnswer.setBackgroundColor(Color.YELLOW);
+                txtQuestion.setBackgroundColor(Color.YELLOW);
             }
         }
 
