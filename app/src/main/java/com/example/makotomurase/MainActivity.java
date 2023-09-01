@@ -2,9 +2,22 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+
+import android.media.AudioManager;
+import android.media.SoundPool;
+
+import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
+import android.media.SoundPool;
+
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Vibrator;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -12,6 +25,16 @@ import android.widget.Toast;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
+
+    SharedPreferences pref;
+    SharedPreferences.Editor prefEditor;
+
+    Vibrator vibrator;
+
+
+    SoundPool sndPool;
+    int sndID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,24 +50,53 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
 
+        vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+
+        sndPool = new SoundPool(1, AudioManager.STREAM_MUSIC, 0);
+        sndID = sndPool.load(this, R.raw.botan, 0);
+
         // 起動時に関数を呼び出す
         setQuestionValue();
+
+        pref = getSharedPreferences("InternAndroid", MODE_PRIVATE);
+        prefEditor = pref.edit();
     }
 
     @Override
     public void onClick(View view) {
         int id = view.getId();
+
+        sndPool.play(sndID,1.0F, 1.0F, 0, 0,1.0F);
+
         if (id == R.id.button1) {
             setAnswerValue();
             checkResult(true);
+            if(vibrator.hasVibrator()) {
+                vibrator.vibrate(500);
+            }
         } else if (id == R.id.button2) {
             setAnswerValue();
             checkResult(false);
+            if(vibrator.hasVibrator()) {
+                vibrator.vibrate(500);
+            }
         } else if (id == R.id.button3) {
             setQuestionValue();
             clearAnswerValue();
             clearScoreValue();
+            if(vibrator.hasVibrator()) {
+                vibrator.vibrate(500);
+            }
         }
+    }
+
+    private void blinkText(TextView txtView, long duration, long offset){
+        Animation anm = new AlphaAnimation(0.0f, 1.0f);
+        anm.setDuration(duration);
+        anm.setStartOffset(offset);
+        anm.setRepeatMode(Animation.REVERSE);
+        anm.setRepeatCount(Animation.INFINITE);
+        txtView.startAnimation(anm);
     }
 
     private void clearAnswerValue() {
@@ -88,23 +140,47 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = "WIN";
                 score = 2;
+                txtViewAnswer.setBackgroundColor(Color.RED);
+                txtViewQuestion.setBackgroundColor(Color.BLUE);
+                txtViewQuestion.clearAnimation();
+                blinkText(txtViewAnswer, 1500, 300);
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
+                txtViewAnswer.setBackgroundColor(Color.BLUE);
+                txtViewQuestion.setBackgroundColor(Color.RED);
+                txtViewAnswer.clearAnimation();
+                blinkText(txtViewQuestion, 1500, 300);
             } else {
                 result = "DRAW";
                 score = 1;
+                txtViewAnswer.setBackgroundColor(Color.YELLOW);
+                txtViewQuestion.setBackgroundColor(Color.YELLOW);
+                txtViewAnswer.clearAnimation();
+                txtViewQuestion.clearAnimation();
             }
         } else {
             if (question > answer) {
                 result = "WIN";
                 score = 2;
+                txtViewAnswer.setBackgroundColor(Color.BLUE);
+                txtViewQuestion.setBackgroundColor(Color.RED);
+                txtViewAnswer.clearAnimation();
+                blinkText(txtViewQuestion, 1500, 300);
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
+                txtViewAnswer.setBackgroundColor(Color.RED);
+                txtViewQuestion.setBackgroundColor(Color.BLUE);
+                txtViewQuestion.clearAnimation();
+                blinkText(txtViewAnswer, 1500, 300);
             } else {
                 result = "DRAW";
                 score = 1;
+                txtViewAnswer.setBackgroundColor(Color.YELLOW);
+                txtViewQuestion.setBackgroundColor(Color.YELLOW);
+                txtViewAnswer.clearAnimation();
+                txtViewQuestion.clearAnimation();
             }
         }
 
@@ -143,8 +219,33 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void clearScoreValue() {
+        TextView txtViewQuestion = findViewById(R.id.question);
+        TextView txtViewAnswer = findViewById(R.id.answer);
         TextView txtScore = (TextView) findViewById(R.id.text_score);
         txtScore.setText("0");
+        txtViewAnswer.clearAnimation();
+        txtViewQuestion.clearAnimation();
+    }
+
+    protected void onPause(){
+        super.onPause();
+        Toast.makeText(this,"onPause", Toast.LENGTH_SHORT).show();
+
+        TextView textView = findViewById(R.id.text_score);
+
+        prefEditor = prefEditor.putString("score_input", textView.getText().toString());
+        prefEditor.commit();
+    }
+
+    protected void onResume(){
+        super.onResume();
+        Toast.makeText(this, "onResume", Toast.LENGTH_SHORT).show();
+
+        TextView textView = (TextView)findViewById(R.id.text_score);
+
+        String readText = pref.getString("score_input", "保存されていません");
+        textView.setText(readText);
     }
 }
+
 
