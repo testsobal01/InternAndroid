@@ -6,6 +6,7 @@
     <string name="btn_restart">Restart</string>
     <string name="label_score">Score：</string>
     <string name="standard">10 est réglé.</string>
+    <string name="standard_2">20 est réglé.</string>
     <string name="answer">valeur 2</string>
     <string name="result">résultat</string>
 </resources>
