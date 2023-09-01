@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="btn_high">haut</string>
+    <string name="btn_low">faible</string>
+    <string name="btn_restart">redémarrage</string>
+    <string name="settei1">10 est réglé</string>
+    <string name="label_score">score:</string>
+
+</resources>

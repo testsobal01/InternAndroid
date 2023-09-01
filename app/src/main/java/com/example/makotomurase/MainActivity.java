@@ -3,6 +3,11 @@ package com.example.makotomurase;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.media.AudioAttributes;
+import android.content.Intent;
+import android.graphics.Color;
+import android.content.SharedPreferences;
+
+
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
@@ -13,12 +18,26 @@ import android.widget.Toast;
 
 import java.util.Random;
 
+import android.media.AudioAttributes;
+import android.media.SoundPool;
+
+import android.content.Context;
+import android.os.Vibrator;
+
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+    int mySoundID;          //サウンド管理ID
+    SoundPool soundPool;    //サウンドプール
+
+    SharedPreferences pref;
+    SharedPreferences.Editor prefEditor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
 
         Button btn1 = findViewById(R.id.button1);
         btn1.setOnClickListener(this);
@@ -29,11 +48,42 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
 
+
         ImageView imageView1=findViewById(R.id.img_S);
         imageView1.setImageResource(R.drawable.sobal);
 
+        soundPool = null;
+
+        AudioAttributes audioAttributes = new AudioAttributes.Builder().setUsage(AudioAttributes.USAGE_ALARM).setContentType(AudioAttributes.CONTENT_TYPE_MUSIC).build();
+
+        soundPool = new SoundPool.Builder().setAudioAttributes(audioAttributes).setMaxStreams(1).build();
+
+
+        mySoundID = soundPool.load(this, R.raw.maou_se_system43, 0);
+
+        pref = getSharedPreferences("score", MODE_PRIVATE);
+        prefEditor = pref.edit();
+
         // 起動時に関数を呼び出す
         setQuestionValue();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        TextView textView = (TextView)findViewById(R.id.text_score);
+        prefEditor.putString("score", textView.getText().toString());
+        prefEditor.commit();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        TextView textView = (TextView)findViewById(R.id.text_score);
+        String readText = pref.getString("score", "保存されていません");
+        textView.setText(readText);
     }
 
     @Override
@@ -50,6 +100,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             clearAnswerValue();
             clearScoreValue();
         }
+
+
+        ((Vibrator) getSystemService(Context.VIBRATOR_SERVICE)).vibrate(200);
+
+
+        soundPool.play(mySoundID, 1f, 1f, 0, 0, 1);
     }
 
     private void clearAnswerValue() {
@@ -93,9 +149,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = "WIN";
                 score = 2;
+                TextView tv1 = findViewById(R.id.answer);
+                tv1.setBackgroundColor(Color.CYAN);
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
+                TextView tv2 = findViewById(R.id.question);
+                tv2.setBackgroundColor(Color.MAGENTA);
             } else {
                 result = "DRAW";
                 score = 1;
@@ -104,9 +164,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question > answer) {
                 result = "WIN";
                 score = 2;
+                TextView tv2 = findViewById(R.id.question);
+                tv2.setBackgroundColor(Color.LTGRAY);
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
+                TextView tv1 = findViewById(R.id.answer);
+                tv1.setBackgroundColor(Color.WHITE);
             } else {
                 result = "DRAW";
                 score = 1;
