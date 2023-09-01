@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Vibrator;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -19,6 +20,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
 
         Button btn1 = findViewById(R.id.button1);
+        Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE) ;
+        vib.vibrate(1000);
         btn1.setOnClickListener(this);
 
         Button btn2 = findViewById(R.id.button2);
@@ -33,6 +36,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View view) {
+        Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE) ;
+        vib.vibrate(1000);
         int id = view.getId();
         if (id == R.id.button1) {
             setAnswerValue();
