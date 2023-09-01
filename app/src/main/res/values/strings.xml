@@ -5,4 +5,5 @@
     <string name="btn_start">START</string>
     <string name="btn_restart">Restart</string>
     <string name="label_score">Score：</string>eiji
+    <string name="startgamen">HIGH＆LOW</string>
 </resources>
