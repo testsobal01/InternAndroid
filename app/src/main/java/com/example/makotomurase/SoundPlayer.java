@@ -27,7 +27,7 @@ public class SoundPlayer {
     }
 
     public void playDrawSound() {
-        soundPool.play(drawSound, 1.0f, 1.0f, 1, 0, 1.0f);
+        soundPool.play(drawSound, 2.5f, 2.5f, 1, 0, 2.0f);
     }
 }
 
