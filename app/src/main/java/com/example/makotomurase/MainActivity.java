@@ -18,6 +18,8 @@ import android.widget.Toast;
 
 import java.util.Random;
 
+
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
 
@@ -27,7 +29,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
