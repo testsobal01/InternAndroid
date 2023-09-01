@@ -65,7 +65,8 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_weight="1">
 
             <TextView
                 android:id="@+id/question"
@@ -88,6 +89,14 @@
                 android:textSize="60sp" />
         </LinearLayout>
 
+        <ImageView
+            android:id="@+id/img_S"
+            android:layout_width="422dp"
+            android:layout_height="252dp"
+            android:layout_weight="1"
+            android:layout_gravity="center"
+            android:baselineAlignBottom="true"
+            android:scaleType="fitXY" />
     </LinearLayout>
 
 </LinearLayout>
