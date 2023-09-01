@@ -3,6 +3,8 @@ package com.example.makotomurase;
 import androidx.appcompat.app.AppCompatActivity;
 
 
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.content.SharedPreferences;
@@ -124,30 +126,36 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // 結果を示す文字列を入れる変数を用意
         String result;
         int score;
-
+        TextView txtView = findViewById(R.id.question);
         // Highが押された
         if (isHigh) {
             // result には結果のみを入れる
             if (question < answer) {
                 result = "WIN";
                 score = 2;
+                txtView.setBackgroundColor(Color.RED);
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
+                txtView.setBackgroundColor(Color.BLUE);
             } else {
                 result = "DRAW";
                 score = 1;
+                txtView.setBackgroundColor(Color.YELLOW);
             }
         } else {
             if (question > answer) {
                 result = "WIN";
                 score = 2;
+                txtView.setBackgroundColor(Color.RED);
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
+                txtView.setBackgroundColor(Color.BLUE);
             } else {
                 result = "DRAW";
                 score = 1;
+                txtView.setBackgroundColor(Color.YELLOW);
             }
         }
 
