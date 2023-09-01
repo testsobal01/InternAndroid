@@ -2,6 +2,7 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
@@ -11,6 +12,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.Random;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.os.Bundle;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -30,6 +35,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // 起動時に関数を呼び出す
         setQuestionValue();
+
     }
 
     @Override
@@ -91,23 +97,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = "WIN";
                 score = 2;
+                txtViewQuestion.setBackgroundColor(Color.rgb(0,255,255));
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
+                txtViewQuestion.setBackgroundColor(Color.rgb(255,0,255));
             } else {
                 result = "DRAW";
                 score = 1;
+                txtViewQuestion.setBackgroundColor(Color.rgb(0,255,0));
             }
         } else {
             if (question > answer) {
                 result = "WIN";
                 score = 2;
+                txtViewQuestion.setBackgroundColor(Color.rgb(0,255,255));
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
+                txtViewQuestion.setBackgroundColor(Color.rgb(255,0,255));
             } else {
                 result = "DRAW";
                 score = 1;
+                txtViewQuestion.setBackgroundColor(Color.rgb(0,255,0));
             }
         }
 
