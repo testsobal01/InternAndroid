@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">MakotoMurase</string>
+    <string name="btn_high">High</string>
+    <string name="btn_low">Low</string>
+    <string name="btn_restart">Restart</string>
+    <string name="label_score">Score：</string>
+    <string name="standard">10が設定されています。</string>
+    <string name="standard_2">20が設定されています。</string>
+    <string name="answer">値2</string>
+    <string name="result">結果</string>
+</resources>

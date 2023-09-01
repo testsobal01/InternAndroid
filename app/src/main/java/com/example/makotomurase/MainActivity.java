@@ -2,8 +2,13 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+
 import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Color;
+
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
@@ -19,12 +24,22 @@ import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
+
     private ImageView imageView;
+
+    SharedPreferences pref;
+    SharedPreferences.Editor prefEditor;
+
+    // Sound
+    private SoundPlayer soundPlayer;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        //効果音クラスのインスタンス
+        soundPlayer = new SoundPlayer(this);
 
         Button btn1 = findViewById(R.id.button1);
         btn1.setOnClickListener(this);
@@ -35,8 +50,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
 
+        Button nextbt =  (Button) findViewById(R.id.next_button);
+        nextbt.setOnClickListener(this);
         // 起動時に関数を呼び出す
         setQuestionValue();
+
+        //プリファレンス設定
+        pref = getSharedPreferences("save",MODE_PRIVATE);
+        prefEditor = pref.edit();
     }
 
     @Override
@@ -45,19 +66,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (id == R.id.button1) {
             setAnswerValue();
             checkResult(true);
+
         } else if (id == R.id.button2) {
             setAnswerValue();
             checkResult(false);
+
         } else if (id == R.id.button3) {
             setQuestionValue();
             clearAnswerValue();
             clearScoreValue();
+
+            TextView textView3=findViewById(R.id.answer);
+            textView3.setBackgroundColor(Color.parseColor("#ffff00"));
+            textView3.setTextColor(Color.parseColor("#FF000000"));
+
+        } else if (id == R.id.next_button) {
+            Intent intent = new Intent(this, NextActivity.class);
+            startActivity(intent);
         }
     }
 
     private void clearAnswerValue() {
         TextView txtView = (TextView) findViewById(R.id.answer);
-        txtView.setText("値2");
+        String word = getString(R.string.answer);
+        txtView.setText(word);
+
     }
 
     private void setQuestionValue() {
@@ -67,6 +100,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         TextView txtView = findViewById(R.id.question);
         txtView.setText(Integer.toString(questionValue));
+
     }
 
     private void setAnswerValue() {
@@ -171,6 +205,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             txtViewAnswer.startAnimation(scaleAnimation);
 
         }
+
         }
 
         switch(score){
@@ -185,8 +220,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
         // 最後にまとめてToast表示の処理とTextViewへのセットを行う
+
         Toast.makeText(this,result,Toast.LENGTH_LONG).show();
         txtResult.setText("結果："+question+":"+answer+"("+result+")");
+
 
         // 続けて遊べるように値を更新
         setNextQuestion();
@@ -222,8 +259,27 @@ private void setScore(int score){
 private void clearScoreValue(){
         TextView txtScore=(TextView)findViewById(R.id.text_score);
         txtScore.setText("0");
-        }
+    }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        // 画面上の文字を取得するためテキストビューを取得
+        TextView textView = (TextView)findViewById(R.id.text_score);
+        //saveというキーに文字列を保存
+        prefEditor.putString("save",textView.getText().toString());
+        prefEditor.commit();
+    }
 
-        }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        //textViewの取得
+        TextView textView = (TextView)findViewById(R.id.text_score);
+        //
+        String readText = pref.getString("save","0");
+        textView.setText(readText);
+    }
+}
+
 
