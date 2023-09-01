@@ -2,20 +2,35 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.SharedPreferences;
+import android.media.AudioAttributes;
+import android.content.Intent;
 import android.graphics.Color;
+import android.content.SharedPreferences;
+
+import android.graphics.Color;
+
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.ScaleAnimation;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.Random;
 
+import android.media.AudioAttributes;
+import android.media.SoundPool;
+
+import android.content.Context;
+import android.os.Vibrator;
+
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+    int mySoundID;          //サウンド管理ID
+    SoundPool soundPool;    //サウンドプール
 
     SharedPreferences pref;
     SharedPreferences.Editor prefEditor;
@@ -25,6 +40,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
+
         Button btn1 = findViewById(R.id.button1);
         btn1.setOnClickListener(this);
 
@@ -33,6 +50,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
+
+
+        ImageView imageView1=findViewById(R.id.img_S);
+        imageView1.setImageResource(R.drawable.sobal);
+
+        soundPool = null;
+
+        AudioAttributes audioAttributes = new AudioAttributes.Builder().setUsage(AudioAttributes.USAGE_ALARM).setContentType(AudioAttributes.CONTENT_TYPE_MUSIC).build();
+
+        soundPool = new SoundPool.Builder().setAudioAttributes(audioAttributes).setMaxStreams(1).build();
+
+
+        mySoundID = soundPool.load(this, R.raw.maou_se_system43, 0);
 
         pref = getSharedPreferences("score", MODE_PRIVATE);
         prefEditor = pref.edit();
@@ -73,6 +103,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             clearAnswerValue();
             clearScoreValue();
         }
+
+
+        ((Vibrator) getSystemService(Context.VIBRATOR_SERVICE)).vibrate(200);
+
+
+        soundPool.play(mySoundID, 1f, 1f, 0, 0, 1);
     }
 
     private void clearAnswerValue() {
@@ -116,6 +152,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = "WIN";
                 score = 2;
+
 
                 TextView tv1 = findViewById(R.id.answer);
                 ScaleAnimation scaleAnimation = new ScaleAnimation(1.0f, 2.0f, 1.0f,2.0f);
@@ -169,7 +206,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 scaleAnimation.setBackgroundColor(Color.WHITE);
                 //アニメーションの開始
                 tv2.startAnimation(scaleAnimation);
-
             } else {
                 result = "DRAW";
                 score = 1;
