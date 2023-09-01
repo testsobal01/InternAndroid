@@ -16,6 +16,7 @@ import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -61,6 +62,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // 起動時に関数を呼び出す
         setQuestionValue();
+
+
         AudioAttributes audioAttributes = new AudioAttributes.Builder()
 
                 .setUsage(AudioAttributes.USAGE_GAME)
@@ -119,6 +122,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 button3.startAnimation(buttonRotation);
             });
         });
+
+
+        //画像挿入
+        ImageView myImage = findViewById(R.id.neko);
+        //画像名
+        String imageName = "nekone";
+        //ID取得
+        int resId = getResources().getIdentifier(imageName,"drawable", getPackageName());
+        //画像をセット
+        myImage.setImageResource(resId);
     }
 
     @Override
