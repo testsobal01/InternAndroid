@@ -6,18 +6,34 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity2">
 
+
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
         android:orientation="vertical">
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/startgamen"
+            android:textSize="30sp"/>
+
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/count_boy08"/>
+
+
         <Button
             android:id="@+id/starter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-
-
+            android:background="@drawable/color_stateful"
+            app:backgroundTint="@null"
             android:text="@string/btn_start" />
+
     </LinearLayout>
 </LinearLayout>

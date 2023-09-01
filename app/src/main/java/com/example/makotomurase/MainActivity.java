@@ -5,6 +5,12 @@ import static androidx.core.view.ViewCompat.setBackground;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.graphics.Color;
+
+import androidx.annotation.IntegerRes;
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.SharedPreferences;
+
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
@@ -23,10 +29,15 @@ import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
+
     SoundPool soundPool;
     int sound1;
     int sound2;
     int sound3;
+
+    SharedPreferences pref;
+    SharedPreferences.Editor prefEditor;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,6 +71,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // 起動時に関数を呼び出す
         setQuestionValue();
+
+        //プリファレンスの生成
+        pref = getSharedPreferences("MainPref",MODE_PRIVATE);
+        prefEditor = pref.edit();
     }
 
     @Override
@@ -207,5 +222,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView txtScore = (TextView) findViewById(R.id.text_score);
         txtScore.setText("0");
     }
+
+    //プリファレンスの保存
+    @Override
+    protected void onPause(){
+        super.onPause();
+        TextView textView = (TextView)findViewById(R.id.text_score);
+        prefEditor.putString("main_input",textView.getText().toString());
+        prefEditor.commit();
+    }
+
+    //プリファレンスの読み込み
+    @Override
+    protected void onResume(){
+        super.onResume();
+        TextView textView = (TextView)findViewById(R.id.text_score);
+        String readScore =  pref.getString("main_input","0");
+        textView.setText(readScore);
+    }
+
 }
 
