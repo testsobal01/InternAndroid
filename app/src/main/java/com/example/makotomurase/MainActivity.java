@@ -13,11 +13,14 @@ import android.widget.Toast;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
-
+    // Sound
+    private SoundPlayer soundPlayer;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        //効果音クラスのインスタンス
+        soundPlayer = new SoundPlayer(this);
 
         Button btn1 = findViewById(R.id.button1);
         btn1.setOnClickListener(this);
@@ -89,23 +92,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = "WIN";
                 score = 2;
+                soundPlayer.playMaruSound();
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
+                soundPlayer.playBatuSound();
             } else {
                 result = "DRAW";
                 score = 1;
+                soundPlayer.playDrawSound();
             }
         } else {
             if (question > answer) {
                 result = "WIN";
                 score = 2;
+                soundPlayer.playMaruSound();
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
+                soundPlayer.playBatuSound();
             } else {
                 result = "DRAW";
                 score = 1;
+                soundPlayer.playDrawSound();
             }
         }
 
