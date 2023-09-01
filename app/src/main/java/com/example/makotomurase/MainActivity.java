@@ -2,17 +2,24 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.animation.ObjectAnimator;
+import android.animation.PropertyValuesHolder;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.ScaleAnimation;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
+    private ImageView imageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,78 +92,138 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // Highが押された
         if (isHigh) {
-            // result には結果のみを入れる
-            if (question < answer) {
-                result = "WIN";
-                score = 2;
-            } else if (question > answer) {
-                result = "LOSE";
-                score = -1;
-            } else {
-                result = "DRAW";
-                score = 1;
-            }
+
+        // result には結果のみを入れる
+        if (question < answer) {
+            result = "WIN";
+            score = 2;
+            ScaleAnimation scaleAnimation = new ScaleAnimation(
+                    1.0f, 2.0f, 1.0f, 2.0f,
+                    Animation.RELATIVE_TO_SELF, 0.5f,
+                    Animation.RELATIVE_TO_SELF, 0.5f
+            );
+            scaleAnimation.setDuration(400);
+            scaleAnimation.setRepeatCount(0);
+            scaleAnimation.setFillAfter(false);
+
+            txtViewAnswer.startAnimation(scaleAnimation);
+
+
+        } else if (question > answer) {
+            result = "LOSE";
+            score = -1;
+            ScaleAnimation scaleAnimation = new ScaleAnimation(
+                    0.2f, 1f, 0.2f, 1f,
+                    Animation.RELATIVE_TO_SELF, 0.5f,
+                    Animation.RELATIVE_TO_SELF, 0.5f
+            );
+            scaleAnimation.setDuration(400);
+            scaleAnimation.setRepeatCount(0);
+            scaleAnimation.setFillAfter(false);
+
+            txtViewAnswer.startAnimation(scaleAnimation);
+
         } else {
-            if (question > answer) {
-                result = "WIN";
-                score = 2;
-            } else if (question < answer) {
-                result = "LOSE";
-                score = -1;
-            } else {
-                result = "DRAW";
-                score = 1;
-            }
+            result = "DRAW";
+            score = 1;
+
         }
 
-        switch (score) {
-            case 2:
-                Vibrator vib2 = (Vibrator) getSystemService(VIBRATOR_SERVICE);
-                vib2.vibrate(1000);
-                break;
-            case 1:
-                Vibrator vib1 = (Vibrator) getSystemService(VIBRATOR_SERVICE);
-                vib1.vibrate(500);
-                break;
+    } else{
+        if(question>answer){
+        result="WIN";
+        score=2;
+            ScaleAnimation scaleAnimation = new ScaleAnimation(
+                    1.0f, 2.0f, 1.0f, 2.0f,
+                    Animation.RELATIVE_TO_SELF, 0.5f,
+                    Animation.RELATIVE_TO_SELF, 0.5f
+            );
+            scaleAnimation.setDuration(400);
+            scaleAnimation.setRepeatCount(0);
+            scaleAnimation.setFillAfter(false);
+
+            txtViewAnswer.startAnimation(scaleAnimation);
+        }else if(question<answer){
+        result="LOSE";
+        score=-1;
+            ScaleAnimation scaleAnimation = new ScaleAnimation(
+                    0.2f, 1f, 0.2f, 1f,
+                    Animation.RELATIVE_TO_SELF, 0.5f,
+                    Animation.RELATIVE_TO_SELF, 0.5f
+            );
+            scaleAnimation.setDuration(400);
+            scaleAnimation.setRepeatCount(0);
+            scaleAnimation.setFillAfter(false);
+
+            txtViewAnswer.startAnimation(scaleAnimation);
+        }else{
+        result="DRAW";
+        score=1;
+            ScaleAnimation scaleAnimation = new ScaleAnimation(
+                    0.5f, 0.5f, 0.5f, 0.5f,
+                    Animation.RELATIVE_TO_SELF, 0.5f,
+                    Animation.RELATIVE_TO_SELF, 0.5f
+            );
+            scaleAnimation.setDuration(400);
+            scaleAnimation.setRepeatCount(0);
+            scaleAnimation.setFillAfter(false);
+
+            txtViewAnswer.startAnimation(scaleAnimation);
+
+        }
+        }
+
+        switch(score){
+        case 2:
+        Vibrator vib2=(Vibrator)getSystemService(VIBRATOR_SERVICE);
+        vib2.vibrate(1000);
+        break;
+        case 1:
+        Vibrator vib1=(Vibrator)getSystemService(VIBRATOR_SERVICE);
+        vib1.vibrate(500);
+        break;
         }
 
         // 最後にまとめてToast表示の処理とTextViewへのセットを行う
-        Toast.makeText(this, result, Toast.LENGTH_LONG).show();
-        txtResult.setText("結果：" + question + ":" + answer + "(" + result + ")");
+        Toast.makeText(this,result,Toast.LENGTH_LONG).show();
+        txtResult.setText("結果："+question+":"+answer+"("+result+")");
 
         // 続けて遊べるように値を更新
         setNextQuestion();
         // スコアを表示
         setScore(score);
-    }
+        }
 
-    private void setNextQuestion() {
+
+    private void setNextQuestion(){
         // 第１引数がカウントダウン時間、第２引数は途中経過を受け取る間隔
         // 単位はミリ秒（1秒＝1000ミリ秒）
-        new CountDownTimer(3000, 1000) {
-            @Override
-            public void onTick(long l) {
-                // 途中経過を受け取った時に何かしたい場合
-                // 今回は特に何もしない
-            }
+        new CountDownTimer(3000,1000){
+@Override
+public void onTick(long l){
+        // 途中経過を受け取った時に何かしたい場合
+        // 今回は特に何もしない
+        }
 
-            @Override
-            public void onFinish() {
-                // 3秒経過したら次の値をセット
-                setQuestionValue();
-            }
+@Override
+public void onFinish(){
+        // 3秒経過したら次の値をセット
+        setQuestionValue();
+        }
         }.start();
-    }
+        }
 
-    private void setScore(int score) {
-        TextView txtScore = (TextView) findViewById(R.id.text_score);
-        int newScore = Integer.parseInt(txtScore.getText().toString()) + score;
+private void setScore(int score){
+        TextView txtScore=(TextView)findViewById(R.id.text_score);
+        int newScore=Integer.parseInt(txtScore.getText().toString())+score;
         txtScore.setText(Integer.toString(newScore));
-    }
+        }
 
-    private void clearScoreValue() {
-        TextView txtScore = (TextView) findViewById(R.id.text_score);
+private void clearScoreValue(){
+        TextView txtScore=(TextView)findViewById(R.id.text_score);
         txtScore.setText("0");
-    }
-}
+        }
+
+
+        }
 
