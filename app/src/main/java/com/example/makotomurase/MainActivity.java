@@ -10,15 +10,40 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.content.Context;
 import android.os.Vibrator;
+import android.media.AudioAttributes;
+import android.media.AudioManager;
+import android.media.SoundPool;
+import android.os.Build;
 
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
+    SoundPool soundPool;
+    int sound1;
+    int sound2;
+    int sound3;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            soundPool = new SoundPool(3, AudioManager.STREAM_MUSIC, 0);
+        } else {
+            AudioAttributes attr = new AudioAttributes.Builder()
+                    .setUsage(AudioAttributes.USAGE_MEDIA)
+                    .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+                    .build();
+            soundPool = new SoundPool.Builder()
+                    .setAudioAttributes(attr)
+                    .setMaxStreams(3)
+                    .build();
+        }
+
+        sound1 = soundPool.load(this, R.raw.sound1, 1);
+        sound2 = soundPool.load(this, R.raw.sound2, 1);
+        sound3 = soundPool.load(this, R.raw.sound3, 1);
 
         Button btn1 = findViewById(R.id.button1);
         btn1.setOnClickListener(this);
@@ -35,6 +60,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View view) {
+
         int id = view.getId();
         if (id == R.id.button1) {
             setAnswerValue();
@@ -74,6 +100,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void checkResult(boolean isHigh) {
+
         TextView txtViewQuestion = findViewById(R.id.question);
         TextView txtViewAnswer = findViewById(R.id.answer);
 
@@ -90,23 +117,30 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (isHigh) {
             // result には結果のみを入れる
             if (question < answer) {
+                soundPool.play(sound1,1f , 1f, 0, 0, 1f);
                 result = "WIN";
                 score = 2;
+
             } else if (question > answer) {
+                soundPool.play(sound2,1f , 1f, 0, 0, 1f);
                 result = "LOSE";
                 score = -1;
             } else {
+                soundPool.play(sound3,1f , 1f, 0, 0, 1f);
                 result = "DRAW";
                 score = 1;
             }
         } else {
             if (question > answer) {
+                soundPool.play(sound1,1f , 1f, 0, 0, 1f);
                 result = "WIN";
                 score = 2;
             } else if (question < answer) {
+                soundPool.play(sound2,1f , 1f, 0, 0, 1f);
                 result = "LOSE";
                 score = -1;
             } else {
+                soundPool.play(sound3,1f , 1f, 0, 0, 1f);
                 result = "DRAW";
                 score = 1;
             }
