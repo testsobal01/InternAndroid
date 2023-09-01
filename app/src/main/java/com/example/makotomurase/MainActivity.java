@@ -2,7 +2,11 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+
+import android.content.Intent;
+
 import android.content.SharedPreferences;
+
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
@@ -20,6 +24,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -38,6 +44,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // 起動時に関数を呼び出す
         setQuestionValue();
+
     }
 
     @Override
