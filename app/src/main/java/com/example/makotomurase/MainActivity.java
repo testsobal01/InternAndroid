@@ -11,6 +11,8 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -23,10 +25,19 @@ import android.os.Bundle;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
+    
     SharedPreferences pref;
     SharedPreferences.Editor prefEditor;
-
-
+  
+    public void blink(TextView txt,long duration,long offset){
+        Animation anm = new AlphaAnimation(0.0f,1.0f);
+        anm.setDuration(duration);
+        anm.setStartOffset(offset);
+        anm.setRepeatMode(Animation.REVERSE);
+        anm.setRepeatCount(0);
+        txt.startAnimation(anm);
+    }
+  
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,6 +105,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         txtView.setText(Integer.toString(answerValue));
     }
 
+    private void Qblink(){
+        TextView Qtxt = (TextView)findViewById(R.id.question);
+        blink(Qtxt,10,500);
+    }
+
+    private void Ablink(){
+        TextView Atxt = (TextView)findViewById(R.id.answer);
+        blink(Atxt,10,500);
+    }
+
     private void checkResult(boolean isHigh) {
         TextView txtViewQuestion = findViewById(R.id.question);
         TextView txtViewAnswer = findViewById(R.id.answer);
@@ -106,16 +127,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // 結果を示す文字列を入れる変数を用意
         String result;
         int score;
-
         // Highが押された
         if (isHigh) {
             // result には結果のみを入れる
             if (question < answer) {
                 result = "WIN";
+                Ablink();
                 score = 2;
                 txtViewQuestion.setBackgroundColor(Color.rgb(0,255,255));
             } else if (question > answer) {
                 result = "LOSE";
+                Qblink();
                 score = -1;
                 txtViewQuestion.setBackgroundColor(Color.rgb(255,0,255));
             } else {
@@ -126,10 +148,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         } else {
             if (question > answer) {
                 result = "WIN";
+                Ablink();
                 score = 2;
                 txtViewQuestion.setBackgroundColor(Color.rgb(0,255,255));
             } else if (question < answer) {
                 result = "LOSE";
+                Qblink();
                 score = -1;
                 txtViewQuestion.setBackgroundColor(Color.rgb(255,0,255));
             } else {
