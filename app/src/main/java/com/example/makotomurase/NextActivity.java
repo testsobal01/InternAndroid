@@ -2,7 +2,6 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -14,12 +13,12 @@ import android.widget.Toast;
 
 import java.util.Random;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class NextActivity extends AppCompatActivity implements View.OnClickListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_next);
 
         Button btn1 = findViewById(R.id.button1);
         btn1.setOnClickListener(this);
@@ -30,8 +29,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
 
-        Button nextbt =  (Button) findViewById(R.id.next_button);
-        nextbt.setOnClickListener(this);
         // 起動時に関数を呼び出す
         setQuestionValue();
     }
@@ -56,9 +53,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             textView3.setBackgroundColor(Color.parseColor("#ffff00"));
             textView3.setTextColor(Color.parseColor("#FF000000"));
 
-        } else if (id == R.id.next_button) {
-            Intent intent = new Intent(this, NextActivity.class);
-            startActivity(intent);
         }
     }
 
@@ -72,7 +66,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void setQuestionValue() {
         Random r = new Random();
         // 0から10の範囲で乱数を生成（+1する必要がある）
-        int questionValue = r.nextInt(10 + 1);
+        int questionValue = r.nextInt(20 + 1);
 
         TextView txtView = findViewById(R.id.question);
         txtView.setText(Integer.toString(questionValue));
@@ -81,7 +75,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void setAnswerValue() {
         Random r = new Random();
-        int answerValue = r.nextInt(10 + 1);
+        int answerValue = r.nextInt(20 + 1);
 
         TextView txtView = findViewById(R.id.answer);
         txtView.setText(Integer.toString(answerValue));
