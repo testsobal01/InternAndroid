@@ -1,7 +1,10 @@
 package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.ViewCompat;
 
+import android.animation.AnimatorInflater;
+import android.animation.AnimatorSet;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.VibrationEffect;
@@ -14,6 +17,9 @@ import android.widget.Toast;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
+    AnimatorSet set;
+    AnimatorSet set3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +37,32 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // 起動時に関数を呼び出す
         setQuestionValue();
+
+        //ボタンオブジェクトをレイアウトから取得
+        TextView tht = findViewById(R.id.text_score);
+        //AnimatorInflaterで、AnimatorSetオブジェクトを取得
+        //前もって作成したR.animator.blink_animationをインフレート
+        set = (AnimatorSet) AnimatorInflater.loadAnimator(MainActivity.this,R.animator.blink_animation);
+        //アニメーション対称のオブジェクトを設定
+        set.setTarget(tht);
+
+
+        TextView tst = findViewById(R.id.answer);
+        //AnimatorInflaterで、AnimatorSetオブジェクトを取得
+        //前もって作成したR.animator.blink_animationをインフレート
+        set3 = (AnimatorSet) AnimatorInflater.loadAnimator(MainActivity.this,R.animator.blink_animation);
+        //アニメーション対称のオブジェクトを設定
+        set3.setTarget(tst);
+
     }
+        @Override
+        protected void onStart() {
+            super.onStart();
+            //アニメーションの開始を宣言
+            set.start();
+        }
+
+
 
     @Override
     public void onClick(View view) {
@@ -94,12 +125,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 result = "WIN";
                 score = 2;
 
+
+                set3.start();
+
                 Vibrator vib = (Vibrator) getSystemService(VIBRATOR_SERVICE);
                 vib.vibrate(2000);
 
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
+
             } else {
                 result = "DRAW";
                 score = 1;
@@ -108,6 +143,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question > answer) {
                 result = "WIN";
                 score = 2;
+
+                set3.start();
 
                 Vibrator vib = (Vibrator) getSystemService(VIBRATOR_SERVICE);
                 vib.vibrate(2000);
@@ -145,6 +182,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public void onFinish() {
                 // 3秒経過したら次の値をセット
                 setQuestionValue();
+
+
             }
         }.start();
     }
