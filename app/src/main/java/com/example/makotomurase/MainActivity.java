@@ -2,6 +2,8 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.media.AudioManager;
+import android.media.SoundPool;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
@@ -12,7 +14,8 @@ import android.widget.Toast;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
-
+    SoundPool sandpool;
+    int sndID;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,10 +32,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // 起動時に関数を呼び出す
         setQuestionValue();
+        sandpool = new SoundPool(1, AudioManager.STREAM_MUSIC,1);
+        sndID = sandpool.load(this,R.raw.se1,0);
     }
-
     @Override
     public void onClick(View view) {
+
+        sandpool.play(sndID,1.0F,1.0F,0,0,1.0F);
+
         int id = view.getId();
         if (id == R.id.button1) {
             setAnswerValue();
@@ -46,7 +53,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             clearScoreValue();
         }
     }
-
     private void clearAnswerValue() {
         TextView txtView = (TextView) findViewById(R.id.answer);
         txtView.setText("値2");
