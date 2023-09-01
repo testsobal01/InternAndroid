@@ -38,9 +38,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
 
+
+        String strW = getResources().getString(R.string.WIN);
+        String strL = getResources().getString(R.string.LOSE);
+        String strD = getResources().getString(R.string.DRAW);
+
         //
         pref = getSharedPreferences("prefScore",MODE_PRIVATE);
         prefEditor = pref.edit();
+
 
         // 起動時に関数を呼び出す
         setQuestionValue();
@@ -70,7 +76,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void clearAnswerValue() {
         TextView txtView = (TextView) findViewById(R.id.answer);
-        txtView.setText("値2");
+        String str = getResources().getString(R.string.text1);
+        txtView.setText(str);
+
+
+
     }
 
     private void setQuestionValue() {
@@ -97,7 +107,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int question = Integer.parseInt(txtViewQuestion.getText().toString());
         int answer = Integer.parseInt(txtViewAnswer.getText().toString());
 
-        TextView txtResult = (TextView) findViewById(R.id.text_result);
+        TextView txtResult = (TextView) findViewById(R.id.text_result2);
+        String strW = getResources().getString(R.string.WIN);
+        String strL = getResources().getString(R.string.LOSE);
+        String strD = getResources().getString(R.string.DRAW);
 
         // 結果を示す文字列を入れる変数を用意
         String result;
@@ -107,31 +120,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (isHigh) {
             // result には結果のみを入れる
             if (question < answer) {
-                result = "WIN";
+                result =strW;
                 score = 2;
             } else if (question > answer) {
-                result = "LOSE";
+                result = strL;
                 score = -1;
             } else {
-                result = "DRAW";
+                result = strD;
                 score = 1;
             }
         } else {
             if (question > answer) {
-                result = "WIN";
+                result = strW;
                 score = 2;
             } else if (question < answer) {
-                result = "LOSE";
+                result = strL;
                 score = -1;
             } else {
-                result = "DRAW";
+                result = strD;
                 score = 1;
             }
         }
 
         // 最後にまとめてToast表示の処理とTextViewへのセットを行う
         Toast.makeText(this, result, Toast.LENGTH_LONG).show();
-        txtResult.setText("結果：" + question + ":" + answer + "(" + result + ")");
+        txtResult.setText( question + ":" + answer + "(" + result + ")");
 
         // 続けて遊べるように値を更新
         setNextQuestion();
