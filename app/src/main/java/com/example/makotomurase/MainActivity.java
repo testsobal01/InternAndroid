@@ -1,11 +1,18 @@
 package com.example.makotomurase;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -13,6 +20,43 @@ import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
+    public int numberpickervalue=10;
+    @Override
+    public boolean onCreateOptionsMenu(@NonNull Menu menu) {
+        getMenuInflater().inflate(R.menu.option_menu, menu);
+        return true;
+    }
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        LayoutInflater inflater = getLayoutInflater();
+        android.view.View dialogView = inflater.inflate(R.layout.dialog, null);
+        NumberPicker numberPicker = dialogView.findViewById(R.id.number_picker);
+        numberPicker.setMinValue(10);
+        numberPicker.setMaxValue(50);
+        numberPicker.setValue(10);
+        new AlertDialog.Builder(this)
+                .setTitle("最大値を設定してください")
+                .setView(dialogView)
+                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        TextView settt = (TextView) findViewById(R.id.settt);
+                        settt.setText(numberPicker.getValue()+"が設定されています。");
+                        numberpickervalue = numberPicker.getValue();
+                    }
+                })
+                .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                })
+                .setIcon(android.R.drawable.ic_dialog_info)
+                .show();
+
+        return true;
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,7 +99,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void setQuestionValue() {
         Random r = new Random();
         // 0から10の範囲で乱数を生成（+1する必要がある）
-        int questionValue = r.nextInt(10 + 1);
+        int questionValue = r.nextInt(numberpickervalue + 1);
 
         TextView txtView = findViewById(R.id.question);
         txtView.setText(Integer.toString(questionValue));
@@ -63,7 +107,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void setAnswerValue() {
         Random r = new Random();
-        int answerValue = r.nextInt(10 + 1);
+        int answerValue = r.nextInt(numberpickervalue + 1);
 
         TextView txtView = findViewById(R.id.answer);
         txtView.setText(Integer.toString(answerValue));
