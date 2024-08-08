@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Vibrator;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -41,16 +42,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View view) {
         int id = view.getId();
+        Vibrator vib=(Vibrator)getSystemService(VIBRATOR_SERVICE);
+
         if (id == R.id.button1) {
             setAnswerValue();
             checkResult(true);
+
         } else if (id == R.id.button2) {
             setAnswerValue();
             checkResult(false);
+
         } else if (id == R.id.button3) {
             setQuestionValue();
             clearAnswerValue();
             clearScoreValue();
+            vib.vibrate(100);
+
         }
     }
 
@@ -77,6 +84,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void checkResult(boolean isHigh) {
+        Vibrator vib=(Vibrator)getSystemService(VIBRATOR_SERVICE);
+
         TextView txtViewQuestion = findViewById(R.id.question);
         TextView txtViewAnswer = findViewById(R.id.answer);
 
@@ -95,23 +104,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = "WIN";
                 score = 2;
+                vib.vibrate(100);
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
+                vib.vibrate(1000);
             } else {
                 result = "DRAW";
                 score = 1;
+                vib.vibrate(100);
             }
         } else {
             if (question > answer) {
                 result = "WIN";
                 score = 2;
+                vib.vibrate(100);
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
-            } else {
+
+                vib.vibrate(1000);}
+
+            else {
                 result = "DRAW";
                 score = 1;
+                vib.vibrate(100);
             }
         }
 
@@ -181,6 +198,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         String keepScoreTextString = pref.getString("score_keep", "保存なし");
         keepScoreText.setText(keepScoreTextString);
     }
-
+    
 }
+
 
