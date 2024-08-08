@@ -19,6 +19,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -31,8 +32,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
 
-        b_2();
 
+        b_2();
         // 起動時に関数を呼び出す
         setQuestionValue();
     }
@@ -169,5 +170,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         prefEditor.putString("score_keep", keepScoreText.getText().toString());
         prefEditor.commit();
     }
+
+
+    protected void onResume(){
+        super.onResume();
+        Toast.makeText(this, "oR", Toast.LENGTH_SHORT).show();
+
+        TextView keepScoreText = (TextView)findViewById(R.id.text_score);
+        //ここができない
+        String keepScoreTextString = pref.getString("score_keep", "保存なし");
+        keepScoreText.setText(keepScoreTextString);
+    }
+
 }
 
