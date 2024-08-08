@@ -2,6 +2,7 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
@@ -13,8 +14,12 @@ import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
+    SharedPreferences pref;
+    SharedPreferences.Editor prefEditor;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -27,6 +32,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
 
+
+        b_2();
         // 起動時に関数を呼び出す
         setQuestionValue();
     }
@@ -146,5 +153,34 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView txtScore = (TextView) findViewById(R.id.text_score);
         txtScore.setText("0");
     }
+
+    public void b_2(){
+        pref = getSharedPreferences("AndroidSeminor", MODE_PRIVATE);
+        prefEditor = pref.edit();
+    }
+
+    //b_2
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Toast.makeText(this, "onPause", Toast.LENGTH_SHORT).show();
+
+        //画面上のテキストを保存
+        TextView keepScoreText = (TextView)findViewById(R.id.text_score);
+        prefEditor.putString("score_keep", keepScoreText.getText().toString());
+        prefEditor.commit();
+    }
+
+
+    protected void onResume(){
+        super.onResume();
+        Toast.makeText(this, "oR", Toast.LENGTH_SHORT).show();
+
+        TextView keepScoreText = (TextView)findViewById(R.id.text_score);
+        //ここができない
+        String keepScoreTextString = pref.getString("score_keep", "保存なし");
+        keepScoreText.setText(keepScoreTextString);
+    }
+
 }
 
