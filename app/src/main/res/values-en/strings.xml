@@ -1,11 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">チームC</string>
+    <string name="app_name">TeamC</string>
     <string name="btn_high">High</string>
     <string name="btn_low">Low</string>
     <string name="btn_restart">Restart</string>
     <string name="text_resulttitle">Result</string>
     <string name="label_score">Score：</string>
-    <string name="set_value">10に設定されています。</string>
-    <string name="value1">値1</string>
-    <string name="value2">値2</string>
+    <string name="set_value">It is set to 10.</string>
+    <string name="value1">Value 1</string>
+    <string name="value2">？</string>
 </resources>
