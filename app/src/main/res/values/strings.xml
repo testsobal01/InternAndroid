@@ -8,4 +8,9 @@
     <string name="setting">10に設定されています。</string>
     <string name="atai2">値２</string>
     <string name="fotter">fotter</string>
+    <string name="btn_game">Game Start</string>
+    <string name="btn_name">嘘つき発見⁉</string>
+    <string name="btn_win">勝ち～～！</string>
+    <string name="btn_lose">負け～～！</string>
+    <string name="btn_home">ホーム画面へ</string>
 </resources>
