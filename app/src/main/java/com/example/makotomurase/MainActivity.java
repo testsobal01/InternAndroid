@@ -61,7 +61,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             clearAnswerValue();
             clearScoreValue();
             vib.vibrate(100);
-
+        } else if (id == R.id.button4) {
+            b_15();
         }
     }
 
@@ -203,8 +204,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         keepScoreText.setText(keepScoreTextString);
     }
 
-    @Override
-    public void onClick(View v) {
+    public void b_15() {
         PopupWindow mPopupWindow = new PopupWindow(MainActivity.this);
         View popupView = getLayoutInflater().inflate(R.layout.popup_window, null);
 
