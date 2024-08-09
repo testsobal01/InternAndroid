@@ -73,6 +73,7 @@ public class StartActivity extends AppCompatActivity implements View.OnClickList
         super.onStart();
         //アニメーション開始
         set3.start();
+        soundPool.play(soundBGM1, 1.0f, 1.0f, 0, 0, 1);
     }
 
     @Override
@@ -93,11 +94,11 @@ public class StartActivity extends AppCompatActivity implements View.OnClickList
 
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        soundPool.play(soundBGM1, 1.0f, 1.0f, 0, 0, 1);
-    }
+    //@Override
+    //protected void onStart() {
+        //super.onStart();
+        //soundPool.play(soundBGM1, 1.0f, 1.0f, 0, 0, 1);
+    //}
 }
 
 
