@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -17,6 +18,9 @@ import android.widget.Button;
 import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.media.AudioAttributes;
+import android.media.SoundPool;
+
 
 import java.util.Random;
 
@@ -25,7 +29,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     SharedPreferences pref;
     SharedPreferences.Editor prefEditor;
     public int numberpickervalue=10;
-  
+    private SoundPool soundPool;
+    private int soundSound;
+
+
+
+
     @Override
     public boolean onCreateOptionsMenu(@NonNull Menu menu) {
         getMenuInflater().inflate(R.menu.option_menu, menu);
@@ -82,6 +91,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         prefEditor = pref.edit();
         // 起動時に関数を呼び出す
         setQuestionValue();
+
+        AudioAttributes audioAttributes = new AudioAttributes.Builder()
+                // USAGE_MEDIA
+                // USAGE_GAME
+                .setUsage(AudioAttributes.USAGE_GAME)
+                // CONTENT_TYPE_MUSIC
+                // CONTENT_TYPE_SPEECH, etc.
+                .setContentType(AudioAttributes.CONTENT_TYPE_SPEECH)
+                .build();
+
+        soundPool = new SoundPool.Builder()
+                .setAudioAttributes(audioAttributes)
+                // ストリーム数に応じて
+                .setMaxStreams(2)
+                .build();
+
+        soundSound = soundPool.load(this, R.raw.sound, 1);
+
+        soundPool.setOnLoadCompleteListener((soundPool, sampleId, status) -> {
+            Log.d("debug","sampleId="+sampleId);
+            Log.d("debug","status="+status);
+        });
     }
 
     @Override
@@ -97,19 +128,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onResume();
         Toast.makeText(this,"onResume",Toast.LENGTH_SHORT).show();
         TextView textView = findViewById(R.id.text_score);
-        String readText = pref.getString("main_input","保存されていません");
+        String readText = pref.getString("main_input","0");
         textView.setText(readText);
     }
     @Override
     public void onClick(View view) {
         int id = view.getId();
         if (id == R.id.button1) {
+            soundPool.play(soundSound, 1.0f, 1.0f, 0, 0, 1);
             setAnswerValue();
             checkResult(true);
         } else if (id == R.id.button2) {
+            Toast.makeText(this, "sound", Toast.LENGTH_SHORT).show();
+            soundPool.play(soundSound, 1.0f, 1.0f, 0, 0, 1);
+            Toast.makeText(this, "sound2", Toast.LENGTH_SHORT).show();
+
             setAnswerValue();
+            Toast.makeText(this, "sound3", Toast.LENGTH_SHORT).show();
+
             checkResult(false);
+            Toast.makeText(this, "sound4", Toast.LENGTH_SHORT).show();
+
         } else if (id == R.id.button3) {
+            soundPool.play(soundSound, 1.0f, 1.0f, 0, 0, 1);
             setQuestionValue();
             clearAnswerValue();
             clearScoreValue();
