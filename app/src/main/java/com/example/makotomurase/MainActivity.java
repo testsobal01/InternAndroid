@@ -27,6 +27,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public SoundPool soundPool;
     public int[] action = {0,0,0};
 
+    private double count=0;
+    private double win_count=0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -99,6 +102,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             vib.vibrate(1000);
             setQuestionValue();
             clearScoreValue();
+            clearWin();
         }
     }
 
@@ -145,6 +149,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 result = "WIN";
                 score = 2;
                 sound = 0;
+                win_count++;
               
                 findViewById(R.id.answer).startAnimation(AnimationUtils.loadAnimation(this, R.anim.anime));
                 findViewById(R.id.question).startAnimation(AnimationUtils.loadAnimation(this, R.anim.anime2));
@@ -165,6 +170,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 result = "WIN";
                 score = 2;
                 sound = 0;
+                win_count++;
 
                 findViewById(R.id.answer).startAnimation(AnimationUtils.loadAnimation(this, R.anim.anime));
                 findViewById(R.id.question).startAnimation(AnimationUtils.loadAnimation(this, R.anim.anime2));
@@ -193,6 +199,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setNextQuestion();
         // スコアを表示
         setScore(score);
+
+        //勝率
+        count++;
+        setWin((win_count/count)*100.0);
     }
 
     private void setNextQuestion() {
@@ -224,6 +234,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         txtScore.setText("0");
     }
     private void animation(){
+    }
+
+    private void setWin(double win) {
+        TextView txtScore = (TextView) findViewById(R.id.text_win);
+        double w = ((double)Math.round(win * 10))/10;
+        txtScore.setText(Double.toString(w));
+    }
+
+    private void clearWin(){
+        count = 0;
+        win_count = 0;
+        TextView txtScore = (TextView) findViewById(R.id.text_win);
+        txtScore.setText("0");
     }
 
 }
