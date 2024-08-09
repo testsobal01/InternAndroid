@@ -11,6 +11,7 @@ import android.os.CountDownTimer;
 import android.util.Log;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
@@ -112,7 +113,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void setQuestionValue() {
         Random r = new Random();
-        // 0から10の範囲で乱数を生成（+1する必要がある）
+        // 0から10の範囲で乱数を生成（+1する 必要がある）
         int questionValue = r.nextInt(10 + 1);
 
         TextView txtView = findViewById(R.id.question);
@@ -136,6 +137,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         TextView txtResult = (TextView) findViewById(R.id.text_result);
 
+        TextView background1 = findViewById(R.id.question);
+        TextView background2 = findViewById(R.id.answer);
+
         // 結果を示す文字列を入れる変数を用意
         String result;
         int score;
@@ -146,23 +150,35 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = "WIN";
                 score = 2;
+                background1.setBackgroundColor(Color.parseColor("#3fff00ff"));
+                background2.setBackgroundColor(Color.parseColor("#afffff00"));
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
+                background1.setBackgroundColor(Color.parseColor("#afff00ff"));
+                background2.setBackgroundColor(Color.parseColor("#3fffff00"));
             } else {
                 result = "DRAW";
                 score = 1;
+                background1.setBackgroundColor(Color.parseColor("#3fff00ff"));
+                background2.setBackgroundColor(Color.parseColor("#3fffff00"));
             }
         } else {
             if (question > answer) {
                 result = "WIN";
                 score = 2;
+                background1.setBackgroundColor(Color.parseColor("#afff00ff"));
+                background2.setBackgroundColor(Color.parseColor("#3fffff00"));
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
+                background1.setBackgroundColor(Color.parseColor("#3fff00ff"));
+                background2.setBackgroundColor(Color.parseColor("#afffff00"));
             } else {
                 result = "DRAW";
                 score = 1;
+                background1.setBackgroundColor(Color.parseColor("#3fff00ff"));
+                background2.setBackgroundColor(Color.parseColor("#3fffff00"));
             }
         }
         // 最後にまとめてToast表示の処理とTextViewへのセットを行う
@@ -177,6 +193,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void setNextQuestion() {
+        TextView background1 = findViewById(R.id.question);
+        TextView background2 = findViewById(R.id.answer);
         // 第１引数がカウントダウン時間、第２引数は途中経過を受け取る間隔
         // 単位はミリ秒（1秒＝1000ミリ秒）
         new CountDownTimer(3000, 1000) {
@@ -190,6 +208,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public void onFinish() {
                 // 3秒経過したら次の値をセット
                 setQuestionValue();
+                background1.setBackgroundColor(Color.parseColor("#3fff00ff"));
+                background2.setBackgroundColor(Color.parseColor("#3fffff00"));
             }
         }.start();
     }
@@ -202,7 +222,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void clearScoreValue() {
         TextView txtScore = (TextView) findViewById(R.id.text_score);
+        TextView background1 = findViewById(R.id.question);
+        TextView background2 = findViewById(R.id.answer);
+
         txtScore.setText("0");
+        background1.setBackgroundColor(Color.parseColor("#3fff00ff"));
+        background2.setBackgroundColor(Color.parseColor("#3fffff00"));
     }
     private void soundEffect(String result){
         if(result.equals("WIN")){
