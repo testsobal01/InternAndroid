@@ -2,6 +2,7 @@
     <string name="app_name">YasuakiGotou</string>
     <string name="btn_high">高い</string>
     <string name="btn_low">低い</string>
+    <string name="btn_doubt">ダウト</string>
     <string name="btn_restart">リスタート</string>
     <string name="label_score">スコア：</string>
     <string name="setting">10に設定されています。</string>
