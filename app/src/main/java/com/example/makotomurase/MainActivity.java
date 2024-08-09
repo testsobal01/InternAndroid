@@ -6,8 +6,12 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
+import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -198,7 +202,34 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         String keepScoreTextString = pref.getString("score_keep", "保存なし");
         keepScoreText.setText(keepScoreTextString);
     }
-    
+
+    @Override
+    public void onClick(View v) {
+        PopupWindow mPopupWindow = new PopupWindow(MainActivity.this);
+        View popupView = getLayoutInflater().inflate(R.layout.popup_window, null);
+
+        mPopupWindow.setContentView(popupView);
+
+        mPopupWindow.setOutsideTouchable(true);
+        mPopupWindow.setFocusable(true);
+
+        float width = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 300, getResources().getDisplayMetrics());
+        mPopupWindow.setWindowLayoutMode((int) width, WindowManager.LayoutParams.WRAP_CONTENT);
+        mPopupWindow.setWidth((int) width);
+        mPopupWindow.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
+
+        mPopupWindow.showAtLocation(findViewById(R.id.button4), Gravity.CENTER, 0, 0);
+        new CountDownTimer(1000, 1000) {
+            @Override
+            public void onTick(long l) {}
+            @Override
+            public void onFinish() {
+                if (mPopupWindow.isShowing()) {
+                    mPopupWindow.dismiss();
+                }
+            }
+        }.start();
+    }
 }
 
 
