@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 public class ContentsActivity extends AppCompatActivity implements View.OnClickListener{
 
@@ -24,6 +25,7 @@ public class ContentsActivity extends AppCompatActivity implements View.OnClickL
         if(id==R.id.startButton){
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
+            Toast.makeText(getApplicationContext(),"スタート" ,Toast.LENGTH_SHORT).show();
         }
     }
 }
