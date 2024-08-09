@@ -26,8 +26,8 @@
      android:layout_height="match_parent"
      android:orientation="vertical">
 
-         <TextView
-             android:text="@+id/app_name"
+         <!--<TextView
+             android:id="@+id/contents_text"
              android:layout_width="wrap_content"
              android:layout_height="wrap_content"
              android:text="熱狂！！！動物バトル"
@@ -36,7 +36,7 @@
              android:layout_marginBottom="30dp"
              android:layout_marginTop="225dp"
              android:textColor="#FFFF"
-             android:textStyle="bold"/>
+             android:textStyle="bold"/>-->
 
 
          <Button
@@ -45,7 +45,9 @@
         android:layout_height="wrap_content"
         android:text="START"
         android:layout_gravity="center"
-             android:textSize="50sp"    ></Button>
+             android:textSize="50sp"
+        android:layout_marginTop="162dp"
+             ></Button>
 </LinearLayout>
 
     </RelativeLayout>
