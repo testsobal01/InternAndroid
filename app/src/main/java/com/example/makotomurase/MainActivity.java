@@ -2,6 +2,13 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.media.AudioAttributes;
+import android.media.AudioManager;
+import android.media.SoundPool;
+import android.os.Build;
+import android.os.Bundle;
+import android.os.CountDownTimer;
+import android.util.Log;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -15,6 +22,10 @@ import android.widget.Toast;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
+    //sound effect
+    SoundPool soundPool;
+    int beep,collect,draw;
 
     SharedPreferences pref;
     SharedPreferences.Editor prefEditor;
@@ -50,6 +61,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // 起動時に関数を呼び出す
         setQuestionValue();
+
+        AudioAttributes audioAttributes = new AudioAttributes.Builder().setUsage(AudioAttributes.USAGE_MEDIA).setContentType(AudioAttributes.CONTENT_TYPE_MUSIC).build();
+        soundPool = new SoundPool.Builder().setAudioAttributes(audioAttributes).setMaxStreams(3).build();
+        beep = soundPool.load(this,R.raw.beep,1);
+        collect = soundPool.load(this,R.raw.collect,1);
+        draw = soundPool.load(this,R.raw.draw,1);
+
+        soundPool.setOnLoadCompleteListener((soundPool, sampleId, status) -> {
+            Log.d("debug","sampleId="+sampleId);
+            Log.d("debug","status="+status);
+        });
     }
 
     @Override
@@ -143,10 +165,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 score = 1;
             }
         }
-
         // 最後にまとめてToast表示の処理とTextViewへのセットを行う
         Toast.makeText(this, result, Toast.LENGTH_LONG).show();
         txtResult.setText("結果：" + question + ":" + answer + "(" + result + ")");
+        soundEffect(result);
 
         // 続けて遊べるように値を更新
         setNextQuestion();
@@ -181,6 +203,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void clearScoreValue() {
         TextView txtScore = (TextView) findViewById(R.id.text_score);
         txtScore.setText("0");
+    }
+    private void soundEffect(String result){
+        if(result.equals("WIN")){
+            soundPool.play(collect,1f,1f,0,0,1f);
+        } else if (result.equals("LOSE")) {
+            soundPool.play(beep,1f,1f,0,0,1f);
+        } else if (result.equals("DRAW")) {
+            soundPool.play(draw,1f,1f,0,0,1f);
+        }
     }
 }
 
