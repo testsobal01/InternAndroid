@@ -7,25 +7,36 @@
     tools:context=".StartActivity"
     tools:ignore="ExtraText"
     android:orientation="vertical"
-    android:gravity="center">
+    android:gravity="center"
+    android:background="#005931">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+
+    <ImageView
+        android:id="@+id/imageView7"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:srcCompat="@drawable/toppage" />
 
      <LinearLayout
-         android:layout_width="wrap_content"
-     android:layout_height="wrap_content"
+         android:layout_width="match_parent"
+     android:layout_height="match_parent"
      android:orientation="vertical">
 
          <TextView
              android:text="@+id/app_name"
              android:layout_width="wrap_content"
              android:layout_height="wrap_content"
-             android:textSize="30sp"
+             android:text="熱狂！！！動物バトル"
+             android:textSize="35sp"
              android:layout_gravity="center"
-             android:textColor="#a52a2a"/>
-
-         <TextView
-             android:id="@+id/contents_text2"
-             android:layout_width="wrap_content"
-             android:layout_height="wrap_content" />
+             android:layout_marginBottom="30dp"
+             android:layout_marginTop="225dp"
+             android:textColor="#FFFF"
+             android:textStyle="bold"/>
 
 
          <Button
@@ -34,7 +45,10 @@
         android:layout_height="wrap_content"
         android:text="START"
         android:layout_gravity="center"
-             android:textSize="30sp"    ></Button>
+             android:textSize="50sp"    ></Button>
 </LinearLayout>
+
+    </RelativeLayout>
+
 
 </LinearLayout>

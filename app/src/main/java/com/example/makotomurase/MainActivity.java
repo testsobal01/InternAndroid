@@ -38,8 +38,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     AnimatorSet set2;
 
     private SoundPool soundPool;
-    private int soundSound;
-    private int soundLose;
+    public int soundSound;
+    public int soundLose;
+    public int soundBGM2;
 
     @Override
     public boolean onCreateOptionsMenu(@NonNull Menu menu) {
@@ -121,6 +122,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         soundSound = soundPool.load(this, R.raw.sound, 1);
         soundLose = soundPool.load(this,R.raw.lose, 1);
+        soundBGM2 = soundPool.load(this, R.raw.bgm2, 1);
+
 
         soundPool.setOnLoadCompleteListener((soundPool, sampleId, status) -> {
             Log.d("debug","sampleId="+sampleId);
@@ -134,6 +137,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 R.animator.team_e_animation);
         set1.setTarget(btn1);
         set2.setTarget(btn2);
+
+        soundPool.setOnLoadCompleteListener(new SoundPool.OnLoadCompleteListener() {
+            @Override
+            public void onLoadComplete(SoundPool soundPool, int sampleId, int status) {
+                if (0 == status) {
+                    Toast.makeText(getApplicationContext(), "LoadComplete", Toast.LENGTH_LONG).show();
+                    soundPool.play(soundBGM2, 1.0f, 1.0f, 0, -1, 1);
+                }
+            }
+        });
     }
   
     @Override//アニメーション実行
@@ -143,7 +156,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         set1.start();
         set2.start();
     }
-  
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        soundPool.stop(soundBGM2);
+        soundPool.release();
+    }
+
     @Override
     protected void onPause(){
         super.onPause();
@@ -151,6 +171,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView textView = findViewById(R.id.text_score);
         prefEditor.putString("main_input",textView.getText().toString());
         prefEditor.commit();
+        soundPool.stop(soundBGM2);
+        soundPool.release();
     }
     @Override
     protected void onResume(){
@@ -185,7 +207,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView txtView1 = (TextView) findViewById(R.id.answer);
         TextView txtView2 = (TextView) findViewById(R.id.question);
         txtView1.setText("値2");
-        txtView1.setBackgroundColor(Color.rgb(255,255,0));
+        txtView1.setBackgroundColor(Color.rgb(255,165,0));
         txtView2.setBackgroundColor(Color.rgb(255,0,255));
     }
 
