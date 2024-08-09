@@ -16,6 +16,7 @@ import android.view.MenuItem;
 import android.os.Vibrator;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -88,6 +89,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
+
 
         pref = getSharedPreferences("AndroidSeminor",MODE_PRIVATE);
         prefEditor = pref.edit();
@@ -191,6 +193,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         String result;
         int score;
 
+
         // Highが押された
         if (isHigh) {
             // result には結果のみを入れる
@@ -229,6 +232,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 txtViewQuestion.setBackgroundColor(Color.rgb(0,153,0));
                 txtViewAnswer.setBackgroundColor(Color.rgb(0,153,0));
             }
+
 
         }
 
