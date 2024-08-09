@@ -48,8 +48,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         android.view.View dialogView = inflater.inflate(R.layout.dialog, null);
         NumberPicker numberPicker = dialogView.findViewById(R.id.number_picker);
         numberPicker.setMinValue(10);
-        numberPicker.setMaxValue(50);
+        numberPicker.setMaxValue(20);
         numberPicker.setValue(10);
+        soundPool.play(soundSound, 1.0f, 1.0f, 0, 0, 1);
         new AlertDialog.Builder(this)
                 .setTitle("最大値を設定してください")
                 .setView(dialogView)
@@ -141,16 +142,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             checkResult(true);
 
         } else if (id == R.id.button2) {
-            Toast.makeText(this, "sound", Toast.LENGTH_SHORT).show();
             soundPool.play(soundSound, 1.0f, 1.0f, 0, 0, 1);
-            Toast.makeText(this, "sound2", Toast.LENGTH_SHORT).show();
-
             setAnswerValue();
-            Toast.makeText(this, "sound3", Toast.LENGTH_SHORT).show();
-
             checkResult(false);
-            Toast.makeText(this, "sound4", Toast.LENGTH_SHORT).show();
-
         } else if (id == R.id.button3) {
             soundPool.play(soundSound, 1.0f, 1.0f, 0, 0, 1);
             setQuestionValue();
@@ -283,7 +277,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Vibrator vib = null;
         vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
 
-        vib.vibrate(5000);
+        vib.vibrate(1500);
 
     }
 
