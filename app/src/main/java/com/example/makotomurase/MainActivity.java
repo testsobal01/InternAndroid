@@ -3,8 +3,10 @@ package com.example.makotomurase;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.graphics.Color;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Vibrator;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -12,6 +14,9 @@ import android.widget.Toast;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
+    SharedPreferences pref;
+    SharedPreferences.Editor prefEditor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,29 +32,59 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
 
+        //"AndroidSeminor"は、保存する先のファイル名のようなもの
+        pref = getSharedPreferences("AndroidSeminor",MODE_PRIVATE);
+        prefEditor = pref.edit();
+
         // 起動時に関数を呼び出す
         setQuestionValue();
     }
 
     @Override
+    protected void onPause() {
+        super.onPause();
+
+        TextView textView = (TextView) findViewById(R.id.text_score);
+        prefEditor.putString("text_score",textView.getText().toString());
+        prefEditor.commit();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        TextView textView = (TextView) findViewById(R.id.text_score);
+        String readText = pref.getString("text_score","保存されていない");
+        textView.setText(readText);
+    }
+
+
+    @Override
     public void onClick(View view) {
         int id = view.getId();
+
         if (id == R.id.button1) {
             setAnswerValue();
             checkResult(true);
+            Vibrator vib = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+            vib.vibrate(500);
         } else if (id == R.id.button2) {
             setAnswerValue();
             checkResult(false);
+            Vibrator vib = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+            vib.vibrate(500);
         } else if (id == R.id.button3) {
             setQuestionValue();
             clearAnswerValue();
             clearScoreValue();
+            Vibrator vib = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+            vib.vibrate(500);
         }
     }
 
     private void clearAnswerValue() {
         TextView txtView = (TextView) findViewById(R.id.answer);
-        txtView.setText("値2");
+        txtView.setText("?");
     }
 
     private void setQuestionValue() {
@@ -114,7 +149,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // 最後にまとめてToast表示の処理とTextViewへのセットを行う
         Toast.makeText(this, result, Toast.LENGTH_LONG).show();
-        txtResult.setText("結果：" + question + ":" + answer + "(" + result + ")");
+        txtResult.setText("："+ question + ":" + answer + "(" + result + ")");
 
         // 続けて遊べるように値を更新
         setNextQuestion();
