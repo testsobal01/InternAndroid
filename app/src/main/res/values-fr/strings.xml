@@ -8,4 +8,5 @@
     <string name="txt10" >10 est réglé.</string>
     <string name="START">commencer</string>
     <string name="text_result1">résultat：</string>
+    <string name="win">pourcentage de victoire：</string>
 </resources>
