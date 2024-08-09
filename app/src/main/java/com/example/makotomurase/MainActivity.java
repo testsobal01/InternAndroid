@@ -25,6 +25,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     SharedPreferences pref;
     SharedPreferences.Editor prefEditor;
 
+    private int doubtStartFlag = 0;
+    private int doubtResultFlag = 0;
+    private int winCount = 0;
+
+    private int nowScore = 0;
+
+    private int highButtonFlag = 0;
+
+    private int lowButtonFlag = 0;
+
+    private int leftNumber = 0;
+
+
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -44,17 +60,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
 
-        Button btn4 = findViewById(R.id.button4);
+        Button btn4 = (Button) findViewById(R.id.button4);
         btn4.setOnClickListener(this);
 
-
-
-
-
-
-
         b_2();
-        // 起動時に関数を呼び出す
+
         setQuestionValue();
     }
 
@@ -63,12 +73,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int id = view.getId();
         Vibrator vib=(Vibrator)getSystemService(VIBRATOR_SERVICE);
 
+        setNowScore();
+
         if (id == R.id.button1) {
+
             setAnswerValue();
+
+            this.highButtonFlag++;
+
             checkResult(true);
 
         } else if (id == R.id.button2) {
+
             setAnswerValue();
+
+            this.lowButtonFlag++;
+
             checkResult(false);
 
         } else if (id == R.id.button3) {
@@ -77,6 +97,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             clearScoreValue();
             vib.vibrate(100);
 
+        }else {
+            doubtJudge();
         }
     }
 
@@ -86,20 +108,58 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void setQuestionValue() {
+        setNowScore();
         Random r = new Random();
-        // 0から10の範囲で乱数を生成（+1する必要がある）
-        int questionValue = r.nextInt(10 + 1);
 
-        TextView txtView = findViewById(R.id.question);
-        txtView.setText(Integer.toString(questionValue));
+        if (this.winCount == 2 && this.nowScore >= 20 && this.doubtStartFlag == 1) {
+            int questionValue1 = r.nextInt(7) + 2;
+            TextView txtView = findViewById(R.id.question);
+            txtView.setText(Integer.toString(questionValue1));
+
+        }else{
+            int questionValue2 = r.nextInt(10 + 1);
+            TextView txtView = findViewById(R.id.question);
+            txtView.setText(Integer.toString(questionValue2));
+        }
+
+
     }
 
     private void setAnswerValue() {
+        setStartDoubtFlag();
+        setNowScore();
         Random r = new Random();
-        int answerValue = r.nextInt(10 + 1);
 
-        TextView txtView = findViewById(R.id.answer);
-        txtView.setText(Integer.toString(answerValue));
+        if (this.winCount == 2 && this.nowScore >= 20 && this.doubtStartFlag == 1){
+            Toast.makeText(this, "ダウト発動", Toast.LENGTH_SHORT).show();
+            getLeftNumber();
+            if(this.highButtonFlag == 1){
+                int answerValue = r.nextInt(this.leftNumber - 1);
+                TextView txtView = findViewById(R.id.answer);
+                txtView.setText(Integer.toString(answerValue));
+
+            }else if(this.lowButtonFlag == 1){
+                int answerValue = this.leftNumber + 1;
+                TextView txtView = findViewById(R.id.answer);
+                txtView.setText(Integer.toString(answerValue));
+
+            }else{
+                int answerValue = r.nextInt(this.leftNumber);
+                TextView txtView = findViewById(R.id.answer);
+                txtView.setText(Integer.toString(answerValue));
+            }
+
+            this.winCount = 0;
+            this.doubtStartFlag = 0;
+            this.highButtonFlag = 0;
+            this.lowButtonFlag = 0;
+
+        }else{
+            int answerValue = r.nextInt(10 + 1);
+
+            TextView txtView = findViewById(R.id.answer);
+            txtView.setText(Integer.toString(answerValue));
+        }
     }
 
     private void checkResult(boolean isHigh) {
@@ -130,6 +190,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 result = "WIN";
                 score = 2;
                 vib.vibrate(100);
+                this.winCount++;
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
@@ -144,6 +205,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 result = "WIN";
                 score = 2;
                 vib.vibrate(100);
+                this.winCount++;
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
@@ -188,6 +250,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void setScore(int score) {
+
         TextView txtScore = (TextView) findViewById(R.id.text_score);
         int newScore = Integer.parseInt(txtScore.getText().toString()) + score;
         txtScore.setText(Integer.toString(newScore));
@@ -205,7 +268,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void clearScoreValue() {
         TextView txtScore = (TextView) findViewById(R.id.text_score);
-        txtScore.setText("5");
+        txtScore.setText("20");
     }
 
     private void b_7(String result) {//勝敗によって数字が動く機能
@@ -379,6 +442,40 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //ここができない
         String keepScoreTextString = pref.getString("score_keep", "保存なし");
         keepScoreText.setText(keepScoreTextString);
+    }
+
+    //左の数字を取得
+    public void getLeftNumber() {
+        TextView txtViewQuestion = findViewById(R.id.question);
+        this.leftNumber = Integer.parseInt(txtViewQuestion.getText().toString());
+    }
+
+
+    public void setNowScore(){
+        TextView txtScore = (TextView) findViewById(R.id.text_score);
+        this.nowScore= Integer.parseInt(txtScore.getText().toString());
+    }
+
+    public void setStartDoubtFlag(){
+        Random r3 = new Random();
+        int doubtRandom = r3.nextInt(100);
+
+        if(doubtRandom > 70){
+            this.doubtStartFlag = 1;
+        }
+    }
+    public void doubtJudge(){
+        if(this.doubtResultFlag == 1){
+            //ダウト成功で7点+
+            setScore(7);
+            //ダウト成功ポップ
+
+        }else{
+            //ダウト失敗ポップ
+
+        }
+        //ダウト結果のフラグ初期化
+        this.doubtResultFlag = 0;
     }
 }
 
