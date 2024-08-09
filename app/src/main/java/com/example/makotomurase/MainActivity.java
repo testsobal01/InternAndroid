@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.graphics.Color;
 import android.content.SharedPreferences;
+import android.media.MediaParser;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
@@ -19,6 +21,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     SharedPreferences.Editor prefEditor;
 
     private SoundPlayer soundPlayer;
+
+    MediaPlayer p;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,8 +51,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         soundPlayer = new SoundPlayer(this);
 
-
-
+        p = MediaPlayer.create(getApplicationContext(),R.raw.androidbgm);
+        p.setLooping(true);
     }
 
     @Override
@@ -58,15 +62,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView textView = (TextView) findViewById(R.id.text_score);
         prefEditor.putString("text_score",textView.getText().toString());
         prefEditor.commit();
+        p.pause();//BGM一時停止
     }
 
     @Override
     protected void onResume() {
         super.onResume();
 
+        p.start();//BGM再生開始
         TextView textView = (TextView) findViewById(R.id.text_score);
         String readText = pref.getString("text_score","0");
         textView.setText(readText);
+
     }
 
 
@@ -91,6 +98,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Vibrator vib = (Vibrator) getSystemService(VIBRATOR_SERVICE);
             vib.vibrate(500);
         }
+    }
+
+//アプリを終了したときの処理
+    @Override
+    protected void onDestroy(){
+
+        super.onDestroy();
+        p.release();//メモリの解放
+        p = null;//音楽プレイヤーを破棄
+
     }
 
     private void clearAnswerValue() {
@@ -160,7 +177,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 score = -1;
                 soundPlayer.playLoseSound();
                 changeBackGround(true);
-             else {
+            }else {
                 result = "DRAW";
                 score = 1;
                 soundPlayer.playDrawSound();
@@ -227,6 +244,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView txtScore = (TextView) findViewById(R.id.text_score);
         txtScore.setText("0");
     }
+
+
 
 
 
