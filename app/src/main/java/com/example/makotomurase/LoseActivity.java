@@ -7,24 +7,21 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-public class HomeActivity extends AppCompatActivity  implements View.OnClickListener{
+public class LoseActivity extends AppCompatActivity implements View.OnClickListener{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home);
+        setContentView(R.layout.activity_lose);
 
-        Button btn1 = findViewById(R.id.button_home);
+        Button btn1 = findViewById(R.id.button_lose);
         btn1.setOnClickListener(this);
-
-        Intent intent = getIntent();
-        Bundle extra = intent.getExtras();
     }
 
     public void onClick(View view) {
         int id = view.getId();
-        if (id == R.id.button_home) {
-            Intent intent = new Intent(this, MainActivity.class);
+        if (id == R.id.button_lose) {
+            Intent intent = new Intent(this, HomeActivity.class);
             startActivity(intent);
         }
     }
