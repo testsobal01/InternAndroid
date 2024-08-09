@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View view) {
 
         Vibrator vib = (Vibrator) getSystemService(VIBRATOR_SERVICE);
-        vib.vibrate(5000);
+        vib.vibrate(500);
 
         int id = view.getId();
         if (id == R.id.button1) {
