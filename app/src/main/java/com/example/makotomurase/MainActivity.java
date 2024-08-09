@@ -10,9 +10,12 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
 import android.view.View;
+import android.view.animation.Animation;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.view.animation.AnimationUtils;
 
 import java.util.Random;
 
@@ -27,6 +30,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_start);
         setContentView(R.layout.activity_main);
 
         Button btn1 = findViewById(R.id.button1);
@@ -94,7 +98,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Vibrator vib=(Vibrator)getSystemService(VIBRATOR_SERVICE);
             vib.vibrate(1000);
             setQuestionValue();
-            clearAnswerValue();
             clearScoreValue();
         }
     }
@@ -142,6 +145,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 result = "WIN";
                 score = 2;
                 sound = 0;
+              
+                findViewById(R.id.answer).startAnimation(AnimationUtils.loadAnimation(this, R.anim.anime));
+                findViewById(R.id.question).startAnimation(AnimationUtils.loadAnimation(this, R.anim.anime2));
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
@@ -150,12 +156,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 result = "DRAW";
                 score = 1;
                 sound = 2;
+              
+                findViewById(R.id.question).startAnimation(AnimationUtils.loadAnimation(this, R.anim.anime3));
+                findViewById(R.id.answer).startAnimation(AnimationUtils.loadAnimation(this, R.anim.anime3));
             }
         } else {
             if (question > answer) {
                 result = "WIN";
                 score = 2;
                 sound = 0;
+
+                findViewById(R.id.answer).startAnimation(AnimationUtils.loadAnimation(this, R.anim.anime));
+                findViewById(R.id.question).startAnimation(AnimationUtils.loadAnimation(this, R.anim.anime2));
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
@@ -164,6 +176,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 result = "DRAW";
                 score = 1;
                 sound = 2;
+              
+                findViewById(R.id.question).startAnimation(AnimationUtils.loadAnimation(this, R.anim.anime3));
+                findViewById(R.id.answer).startAnimation(AnimationUtils.loadAnimation(this, R.anim.anime3));
             }
         }
 
@@ -208,5 +223,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView txtScore = (TextView) findViewById(R.id.text_score);
         txtScore.setText("0");
     }
+    private void animation(){
+    }
+
 }
 
