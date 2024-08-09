@@ -1,8 +1,10 @@
 <resources>
     <string name="app_name">YasuakiGotou</string>
-    <string name="btn_high">High</string>
-    <string name="btn_low">Low</string>
-    <string name="btn_restart">Restart</string>
-    <string name="label_score">Score：</string>
+    <string name="btn_high">高い</string>
+    <string name="btn_low">低い</string>
+    <string name="btn_restart">リスタート</string>
+    <string name="label_score">スコア：</string>
+    <string name="setting">10に設定されています。</string>
+    <string name="atai2">値２</string>
     <string name="fotter">fotter</string>
 </resources>
