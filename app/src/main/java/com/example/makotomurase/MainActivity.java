@@ -78,7 +78,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Vibrator vib=(Vibrator)getSystemService(VIBRATOR_SERVICE);
             vib.vibrate(1000);
             setQuestionValue();
-            clearAnswerValue();
             clearScoreValue();
         }
     }
