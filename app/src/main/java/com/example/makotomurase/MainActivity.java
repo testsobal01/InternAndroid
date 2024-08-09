@@ -149,7 +149,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 result = "LOSE";
                 score = -1;
               
-                ObjectAnimator animator = ObjectAnimator.ofFloat(txtViewAnswer, View.ROTATION, 0f, 360f);
+                ObjectAnimator animator = ObjectAnimator.ofFloat(txtViewQuestion, View.ROTATION, 0f, 360f);
                 animator.setDuration(2000);
                 animator.start();
                 soundPlayer.playLoseSound();
@@ -157,7 +157,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             } else {
                 result = "DRAW";
                 score = 1;
-                findViewById(R.id.answer).startAnimation(AnimationUtils.loadAnimation(this,R.anim.anime_2));
+                findViewById(R.id.question).startAnimation(AnimationUtils.loadAnimation(this,R.anim.anime_2));
                 soundPlayer.playDrawSound();
             }
         } else {
@@ -171,8 +171,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
-              
-                ObjectAnimator animator = ObjectAnimator.ofFloat(txtViewAnswer, View.ROTATION, 0f, 360f);
+
+                ObjectAnimator animator = ObjectAnimator.ofFloat(txtViewQuestion, View.ROTATION, 0f, 360f);
                 animator.setDuration(2000);
                 animator.start();
                 soundPlayer.playLoseSound();
@@ -180,7 +180,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }else {
                 result = "DRAW";
                 score = 1;
-                findViewById(R.id.answer).startAnimation(AnimationUtils.loadAnimation(this,R.anim.anime_2));
+                findViewById(R.id.question).startAnimation(AnimationUtils.loadAnimation(this,R.anim.anime_2));
                 soundPlayer.playDrawSound();
             }
         }
