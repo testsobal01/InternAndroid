@@ -2,20 +2,29 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Vibrator;
 import android.view.View;
+import android.view.animation.Animation;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.view.animation.AnimationUtils;
 
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
+    SharedPreferences pref;
+    SharedPreferences.Editor prefEditor;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_start);
         setContentView(R.layout.activity_main);
 
         Button btn1 = findViewById(R.id.button1);
@@ -29,18 +38,45 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // 起動時に関数を呼び出す
         setQuestionValue();
+
+        pref = getSharedPreferences("Score",MODE_PRIVATE);
+        prefEditor = pref.edit();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        TextView score = (TextView) findViewById(R.id.text_score);
+        prefEditor.putString("Score",score.getText().toString());
+        prefEditor.commit();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        TextView txtScore = (TextView) findViewById(R.id.text_score);
+        String readText = pref.getString("Score","保存されていません");
+        txtScore.setText(readText);
     }
 
     @Override
     public void onClick(View view) {
         int id = view.getId();
         if (id == R.id.button1) {
+            Vibrator vib=(Vibrator)getSystemService(VIBRATOR_SERVICE);
+            vib.vibrate(1000);
             setAnswerValue();
             checkResult(true);
+
+
         } else if (id == R.id.button2) {
+            Vibrator vib=(Vibrator)getSystemService(VIBRATOR_SERVICE);
+            vib.vibrate(1000);
             setAnswerValue();
             checkResult(false);
         } else if (id == R.id.button3) {
+            Vibrator vib=(Vibrator)getSystemService(VIBRATOR_SERVICE);
+            vib.vibrate(1000);
             setQuestionValue();
             clearScoreValue();
         }
@@ -87,23 +123,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = "WIN";
                 score = 2;
+                findViewById(R.id.answer).startAnimation(AnimationUtils.loadAnimation(this, R.anim.anime));
+                findViewById(R.id.question).startAnimation(AnimationUtils.loadAnimation(this, R.anim.anime2));
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
             } else {
                 result = "DRAW";
                 score = 1;
+                findViewById(R.id.question).startAnimation(AnimationUtils.loadAnimation(this, R.anim.anime3));
+                findViewById(R.id.answer).startAnimation(AnimationUtils.loadAnimation(this, R.anim.anime3));
             }
         } else {
             if (question > answer) {
                 result = "WIN";
                 score = 2;
+                findViewById(R.id.answer).startAnimation(AnimationUtils.loadAnimation(this, R.anim.anime));
+                findViewById(R.id.question).startAnimation(AnimationUtils.loadAnimation(this, R.anim.anime2));
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
             } else {
                 result = "DRAW";
                 score = 1;
+                findViewById(R.id.question).startAnimation(AnimationUtils.loadAnimation(this, R.anim.anime3));
+                findViewById(R.id.answer).startAnimation(AnimationUtils.loadAnimation(this, R.anim.anime3));
             }
         }
 
@@ -145,5 +189,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView txtScore = (TextView) findViewById(R.id.text_score);
         txtScore.setText("0");
     }
+    private void animation(){
+    }
+
 }
 
