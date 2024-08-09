@@ -5,4 +5,5 @@
     <string name="btn_low">Niedrig</string>
     <string name="btn_restart">NeuStarten</string>
     <string name="label_score">Punktzahl：</string>
+    <string name="settt">10 ist eingestellt.</string>
 </resources>

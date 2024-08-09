@@ -4,6 +4,9 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.animation.AnimatorInflater;
+import android.animation.AnimatorSet;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.DialogInterface;
 import android.graphics.Color;
@@ -31,11 +34,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     SharedPreferences pref;
     SharedPreferences.Editor prefEditor;
     public int numberpickervalue=10;
+
+    AnimatorSet set1;
+    AnimatorSet set2;
+
     private SoundPool soundPool;
-    private int soundSound;
-
-
-
+    public int soundSound;
+    public int soundLose;
+    public int soundBGM2;
 
     @Override
     public boolean onCreateOptionsMenu(@NonNull Menu menu) {
@@ -81,6 +87,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Intent intent = getIntent();
+        Bundle extra = intent.getExtras();
+        String intentString = extra.getString("KEY");
+
         Button btn1 = findViewById(R.id.button1);
         btn1.setOnClickListener(this);
 
@@ -93,9 +103,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         pref = getSharedPreferences("AndroidSeminor",MODE_PRIVATE);
         prefEditor = pref.edit();
+      
         // 起動時に関数を呼び出す
         setQuestionValue();
-
+      
         AudioAttributes audioAttributes = new AudioAttributes.Builder()
                 // USAGE_MEDIA
                 // USAGE_GAME
@@ -112,11 +123,47 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .build();
 
         soundSound = soundPool.load(this, R.raw.sound, 1);
+        soundLose = soundPool.load(this,R.raw.lose, 1);
+        soundBGM2 = soundPool.load(this, R.raw.bgm2, 1);
+
 
         soundPool.setOnLoadCompleteListener((soundPool, sampleId, status) -> {
             Log.d("debug","sampleId="+sampleId);
             Log.d("debug","status="+status);
         });
+
+        //↓animation設定
+        set1 = (AnimatorSet) AnimatorInflater.loadAnimator(MainActivity.this,
+                R.animator.team_e_animation);
+        set2 = (AnimatorSet) AnimatorInflater.loadAnimator(MainActivity.this,
+                R.animator.team_e_animation);
+        set1.setTarget(btn1);
+        set2.setTarget(btn2);
+
+        soundPool.setOnLoadCompleteListener(new SoundPool.OnLoadCompleteListener() {
+            @Override
+            public void onLoadComplete(SoundPool soundPool, int sampleId, int status) {
+                if (0 == status) {
+                    Toast.makeText(getApplicationContext(), "LoadComplete", Toast.LENGTH_LONG).show();
+                    soundPool.play(soundBGM2, 1.0f, 1.0f, 0, -1, 1);
+                }
+            }
+        });
+    }
+  
+    @Override//アニメーション実行
+    protected void onStart() {
+        super.onStart();
+        //アニメーション開始
+        set1.start();
+        set2.start();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        soundPool.stop(soundBGM2);
+        soundPool.release();
     }
 
     @Override
@@ -126,6 +173,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView textView = findViewById(R.id.text_score);
         prefEditor.putString("main_input",textView.getText().toString());
         prefEditor.commit();
+        soundPool.stop(soundBGM2);
+        soundPool.release();
     }
     @Override
     protected void onResume(){
@@ -135,6 +184,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         String readText = pref.getString("main_input","0");
         textView.setText(readText);
     }
+
     @Override
     public void onClick(View view) {
         int id = view.getId();
@@ -159,7 +209,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView txtView1 = (TextView) findViewById(R.id.answer);
         TextView txtView2 = (TextView) findViewById(R.id.question);
         txtView1.setText("値2");
-        txtView1.setBackgroundColor(Color.rgb(255,255,0));
+        txtView1.setBackgroundColor(Color.rgb(255,165,0));
         txtView2.setBackgroundColor(Color.rgb(255,0,255));
     }
 
@@ -178,6 +228,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         TextView txtView = findViewById(R.id.answer);
         txtView.setText(Integer.toString(answerValue));
+
     }
 
     private void checkResult(boolean isHigh) {
@@ -192,25 +243,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // 結果を示す文字列を入れる変数を用意
         String result;
         int score;
-
-
         // Highが押された
         if (isHigh) {
             // result には結果のみを入れる
             if (question < answer) {
                 result = "WIN";
                 score = 2;
+
                 txtViewQuestion.setBackgroundColor(Color.rgb(0,0,255));
                 txtViewAnswer.setBackgroundColor(Color.rgb(255,0,0));
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
+
                 vibration();
                 txtViewQuestion.setBackgroundColor(Color.rgb(255,0,0));
                 txtViewAnswer.setBackgroundColor(Color.rgb(0,0,255));
             } else {
                 result = "DRAW";
                 score = 1;
+
                 txtViewQuestion.setBackgroundColor(Color.rgb(0,153,0));
                 txtViewAnswer.setBackgroundColor(Color.rgb(0,153,0));
             }
@@ -218,17 +270,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question > answer) {
                 result = "WIN";
                 score = 2;
+
                 txtViewQuestion.setBackgroundColor(Color.rgb(255,0,0));
                 txtViewAnswer.setBackgroundColor(Color.rgb(0,0,255));
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
+              
                 txtViewQuestion.setBackgroundColor(Color.rgb(0,0,255));
                 txtViewAnswer.setBackgroundColor(Color.rgb(255,0,0));
                 vibration();
             } else {
                 result = "DRAW";
                 score = 1;
+
                 txtViewQuestion.setBackgroundColor(Color.rgb(0,153,0));
                 txtViewAnswer.setBackgroundColor(Color.rgb(0,153,0));
             }
@@ -245,7 +300,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // スコアを表示
         setScore(score);
     }
-
     private void setNextQuestion() {
         // 第１引数がカウントダウン時間、第２引数は途中経過を受け取る間隔
         // 単位はミリ秒（1秒＝1000ミリ秒）
@@ -280,8 +334,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         Vibrator vib = null;
         vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
-
-        vib.vibrate(1500);
+        soundPool.play(soundLose, 1.0f, 1.0f, 0, 0, 1);
+        vib.vibrate(1000);
 
     }
 
