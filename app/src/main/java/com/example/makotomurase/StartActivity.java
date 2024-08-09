@@ -56,7 +56,7 @@ public class StartActivity extends AppCompatActivity implements View.OnClickList
             public void onLoadComplete(SoundPool soundPool, int sampleId, int status) {
                 if (0 == status) {
                     Toast.makeText(getApplicationContext(), "LoadComplete", Toast.LENGTH_LONG).show();
-                    soundPool.play(soundBGM1, 1.0f, 1.0f, 0, 0, 1);
+                    soundPool.play(soundBGM1, 1.0f, 1.0f, 0, -1, 1);
                 }
             }
         });
@@ -67,6 +67,7 @@ public class StartActivity extends AppCompatActivity implements View.OnClickList
     public void onClick(View v) {
         soundPool.play(soundSound, 1.0f, 1.0f, 0, 0, 1);
         soundPool.stop(soundBGM1);
+        soundPool.release();
         int id = v.getId();
         if (id== R.id.button1)  {
        // Intent intent = new Intent(StartActivity.this,MainActivity.class);

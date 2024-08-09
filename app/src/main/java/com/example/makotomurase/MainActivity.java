@@ -143,7 +143,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public void onLoadComplete(SoundPool soundPool, int sampleId, int status) {
                 if (0 == status) {
                     Toast.makeText(getApplicationContext(), "LoadComplete", Toast.LENGTH_LONG).show();
-                    soundPool.play(soundBGM2, 1.0f, 1.0f, 0, 0, 1);
+                    soundPool.play(soundBGM2, 1.0f, 1.0f, 0, -1, 1);
                 }
             }
         });
@@ -156,7 +156,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         set1.start();
         set2.start();
     }
-  
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        soundPool.stop(soundBGM2);
+        soundPool.release();
+    }
+
     @Override
     protected void onPause(){
         super.onPause();
@@ -164,6 +171,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView textView = findViewById(R.id.text_score);
         prefEditor.putString("main_input",textView.getText().toString());
         prefEditor.commit();
+        soundPool.stop(soundBGM2);
+        soundPool.release();
     }
     @Override
     protected void onResume(){
