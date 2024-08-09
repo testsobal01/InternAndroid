@@ -8,5 +8,6 @@
     <string name="txt10" >10이 설정됩니다.</string>
     <string name="START">시작</string>
     <string name="text_result1">결과：</string>
+    <string name="win">승률：</string>
 
 </resources>
