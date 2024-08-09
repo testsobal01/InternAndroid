@@ -18,10 +18,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     SharedPreferences pref;
     SharedPreferences.Editor prefEditor;
 
+    private SoundPlayer soundPlayer;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
 
         Button btn1 = findViewById(R.id.button1);
         btn1.setOnClickListener(this);
@@ -38,6 +41,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // 起動時に関数を呼び出す
         setQuestionValue();
+
+      //音声再生
+
+
+        soundPlayer = new SoundPlayer(this);
+
+
+
     }
 
     @Override
@@ -123,23 +134,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = "WIN";
                 score = 2;
+                soundPlayer.playWinSound();
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
+                soundPlayer.playLoseSound();
             } else {
                 result = "DRAW";
                 score = 1;
+                soundPlayer.playDrawSound();
             }
         } else {
             if (question > answer) {
                 result = "WIN";
                 score = 2;
+                soundPlayer.playWinSound();
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
+                soundPlayer.playLoseSound();
             } else {
                 result = "DRAW";
                 score = 1;
+                soundPlayer.playDrawSound();
             }
         }
 
@@ -181,5 +198,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView txtScore = (TextView) findViewById(R.id.text_score);
         txtScore.setText("0");
     }
+
+
+
+
 }
 
