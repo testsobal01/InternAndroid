@@ -21,6 +21,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //ImageView imageView = findViewById(R.drawable.img_1);
+        //imageView.setImageResource(R.drawable.img);
+
         Button btn1 = findViewById(R.id.button1);
         btn1.setOnClickListener(this);
 
