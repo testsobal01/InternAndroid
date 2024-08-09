@@ -2,8 +2,10 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Vibrator;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -13,8 +15,12 @@ import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
+    SharedPreferences pref;
+    SharedPreferences.Editor prefEditor;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -27,6 +33,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
 
+
+        b_2();
         // 起動時に関数を呼び出す
         setQuestionValue();
     }
@@ -34,16 +42,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View view) {
         int id = view.getId();
+        Vibrator vib=(Vibrator)getSystemService(VIBRATOR_SERVICE);
+
         if (id == R.id.button1) {
             setAnswerValue();
             checkResult(true);
+
         } else if (id == R.id.button2) {
             setAnswerValue();
             checkResult(false);
+
         } else if (id == R.id.button3) {
             setQuestionValue();
             clearAnswerValue();
             clearScoreValue();
+            vib.vibrate(100);
+
         }
     }
 
@@ -70,6 +84,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void checkResult(boolean isHigh) {
+        Vibrator vib=(Vibrator)getSystemService(VIBRATOR_SERVICE);
+
         TextView txtViewQuestion = findViewById(R.id.question);
         TextView txtViewAnswer = findViewById(R.id.answer);
 
@@ -88,23 +104,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = "WIN";
                 score = 2;
+                vib.vibrate(100);
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
+                vib.vibrate(1000);
             } else {
                 result = "DRAW";
                 score = 1;
+                vib.vibrate(100);
             }
         } else {
             if (question > answer) {
                 result = "WIN";
                 score = 2;
+                vib.vibrate(100);
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
-            } else {
+
+                vib.vibrate(1000);}
+
+            else {
                 result = "DRAW";
                 score = 1;
+                vib.vibrate(100);
             }
         }
 
@@ -146,5 +170,35 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView txtScore = (TextView) findViewById(R.id.text_score);
         txtScore.setText("0");
     }
+
+    public void b_2(){
+        pref = getSharedPreferences("AndroidSeminor", MODE_PRIVATE);
+        prefEditor = pref.edit();
+    }
+
+    //b_2
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Toast.makeText(this, "onPause", Toast.LENGTH_SHORT).show();
+
+        //画面上のテキストを保存
+        TextView keepScoreText = (TextView)findViewById(R.id.text_score);
+        prefEditor.putString("score_keep", keepScoreText.getText().toString());
+        prefEditor.commit();
+    }
+
+
+    protected void onResume(){
+        super.onResume();
+        Toast.makeText(this, "oR", Toast.LENGTH_SHORT).show();
+
+        TextView keepScoreText = (TextView)findViewById(R.id.text_score);
+        //ここができない
+        String keepScoreTextString = pref.getString("score_keep", "保存なし");
+        keepScoreText.setText(keepScoreTextString);
+    }
+    
 }
+
 
