@@ -3,6 +3,9 @@ package com.example.makotomurase;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.SharedPreferences;
+import android.media.AudioAttributes;
+import android.media.AudioManager;
+import android.media.SoundPool;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
@@ -17,6 +20,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     SharedPreferences pref;
     SharedPreferences.Editor prefEditor;
+
+    public SoundPool soundPool;
+    public int[] action = {0,0,0};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +41,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // 起動時に関数を呼び出す
         setQuestionValue();
 
+
+
+        //効果音
+        AudioAttributes audioAttributes = new AudioAttributes.Builder()
+                .setUsage(AudioAttributes.USAGE_GAME)
+                .setContentType(AudioAttributes.CONTENT_TYPE_SPEECH)
+                .build();
+
+        soundPool = new SoundPool.Builder().setAudioAttributes(audioAttributes).setMaxStreams(3).build();
+
+        action[0] = soundPool.load(this, R.raw.win, 1);
+        action[1] = soundPool.load(this, R.raw.lose, 1);
+        action[2] = soundPool.load(this, R.raw.draw, 1);
+
         pref = getSharedPreferences("Score",MODE_PRIVATE);
         prefEditor = pref.edit();
     }
@@ -51,7 +71,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onResume() {
         super.onResume();
         TextView txtScore = (TextView) findViewById(R.id.text_score);
-        String readText = pref.getString("Score","保存されていません");
+        String readText = pref.getString("Score","0");
         txtScore.setText(readText);
     }
 
@@ -113,6 +133,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // 結果を示す文字列を入れる変数を用意
         String result;
         int score;
+        int sound;
 
         // Highが押された
         if (isHigh) {
@@ -120,29 +141,38 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = "WIN";
                 score = 2;
+                sound = 0;
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
+                sound = 1;
             } else {
                 result = "DRAW";
                 score = 1;
+                sound = 2;
             }
         } else {
             if (question > answer) {
                 result = "WIN";
                 score = 2;
+                sound = 0;
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
+                sound = 1;
             } else {
                 result = "DRAW";
                 score = 1;
+                sound = 2;
             }
         }
 
         // 最後にまとめてToast表示の処理とTextViewへのセットを行う
         Toast.makeText(this, result, Toast.LENGTH_LONG).show();
         txtResult.setText("結果：" + question + ":" + answer + "(" + result + ")");
+
+        //効果音を再生
+        soundPool.play(action[sound], 1f , 1f, 0, 0, 1f);
 
         // 続けて遊べるように値を更新
         setNextQuestion();
