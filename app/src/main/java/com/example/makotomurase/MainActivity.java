@@ -76,11 +76,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         if (id == R.id.button1) {
             setAnswerValue();
+            buttonFalse();//３秒間ボタンを機能停止
             checkResult(true);
             Vibrator vib = (Vibrator) getSystemService(VIBRATOR_SERVICE);
             vib.vibrate(500);
         } else if (id == R.id.button2) {
             setAnswerValue();
+            buttonFalse();//３秒間ボタンを機能停止
             checkResult(false);
             Vibrator vib = (Vibrator) getSystemService(VIBRATOR_SERVICE);
             vib.vibrate(500);
@@ -160,7 +162,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 score = -1;
                 soundPlayer.playLoseSound();
                 changeBackGround(true);
-             else {
+            }else {
                 result = "DRAW";
                 score = 1;
                 soundPlayer.playDrawSound();
@@ -192,6 +194,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 // 3秒経過したら次の値をセット
                 setQuestionValue();
                 resetBackGround();
+                buttonTrue();//ボタン機能再開
             }
         }.start();
     }
@@ -228,8 +231,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         txtScore.setText("0");
     }
 
-
-
-
+    //３秒間ボタンを機能停止
+    private void buttonFalse() {
+        Button btn1 = findViewById(R.id.button1);
+        btn1.setEnabled(false);
+        Button btn2 = findViewById(R.id.button2);
+        btn2.setEnabled(false);
+        Button btn3 = findViewById(R.id.button3);
+        btn3.setEnabled(false);
+    }
+    //ボタン機能再開
+    private void buttonTrue() {
+        Button btn1 = findViewById(R.id.button1);
+        btn1.setEnabled(true);
+        Button btn2 = findViewById(R.id.button2);
+        btn2.setEnabled(true);
+        Button btn3 = findViewById(R.id.button3);
+        btn3.setEnabled(true);
+    }
 }
 
