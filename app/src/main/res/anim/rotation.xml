@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rotate xmlns:android="http://schemas.android.com/apk/res/android"
+    android:interpolator="@android:anim/decelerate_interpolator"
+    android:propertyName="roll"
+    android:repeatCount="2"
+    android:fromDegrees="0.0"
+    android:toDegrees="360.0"
+    android:fillAfter="true"
+    android:duration="300"
+    android:pivotX="300"
+    android:pivotY="700"/>

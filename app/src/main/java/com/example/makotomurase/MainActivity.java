@@ -15,6 +15,8 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -36,7 +38,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Toast.makeText(this,"onResume",Toast.LENGTH_SHORT).show();
 
         TextView textView = (TextView) findViewById(R.id.text_score);
-        String readText = pref.getString("score_input","保存されていません");
+        String readText = pref.getString("score_input","0");
         textView.setText(readText);
     }
 
@@ -169,6 +171,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Toast.makeText(this, result, Toast.LENGTH_LONG).show();
         txtResult.setText("結果：" + question + ":" + answer + "(" + result + ")");
         soundEffect(result);
+        startRotationXml(result);
 
         // 続けて遊べるように値を更新
         setNextQuestion();
@@ -211,6 +214,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             soundPool.play(beep,1f,1f,0,0,1f);
         } else if (result.equals("DRAW")) {
             soundPool.play(draw,1f,1f,0,0,1f);
+        }
+    }
+
+    private void startRotationXml(String result){
+        TextView txtViewAnswer = findViewById(R.id.answer);
+        TextView txtViewQuestion = findViewById(R.id.question);
+        Animation animation = AnimationUtils.loadAnimation(this, R.anim.rotation);
+        if(result.equals("WIN")) {
+            txtViewAnswer.startAnimation(animation);
+        } else if (result.equals("LOSE")) {
+            txtViewQuestion.startAnimation(animation);
         }
     }
 }
