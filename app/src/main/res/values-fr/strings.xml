@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Comparer la bataille</string>
+    <string name="btn_high">HAUT</string>
+    <string name="btn_low">BAS</string>
+    <string name="btn_restart">REDEMARRER</string>
+    <string name="label_score">Score：</string>
+    <string name="label_not_setting" >est réglé sur 10.</string>
+    <string name="Label_result_setting" >résultat:</string>
+    <string name="Label_win_setting" >GAGNER</string>
+    <string name="Label_lose_setting" >PERDRE</string>
+    <string name="Label_draw_setting" >DESSINER</string>
+    <string name="label_ataini_setting" >valeur2</string>
+</resources>

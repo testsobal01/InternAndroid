@@ -4,8 +4,13 @@
     <string name="btn_low">Low</string>
     <string name="btn_restart">Restart</string>
     <string name="label_score">Score：</string>
+    <string name="label_not_setting" >10が設定されていません。</string>
+    <string name="Label_result_setting">結果:</string>
+    <string name="Label_win_setting" >WIN</string>
+    <string name="Label_lose_setting" >LOSE</string>
+    <string name="Label_draw_setting" >DRAW</string>
+    <string name="label_ataini_setting" >値2</string>
     <string name="game_title_text">HIGH＆LOW</string>
     <string name="start">START</string>
-
-
+    <string name="manu_bar">manu</string>
 </resources>
