@@ -4,5 +4,5 @@
     <string name="btn_high">ハイ</string>
     <string name="btn_low">ロー</string>
     <string name="btn_restart">リスタート</string>
-    <string name="label_score">スコア：</string>
+    <string name="label_score">スコア</string>
 </resources>

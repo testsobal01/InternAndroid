@@ -74,18 +74,25 @@
 
         <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="3dp"
+            android:background="#8fbc8f"
+            android:layout_margin="10dp">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/label_score" />
+                android:text="@string/label_score"
+                android:background="#FFFFFFFF"
+                android:textSize="20sp"/>
 
             <TextView
                 android:id="@+id/text_score"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="0" />
+                android:text="0"
+                android:textSize="20sp"/>
         </LinearLayout>
 
         <LinearLayout
@@ -100,17 +107,19 @@
                 android:background="#ff00ff"
                 android:gravity="center"
                 android:text="値1"
-                android:textSize="60sp" />
+                android:textSize="60sp"
+                android:textColor="#f5f5f5"/>
 
             <TextView
                 android:id="@+id/answer"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="#ffff00"
+                android:background="#ffa500"
                 android:gravity="center"
                 android:text="値2"
-                android:textSize="60sp" />
+                android:textSize="60sp"
+                android:textColor="#f5f5f5"/>
         </LinearLayout>
 
     </LinearLayout>

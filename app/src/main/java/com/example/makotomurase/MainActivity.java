@@ -163,7 +163,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView txtView1 = (TextView) findViewById(R.id.answer);
         TextView txtView2 = (TextView) findViewById(R.id.question);
         txtView1.setText("値2");
-        txtView1.setBackgroundColor(Color.rgb(255,255,0));
+        txtView1.setBackgroundColor(Color.rgb(255,165,0));
         txtView2.setBackgroundColor(Color.rgb(255,0,255));
     }
 
