@@ -2,10 +2,14 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.animation.AnimatorInflater;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
 import android.view.View;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -14,10 +18,16 @@ import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
+    AnimatorSet set;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        set = (AnimatorSet) AnimatorInflater.loadAnimator(MainActivity.this,
+                R.animator.anime);
+
+
 
         Button btn1 = findViewById(R.id.button1);
         btn1.setOnClickListener(this);
@@ -28,14 +38,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
 
+        TextView answer = findViewById(R.id.question);
+        set.setTarget(answer);
+
+
+
+
+
+
+
         // 起動時に関数を呼び出す
         setQuestionValue();
     }
 
+
     @Override
     public void onClick(View view) {
-        int id = view.getId();
 
+        int id = view.getId();
         if (id == R.id.button1) {
             setAnswerValue();
             checkResult(true);
@@ -54,6 +74,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             vib.vibrate(500);
         }
     }
+
 
     private void clearAnswerValue() {
         TextView txtView = (TextView) findViewById(R.id.answer);
@@ -96,23 +117,37 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = "WIN";
                 score = 2;
+                set.start();
+
+
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
+                ObjectAnimator animator = ObjectAnimator.ofFloat(txtViewAnswer, View.ROTATION, 0f, 360f);
+                animator.setDuration(2000);
+                animator.start();
+
             } else {
                 result = "DRAW";
                 score = 1;
+                findViewById(R.id.answer).startAnimation(AnimationUtils.loadAnimation(this,R.anim.anime_2));
+//
             }
         } else {
             if (question > answer) {
                 result = "WIN";
                 score = 2;
+                set.start();
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
+                ObjectAnimator animator = ObjectAnimator.ofFloat(txtViewAnswer, View.ROTATION, 0f, 360f);
+                animator.setDuration(2000);
+                animator.start();
             } else {
                 result = "DRAW";
                 score = 1;
+                findViewById(R.id.answer).startAnimation(AnimationUtils.loadAnimation(this,R.anim.anime_2));
             }
         }
 
@@ -155,4 +190,5 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         txtScore.setText("0");
     }
 }
+
 
