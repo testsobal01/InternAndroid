@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Équipe A</string>
+    <string name="btn_high">cher</string>
+    <string name="btn_low">faible</string>
+    <string name="btn_restart">CV</string>
+    <string name="label_score">score：</string>
+    <string name="txt10" >10 est réglé.</string>
+</resources>

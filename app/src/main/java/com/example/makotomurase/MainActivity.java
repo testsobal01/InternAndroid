@@ -42,7 +42,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             checkResult(false);
         } else if (id == R.id.button3) {
             setQuestionValue();
-            clearAnswerValue();
             clearScoreValue();
         }
     }
