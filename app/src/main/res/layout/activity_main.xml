@@ -26,6 +26,7 @@
                 android:background="@drawable/cteam10"
                 app:backgroundTint="@null"
                 android:text="@string/btn_high"
+                android:textSize="20sp"
                 />
 
             <Button
@@ -37,6 +38,7 @@
                 android:background="@drawable/cteam10"
                 app:backgroundTint="@null"
                 android:text="@string/btn_low"
+                android:textSize="20sp"
                 />
 
             <Button
@@ -47,7 +49,9 @@
                 android:backgroundTint="@color/black"
                 android:background="@drawable/cteam10"
                 app:backgroundTint="@null"
-                android:text="@string/btn_restart" />
+                android:text="@string/btn_restart"
+                android:textSize="20sp"
+                />
 
         </LinearLayout>
 
@@ -108,7 +112,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="#ff00ff"
+                android:background="#dda0dd"
                 android:gravity="center"
                 android:text="@string/value1"
                 android:textSize="60sp" />
@@ -118,7 +122,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="#ffff00"
+                android:background="#f0e68c"
                 android:gravity="center"
                 android:text="@string/value2"
                 android:textSize="60sp" />
