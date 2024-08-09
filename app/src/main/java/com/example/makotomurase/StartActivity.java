@@ -3,6 +3,8 @@ package com.example.makotomurase;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.loader.content.Loader;
 
+import android.animation.AnimatorInflater;
+import android.animation.AnimatorSet;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,6 +17,8 @@ import android.widget.Toast;
 
 public class StartActivity extends AppCompatActivity implements View.OnClickListener{
 
+    AnimatorSet set3;
+
     public SoundPool soundPool;
     public int soundSound;
     public int soundBGM1;
@@ -26,9 +30,7 @@ public class StartActivity extends AppCompatActivity implements View.OnClickList
         
         Button startbutton = findViewById(R.id.button1);
         startbutton.setOnClickListener(this);
-
-
-
+      
         AudioAttributes audioAttributes = new AudioAttributes.Builder()
                 // USAGE_MEDIA
                 // USAGE_GAME
@@ -56,24 +58,35 @@ public class StartActivity extends AppCompatActivity implements View.OnClickList
             public void onLoadComplete(SoundPool soundPool, int sampleId, int status) {
                 if (0 == status) {
                     Toast.makeText(getApplicationContext(), "LoadComplete", Toast.LENGTH_LONG).show();
-                    soundPool.play(soundBGM1, 1.0f, 1.0f, 0, 0, 1);
+                    soundPool.play(soundBGM1, 1.0f, 1.0f, 0, -1, 1);
                 }
             }
         });
-    }
 
+        set3 = (AnimatorSet) AnimatorInflater.loadAnimator(StartActivity.this,
+                R.animator.team_e_animation);
+        set3.setTarget(startbutton);
+    }
+  
+    @Override//アニメーション実行
+    protected void onStart() {
+        super.onStart();
+        //アニメーション開始
+        set3.start();
+    }
 
     @Override
     public void onClick(View v) {
         soundPool.play(soundSound, 1.0f, 1.0f, 0, 0, 1);
         soundPool.stop(soundBGM1);
+        soundPool.release();
         int id = v.getId();
         if (id== R.id.button1)  {
-       // Intent intent = new Intent(StartActivity.this,MainActivity.class);
-        Intent intent = new Intent(this,MainActivity.class);
-        intent.putExtra("KEY","StartACtivityからの呼び出し");
-         startActivity(intent);
-    }
+            // Intent intent = new Intent(StartActivity.this,MainActivity.class);
+            Intent intent = new Intent(this,MainActivity.class);
+            intent.putExtra("KEY","StartACtivityからの呼び出し");
+            startActivity(intent);
+        }
     }
 
     public void StartActivity(Intent intent) {
