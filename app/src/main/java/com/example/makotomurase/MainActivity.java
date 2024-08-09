@@ -2,13 +2,13 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -88,9 +88,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = "WIN";
                 score = 2;
+                changeBackGround(true);
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
+                changeBackGround(false);
             } else {
                 result = "DRAW";
                 score = 1;
@@ -99,9 +101,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question > answer) {
                 result = "WIN";
                 score = 2;
+                changeBackGround(true);
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
+                changeBackGround(false);
             } else {
                 result = "DRAW";
                 score = 1;
@@ -132,8 +136,30 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public void onFinish() {
                 // 3秒経過したら次の値をセット
                 setQuestionValue();
+                resetBackGround();
             }
         }.start();
+    }
+
+    private void changeBackGround(boolean isWin) {
+        TextView txtViewQuestion = findViewById(R.id.question);
+        TextView txtViewAnswer = findViewById(R.id.answer);
+
+        if (isWin) {
+            txtViewQuestion.setBackgroundColor(getResources().getColor(R.color.blue));
+            txtViewAnswer.setBackgroundColor(getResources().getColor(R.color.red));
+        } else {
+            txtViewQuestion.setBackgroundColor(getResources().getColor(R.color.red));
+            txtViewAnswer.setBackgroundColor(getResources().getColor(R.color.blue));
+        }
+    }
+
+    private void resetBackGround(){
+        TextView txtViewQuestion = findViewById(R.id.question);
+        TextView txtViewAnswer = findViewById(R.id.answer);
+
+        txtViewQuestion.setBackgroundColor(getResources().getColor(R.color.pink));
+        txtViewAnswer.setBackgroundColor(getResources().getColor(R.color.yellow));
     }
 
     private void setScore(int score) {
