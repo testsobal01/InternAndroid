@@ -5,11 +5,10 @@
     <string name="btn_doubt">ダウト</string>
     <string name="btn_restart">リスタート</string>
     <string name="label_score">スコア：</string>
-    <string name="btn_doubt">ダウト</string>
     <string name="setting">10に設定されています。</string>
     <string name="atai2">値２</string>
     <string name="gogo">5</string>
-    <string name="fotter">fotter</string>
+    <string name="footer">footer</string>
     <string name="btn_game">Game Start</string>
     <string name="btn_name">嘘つき発見⁉</string>
     <string name="btn_win">勝ち～～！</string>

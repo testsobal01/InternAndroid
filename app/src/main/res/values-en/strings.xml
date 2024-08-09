@@ -8,4 +8,11 @@
     <string name="label_score">Score：</string>
     <string name="setting">Is set to 10</string>
     <string name="atai2">value2</string>
+    <string name="gogo">5</string>
+    <string name="footer">footer</string>
+    <string name="btn_game">Game Start</string>
+    <string name="btn_name">doubt⁉</string>
+    <string name="btn_win">WIN!!!</string>
+    <string name="btn_lose">LOSE!!!</string>
+    <string name="btn_home">HOME</string>
 </resources>
