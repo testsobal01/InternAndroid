@@ -186,7 +186,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
         // 最後にまとめてToast表示の処理とTextViewへのセットを行う
-        Toast.makeText(this, result, Toast.LENGTH_LONG).show();
+        Toast.makeText(this, result, Toast.LENGTH_SHORT).show();
         txtResult.setText("："+ question + ":" + answer + "(" + result + ")");
 
         // 続けて遊べるように値を更新
@@ -211,9 +211,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 setQuestionValue();
                 resetBackGround();
                 buttonTrue();//ボタン機能再開
+                Toast.makeText(getApplicationContext(),"リセットされました",Toast.LENGTH_SHORT).show();
             }
         }.start();
-        Toast.makeText(getApplicationContext(),"リセットされました",Toast.LENGTH_LONG).show();
     }
 
     private void changeBackGround(boolean isWin) {
