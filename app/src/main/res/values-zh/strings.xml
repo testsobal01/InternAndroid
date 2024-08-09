@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">C组</string>
+    <string name="btn_high">大</string>
+    <string name="btn_low">小</string>
+    <string name="btn_restart">重新开始</string>
+    <string name="label_score">得分</string>
+    <string name="text_resulttitle">結果</string>
+    <string name="set_value">它的值设置为 10。</string>
+    <string name="value1">值1</string>
+    <string name="value2">？</string>
+</resources>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">チームC</string>
+    <string name="btn_high">大きい</string>
+    <string name="btn_low">小さい</string>
+    <string name="btn_restart">リスタート</string>
+    <string name="text_resulttitle">結果</string>
+    <string name="label_score">スコア：</string>
+    <string name="set_value">10に設定されています。</string>
+    <string name="value1">値1</string>
+    <string name="value2">？</string>
+</resources>
