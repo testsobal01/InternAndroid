@@ -33,6 +33,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
 
+        Button btn4 = findViewById(R.id.button4);
+        btn4.setOnClickListener(this);
 
         b_2();
         // 起動時に関数を呼び出す
