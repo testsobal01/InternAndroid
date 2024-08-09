@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">팀 C</string>
+    <string name="btn_high">큰</string>
+    <string name="btn_low">작은</string>
+    <string name="btn_restart">재시작</string>
+    <string name="text_resulttitle">결과</string>
+    <string name="label_score">점수：</string>
+    <string name="set_value">10으로 설정됩니다.</string>
+    <string name="value1">값 1</string>
+    <string name="value2">？</string>
+</resources>
