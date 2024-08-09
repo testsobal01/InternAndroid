@@ -21,6 +21,7 @@ import android.widget.Toast;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+    private SoundPlayer soundPlayer;
 
     SharedPreferences pref;
     SharedPreferences.Editor prefEditor;
@@ -60,6 +61,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
 
+        soundPlayer = new SoundPlayer(this);
+
+        // 起動時に関数を呼び出す
         Button btn4 = (Button) findViewById(R.id.button4);
         btn4.setOnClickListener(this);
 
@@ -189,33 +193,39 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = "WIN";
                 score = 2;
-                vib.vibrate(100);
+                soundPlayer.playWinSound();
+              vib.vibrate(100);
                 this.winCount++;
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
-                vib.vibrate(1000);
+                soundPlayer.playLoseSound();
+              vib.vibrate(100);
             } else {
                 result = "DRAW";
                 score = 1;
+                soundPlayer.playDrawSound();
                 vib.vibrate(100);
+                this.winCount++;
             }
         } else {
             if (question > answer) {
                 result = "WIN";
                 score = 2;
-                vib.vibrate(100);
-                this.winCount++;
+                soundPlayer.playWinSound();
+              vib.vibrate(100);
+               this.winCount++;
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
-
-                vib.vibrate(1000);}
-
-            else {
+                soundPlayer.playLoseSound();
+              vib.vibrate(100);
+            } else {
                 result = "DRAW";
                 score = 1;
+                soundPlayer.playDrawSound();
                 vib.vibrate(100);
+               
             }
         }
 
