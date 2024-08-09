@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Équipe A</string>
+    <string name="app_name">High＆Low</string>
     <string name="btn_high">cher</string>
     <string name="btn_low">faible</string>
     <string name="btn_restart">CV</string>
@@ -8,4 +8,5 @@
     <string name="txt10" >10 est réglé.</string>
     <string name="START">commencer</string>
     <string name="text_result1">résultat：</string>
+    <string name="win">pourcentage de victoire：</string>
 </resources>

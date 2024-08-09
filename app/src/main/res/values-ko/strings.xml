@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">A팀</string>
+    <string name="app_name">High＆Low</string>
     <string name="btn_high">높다</string>
     <string name="btn_low">낮다</string>
     <string name="btn_restart">재개</string>
@@ -8,5 +8,6 @@
     <string name="txt10" >10이 설정됩니다.</string>
     <string name="START">시작</string>
     <string name="text_result1">결과：</string>
+    <string name="win">승률：</string>
 
 </resources>

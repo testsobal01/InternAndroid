@@ -144,5 +144,5 @@
             android:contentDescription="@string/img_1_description" />
 
     </LinearLayout>
-
-  </RelativeLayout>
+  
+</RelativeLayout>

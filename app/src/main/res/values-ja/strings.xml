@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Aチーム</string>
+    <string name="app_name">High＆Low</string>
     <string name="btn_high">高い</string>
     <string name="btn_low">低い</string>
     <string name="btn_restart">再開</string>
@@ -8,4 +8,5 @@
     <string name="txt10" >10が設定されています。</string>
     <string name="START">スタート</string>
     <string name="text_result1">結果：</string>
+    <string name="win">勝率：</string>
 </resources>
