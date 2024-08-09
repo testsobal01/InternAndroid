@@ -160,7 +160,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 score = -1;
                 soundPlayer.playLoseSound();
                 changeBackGround(true);
-             else {
+            }else {
                 result = "DRAW";
                 score = 1;
                 soundPlayer.playDrawSound();
@@ -194,6 +194,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 resetBackGround();
             }
         }.start();
+        Toast.makeText(getApplicationContext(),"リセットされました",Toast.LENGTH_LONG).show();
     }
 
     private void changeBackGround(boolean isWin) {
