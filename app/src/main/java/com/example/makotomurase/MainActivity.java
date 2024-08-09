@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.IllegalFormatCodePointException;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -97,23 +98,36 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = "WIN";
                 score = 2;
+                findViewById(R.id.answer).setBackgroundResource(R.color.red);
+                findViewById(R.id.question).setBackgroundResource(R.color.red);
+
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
+                findViewById(R.id.answer).setBackgroundResource(R.color.blue);
+                findViewById(R.id.question).setBackgroundResource(R.color.blue);
             } else {
                 result = "DRAW";
                 score = 1;
+                findViewById(R.id.answer).setBackgroundResource(R.color.green);
+                findViewById(R.id.question).setBackgroundResource(R.color.green);
             }
         } else {
             if (question > answer) {
                 result = "WIN";
                 score = 2;
+                findViewById(R.id.answer).setBackgroundResource(R.color.red);
+                findViewById(R.id.question).setBackgroundResource(R.color.red);
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
+                findViewById(R.id.answer).setBackgroundResource(R.color.blue);
+                findViewById(R.id.question).setBackgroundResource(R.color.blue);
             } else {
                 result = "DRAW";
                 score = 1;
+                findViewById(R.id.answer).setBackgroundResource(R.color.green);
+                findViewById(R.id.question).setBackgroundResource(R.color.green);
             }
         }
 
@@ -141,6 +155,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public void onFinish() {
                 // 3秒経過したら次の値をセット
                 setQuestionValue();
+                findViewById(R.id.answer).setBackgroundResource(R.color.yellow);
+                findViewById(R.id.question).setBackgroundResource(R.color.pink);
             }
         }.start();
     }
