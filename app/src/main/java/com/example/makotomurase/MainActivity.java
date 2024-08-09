@@ -49,6 +49,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
 
+
     }
 
     @Override
@@ -91,6 +92,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Vibrator vib = (Vibrator) getSystemService(VIBRATOR_SERVICE);
             vib.vibrate(500);
         }
+
+        new CountDownTimer(5000, 1000) {
+            int cnt=3;
+            @Override
+            public void onTick(long l) {
+                TextView count=findViewById(R.id.CountDown);
+                count.setText(Integer.toString(cnt));
+                cnt--;
+            }
+            @Override
+            public void onFinish() {
+                // 3秒経過したら次の値をセット
+
+
+                setQuestionValue();
+                resetBackGround();
+            }
+        }.start();
+
     }
 
     private void clearAnswerValue() {
@@ -160,6 +180,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 score = -1;
                 soundPlayer.playLoseSound();
                 changeBackGround(true);
+            }
              else {
                 result = "DRAW";
                 score = 1;
