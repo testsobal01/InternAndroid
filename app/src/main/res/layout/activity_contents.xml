@@ -13,6 +13,7 @@
         android:layout_weight="1"
         android:gravity="center"
         android:text="High-Low Game Team C"
+        android:background="#bfefdf"
         android:textSize="50sp" />
 
     <Button
@@ -22,6 +23,10 @@
         android:layout_weight="1"
         android:gravity="center"
         android:text="Start!"
-        android:textSize="30sp" />
+        android:textColor="#0000ff"
+        android:backgroundTint="@color/black"
+        android:background="@drawable/cteam10"
+        app:backgroundTint="@null"
+        android:textSize="50sp" />
 
 </LinearLayout>
