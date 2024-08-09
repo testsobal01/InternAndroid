@@ -21,7 +21,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="@drawable/shape"
+                android:background="@drawable/shape_2"
                 android:text="@string/btn_high"
                 app:backgroundTint="@null"/>
 
@@ -39,7 +39,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
-                android:background="@drawable/shape"
+                android:background="@drawable/shape_3"
                 android:text="@string/btn_restart"
                 app:backgroundTint="@null" />
         </LinearLayout>
