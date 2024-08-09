@@ -2,22 +2,36 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.SharedPreferences;
+import android.media.AudioAttributes;
+import android.media.AudioManager;
+import android.media.SoundPool;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
 import android.view.View;
+import android.view.animation.Animation;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.view.animation.AnimationUtils;
 
 import java.util.IllegalFormatCodePointException;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
+    SharedPreferences pref;
+    SharedPreferences.Editor prefEditor;
+
+    public SoundPool soundPool;
+    public int[] action = {0,0,0};
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_start);
         setContentView(R.layout.activity_main);
 
         Button btn1 = findViewById(R.id.button1);
@@ -31,6 +45,39 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // 起動時に関数を呼び出す
         setQuestionValue();
+
+
+
+        //効果音
+        AudioAttributes audioAttributes = new AudioAttributes.Builder()
+                .setUsage(AudioAttributes.USAGE_GAME)
+                .setContentType(AudioAttributes.CONTENT_TYPE_SPEECH)
+                .build();
+
+        soundPool = new SoundPool.Builder().setAudioAttributes(audioAttributes).setMaxStreams(3).build();
+
+        action[0] = soundPool.load(this, R.raw.win, 1);
+        action[1] = soundPool.load(this, R.raw.lose, 1);
+        action[2] = soundPool.load(this, R.raw.draw, 1);
+
+        pref = getSharedPreferences("Score",MODE_PRIVATE);
+        prefEditor = pref.edit();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        TextView score = (TextView) findViewById(R.id.text_score);
+        prefEditor.putString("Score",score.getText().toString());
+        prefEditor.commit();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        TextView txtScore = (TextView) findViewById(R.id.text_score);
+        String readText = pref.getString("Score","0");
+        txtScore.setText(readText);
     }
 
     @Override
@@ -52,7 +99,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Vibrator vib=(Vibrator)getSystemService(VIBRATOR_SERVICE);
             vib.vibrate(1000);
             setQuestionValue();
-            clearAnswerValue();
             clearScoreValue();
         }
     }
@@ -91,6 +137,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // 結果を示す文字列を入れる変数を用意
         String result;
         int score;
+        int sound;
 
         // Highが押された
         if (isHigh) {
@@ -98,17 +145,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = "WIN";
                 score = 2;
+                sound = 0;
+              
+                findViewById(R.id.answer).startAnimation(AnimationUtils.loadAnimation(this, R.anim.anime));
+                findViewById(R.id.question).startAnimation(AnimationUtils.loadAnimation(this, R.anim.anime2));
                 findViewById(R.id.answer).setBackgroundResource(R.color.red);
                 findViewById(R.id.question).setBackgroundResource(R.color.red);
-
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
+                sound = 1;
+              
                 findViewById(R.id.answer).setBackgroundResource(R.color.blue);
                 findViewById(R.id.question).setBackgroundResource(R.color.blue);
             } else {
                 result = "DRAW";
                 score = 1;
+                sound = 2;
+              
+                findViewById(R.id.question).startAnimation(AnimationUtils.loadAnimation(this, R.anim.anime3));
+                findViewById(R.id.answer).startAnimation(AnimationUtils.loadAnimation(this, R.anim.anime3));
                 findViewById(R.id.answer).setBackgroundResource(R.color.green);
                 findViewById(R.id.question).setBackgroundResource(R.color.green);
             }
@@ -116,16 +172,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question > answer) {
                 result = "WIN";
                 score = 2;
+                sound = 0;
+
+                findViewById(R.id.answer).startAnimation(AnimationUtils.loadAnimation(this, R.anim.anime));
+                findViewById(R.id.question).startAnimation(AnimationUtils.loadAnimation(this, R.anim.anime2));
                 findViewById(R.id.answer).setBackgroundResource(R.color.red);
                 findViewById(R.id.question).setBackgroundResource(R.color.red);
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
+                sound = 1;
+              
                 findViewById(R.id.answer).setBackgroundResource(R.color.blue);
                 findViewById(R.id.question).setBackgroundResource(R.color.blue);
             } else {
                 result = "DRAW";
                 score = 1;
+                sound = 2;
+              
+                findViewById(R.id.question).startAnimation(AnimationUtils.loadAnimation(this, R.anim.anime3));
+                findViewById(R.id.answer).startAnimation(AnimationUtils.loadAnimation(this, R.anim.anime3));
                 findViewById(R.id.answer).setBackgroundResource(R.color.green);
                 findViewById(R.id.question).setBackgroundResource(R.color.green);
             }
@@ -134,6 +200,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // 最後にまとめてToast表示の処理とTextViewへのセットを行う
         Toast.makeText(this, result, Toast.LENGTH_LONG).show();
         txtResult.setText("結果：" + question + ":" + answer + "(" + result + ")");
+
+        //効果音を再生
+        soundPool.play(action[sound], 1f , 1f, 0, 0, 1f);
 
         // 続けて遊べるように値を更新
         setNextQuestion();
@@ -171,5 +240,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView txtScore = (TextView) findViewById(R.id.text_score);
         txtScore.setText("0");
     }
+    private void animation(){
+    }
+
 }
 
