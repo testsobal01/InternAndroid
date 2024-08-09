@@ -28,6 +28,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -45,6 +46,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         Button btn4 = findViewById(R.id.button4);
         btn4.setOnClickListener(this);
+
+
+
+
+
+
 
         b_2();
         // 起動時に関数を呼び出す
@@ -109,6 +116,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // 結果を示す文字列を入れる変数を用意
         String result;
         int score;
+
+
+
+
+
+
 
         // Highが押された
         if (isHigh) {
@@ -182,7 +195,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void clearScoreValue() {
         TextView txtScore = (TextView) findViewById(R.id.text_score);
-        txtScore.setText("0");
+        txtScore.setText("5");
     }
 
     private void b_7(String result) {//勝敗によって数字が動く機能
