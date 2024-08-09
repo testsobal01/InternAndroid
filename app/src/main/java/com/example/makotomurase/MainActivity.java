@@ -2,18 +2,24 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.animation.AnimatorInflater;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.graphics.Color;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
 import android.view.View;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
+    AnimatorSet set;
 
     SharedPreferences pref;
     SharedPreferences.Editor prefEditor;
@@ -25,7 +31,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
         Button btn1 = findViewById(R.id.button1);
         btn1.setOnClickListener(this);
 
@@ -35,6 +40,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
 
+        set = (AnimatorSet) AnimatorInflater.loadAnimator(MainActivity.this, R.animator.anime);
+        TextView answer = findViewById(R.id.question);
+        set.setTarget(answer);
+
         //"AndroidSeminor"は、保存する先のファイル名のようなもの
         pref = getSharedPreferences("AndroidSeminor",MODE_PRIVATE);
         prefEditor = pref.edit();
@@ -42,13 +51,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // 起動時に関数を呼び出す
         setQuestionValue();
 
-      //音声再生
-
-
+        //音声再生
         soundPlayer = new SoundPlayer(this);
-
-
-
     }
 
     @Override
@@ -72,8 +76,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View view) {
-        int id = view.getId();
 
+        int id = view.getId();
         if (id == R.id.button1) {
             setAnswerValue();
             checkResult(true);
@@ -92,6 +96,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             vib.vibrate(500);
         }
     }
+
 
     private void clearAnswerValue() {
         TextView txtView = (TextView) findViewById(R.id.answer);
@@ -135,17 +140,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 result = "WIN";
                 score = 2;
 
+                set.start();
                 soundPlayer.playWinSound();
                 changeBackGround(true);
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
               
+                ObjectAnimator animator = ObjectAnimator.ofFloat(txtViewAnswer, View.ROTATION, 0f, 360f);
+                animator.setDuration(2000);
+                animator.start();
                 soundPlayer.playLoseSound();
                 changeBackGround(false);
             } else {
                 result = "DRAW";
                 score = 1;
+                findViewById(R.id.answer).startAnimation(AnimationUtils.loadAnimation(this,R.anim.anime_2));
                 soundPlayer.playDrawSound();
             }
         } else {
@@ -153,16 +163,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 result = "WIN";
                 score = 2;
               
+                set.start();
                 soundPlayer.playWinSound();
                 changeBackGround(true);
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
+              
+                ObjectAnimator animator = ObjectAnimator.ofFloat(txtViewAnswer, View.ROTATION, 0f, 360f);
+                animator.setDuration(2000);
+                animator.start();
                 soundPlayer.playLoseSound();
                 changeBackGround(true);
              else {
                 result = "DRAW";
                 score = 1;
+                findViewById(R.id.answer).startAnimation(AnimationUtils.loadAnimation(this,R.anim.anime_2));
                 soundPlayer.playDrawSound();
             }
         }
@@ -232,4 +248,5 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
 }
+
 
