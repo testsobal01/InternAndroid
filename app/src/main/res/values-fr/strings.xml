@@ -6,4 +6,6 @@
     <string name="btn_restart">CV</string>
     <string name="label_score">score：</string>
     <string name="txt10" >10 est réglé.</string>
+    <string name="START">commencer</string>
+    <string name="text_result1">résultat：</string>
 </resources>
