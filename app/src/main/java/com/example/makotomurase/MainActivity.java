@@ -108,7 +108,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void clearAnswerValue() {
         TextView txtView = (TextView) findViewById(R.id.answer);
-        txtView.setText("値2");
+        String str =getString(R.string.label_ataini_setting).toString();
+        txtView.setText(str);
     }
 
     private void setQuestionValue() {
@@ -148,34 +149,34 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (isHigh) {
             // result には結果のみを入れる
             if (question < answer) {
-                result = "WIN";
+                result = getString(R.string.Label_win_setting).toString();
                 score = 2;
                 background1.setBackgroundColor(Color.parseColor("#3fff00ff"));
                 background2.setBackgroundColor(Color.parseColor("#afffff00"));
             } else if (question > answer) {
-                result = "LOSE";
+                result = getString(R.string.Label_lose_setting).toString();;
                 score = -1;
                 background1.setBackgroundColor(Color.parseColor("#afff00ff"));
                 background2.setBackgroundColor(Color.parseColor("#3fffff00"));
             } else {
-                result = "DRAW";
+                result = getString(R.string.Label_draw_setting).toString();;
                 score = 1;
                 background1.setBackgroundColor(Color.parseColor("#3fff00ff"));
                 background2.setBackgroundColor(Color.parseColor("#3fffff00"));
             }
         } else {
             if (question > answer) {
-                result = "WIN";
+                result = getString(R.string.Label_win_setting).toString();
                 score = 2;
                 background1.setBackgroundColor(Color.parseColor("#afff00ff"));
                 background2.setBackgroundColor(Color.parseColor("#3fffff00"));
             } else if (question < answer) {
-                result = "LOSE";
+                result = getString(R.string.Label_lose_setting).toString();
                 score = -1;
                 background1.setBackgroundColor(Color.parseColor("#3fff00ff"));
                 background2.setBackgroundColor(Color.parseColor("#afffff00"));
             } else {
-                result = "DRAW";
+                result = getString(R.string.Label_draw_setting).toString();
                 score = 1;
                 background1.setBackgroundColor(Color.parseColor("#3fff00ff"));
                 background2.setBackgroundColor(Color.parseColor("#3fffff00"));
@@ -183,7 +184,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
         // 最後にまとめてToast表示の処理とTextViewへのセットを行う
         Toast.makeText(this, result, Toast.LENGTH_LONG).show();
-        txtResult.setText("結果：" + question + ":" + answer + "(" + result + ")");
+      
+        txtResult.setText(getString(R.string.Label_result_setting).toString() + question + ":" + answer + "(" + result + ")");
         soundEffect(result);
 
         // 続けて遊べるように値を更新
