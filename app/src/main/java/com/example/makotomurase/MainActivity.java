@@ -32,6 +32,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public int numberpickervalue=10;
     private SoundPool soundPool;
     private int soundSound;
+    private int soundLose;
 
 
 
@@ -110,6 +111,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .build();
 
         soundSound = soundPool.load(this, R.raw.sound, 1);
+        soundLose = soundPool.load(this,R.raw.lose, 1);
 
         soundPool.setOnLoadCompleteListener((soundPool, sampleId, status) -> {
             Log.d("debug","sampleId="+sampleId);
@@ -223,6 +225,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 txtViewQuestion.setBackgroundColor(Color.rgb(0,0,255));
                 txtViewAnswer.setBackgroundColor(Color.rgb(255,0,0));
                 vibration();
+
             } else {
                 result = "DRAW";
                 score = 1;
@@ -276,8 +279,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         Vibrator vib = null;
         vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
-
-        vib.vibrate(1500);
+        soundPool.play(soundLose, 1.0f, 1.0f, 0, 0, 1);
+        vib.vibrate(1000);
 
     }
 
