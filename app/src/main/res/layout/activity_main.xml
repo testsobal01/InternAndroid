@@ -54,7 +54,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="10が設定されています。" />
+            android:text="@string/label_not_setting" />
 
         <TextView
             android:id="@+id/text_result"
@@ -86,7 +86,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="#ff00ff"
+                android:background="#3fff00ff"
                 android:gravity="center"
                 android:text="値1"
                 android:textSize="60sp" />
@@ -96,7 +96,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="#ffff00"
+                android:background="#3fffff00"
                 android:gravity="center"
                 android:text="値2"
                 android:textSize="60sp" />

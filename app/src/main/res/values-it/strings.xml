@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Confronta Battaglia</string>
+    <string name="btn_high">ALTO</string>
+    <string name="btn_low">BASSO</string>
+    <string name="btn_restart">RICOMINCIA</string>
+    <string name="label_score">Punteggio:</string>
+    <string name="label_not_setting" >impostato su 10</string>
+    <string name="Label_result_setting" >risultato:</string>
+    <string name="Label_win_setting" >VINCITA</string>
+    <string name="Label_lose_setting" >PERDERE</string>
+    <string name="Label_draw_setting" >DISEGNO</string>
+    <string name="label_ataini_setting" >valore2</string>
+</resources>
