@@ -2,8 +2,19 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.media.AudioAttributes;
+import android.media.AudioManager;
+import android.media.SoundPool;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.util.Log;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.os.Bundle;
+import android.os.CountDownTimer;
+import android.os.Vibrator;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -13,10 +24,29 @@ import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
+    //sound effect
+    SoundPool soundPool;
+    int beep,collect,draw;
+
+    SharedPreferences pref;
+    SharedPreferences.Editor prefEditor;
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Toast.makeText(this,"onResume",Toast.LENGTH_SHORT).show();
+
+        TextView textView = (TextView) findViewById(R.id.text_score);
+        String readText = pref.getString("score_input","保存されていません");
+        textView.setText(readText);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Intent intent = getIntent();
 
         Button btn1 = findViewById(R.id.button1);
         btn1.setOnClickListener(this);
@@ -27,12 +57,40 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
 
+        pref = getSharedPreferences("AndroidSeminor",MODE_PRIVATE);
+        prefEditor = pref.edit();
+
         // 起動時に関数を呼び出す
         setQuestionValue();
+
+        AudioAttributes audioAttributes = new AudioAttributes.Builder().setUsage(AudioAttributes.USAGE_MEDIA).setContentType(AudioAttributes.CONTENT_TYPE_MUSIC).build();
+        soundPool = new SoundPool.Builder().setAudioAttributes(audioAttributes).setMaxStreams(3).build();
+        beep = soundPool.load(this,R.raw.beep,1);
+        collect = soundPool.load(this,R.raw.collect,1);
+        draw = soundPool.load(this,R.raw.draw,1);
+
+        soundPool.setOnLoadCompleteListener((soundPool, sampleId, status) -> {
+            Log.d("debug","sampleId="+sampleId);
+            Log.d("debug","status="+status);
+        });
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Toast.makeText(this, "onPause", Toast.LENGTH_SHORT).show();
+
+        TextView textView = (TextView) findViewById(R.id.text_score);
+        prefEditor.putString("score_input", textView.getText().toString());
+        prefEditor.commit();
     }
 
     @Override
     public void onClick(View view) {
+
+        Vibrator vib = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+        vib.vibrate(500);
+
         int id = view.getId();
         if (id == R.id.button1) {
             setAnswerValue();
@@ -47,6 +105,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+
     private void clearAnswerValue() {
         TextView txtView = (TextView) findViewById(R.id.answer);
         String str =getString(R.string.label_ataini_setting).toString();
@@ -55,7 +114,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void setQuestionValue() {
         Random r = new Random();
-        // 0から10の範囲で乱数を生成（+1する必要がある）
+        // 0から10の範囲で乱数を生成（+1する 必要がある）
         int questionValue = r.nextInt(10 + 1);
 
         TextView txtView = findViewById(R.id.question);
@@ -79,6 +138,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         TextView txtResult = (TextView) findViewById(R.id.text_result);
 
+        TextView background1 = findViewById(R.id.question);
+        TextView background2 = findViewById(R.id.answer);
+
         // 結果を示す文字列を入れる変数を用意
         String result;
         int score;
@@ -89,30 +151,43 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = getString(R.string.Label_win_setting).toString();
                 score = 2;
+                background1.setBackgroundColor(Color.parseColor("#3fff00ff"));
+                background2.setBackgroundColor(Color.parseColor("#afffff00"));
             } else if (question > answer) {
                 result = getString(R.string.Label_lose_setting).toString();;
                 score = -1;
+                background1.setBackgroundColor(Color.parseColor("#afff00ff"));
+                background2.setBackgroundColor(Color.parseColor("#3fffff00"));
             } else {
                 result = getString(R.string.Label_draw_setting).toString();;
                 score = 1;
+                background1.setBackgroundColor(Color.parseColor("#3fff00ff"));
+                background2.setBackgroundColor(Color.parseColor("#3fffff00"));
             }
         } else {
             if (question > answer) {
                 result = getString(R.string.Label_win_setting).toString();
                 score = 2;
+                background1.setBackgroundColor(Color.parseColor("#afff00ff"));
+                background2.setBackgroundColor(Color.parseColor("#3fffff00"));
             } else if (question < answer) {
                 result = getString(R.string.Label_lose_setting).toString();
                 score = -1;
+                background1.setBackgroundColor(Color.parseColor("#3fff00ff"));
+                background2.setBackgroundColor(Color.parseColor("#afffff00"));
             } else {
                 result = getString(R.string.Label_draw_setting).toString();
                 score = 1;
+                background1.setBackgroundColor(Color.parseColor("#3fff00ff"));
+                background2.setBackgroundColor(Color.parseColor("#3fffff00"));
             }
         }
-
         // 最後にまとめてToast表示の処理とTextViewへのセットを行う
         Toast.makeText(this, result, Toast.LENGTH_LONG).show();
-        // txtResult.setText("結果：" + question + ":" + answer + "(" + result + ")");
+      
         txtResult.setText(getString(R.string.Label_result_setting).toString() + question + ":" + answer + "(" + result + ")");
+        soundEffect(result);
+
         // 続けて遊べるように値を更新
         setNextQuestion();
         // スコアを表示
@@ -120,6 +195,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void setNextQuestion() {
+        TextView background1 = findViewById(R.id.question);
+        TextView background2 = findViewById(R.id.answer);
         // 第１引数がカウントダウン時間、第２引数は途中経過を受け取る間隔
         // 単位はミリ秒（1秒＝1000ミリ秒）
         new CountDownTimer(3000, 1000) {
@@ -133,6 +210,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public void onFinish() {
                 // 3秒経過したら次の値をセット
                 setQuestionValue();
+                background1.setBackgroundColor(Color.parseColor("#3fff00ff"));
+                background2.setBackgroundColor(Color.parseColor("#3fffff00"));
             }
         }.start();
     }
@@ -145,7 +224,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void clearScoreValue() {
         TextView txtScore = (TextView) findViewById(R.id.text_score);
+        TextView background1 = findViewById(R.id.question);
+        TextView background2 = findViewById(R.id.answer);
+
         txtScore.setText("0");
+        background1.setBackgroundColor(Color.parseColor("#3fff00ff"));
+        background2.setBackgroundColor(Color.parseColor("#3fffff00"));
+    }
+    private void soundEffect(String result){
+        if(result.equals("WIN")){
+            soundPool.play(collect,1f,1f,0,0,1f);
+        } else if (result.equals("LOSE")) {
+            soundPool.play(beep,1f,1f,0,0,1f);
+        } else if (result.equals("DRAW")) {
+            soundPool.play(draw,1f,1f,0,0,1f);
+        }
     }
 }
 
