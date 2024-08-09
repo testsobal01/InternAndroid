@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Équipe A</string>
+    <string name="app_name">High＆Low</string>
     <string name="btn_high">cher</string>
     <string name="btn_low">faible</string>
     <string name="btn_restart">CV</string>

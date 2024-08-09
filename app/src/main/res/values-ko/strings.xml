@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">A팀</string>
+    <string name="app_name">High＆Low</string>
     <string name="btn_high">높다</string>
     <string name="btn_low">낮다</string>
     <string name="btn_restart">재개</string>

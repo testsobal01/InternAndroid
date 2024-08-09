@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Team A</string>
+    <string name="app_name">High＆Low</string>
     <string name="btn_high">High</string>
     <string name="btn_low">Low</string>
     <string name="btn_restart">Restart</string>
