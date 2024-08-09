@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.SharedPreferences;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.util.Log;
@@ -138,6 +139,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             soundPool.play(soundSound, 1.0f, 1.0f, 0, 0, 1);
             setAnswerValue();
             checkResult(true);
+
         } else if (id == R.id.button2) {
             Toast.makeText(this, "sound", Toast.LENGTH_SHORT).show();
             soundPool.play(soundSound, 1.0f, 1.0f, 0, 0, 1);
@@ -158,8 +160,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void clearAnswerValue() {
-        TextView txtView = (TextView) findViewById(R.id.answer);
-        txtView.setText("値2");
+        TextView txtView1 = (TextView) findViewById(R.id.answer);
+        TextView txtView2 = (TextView) findViewById(R.id.question);
+        txtView1.setText("値2");
+        txtView1.setBackgroundColor(Color.rgb(255,255,0));
+        txtView2.setBackgroundColor(Color.rgb(255,0,255));
     }
 
     private void setQuestionValue() {
@@ -198,26 +203,39 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = "WIN";
                 score = 2;
+                txtViewQuestion.setBackgroundColor(Color.rgb(0,0,255));
+                txtViewAnswer.setBackgroundColor(Color.rgb(255,0,0));
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
                 vibration();
+                txtViewQuestion.setBackgroundColor(Color.rgb(255,0,0));
+                txtViewAnswer.setBackgroundColor(Color.rgb(0,0,255));
             } else {
                 result = "DRAW";
                 score = 1;
+                txtViewQuestion.setBackgroundColor(Color.rgb(0,153,0));
+                txtViewAnswer.setBackgroundColor(Color.rgb(0,153,0));
             }
         } else {
             if (question > answer) {
                 result = "WIN";
                 score = 2;
+                txtViewQuestion.setBackgroundColor(Color.rgb(255,0,0));
+                txtViewAnswer.setBackgroundColor(Color.rgb(0,0,255));
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
+                txtViewQuestion.setBackgroundColor(Color.rgb(0,0,255));
+                txtViewAnswer.setBackgroundColor(Color.rgb(255,0,0));
                 vibration();
             } else {
                 result = "DRAW";
                 score = 1;
+                txtViewQuestion.setBackgroundColor(Color.rgb(0,153,0));
+                txtViewAnswer.setBackgroundColor(Color.rgb(0,153,0));
             }
+
         }
 
         // 最後にまとめてToast表示の処理とTextViewへのセットを行う
