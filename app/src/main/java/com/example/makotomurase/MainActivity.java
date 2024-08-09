@@ -84,7 +84,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // 結果を示す文字列を入れる変数を用意
         String result;
-        int score;
+        int score ;
 
         // Highが押された
         if (isHigh) {
@@ -144,6 +144,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView txtScore = (TextView) findViewById(R.id.text_score);
         int newScore = Integer.parseInt(txtScore.getText().toString()) + score;
         txtScore.setText(Integer.toString(newScore));
+
+        if(newScore <0){
+            Intent intent = new Intent(this, LoseActivity.class);
+            startActivity(intent);
+        }
+
+        if(newScore >=30){
+            Intent intent = new Intent(this, WinActivity.class);
+            startActivity(intent);
+        }
     }
 
     private void clearScoreValue() {
