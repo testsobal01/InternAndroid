@@ -213,6 +213,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 buttonTrue();//ボタン機能再開
             }
         }.start();
+        Toast.makeText(getApplicationContext(),"リセットされました",Toast.LENGTH_LONG).show();
     }
 
     private void changeBackGround(boolean isWin) {
