@@ -2,13 +2,15 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.animation.AnimatorInflater;
+import android.animation.AnimatorSet;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
 public class StartActivity extends AppCompatActivity implements View.OnClickListener{
-
+    AnimatorSet set3;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -16,6 +18,16 @@ public class StartActivity extends AppCompatActivity implements View.OnClickList
         
         Button startbutton = findViewById(R.id.button1);
         startbutton.setOnClickListener(this);
+
+        set3 = (AnimatorSet) AnimatorInflater.loadAnimator(StartActivity.this,
+                R.animator.team_e_animation);
+        set3.setTarget(startbutton);
+    }
+    @Override//アニメーション実行
+    protected void onStart() {
+        super.onStart();
+        //アニメーション開始
+        set3.start();
     }
 
     @Override

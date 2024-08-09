@@ -15,10 +15,9 @@
      android:orientation="vertical">
 
          <TextView
-             android:id="@+id/contents_text"
+             android:text="@+id/app_name"
              android:layout_width="wrap_content"
              android:layout_height="wrap_content"
-             android:text="熱狂！！！動物バトル"
              android:textSize="30sp"
              android:layout_gravity="center"
              android:textColor="#a52a2a"/>
