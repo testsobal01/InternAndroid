@@ -4,6 +4,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.animation.AnimatorInflater;
+import android.animation.AnimatorSet;
 import android.content.SharedPreferences;
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -25,7 +27,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     SharedPreferences pref;
     SharedPreferences.Editor prefEditor;
     public int numberpickervalue=10;
-  
+
+    AnimatorSet set1;
+    AnimatorSet set2;
+
     @Override
     public boolean onCreateOptionsMenu(@NonNull Menu menu) {
         getMenuInflater().inflate(R.menu.option_menu, menu);
@@ -82,8 +87,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         prefEditor = pref.edit();
         // 起動時に関数を呼び出す
         setQuestionValue();
+        //↓animation設定
+        set1 = (AnimatorSet) AnimatorInflater.loadAnimator(MainActivity.this,
+                R.animator.team_e_animation);
+        set2 = (AnimatorSet) AnimatorInflater.loadAnimator(MainActivity.this,
+                R.animator.team_e_animation);
+        set1.setTarget(btn1);
+        set2.setTarget(btn2);
     }
-
+    @Override//アニメーション実行
+    protected void onStart() {
+        super.onStart();
+        //アニメーション開始
+        set1.start();
+        set2.start();
+    }
     @Override
     protected void onPause(){
         super.onPause();
@@ -100,6 +118,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         String readText = pref.getString("main_input","保存されていません");
         textView.setText(readText);
     }
+
     @Override
     public void onClick(View view) {
         int id = view.getId();
@@ -136,6 +155,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         TextView txtView = findViewById(R.id.answer);
         txtView.setText(Integer.toString(answerValue));
+
     }
 
     private void checkResult(boolean isHigh) {
@@ -150,32 +170,37 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // 結果を示す文字列を入れる変数を用意
         String result;
         int score;
-
         // Highが押された
         if (isHigh) {
             // result には結果のみを入れる
             if (question < answer) {
                 result = "WIN";
                 score = 2;
+
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
+
                 vibration();
             } else {
                 result = "DRAW";
                 score = 1;
+
             }
         } else {
             if (question > answer) {
                 result = "WIN";
                 score = 2;
+
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
+
                 vibration();
             } else {
                 result = "DRAW";
                 score = 1;
+
             }
         }
 
@@ -188,7 +213,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // スコアを表示
         setScore(score);
     }
-
     private void setNextQuestion() {
         // 第１引数がカウントダウン時間、第２引数は途中経過を受け取る間隔
         // 単位はミリ秒（1秒＝1000ミリ秒）
