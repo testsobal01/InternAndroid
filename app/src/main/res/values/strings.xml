@@ -4,7 +4,9 @@
     <string name="btn_low">低い</string>
     <string name="btn_restart">リスタート</string>
     <string name="label_score">スコア：</string>
+    <string name="btn_doubt">ダウト</string>
     <string name="setting">10に設定されています。</string>
     <string name="atai2">値２</string>
     <string name="fotter">fotter</string>
+
 </resources>
