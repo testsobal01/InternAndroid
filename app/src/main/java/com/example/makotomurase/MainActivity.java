@@ -156,7 +156,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 // 3秒経過したら次の値をセット
                 setQuestionValue();
                 findViewById(R.id.answer).setBackgroundResource(R.color.yellow);
-                findViewById(R.id.question).setBackgroundResource(R.color.pink);
+                findViewById(R.id.question).setBackgroundResource(R.color.purple);
             }
         }.start();
     }
