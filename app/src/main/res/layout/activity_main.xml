@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    >
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -20,21 +21,33 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/btn_high" />
+                android:backgroundTint="@color/black"
+                android:background="@drawable/cteam10"
+                app:backgroundTint="@null"
+                android:text="@string/btn_high"
+                />
 
             <Button
                 android:id="@+id/button2"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/btn_low" />
+                android:backgroundTint="@color/black"
+                android:background="@drawable/cteam10"
+                app:backgroundTint="@null"
+                android:text="@string/btn_low"
+                />
 
             <Button
                 android:id="@+id/button3"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
+                android:backgroundTint="@color/black"
+                android:background="@drawable/cteam10"
+                app:backgroundTint="@null"
                 android:text="@string/btn_restart" />
+
         </LinearLayout>
 
         <TextView
