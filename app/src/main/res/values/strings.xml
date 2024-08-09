@@ -6,6 +6,8 @@
     <string name="label_score">Score：</string>
     <string name="img_1_description">img_1</string>
     <string name="txt10" translatable="false">10Setting</string>
+    <string name="start_button">Start</string>
+    <string name="win">勝率：</string>
     <string name="START">start</string>
     <string name="text_result1">result：</string>
 </resources>
