@@ -14,6 +14,8 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -212,6 +214,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         } else if (result.equals("DRAW")) {
             soundPool.play(draw,1f,1f,0,0,1f);
         }
+    }
+
+    //アプリバーにメニューを作成するメソッド
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        //インフレーターを使ってメニューを表示させる
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.option_menu, menu);
+        return true;
     }
 }
 
