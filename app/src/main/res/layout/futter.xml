@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    >
+    <LinearLayout
+        android:id="@+id/bottom"
+        android:layout_width="fill_parent"
+        android:layout_height="54dip"
+        android:layout_alignParentBottom="true"
+
+        >
+
+        <ImageView
+            android:id="@+id/img_1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:contentDescription="@string/img_1_description" />
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_above="@id/bottom"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:orientation="vertical"
+        >
+    </LinearLayout>
+
+</RelativeLayout>
