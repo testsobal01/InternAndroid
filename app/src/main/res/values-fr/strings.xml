@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Comparer la bataille</string>
+    <string name="app_name">HAUT＆BAS</string>
     <string name="btn_high">HAUT</string>
     <string name="btn_low">BAS</string>
     <string name="btn_restart">REDEMARRER</string>
