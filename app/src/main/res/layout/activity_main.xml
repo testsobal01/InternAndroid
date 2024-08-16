@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/background"
     tools:context=".MainActivity">
 
     <LinearLayout
@@ -104,4 +105,13 @@
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
+    <EditText
+        android:id="@+id/edit_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#e7e7e7"
+        android:ems="10"
+        android:inputType="text"
+        android:padding="5dp"
+        android:text="Name" />
 </LinearLayout>

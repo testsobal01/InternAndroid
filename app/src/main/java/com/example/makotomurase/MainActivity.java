@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
@@ -11,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.text.style.BackgroundColorSpan;
 
 import java.util.Random;
 
@@ -95,6 +97,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void checkResult(boolean isHigh) {
         TextView txtViewQuestion = findViewById(R.id.question);
+
         TextView txtViewAnswer = findViewById(R.id.answer);
 
         int question = Integer.parseInt(txtViewQuestion.getText().toString());
@@ -116,12 +119,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
                 vib.vibrate(1000);
 
+               txtViewQuestion.setBackgroundColor(Color.parseColor("#FFFFFF"));
+
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
+                txtViewQuestion.setBackgroundColor(Color.parseColor("#FFFFFF"));
             } else {
                 result = "DRAW";
                 score = 1;
+                txtViewQuestion.setBackgroundColor(Color.parseColor("#FFFFFF"));
             }
         } else {
             if (question > answer) {
@@ -129,12 +136,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 score = 2;
                 Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
                 vib.vibrate(1000);
+                txtViewQuestion.setBackgroundColor(Color.parseColor("6a5acd"));
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
+                txtViewQuestion.setBackgroundColor(Color.parseColor("#00ced1"));
             } else {
                 result = "DRAW";
                 score = 1;
+                txtViewQuestion.setBackgroundColor(Color.parseColor("#FFFFFF"));
             }
         }
 
