@@ -2,6 +2,9 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.animation.Animator;
+import android.animation.AnimatorInflater;
+import android.animation.AnimatorSet;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -25,7 +28,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     SharedPreferences pref;
     SharedPreferences.Editor prefEditor;
 
+    private AnimatorSet set = null;
+
     int score = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,10 +48,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         //プリファレンスの呼び出しと生成
         pref = getSharedPreferences("AndroidTeamDevelop", MODE_PRIVATE);
-        prefEditor =pref.edit();
+        prefEditor = pref.edit();
 
         // 起動時に関数を呼び出す
         setQuestionValue();
+
+
     }
 
     @Override
@@ -111,23 +119,63 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = "WIN";
                 score = 2;
+                TextView textView = findViewById(R.id.answer);
+                set = (AnimatorSet) AnimatorInflater.loadAnimator(MainActivity.this,
+                        R.animator.blink_animation);
+                set.setTarget(textView);
+                set.start();
+                stopBlink();
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
+                TextView textView = findViewById(R.id.question);
+                set = (AnimatorSet) AnimatorInflater.loadAnimator(MainActivity.this,
+                        R.animator.blink_animation);
+                set.setTarget(textView);
+                set.start();
+                stopBlink();
             } else {
                 result = "DRAW";
                 score = 1;
+                TextView textView1 = findViewById(R.id.question);
+                TextView textView2 = findViewById(R.id.answer);
+                set = (AnimatorSet) AnimatorInflater.loadAnimator(MainActivity.this,
+                        R.animator.blink_animation);
+                set.setTarget(textView1);
+                set.setTarget(textView2);
+                set.start();
+                stopBlink();
             }
         } else {
             if (question > answer) {
                 result = "WIN";
                 score = 2;
+                TextView textView = findViewById(R.id.question);
+                set = (AnimatorSet) AnimatorInflater.loadAnimator(MainActivity.this,
+                        R.animator.blink_animation);
+                set.setTarget(textView);
+                set.start();
+                stopBlink();
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
+                TextView textView = findViewById(R.id.answer);
+                set = (AnimatorSet) AnimatorInflater.loadAnimator(MainActivity.this,
+                        R.animator.blink_animation);
+                set.setTarget(textView);
+                set.start();
+                stopBlink();
             } else {
                 result = "DRAW";
                 score = 1;
+                TextView textView1 = findViewById(R.id.question);
+                TextView textView2 = findViewById(R.id.answer);
+                set = (AnimatorSet) AnimatorInflater.loadAnimator(MainActivity.this,
+                        R.animator.blink_animation);
+                set.setTarget(textView1);
+                set.setTarget(textView2);
+                set.start();
+                stopBlink();
             }
         }
 
@@ -148,7 +196,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // 続けて遊べるように値を更新
         setNextQuestion();
         // スコアを表示
-
         setScore(score);
     }
 
@@ -182,7 +229,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     @Override
-    protected void onResume(){
+    protected void onResume() {
         super.onResume();
         Toast.makeText(this, "onResume", Toast.LENGTH_SHORT).show();
 
@@ -193,17 +240,37 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     @Override
-    protected void onPause(){
+    protected void onPause() {
         super.onPause();
         Toast.makeText(this, "onPause", Toast.LENGTH_SHORT).show();
 
         //画面上に文字列を保存するため、テキストビューを取得
-        TextView textView = (TextView)findViewById(R.id.text_score);
+        TextView textView = (TextView) findViewById(R.id.text_score);
 
-        //scoreキーに文字列の保存
-        prefEditor.putInt("score", score);
+        prefEditor.putInt("score", Integer.parseInt(textView.getText.toString()));
         prefEditor.commit();
     }
+
+    private void stopBlink() {
+
+        new CountDownTimer(3000, 1000) {
+
+            @Override
+            public void onTick(long l) {
+
+            }
+
+            @Override
+            public void onFinish() {
+                if (set != null) {
+                    if (set.isRunning()) {
+                        set.pause();
+                    }
+                }
+            }
+        }.start();
+    }
+
 }
 
 
