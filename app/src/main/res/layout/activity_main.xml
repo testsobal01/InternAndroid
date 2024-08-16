@@ -13,7 +13,10 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:id="@+id/bottom"
+            android:layout_alignParentBottom="true"
+            android:background="@android:drawable/bottom_bar">
 
             <Button
                 android:id="@+id/button1"
@@ -65,7 +68,8 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="0dp"
+            android:layout_weight="9">
 
             <TextView
                 android:id="@+id/question"
@@ -86,8 +90,27 @@
                 android:gravity="center"
                 android:text="値2"
                 android:textSize="60sp" />
+
         </LinearLayout>
 
+        <LinearLayout
+            android:layout_above="@id/bottom"
+            android:layout_height="0dp"
+            android:layout_width="match_parent"
+            android:layout_weight="1">
+            <ImageView
+                android:id="@+id/image"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:src="@drawable/test"
+                android:scaleType="centerCrop" />
+
+        </LinearLayout>
+
+
+
     </LinearLayout>
+
+
 
 </LinearLayout>
