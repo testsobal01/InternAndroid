@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="btn_high">高</string>
+    <string name="btn_low">低</string>
+    <string name="btn_restart">再始動</string>
+    <string name="label_score">点数：</string>
+    <string name="app_name">あいうえお</string>
+    <string name="label_score2">結果</string>
+    <string name="text2">10が設定されています。</string>
+    <string name="text3">勝ち</string>
+    <string name="text4">負け</string>
+    <string name="text5">引き分け</string>
+</resources>
