@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.SharedPreferences;
 import android.content.Intent;
+import android.media.AudioAttributes;
+import android.media.SoundPool;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
@@ -20,10 +22,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     SharedPreferences.Editor prefEditor;
 
     int score = 0;
+    int mySoundID;
+    int oto;
+    SoundPool soundPool;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
 
         Button btn1 = findViewById(R.id.button1);
         btn1.setOnClickListener(this);
@@ -33,6 +40,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
+
+        AudioAttributes audioAttributes = new
+                AudioAttributes.Builder().setUsage(AudioAttributes.USAGE_ALARM).setContentType(AudioAttributes.CONTENT_TYPE_SPEECH).build();
+
+        soundPool = new SoundPool.Builder().setAudioAttributes(audioAttributes).setMaxStreams(1).build();
+
+        oto = getResources().getIdentifier("a","raw",getPackageName());
+
+        mySoundID = soundPool.load(getBaseContext(),oto,1);
+
 
         //プリファレンスの呼び出しと生成
         pref = getSharedPreferences("AndroidTeamDevelop", MODE_PRIVATE);
@@ -45,6 +62,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View view) {
         int id = view.getId();
+        soundPool.play(mySoundID,1f,1f,0,0,1);
+
         if (id == R.id.button1) {
             setAnswerValue();
             checkResult(true);
