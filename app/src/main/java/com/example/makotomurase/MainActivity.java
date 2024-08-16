@@ -148,6 +148,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // 続けて遊べるように値を更新
         setNextQuestion();
         // スコアを表示
+
         setScore(score);
     }
 
@@ -186,8 +187,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Toast.makeText(this, "onResume", Toast.LENGTH_SHORT).show();
 
         TextView textView = (TextView)findViewById(R.id.text_score);
-        String readText = pref.getString("score", "保存されていません");
-        textView.setText(readText);
+        int readText = pref.getInt("score", 0);
+
+        textView.setText(String.valueOf(readText));
     }
 
     @Override
@@ -199,7 +201,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView textView = (TextView)findViewById(R.id.text_score);
 
         //scoreキーに文字列の保存
-        prefEditor.putString("score", textView.getText(). toString());
+        prefEditor.putInt("score", score);
         prefEditor.commit();
     }
 }
