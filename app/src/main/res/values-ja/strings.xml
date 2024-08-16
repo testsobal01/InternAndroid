@@ -1,12 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">HIGH&amp;LOW</string>
     <string name="btn_high">High</string>
     <string name="btn_low">Low</string>
     <string name="btn_restart">Restart</string>
     <string name="label_score">Score：</string>
-    <string name="title_activity_main2">MainActivity2</string>
-    <string name="title_activity_top">Top</string>
-    <string name="hoge_text"><u>HIGH &amp; LOW</u></string>
     <string name="atai1" >値1</string>
     <string name="atai2" >値2</string>
     <string name="text">10が設定されています</string>

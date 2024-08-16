@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">HIGH&amp;LOW</string>
+    <string name="btn_high">High</string>
+    <string name="btn_low">Low</string>
+    <string name="btn_restart">Restart</string>
+    <string name="label_score">Score：</string>
+    <string name="atai1" >Nummer1</string>
+    <string name="atai2" >Nummer2</string>
+    <string name="text">10 ist eingestellt</string>
+    <string name="result">Ergebnis</string>
+</resources>
