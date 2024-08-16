@@ -1,10 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"/>
 <resources>
-    <string name="app_name">High$Low</string>
-    <string name="btn_high">High</string>
-    <string name="btn_low">Low</string>
-    <string name="btn_restart">Restart</string>
-    <string name="label_score">Score：</string>
-    <string name="title_activity_main2">MainActivity2</string>
-    <string name="title_activity_top">Top</string>
-    <string name="hoge_text"><u>HIGH &amp; LOW</u></string>
+    <string android:name="app_name"
+        tools:ignore="ExtraText">High$Low</string>
+    <string android:name="btn_high">High</string>
+    <string android:name="btn_low">Low</string>
+    <string android:name="btn_restart">Restart</string>
+    <string android:name="label_score">Score：</string>
+    <string android:name="title_activity_main2">MainActivity2</string>
+    <string android:name="title_activity_top">Top</string>
+    <string android:name="hoge_text"><u>HIGH &amp; LOW</u></string>
 </resources>
