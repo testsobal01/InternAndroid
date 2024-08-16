@@ -7,16 +7,21 @@ import android.graphics.Shader;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.Random;
 
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     SharedPreferences pref;
     SharedPreferences.Editor prefEditor;
+
+    boolean click;
 
 
     @Override
@@ -64,11 +69,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View view) {
+        if (click == true) {
+            return;
+        }
+
         int id = view.getId();
         if (id == R.id.button1) {
+            click = true;
             setAnswerValue();
             checkResult(true);
         } else if (id == R.id.button2) {
+            click = true;
             setAnswerValue();
             checkResult(false);
         } else if (id == R.id.button3) {
@@ -76,6 +87,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             clearAnswerValue();
             clearScoreValue();
         }
+
     }
 
     private void clearAnswerValue() {
@@ -139,6 +151,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         }
 
+        if (result == "LOSE") {
+            blinkText(txtViewQuestion, 100, 1);
+        } else if (result == "WIN") {
+            blinkText(txtViewAnswer, 100, 1);
+        } else if (result == "DRAW") {
+            blinkText(txtViewQuestion, 100, 1);
+            blinkText(txtViewAnswer, 100, 1);
+        }
+
         // 最後にまとめてToast表示の処理とTextViewへのセットを行う
         Toast.makeText(this, result, Toast.LENGTH_LONG).show();
         txtResult.setText("結果：" + question + ":" + answer + "(" + result + ")");
@@ -163,6 +184,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public void onFinish() {
                 // 3秒経過したら次の値をセット
                 setQuestionValue();
+                click = false;
             }
         }.start();
     }
@@ -177,5 +199,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView txtScore = (TextView) findViewById(R.id.text_score);
         txtScore.setText("0");
     }
+
+
+    private void blinkText(TextView txtView, long duration, long offset) {
+        Animation anm = new AlphaAnimation(0.0f, 1.0f);
+        anm.setDuration(duration);
+        anm.setStartOffset(offset);
+        anm.setRepeatMode(Animation.REVERSE);
+        anm.setRepeatCount(Animation.INFINITE);
+        long time = 2000 / duration;
+        anm.setRepeatCount((int) time);
+        txtView.startAnimation(anm);
+    }
+
+
 }
 
