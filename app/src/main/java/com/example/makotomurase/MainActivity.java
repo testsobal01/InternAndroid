@@ -1,9 +1,12 @@
 package com.example.makotomurase;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Vibrator;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -12,7 +15,8 @@ import android.widget.Toast;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
-
+    SharedPreferences pref;
+    SharedPreferences.Editor prefEditor;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,6 +33,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // 起動時に関数を呼び出す
         setQuestionValue();
+        pref = getSharedPreferences("data",MODE_PRIVATE);
+        prefEditor = pref.edit();
+    }
+
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        TextView tv = (TextView) findViewById(R.id.text_score);
+        prefEditor.putString("input",tv.getText().toString());
+        prefEditor.commit();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        TextView tv = (TextView) findViewById(R.id.text_score);
+        String readText = pref.getString("input","-1");
+        tv.setText(readText);
     }
 
     @Override
@@ -88,6 +112,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = "WIN";
                 score = 2;
+
+                Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+                vib.vibrate(1000);
+
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
@@ -99,6 +127,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question > answer) {
                 result = "WIN";
                 score = 2;
+                Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+                vib.vibrate(1000);
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
@@ -147,5 +177,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         txtScore.setText("0");
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+    }
 }
 
