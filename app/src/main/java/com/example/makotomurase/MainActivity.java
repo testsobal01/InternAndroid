@@ -2,10 +2,14 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.animation.AnimatorInflater;
+import android.animation.AnimatorSet;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -16,6 +20,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     SharedPreferences pref;
     SharedPreferences.Editor prefEditor;
+
+    AnimatorSet set;
+
+    // アニメーションフラグ　0は起動していない、1は起動中
+    int flag = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +48,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View view) {
+
         int id = view.getId();
         if (id == R.id.button1) {
             setAnswerValue();
@@ -122,6 +132,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setNextQuestion();
         // スコアを表示
         setScore(score);
+        // アニメーションを開始
+        onAnimation(result);
     }
 
     private void setNextQuestion() {
@@ -162,8 +174,36 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onResume(){
         super.onResume();
         TextView textView = (TextView) findViewById(R.id.text_score);
-        String readText = pref.getString("text_input","保存されていません");
+        String readText = pref.getString("text_input","0");
         textView.setText(readText);
     }
+
+    Animation animation;
+
+    protected void onAnimation(String result)
+    {
+        // テキストオブジェクトをレイアウトから取得
+        TextView textView = findViewById(R.id.answer);
+
+        if(result == "WIN")
+        {
+            // 勝ち
+            animation = AnimationUtils.loadAnimation(this, R.anim.rotation_animation);
+            textView.startAnimation(animation);
+        }
+        else if(result == "LOSE")
+        {
+            // 負け
+            set = (AnimatorSet) AnimatorInflater.loadAnimator(MainActivity.this, R.animator.blink_animation);
+            set.setTarget(textView);
+            set.start();
+        }
+        else
+        {
+            // 引き分け
+        }
+
+    }
+
 }
 
