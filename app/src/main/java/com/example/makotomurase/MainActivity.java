@@ -151,34 +151,34 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (isHigh) {
             // result には結果のみを入れる
             if (question < answer) {
-                result = "WIN";
+                result = getString(R.string.text3);
                 //WINの場合の効果音再生
                 soundPool.play(winmp3,1f , 1f, 0, 0, 1f);
                 score = 2;
             } else if (question > answer) {
-                result = "LOSE";
+                result = getString(R.string.text4);
                 //LOSEの場合の効果音再生
                 soundPool.play(losemp3,1f , 1f, 0, 0, 1f);
                 score = -1;
             } else {
-                result = "DRAW";
+                result = getString(R.string.text5);
                 //DRAWの場合の効果音再生
                 soundPool.play(drawmp3,1f , 1f, 0, 0, 1f);
                 score = 1;
             }
         } else {
             if (question > answer) {
-                result = "WIN";
+                result = getString(R.string.text3);
                 //WINの場合の効果音再生
                 soundPool.play(winmp3,1f , 1f, 0, 0, 1f);
                 score = 2;
             } else if (question < answer) {
-                result = "LOSE";
+                result = getString(R.string.text4);
                 //LOSEの場合の効果音再生
                 soundPool.play(losemp3,1f , 1f, 0, 0, 1f);
                 score = -1;
             } else {
-                result = "DRAW";
+                result = getString(R.string.text5);
                 //DRAWの場合の効果音再生
                 soundPool.play(drawmp3,1f , 1f, 0, 0, 1f);
                 score = 1;
@@ -187,7 +187,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // 最後にまとめてToast表示の処理とTextViewへのセットを行う
         Toast.makeText(this, result, Toast.LENGTH_LONG).show();
-        txtResult.setText("結果：" + question + ":" + answer + "(" + result + ")");
+        String result_txt = getString(R.string.label_score2);
+        txtResult.setText(result_txt+"：" + question + ":" + answer + "(" + result + ")");
 
         // 続けて遊べるように値を更新
         setNextQuestion();

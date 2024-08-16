@@ -4,4 +4,10 @@
     <string name="btn_low">Low</string>
     <string name="btn_restart">Restart</string>
     <string name="label_score">Score：</string>
+    <string name="text2">10が設定されています。</string>
+    <string name="label_score2">結果</string>
+    <string name="text3">WIN</string>
+    <string name="text4">LOSE</string>
+    <string name="text5">DORW</string>
+
 </resources>
