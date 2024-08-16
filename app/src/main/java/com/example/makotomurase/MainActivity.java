@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Vibrator;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -96,6 +97,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 score = 2;
             } else if (question > answer) {
                 result = "LOSE";
+                Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+                vib.vibrate(100);
                 score = -1;
             } else {
                 result = "DRAW";
@@ -107,6 +110,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 score = 2;
             } else if (question < answer) {
                 result = "LOSE";
+                Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+                vib.vibrate(100);
                 score = -1;
             } else {
                 result = "DRAW";
