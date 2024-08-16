@@ -20,14 +20,15 @@
             android:layout_height="167dp"
             android:onClick="onBackButtonClick"
             android:text="HIGH &amp; LOW"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             android:textSize="25dp"
-            android:textColorHighlight="@color/white"
+            android:background="@drawable/custom_button_shape"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.497"
             app:layout_constraintStart_toStartOf="parent"
             tools:layout_editor_absoluteY
                 ="474dp"
+            app:backgroundTint="@null"
             ></Button>
     </LinearLayout>
 
