@@ -2,6 +2,7 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
@@ -50,6 +51,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void clearAnswerValue() {
         TextView txtView = (TextView) findViewById(R.id.answer);
         txtView.setText("値2");
+        //背景色を変更
+        findViewById(R.id.question).setBackgroundColor(Color.rgb(255,0,255));
+        findViewById(R.id.answer).setBackgroundColor(Color.rgb(255,255,0));
     }
 
     private void setQuestionValue() {
@@ -88,23 +92,39 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = "WIN";
                 score = 2;
+                //背景色を変更
+                findViewById(R.id.question).setBackgroundColor(Color.GREEN);
+                findViewById(R.id.answer).setBackgroundColor(Color.GREEN);
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
+                //背景色を変更
+                findViewById(R.id.question).setBackgroundColor(Color.BLUE);
+                findViewById(R.id.answer).setBackgroundColor(Color.BLUE);
             } else {
                 result = "DRAW";
                 score = 1;
+                findViewById(R.id.question).setBackgroundColor(Color.WHITE);
+                findViewById(R.id.answer).setBackgroundColor(Color.WHITE);
             }
         } else {
             if (question > answer) {
                 result = "WIN";
                 score = 2;
+                //背景色を変更
+                findViewById(R.id.question).setBackgroundColor(Color.GREEN);
+                findViewById(R.id.answer).setBackgroundColor(Color.GREEN);
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
+                //背景色を変更
+                findViewById(R.id.question).setBackgroundColor(Color.BLUE);
+                findViewById(R.id.answer).setBackgroundColor(Color.BLUE);
             } else {
                 result = "DRAW";
                 score = 1;
+                findViewById(R.id.question).setBackgroundColor(Color.WHITE);
+                findViewById(R.id.answer).setBackgroundColor(Color.WHITE);
             }
         }
 
