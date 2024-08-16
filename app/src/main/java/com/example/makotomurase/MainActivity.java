@@ -2,6 +2,7 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.graphics.Color;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Shader;
@@ -166,11 +167,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 //WINの場合の効果音再生
                 soundPool.play(winmp3,1f , 1f, 0, 0, 1f);
                 score = 2;
+                txtViewAnswer.setBackgroundColor(Color.GRAY);
             } else if (question > answer) {
                 result = getString(R.string.text4);
                 //LOSEの場合の効果音再生
                 soundPool.play(losemp3,1f , 1f, 0, 0, 1f);
                 score = -1;
+                txtViewQuestion.setBackgroundColor(Color.BLUE);
             } else {
                 result = getString(R.string.text5);
                 //DRAWの場合の効果音再生
@@ -183,11 +186,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 //WINの場合の効果音再生
                 soundPool.play(winmp3,1f , 1f, 0, 0, 1f);
                 score = 2;
+                txtViewAnswer.setBackgroundColor(Color.GRAY);
             } else if (question < answer) {
                 result = getString(R.string.text4);
                 //LOSEの場合の効果音再生
                 soundPool.play(losemp3,1f , 1f, 0, 0, 1f);
                 score = -1;
+                txtViewQuestion.setBackgroundColor(Color.BLUE);
             } else {
                 result = getString(R.string.text5);
                 //DRAWの場合の効果音再生
@@ -210,6 +215,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         String result_txt = getString(R.string.label_score2);
         txtResult.setText(result_txt+"：" + question + ":" + answer + "(" + result + ")");
 
+
         // 続けて遊べるように値を更新
         setNextQuestion();
         // スコアを表示
@@ -230,9 +236,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public void onFinish() {
                 // 3秒経過したら次の値をセット
                 setQuestionValue();
+                TextView txtViewAnswer = findViewById(R.id.answer);
+                TextView txtViewQuestion = findViewById(R.id.question);
+                txtViewAnswer.setBackgroundColor(Color.parseColor("#ffff00"));
+                txtViewQuestion.setBackgroundColor(Color.parseColor("#ff00ff"));
+
                 click = false;
             }
         }.start();
+
     }
 
     private void setScore(int score) {
