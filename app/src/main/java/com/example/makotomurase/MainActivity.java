@@ -1,5 +1,6 @@
 package com.example.makotomurase;
 
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
@@ -11,8 +12,11 @@ import android.widget.Toast;
 
 import java.util.Random;
 
+
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
+    SoundPlayer sp;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,10 +33,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // 起動時に関数を呼び出す
         setQuestionValue();
+
+        sp = new SoundPlayer(this);
+
     }
 
     @Override
     public void onClick(View view) {
+
+        sp.playHitSound();
         int id = view.getId();
         if (id == R.id.button1) {
             setAnswerValue();
