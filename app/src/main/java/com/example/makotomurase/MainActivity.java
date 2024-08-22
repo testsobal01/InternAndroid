@@ -2,6 +2,7 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.content.Intent;
 import android.os.Bundle;
@@ -18,7 +19,10 @@ import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private long pattern1[] = {0,100,80,100,80,300,100,0,100,0,100,300,80,100,80,300,80,300,80,300};
+    SharedPreferences pref;
+    SharedPreferences.Editor prefEditor;
+
+  private long pattern1[] = {0,100,80,100,80,300,100,0,100,0,100,300,80,100,80,300,80,300,80,300};
     private long pattern2[] = {0,300,80,300,80,100,80,300,80,100,100,0,100,0,100,300,80,100};
     private long pattern3[] = {0,100,100,100,100,100,100,0,100,0,100,300,80,300,80,300,100,0,100,0,100,100,80,100,80,100};
 
@@ -41,6 +45,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // 起動時に関数を呼び出す
         setQuestionValue();
+
+        pref = getSharedPreferences("MakotoMurase",MODE_PRIVATE);
+        prefEditor = pref.edit();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        //scoreの保存
+        TextView textView = (TextView) findViewById(R.id.text_score);//保存するscoreを取得
+        prefEditor.putString("score_input",textView.getText().toString());
+        prefEditor.commit();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        TextView textView = (TextView) findViewById(R.id.text_score);
+        String readText = pref.getString("score_input","0");
+        textView.setText(readText);
     }
 
     @Override
