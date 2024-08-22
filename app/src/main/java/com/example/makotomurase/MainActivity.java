@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.graphics.Color;
 
 import java.util.Random;
 
@@ -128,23 +129,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = "WIN";
                 score = 2;
+                backgroundchangeWin();
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
+                backgroundchangeLose();
             } else {
                 result = "DRAW";
                 score = 1;
+                backgroundchangeDraw();
             }
         } else {
             if (question > answer) {
                 result = "WIN";
                 score = 2;
+                backgroundchangeWin();
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
+                backgroundchangeLose();
             } else {
                 result = "DRAW";
                 score = 1;
+                backgroundchangeDraw();
             }
         }
 
@@ -185,6 +192,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void clearScoreValue() {
         TextView txtScore = (TextView) findViewById(R.id.text_score);
         txtScore.setText("0");
+    }
+
+    private void backgroundchangeWin(){
+        TextView txtquestion = (TextView) findViewById(R.id.question);
+        TextView txtanswer = (TextView) findViewById(R.id.answer);
+        txtquestion.setBackgroundColor(Color.rgb(255, 140, 0));
+        txtanswer.setBackgroundColor(Color.rgb(255, 164, 0));
+    }
+    private void backgroundchangeLose(){
+        TextView txtquestion = (TextView) findViewById(R.id.question);
+        TextView txtanswer = (TextView) findViewById(R.id.answer);
+        txtquestion.setBackgroundColor(Color.rgb(0, 133, 201));
+        txtanswer.setBackgroundColor(Color.rgb(102, 153, 204));
+    }
+    private void backgroundchangeDraw(){
+        TextView txtquestion = (TextView) findViewById(R.id.question);
+        TextView txtanswer = (TextView) findViewById(R.id.answer);
+        txtquestion.setBackgroundColor(Color.rgb(140, 140, 140));
+        txtanswer.setBackgroundColor(Color.rgb(140, 140, 140));
     }
 }
 
