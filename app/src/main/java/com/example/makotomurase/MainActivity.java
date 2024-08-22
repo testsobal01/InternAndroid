@@ -2,13 +2,15 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-
+import android.os.Vibrator;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -18,6 +20,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     String lose_text;
     String draw_text;
 
+    SharedPreferences pref;
+    SharedPreferences.Editor prefEditor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +45,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // 起動時に関数を呼び出す
         setQuestionValue();
+
+        pref = getSharedPreferences("AndroidSeminor",MODE_PRIVATE);
+        prefEditor = pref.edit();
+    }
+
+    @Override
+    protected void onPause(){
+        super.onPause();
+        Toast.makeText(this,"onPause",Toast.LENGTH_SHORT).show();
+
+        TextView textView = (TextView)findViewById(R.id.text_score);
+        prefEditor.putString("main_input",textView.getText().toString());
+        prefEditor.commit();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Toast.makeText(this, "onResume", Toast.LENGTH_SHORT).show();
+
+        TextView textView = (TextView) findViewById(R.id.text_score);
+        String readText = pref.getString("main_input", "0");
+        textView.setText(readText);
     }
 
     @Override
@@ -56,7 +83,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             setQuestionValue();
             clearAnswerValue();
             clearScoreValue();
+            Vibrator vib = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+            vib.vibrate(300);
         }
+
     }
 
     private void clearAnswerValue() {
@@ -100,23 +130,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = win_text;
                 score = 2;
+                changeBackgroundWin();
             } else if (question > answer) {
                 result = lose_text;
                 score = -1;
+                changeBackGroundLose();
             } else {
                 result = draw_text;
                 score = 1;
+                changeBackGroundDraw();
             }
         } else {
             if (question > answer) {
                 result = win_text;
                 score = 2;
+                changeBackgroundWin();
             } else if (question < answer) {
                 result = lose_text;
                 score = -1;
+                changeBackGroundLose();
             } else {
                 result = draw_text;
                 score = 1;
+                changeBackGroundDraw();
             }
         }
 
@@ -157,6 +193,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void clearScoreValue() {
         TextView txtScore = (TextView) findViewById(R.id.text_score);
         txtScore.setText("0");
+    }
+
+    private void changeBackgroundWin(){
+        TextView qtxtScore = (TextView) findViewById(R.id.question);
+        qtxtScore.setBackgroundColor(Color.RED);
+        TextView atxtScore = (TextView) findViewById(R.id.answer);
+        atxtScore.setBackgroundColor(Color.BLUE);
+    }
+
+    private void changeBackGroundLose(){
+        TextView qtxtScore = (TextView) findViewById(R.id.question);
+        qtxtScore.setBackgroundColor(Color.BLUE);
+        TextView atxtScore = (TextView) findViewById(R.id.answer);
+        atxtScore.setBackgroundColor(Color.RED);
+    }
+
+    private void changeBackGroundDraw(){
+        TextView qtxtScore = (TextView) findViewById(R.id.question);
+        qtxtScore.setBackgroundColor(Color.WHITE);
+        TextView atxtScore = (TextView) findViewById(R.id.answer);
+        atxtScore.setBackgroundColor(Color.WHITE);
     }
 }
 
