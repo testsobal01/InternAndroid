@@ -2,6 +2,8 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
+import android.graphics.Color;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.content.Intent;
@@ -19,7 +21,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -141,13 +142,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 TextView Color_High_Left = findViewById(R.id.question);
                 Color_High_Left.setBackgroundColor(Color.CYAN);
                 TextView Color_High_Right = findViewById(R.id.answer);
-                Color_High_Right.setBackgroundColor(Color.RED);
+                Color_High_Right.setBackgroundColor(Color.argb(255,255,69,0));
                 score = 2;
             } else if (question > answer) {
                 result = "LOSE";
                 //負けた時の背景色を変える　Lose:左を赤、右を青
                 TextView Color_HIGH_Left = findViewById(R.id.question);
-                Color_HIGH_Left.setBackgroundColor(Color.RED);
+                Color_HIGH_Left.setBackgroundColor(Color.argb(255,255,69,0));
                 TextView Color_HIGH_Right = findViewById(R.id.answer);
                 Color_HIGH_Right.setBackgroundColor(Color.CYAN);
                 score = -1;
@@ -165,7 +166,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 result = "WIN";
                 //勝った時の背景色を変える　LOW:左を黄色、右を緑
                 TextView Color_Low_Left = findViewById(R.id.question);
-                Color_Low_Left.setBackgroundColor(Color.YELLOW);
+                Color_Low_Left.setBackgroundColor(Color.argb(255,255,165,0));
                 TextView Color_Low_Right = findViewById(R.id.answer);
                 Color_Low_Right.setBackgroundColor(Color.GREEN);
                 score = 2;
@@ -175,15 +176,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 TextView Color_Low_Left = findViewById(R.id.question);
                 Color_Low_Left.setBackgroundColor(Color.GREEN);
                 TextView Color_Low_Right = findViewById(R.id.answer);
-                Color_Low_Right.setBackgroundColor(Color.YELLOW);
+                Color_Low_Right.setBackgroundColor(Color.argb(255,255,165,0));
                 score = -1;
             } else {
                 result = "DRAW";
                 //引き分けた時の背景色を変える　LOW:グレー
                 TextView Color_Low_Left = findViewById(R.id.question);
-                Color_Low_Left.setBackgroundColor(Color.GRAY);
+                Color_Low_Left.setBackgroundColor(Color.argb(255,169,169,169));
                 TextView Color_Low_Right = findViewById(R.id.answer);
-                Color_Low_Right.setBackgroundColor(Color.GRAY);
+                Color_Low_Right.setBackgroundColor(Color.argb(255,169,169,169));
                 score = 1;
             }
         }
