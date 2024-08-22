@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.VibrationAttributes;
+import android.os.Vibrator;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -12,6 +14,10 @@ import android.widget.Toast;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
+    private long pattern1[] = {0,100,80,100,80,300,100,0,100,0,100,300,80,100,80,300,80,300,80,300};
+    private long pattern2[] = {0,300,80,300,80,100,80,300,80,100,100,0,100,0,100,300,80,100};
+    private long pattern3[] = {0,100,100,100,100,100,100,0,100,0,100,300,80,300,80,300,100,0,100,0,100,100,80,100,80,100};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +40,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View view) {
         int id = view.getId();
+
         if (id == R.id.button1) {
             setAnswerValue();
             checkResult(true);
@@ -44,6 +51,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             setQuestionValue();
             clearAnswerValue();
             clearScoreValue();
+        }
+        if (id == R.id.button1){
+            Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+            vib.vibrate(pattern1,-1);
+        }
+        else if (id == R.id.button2){
+            Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+            vib.vibrate(pattern2,-1);
+        }
+        else if (id == R.id.button3){
+                Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+                vib.vibrate(pattern3,-1);
         }
     }
 
