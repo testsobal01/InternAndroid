@@ -9,7 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-
+import android.os.Vibrator;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -45,7 +45,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             setQuestionValue();
             clearAnswerValue();
             clearScoreValue();
+            Vibrator vib = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+            vib.vibrate(300);
         }
+
     }
 
     private void clearAnswerValue() {
