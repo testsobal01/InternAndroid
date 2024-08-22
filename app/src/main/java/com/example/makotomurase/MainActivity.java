@@ -3,10 +3,16 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.VibrationAttributes;
+import android.os.Vibrator;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,10 +23,21 @@ import java.util.Random;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     SoundPlayer sp;
+
+    SharedPreferences pref;
+    SharedPreferences.Editor prefEditor;
+
+  private long pattern1[] = {0,100,80,100,80,300,100,0,100,0,100,300,80,100,80,300,80,300,80,300};
+    private long pattern2[] = {0,300,80,300,80,100,80,300,80,100,100,0,100,0,100,300,80,100};
+    private long pattern3[] = {0,100,100,100,100,100,100,0,100,0,100,300,80,300,80,300,100,0,100,0,100,100,80,100,80,100};
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Intent intent = getIntent();
+        Bundle extra = intent.getExtras();
 
         Button btn1 = findViewById(R.id.button1);
         btn1.setOnClickListener(this);
@@ -36,6 +53,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         sp = new SoundPlayer(this);
 
+        pref = getSharedPreferences("MakotoMurase",MODE_PRIVATE);
+        prefEditor = pref.edit();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        //scoreの保存
+        TextView textView = (TextView) findViewById(R.id.text_score);//保存するscoreを取得
+        prefEditor.putString("score_input",textView.getText().toString());
+        prefEditor.commit();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        TextView textView = (TextView) findViewById(R.id.text_score);
+        String readText = pref.getString("score_input","0");
+        textView.setText(readText);
     }
 
     @Override
@@ -43,6 +79,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         sp.playHitSound();
         int id = view.getId();
+
         if (id == R.id.button1) {
             setAnswerValue();
             checkResult(true);
@@ -53,6 +90,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             setQuestionValue();
             clearAnswerValue();
             clearScoreValue();
+            change_back_color(1);
+        }
+        if (id == R.id.button1){
+            Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+            vib.vibrate(pattern1,-1);
+        }
+        else if (id == R.id.button2){
+            Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+            vib.vibrate(pattern2,-1);
+        }
+        else if (id == R.id.button3){
+                Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+                vib.vibrate(pattern3,-1);
         }
     }
 
@@ -121,6 +171,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Toast.makeText(this, result, Toast.LENGTH_LONG).show();
         txtResult.setText("結果：" + question + ":" + answer + "(" + result + ")");
 
+        //勝敗で背景色変更
+        change_back_color(score);
+
         // 続けて遊べるように値を更新
         setNextQuestion();
         // スコアを表示
@@ -154,6 +207,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void clearScoreValue() {
         TextView txtScore = (TextView) findViewById(R.id.text_score);
         txtScore.setText("0");
+    }
+
+    public void change_back_color(int result){
+        LinearLayout filled = findViewById(R.id.filled);
+        switch (result){
+            case 2:
+                filled.setBackgroundColor(Color.parseColor("#FFd700"));
+                break;
+
+            case -1:
+                filled.setBackgroundColor(Color.CYAN);
+                break;
+
+            case 1:
+                filled.setBackgroundColor(Color.WHITE);
+                break;
+        }
     }
 }
 

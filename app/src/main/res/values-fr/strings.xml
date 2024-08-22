@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">SUGAHARU</string>
+    <string name="btn_high">Haut</string>
+    <string name="btn_low">Faible</string>
+    <string name="btn_restart">Redémarrage</string>
+    <string name="label_score">Marquer des points：</string>
+    <string name="start_button">Commençons !</string>
+    <string name="cancel_button">Ne le fais pas encore...</string>
+    <string name="cancel_toast">"Il n’y a rien de tel que de ne pas le faire, n’est-ce pas ? C'est juste une mauvaise presse, n'est-ce pas ?"</string>
+    <string name="group_name">Group - A</string>
+
+    <string name="random_max_text">" est réglé."</string>
+</resources>
