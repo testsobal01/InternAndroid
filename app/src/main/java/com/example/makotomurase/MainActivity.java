@@ -13,6 +13,12 @@ import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
+    String result_text;
+    String win_text;
+    String lose_text;
+    String draw_text;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,6 +32,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
+
+        result_text = getString(R.string.label_result);
+        win_text= getString(R.string.label_win);
+        lose_text=getString(R.string.label_lose);
+        draw_text=getString(R.string.label_draw);
+
 
         // 起動時に関数を呼び出す
         setQuestionValue();
@@ -86,31 +98,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (isHigh) {
             // result には結果のみを入れる
             if (question < answer) {
-                result = "WIN";
+                result = win_text;
                 score = 2;
             } else if (question > answer) {
-                result = "LOSE";
+                result = lose_text;
                 score = -1;
             } else {
-                result = "DRAW";
+                result = draw_text;
                 score = 1;
             }
         } else {
             if (question > answer) {
-                result = "WIN";
+                result = win_text;
                 score = 2;
             } else if (question < answer) {
-                result = "LOSE";
+                result = lose_text;
                 score = -1;
             } else {
-                result = "DRAW";
+                result = draw_text;
                 score = 1;
             }
         }
 
         // 最後にまとめてToast表示の処理とTextViewへのセットを行う
         Toast.makeText(this, result, Toast.LENGTH_LONG).show();
-        txtResult.setText("結果：" + question + ":" + answer + "(" + result + ")");
+        txtResult.setText(result_text + question + ":" + answer + "(" + result + ")");
 
         // 続けて遊べるように値を更新
         setNextQuestion();
