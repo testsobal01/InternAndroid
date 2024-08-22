@@ -210,7 +210,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public void change_back_color(int result){
-        LinearLayout filled = findViewById(R.id.filled);
+        LinearLayout filled = findViewById(R.id.main);
         switch (result){
             case 2:
                 filled.setBackgroundColor(Color.parseColor("#FFd700"));
