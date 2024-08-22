@@ -19,6 +19,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.graphics.Color;
 
 import java.io.IOException;
@@ -26,6 +28,12 @@ import java.io.InputStream;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
+    Animation win_animation;
+    Animation lose_animation;
+    Animation draw_animation;
+    TextView animeText1;
+    TextView animeText2;
 
     int mp3a;
     int mp3b;
@@ -67,6 +75,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
 
+        win_animation = AnimationUtils.loadAnimation(this,R.anim.win_animation);
+        lose_animation = AnimationUtils.loadAnimation(this,R.anim.lose_animation);
+        draw_animation = AnimationUtils.loadAnimation(this,R.anim.draw_animation);
+        animeText1=(TextView) findViewById(R.id.answer);
+        animeText2=(TextView) findViewById(R.id.question);
         // 起動時に関数を呼び出す
         setQuestionValue();
 
@@ -198,6 +211,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = "WIN";
                 score = 2;
+              
+                animeText1.startAnimation(win_animation);
+                animeText2.startAnimation(lose_animation);
+            } else if (question > answer) {
+                result = "LOSE";
+                score = -1;
+                animeText1.startAnimation(lose_animation);
+                animeText2.startAnimation(win_animation);
+            } else {
+                result = "DRAW";
+                score = 1;
+                animeText1.startAnimation(draw_animation);
+                animeText2.startAnimation(draw_animation);
+
                 backgroundchangeWin();
             } else if (question > answer) {
                 result = "LOSE";
@@ -212,6 +239,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question > answer) {
                 result = "WIN";
                 score = 2;
+                animeText1.startAnimation(win_animation);
+                animeText2.startAnimation(lose_animation);
+            } else if (question < answer) {
+                result = "LOSE";
+                score = -1;
+                animeText1.startAnimation(lose_animation);
+                animeText2.startAnimation(win_animation);
+            } else {
+                result = "DRAW";
+                score = 1;
+                animeText1.startAnimation(draw_animation);
+                animeText2.startAnimation(draw_animation);
+
                 backgroundchangeWin();
             } else if (question < answer) {
                 result = "LOSE";
