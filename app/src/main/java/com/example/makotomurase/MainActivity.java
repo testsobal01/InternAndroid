@@ -2,6 +2,7 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
@@ -13,10 +14,14 @@ import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
+    SharedPreferences pref;
+    SharedPreferences.Editor prefEditor;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
 
         Button btn1 = findViewById(R.id.button1);
         btn1.setOnClickListener(this);
@@ -29,6 +34,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // 起動時に関数を呼び出す
         setQuestionValue();
+
+        pref = getSharedPreferences("AndroidSeminor", MODE_PRIVATE);
+        prefEditor = pref.edit();
     }
 
     @Override
@@ -79,8 +87,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView txtResult = (TextView) findViewById(R.id.text_result);
 
         // 結果を示す文字列を入れる変数を用意
-        String result;
         int score;
+        String result;
+
 
         // Highが押された
         if (isHigh) {
@@ -116,6 +125,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setNextQuestion();
         // スコアを表示
         setScore(score);
+
+
     }
 
     private void setNextQuestion() {
@@ -136,6 +147,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }.start();
     }
 
+    @Override
+    protected  void onPause(){
+        super.onPause();
+
+       TextView textView = (TextView) findViewById(R.id.text_score);
+
+       prefEditor.putInt("totalScoreLabel", Integer.parseInt(textView.getText().toString()));
+       prefEditor.commit();
+
+
+    }
+
+    protected void onResume(){
+        super.onResume();
+
+        TextView textView = (TextView) findViewById(R.id.text_score);
+
+        boolean b = false;
+        int readText = pref.getInt("totalScoreLabel",Integer.parseInt(textView.getText().toString()));
+
+        textView.setText(Integer.toString(readText));
+    }
+
     private void setScore(int score) {
         TextView txtScore = (TextView) findViewById(R.id.text_score);
         int newScore = Integer.parseInt(txtScore.getText().toString()) + score;
@@ -146,5 +180,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView txtScore = (TextView) findViewById(R.id.text_score);
         txtScore.setText("0");
     }
+
+
 }
 
