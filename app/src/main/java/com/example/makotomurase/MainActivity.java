@@ -109,6 +109,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             } else {
                 result = "DRAW";
                 score = 1;
+                findViewById(R.id.question).startAnimation(AnimationUtils.loadAnimation(this, R.anim.animation3));
+                findViewById(R.id.answer).startAnimation(AnimationUtils.loadAnimation(this, R.anim.animation4));
+
             }
         } else {
             if (question > answer) {
@@ -123,6 +126,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             } else {
                 result = "DRAW";
                 score = 1;
+                findViewById(R.id.question).startAnimation(AnimationUtils.loadAnimation(this, R.anim.animation3));
+                findViewById(R.id.answer).startAnimation(AnimationUtils.loadAnimation(this, R.anim.animation4));
+
             }
         }
 
