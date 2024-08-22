@@ -3,6 +3,10 @@ package com.example.makotomurase;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.media.AudioAttributes;
+import android.media.AudioManager;
+import android.media.SoundPool;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
@@ -14,6 +18,10 @@ import android.widget.Toast;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
+    // 機能8 準備（コンポを部屋に置く）
+    SoundPool soundPool;    // 効果音を鳴らす本体（コンポ）
+    int mp3a;          // 効果音
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +40,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Intent intent = getIntent();
         Bundle extra = intent.getExtras();
 
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            soundPool = new SoundPool(5, AudioManager.STREAM_MUSIC, 0);
+        } else {
+            AudioAttributes attr = new AudioAttributes.Builder()
+                    .setUsage(AudioAttributes.USAGE_MEDIA)
+                    .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+                    .build();
+            soundPool = new SoundPool.Builder()
+                    .setAudioAttributes(attr)
+                    .setMaxStreams(5)
+                    .build();
+        }
 
+        // CD入れる
+        mp3a = soundPool.load(this, R.raw.buttonpushefect1, 1);
         // 起動時に関数を呼び出す
         setQuestionValue();
     }
@@ -42,9 +64,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         int id = view.getId();
         if (id == R.id.button1) {
+            soundPool.play(mp3a,1f , 1f, 0, 0, 1f);
             setAnswerValue();
             checkResult(true);
         } else if (id == R.id.button2) {
+            soundPool.play(mp3a,1f , 1f, 0, 0, 1f);
             setAnswerValue();
             checkResult(false);
         } else if (id == R.id.button3) {
