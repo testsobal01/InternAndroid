@@ -34,14 +34,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View view) {
-        /*switch (view.getId()) {
-            case R.id.button1:
-                Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
-                vib.vibrate(5000);
-                break;
-        }*/
-
-
         int id = view.getId();
         if (id == R.id.button1) {
             setAnswerValue();
