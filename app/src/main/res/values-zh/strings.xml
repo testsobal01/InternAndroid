@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="btn_high">高度</string>
+    <string name="btn_low">低的</string>
+    <string name="btn_restart">重新啟動</string>
+    <string name="label_score">分數：</string>
+</resources>
