@@ -11,6 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.Random;
+import android.view.animation.AnimationUtils;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -100,9 +101,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = "WIN";
                 score = 2;
+                findViewById(R.id.answer).startAnimation(AnimationUtils.loadAnimation(this, R.anim.animation));
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
+                findViewById(R.id.question).startAnimation(AnimationUtils.loadAnimation(this, R.anim.animation2));
             } else {
                 result = "DRAW";
                 score = 1;
@@ -111,9 +114,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question > answer) {
                 result = "WIN";
                 score = 2;
+                findViewById(R.id.question).startAnimation(AnimationUtils.loadAnimation(this, R.anim.animation));
+
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
+                findViewById(R.id.question).startAnimation(AnimationUtils.loadAnimation(this, R.anim.animation2));
             } else {
                 result = "DRAW";
                 score = 1;
