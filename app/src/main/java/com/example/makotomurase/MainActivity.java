@@ -2,6 +2,7 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.graphics.Color;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -100,23 +101,53 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             // result には結果のみを入れる
             if (question < answer) {
                 result = "WIN";
+                //勝った時の背景色を変える　High:左を青、右を赤
+                TextView Color_High_Left = findViewById(R.id.question);
+                Color_High_Left.setBackgroundColor(Color.CYAN);
+                TextView Color_High_Right = findViewById(R.id.answer);
+                Color_High_Right.setBackgroundColor(Color.RED);
                 score = 2;
             } else if (question > answer) {
                 result = "LOSE";
+                //負けた時の背景色を変える　Lose:左を赤、右を青
+                TextView Color_HIGH_Left = findViewById(R.id.question);
+                Color_HIGH_Left.setBackgroundColor(Color.RED);
+                TextView Color_HIGH_Right = findViewById(R.id.answer);
+                Color_HIGH_Right.setBackgroundColor(Color.CYAN);
                 score = -1;
             } else {
                 result = "DRAW";
+                TextView Color_HIGH_Left = findViewById(R.id.question);
+                Color_HIGH_Left.setBackgroundColor(Color.MAGENTA);
+                TextView Color_HIGH_Right = findViewById(R.id.answer);
+                Color_HIGH_Right.setBackgroundColor(Color.MAGENTA);
+                //引き分けた時の背景色を変える　Draw:紫
                 score = 1;
             }
         } else {
             if (question > answer) {
                 result = "WIN";
+                //勝った時の背景色を変える　LOW:左を黄色、右を緑
+                TextView Color_Low_Left = findViewById(R.id.question);
+                Color_Low_Left.setBackgroundColor(Color.YELLOW);
+                TextView Color_Low_Right = findViewById(R.id.answer);
+                Color_Low_Right.setBackgroundColor(Color.GREEN);
                 score = 2;
             } else if (question < answer) {
                 result = "LOSE";
+                //負けた時の背景色を変える　LOW:左を緑、右を黄色
+                TextView Color_Low_Left = findViewById(R.id.question);
+                Color_Low_Left.setBackgroundColor(Color.GREEN);
+                TextView Color_Low_Right = findViewById(R.id.answer);
+                Color_Low_Right.setBackgroundColor(Color.YELLOW);
                 score = -1;
             } else {
                 result = "DRAW";
+                //引き分けた時の背景色を変える　LOW:グレー
+                TextView Color_Low_Left = findViewById(R.id.question);
+                Color_Low_Left.setBackgroundColor(Color.GRAY);
+                TextView Color_Low_Right = findViewById(R.id.answer);
+                Color_Low_Right.setBackgroundColor(Color.GRAY);
                 score = 1;
             }
         }
