@@ -214,25 +214,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
               
                 animeText1.startAnimation(win_animation);
                 animeText2.startAnimation(lose_animation);
+                backgroundchangeWin();
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
                 animeText1.startAnimation(lose_animation);
                 animeText2.startAnimation(win_animation);
+                backgroundchangeLose();
             } else {
                 result = "DRAW";
                 score = 1;
                 animeText1.startAnimation(draw_animation);
                 animeText2.startAnimation(draw_animation);
 
-                backgroundchangeWin();
-            } else if (question > answer) {
-                result = "LOSE";
-                score = -1;
-                backgroundchangeLose();
-            } else {
-                result = "DRAW";
-                score = 1;
                 backgroundchangeDraw();
             }
         } else {
@@ -241,25 +235,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 score = 2;
                 animeText1.startAnimation(win_animation);
                 animeText2.startAnimation(lose_animation);
+                backgroundchangeWin();
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
                 animeText1.startAnimation(lose_animation);
                 animeText2.startAnimation(win_animation);
+                backgroundchangeLose();
             } else {
                 result = "DRAW";
                 score = 1;
                 animeText1.startAnimation(draw_animation);
                 animeText2.startAnimation(draw_animation);
-
-                backgroundchangeWin();
-            } else if (question < answer) {
-                result = "LOSE";
-                score = -1;
-                backgroundchangeLose();
-            } else {
-                result = "DRAW";
-                score = 1;
                 backgroundchangeDraw();
             }
         }
@@ -304,7 +291,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         txtScore.setText("0");
     }
 
-}
 
 
     private void backgroundchangeWin(){
