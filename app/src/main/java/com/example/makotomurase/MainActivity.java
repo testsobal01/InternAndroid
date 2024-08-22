@@ -1,5 +1,6 @@
 package com.example.makotomurase;
 
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.SharedPreferences;
@@ -17,7 +18,11 @@ import android.widget.Toast;
 
 import java.util.Random;
 
+
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
+    SoundPlayer sp;
 
     SharedPreferences pref;
     SharedPreferences.Editor prefEditor;
@@ -46,6 +51,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // 起動時に関数を呼び出す
         setQuestionValue();
 
+        sp = new SoundPlayer(this);
+
         pref = getSharedPreferences("MakotoMurase",MODE_PRIVATE);
         prefEditor = pref.edit();
     }
@@ -69,6 +76,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View view) {
+
+        sp.playHitSound();
         int id = view.getId();
 
         if (id == R.id.button1) {
