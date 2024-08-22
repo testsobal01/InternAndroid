@@ -3,6 +3,9 @@ package com.example.makotomurase;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.graphics.Color;
+import android.media.AudioAttributes;
+import android.media.AudioManager;
+import android.media.SoundPool;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
@@ -14,6 +17,8 @@ import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
+    int mp3;
+    SoundPool soundPool;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,6 +33,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
 
+        AudioAttributes attr = new AudioAttributes.Builder().
+                setUsage(AudioAttributes.USAGE_MEDIA).
+                setContentType(AudioAttributes.CONTENT_TYPE_MUSIC).build();
+
+        soundPool = new SoundPool.Builder()
+                .setAudioAttributes(attr)
+                .setMaxStreams(5)
+                .build();
+
+        mp3 = soundPool.load(this, R.raw.sound, 1);
+
         // 起動時に関数を呼び出す
         setQuestionValue();
     }
@@ -38,15 +54,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (id == R.id.button1) {
             setAnswerValue();
             checkResult(true);
+            soundPool.play(mp3, 1f, 1f, 0, 0, 1f);
         } else if (id == R.id.button2) {
             setAnswerValue();
             checkResult(false);
+            soundPool.play(mp3, 1f, 1f, 0, 0, 1f);
         } else if (id == R.id.button3) {
             setQuestionValue();
             clearAnswerValue();
             clearScoreValue();
             Vibrator vib = (Vibrator) getSystemService(VIBRATOR_SERVICE);
             vib.vibrate(300);
+            soundPool.play(mp3, 1f, 1f, 0, 0, 1f);
         }
 
     }
