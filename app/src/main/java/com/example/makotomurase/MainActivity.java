@@ -2,10 +2,12 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -44,6 +46,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             setQuestionValue();
             clearAnswerValue();
             clearScoreValue();
+            change_back_color(1);
         }
     }
 
@@ -112,6 +115,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Toast.makeText(this, result, Toast.LENGTH_LONG).show();
         txtResult.setText("結果：" + question + ":" + answer + "(" + result + ")");
 
+        //勝敗で背景色変更
+        change_back_color(score);
+
         // 続けて遊べるように値を更新
         setNextQuestion();
         // スコアを表示
@@ -145,6 +151,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void clearScoreValue() {
         TextView txtScore = (TextView) findViewById(R.id.text_score);
         txtScore.setText("0");
+    }
+
+    public void change_back_color(int result){
+        LinearLayout filled = findViewById(R.id.filled);
+        switch (result){
+            case 2:
+                filled.setBackgroundColor(Color.parseColor("#FFd700"));
+                break;
+
+            case -1:
+                filled.setBackgroundColor(Color.CYAN);
+                break;
+
+            case 1:
+                filled.setBackgroundColor(Color.WHITE);
+                break;
+        }
     }
 }
 
