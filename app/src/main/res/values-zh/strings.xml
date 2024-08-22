@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">YasuakiGotou</string>
+    <string name="btn_high">高的</string>
+    <string name="btn_low">低的</string>
+    <string name="btn_restart">重新启动</string>
+    <string name="label_score">得分：</string>
+
+    <string name="random_max_text">已设定。</string>
+</resources>
