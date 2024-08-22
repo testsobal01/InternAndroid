@@ -2,13 +2,14 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-
+import android.os.Vibrator;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -44,7 +45,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             setQuestionValue();
             clearAnswerValue();
             clearScoreValue();
+            Vibrator vib = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+            vib.vibrate(300);
         }
+
     }
 
     private void clearAnswerValue() {
@@ -88,23 +92,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = "WIN";
                 score = 2;
+                changeBackgroundWin();
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
+                changeBackGroundLose();
             } else {
                 result = "DRAW";
                 score = 1;
+                changeBackGroundDraw();
             }
         } else {
             if (question > answer) {
                 result = "WIN";
                 score = 2;
+                changeBackgroundWin();
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
+                changeBackGroundLose();
             } else {
                 result = "DRAW";
                 score = 1;
+                changeBackGroundDraw();
             }
         }
 
@@ -145,6 +155,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void clearScoreValue() {
         TextView txtScore = (TextView) findViewById(R.id.text_score);
         txtScore.setText("0");
+    }
+
+    private void changeBackgroundWin(){
+        TextView qtxtScore = (TextView) findViewById(R.id.question);
+        qtxtScore.setBackgroundColor(Color.RED);
+        TextView atxtScore = (TextView) findViewById(R.id.answer);
+        atxtScore.setBackgroundColor(Color.BLUE);
+    }
+
+    private void changeBackGroundLose(){
+        TextView qtxtScore = (TextView) findViewById(R.id.question);
+        qtxtScore.setBackgroundColor(Color.BLUE);
+        TextView atxtScore = (TextView) findViewById(R.id.answer);
+        atxtScore.setBackgroundColor(Color.RED);
+    }
+
+    private void changeBackGroundDraw(){
+        TextView qtxtScore = (TextView) findViewById(R.id.question);
+        qtxtScore.setBackgroundColor(Color.WHITE);
+        TextView atxtScore = (TextView) findViewById(R.id.answer);
+        atxtScore.setBackgroundColor(Color.WHITE);
     }
 }
 
