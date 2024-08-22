@@ -2,6 +2,7 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
@@ -9,9 +10,13 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.sql.ResultSetMetaData;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
+    SharedPreferences pref;
+    SharedPreferences.Editor prefEditor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +34,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // 起動時に関数を呼び出す
         setQuestionValue();
+        // プリファレンスの生成
+        setPreferences();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // スコアを再開
+        resumeScore();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        // スコアを保存
+        saveScore();
     }
 
     @Override
@@ -146,5 +167,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView txtScore = (TextView) findViewById(R.id.text_score);
         txtScore.setText("0");
     }
+
+    private void setPreferences(){
+        pref = getSharedPreferences("Score",MODE_PRIVATE);
+        prefEditor = pref.edit();
+    }
+
+    private void resumeScore(){
+        TextView txtScore = (TextView) findViewById(R.id.text_score);
+        txtScore.setText(pref.getString("main_score","0"));
+    }
+
+    private void saveScore(){
+        TextView txtScore = (TextView) findViewById(R.id.text_score);
+        prefEditor.putString("main_score",txtScore.getText().toString());
+        prefEditor.commit();
+    }
+
 }
 
