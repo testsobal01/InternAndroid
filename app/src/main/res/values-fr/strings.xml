@@ -1,9 +1,0 @@
-<resources>
-    <string name="app_name">YasuakiGotou</string>
-    <string name="btn_high">Haut</string>
-    <string name="btn_low">Faible</string>
-    <string name="btn_restart">Redémarrage</string>
-    <string name="label_score">Marquer des points：</string>
-
-    <string name="random_max_text">" est réglé."</string>
-</resources>
