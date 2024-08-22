@@ -1,3 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+ <string name="text">10已设定</string>
+ <string name="app_name">YasuakiGotou</string>
+ <string name="btn_high">高的</string>
+ <string name="btn_low">低的</string>
+ <string name="btn_restart">重做</string>
+ <string name="label_score">分数：</string>
+ <string name="label_result">结果：</string>
+ <string name="label_win">赢</string>
+ <string name="label_lose">失败</string>
+ <string name="label_draw">平局</string>
 </resources>
