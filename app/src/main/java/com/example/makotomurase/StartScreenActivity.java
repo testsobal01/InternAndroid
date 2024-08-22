@@ -29,7 +29,7 @@ public class StartScreenActivity extends AppCompatActivity implements View.OnCli
             startActivity(intent);
         }
         else if (id == R.id.button_cancel) {
-            Toast.makeText(this, "そんな、やらないなんてことはないよね…？ただの押し間違いだよね…？", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, getString(R.string.cancel_toast), Toast.LENGTH_LONG).show();
         }
     }
 }

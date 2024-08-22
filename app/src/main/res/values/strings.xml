@@ -6,6 +6,7 @@
     <string name="label_score">スコア：</string>
     <string name="start_button">はじめちゃおうかな！</string>
     <string name="cancel_button">やっぱり…まだ…やめておく…</string>
+    <string name="cancel_toast">そんな、やらないなんてことはないよね…？ただの押し間違いだよね…？</string>
     <string name="group_name">Group - A</string>
 
     <string name="random_max_text">が設定されています。</string>
