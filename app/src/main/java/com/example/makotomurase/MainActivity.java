@@ -3,17 +3,23 @@ package com.example.makotomurase;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.graphics.Color;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Vibrator;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.sql.ResultSetMetaData;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
+    SharedPreferences pref;
+    SharedPreferences.Editor prefEditor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +37,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // 起動時に関数を呼び出す
         setQuestionValue();
+        // プリファレンスの生成
+        setPreferences();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // スコアを再開
+        resumeScore();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        // スコアを保存
+        saveScore();
     }
 
     @Override
@@ -40,6 +62,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             setAnswerValue();
             checkResult(true);
             colerChange(true);
+            Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+            vib.vibrate(5000);
         } else if (id == R.id.button2) {
             setAnswerValue();
             checkResult(false);
@@ -50,6 +74,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             clearScoreValue();
             clearBackground();
         }
+
     }
 
     private void clearAnswerValue() {
@@ -187,6 +212,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 back.setBackgroundColor(Color.WHITE);
             }
         }
+
+    private void setPreferences(){
+        pref = getSharedPreferences("Score",MODE_PRIVATE);
+        prefEditor = pref.edit();
+    }
+
+    private void resumeScore(){
+        TextView txtScore = (TextView) findViewById(R.id.text_score);
+        txtScore.setText(pref.getString("main_score","0"));
+    }
+
+    private void saveScore(){
+        TextView txtScore = (TextView) findViewById(R.id.text_score);
+        prefEditor.putString("main_score",txtScore.getText().toString());
+        prefEditor.commit();
     }
 
 }
