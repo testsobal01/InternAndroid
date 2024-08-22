@@ -2,16 +2,29 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.media.AudioAttributes;
+import android.media.AudioManager;
+import android.media.SoundPool;
+import android.os.Build;
+import android.content.Intent;
+import android.content.res.AssetManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.graphics.Color;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -21,6 +34,32 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     Animation draw_animation;
     TextView animeText1;
     TextView animeText2;
+
+    int mp3a;
+    int mp3b;
+    int mp3c;
+    SoundPool soundPool;
+
+    public void play_mp3a() {
+        soundPool.play(mp3a, 1f, 0, 0, 0, 1f);
+    }
+
+    ;
+
+    public void play_mp3b() {
+        soundPool.play(mp3b, 1f, 0, 0, 0, 1f);
+    }
+
+    ;
+
+    public void play_mp3c() {
+        soundPool.play(mp3c, 1f, 0, 0, 0, 1f);
+    }
+
+    ;
+    String text_kekka;
+    SharedPreferences pref;
+    SharedPreferences.Editor prefEditor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +82,70 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         animeText2=(TextView) findViewById(R.id.question);
         // 起動時に関数を呼び出す
         setQuestionValue();
+
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+
+            soundPool = new SoundPool(2, AudioManager.STREAM_MUSIC, 0);
+
+        } else {
+            AudioAttributes attr = new AudioAttributes.Builder()
+                    .setUsage(AudioAttributes.USAGE_MEDIA)
+                    .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+                    .build();
+            soundPool = new SoundPool.Builder()
+                    .setAudioAttributes(attr)
+                    .setMaxStreams(2)
+                    .build();
+        }
+        mp3a = soundPool.load(this, R.raw.button1, 1);
+        mp3b = soundPool.load(this, R.raw.button2, 1);
+        mp3c = soundPool.load(this, R.raw.button3, 1);
+
+        text_kekka = getString(R.string.kekka);
+
+        ImageView imageView = (ImageView) findViewById(R.id.image_view);
+
+        AssetManager assetManager = getResources().getAssets();
+        try {
+            InputStream inputStream = assetManager.open("baby-623417_1280.jpg");
+            Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+            imageView.setImageBitmap(bitmap);
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        //プリファレンスの生成
+        pref = getSharedPreferences("AndroidSeminor", MODE_PRIVATE);
+        prefEditor = pref.edit();
     }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Toast.makeText(this, "onPause", Toast.LENGTH_SHORT).show();
+        TextView text_score = (TextView) findViewById(R.id.text_score);
+        prefEditor.putString("score_input", text_score.getText().toString());
+        prefEditor.commit();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Toast.makeText(this, "onResume", Toast.LENGTH_SHORT).show();
+
+        TextView text_score = (TextView) findViewById(R.id.text_score);
+
+        String read_score = pref.getString("score_input", "0");
+        text_score.setText(read_score);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Toast.makeText(this, "onDestroy", Toast.LENGTH_SHORT).show();
+
+    }
+
 
     @Override
     public void onClick(View view) {
@@ -55,13 +157,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (id == R.id.button1) {
             setAnswerValue();
             checkResult(true);
+            play_mp3a();
         } else if (id == R.id.button2) {
             setAnswerValue();
             checkResult(false);
+            play_mp3b();
         } else if (id == R.id.button3) {
             setQuestionValue();
             clearAnswerValue();
             clearScoreValue();
+            play_mp3c();
         }
     }
 
@@ -106,6 +211,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = "WIN";
                 score = 2;
+              
                 animeText1.startAnimation(win_animation);
                 animeText2.startAnimation(lose_animation);
             } else if (question > answer) {
@@ -118,6 +224,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 score = 1;
                 animeText1.startAnimation(draw_animation);
                 animeText2.startAnimation(draw_animation);
+
+                backgroundchangeWin();
+            } else if (question > answer) {
+                result = "LOSE";
+                score = -1;
+                backgroundchangeLose();
+            } else {
+                result = "DRAW";
+                score = 1;
+                backgroundchangeDraw();
             }
         } else {
             if (question > answer) {
@@ -135,12 +251,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 score = 1;
                 animeText1.startAnimation(draw_animation);
                 animeText2.startAnimation(draw_animation);
+
+                backgroundchangeWin();
+            } else if (question < answer) {
+                result = "LOSE";
+                score = -1;
+                backgroundchangeLose();
+            } else {
+                result = "DRAW";
+                score = 1;
+                backgroundchangeDraw();
             }
         }
 
         // 最後にまとめてToast表示の処理とTextViewへのセットを行う
         Toast.makeText(this, result, Toast.LENGTH_LONG).show();
-        txtResult.setText("結果：" + question + ":" + answer + "(" + result + ")");
+        txtResult.setText(text_kekka+ question + ":" + answer + "(" + result + ")");
+
 
         // 続けて遊べるように値を更新
         setNextQuestion();
@@ -176,5 +303,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView txtScore = (TextView) findViewById(R.id.text_score);
         txtScore.setText("0");
     }
+
 }
 
+
+    private void backgroundchangeWin(){
+        TextView txtquestion = (TextView) findViewById(R.id.question);
+        TextView txtanswer = (TextView) findViewById(R.id.answer);
+        txtquestion.setBackgroundColor(Color.rgb(255, 140, 0));
+        txtanswer.setBackgroundColor(Color.rgb(255, 164, 0));
+    }
+    private void backgroundchangeLose(){
+        TextView txtquestion = (TextView) findViewById(R.id.question);
+        TextView txtanswer = (TextView) findViewById(R.id.answer);
+        txtquestion.setBackgroundColor(Color.rgb(0, 133, 201));
+        txtanswer.setBackgroundColor(Color.rgb(102, 153, 204));
+    }
+    private void backgroundchangeDraw(){
+        TextView txtquestion = (TextView) findViewById(R.id.question);
+        TextView txtanswer = (TextView) findViewById(R.id.answer);
+        txtquestion.setBackgroundColor(Color.rgb(140, 140, 140));
+        txtanswer.setBackgroundColor(Color.rgb(140, 140, 140));
+    }
+}
