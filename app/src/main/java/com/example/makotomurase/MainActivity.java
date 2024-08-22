@@ -3,8 +3,11 @@ package com.example.makotomurase;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.graphics.Color;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.VibrationAttributes;
+import android.os.Vibrator;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -15,10 +18,17 @@ import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
+    private long pattern1[] = {0,100,80,100,80,300,100,0,100,0,100,300,80,100,80,300,80,300,80,300};
+    private long pattern2[] = {0,300,80,300,80,100,80,300,80,100,100,0,100,0,100,300,80,100};
+    private long pattern3[] = {0,100,100,100,100,100,100,0,100,0,100,300,80,300,80,300,100,0,100,0,100,100,80,100,80,100};
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Intent intent = getIntent();
+        Bundle extra = intent.getExtras();
 
         Button btn1 = findViewById(R.id.button1);
         btn1.setOnClickListener(this);
@@ -36,6 +46,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View view) {
         int id = view.getId();
+
         if (id == R.id.button1) {
             setAnswerValue();
             checkResult(true);
@@ -47,6 +58,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             clearAnswerValue();
             clearScoreValue();
             change_back_color(1);
+        }
+        if (id == R.id.button1){
+            Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+            vib.vibrate(pattern1,-1);
+        }
+        else if (id == R.id.button2){
+            Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+            vib.vibrate(pattern2,-1);
+        }
+        else if (id == R.id.button3){
+                Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+                vib.vibrate(pattern3,-1);
         }
     }
 
