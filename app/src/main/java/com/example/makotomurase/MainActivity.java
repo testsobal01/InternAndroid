@@ -2,10 +2,12 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,13 +39,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (id == R.id.button1) {
             setAnswerValue();
             checkResult(true);
+            colerChange(true);
         } else if (id == R.id.button2) {
             setAnswerValue();
             checkResult(false);
+            colerChange(false);
         } else if (id == R.id.button3) {
             setQuestionValue();
             clearAnswerValue();
             clearScoreValue();
+            clearBackground();
         }
     }
 
@@ -51,6 +56,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView txtView = (TextView) findViewById(R.id.answer);
         txtView.setText("値2");
     }
+    private void clearBackground(){
+        LinearLayout back = findViewById(R.id.background);
+        back.setBackgroundColor(Color.WHITE);
+    }
+
 
     private void setQuestionValue() {
         Random r = new Random();
@@ -146,5 +156,38 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView txtScore = (TextView) findViewById(R.id.text_score);
         txtScore.setText("0");
     }
+    private void colerChange(boolean isHigh){
+
+        TextView txtViewQuestion = findViewById(R.id.question);
+        TextView txtViewAnswer = findViewById(R.id.answer);
+
+        int question = Integer.parseInt(txtViewQuestion.getText().toString());
+        int answer = Integer.parseInt(txtViewAnswer.getText().toString());
+
+        //TextView txtResult = (TextView) findViewById(R.id.text_result);
+
+        LinearLayout back = findViewById(R.id.background);
+
+
+
+        if (isHigh) {
+            if (question < answer) {
+                back.setBackgroundColor(Color.RED);
+            } else if (question > answer) {
+                back.setBackgroundColor(Color.BLUE);
+            } else {
+                back.setBackgroundColor(Color.WHITE);
+            }
+        } else {
+            if (question > answer) {
+                back.setBackgroundColor(Color.RED);
+            } else if (question < answer) {
+                back.setBackgroundColor(Color.BLUE);
+            } else {
+                back.setBackgroundColor(Color.WHITE);
+            }
+        }
+    }
+
 }
 
