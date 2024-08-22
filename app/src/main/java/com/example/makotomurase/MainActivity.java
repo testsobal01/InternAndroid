@@ -12,6 +12,8 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -179,6 +181,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // 最後にまとめてToast表示の処理とTextViewへのセットを行う
         Toast.makeText(this, result, Toast.LENGTH_LONG).show();
         txtResult.setText("結果：" + question + ":" + answer + "(" + result + ")");
+
+        //以下アニメーション機能
+        TextView spaceshipImage = (TextView) findViewById(R.id.question);
+        TextView spaceshipImage2 = (TextView) findViewById(R.id.answer);
+        if (result == "WIN"){
+            Animation hyperspaceJumpAnimation = AnimationUtils.loadAnimation(this, R.anim.animation1);
+            spaceshipImage.startAnimation(hyperspaceJumpAnimation);
+            Animation hyperspaceJumpAnimation2 = AnimationUtils.loadAnimation(this, R.anim.animation2);
+            spaceshipImage2.startAnimation(hyperspaceJumpAnimation2);
+        } else if (result == "LOSE"){
+            Animation hyperspaceJumpAnimation = AnimationUtils.loadAnimation(this, R.anim.animation2);
+            spaceshipImage.startAnimation(hyperspaceJumpAnimation);
+            Animation hyperspaceJumpAnimation2 = AnimationUtils.loadAnimation(this, R.anim.animation1);
+            spaceshipImage2.startAnimation(hyperspaceJumpAnimation2);
+        } else {
+
+        }
+        //ここまでアニメーション機能
 
         // 続けて遊べるように値を更新
         setNextQuestion();
