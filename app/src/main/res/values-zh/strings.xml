@@ -5,5 +5,5 @@
     <string name="btn_restart">Restart</string>
     <string name="label_score">Score：</string>
 
-    <string name="random_max_text">が設定されています。</string>
+    <string name="random_max_text">已设定。</string>
 </resources>
