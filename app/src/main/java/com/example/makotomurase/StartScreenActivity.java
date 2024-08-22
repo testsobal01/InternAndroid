@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 public class StartScreenActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -16,6 +17,8 @@ public class StartScreenActivity extends AppCompatActivity implements View.OnCli
 
         Button btn_start = findViewById(R.id.button_start);
         btn_start.setOnClickListener(this);
+        Button btn_cancel = findViewById(R.id.button_cancel);
+        btn_cancel.setOnClickListener(this);
     }
 
     @Override
@@ -24,6 +27,9 @@ public class StartScreenActivity extends AppCompatActivity implements View.OnCli
         if(id == R.id.button_start) {
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
+        }
+        else if (id == R.id.button_cancel) {
+            Toast.makeText(this, "そんな、やらないなんてことはないよね…？ただの押し間違いだよね…？", Toast.LENGTH_LONG).show();
         }
     }
 }
