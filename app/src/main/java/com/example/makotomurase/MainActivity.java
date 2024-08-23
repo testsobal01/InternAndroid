@@ -193,7 +193,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView txtScore = (TextView) findViewById(R.id.text_score);
         txtScore.setText("0");
     }
-    private void colerChange(boolean isHigh){
+    private void colerChange(boolean isHigh) {
 
         TextView txtViewQuestion = findViewById(R.id.question);
         TextView txtViewAnswer = findViewById(R.id.answer);
@@ -204,7 +204,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //TextView txtResult = (TextView) findViewById(R.id.text_result);
 
         LinearLayout back = findViewById(R.id.background);
-
 
 
         if (isHigh) {
@@ -224,7 +223,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 back.setBackgroundColor(Color.WHITE);
             }
         }
-
+    }
     private void setPreferences(){
         pref = getSharedPreferences("Score",MODE_PRIVATE);
         prefEditor = pref.edit();
