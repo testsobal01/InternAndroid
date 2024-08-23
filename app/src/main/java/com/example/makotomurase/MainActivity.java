@@ -9,6 +9,7 @@ import android.graphics.Color;
 import android.content.Intent;
 import android.media.AudioAttributes;
 import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.media.SoundPool;
 import android.os.Build;
 import android.os.Bundle;
@@ -32,6 +33,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     // 機能8 準備（コンポを部屋に置く）
     SoundPool soundPool;    // 効果音を鳴らす本体（コンポ）
     int mp3a;          // 効果音
+    MediaPlayer p;
 
 
     @Override
@@ -39,6 +41,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        p = MediaPlayer.create(getApplicationContext(), R.raw.bgm1);
+        p.setLooping(true);
 
         Button btn1 = findViewById(R.id.button1);
         btn1.setOnClickListener(this);
@@ -94,6 +98,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             setQuestionValue();
             clearAnswerValue();
+            clear_result();
+            clear_win_lose_cnt_Value();
             clearScoreValue();
 
 
@@ -124,6 +130,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         txtView.setText(Integer.toString(answerValue));
     }
 
+    //勝敗、引き分けを格納するint変数
+    int cnt_win;
+    int cnt_lose;
+    int cnt_draw;
     private void checkResult(boolean isHigh) {
         TextView txtViewQuestion = findViewById(R.id.question);
         TextView txtViewAnswer = findViewById(R.id.answer);
@@ -132,11 +142,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int answer = Integer.parseInt(txtViewAnswer.getText().toString());
 
         TextView txtResult = (TextView) findViewById(R.id.text_result);
+        TextView text_win_lose_draw = (TextView) findViewById(R.id.text_win_lose_draw);
 
         // 結果を示す文字列を入れる変数を用意
         int score;
         String result;
 
+        //勝敗、引き分けをカウントするint変数
+        int cnt=0;
+
+
+        //勝敗、引き分けを格納するstring変数
+        String text_win;
+        String text_lose;
+        String text_draw;
 
         // Highが押された
         if (isHigh) {
@@ -149,6 +168,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 TextView Color_High_Right = findViewById(R.id.answer);
                 Color_High_Right.setBackgroundColor(Color.argb(255,255,69,0));
                 score = 2;
+                cnt++;
+                cnt_win+=cnt;
             } else if (question > answer) {
                 result = "LOSE";
                 //負けた時の背景色を変える　Lose:左を赤、右を青
@@ -157,6 +178,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 TextView Color_HIGH_Right = findViewById(R.id.answer);
                 Color_HIGH_Right.setBackgroundColor(Color.CYAN);
                 score = -1;
+                cnt++;
+                cnt_lose+=cnt;
             } else {
                 result = "DRAW";
                 TextView Color_HIGH_Left = findViewById(R.id.question);
@@ -165,6 +188,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Color_HIGH_Right.setBackgroundColor(Color.MAGENTA);
                 //引き分けた時の背景色を変える　Draw:紫
                 score = 1;
+                cnt++;
+                cnt_draw+=cnt;
             }
         } else {
             if (question > answer) {
@@ -175,6 +200,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 TextView Color_Low_Right = findViewById(R.id.answer);
                 Color_Low_Right.setBackgroundColor(Color.GREEN);
                 score = 2;
+                cnt++;
+                cnt_win+=cnt;
             } else if (question < answer) {
                 result = "LOSE";
                 //負けた時の背景色を変える　LOW:左を緑、右を黄色
@@ -183,6 +210,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 TextView Color_Low_Right = findViewById(R.id.answer);
                 Color_Low_Right.setBackgroundColor(Color.argb(255,255,165,0));
                 score = -1;
+                cnt++;
+                cnt_lose+=cnt;
             } else {
                 result = "DRAW";
                 //引き分けた時の背景色を変える　LOW:グレー
@@ -191,6 +220,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 TextView Color_Low_Right = findViewById(R.id.answer);
                 Color_Low_Right.setBackgroundColor(Color.argb(255,169,169,169));
                 score = 1;
+                cnt++;
+                cnt_draw+=cnt;
             }
         }
 
@@ -211,6 +242,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
         txtResult.setText("結果：" + question + ":" + answer + "(" + result + ")");
+
+        //勝敗、引き分け回数を文字列にキャストして格納
+        text_win = Integer.toString(cnt_win);
+        text_lose = Integer.toString(cnt_lose);
+        text_draw = Integer.toString(cnt_draw);
+
+        //勝ち負け、引き分け回数を表示
+        text_win_lose_draw.setText("勝ち：" + text_win  + " " + "負け: " + text_lose + " "+ "引き分け: " +text_draw);
 
         //以下アニメーション機能
         TextView spaceshipImage = (TextView) findViewById(R.id.question);
@@ -265,10 +304,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
        prefEditor.putInt("totalScoreLabel", Integer.parseInt(textView.getText().toString()));
        prefEditor.commit();
-
-
+        p.pause();
     }
 
+    @Override
     protected void onResume(){
         super.onResume();
 
@@ -278,6 +317,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int readText = pref.getInt("totalScoreLabel",Integer.parseInt(textView.getText().toString()));
 
         textView.setText(Integer.toString(readText));
+        p.start();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        p.release();
+        p = null;
     }
 
     private void setScore(int score) {
@@ -293,6 +340,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         txtScore.setText("0");
     }
 
+    private void clear_win_lose_cnt_Value() {
+        TextView text_win_lose_draw = (TextView) findViewById(R.id.text_win_lose_draw);
+        text_win_lose_draw.setText("勝ち：" + 0 + " " + "負け: " + 0 + " " + "引き分け: " +0);
+    }
+
+    private void clear_result() {
+        TextView txtResult = (TextView) findViewById(R.id.text_result);
+        txtResult.setText("");
+    }
 
 }
 
