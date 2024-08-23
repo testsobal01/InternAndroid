@@ -6,13 +6,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity"
-    android:background="#FFFFFF">
+    android:background="#FFFFFF"
+    android:orientation="vertical">
 
+    <!-- メイン画面 -->
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+
         android:orientation="vertical">
 
+        <!-- 上のボタン -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -48,6 +53,7 @@
                 app:backgroundTint="@color/button_color_selector" />
         </LinearLayout>
 
+        <!-- 設定値 -->
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
@@ -63,11 +69,13 @@
                 android:text="@string/random_max_text" />
         </LinearLayout>
 
+        <!-- 結果 -->
         <TextView
             android:id="@+id/text_result"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
+        <!-- Score -->
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
@@ -84,6 +92,7 @@
                 android:text="100" />
         </LinearLayout>
 
+        <!-- 値 -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -108,6 +117,64 @@
                 android:text="値2"
                 android:textSize="60sp" />
         </LinearLayout>
+
+    </LinearLayout>
+
+
+
+    <!-- フッター？ -->
+    <LinearLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+<!--        <ImageView-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_weight="1"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:src="@drawable/ramen_tenin_footer"-->
+<!--            android:scaleType="fitXY"-->
+<!--            />-->
+<!--        <ImageView-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_weight="1"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:src="@drawable/ramen_tenin_footer"-->
+<!--            android:scaleType="fitXY"-->
+<!--            />-->
+<!--        <ImageView-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_weight="1"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:src="@drawable/ramen_tenin_footer"-->
+<!--            android:scaleType="fitXY"-->
+<!--            />-->
+        <ImageView
+            android:id="@+id/footer"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="100sp"
+            android:src="@drawable/ramen_syouyu"
+            android:scaleType="centerInside"
+            android:alpha="0.25"
+            />
+        <ImageView
+
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="100sp"
+            android:src="@drawable/ramen_donburi"
+            android:scaleType="centerInside"
+            android:alpha="1"
+            />
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="100sp"
+            android:src="@drawable/ramen_syouyu"
+            android:scaleType="centerInside"
+            />
 
     </LinearLayout>
 
