@@ -40,6 +40,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     SharedPreferences pref;
     SharedPreferences.Editor prefEditor;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -89,6 +90,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         pref = getSharedPreferences("AndroidSeminor",MODE_PRIVATE);
         prefEditor = pref.edit();
+
+        TextView oukan1 = (TextView) findViewById(R.id.oukan1);
+        oukan1.setVisibility(View.INVISIBLE);
+        TextView oukan2 = (TextView) findViewById(R.id.oukan2);
+        oukan2.setVisibility(View.INVISIBLE);
+
+
     }
 
     @Override
@@ -187,16 +195,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 changeBackgroundWin();
                 startAnimation1_Win(findViewById(R.id.question));
                 startAnimation2(findViewById(R.id.answer));
+                winOukan();
             } else if (question > answer) {
                 result = lose_text;
                 score = -1;
                 changeBackGroundLose();
                 startAnimation1_Lose(findViewById(R.id.answer));
                 startAnimation2(findViewById(R.id.question));
+                loseOukan();
             } else {
                 result = draw_text;
                 score = 1;
                 changeBackGroundDraw();
+                drawOukan();
             }
         } else {
             if (question > answer) {
@@ -205,16 +216,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 changeBackgroundWin();
                 startAnimation1_Win(findViewById(R.id.question));
                 startAnimation2(findViewById(R.id.answer));
+                winOukan();
             } else if (question < answer) {
                 result = lose_text;
                 score = -1;
                 changeBackGroundLose();
                 startAnimation1_Lose(findViewById(R.id.answer));
                 startAnimation2(findViewById(R.id.question));
+                loseOukan();
             } else {
                 result = draw_text;
                 score = 1;
                 changeBackGroundDraw();
+                drawOukan();
             }
         }
 
@@ -253,6 +267,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int newScore = Integer.parseInt(txtScore.getText().toString()) + score;
         txtScore.setText(Integer.toString(newScore));
     }
+
 
     private void clearScoreValue() {
         TextView txtScore = (TextView) findViewById(R.id.text_score);
@@ -367,6 +382,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         AnimatorSet set = new AnimatorSet();
         set.playTogether(animatorList0);
         set.start();
+    }
+
+    private void winOukan(){
+        TextView oukan1 = (TextView) findViewById(R.id.oukan1);
+        oukan1.setVisibility(View.VISIBLE);
+        TextView oukan2 = (TextView) findViewById(R.id.oukan2);
+        oukan2.setVisibility(View.INVISIBLE);
+    }
+
+    private void loseOukan(){
+        TextView oukan1 = (TextView) findViewById(R.id.oukan1);
+        oukan1.setVisibility(View.INVISIBLE);
+        TextView oukan2 = (TextView) findViewById(R.id.oukan2);
+        oukan2.setVisibility(View.VISIBLE);
+    }
+
+    private void drawOukan(){
+        TextView oukan1 = (TextView) findViewById(R.id.oukan1);
+        oukan1.setVisibility(View.INVISIBLE);
+        TextView oukan2 = (TextView) findViewById(R.id.oukan2);
+        oukan2.setVisibility(View.INVISIBLE);
     }
 }
 
