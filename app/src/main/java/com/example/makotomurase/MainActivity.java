@@ -9,10 +9,16 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-
+import android.media.SoundPool;
+import android.media.AudioAttributes;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
+    int Sound1,Sound2,Sound3,Sound4;
+    int oto1,oto2,oto4,oto3;
+
+    SoundPool soundPool;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +36,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // 起動時に関数を呼び出す
         setQuestionValue();
+
+        //
+        soundPool = null;
+        AudioAttributes audioAttributes = new
+                AudioAttributes.Builder().setUsage(AudioAttributes.USAGE_ALARM)
+                .setContentType(AudioAttributes.CONTENT_TYPE_SPEECH).build();
+
+        soundPool = new SoundPool.Builder()
+                .setAudioAttributes(audioAttributes).setMaxStreams(1).build();
+
+        oto1 = getResources().getIdentifier("sound1", "raw", getPackageName());
+        Sound1=soundPool.load(getBaseContext(),oto1,1);
+
+        oto2 = getResources().getIdentifier("sound2", "raw", getPackageName());
+        Sound2=soundPool.load(getBaseContext(),oto2,1);
+
+        oto3 = getResources().getIdentifier("sound3", "raw", getPackageName());
+        Sound3=soundPool.load(getBaseContext(),oto3,1);
+
+        oto4 = getResources().getIdentifier("sound4", "raw", getPackageName());
+        Sound4=soundPool.load(getBaseContext(),oto4,1);
+        //Sound = soundPool.load(getBaseContext(), R.raw.sound1, 1);
     }
 
     @Override
@@ -40,6 +68,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 vib.vibrate(5000);
                 break;
         }*/
+
+        //Button button = (Button) findViewById(R.id.button1);
+        //button.setOnClickListener(this);
+
+
+
 
 
         int id = view.getId();
@@ -52,6 +86,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             setAnswerValue();
             checkResult(false);
         } else if (id == R.id.button3) {
+
+            soundPool.play(Sound4, 1f, 1f, 1, 0, 1f);
+
             setQuestionValue();
             clearAnswerValue();
             clearScoreValue();
@@ -98,23 +135,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (isHigh) {
             // result には結果のみを入れる
             if (question < answer) {
+                soundPool.play(Sound1, 1f, 1f, 1, 0, 1f);
                 result = "WIN";
                 score = 2;
             } else if (question > answer) {
+                soundPool.play(Sound2, 1f, 1f, 1, 0, 1f);
                 result = "LOSE";
                 score = -1;
             } else {
+                soundPool.play(Sound3, 1f, 1f, 1, 0, 1f);
                 result = "DRAW";
                 score = 1;
             }
         } else {
             if (question > answer) {
+                soundPool.play(Sound1, 1f, 1f, 1, 0, 1f);
                 result = "WIN";
                 score = 2;
             } else if (question < answer) {
+                soundPool.play(Sound2, 1f, 1f, 1, 0, 1f);
                 result = "LOSE";
                 score = -1;
             } else {
+                soundPool.play(Sound3, 1f, 1f, 1, 0, 1f);
                 result = "DRAW";
                 score = 1;
             }
