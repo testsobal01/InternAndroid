@@ -19,7 +19,10 @@ import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    int mp3;
+    int mp3a;
+    int mp3b;
+    int mp3b_id;
+    int limit;
     SoundPool soundPool;
 
     String result_text;
@@ -50,6 +53,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
 
+        Button btn4 = findViewById(R.id.bgm_on);
+        btn4.setOnClickListener(this);
+
+        Button btn5 = findViewById(R.id.bgm_off);
+        btn5.setOnClickListener(this);
+
         AudioAttributes attr = new AudioAttributes.Builder().
                 setUsage(AudioAttributes.USAGE_MEDIA).
                 setContentType(AudioAttributes.CONTENT_TYPE_MUSIC).build();
@@ -59,7 +68,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .setMaxStreams(5)
                 .build();
 
-        mp3 = soundPool.load(this, R.raw.sound, 1);
+        mp3a = soundPool.load(this, R.raw.sound, 2);
+        mp3b = soundPool.load(this, R.raw.bgm, 1);
 
         result_text = getString(R.string.label_result);
         win_text= getString(R.string.label_win);
@@ -102,20 +112,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (id == R.id.button1) {
             setAnswerValue();
             checkResult(true);
-            soundPool.play(mp3, 1f, 1f, 0, 0, 1f);
+            soundPool.play(mp3a, 1f, 1f, 0, 0, 1f);
         } else if (id == R.id.button2) {
             setAnswerValue();
             checkResult(false);
-            soundPool.play(mp3, 1f, 1f, 0, 0, 1f);
+            soundPool.play(mp3a, 1f, 1f, 0, 0, 1f);
         } else if (id == R.id.button3) {
             setQuestionValue();
             clearAnswerValue();
             clearScoreValue();
             Vibrator vib = (Vibrator) getSystemService(VIBRATOR_SERVICE);
             vib.vibrate(300);
-            soundPool.play(mp3, 1f, 1f, 0, 0, 1f);
+            soundPool.play(mp3a, 1f, 1f, 0, 0, 1f);
+        }else if (id == R.id.bgm_on){
+            if(limit == 0) {
+                mp3b_id = soundPool.play(mp3b, 1f, 1f, 0, -1, 1f);
+                limit = limit + 1;
+            }
+        }else if (id == R.id.bgm_off) {
+            if (limit > 0) {
+                soundPool.stop(mp3b_id);
+                limit = 0;
+            }
         }
-
     }
 
     private void clearAnswerValue() {
