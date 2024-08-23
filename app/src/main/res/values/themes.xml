@@ -3,6 +3,7 @@
     <style name="Base.Theme.MakotoMurase" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="colorPrimary">#A5937B</item>
     </style>
 
     <style name="Theme.MakotoMurase" parent="Base.Theme.MakotoMurase" />
