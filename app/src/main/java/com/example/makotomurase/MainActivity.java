@@ -218,7 +218,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // 最後にまとめてToast表示の処理とTextViewへのセットを行う
         Toast.makeText(this, result, Toast.LENGTH_LONG).show();
-        txtResult.setText("RESULT：" + question + ":" + answer + "(" + result + ")");
+        txtResult.setText("RST：" + question + ":" + answer + "(" + result + ")");
 
         //勝敗、引き分け回数を文字列にキャストして格納
         text_win = Integer.toString(cnt_win);
