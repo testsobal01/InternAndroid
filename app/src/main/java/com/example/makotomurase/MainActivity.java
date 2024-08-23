@@ -14,15 +14,23 @@ import android.media.SoundPool;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Handler;
+import android.os.Looper;
 import android.os.Vibrator;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.text.SimpleDateFormat;
+import java.util.Locale;
 import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -33,6 +41,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     SoundPool soundPool;    // 効果音を鳴らす本体（コンポ）
     int mp3a;          // 効果音
     MediaPlayer p;
+
+    private Timer timer;
+    private CountUpTimerTask timerTask;
+    // 'Handler()' is deprecated as of API 30: Android 11.0 (R)
+    private final Handler handler = new Handler(Looper.getMainLooper());
+
+    private TextView timerText;
+    private long count, delay, period;
+    private String zero;
+    private long startTime;
+    private volatile boolean stopRun = false;
+
+    private final SimpleDateFormat dataFormat =
+            new SimpleDateFormat("mm:ss.SS", Locale.JAPAN);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +73,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
 
+        delay = 0;
+        period = 100;
+        // "00:00.0"
+        zero = getString(R.string.zero);
+
+        timerText = findViewById(R.id.timer);
+        timerText.setText(zero);
+        timer = new Timer();
+
+            // TimerTask インスタンスを生成
+        timerTask = new CountUpTimerTask();
+
+            // スケジュールを設定 100msec
+            // public void schedule (TimerTask task, long delay, long period)
+        timer.schedule(timerTask, delay, period);
+
+            // カウンター
+        count = 0;
+        timerText.setText(zero);
         Intent intent = getIntent();
         Bundle extra = intent.getExtras();
 
@@ -84,6 +125,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             soundPool.play(mp3a,1f , 1f, 0, 0, 1f);
             setAnswerValue();
             checkResult(true);
+
+
         } else if (id == R.id.button2) {
             soundPool.play(mp3a,1f , 1f, 0, 0, 1f);
             setAnswerValue();
@@ -101,6 +144,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+    public void run(){
+        Thread thread;
+        thread = new Thread((Runnable) this);
+        thread.start();
+
+        startTime = System.currentTimeMillis();
+
+
+    }
     private void clearAnswerValue() {
         TextView txtView = (TextView) findViewById(R.id.answer);
         txtView.setText("値2");
@@ -283,6 +335,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         txtScore.setText("0");
     }
 
+    class CountUpTimerTask extends TimerTask {
+        @Override
+        public void run() {
+            // handlerを使って処理をキューイングする
+            handler.post(() -> {
+                count++;
+                long mm = count*100 / 1000 / 60;
+                long ss = count*100 / 1000 % 60;
+                long ms = (count*100 - ss * 1000 - mm * 1000 * 60)/100;
+                // 桁数を合わせるために02d(2桁)を設定
+                timerText.setText(
+                        String.format(Locale.US, "%1$02d:%2$02d.%3$01d", mm, ss, ms));
+            });
+        }
+    }
 
 }
 
