@@ -3,6 +3,8 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.content.Intent;
@@ -199,6 +201,32 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView txtScore = (TextView) findViewById(R.id.text_score);
         int newScore = Integer.parseInt(txtScore.getText().toString()) + score;
         txtScore.setText(Integer.toString(newScore));
+
+        // ゲームオーバー画面への移行…するかもしれないし、しないかもしれない…
+        checkScore(newScore);
+    }
+
+    // もしスコアが0以下になったら、ゲームオーバー画面へ移行
+    private void checkScore(int newscore){
+
+        if(newscore <= 0) {
+
+            new AlertDialog.Builder(MainActivity.this)
+                    .setMessage("きみは めのまえが まっくらに なった！")
+                    .setPositiveButton("つぎへ", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            goGameOverScreen();
+                        }
+                    })
+                    .show();
+        }
+    }
+
+    // ゲームオーバー画面へ移行するためのインテント
+    private void goGameOverScreen(){
+        Intent intent = new Intent(this, GameOverActivity.class);
+        startActivity(intent);
     }
 
     private void clearScoreValue() {
@@ -234,7 +262,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             case -1:
                 answer.setBackgroundColor(Color.CYAN);
-                question.setBackgroundColor(Color.parseColor("##ff00ff"));
+                question.setBackgroundColor(Color.parseColor("#ff00ff"));
                 break;
 
             case 1:
