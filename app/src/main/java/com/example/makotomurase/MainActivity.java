@@ -86,6 +86,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             clearAnswerValue();
             clearScoreValue();
         }
+
+
+
+
     }
 
     private void clearAnswerValue() {
@@ -153,6 +157,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 score = 1;
                 backgroundchangeDraw();
             }
+
         }
 
         // 最後にまとめてToast表示の処理とTextViewへのセットを行う
@@ -163,6 +168,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setNextQuestion();
         // スコアを表示
         setScore(score);
+
+        TextView textView = findViewById(R.id.text_score);
+        String kekka = textView.getText().toString(); // "1"
+        int suji = Integer.parseInt(kekka); // 1
+
+        if (suji > 9) {
+            System.out.println("WIN");
+            txtViewQuestion.setText("YOUR");
+            txtViewAnswer.setText("WIN");
+        } else if (suji < -4) {
+            System.out.println("LOSE");
+            txtViewQuestion.setText("YOUR");
+            txtViewAnswer.setText("LOSE");
+        }
     }
 
     private void setNextQuestion() {
@@ -181,12 +200,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 setQuestionValue();
             }
         }.start();
+
     }
+
 
     private void setScore(int score) {
         TextView txtScore = (TextView) findViewById(R.id.text_score);
         int newScore = Integer.parseInt(txtScore.getText().toString()) + score;
         txtScore.setText(Integer.toString(newScore));
+
+
     }
 
     private void clearScoreValue() {
@@ -194,19 +217,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         txtScore.setText("0");
     }
 
-    private void backgroundchangeWin(){
+    private void backgroundchangeWin() {
         TextView txtquestion = (TextView) findViewById(R.id.question);
         TextView txtanswer = (TextView) findViewById(R.id.answer);
         txtquestion.setBackgroundColor(Color.rgb(255, 140, 0));
         txtanswer.setBackgroundColor(Color.rgb(255, 164, 0));
     }
-    private void backgroundchangeLose(){
+
+    private void backgroundchangeLose() {
         TextView txtquestion = (TextView) findViewById(R.id.question);
         TextView txtanswer = (TextView) findViewById(R.id.answer);
         txtquestion.setBackgroundColor(Color.rgb(0, 133, 201));
         txtanswer.setBackgroundColor(Color.rgb(102, 153, 204));
     }
-    private void backgroundchangeDraw(){
+
+    private void backgroundchangeDraw() {
         TextView txtquestion = (TextView) findViewById(R.id.question);
         TextView txtanswer = (TextView) findViewById(R.id.answer);
         txtquestion.setBackgroundColor(Color.rgb(140, 140, 140));
