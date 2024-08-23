@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.graphics.Typeface;
 import android.media.AudioAttributes;
 import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.media.SoundPool;
 import android.os.Build;
 import android.content.Intent;
@@ -18,6 +19,7 @@ import android.os.Vibrator;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.view.animation.Animation;
@@ -46,7 +48,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     int mp3b;
     int mp3c;
     SoundPool soundPool;
+    private MediaPlayer mediaPlayer;
 
+
+          public void play_mp3d(){
+              mediaPlayer = MediaPlayer.create(this,R.raw.bgm2);
+              mediaPlayer.setLooping(true); //    ループ設定
+              mediaPlayer.setVolume( 1f, 1f);
+              mediaPlayer.start();
+          }
     public void play_mp3a() {
         soundPool.play(mp3a, 1f, 0, 0, 0, 1f);
     }
@@ -87,6 +97,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         draw_animation = AnimationUtils.loadAnimation(this,R.anim.draw_animation);
         animeText1=(TextView) findViewById(R.id.answer);
         animeText2=(TextView) findViewById(R.id.question);
+
+        Typeface numFont=Typeface.createFromAsset(getAssets(),"BAUHS93.TTF");
+        animeText1.setTypeface(numFont);
+        animeText2.setTypeface(numFont);
         // 起動時に関数を呼び出す
         setQuestionValue();
 
@@ -115,6 +129,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mp3b = soundPool.load(this, R.raw.button2, 1);
         mp3c = soundPool.load(this, R.raw.button3, 1);
 
+
+
         text_kekka = getString(R.string.kekka);
 
         ImageView imageView = (ImageView) findViewById(R.id.image_view);
@@ -131,6 +147,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //プリファレンスの生成
         pref = getSharedPreferences("AndroidSeminor", MODE_PRIVATE);
         prefEditor = pref.edit();
+
+        play_mp3d();
+
     }
 
     @Override
@@ -165,7 +184,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View view) {
         if (view.getId() == R.id.button1) {
             Vibrator vid = (Vibrator) getSystemService(VIBRATOR_SERVICE);
-            vid.vibrate(5000);
+            vid.vibrate(2000);
         }
         int id = view.getId();
         if (id == R.id.button1) {
@@ -192,7 +211,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void clearAnswerValue() {
         TextView txtView = (TextView) findViewById(R.id.answer);
-        txtView.setText("値2");
+        txtView.setText("?");
     }
 
     private void setQuestionValue() {
@@ -335,22 +354,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
     private void backgroundchangeWin(){
-        TextView txtquestion = (TextView) findViewById(R.id.question);
-        TextView txtanswer = (TextView) findViewById(R.id.answer);
+        LinearLayout txtquestion = (LinearLayout) findViewById(R.id.questionBackground);
+        LinearLayout txtanswer = (LinearLayout) findViewById(R.id.answerBackground);
         txtquestion.setBackgroundColor(Color.rgb(255, 140, 0));
         txtanswer.setBackgroundColor(Color.rgb(255, 164, 0));
     }
 
     private void backgroundchangeLose() {
-        TextView txtquestion = (TextView) findViewById(R.id.question);
-        TextView txtanswer = (TextView) findViewById(R.id.answer);
+        LinearLayout txtquestion = (LinearLayout) findViewById(R.id.questionBackground);
+        LinearLayout txtanswer = (LinearLayout) findViewById(R.id.answerBackground);
         txtquestion.setBackgroundColor(Color.rgb(0, 133, 201));
         txtanswer.setBackgroundColor(Color.rgb(102, 153, 204));
     }
 
     private void backgroundchangeDraw() {
-        TextView txtquestion = (TextView) findViewById(R.id.question);
-        TextView txtanswer = (TextView) findViewById(R.id.answer);
+        LinearLayout txtquestion = (LinearLayout) findViewById(R.id.questionBackground);
+        LinearLayout txtanswer = (LinearLayout) findViewById(R.id.answerBackground);
         txtquestion.setBackgroundColor(Color.rgb(140, 140, 140));
         txtanswer.setBackgroundColor(Color.rgb(140, 140, 140));
     }
