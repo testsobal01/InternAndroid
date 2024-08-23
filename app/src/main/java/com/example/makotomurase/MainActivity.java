@@ -9,6 +9,7 @@ import android.graphics.Color;
 import android.content.Intent;
 import android.media.AudioAttributes;
 import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.media.SoundPool;
 import android.os.Build;
 import android.os.Bundle;
@@ -31,12 +32,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     // 機能8 準備（コンポを部屋に置く）
     SoundPool soundPool;    // 効果音を鳴らす本体（コンポ）
     int mp3a;          // 効果音
+    MediaPlayer p;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        p = MediaPlayer.create(getApplicationContext(), R.raw.bgm1);
+        p.setLooping(true);
 
         Button btn1 = findViewById(R.id.button1);
         btn1.setOnClickListener(this);
@@ -245,10 +249,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
        prefEditor.putInt("totalScoreLabel", Integer.parseInt(textView.getText().toString()));
        prefEditor.commit();
-
-
+        p.pause();
     }
 
+    @Override
     protected void onResume(){
         super.onResume();
 
@@ -258,6 +262,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int readText = pref.getInt("totalScoreLabel",Integer.parseInt(textView.getText().toString()));
 
         textView.setText(Integer.toString(readText));
+        p.start();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        p.release();
+        p = null;
     }
 
     private void setScore(int score) {
