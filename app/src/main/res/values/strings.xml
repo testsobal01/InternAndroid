@@ -3,7 +3,7 @@
     <string name="btn_high">高い</string>
     <string name="btn_low">低い</string>
     <string name="btn_restart">リスタート</string>
-    <string name="label_score">スコア：</string>
+    <string name="label_score">所持金($)：</string>
     <string name="start_button">はじめちゃおうかな！</string>
     <string name="cancel_button">やっぱり…まだ…やめておく…</string>
     <string name="cancel_toast">そんな、やらないなんてことはないよね…？ただの押し間違いだよね…？</string>

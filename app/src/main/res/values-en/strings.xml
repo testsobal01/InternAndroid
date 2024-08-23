@@ -3,7 +3,7 @@
     <string name="btn_high">High</string>
     <string name="btn_low">Low</string>
     <string name="btn_restart">Restart</string>
-    <string name="label_score">Score：</string>
+    <string name="label_score">Money($)：</string>
     <string name="start_button">"Let's start!"</string>
     <string name="cancel_button">"I'll stop...yet..."</string>
     <string name="cancel_toast">"There's no such thing as not doing it, right? It was just a wrong press, aren't you?"</string>

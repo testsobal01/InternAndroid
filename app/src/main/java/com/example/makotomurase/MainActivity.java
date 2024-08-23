@@ -3,6 +3,7 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
@@ -14,6 +15,7 @@ import android.os.VibrationAttributes;
 import android.os.Vibrator;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -72,7 +74,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onResume() {
         super.onResume();
         TextView textView = (TextView) findViewById(R.id.text_score);
-        String readText = pref.getString("score_input","0");
+        String readText = pref.getString("score_input","100");
         textView.setText(readText);
     }
 
@@ -85,19 +87,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
 
         if (id == R.id.button1) {
+            vib.cancel();
             setAnswerValue();
             checkResult(true);
             vib.vibrate(pattern1,-1);
         } else if (id == R.id.button2) {
+            vib.cancel();
             setAnswerValue();
             checkResult(false);
             vib.vibrate(pattern2,-1);
         } else if (id == R.id.button3) {
+            vib.cancel();
             setQuestionValue();
             clearAnswerValue();
             clearScoreValue();
-            change_back_color(1);
-            animation(1);
+            change_back_color("DRAW");
+            animation("DRAW",true);
             vib.vibrate(pattern3,-1);
         }
     }
@@ -168,10 +173,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         txtResult.setText("結果：" + question + ":" + answer + "(" + result + ")");
 
         //勝敗で背景色変更
-        change_back_color(score);
+        change_back_color(result);
 
         //勝敗でアニメーション
-        animation(score);
+        animation(result,false);
 
         // 続けて遊べるように値を更新
         setNextQuestion();
@@ -199,7 +204,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void setScore(int score) {
         TextView txtScore = (TextView) findViewById(R.id.text_score);
-        int newScore = Integer.parseInt(txtScore.getText().toString()) + score;
+        int newScore = new BlackJack().calcScore(Integer.parseInt(txtScore.getText().toString()),score);
         txtScore.setText(Integer.toString(newScore));
 
         // ゲームオーバー画面への移行…するかもしれないし、しないかもしれない…
@@ -231,68 +236,113 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void clearScoreValue() {
         TextView txtScore = (TextView) findViewById(R.id.text_score);
-        txtScore.setText("0");
+        txtScore.setText("100");
     }
 
-    public void change_back_color(int result){
+    public void change_back_color(String result){
         LinearLayout filled = findViewById(R.id.main);
         switch (result){
-            case 2:
-                filled.setBackgroundColor(Color.parseColor("#FFd700"));
+            case "WIN":
+                filled.setBackgroundColor(Color.parseColor("#FABD66"));
                 break;
 
-            case -1:
-                filled.setBackgroundColor(Color.CYAN);
+            case "LOSE":
+                filled.setBackgroundColor(Color.parseColor("#A3234255"));
                 break;
 
-            case 1:
+            case "DRAW":
                 filled.setBackgroundColor(Color.WHITE);
                 break;
         }
     }
 
-    public void change_back_color_txt(int result){
+    public void change_back_color_txt(String result){
         TextView answer = (TextView) findViewById(R.id.answer);
         TextView question = (TextView) findViewById(R.id.question);
         switch (result){
-            case 2:
-                answer.setBackgroundColor(Color.parseColor("#ffff00"));
-                question.setBackgroundColor(Color.parseColor("#FFd700"));
+            case "WIN":
+                answer.setBackgroundColor(Color.parseColor("#876536"));
+                question.setBackgroundColor(Color.parseColor("#FADA66"));
                 break;
 
-            case -1:
-                answer.setBackgroundColor(Color.CYAN);
-                question.setBackgroundColor(Color.parseColor("#ff00ff"));
+            case "LOSE":
+                answer.setBackgroundColor(Color.parseColor("#ACDEFF"));
+                question.setBackgroundColor(Color.parseColor("#356483"));
                 break;
 
-            case 1:
-                answer.setBackgroundColor(Color.parseColor("#ffff00"));
-                question.setBackgroundColor(Color.parseColor("#ff00ff"));
+            case "DRAW":
+                answer.setBackgroundColor(Color.parseColor("#67BFFA"));
+                question.setBackgroundColor(Color.parseColor("#FABD66"));
                 break;
         }
     }
 
-    public void animation(int result) {
+    public void animation(String result,Boolean check) {
         TextView answer = (TextView) findViewById(R.id.answer);
         TextView question = (TextView) findViewById(R.id.question);
+
         switch (result) {
-            case 2:
+            case "WIN":
                 change_back_color_txt(result);
                 question.animate().alpha(0.5f).setDuration(500);
                 answer.animate().alpha(1f).setDuration(500);
                 break;
 
-            case -1:
+            case "LOSE":
                 change_back_color_txt(result);
                 answer.animate().alpha(0.5f).setDuration(500);
                 question.animate().alpha(1f).setDuration(500);
                 break;
-
-            case 1:
+            case "DRAW":
                 change_back_color_txt(result);
                 answer.animate().alpha(1f).setDuration(500);
                 question.animate().alpha(1f).setDuration(500);
                 break;
+        }
+        footer(result,check);
+    }
+    public void footer(String result,Boolean check){
+        ImageView img_win1 = (ImageView) findViewById(R.id.footer_img1);
+        ImageView img_win2 = (ImageView) findViewById(R.id.footer_img2);
+        ImageView img_win3 = (ImageView) findViewById(R.id.footer_img3);
+        img_win1.animate().cancel();
+        img_win2.animate().cancel();
+        img_win3.animate().cancel();
+
+        if (check==false){
+
+            if(result=="WIN"){
+                img_win1.setAlpha(0.0f);
+                img_win2.setAlpha(0.0f);
+                img_win3.setAlpha(0.0f);
+                img_win1.setImageResource(R.drawable.ramen_syouyu);
+                img_win2.setImageResource(R.drawable.ramen_syouyu);
+                img_win3.setImageResource(R.drawable.ramen_syouyu);
+
+            } else if (result=="LOSE") {
+                img_win1.setAlpha(0.0f);
+                img_win2.setAlpha(0.0f);
+                img_win3.setAlpha(0.0f);
+                img_win1.setImageResource(R.drawable.ramen_tenin_footer);
+                img_win2.setImageResource(R.drawable.ramen_tenin_footer);
+                img_win3.setImageResource(R.drawable.ramen_tenin_footer);
+
+            } else if (result=="DRAW") {
+                img_win1.setAlpha(0.0f);
+                img_win2.setAlpha(0.0f);
+                img_win3.setAlpha(0.0f);
+                img_win1.setImageResource(R.drawable.ramen_donburi);
+                img_win2.setImageResource(R.drawable.ramen_donburi);
+                img_win3.setImageResource(R.drawable.ramen_donburi);
+            }
+            img_win1.animate().alpha(1f).setDuration(500);
+            img_win2.animate().alpha(1f).setDuration(1500);
+            img_win3.animate().alpha(1f).setDuration(2000);
+
+        }else if (check==true){
+            img_win1.setAlpha(0.0f);
+            img_win2.setAlpha(0.0f);
+            img_win3.setAlpha(0.0f);
         }
     }
 }
