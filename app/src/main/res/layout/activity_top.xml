@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center_horizontal"
-        android:src="@drawable/icon2" />
+        android:src="@drawable/title03" />
 
 
     <LinearLayout
@@ -20,22 +20,10 @@
         android:layout_gravity="center_vertical"
         android:orientation="vertical">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="93dp"
-            android:text=" "></TextView>
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="@string/title"
-            android:textColor="@color/navy"
-            android:textSize="38dp"></TextView>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="362dp"
+            android:layout_height="509dp"
             android:text=" "></TextView>
 
         <Button
@@ -44,21 +32,27 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:background="@color/navy"
+            android:text="スタート"
             app:backgroundTint="@null"
-            android:text="スタート">
-            <!--app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:background="@drawable/button_top_start"-->
+            android:textSize="20sp">
         </Button>
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="8dp"
+            android:text=" "></TextView>
+
 
         <Button
             android:id="@+id/introbutton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="遊び方"></Button>
+            android:text="遊び方"
+            android:background="@color/navy"
+            app:backgroundTint="@null"
+            android:textSize="20sp"></Button>
 
     </LinearLayout>
 
