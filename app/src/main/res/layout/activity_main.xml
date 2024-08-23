@@ -7,6 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#ffffff"
+    android:orientation="vertical"
     tools:context=".MainActivity">
 
     <LinearLayout
@@ -23,30 +24,30 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:textColor="@color/black"
                 android:background="@drawable/custom_button"
-                app:backgroundTint="@null"
-                android:text="@string/btn_high" />
+                android:text="@string/btn_high"
+                android:textColor="@color/black"
+                app:backgroundTint="@null" />
 
             <Button
                 android:id="@+id/button2"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:textColor="@color/black"
                 android:background="@drawable/custom_button2"
-                app:backgroundTint="@null"
-                android:text="@string/btn_low" />
+                android:text="@string/btn_low"
+                android:textColor="@color/black"
+                app:backgroundTint="@null" />
 
             <Button
                 android:id="@+id/button3"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
-                android:textColor="@color/white"
                 android:background="@drawable/custom_button3"
-                app:backgroundTint="@null"
-                android:text="@string/btn_restart" />
+                android:text="@string/btn_restart"
+                android:textColor="@color/white"
+                app:backgroundTint="@null" />
         </LinearLayout>
 
         <TextView
@@ -55,30 +56,38 @@
             android:text="10が設定されています。" />
 
         <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/label_score" />
+
+
+        <TextView
+            android:id="@+id/text_score"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0" />
+
+        <TextView
             android:id="@+id/text_result"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/wincount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/label_score" />
-
-            <TextView
-                android:id="@+id/text_score"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="0" />
         </LinearLayout>
 
 
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_weight="1">
 
 
             <LinearLayout
@@ -92,6 +101,7 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1">
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent">
@@ -101,7 +111,7 @@
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:background="#ff00ff"
+                            android:background="@drawable/custom_textview"
                             android:gravity="center"
                             android:text=""
                             android:textSize="60sp" />
@@ -111,6 +121,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent">
+
                         <TextView
                             android:id="@+id/question"
                             android:layout_width="0dp"
@@ -132,19 +143,22 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent">
+
                         <TextView
                             android:id="@+id/answerBack"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:background="#ffff00"
+                            android:background="@drawable/custom_textview2"
                             android:gravity="center"
                             android:text=""
-                            android:textSize="60sp"/>
+                            android:textSize="60sp" />
                     </LinearLayout>
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent">
+
                         <TextView
                             android:id="@+id/answer"
                             android:layout_width="0dp"
@@ -160,6 +174,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_weight="1"
                 android:orientation="vertical">
 
                 <FrameLayout
@@ -202,34 +217,38 @@
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1">
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:weightSum="3">
+
                         <TextView
-                            android:gravity="center_horizontal"
                             android:layout_width="0dp"
+                            android:layout_height="35sp"
                             android:layout_weight="1"
-                            android:layout_height="35sp" />
+                            android:gravity="center_horizontal" />
+
                         <TextView
                             android:id="@+id/toastBack"
-                            android:gravity="center_horizontal"
                             android:layout_width="0dp"
-                            android:layout_weight="1"
                             android:layout_height="37sp"
-                            />
+                            android:layout_weight="1"
+                            android:gravity="center_horizontal" />
                     </LinearLayout>
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent">
-                    <TextView
-                        android:id="@+id/toast"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:text=""
-                        android:textSize="30sp"
-                        android:gravity="center_horizontal"
-                        android:textColor="@color/black"/>
+
+                        <TextView
+                            android:id="@+id/toast"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center_horizontal"
+                            android:text=""
+                            android:textColor="@color/black"
+                            android:textSize="30sp" />
                     </LinearLayout>
                 </FrameLayout>
 
@@ -237,9 +256,26 @@
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="2"
-                    android:text=""/>
+                    android:text="" />
             </LinearLayout>
         </FrameLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="3">
+
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:alpha="1"
+                android:background="#ffff00"
+                app:srcCompat="@drawable/hutta" />
+
+
+        </LinearLayout>
 
 
     </LinearLayout>
