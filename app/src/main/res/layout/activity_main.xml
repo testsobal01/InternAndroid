@@ -20,33 +20,33 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:textColor="#000000"
-                android:textSize="20sp"
                 android:background="@drawable/button_design_high"
                 android:text="@string/btn_high"
-                app:backgroundTint="@null"/>
+                android:textColor="#000000"
+                android:textSize="20sp"
+                app:backgroundTint="@null" />
 
             <Button
                 android:id="@+id/button2"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:textColor="#000000"
-                android:textSize="20sp"
                 android:background="@drawable/button_design_low"
                 android:text="@string/btn_low"
-                app:backgroundTint="@null"/>
+                android:textColor="#000000"
+                android:textSize="20sp"
+                app:backgroundTint="@null" />
 
             <Button
                 android:id="@+id/button3"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
-                android:textColor="#000000"
-                android:textSize="20sp"
                 android:background="@drawable/button_restart"
                 android:text="@string/btn_restart"
-                app:backgroundTint="@null"/>
+                android:textColor="#000000"
+                android:textSize="20sp"
+                app:backgroundTint="@null" />
 
 
         </LinearLayout>
@@ -79,7 +79,9 @@
 
         <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
 
             <TextView
                 android:layout_width="wrap_content"
@@ -89,65 +91,63 @@
                 android:textSize="25sp"/>
 
             <TextView
+
                 android:id="@+id/text_score"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="0"
                 android:textStyle="bold"
                 android:textSize="25sp"/>
+
+
+
+
+
+
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="9"
-            android:orientation="horizontal">
-            <TextView
-                android:id="@+id/question"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="#ff00ff"
-                android:gravity="center"
-                android:text="値1"
-                android:textSize="60sp" />
 
-            <TextView
-                android:id="@+id/answer"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="#ffff00"
-                android:gravity="center"
-                android:text="値2"
-                android:textSize="60sp" />
-        </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="9"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/question"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="#ff00ff"
+                    android:gravity="center"
+                    android:text="値1"
+                    android:textSize="60sp" />
+
+                <TextView
+                    android:id="@+id/answer"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="#ffff00"
+                    android:gravity="center"
+                    android:text="値2"
+                    android:textSize="60sp" />
+            </LinearLayout>
+
             <ImageView
                 android:id="@+id/imageView"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
-                android:src="@drawable/fuji"
                 android:scaleType="fitXY"
-
-               />
-
-
-
+                android:src="@drawable/fuji" />
 
 
         </LinearLayout>
-
-
-
-
-
-
-
 
 
     </LinearLayout>
