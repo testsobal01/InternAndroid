@@ -72,6 +72,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
+        <TextView
+            android:id="@+id/wincount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
 
         <LinearLayout
             android:layout_width="wrap_content"

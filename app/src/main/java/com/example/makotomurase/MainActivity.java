@@ -30,6 +30,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     int questionValueMax = 10;
     boolean isHighLowButtonClick = false;
 
+    int wincount; //連勝数を示す変数を追加
+    int streak = 0;  //= Integer.parseInt(txtWincount.getText().toString());
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -125,6 +129,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             clearAnswerValue();
             clearScoreValue();
             clearBackground();
+            streak = 0;
         }
 
     }
@@ -164,6 +169,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int answer = Integer.parseInt(txtViewAnswer.getText().toString());
 
         TextView txtResult = (TextView) findViewById(R.id.text_result);
+        //TextView txtWincount = (TextView)findViewById(R.id.wincount);
+
+
 
         // 結果を示す文字列を入れる変数を用意
         String result;
@@ -176,12 +184,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 soundPool.play(Sound1, 1f, 1f, 1, 0, 1f);
                 result = "WIN";
                 score = 2;
+                streak ++;
+
                 findViewById(R.id.answer).startAnimation(AnimationUtils.loadAnimation(this, R.anim.animation));
             } else if (question > answer) {
                 soundPool.play(Sound2, 1f, 1f, 1, 0, 1f);
                 result = "LOSE";
                 score = -1;
+                streak = 0;
                 findViewById(R.id.question).startAnimation(AnimationUtils.loadAnimation(this, R.anim.animation2));
+
             } else {
                 soundPool.play(Sound3, 1f, 1f, 1, 0, 1f);
                 result = "DRAW";
@@ -195,6 +207,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 soundPool.play(Sound1, 1f, 1f, 1, 0, 1f);
                 result = "WIN";
                 score = 2;
+                streak ++;
                 findViewById(R.id.question).startAnimation(AnimationUtils.loadAnimation(this, R.anim.animation));
 
             } else if (question < answer) {
@@ -202,6 +215,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 result = "LOSE";
                 score = -1;
                 findViewById(R.id.question).startAnimation(AnimationUtils.loadAnimation(this, R.anim.animation2));
+                streak = 0;
             } else {
                 soundPool.play(Sound3, 1f, 1f, 1, 0, 1f);
                 result = "DRAW";
@@ -220,10 +234,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         txtViewToastBack.setBackgroundColor(Color.parseColor("#B3e4edea"));
         txtViewToast.setText(result + "!");
       
-        txtResult.setText("結果：" + question + ":" + answer + "(" + result + ")");
+        txtResult.setText("結果：" + question + ":" + answer + "(" + result + ")" + "   " + streak + "連勝中！");
+        //txtWincount.setText("   " + wincount + "連勝中！");
 
         // 続けて遊べるように値を更新
         //setNextQuestion();
+
+        //setWincount(streak);
         // スコアを表示
         setScore(score);
     }
@@ -269,6 +286,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView txtScore = (TextView) findViewById(R.id.text_score);
         txtScore.setText("0");
     }
+
+
+    //public void setWincount(int streak){
+        //TextView txtWin = (TextView) findViewById(R.id.wincount);
+        //int newWincount = Integer.parseInt(txtWin.getText().toString()) + 1;
+        //txtWin.setText(Integer.toString(newWincount));
+    //}
+    //private void clearWincount() {
+        //TextView txtWin = (TextView) findViewById(R.id.wincount);
+        //txtWin.setText("0");
+    //}
+
     private void colerChange(boolean isHigh) {
 
         TextView txtViewQuestion = findViewById(R.id.question);
@@ -277,7 +306,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int question = Integer.parseInt(txtViewQuestion.getText().toString());
         int answer = Integer.parseInt(txtViewAnswer.getText().toString());
 
-        //TextView txtResult = (TextView) findViewById(R.id.text_result);
 
         LinearLayout back = findViewById(R.id.background);
 
