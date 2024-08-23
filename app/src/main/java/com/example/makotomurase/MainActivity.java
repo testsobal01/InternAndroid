@@ -239,6 +239,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Toast ts = Toast.makeText(this, "perfect", Toast.LENGTH_SHORT);
             ts.setGravity(Gravity.CENTER, 0, 0);
             ts.show();
+            Intent intent = new Intent(this,resultActivity.class);
+            startActivity(intent);
         }
 
         txtResult.setText("結果：" + question + ":" + answer + "(" + result + ")");
