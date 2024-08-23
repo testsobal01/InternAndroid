@@ -89,11 +89,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             //以下2行バイブレーション機能
             Vibrator vib= (Vibrator)getSystemService(VIBRATOR_SERVICE);
             vib.vibrate(1000);
-
             setQuestionValue();
             clearAnswerValue();
             clear_result();
             clear_win_lose_cnt_Value();
+            reset_color();
             clearScoreValue();
         }
 
@@ -299,6 +299,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView txtScore = (TextView) findViewById(R.id.text_score);
         int newScore = Integer.parseInt(txtScore.getText().toString()) + score;
         txtScore.setText(Integer.toString(newScore));
+
+        //スコアの色
+        if(newScore<0){
+            txtScore.setTextColor(Color.argb(255,178,34,34));
+        }else if(newScore>=0){
+            txtScore.setTextColor(Color.argb(255,0,0,0));
+
+        }
     }
 
     private void clearScoreValue() {
@@ -314,6 +322,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void clear_result() {
         TextView txtResult = (TextView) findViewById(R.id.text_result);
         txtResult.setText("");
+    }
+
+    private void reset_color() {
+        TextView txtScore = (TextView) findViewById(R.id.text_score);
+        txtScore.setTextColor(Color.argb(255,0,0,0));
     }
 
 }
