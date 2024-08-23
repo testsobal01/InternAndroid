@@ -206,7 +206,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
         // 最後にまとめてToast表示の処理とTextViewへのセットを行う
-        Toast.makeText(this, result, Toast.LENGTH_LONG).show();
+        TextView txtViewToast = findViewById(R.id.toast);
+        TextView txtViewToastBack = findViewById(R.id.toastBack);
+        txtViewToastBack.setBackgroundColor(Color.parseColor("#B3e4edea"));
+        txtViewToast.setText(result + "!");
         txtResult.setText("結果：" + question + ":" + answer + "(" + result + ")");
 
         // 続けて遊べるように値を更新
