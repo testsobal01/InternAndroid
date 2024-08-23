@@ -30,6 +30,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     int mp3b;
     int mp3b_id;
     int limit;
+
+    int mp32;
+
+    int mp33;
     SoundPool soundPool;
 
     String result_text;
@@ -75,9 +79,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .setMaxStreams(5)
                 .build();
 
-        mp3a = soundPool.load(this, R.raw.sound, 2);
+        mp3a = soundPool.load(this, R.raw.takai, 2);
         mp3b = soundPool.load(this, R.raw.bgm, 1);
-
+        mp32=soundPool.load(this,R.raw.hikui,1);
+        mp33=soundPool.load(this,R.raw.reset,1);
         result_text = getString(R.string.label_result);
         win_text= getString(R.string.label_win);
         lose_text=getString(R.string.label_lose);
@@ -122,7 +127,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         } else if (id == R.id.button2) {
             setAnswerValue();
             checkResult(false);
-            soundPool.play(mp3a, 1f, 1f, 0, 0, 1f);
+            soundPool.play(mp32, 1f, 1f, 0, 0, 1f);
             setEnabled(false);
         } else if (id == R.id.button3) {
             setQuestionValue();
@@ -130,7 +135,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             clearScoreValue();
             Vibrator vib = (Vibrator) getSystemService(VIBRATOR_SERVICE);
             vib.vibrate(300);
-            soundPool.play(mp3a, 1f, 1f, 0, 0, 1f);
+            soundPool.play(mp33, 1f, 1f, 0, 0, 1f);
         }else if (id == R.id.bgm_on){
             if(limit == 0) {
                 mp3b_id = soundPool.play(mp3b, 1f, 1f, 0, -1, 1f);
