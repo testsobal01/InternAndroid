@@ -13,6 +13,7 @@ import android.os.VibrationAttributes;
 import android.os.Vibrator;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -99,7 +100,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             clearAnswerValue();
             clearScoreValue();
             change_back_color("DRAW");
-            animation("DRAW");
+            animation("DRAW",true);
             vib.vibrate(pattern3,-1);
         }
     }
@@ -173,7 +174,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         change_back_color(result);
 
         //勝敗でアニメーション
-        animation(result);
+        animation(result,false);
 
         // 続けて遊べるように値を更新
         setNextQuestion();
@@ -248,9 +249,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    public void animation(String result) {
+    public void animation(String result,Boolean check) {
         TextView answer = (TextView) findViewById(R.id.answer);
         TextView question = (TextView) findViewById(R.id.question);
+
         switch (result) {
             case "WIN":
                 change_back_color_txt(result);
@@ -263,12 +265,56 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 answer.animate().alpha(0.5f).setDuration(500);
                 question.animate().alpha(1f).setDuration(500);
                 break;
-
             case "DRAW":
                 change_back_color_txt(result);
                 answer.animate().alpha(1f).setDuration(500);
                 question.animate().alpha(1f).setDuration(500);
                 break;
+        }
+        footer(result,check);
+    }
+    public void footer(String result,Boolean check){
+        ImageView img_win1 = (ImageView) findViewById(R.id.footer_img1);
+        ImageView img_win2 = (ImageView) findViewById(R.id.footer_img2);
+        ImageView img_win3 = (ImageView) findViewById(R.id.footer_img3);
+        img_win1.animate().cancel();
+        img_win2.animate().cancel();
+        img_win3.animate().cancel();
+
+        if (check==false){
+
+            if(result=="WIN"){
+                img_win1.setAlpha(0.0f);
+                img_win2.setAlpha(0.0f);
+                img_win3.setAlpha(0.0f);
+                img_win1.setImageResource(R.drawable.ramen_syouyu);
+                img_win2.setImageResource(R.drawable.ramen_syouyu);
+                img_win3.setImageResource(R.drawable.ramen_syouyu);
+
+            } else if (result=="LOSE") {
+                img_win1.setAlpha(0.0f);
+                img_win2.setAlpha(0.0f);
+                img_win3.setAlpha(0.0f);
+                img_win1.setImageResource(R.drawable.ramen_tenin_footer);
+                img_win2.setImageResource(R.drawable.ramen_tenin_footer);
+                img_win3.setImageResource(R.drawable.ramen_tenin_footer);
+
+            } else if (result=="DRAW") {
+                img_win1.setAlpha(0.0f);
+                img_win2.setAlpha(0.0f);
+                img_win3.setAlpha(0.0f);
+                img_win1.setImageResource(R.drawable.ramen_donburi);
+                img_win2.setImageResource(R.drawable.ramen_donburi);
+                img_win3.setImageResource(R.drawable.ramen_donburi);
+            }
+            img_win1.animate().alpha(1f).setDuration(500);
+            img_win2.animate().alpha(1f).setDuration(1500);
+            img_win3.animate().alpha(1f).setDuration(2000);
+
+        }else if (check==true){
+            img_win1.setAlpha(0.0f);
+            img_win2.setAlpha(0.0f);
+            img_win3.setAlpha(0.0f);
         }
     }
 }
