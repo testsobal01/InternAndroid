@@ -95,11 +95,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             //以下2行バイブレーション機能
             Vibrator vib= (Vibrator)getSystemService(VIBRATOR_SERVICE);
             vib.vibrate(1000);
-
             setQuestionValue();
             clearAnswerValue();
             clear_result();
             clear_win_lose_cnt_Value();
+            reset_color();
             clearScoreValue();
 
 
@@ -241,7 +241,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             ts.show();
         }
 
-        txtResult.setText("結果：" + question + ":" + answer + "(" + result + ")");
+        txtResult.setText("RST：" + question + ":" + answer + "(" + result + ")");
 
         //勝敗、引き分け回数を文字列にキャストして格納
         text_win = Integer.toString(cnt_win);
@@ -249,7 +249,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         text_draw = Integer.toString(cnt_draw);
 
         //勝ち負け、引き分け回数を表示
-        text_win_lose_draw.setText("勝ち：" + text_win  + " " + "負け: " + text_lose + " "+ "引き分け: " +text_draw);
+        text_win_lose_draw.setText("WIN：" + text_win  + " " + "LOSE: " + text_lose + " "+ "DRAW: " +text_draw);
 
         //以下アニメーション機能
         TextView spaceshipImage = (TextView) findViewById(R.id.question);
@@ -329,9 +329,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void setScore(int score) {
         TextView txtScore = (TextView) findViewById(R.id.text_score);
+        int keepScore = Integer.parseInt(txtScore.getText().toString());
         int newScore = Integer.parseInt(txtScore.getText().toString()) + score;
         txtScore.setText(Integer.toString(newScore));
 
+        //スコアの色
+        if(newScore<keepScore){
+            txtScore.setTextColor(Color.argb(255,178,34,34));
+        }else if(newScore>keepScore){
+            txtScore.setTextColor(Color.argb(255,0,0,0));
+
+        }
     }
 
 
@@ -342,12 +350,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void clear_win_lose_cnt_Value() {
         TextView text_win_lose_draw = (TextView) findViewById(R.id.text_win_lose_draw);
-        text_win_lose_draw.setText("勝ち：" + 0 + " " + "負け: " + 0 + " " + "引き分け: " +0);
+        text_win_lose_draw.setText("WIN：" + 0 + " " + "LOSE: " + 0 + " " + "DRAW: " +0);
     }
 
     private void clear_result() {
         TextView txtResult = (TextView) findViewById(R.id.text_result);
         txtResult.setText("");
+    }
+
+    private void reset_color() {
+        TextView txtScore = (TextView) findViewById(R.id.text_score);
+        txtScore.setTextColor(Color.argb(255,0,0,0));
     }
 
 }
