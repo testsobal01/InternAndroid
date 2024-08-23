@@ -8,6 +8,10 @@
     <string name="cancel_button">还不做...</string>
     <string name="cancel_toast">没有不做的事，对吧？这只是按错了，对吧？</string>
     <string name="group_name">Group - A</string>
+    <string name="tousann">我破产了...</string>
+    <string name="return_button">返回开始屏幕</string>
+    <string name="makkura">眼前的一切都变得漆黑一片！</string>
+    <string name="next">到下一个</string>
 
     <string name="random_max_text">已设定。</string>
 </resources>

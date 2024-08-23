@@ -19,6 +19,9 @@ public class StartScreenActivity extends AppCompatActivity implements View.OnCli
         btn_start.setOnClickListener(this);
         Button btn_cancel = findViewById(R.id.button_cancel);
         btn_cancel.setOnClickListener(this);
+
+        Intent intent = getIntent();
+        Bundle extra = intent.getExtras();
     }
 
     @Override

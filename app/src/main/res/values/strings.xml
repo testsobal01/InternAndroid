@@ -8,6 +8,11 @@
     <string name="cancel_button">やっぱり…まだ…やめておく…</string>
     <string name="cancel_toast">そんな、やらないなんてことはないよね…？ただの押し間違いだよね…？</string>
     <string name="group_name">Group - A</string>
+    <string name="tousann">倒産してしまった…</string>
+    <string name="return_button">スタート画面へ戻る</string>
+    <string name="makkura">きみは めのまえが まっくらに なった！</string>
+    <string name="next">つぎへ</string>
+
 
     <string name="random_max_text">が設定されています。</string>
 </resources>

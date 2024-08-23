@@ -8,6 +8,10 @@
     <string name="cancel_button">"I'll stop...yet..."</string>
     <string name="cancel_toast">"There's no such thing as not doing it, right? It was just a wrong press, aren't you?"</string>
     <string name="group_name">Group - A</string>
+    <string name="tousann">I went bankrupt...</string>
+    <string name="return_button">Return to start screen</string>
+    <string name="makkura">Everything in front of you turned pitch black!</string>
+    <string name="next">next</string>
 
     <string name="random_max_text">" is set."</string>
 </resources>

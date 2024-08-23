@@ -212,8 +212,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if(newscore <= 0) {
 
             new AlertDialog.Builder(MainActivity.this)
-                    .setMessage("きみは めのまえが まっくらに なった！")
-                    .setPositiveButton("つぎへ", new DialogInterface.OnClickListener() {
+                    .setMessage(R.string.makkura)
+                    .setPositiveButton(R.string.next, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
                             goGameOverScreen();

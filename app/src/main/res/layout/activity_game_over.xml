@@ -1,41 +1,87 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".GameOverActivity">
 
+    <!-- 背景 -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:padding="20sp"
+        android:orientation="vertical">
+
+
+        <!-- イラスト -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="5"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:scaleType="fitStart"
+                android:alpha="0.9"
+                android:src="@drawable/ramenya" />
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="4"
+                android:scaleType="fitEnd"
+                android:alpha="0.9"
+                android:src="@drawable/businessman_cry_man" />
+
+        </LinearLayout>
+
+        <!-- 廃業コメント -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_gravity="center"
+            android:textSize="40sp"
+            android:paddingTop="20sp"
+            android:alpha="0.8"
+            android:text="@string/tousann" />
+
+        <!-- ボタン -->
+        <Button
+            android:id="@+id/button_restart"
+            style="@style/Widget.AppCompat.Button"
+            android:layout_width="800px"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textSize="20sp"
+            android:text="@string/return_button"
+            app:backgroundTint="@color/button_color_selector"/>
+
+    </LinearLayout>
+
+
+    <!-- GAME OVER -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
         android:orientation="vertical">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="廃業してしまった…" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <ImageView
-                android:layout_width="100sp"
-                android:layout_height="wrap_content"
-                android:scaleType="fitStart"
-                android:src="@drawable/ramenya" />
-
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scaleType="fitEnd"
-                android:src="@drawable/businessman_cry_man" />
-
-
-        </LinearLayout>
+            android:textSize="119sp"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:alpha="0.77"
+            android:textColor="@color/main_blue"
+            android:text="GAME OVER" />
 
     </LinearLayout>
 
-</LinearLayout>
+
+</RelativeLayout>
