@@ -80,29 +80,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         sp.playHitSound();
         int id = view.getId();
 
+        Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+
         if (id == R.id.button1) {
             setAnswerValue();
             checkResult(true);
+            vib.vibrate(pattern1,-1);
         } else if (id == R.id.button2) {
             setAnswerValue();
             checkResult(false);
+            vib.vibrate(pattern2,-1);
         } else if (id == R.id.button3) {
             setQuestionValue();
             clearAnswerValue();
             clearScoreValue();
             change_back_color(1);
-        }
-        if (id == R.id.button1){
-            Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
-            vib.vibrate(pattern1,-1);
-        }
-        else if (id == R.id.button2){
-            Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
-            vib.vibrate(pattern2,-1);
-        }
-        else if (id == R.id.button3){
-                Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
-                vib.vibrate(pattern3,-1);
+            animation(1);
+            vib.vibrate(pattern3,-1);
         }
     }
 
@@ -174,6 +168,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //勝敗で背景色変更
         change_back_color(score);
 
+        //勝敗でアニメーション
+        animation(score);
+
         // 続けて遊べるように値を更新
         setNextQuestion();
         // スコアを表示
@@ -210,7 +207,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public void change_back_color(int result){
-        LinearLayout filled = findViewById(R.id.filled);
+        LinearLayout filled = findViewById(R.id.main);
         switch (result){
             case 2:
                 filled.setBackgroundColor(Color.parseColor("#FFd700"));
@@ -222,6 +219,51 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             case 1:
                 filled.setBackgroundColor(Color.WHITE);
+                break;
+        }
+    }
+
+    public void change_back_color_txt(int result){
+        TextView answer = (TextView) findViewById(R.id.answer);
+        TextView question = (TextView) findViewById(R.id.question);
+        switch (result){
+            case 2:
+                answer.setBackgroundColor(Color.parseColor("#ffff00"));
+                question.setBackgroundColor(Color.parseColor("#FFd700"));
+                break;
+
+            case -1:
+                answer.setBackgroundColor(Color.CYAN);
+                question.setBackgroundColor(Color.parseColor("##ff00ff"));
+                break;
+
+            case 1:
+                answer.setBackgroundColor(Color.parseColor("#ffff00"));
+                question.setBackgroundColor(Color.parseColor("#ff00ff"));
+                break;
+        }
+    }
+
+    public void animation(int result) {
+        TextView answer = (TextView) findViewById(R.id.answer);
+        TextView question = (TextView) findViewById(R.id.question);
+        switch (result) {
+            case 2:
+                change_back_color_txt(result);
+                question.animate().alpha(0.5f).setDuration(500);
+                answer.animate().alpha(1f).setDuration(500);
+                break;
+
+            case -1:
+                change_back_color_txt(result);
+                answer.animate().alpha(0.5f).setDuration(500);
+                question.animate().alpha(1f).setDuration(500);
+                break;
+
+            case 1:
+                change_back_color_txt(result);
+                answer.animate().alpha(1f).setDuration(500);
+                question.animate().alpha(1f).setDuration(500);
                 break;
         }
     }
