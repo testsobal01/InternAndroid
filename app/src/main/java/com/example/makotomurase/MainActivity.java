@@ -2,16 +2,22 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.graphics.Color;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.media.SoundPool;
 import android.media.AudioAttributes;
+
+import java.sql.ResultSetMetaData;
 import java.util.Random;
+import android.view.animation.AnimationUtils;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -19,6 +25,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     int oto1,oto2,oto4,oto3;
 
     SoundPool soundPool;
+    SharedPreferences pref;
+    SharedPreferences.Editor prefEditor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +66,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         oto4 = getResources().getIdentifier("sound4", "raw", getPackageName());
         Sound4=soundPool.load(getBaseContext(),oto4,1);
         //Sound = soundPool.load(getBaseContext(), R.raw.sound1, 1);
+        // プリファレンスの生成
+        setPreferences();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // スコアを再開
+        resumeScore();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        // スコアを保存
+        saveScore();
     }
 
     @Override
@@ -75,16 +99,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
 
-
         int id = view.getId();
         if (id == R.id.button1) {
             setAnswerValue();
             checkResult(true);
+            colerChange(true);
             Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
             vib.vibrate(5000);
         } else if (id == R.id.button2) {
             setAnswerValue();
             checkResult(false);
+            colerChange(false);
         } else if (id == R.id.button3) {
 
             soundPool.play(Sound4, 1f, 1f, 1, 0, 1f);
@@ -92,6 +117,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             setQuestionValue();
             clearAnswerValue();
             clearScoreValue();
+            clearBackground();
         }
 
     }
@@ -100,6 +126,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView txtView = (TextView) findViewById(R.id.answer);
         txtView.setText("値2");
     }
+    private void clearBackground(){
+        LinearLayout back = findViewById(R.id.background);
+        back.setBackgroundColor(Color.WHITE);
+    }
+
 
     private void setQuestionValue() {
         Random r = new Random();
@@ -138,28 +169,39 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 soundPool.play(Sound1, 1f, 1f, 1, 0, 1f);
                 result = "WIN";
                 score = 2;
+                findViewById(R.id.answer).startAnimation(AnimationUtils.loadAnimation(this, R.anim.animation));
             } else if (question > answer) {
                 soundPool.play(Sound2, 1f, 1f, 1, 0, 1f);
                 result = "LOSE";
                 score = -1;
+                findViewById(R.id.question).startAnimation(AnimationUtils.loadAnimation(this, R.anim.animation2));
             } else {
                 soundPool.play(Sound3, 1f, 1f, 1, 0, 1f);
                 result = "DRAW";
                 score = 1;
+                findViewById(R.id.question).startAnimation(AnimationUtils.loadAnimation(this, R.anim.animation3));
+                findViewById(R.id.answer).startAnimation(AnimationUtils.loadAnimation(this, R.anim.animation4));
+
             }
         } else {
             if (question > answer) {
                 soundPool.play(Sound1, 1f, 1f, 1, 0, 1f);
                 result = "WIN";
                 score = 2;
+                findViewById(R.id.question).startAnimation(AnimationUtils.loadAnimation(this, R.anim.animation));
+
             } else if (question < answer) {
                 soundPool.play(Sound2, 1f, 1f, 1, 0, 1f);
                 result = "LOSE";
                 score = -1;
+                findViewById(R.id.question).startAnimation(AnimationUtils.loadAnimation(this, R.anim.animation2));
             } else {
                 soundPool.play(Sound3, 1f, 1f, 1, 0, 1f);
                 result = "DRAW";
                 score = 1;
+                findViewById(R.id.question).startAnimation(AnimationUtils.loadAnimation(this, R.anim.animation3));
+                findViewById(R.id.answer).startAnimation(AnimationUtils.loadAnimation(this, R.anim.animation4));
+
             }
         }
 
@@ -201,5 +243,52 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView txtScore = (TextView) findViewById(R.id.text_score);
         txtScore.setText("0");
     }
+    private void colerChange(boolean isHigh) {
+
+        TextView txtViewQuestion = findViewById(R.id.question);
+        TextView txtViewAnswer = findViewById(R.id.answer);
+
+        int question = Integer.parseInt(txtViewQuestion.getText().toString());
+        int answer = Integer.parseInt(txtViewAnswer.getText().toString());
+
+        //TextView txtResult = (TextView) findViewById(R.id.text_result);
+
+        LinearLayout back = findViewById(R.id.background);
+
+
+        if (isHigh) {
+            if (question < answer) {
+                back.setBackgroundColor(Color.RED);
+            } else if (question > answer) {
+                back.setBackgroundColor(Color.BLUE);
+            } else {
+                back.setBackgroundColor(Color.WHITE);
+            }
+        } else {
+            if (question > answer) {
+                back.setBackgroundColor(Color.RED);
+            } else if (question < answer) {
+                back.setBackgroundColor(Color.BLUE);
+            } else {
+                back.setBackgroundColor(Color.WHITE);
+            }
+        }
+    }
+    private void setPreferences(){
+        pref = getSharedPreferences("Score",MODE_PRIVATE);
+        prefEditor = pref.edit();
+    }
+
+    private void resumeScore(){
+        TextView txtScore = (TextView) findViewById(R.id.text_score);
+        txtScore.setText(pref.getString("main_score","0"));
+    }
+
+    private void saveScore(){
+        TextView txtScore = (TextView) findViewById(R.id.text_score);
+        prefEditor.putString("main_score",txtScore.getText().toString());
+        prefEditor.commit();
+    }
+
 }
 
