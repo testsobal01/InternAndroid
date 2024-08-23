@@ -2,7 +2,7 @@
 <resources>
  <string name="num">10</string>
  <string name="text">已设定</string>
- <string name="app_name">YasuakiGotou</string>
+ <string name="app_name">HighandLow</string>
  <string name="btn_high">高的</string>
  <string name="btn_low">低的</string>
  <string name="btn_restart">重做</string>

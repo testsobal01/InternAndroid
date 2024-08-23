@@ -3,6 +3,9 @@ package com.example.makotomurase;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.animation.Animator;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -17,15 +20,26 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.os.Vibrator;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    int mp3;
+    int mp3a;
+    int mp3b;
+    int mp3b_id;
+    int limit;
+
+    int mp32;
+
+    int mp33;
     SoundPool soundPool;
 
     String result_text;
@@ -57,6 +71,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
 
+        Button btn4 = findViewById(R.id.bgm_on);
+        btn4.setOnClickListener(this);
+
+        Button btn5 = findViewById(R.id.bgm_off);
+        btn5.setOnClickListener(this);
+
         AudioAttributes attr = new AudioAttributes.Builder().
                 setUsage(AudioAttributes.USAGE_MEDIA).
                 setContentType(AudioAttributes.CONTENT_TYPE_MUSIC).build();
@@ -66,8 +86,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .setMaxStreams(5)
                 .build();
 
-        mp3 = soundPool.load(this, R.raw.sound, 1);
-
+        mp3a = soundPool.load(this, R.raw.takai, 2);
+        mp3b = soundPool.load(this, R.raw.bgm, 1);
+        mp32=soundPool.load(this,R.raw.hikui,1);
+        mp33=soundPool.load(this,R.raw.reset,1);
         result_text = getString(R.string.label_result);
         win_text= getString(R.string.label_win);
         lose_text=getString(R.string.label_lose);
@@ -79,6 +101,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         pref = getSharedPreferences("AndroidSeminor",MODE_PRIVATE);
         prefEditor = pref.edit();
+
+        TextView oukan1 = (TextView) findViewById(R.id.oukan1);
+        oukan1.setVisibility(View.INVISIBLE);
+        TextView oukan2 = (TextView) findViewById(R.id.oukan2);
+        oukan2.setVisibility(View.INVISIBLE);
+
+
     }
 
     @Override
@@ -103,31 +132,41 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View view) {
-
-
         int id = view.getId();
         if (id == R.id.button1) {
             setAnswerValue();
             checkResult(true);
-            soundPool.play(mp3, 1f, 1f, 0, 0, 1f);
+            soundPool.play(mp3a, 1f, 1f, 0, 0, 1f);
+            setEnabled(false);
         } else if (id == R.id.button2) {
             setAnswerValue();
             checkResult(false);
-            soundPool.play(mp3, 1f, 1f, 0, 0, 1f);
+            soundPool.play(mp32, 1f, 1f, 0, 0, 1f);
+            setEnabled(false);
         } else if (id == R.id.button3) {
             setQuestionValue();
             clearAnswerValue();
             clearScoreValue();
             Vibrator vib = (Vibrator) getSystemService(VIBRATOR_SERVICE);
             vib.vibrate(300);
-            soundPool.play(mp3, 1f, 1f, 0, 0, 1f);
+            soundPool.play(mp33, 1f, 1f, 0, 0, 1f);
+        }else if (id == R.id.bgm_on){
+            if(limit == 0) {
+                mp3b_id = soundPool.play(mp3b, 1f, 1f, 0, -1, 1f);
+                limit = limit + 1;
+            }
+        }else if (id == R.id.bgm_off) {
+            if (limit > 0) {
+                soundPool.stop(mp3b_id);
+                limit = 0;
+            }
+            changeBackGroundDraw();
         }
-
     }
 
     private void clearAnswerValue() {
         TextView txtView = (TextView) findViewById(R.id.answer);
-        txtView.setText("値2");
+        txtView.setText("？");
     }
 
     private void setQuestionValue() {
@@ -167,28 +206,42 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 result = win_text;
                 score = 2;
                 changeBackgroundWin();
+                startAnimation1_Win(findViewById(R.id.question));
+                startAnimation2(findViewById(R.id.answer));
+                winOukan();
             } else if (question > answer) {
                 result = lose_text;
                 score = -1;
                 changeBackGroundLose();
+                startAnimation1_Lose(findViewById(R.id.answer));
+                startAnimation2(findViewById(R.id.question));
+                loseOukan();
             } else {
                 result = draw_text;
                 score = 1;
                 changeBackGroundDraw();
+                drawOukan();
             }
         } else {
             if (question > answer) {
                 result = win_text;
                 score = 2;
                 changeBackgroundWin();
+                startAnimation1_Win(findViewById(R.id.question));
+                startAnimation2(findViewById(R.id.answer));
+                winOukan();
             } else if (question < answer) {
                 result = lose_text;
                 score = -1;
                 changeBackGroundLose();
+                startAnimation1_Lose(findViewById(R.id.answer));
+                startAnimation2(findViewById(R.id.question));
+                loseOukan();
             } else {
                 result = draw_text;
                 score = 1;
                 changeBackGroundDraw();
+                drawOukan();
             }
         }
 
@@ -216,8 +269,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public void onFinish() {
                 // 3秒経過したら次の値をセット
                 setQuestionValue();
+                animationReset(findViewById(R.id.answer));
+                animationReset(findViewById(R.id.question));
+                setEnabled(true);
             }
         }.start();
+    }
+
+
+    private void setEnabled(Boolean b) {
+        // 第１引数がカウントダウン時間、第２引数は途中経過を受け取る間隔
+        // 単位はミリ秒（1秒＝1000ミリ秒）
+        Button btn1 = findViewById(R.id.button1);
+        btn1.setEnabled(b);
+
+        Button btn2 = findViewById(R.id.button2);
+        btn2.setEnabled(b);
+
+        Button btn3 = (Button) findViewById(R.id.button3);
+        btn3.setEnabled(b);
     }
 
     private void setScore(int score) {
@@ -226,6 +296,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         txtScore.setText(Integer.toString(newScore));
     }
 
+
     private void clearScoreValue() {
         TextView txtScore = (TextView) findViewById(R.id.text_score);
         txtScore.setText("0");
@@ -233,23 +304,133 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void changeBackgroundWin(){
         TextView qtxtScore = (TextView) findViewById(R.id.question);
-        qtxtScore.setBackgroundColor(Color.RED);
+        qtxtScore.setBackgroundColor(Color.parseColor("#59c4bc"));
         TextView atxtScore = (TextView) findViewById(R.id.answer);
-        atxtScore.setBackgroundColor(Color.BLUE);
+        atxtScore.setBackgroundColor(Color.parseColor("#d9d9d9"));
     }
 
     private void changeBackGroundLose(){
         TextView qtxtScore = (TextView) findViewById(R.id.question);
-        qtxtScore.setBackgroundColor(Color.BLUE);
+        qtxtScore.setBackgroundColor(Color.parseColor("#d9d9d9"));
         TextView atxtScore = (TextView) findViewById(R.id.answer);
-        atxtScore.setBackgroundColor(Color.RED);
+        atxtScore.setBackgroundColor(Color.parseColor("#59c4bc"));
     }
 
     private void changeBackGroundDraw(){
         TextView qtxtScore = (TextView) findViewById(R.id.question);
-        qtxtScore.setBackgroundColor(Color.WHITE);
+        qtxtScore.setBackgroundColor(Color.parseColor("#d9d9d9"));
         TextView atxtScore = (TextView) findViewById(R.id.answer);
         atxtScore.setBackgroundColor(Color.WHITE);
+    }
+
+    private void startAnimation1_Lose(View view) {
+        ObjectAnimator transY, transX, scaleX, alpha;
+        List<Animator> animatorList = new ArrayList<>();
+
+        // 移動距離(translationX)は、開始位置から左右に移動距離を100, 70, 50, 40...と徐々に減らしていく
+        // 前のアニメーションと繋がるように終了位置(第4引数)の値を開始位置(第3引数)として設定する
+
+        animatorList.add(ObjectAnimator.ofFloat(view, "translationX", 0, -1000));
+        animatorList.add(ObjectAnimator.ofFloat(view, "translationX", -1000, 700));
+        animatorList.add(ObjectAnimator.ofFloat(view, "translationX", 700, -500));
+        animatorList.add(ObjectAnimator.ofFloat(view, "translationX", -500, 400));
+        animatorList.add(ObjectAnimator.ofFloat(view, "translationX", 400, -300));
+        animatorList.add(ObjectAnimator.ofFloat(view, "translationX", -300, 0f));
+
+
+        AnimatorSet set = new AnimatorSet();
+        set.playTogether(animatorList);// 順番にアニメーションを実施
+        set.start();
+    }
+
+    private void startAnimation1_Win(View view) {
+        ObjectAnimator transY, transX, scaleX, alpha;
+        List<Animator> animatorList = new ArrayList<>();
+
+        // 移動距離(translationX)は、開始位置から左右に移動距離を100, 70, 50, 40...と徐々に減らしていく
+        // 前のアニメーションと繋がるように終了位置(第4引数)の値を開始位置(第3引数)として設定する
+
+        animatorList.add(ObjectAnimator.ofFloat(view, "translationX", 0, 1000));
+        animatorList.add(ObjectAnimator.ofFloat(view, "translationX", 1000, -700));
+        animatorList.add(ObjectAnimator.ofFloat(view, "translationX", -700, 500));
+        animatorList.add(ObjectAnimator.ofFloat(view, "translationX", 500, -400));
+        animatorList.add(ObjectAnimator.ofFloat(view, "translationX", -400, 300));
+        animatorList.add(ObjectAnimator.ofFloat(view, "translationX", 300, 0));
+
+
+        AnimatorSet set = new AnimatorSet();
+        set.playTogether(animatorList);// 順番にアニメーションを実施
+        set.start();
+    }
+
+    private void startAnimation2(View view) {
+        ObjectAnimator transY, scaleX, alpha;
+        List<Animator> animatorList = new ArrayList<>();
+
+        // アニメーション時間もランダムに5～10秒に演出
+        int durationTY = (3) * 1000;
+        int durationTX = (5) * 1000;
+        int durationSX = (5) * 1000;
+
+        // 上昇"translationY"
+        transY = ObjectAnimator.ofFloat(view, View.TRANSLATION_Y.getName(), 0.0f, -1000.0f);
+        transY.setDuration(durationTY);
+        animatorList.add(transY);
+
+
+        // 幅の伸び縮み"scaleX"
+        scaleX = ObjectAnimator.ofFloat(view, View.SCALE_X.getName(), 1.0f, 0.1f, 1.0f, 0.1f, 1.0f, 0.1f, 1.0f);
+        scaleX.setDuration(durationSX);
+        animatorList.add(scaleX);
+
+        // 透明化"alpha"
+        alpha = ObjectAnimator.ofFloat(view, View.ALPHA.getName(), 1.0f, 0.0f);
+        alpha.setDuration(Math.max(Math.max(durationTY, durationTX), durationSX) / 2);
+        animatorList.add(alpha);
+
+        // アニメーションの複合化、再生
+        AnimatorSet set = new AnimatorSet();
+        set.playTogether(animatorList);
+        set.start();
+    }
+
+    public void animationReset(View view){
+        ObjectAnimator transY, alpha0;
+        List<Animator> animatorList0 = new ArrayList<>();
+
+        int durationTY = (2) * 1000;
+
+        transY = ObjectAnimator.ofFloat(view, View.TRANSLATION_Y.getName(), 0.0f, 0.0f);
+        transY.setDuration(durationTY);
+        animatorList0.add(transY);
+
+        alpha0 = ObjectAnimator.ofFloat(view, View.ALPHA.getName(), 0.0f, 1.0f);
+        animatorList0.add(alpha0);
+
+        AnimatorSet set = new AnimatorSet();
+        set.playTogether(animatorList0);
+        set.start();
+    }
+
+    private void winOukan(){
+        TextView oukan1 = (TextView) findViewById(R.id.oukan1);
+        oukan1.setVisibility(View.VISIBLE);
+        TextView oukan2 = (TextView) findViewById(R.id.oukan2);
+        oukan2.setVisibility(View.INVISIBLE);
+    }
+
+    private void loseOukan(){
+        TextView oukan1 = (TextView) findViewById(R.id.oukan1);
+        oukan1.setVisibility(View.INVISIBLE);
+        TextView oukan2 = (TextView) findViewById(R.id.oukan2);
+        oukan2.setVisibility(View.VISIBLE);
+    }
+
+    private void drawOukan(){
+        TextView oukan1 = (TextView) findViewById(R.id.oukan1);
+        oukan1.setVisibility(View.INVISIBLE);
+        TextView oukan2 = (TextView) findViewById(R.id.oukan2);
+        oukan2.setVisibility(View.INVISIBLE);
     }
 
     @Override

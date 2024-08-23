@@ -23,24 +23,68 @@
 
                 <Button
                     android:id="@+id/button1"
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/btn_high" />
+                    android:layout_marginTop="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginBottom="3dp"
+                    android:text="@string/btn_high"
+                    android:background="@drawable/buttonshape"
+                    app:backgroundTint="@color/yellow"
+                    />
 
                 <Button
                     android:id="@+id/button2"
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/btn_low" />
+                    android:layout_marginTop="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginBottom="3dp"
+                    android:text="@string/btn_low"
+                    android:background="@drawable/buttonshape"
+                    app:backgroundTint="@color/yellow"/>
 
                 <Button
                     android:id="@+id/button3"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    android:text="@string/btn_restart" />
+                    android:layout_marginTop="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginBottom="3dp"
+                    android:text="@string/btn_restart"
+                    android:background="@drawable/buttonshape"
+                    app:backgroundTint="@color/yellow"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <Button
+                    android:id="@+id/bgm_on"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:background="@drawable/buttonshape"
+                    app:backgroundTint="@color/yellow"
+                    android:text="@string/bgm_on"/>
+
+                <Button
+                    android:id="@+id/bgm_off"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:background="@drawable/buttonshape"
+                    app:backgroundTint="@color/yellow"
+                    android:text="@string/bgm_off"/>
+
             </LinearLayout>
 
             <LinearLayout
@@ -82,6 +126,36 @@
             </LinearLayout>
 
             <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/oukan1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="  　    👑"
+                    android:textSize="30sp"/>
+
+                <TextView
+                    android:id="@+id/oukan2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="  　    　　　 👑"
+                    android:textSize="30sp"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="  　   YOU"
+                    android:textSize="30sp"/>
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
@@ -90,7 +164,7 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:background="#ff00ff"
+                    android:background="#d9d9d9"
                     android:gravity="center"
                     android:text="値1"
                     android:textSize="60sp" />
@@ -100,9 +174,9 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:background="#ffff00"
+                    android:background="#ffffff"
                     android:gravity="center"
-                    android:text="値2"
+                    android:text="？"
                     android:textSize="60sp" />
             </LinearLayout>
 
@@ -117,8 +191,8 @@
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:src="@drawable/footer"
-                android:scaleType="centerCrop"/>
+                android:scaleType="fitXY"
+                android:src="@drawable/footer6" />
 
         </LinearLayout>
 

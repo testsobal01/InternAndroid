@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">HitomiKase</string>
+    <string name="app_name">HighandLow</string>
     <string name="btn_high">High</string>
     <string name="btn_low">Low</string>
     <string name="btn_restart">Restart</string>
@@ -11,5 +11,7 @@
     <string name="label_win">WIN</string>
     <string name="label_lose">LOSE</string>
     <string name="label_draw">DRAW</string>
+    <string name="bgm_on">BGM ON</string>
+    <string name="bgm_off">BGM OFF</string>
     <string name="menu_title">menu_title</string>
 </resources>

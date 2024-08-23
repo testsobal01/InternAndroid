@@ -2,7 +2,7 @@
 <resources>
     <string name="num">10</string>
     <string name="text">が設定されています。</string>
-    <string name="app_name">YasuakiGotou</string>
+    <string name="app_name">HighandLow</string>
     <string name="btn_high">High</string>
     <string name="btn_low">Low</string>
     <string name="btn_restart">Restart</string>
