@@ -2,6 +2,7 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.graphics.Typeface;
 import android.media.AudioAttributes;
 import android.media.AudioManager;
 import android.media.SoundPool;
@@ -23,6 +24,8 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.graphics.Color;
 
+import org.w3c.dom.Text;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Random;
@@ -34,6 +37,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     Animation draw_animation;
     TextView animeText1;
     TextView animeText2;
+    Animation judgeWin;
+    Animation judgeLose;
+    Animation judgeDraw;
+    TextView judgeText;
 
     int mp3a;
     int mp3b;
@@ -82,6 +89,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         animeText2=(TextView) findViewById(R.id.question);
         // 起動時に関数を呼び出す
         setQuestionValue();
+
+        judgeText=(TextView)findViewById(R.id.judge);
+        judgeWin=AnimationUtils.loadAnimation(this,R.anim.judge_win);
+        judgeLose=AnimationUtils.loadAnimation(this,R.anim.judge_lose);
+        judgeDraw=AnimationUtils.loadAnimation(this,R.anim.judge_draw);
+        Typeface judgeFont=Typeface.createFromAsset(getAssets(),"BAUHS93.TTF");
+        judgeText.setTypeface(judgeFont);
 
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
 
@@ -217,22 +231,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = "WIN";
                 score = 2;
-              
                 animeText1.startAnimation(win_animation);
                 animeText2.startAnimation(lose_animation);
+                judgeText.startAnimation(judgeWin);
                 backgroundchangeWin();
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
                 animeText1.startAnimation(lose_animation);
                 animeText2.startAnimation(win_animation);
+                judgeText.startAnimation(judgeLose);
                 backgroundchangeLose();
             } else {
                 result = "DRAW";
                 score = 1;
                 animeText1.startAnimation(draw_animation);
                 animeText2.startAnimation(draw_animation);
-
+                judgeText.startAnimation(judgeDraw);
                 backgroundchangeDraw();
             }
         } else {
@@ -241,27 +256,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 score = 2;
                 animeText1.startAnimation(win_animation);
                 animeText2.startAnimation(lose_animation);
+                judgeText.startAnimation(judgeWin);
                 backgroundchangeWin();
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
                 animeText1.startAnimation(lose_animation);
                 animeText2.startAnimation(win_animation);
+                judgeText.startAnimation(judgeLose);
                 backgroundchangeLose();
             } else {
                 result = "DRAW";
                 score = 1;
                 animeText1.startAnimation(draw_animation);
                 animeText2.startAnimation(draw_animation);
+                judgeText.startAnimation(judgeDraw);
                 backgroundchangeDraw();
             }
 
         }
-
         // 最後にまとめてToast表示の処理とTextViewへのセットを行う
-        Toast.makeText(this, result, Toast.LENGTH_LONG).show();
         txtResult.setText(text_kekka+ question + ":" + answer + "(" + result + ")");
-
+        judgeText.setText(result);
 
         // 続けて遊べるように値を更新
         setNextQuestion();
@@ -298,6 +314,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 // 3秒経過したら次の値をセット
                 setQuestionValue();
                 setButton(true);
+                judgeText.setText("");
             }
         }.start();
 
@@ -308,8 +325,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView txtScore = (TextView) findViewById(R.id.text_score);
         int newScore = Integer.parseInt(txtScore.getText().toString()) + score;
         txtScore.setText(Integer.toString(newScore));
-
-
     }
 
     private void clearScoreValue() {
