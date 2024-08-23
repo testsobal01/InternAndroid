@@ -12,6 +12,8 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.media.SoundPool;
+import android.media.AudioAttributes;
 
 import java.sql.ResultSetMetaData;
 import java.util.Random;
@@ -19,6 +21,10 @@ import android.view.animation.AnimationUtils;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
+    int Sound1,Sound2,Sound3,Sound4;
+    int oto1,oto2,oto4,oto3;
+
+    SoundPool soundPool;
     SharedPreferences pref;
     SharedPreferences.Editor prefEditor;
 
@@ -38,6 +44,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // 起動時に関数を呼び出す
         setQuestionValue();
+
+        //
+        soundPool = null;
+        AudioAttributes audioAttributes = new
+                AudioAttributes.Builder().setUsage(AudioAttributes.USAGE_ALARM)
+                .setContentType(AudioAttributes.CONTENT_TYPE_SPEECH).build();
+
+        soundPool = new SoundPool.Builder()
+                .setAudioAttributes(audioAttributes).setMaxStreams(1).build();
+
+        oto1 = getResources().getIdentifier("sound1", "raw", getPackageName());
+        Sound1=soundPool.load(getBaseContext(),oto1,1);
+
+        oto2 = getResources().getIdentifier("sound2", "raw", getPackageName());
+        Sound2=soundPool.load(getBaseContext(),oto2,1);
+
+        oto3 = getResources().getIdentifier("sound3", "raw", getPackageName());
+        Sound3=soundPool.load(getBaseContext(),oto3,1);
+
+        oto4 = getResources().getIdentifier("sound4", "raw", getPackageName());
+        Sound4=soundPool.load(getBaseContext(),oto4,1);
+        //Sound = soundPool.load(getBaseContext(), R.raw.sound1, 1);
         // プリファレンスの生成
         setPreferences();
     }
@@ -58,6 +86,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View view) {
+        /*switch (view.getId()) {
+            case R.id.button1:
+                Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+                vib.vibrate(5000);
+                break;
+        }*/
+
+        //Button button = (Button) findViewById(R.id.button1);
+        //button.setOnClickListener(this);
+
+
+
+
         int id = view.getId();
         if (id == R.id.button1) {
             setAnswerValue();
@@ -70,6 +111,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             checkResult(false);
             colerChange(false);
         } else if (id == R.id.button3) {
+
+            soundPool.play(Sound4, 1f, 1f, 1, 0, 1f);
+
             setQuestionValue();
             clearAnswerValue();
             clearScoreValue();
@@ -122,14 +166,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (isHigh) {
             // result には結果のみを入れる
             if (question < answer) {
+                soundPool.play(Sound1, 1f, 1f, 1, 0, 1f);
                 result = "WIN";
                 score = 2;
                 findViewById(R.id.answer).startAnimation(AnimationUtils.loadAnimation(this, R.anim.animation));
             } else if (question > answer) {
+                soundPool.play(Sound2, 1f, 1f, 1, 0, 1f);
                 result = "LOSE";
                 score = -1;
                 findViewById(R.id.question).startAnimation(AnimationUtils.loadAnimation(this, R.anim.animation2));
             } else {
+                soundPool.play(Sound3, 1f, 1f, 1, 0, 1f);
                 result = "DRAW";
                 score = 1;
                 findViewById(R.id.question).startAnimation(AnimationUtils.loadAnimation(this, R.anim.animation3));
@@ -138,15 +185,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         } else {
             if (question > answer) {
+                soundPool.play(Sound1, 1f, 1f, 1, 0, 1f);
                 result = "WIN";
                 score = 2;
                 findViewById(R.id.question).startAnimation(AnimationUtils.loadAnimation(this, R.anim.animation));
 
             } else if (question < answer) {
+                soundPool.play(Sound2, 1f, 1f, 1, 0, 1f);
                 result = "LOSE";
                 score = -1;
                 findViewById(R.id.question).startAnimation(AnimationUtils.loadAnimation(this, R.anim.animation2));
             } else {
+                soundPool.play(Sound3, 1f, 1f, 1, 0, 1f);
                 result = "DRAW";
                 score = 1;
                 findViewById(R.id.question).startAnimation(AnimationUtils.loadAnimation(this, R.anim.animation3));
