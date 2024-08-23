@@ -20,6 +20,8 @@ import java.util.Random;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     int mp3;
+    int mp32;
+    int mp33;
     SoundPool soundPool;
 
     String result_text;
@@ -59,7 +61,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .setMaxStreams(5)
                 .build();
 
-        mp3 = soundPool.load(this, R.raw.sound, 1);
+        mp3 = soundPool.load(this, R.raw.takai, 1);
+        mp32 = soundPool.load(this,R.raw.sound_reset,1);
+        mp33=soundPool.load(this,R.raw.hikui,1);
 
         result_text = getString(R.string.label_result);
         win_text= getString(R.string.label_win);
@@ -106,14 +110,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         } else if (id == R.id.button2) {
             setAnswerValue();
             checkResult(false);
-            soundPool.play(mp3, 1f, 1f, 0, 0, 1f);
+            soundPool.play(mp33, 1f, 1f, 0, 0, 1f);
         } else if (id == R.id.button3) {
             setQuestionValue();
             clearAnswerValue();
             clearScoreValue();
             Vibrator vib = (Vibrator) getSystemService(VIBRATOR_SERVICE);
             vib.vibrate(300);
-            soundPool.play(mp3, 1f, 1f, 0, 0, 1f);
+            soundPool.play(mp32, 1f, 1f, 0, 0, 1f);
         }
 
     }
