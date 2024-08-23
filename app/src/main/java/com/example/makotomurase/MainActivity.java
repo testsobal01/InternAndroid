@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.media.AudioAttributes;
 import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.media.SoundPool;
 import android.os.Build;
 import android.content.Intent;
@@ -39,7 +40,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     int mp3b;
     int mp3c;
     SoundPool soundPool;
+    private MediaPlayer mediaPlayer;
 
+
+          public void play_mp3d(){
+              mediaPlayer = MediaPlayer.create(this,R.raw.bgm2);
+              mediaPlayer.setLooping(true); //    ループ設定
+              mediaPlayer.setVolume( 1f, 1f);
+              mediaPlayer.start();
+          }
     public void play_mp3a() {
         soundPool.play(mp3a, 1f, 0, 0, 0, 1f);
     }
@@ -101,6 +110,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mp3b = soundPool.load(this, R.raw.button2, 1);
         mp3c = soundPool.load(this, R.raw.button3, 1);
 
+
+
         text_kekka = getString(R.string.kekka);
 
         ImageView imageView = (ImageView) findViewById(R.id.image_view);
@@ -117,6 +128,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //プリファレンスの生成
         pref = getSharedPreferences("AndroidSeminor", MODE_PRIVATE);
         prefEditor = pref.edit();
+
+        play_mp3d();
+
     }
 
     @Override
@@ -151,7 +165,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View view) {
         if (view.getId() == R.id.button1) {
             Vibrator vid = (Vibrator) getSystemService(VIBRATOR_SERVICE);
-            vid.vibrate(5000);
+            vid.vibrate(2000);
         }
         int id = view.getId();
         if (id == R.id.button1) {
