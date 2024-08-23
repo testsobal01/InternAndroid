@@ -139,12 +139,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 soundPool.stop(mp3b_id);
                 limit = 0;
             }
+            changeBackGroundDraw();
         }
     }
 
     private void clearAnswerValue() {
         TextView txtView = (TextView) findViewById(R.id.answer);
-        txtView.setText("値2");
+        txtView.setText("？");
     }
 
     private void setQuestionValue() {
@@ -260,21 +261,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void changeBackgroundWin(){
         TextView qtxtScore = (TextView) findViewById(R.id.question);
-        qtxtScore.setBackgroundColor(Color.RED);
+        qtxtScore.setBackgroundColor(Color.parseColor("#59c4bc"));
         TextView atxtScore = (TextView) findViewById(R.id.answer);
-        atxtScore.setBackgroundColor(Color.BLUE);
+        atxtScore.setBackgroundColor(Color.parseColor("#d9d9d9"));
     }
 
     private void changeBackGroundLose(){
         TextView qtxtScore = (TextView) findViewById(R.id.question);
-        qtxtScore.setBackgroundColor(Color.BLUE);
+        qtxtScore.setBackgroundColor(Color.parseColor("#d9d9d9"));
         TextView atxtScore = (TextView) findViewById(R.id.answer);
-        atxtScore.setBackgroundColor(Color.RED);
+        atxtScore.setBackgroundColor(Color.parseColor("#59c4bc"));
     }
 
     private void changeBackGroundDraw(){
         TextView qtxtScore = (TextView) findViewById(R.id.question);
-        qtxtScore.setBackgroundColor(Color.WHITE);
+        qtxtScore.setBackgroundColor(Color.parseColor("#d9d9d9"));
         TextView atxtScore = (TextView) findViewById(R.id.answer);
         atxtScore.setBackgroundColor(Color.WHITE);
     }
