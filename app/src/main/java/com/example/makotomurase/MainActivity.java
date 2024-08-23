@@ -30,6 +30,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     int questionValueMax = 10;
     boolean isHighLowButtonClick = false;
 
+    int scoreCorrection = 1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,6 +47,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btn3.setOnClickListener(this);
 
         // 起動時に関数を呼び出す
+        Random r = new Random();
+        questionValueMax = r.nextInt(9999 + 1);
         setQuestionValue();
       
         setNextQuestion();
@@ -175,17 +179,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 soundPool.play(Sound1, 1f, 1f, 1, 0, 1f);
                 result = "WIN";
-                score = 2;
+                score = 2 * scoreCorrection;
                 findViewById(R.id.answer).startAnimation(AnimationUtils.loadAnimation(this, R.anim.animation));
             } else if (question > answer) {
                 soundPool.play(Sound2, 1f, 1f, 1, 0, 1f);
                 result = "LOSE";
-                score = -1;
+                score = -1 * scoreCorrection;
                 findViewById(R.id.question).startAnimation(AnimationUtils.loadAnimation(this, R.anim.animation2));
             } else {
                 soundPool.play(Sound3, 1f, 1f, 1, 0, 1f);
                 result = "DRAW";
-                score = 1;
+                score = 1 * scoreCorrection;
                 findViewById(R.id.question).startAnimation(AnimationUtils.loadAnimation(this, R.anim.animation3));
                 findViewById(R.id.answer).startAnimation(AnimationUtils.loadAnimation(this, R.anim.animation4));
 
@@ -194,18 +198,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question > answer) {
                 soundPool.play(Sound1, 1f, 1f, 1, 0, 1f);
                 result = "WIN";
-                score = 2;
+                score = 2 * scoreCorrection;
                 findViewById(R.id.question).startAnimation(AnimationUtils.loadAnimation(this, R.anim.animation));
 
             } else if (question < answer) {
                 soundPool.play(Sound2, 1f, 1f, 1, 0, 1f);
                 result = "LOSE";
-                score = -1;
+                score = -1 * scoreCorrection;
                 findViewById(R.id.question).startAnimation(AnimationUtils.loadAnimation(this, R.anim.animation2));
             } else {
                 soundPool.play(Sound3, 1f, 1f, 1, 0, 1f);
                 result = "DRAW";
-                score = 1;
+                score = 1 * scoreCorrection;
                 findViewById(R.id.question).startAnimation(AnimationUtils.loadAnimation(this, R.anim.animation3));
                 findViewById(R.id.answer).startAnimation(AnimationUtils.loadAnimation(this, R.anim.animation4));
 
@@ -218,13 +222,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView txtViewToast = findViewById(R.id.toast);
         TextView txtViewToastBack = findViewById(R.id.toastBack);
         TextView txtViewMaxValueBack = findViewById(R.id.maxValueBack);
-        TextView txtViewmaxValue = findViewById(R.id.maxValue);
-        txtViewToastBack.setBackgroundColor(Color.parseColor("#B3e4edea"));
         txtViewMaxValueBack.setBackgroundColor(Color.parseColor("#B3e4edea"));
-        txtViewToast.setText(result + "!");
+        TextView txtViewmaxValue = findViewById(R.id.maxValue);
         txtViewmaxValue.setText("Max : " + Integer.toString(questionValueMax));
-      
-        txtResult.setText("結果：" + question + ":" + answer + "(" + result + ")");
+
+        txtViewToastBack.setBackgroundColor(Color.parseColor("#B3e4edea"));
+        txtViewToast.setText(result + "!");
+
+        txtResult.setText("結果：" + question + ":" + answer + "(" + result + ")" );
 
         // 続けて遊べるように値を更新
         //setNextQuestion();
@@ -242,10 +247,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 // 途中でHighかLowボタンが押されたとき
                 if(isHighLowButtonClick == true){
                     isHighLowButtonClick = false;
+                    Random r = new Random();
+                    questionValueMax = r.nextInt(9999 + 1);
+                    scoreCorrection = ((int)l / 1000) + 1;
                     // 次の値セット
                     setQuestionValue();
                     isFinishStop = true;
                     setNextQuestion();
+
+                    TextView txtViewMaxValueBack = findViewById(R.id.maxValueBack);
+                    txtViewMaxValueBack.setBackgroundColor(Color.parseColor("#B3e4edea"));
+                    TextView txtViewmaxValue = findViewById(R.id.maxValue);
+                    txtViewmaxValue.setText("Max : " + Integer.toString(questionValueMax));
+
                 }
             }
 
@@ -258,6 +272,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     setQuestionValue();
                     // 3秒経過したらCountDownTimer再起動
                     setNextQuestion();
+
+                    TextView txtViewMaxValueBack = findViewById(R.id.maxValueBack);
+                    txtViewMaxValueBack.setBackgroundColor(Color.parseColor("#B3e4edea"));
+                    TextView txtViewmaxValue = findViewById(R.id.maxValue);
+                    txtViewmaxValue.setText("Max : " + Integer.toString(questionValueMax));
+
                 }
             }
         }.start();
