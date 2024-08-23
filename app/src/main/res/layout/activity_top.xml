@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center_horizontal"
-        android:src="@drawable/title03" />
+        android:src="@drawable/title02" />
 
 
     <LinearLayout
@@ -23,39 +23,62 @@
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="509dp"
+            android:layout_height="425dp"
             android:text=" "></TextView>
 
-        <Button
-            android:id="@+id/startbutton"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:background="@color/navy"
-            android:text="スタート"
-            app:backgroundTint="@null"
-            android:textSize="20sp">
-        </Button>
+            android:orientation="horizontal">
 
+            <TextView
+                android:layout_width="112dp"
+                android:layout_height="wrap_content"
+                android:text=" "></TextView>
+
+            <Button
+                android:id="@+id/startbutton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@color/navy"
+                android:text="スタート"
+                android:textSize="20sp"
+                app:backgroundTint="@null"></Button>
+
+        </LinearLayout>
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="8dp"
+            android:layout_height="9dp"
             android:text=" "></TextView>
 
-
-        <Button
-            android:id="@+id/introbutton"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="遊び方"
-            android:background="@color/navy"
-            app:backgroundTint="@null"
-            android:textSize="20sp"></Button>
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="123dp"
+                android:layout_height="wrap_content"
+                android:text=" "></TextView>
+
+
+            <Button
+                android:id="@+id/introbutton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@color/navy"
+                android:text="遊び方"
+                android:textSize="20sp"
+                app:backgroundTint="@null"></Button>
+
+
+
+        </LinearLayout>
 
     </LinearLayout>
-
 
 
 </FrameLayout>
