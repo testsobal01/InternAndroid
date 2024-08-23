@@ -9,34 +9,62 @@ import android.graphics.Color;
 import android.content.Intent;
 import android.media.AudioAttributes;
 import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.media.SoundPool;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Handler;
+import android.os.Looper;
 import android.os.Vibrator;
+import android.view.Gravity;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.text.SimpleDateFormat;
+import java.util.Locale;
 import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     SharedPreferences pref;
     SharedPreferences.Editor prefEditor;
-  
+
     // 機能8 準備（コンポを部屋に置く）
     SoundPool soundPool;    // 効果音を鳴らす本体（コンポ）
     int mp3a;          // 効果音
+    MediaPlayer p;
+
+    private Timer timer;
+    private CountUpTimerTask timerTask;
+    // 'Handler()' is deprecated as of API 30: Android 11.0 (R)
+    private final Handler handler = new Handler(Looper.getMainLooper());
+
+    private TextView timerText;
+    private long count, delay, period;
+    private String zero;
+    private long startTime;
+    private volatile boolean stopRun = false;
+
+    private final SimpleDateFormat dataFormat =
+            new SimpleDateFormat("mm:ss.SS", Locale.JAPAN);
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        p = MediaPlayer.create(getApplicationContext(), R.raw.bgm1);
+        p.setLooping(true);
 
         Button btn1 = findViewById(R.id.button1);
         btn1.setOnClickListener(this);
@@ -47,6 +75,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
 
+        delay = 0;
+        period = 100;
+        // "00:00.0"
+        zero = getString(R.string.zero);
+
+        timerText = findViewById(R.id.timer);
+        timerText.setText(zero);
+        timer = new Timer();
+
+        // TimerTask インスタンスを生成
+        timerTask = new CountUpTimerTask();
+
+        // スケジュールを設定 100msec
+        // public void schedule (TimerTask task, long delay, long period)
+        timer.schedule(timerTask, delay, period);
+
+        // カウンター
+        count = 0;
+        timerText.setText(zero);
         Intent intent = getIntent();
         Bundle extra = intent.getExtras();
 
@@ -77,23 +124,39 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         int id = view.getId();
         if (id == R.id.button1) {
-            soundPool.play(mp3a,1f , 1f, 0, 0, 1f);
+            soundPool.play(mp3a, 1f, 1f, 0, 0, 1f);
             setAnswerValue();
             checkResult(true);
+
+
         } else if (id == R.id.button2) {
-            soundPool.play(mp3a,1f , 1f, 0, 0, 1f);
+            soundPool.play(mp3a, 1f, 1f, 0, 0, 1f);
             setAnswerValue();
             checkResult(false);
         } else if (id == R.id.button3) {
 
             //以下2行バイブレーション機能
-            Vibrator vib= (Vibrator)getSystemService(VIBRATOR_SERVICE);
+            Vibrator vib = (Vibrator) getSystemService(VIBRATOR_SERVICE);
             vib.vibrate(1000);
-
             setQuestionValue();
             clearAnswerValue();
+            clear_result();
+            clear_win_lose_cnt_Value();
+            reset_color();
             clearScoreValue();
+
+
         }
+
+    }
+
+    public void run() {
+        Thread thread;
+        thread = new Thread((Runnable) this);
+        thread.start();
+
+        startTime = System.currentTimeMillis();
+
 
     }
 
@@ -119,6 +182,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         txtView.setText(Integer.toString(answerValue));
     }
 
+    //勝敗、引き分けを格納するint変数
+    int cnt_win;
+    int cnt_lose;
+    int cnt_draw;
+
     private void checkResult(boolean isHigh) {
         TextView txtViewQuestion = findViewById(R.id.question);
         TextView txtViewAnswer = findViewById(R.id.answer);
@@ -127,11 +195,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int answer = Integer.parseInt(txtViewAnswer.getText().toString());
 
         TextView txtResult = (TextView) findViewById(R.id.text_result);
+        TextView text_win_lose_draw = (TextView) findViewById(R.id.text_win_lose_draw);
 
         // 結果を示す文字列を入れる変数を用意
         int score;
         String result;
 
+        //勝敗、引き分けをカウントするint変数
+        int cnt = 0;
+
+
+        //勝敗、引き分けを格納するstring変数
+        String text_win;
+        String text_lose;
+        String text_draw;
 
         // Highが押された
         if (isHigh) {
@@ -142,16 +219,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 TextView Color_High_Left = findViewById(R.id.question);
                 Color_High_Left.setBackgroundColor(Color.CYAN);
                 TextView Color_High_Right = findViewById(R.id.answer);
-                Color_High_Right.setBackgroundColor(Color.argb(255,255,69,0));
+                Color_High_Right.setBackgroundColor(Color.argb(255, 255, 69, 0));
                 score = 2;
+                cnt++;
+                cnt_win += cnt;
             } else if (question > answer) {
                 result = "LOSE";
                 //負けた時の背景色を変える　Lose:左を赤、右を青
                 TextView Color_HIGH_Left = findViewById(R.id.question);
-                Color_HIGH_Left.setBackgroundColor(Color.argb(255,255,69,0));
+                Color_HIGH_Left.setBackgroundColor(Color.argb(255, 255, 69, 0));
                 TextView Color_HIGH_Right = findViewById(R.id.answer);
                 Color_HIGH_Right.setBackgroundColor(Color.CYAN);
                 score = -1;
+                cnt++;
+                cnt_lose += cnt;
             } else {
                 result = "DRAW";
                 TextView Color_HIGH_Left = findViewById(R.id.question);
@@ -160,48 +241,78 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Color_HIGH_Right.setBackgroundColor(Color.MAGENTA);
                 //引き分けた時の背景色を変える　Draw:紫
                 score = 1;
+                cnt++;
+                cnt_draw += cnt;
             }
         } else {
             if (question > answer) {
                 result = "WIN";
                 //勝った時の背景色を変える　LOW:左を黄色、右を緑
                 TextView Color_Low_Left = findViewById(R.id.question);
-                Color_Low_Left.setBackgroundColor(Color.argb(255,255,165,0));
+                Color_Low_Left.setBackgroundColor(Color.argb(255, 255, 165, 0));
                 TextView Color_Low_Right = findViewById(R.id.answer);
                 Color_Low_Right.setBackgroundColor(Color.GREEN);
                 score = 2;
+                cnt++;
+                cnt_win += cnt;
             } else if (question < answer) {
                 result = "LOSE";
                 //負けた時の背景色を変える　LOW:左を緑、右を黄色
                 TextView Color_Low_Left = findViewById(R.id.question);
                 Color_Low_Left.setBackgroundColor(Color.GREEN);
                 TextView Color_Low_Right = findViewById(R.id.answer);
-                Color_Low_Right.setBackgroundColor(Color.argb(255,255,165,0));
+                Color_Low_Right.setBackgroundColor(Color.argb(255, 255, 165, 0));
                 score = -1;
+                cnt++;
+                cnt_lose += cnt;
             } else {
                 result = "DRAW";
                 //引き分けた時の背景色を変える　LOW:グレー
                 TextView Color_Low_Left = findViewById(R.id.question);
-                Color_Low_Left.setBackgroundColor(Color.argb(255,169,169,169));
+                Color_Low_Left.setBackgroundColor(Color.argb(255, 169, 169, 169));
                 TextView Color_Low_Right = findViewById(R.id.answer);
-                Color_Low_Right.setBackgroundColor(Color.argb(255,169,169,169));
+                Color_Low_Right.setBackgroundColor(Color.argb(255, 169, 169, 169));
                 score = 1;
+                cnt++;
+                cnt_draw += cnt;
             }
         }
 
+
         // 最後にまとめてToast表示の処理とTextViewへのセットを行う
-        Toast.makeText(this, result, Toast.LENGTH_LONG).show();
-        txtResult.setText("結果：" + question + ":" + answer + "(" + result + ")");
+        Toast.makeText(this, result, Toast.LENGTH_SHORT).show();
+        TextView txtScore2 = (TextView) findViewById(R.id.text_score);
+        if ((Integer.parseInt(txtScore2.getText().toString()) + score == 10) || (Integer.parseInt(txtScore2.getText().toString()) + score == 11)) {
+            Toast ts = Toast.makeText(this, "great", Toast.LENGTH_SHORT);
+            ts.setGravity(Gravity.CENTER, 0, 0);
+            ts.show();
+        } else if (Integer.parseInt(txtScore2.getText().toString()) + score >= 15) {
+            Toast ts = Toast.makeText(this, "perfect", Toast.LENGTH_SHORT);
+            ts.setGravity(Gravity.CENTER, 0, 0);
+            ts.show();
+            Intent intent = new Intent(this, resultActivity.class);
+            startActivity(intent);
+        }
+
+        txtResult.setText("RST：" + question + ":" + answer + "(" + result + ")");
+
+        //勝敗、引き分け回数を文字列にキャストして格納
+        text_win = Integer.toString(cnt_win);
+        text_lose = Integer.toString(cnt_lose);
+        text_draw = Integer.toString(cnt_draw);
+
+        //勝ち負け、引き分け回数を表示
+        text_win_lose_draw.setText("WIN：" + text_win + " " + "LOSE: " + text_lose + " " + "DRAW: " + text_draw);
 
         //以下アニメーション機能
         TextView spaceshipImage = (TextView) findViewById(R.id.question);
         TextView spaceshipImage2 = (TextView) findViewById(R.id.answer);
-        if (result == "WIN"){
+        if (result == "WIN") {
             Animation hyperspaceJumpAnimation = AnimationUtils.loadAnimation(this, R.anim.animation1);
             spaceshipImage.startAnimation(hyperspaceJumpAnimation);
             Animation hyperspaceJumpAnimation2 = AnimationUtils.loadAnimation(this, R.anim.animation2);
             spaceshipImage2.startAnimation(hyperspaceJumpAnimation2);
-        } else if (result == "LOSE"){
+        } else if (result == "LOSE") {
             Animation hyperspaceJumpAnimation = AnimationUtils.loadAnimation(this, R.anim.animation2);
             spaceshipImage.startAnimation(hyperspaceJumpAnimation);
             Animation hyperspaceJumpAnimation2 = AnimationUtils.loadAnimation(this, R.anim.animation1);
@@ -238,32 +349,65 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     @Override
-    protected  void onPause(){
+    protected void onPause() {
         super.onPause();
 
-       TextView textView = (TextView) findViewById(R.id.text_score);
+        TextView textView = (TextView) findViewById(R.id.text_score);
 
-       prefEditor.putInt("totalScoreLabel", Integer.parseInt(textView.getText().toString()));
-       prefEditor.commit();
-
-
+        prefEditor.putInt("totalScoreLabel", Integer.parseInt(textView.getText().toString()));
+        prefEditor.commit();
+        p.pause();
     }
 
-    protected void onResume(){
+    @Override
+    protected void onResume() {
         super.onResume();
 
         TextView textView = (TextView) findViewById(R.id.text_score);
 
         boolean b = false;
-        int readText = pref.getInt("totalScoreLabel",Integer.parseInt(textView.getText().toString()));
+        int readText = pref.getInt("totalScoreLabel", Integer.parseInt(textView.getText().toString()));
 
         textView.setText(Integer.toString(readText));
+        p.start();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        p.release();
+        p = null;
     }
 
     private void setScore(int score) {
         TextView txtScore = (TextView) findViewById(R.id.text_score);
+        int keepScore = Integer.parseInt(txtScore.getText().toString());
         int newScore = Integer.parseInt(txtScore.getText().toString()) + score;
         txtScore.setText(Integer.toString(newScore));
+
+        //スコアの色
+        if (newScore < keepScore) {
+            txtScore.setTextColor(Color.argb(255, 178, 34, 34));
+        } else if (newScore > keepScore) {
+            txtScore.setTextColor(Color.argb(255, 0, 0, 0));
+
+        }
+    }
+
+
+    private void clear_win_lose_cnt_Value() {
+        TextView text_win_lose_draw = (TextView) findViewById(R.id.text_win_lose_draw);
+        text_win_lose_draw.setText("WIN：" + 0 + " " + "LOSE: " + 0 + " " + "DRAW: " + 0);
+    }
+
+    private void clear_result() {
+        TextView txtResult = (TextView) findViewById(R.id.text_result);
+        txtResult.setText("");
+    }
+
+    private void reset_color() {
+        TextView txtScore = (TextView) findViewById(R.id.text_score);
+        txtScore.setTextColor(Color.argb(255, 0, 0, 0));
     }
 
     private void clearScoreValue() {
@@ -271,6 +415,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         txtScore.setText("0");
     }
 
-
+    class CountUpTimerTask extends TimerTask {
+        @Override
+        public void run() {
+            // handlerを使って処理をキューイングする
+            handler.post(() -> {
+                count++;
+                long mm = count * 100 / 1000 / 60;
+                long ss = count * 100 / 1000 % 60;
+                long ms = (count * 100 - ss * 1000 - mm * 1000 * 60) / 100;
+                // 桁数を合わせるために02d(2桁)を設定
+                timerText.setText(
+                        String.format(Locale.US, "%1$02d:%2$02d.%3$01d", mm, ss, ms));
+            });
+        }
+    }
 }
 

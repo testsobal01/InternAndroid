@@ -20,67 +20,105 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:textColor="#000000"
-                android:textSize="20sp"
                 android:background="@drawable/button_design_high"
                 android:text="@string/btn_high"
-                app:backgroundTint="@null"/>
+                android:textColor="#000000"
+                android:textSize="20sp"
+                app:backgroundTint="@null" />
 
             <Button
                 android:id="@+id/button2"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:textColor="#000000"
-                android:textSize="20sp"
                 android:background="@drawable/button_design_low"
                 android:text="@string/btn_low"
-                app:backgroundTint="@null"/>
+                android:textColor="#000000"
+                android:textSize="20sp"
+                app:backgroundTint="@null" />
 
             <Button
                 android:id="@+id/button3"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
-                android:textColor="#000000"
-                android:textSize="20sp"
                 android:background="@drawable/button_restart"
                 android:text="@string/btn_restart"
-                app:backgroundTint="@null"/>
+                android:textColor="#000000"
+                android:textSize="20sp"
+                app:backgroundTint="@null" />
 
 
         </LinearLayout>
+
+        <TextView
+            android:id="@+id/timer"
+            android:layout_margin="20dp"
+            android:textSize="60sp"
+            android:textColor="#00f"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="10が設定されています。" />
 
-        <TextView
-            android:id="@+id/text_result"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <TextView
-                android:layout_width="wrap_content"
+                android:id="@+id/text_result"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="@string/label_score" />
+                android:layout_weight="1"
+                android:textStyle="bold"
+                android:textSize="25sp"/>
 
             <TextView
+                android:id="@+id/text_win_lose_draw"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textStyle="bold"
+                android:textSize="25sp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/label_score"
+                android:textStyle="bold"
+                android:textSize="25sp"/>
+
+            <TextView
+
                 android:id="@+id/text_score"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="0" />
+                android:text="0"
+                android:textStyle="bold"
+                android:textSize="25sp"/>
+
+
+
+
+
+
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -112,23 +150,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
-                android:src="@drawable/fuji"
                 android:scaleType="fitXY"
-
-               />
-
-
-
-
+                android:src="@drawable/fuji" />
 
         </LinearLayout>
-
-
-
-
-
-
-
 
 
     </LinearLayout>

@@ -1,13 +1,11 @@
+
 <resources>
-    <string name="app_name">YasuakiGotou</string>
-    <string name="title">High and Low</string>
+    <string name="app_name">はいあんどろー</string>
     <string name="btn_high">High</string>
     <string name="btn_low">Low</string>
     <string name="btn_restart">Restart</string>
     <string name="label_score">Score：</string>
     <string name="totalScoreLabel">TotalScore</string>
     <string name="startbutton">スタート</string>
-    <string name="intro">
-
-    </string>
+    <string name="zero">"00:00.0"</string>
 </resources>
