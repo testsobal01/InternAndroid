@@ -118,10 +118,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             setAnswerValue();
             checkResult(true);
             soundPool.play(mp3a, 1f, 1f, 0, 0, 1f);
+            setEnabled(false);
         } else if (id == R.id.button2) {
             setAnswerValue();
             checkResult(false);
             soundPool.play(mp3a, 1f, 1f, 0, 0, 1f);
+            setEnabled(false);
         } else if (id == R.id.button3) {
             setQuestionValue();
             clearAnswerValue();
@@ -244,8 +246,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 setQuestionValue();
                 animationReset(findViewById(R.id.answer));
                 animationReset(findViewById(R.id.question));
+                setEnabled(true);
             }
         }.start();
+    }
+
+
+    private void setEnabled(Boolean b) {
+        // 第１引数がカウントダウン時間、第２引数は途中経過を受け取る間隔
+        // 単位はミリ秒（1秒＝1000ミリ秒）
+        Button btn1 = findViewById(R.id.button1);
+        btn1.setEnabled(b);
+
+        Button btn2 = findViewById(R.id.button2);
+        btn2.setEnabled(b);
+
+        Button btn3 = (Button) findViewById(R.id.button3);
+        btn3.setEnabled(b);
     }
 
     private void setScore(int score) {
