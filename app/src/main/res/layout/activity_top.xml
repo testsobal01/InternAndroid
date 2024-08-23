@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center_horizontal"
-        android:src="@drawable/icon2" />
+        android:src="@drawable/title03" />
 
 
     <LinearLayout
@@ -29,7 +29,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="@string/title"
             android:textColor="@color/navy"
             android:textSize="38dp"></TextView>
 
