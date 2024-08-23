@@ -15,6 +15,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
+import android.view.Gravity;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -33,6 +34,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     SoundPool soundPool;    // 効果音を鳴らす本体（コンポ）
     int mp3a;          // 効果音
     MediaPlayer p;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,6 +101,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             clear_result();
             clear_win_lose_cnt_Value();
             clearScoreValue();
+
+
+
         }
 
     }
@@ -220,8 +225,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         }
 
+
+
+
         // 最後にまとめてToast表示の処理とTextViewへのセットを行う
-        Toast.makeText(this, result, Toast.LENGTH_LONG).show();
+        Toast.makeText(this, result, Toast.LENGTH_SHORT).show();
+        TextView txtScore2 = (TextView) findViewById(R.id.text_score);
+        if((Integer.parseInt(txtScore2.getText().toString()) + score==10)||(Integer.parseInt(txtScore2.getText().toString()) + score==11)) {
+            Toast ts = Toast.makeText(this, "great", Toast.LENGTH_SHORT);
+            ts.setGravity(Gravity.CENTER, 0, 0);
+            ts.show();
+        } else if (Integer.parseInt(txtScore2.getText().toString()) + score>=15) {
+            Toast ts = Toast.makeText(this, "perfect", Toast.LENGTH_SHORT);
+            ts.setGravity(Gravity.CENTER, 0, 0);
+            ts.show();
+        }
+
         txtResult.setText("結果：" + question + ":" + answer + "(" + result + ")");
 
         //勝敗、引き分け回数を文字列にキャストして格納
@@ -254,6 +273,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setNextQuestion();
         // スコアを表示
         setScore(score);
+
 
 
     }
@@ -311,7 +331,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView txtScore = (TextView) findViewById(R.id.text_score);
         int newScore = Integer.parseInt(txtScore.getText().toString()) + score;
         txtScore.setText(Integer.toString(newScore));
+
     }
+
 
     private void clearScoreValue() {
         TextView txtScore = (TextView) findViewById(R.id.text_score);

@@ -45,7 +45,7 @@
             android:layout_gravity="center"
             android:background="@color/navy"
             app:backgroundTint="@null"
-            android:text="ã‚¹ã‚¿ãƒ¼ãƒˆ">
+            android:text="ƒXƒ^[ƒg">
             <!--app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -58,7 +58,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="éŠã³æ–¹"></Button>
+            android:text="—V‚Ñ•û"></Button>
 
     </LinearLayout>
 
