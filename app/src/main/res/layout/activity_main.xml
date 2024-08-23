@@ -23,24 +23,38 @@
 
                 <Button
                     android:id="@+id/button1"
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/btn_high" />
+                    android:layout_marginTop="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginBottom="3dp"
+                    android:text="@string/btn_high"
+                    android:background="@drawable/buttonshape"
+                    app:backgroundTint="@color/yellow"
+                    />
 
                 <Button
                     android:id="@+id/button2"
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/btn_low" />
+                    android:layout_marginTop="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginBottom="3dp"
+                    android:text="@string/btn_low"
+                    android:background="@drawable/buttonshape"
+                    app:backgroundTint="@color/yellow"/>
 
                 <Button
                     android:id="@+id/button3"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    android:text="@string/btn_restart" />
+                    android:layout_marginTop="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginBottom="3dp"
+                    android:text="@string/btn_restart"
+                    android:background="@drawable/buttonshape"
+                    app:backgroundTint="@color/yellow"/>
             </LinearLayout>
 
             <TextView
