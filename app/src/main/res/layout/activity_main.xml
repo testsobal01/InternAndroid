@@ -242,7 +242,7 @@
                 android:layout_height="match_parent"
                 android:alpha="1"
                 android:background="#ffff00"
-                app:srcCompat="@drawable/hutta1" />
+                app:srcCompat="@drawable/hutta" />
 
 
         </LinearLayout>

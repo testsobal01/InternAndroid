@@ -114,8 +114,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             setAnswerValue();
             checkResult(true);
             colerChange(true);
-            Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
-            vib.vibrate(5000);
         } else if (id == R.id.button2) {
             isHighLowButtonClick = true;
             setAnswerValue();
@@ -187,6 +185,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 streak ++;
 
                 findViewById(R.id.answer).startAnimation(AnimationUtils.loadAnimation(this, R.anim.animation));
+                Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+                vib.vibrate(1000);
+
             } else if (question > answer) {
                 soundPool.play(Sound2, 1f, 1f, 1, 0, 1f);
                 result = "LOSE";
