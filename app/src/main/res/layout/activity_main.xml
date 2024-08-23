@@ -7,6 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#ffffff"
+    android:orientation="vertical"
     tools:context=".MainActivity">
 
     <LinearLayout
@@ -23,36 +24,48 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:textColor="@color/black"
                 android:background="@drawable/custom_button"
-                app:backgroundTint="@null"
-                android:text="@string/btn_high" />
+                android:text="@string/btn_high"
+                android:textColor="@color/black"
+                app:backgroundTint="@null" />
 
             <Button
                 android:id="@+id/button2"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:textColor="@color/black"
                 android:background="@drawable/custom_button2"
-                app:backgroundTint="@null"
-                android:text="@string/btn_low" />
+                android:text="@string/btn_low"
+                android:textColor="@color/black"
+                app:backgroundTint="@null" />
 
             <Button
                 android:id="@+id/button3"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
-                android:textColor="@color/white"
                 android:background="@drawable/custom_button3"
-                app:backgroundTint="@null"
-                android:text="@string/btn_restart" />
+                android:text="@string/btn_restart"
+                android:textColor="@color/white"
+                app:backgroundTint="@null" />
         </LinearLayout>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="10が設定されています。" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/label_score" />
+
+
+        <TextView
+            android:id="@+id/text_score"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0" />
 
         <TextView
             android:id="@+id/text_result"
@@ -68,91 +81,172 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/label_score" />
-
-            <TextView
-                android:id="@+id/text_score"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="0" />
         </LinearLayout>
+
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <!-- 数字と背景を重ね合わせるためにFrameLayoutを二つ用意 -->
+                <FrameLayout
+                    android:id="@+id/frameLayout1"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:id="@+id/questionBack"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:background="#ff00ff"
+                            android:gravity="center"
+                            android:text=""
+                            android:textSize="60sp" />
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:id="@+id/question"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="値1"
+                            android:textSize="60sp" />
+
+                    </LinearLayout>
+                </FrameLayout>
+
+                <FrameLayout
+                    android:id="@+id/frameLayout2"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:id="@+id/answerBack"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:background="#ffff00"
+                            android:gravity="center"
+                            android:text=""
+                            android:textSize="60sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:id="@+id/answer"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="値2"
+                            android:textSize="60sp" />
+                    </LinearLayout>
+                </FrameLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:text="" />
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:weightSum="3">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="35sp"
+                            android:layout_weight="1"
+                            android:gravity="center_horizontal" />
+
+                        <TextView
+                            android:id="@+id/toastBack"
+                            android:layout_width="0dp"
+                            android:layout_height="37sp"
+                            android:layout_weight="1"
+                            android:gravity="center_horizontal" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:id="@+id/toast"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center_horizontal"
+                            android:text=""
+                            android:textColor="@color/black"
+                            android:textSize="30sp" />
+                    </LinearLayout>
+                </FrameLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="2"
+                    android:text="" />
+            </LinearLayout>
+        </FrameLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="horizontal">
+            android:layout_weight="3">
 
-            <FrameLayout
-                android:id="@+id/frameLayout1"
-                android:layout_width="0dp"
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1">
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <TextView
-                        android:id="@+id/questionBack"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:background="#ff00ff"
-                        android:gravity="center"
-                        android:text=""
-                        android:textSize="60sp" />
-                </LinearLayout>
+                android:alpha="1"
+                android:background="#ffff00"
+                app:srcCompat="@drawable/hutta1" />
 
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-                    <TextView
-                        android:id="@+id/question"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:text="値1"
-                        android:textSize="60sp" />
-
-                </LinearLayout>
-            </FrameLayout>
-
-            <FrameLayout
-                android:id="@+id/frameLayout2"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1">
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-                    <TextView
-                        android:id="@+id/answerBack"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:background="#ffff00"
-                        android:gravity="center"
-                        android:text=""
-                        android:textSize="60sp"/>
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-                    <TextView
-                        android:id="@+id/answer"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:text="値2"
-                        android:textSize="60sp" />
-                </LinearLayout>
-            </FrameLayout>
         </LinearLayout>
+
 
     </LinearLayout>
 
