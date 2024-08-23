@@ -43,10 +43,22 @@
                     android:text="@string/btn_restart" />
             </LinearLayout>
 
-            <TextView
+            <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/text" />
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/num"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/num"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/text" />
+
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/text_result"

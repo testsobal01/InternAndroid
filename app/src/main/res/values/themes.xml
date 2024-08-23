@@ -1,8 +1,19 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Base.Theme.MakotoMurase" parent="Theme.Material3.DayNight.NoActionBar">
+    <style name="Base.Theme.MakotoMurase" parent="Theme.Material3.DayNight">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+
+        <item name="actionBarStyle">@style/actionBar</item>
+    </style>
+
+    <style name="actionBar" parent="Widget.MaterialComponents.ActionBar.Primary">
+        <item name="background">@color/yellow</item>
+        <item name="titleTextStyle">@style/titleColor</item>
+    </style>
+
+    <style name="titleColor" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
+        <item name="android:textColor">@color/white</item>
     </style>
 
     <style name="Theme.MakotoMurase" parent="Base.Theme.MakotoMurase" />

@@ -5,9 +5,11 @@
     <string name="btn_restart">Restart</string>
     <string name="label_score">Score：</string>
     <string name="start">START</string>
-    <string name="text">10 is set.</string>
+    <string name="num">10</string>
+    <string name="text"> is set.</string>
     <string name="label_result">Result：</string>
     <string name="label_win">WIN</string>
     <string name="label_lose">LOSE</string>
     <string name="label_draw">DRAW</string>
+    <string name="menu_title">menu_title</string>
 </resources>

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="text">10 è impostato</string>
+    <string name="num">10</string>
+    <string name="text"> è impostato</string>
     <string name="app_name">YasuakiGotou</string>
     <string name="btn_high">Costoso</string>
     <string name="btn_low">Basso</string>

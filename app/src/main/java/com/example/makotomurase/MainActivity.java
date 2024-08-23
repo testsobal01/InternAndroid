@@ -1,7 +1,10 @@
 package com.example.makotomurase;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -10,8 +13,11 @@ import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.os.Vibrator;
@@ -30,6 +36,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     SharedPreferences pref;
     SharedPreferences.Editor prefEditor;
 
+    int sel = 10;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,7 +46,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Intent intent=getIntent();
         Bundle extra =intent.getExtras();
         String intentStiring= extra.getString("KEY");
-
 
 
         Button btn1 = findViewById(R.id.button1);
@@ -126,7 +133,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void setQuestionValue() {
         Random r = new Random();
         // 0から10の範囲で乱数を生成（+1する必要がある）
-        int questionValue = r.nextInt(10 + 1);
+        int questionValue = r.nextInt(sel + 1);
 
         TextView txtView = findViewById(R.id.question);
         txtView.setText(Integer.toString(questionValue));
@@ -134,7 +141,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void setAnswerValue() {
         Random r = new Random();
-        int answerValue = r.nextInt(10 + 1);
+        int answerValue = r.nextInt(sel + 1);
 
         TextView txtView = findViewById(R.id.answer);
         txtView.setText(Integer.toString(answerValue));
@@ -243,6 +250,48 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         qtxtScore.setBackgroundColor(Color.WHITE);
         TextView atxtScore = (TextView) findViewById(R.id.answer);
         atxtScore.setBackgroundColor(Color.WHITE);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(@NonNull Menu menu){
+        getMenuInflater().inflate(R.menu.option_menu, menu);
+        return true;
+    }
+
+    public boolean onOptionsItemSelected(@NonNull MenuItem item){
+        this.alertDialog();
+        return true;
+    }
+
+    private void alertDialog(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        final View view = this.getLayoutInflater().inflate(R.layout.select_number, null);
+        builder.setView(view);
+        final NumberPicker numberPicker = (NumberPicker)view.findViewById(R.id.numberPicker);
+        numberPicker.setMinValue(10);
+        numberPicker.setMaxValue(50);
+        numberPicker.setValue(10);
+        builder.setTitle("最大値を設定してください");
+        builder.setNegativeButton(
+                "Cancel",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                    }
+                }
+        ).setPositiveButton(
+                "OK",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        sel = numberPicker.getValue();
+
+                        TextView selectedNum = findViewById(R.id.num);
+                        selectedNum.setText(Integer.toString(sel));
+                    }
+                }
+        ).create().show();
     }
 }
 

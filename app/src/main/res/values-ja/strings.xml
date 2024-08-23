@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="text">10が設定されています。</string>
+    <string name="num">10</string>
+    <string name="text">が設定されています。</string>
     <string name="app_name">YasuakiGotou</string>
     <string name="btn_high">High</string>
     <string name="btn_low">Low</string>

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
- <string name="text">10已设定</string>
+ <string name="num">10</string>
+ <string name="text">已设定</string>
  <string name="app_name">YasuakiGotou</string>
  <string name="btn_high">高的</string>
  <string name="btn_low">低的</string>
