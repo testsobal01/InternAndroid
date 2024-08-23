@@ -14,7 +14,6 @@
         android:layout_width="fill_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-
         android:orientation="vertical">
 
         <!-- 上のボタン -->
@@ -179,29 +178,32 @@
 <!--            android:scaleType="fitXY"-->
 <!--            />-->
         <ImageView
-            android:id="@+id/footer"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="100sp"
-            android:src="@drawable/ramen_syouyu"
-            android:scaleType="centerInside"
-            android:alpha="0.25"
-            />
-        <ImageView
-
+            android:id="@+id/footer_img1"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="100sp"
             android:src="@drawable/ramen_donburi"
             android:scaleType="centerInside"
-            android:alpha="1"
+            android:alpha="0"
             />
+
         <ImageView
+            android:id="@+id/footer_img2"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="100sp"
-            android:src="@drawable/ramen_syouyu"
+            android:src="@drawable/ramen_donburi"
             android:scaleType="centerInside"
+            android:alpha="0"
+            />
+        <ImageView
+            android:id="@+id/footer_img3"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="100sp"
+            android:src="@drawable/ramen_donburi"
+            android:scaleType="centerInside"
+            android:alpha="0"
             />
 
     </LinearLayout>
