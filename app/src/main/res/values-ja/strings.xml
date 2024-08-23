@@ -5,4 +5,6 @@
     <string name="btn_low">下</string>
     <string name="btn_restart">リスタート</string>
     <string name="label_score">スコア：</string>
+    <string name="totalScoreLabel">合計点</string>
+    <string name="startbutton">スタート</string>
 </resources>
