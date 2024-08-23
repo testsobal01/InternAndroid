@@ -9,11 +9,13 @@ import android.graphics.Color;
 import android.content.Intent;
 import android.media.AudioAttributes;
 import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.media.SoundPool;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
+import android.view.Gravity;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -31,12 +33,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     // 機能8 準備（コンポを部屋に置く）
     SoundPool soundPool;    // 効果音を鳴らす本体（コンポ）
     int mp3a;          // 効果音
+    MediaPlayer p;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        p = MediaPlayer.create(getApplicationContext(), R.raw.bgm1);
+        p.setLooping(true);
 
         Button btn1 = findViewById(R.id.button1);
         btn1.setOnClickListener(this);
@@ -95,6 +101,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             clear_win_lose_cnt_Value();
             reset_color();
             clearScoreValue();
+
+
+
         }
 
     }
@@ -216,8 +225,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         }
 
+
+
+
         // 最後にまとめてToast表示の処理とTextViewへのセットを行う
-        Toast.makeText(this, result, Toast.LENGTH_LONG).show();
+        Toast.makeText(this, result, Toast.LENGTH_SHORT).show();
+        TextView txtScore2 = (TextView) findViewById(R.id.text_score);
+        if((Integer.parseInt(txtScore2.getText().toString()) + score==10)||(Integer.parseInt(txtScore2.getText().toString()) + score==11)) {
+            Toast ts = Toast.makeText(this, "great", Toast.LENGTH_SHORT);
+            ts.setGravity(Gravity.CENTER, 0, 0);
+            ts.show();
+        } else if (Integer.parseInt(txtScore2.getText().toString()) + score>=15) {
+            Toast ts = Toast.makeText(this, "perfect", Toast.LENGTH_SHORT);
+            ts.setGravity(Gravity.CENTER, 0, 0);
+            ts.show();
+        }
+
         txtResult.setText("RST：" + question + ":" + answer + "(" + result + ")");
 
         //勝敗、引き分け回数を文字列にキャストして格納
@@ -252,6 +275,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setScore(score);
 
 
+
     }
 
     private void setNextQuestion() {
@@ -280,10 +304,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
        prefEditor.putInt("totalScoreLabel", Integer.parseInt(textView.getText().toString()));
        prefEditor.commit();
-
-
+        p.pause();
     }
 
+    @Override
     protected void onResume(){
         super.onResume();
 
@@ -293,6 +317,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int readText = pref.getInt("totalScoreLabel",Integer.parseInt(textView.getText().toString()));
 
         textView.setText(Integer.toString(readText));
+        p.start();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        p.release();
+        p = null;
     }
 
     private void setScore(int score) {
@@ -309,6 +341,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         }
     }
+
 
     private void clearScoreValue() {
         TextView txtScore = (TextView) findViewById(R.id.text_score);
