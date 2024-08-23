@@ -155,10 +155,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
         int id = view.getId();
         if (id == R.id.button1) {
+            setButton(false);
             setAnswerValue();
             checkResult(true);
             play_mp3a();
         } else if (id == R.id.button2) {
+            setButton(false);
             setAnswerValue();
             checkResult(false);
             play_mp3b();
@@ -295,6 +297,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public void onFinish() {
                 // 3秒経過したら次の値をセット
                 setQuestionValue();
+                setButton(true);
             }
         }.start();
 
@@ -335,5 +338,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView txtanswer = (TextView) findViewById(R.id.answer);
         txtquestion.setBackgroundColor(Color.rgb(140, 140, 140));
         txtanswer.setBackgroundColor(Color.rgb(140, 140, 140));
+    }
+
+    private void setButton(boolean b){
+        Button buttonHigh=findViewById(R.id.button1);
+        Button buttonLow=findViewById(R.id.button2);
+
+        buttonHigh.setEnabled(b);
+        buttonLow.setEnabled(b);
     }
 }
