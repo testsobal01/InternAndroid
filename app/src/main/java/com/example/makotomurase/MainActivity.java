@@ -217,8 +217,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         TextView txtViewToast = findViewById(R.id.toast);
         TextView txtViewToastBack = findViewById(R.id.toastBack);
+        TextView txtViewMaxValueBack = findViewById(R.id.maxValueBack);
+        TextView txtViewmaxValue = findViewById(R.id.maxValue);
         txtViewToastBack.setBackgroundColor(Color.parseColor("#B3e4edea"));
+        txtViewMaxValueBack.setBackgroundColor(Color.parseColor("#B3e4edea"));
         txtViewToast.setText(result + "!");
+        txtViewmaxValue.setText("Max : " + Integer.toString(questionValueMax));
       
         txtResult.setText("結果：" + question + ":" + answer + "(" + result + ")");
 
