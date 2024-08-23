@@ -3,6 +3,7 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.content.Intent;
@@ -83,14 +84,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
 
         if (id == R.id.button1) {
+            vib.cancel();
             setAnswerValue();
             checkResult(true);
             vib.vibrate(pattern1,-1);
         } else if (id == R.id.button2) {
+            vib.cancel();
             setAnswerValue();
             checkResult(false);
             vib.vibrate(pattern2,-1);
         } else if (id == R.id.button3) {
+            vib.cancel();
             setQuestionValue();
             clearAnswerValue();
             clearScoreValue();
@@ -234,7 +238,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             case -1:
                 answer.setBackgroundColor(Color.CYAN);
-                question.setBackgroundColor(Color.parseColor("##ff00ff"));
+                question.setBackgroundColor(Color.parseColor("#ff00ff"));
                 break;
 
             case 1:
