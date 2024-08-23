@@ -41,6 +41,7 @@ public class TopActivity extends AppCompatActivity implements View.OnClickListen
 
         Button startbutton = findViewById(R.id.startbutton);
         startbutton.setOnClickListener(this);
+        //startbutton.setBackground(getResources().getDrawable(R.drawable.button_top_start,null));
     }
 
     public void onStartButtonClick(View view){
