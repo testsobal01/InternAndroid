@@ -2,14 +2,20 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.animation.Animator;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -30,6 +36,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // 起動時に関数を呼び出す
         setQuestionValue();
+
+
     }
 
     @Override
@@ -90,10 +98,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 result = "WIN";
                 score = 2;
                 changeBackgroundWin();
+                startAnimation1_Win(findViewById(R.id.question));
+                startAnimation2(findViewById(R.id.answer));
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
                 changeBackGroundLose();
+                startAnimation1_Lose(findViewById(R.id.answer));
+                startAnimation2(findViewById(R.id.question));
             } else {
                 result = "DRAW";
                 score = 1;
@@ -104,10 +116,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 result = "WIN";
                 score = 2;
                 changeBackgroundWin();
+                startAnimation1_Win(findViewById(R.id.question));
+                startAnimation2(findViewById(R.id.answer));
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
                 changeBackGroundLose();
+                startAnimation1_Lose(findViewById(R.id.answer));
+                startAnimation2(findViewById(R.id.question));
             } else {
                 result = "DRAW";
                 score = 1;
@@ -139,6 +155,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public void onFinish() {
                 // 3秒経過したら次の値をセット
                 setQuestionValue();
+                animationReset(findViewById(R.id.answer));
+                animationReset(findViewById(R.id.question));
             }
         }.start();
     }
@@ -173,6 +191,95 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         qtxtScore.setBackgroundColor(Color.WHITE);
         TextView atxtScore = (TextView) findViewById(R.id.answer);
         atxtScore.setBackgroundColor(Color.WHITE);
+    }
+
+    private void startAnimation1_Lose(View view) {
+        ObjectAnimator transY, transX, scaleX, alpha;
+        List<Animator> animatorList = new ArrayList<>();
+
+        // 移動距離(translationX)は、開始位置から左右に移動距離を100, 70, 50, 40...と徐々に減らしていく
+        // 前のアニメーションと繋がるように終了位置(第4引数)の値を開始位置(第3引数)として設定する
+
+        animatorList.add(ObjectAnimator.ofFloat(view, "translationX", 0, -1000));
+        animatorList.add(ObjectAnimator.ofFloat(view, "translationX", -1000, 700));
+        animatorList.add(ObjectAnimator.ofFloat(view, "translationX", 700, -500));
+        animatorList.add(ObjectAnimator.ofFloat(view, "translationX", -500, 400));
+        animatorList.add(ObjectAnimator.ofFloat(view, "translationX", 400, -300));
+        animatorList.add(ObjectAnimator.ofFloat(view, "translationX", -300, 0f));
+
+
+        AnimatorSet set = new AnimatorSet();
+        set.playTogether(animatorList);// 順番にアニメーションを実施
+        set.start();
+    }
+
+    private void startAnimation1_Win(View view) {
+        ObjectAnimator transY, transX, scaleX, alpha;
+        List<Animator> animatorList = new ArrayList<>();
+
+        // 移動距離(translationX)は、開始位置から左右に移動距離を100, 70, 50, 40...と徐々に減らしていく
+        // 前のアニメーションと繋がるように終了位置(第4引数)の値を開始位置(第3引数)として設定する
+
+        animatorList.add(ObjectAnimator.ofFloat(view, "translationX", 0, 1000));
+        animatorList.add(ObjectAnimator.ofFloat(view, "translationX", 1000, -700));
+        animatorList.add(ObjectAnimator.ofFloat(view, "translationX", -700, 500));
+        animatorList.add(ObjectAnimator.ofFloat(view, "translationX", 500, -400));
+        animatorList.add(ObjectAnimator.ofFloat(view, "translationX", -400, 300));
+        animatorList.add(ObjectAnimator.ofFloat(view, "translationX", 300, 0));
+
+
+        AnimatorSet set = new AnimatorSet();
+        set.playTogether(animatorList);// 順番にアニメーションを実施
+        set.start();
+    }
+
+    private void startAnimation2(View view) {
+        ObjectAnimator transY, scaleX, alpha;
+        List<Animator> animatorList = new ArrayList<>();
+
+        // アニメーション時間もランダムに5～10秒に演出
+        int durationTY = (3) * 1000;
+        int durationTX = (5) * 1000;
+        int durationSX = (5) * 1000;
+
+        // 上昇"translationY"
+        transY = ObjectAnimator.ofFloat(view, View.TRANSLATION_Y.getName(), 0.0f, -1000.0f);
+        transY.setDuration(durationTY);
+        animatorList.add(transY);
+
+
+        // 幅の伸び縮み"scaleX"
+        scaleX = ObjectAnimator.ofFloat(view, View.SCALE_X.getName(), 1.0f, 0.1f, 1.0f, 0.1f, 1.0f, 0.1f, 1.0f);
+        scaleX.setDuration(durationSX);
+        animatorList.add(scaleX);
+
+        // 透明化"alpha"
+        alpha = ObjectAnimator.ofFloat(view, View.ALPHA.getName(), 1.0f, 0.0f);
+        alpha.setDuration(Math.max(Math.max(durationTY, durationTX), durationSX) / 2);
+        animatorList.add(alpha);
+
+        // アニメーションの複合化、再生
+        AnimatorSet set = new AnimatorSet();
+        set.playTogether(animatorList);
+        set.start();
+    }
+
+    public void animationReset(View view){
+        ObjectAnimator transY, alpha0;
+        List<Animator> animatorList0 = new ArrayList<>();
+
+        int durationTY = (2) * 1000;
+
+        transY = ObjectAnimator.ofFloat(view, View.TRANSLATION_Y.getName(), 0.0f, 0.0f);
+        transY.setDuration(durationTY);
+        animatorList0.a
+
+        alpha0 = ObjectAnimator.ofFloat(view, View.ALPHA.getName(), 0.0f, 1.0f);
+        animatorList0.add(alpha0);
+
+        AnimatorSet set = new AnimatorSet();
+        set.playTogether(animatorList0);
+        set.start();
     }
 }
 
