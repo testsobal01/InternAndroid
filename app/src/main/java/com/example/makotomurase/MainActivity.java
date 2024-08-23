@@ -312,19 +312,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         if (isHigh) {
             if (question < answer) {
-                back.setBackgroundColor(Color.RED);
+                back.setBackgroundColor(Color.parseColor("#ffc9d0"));
             } else if (question > answer) {
-                back.setBackgroundColor(Color.BLUE);
+                back.setBackgroundColor(Color.parseColor("#a3b1b8"));
             } else {
-                back.setBackgroundColor(Color.WHITE);
+                back.setBackgroundColor(Color.parseColor("#ffe657"));
             }
         } else {
             if (question > answer) {
-                back.setBackgroundColor(Color.RED);
+                back.setBackgroundColor(Color.parseColor("#ffc9d0"));
             } else if (question < answer) {
-                back.setBackgroundColor(Color.BLUE);
+                back.setBackgroundColor(Color.parseColor("#a3b1b8"));
             } else {
-                back.setBackgroundColor(Color.WHITE);
+                back.setBackgroundColor(Color.parseColor("#ffe657"));
             }
         }
     }
