@@ -75,79 +75,140 @@
                 android:text="0" />
         </LinearLayout>
 
-        <LinearLayout
+
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
+            android:layout_height="match_parent">
 
-            <FrameLayout
-                android:id="@+id/frameLayout1"
-                android:layout_width="0dp"
+
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1">
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                android:orientation="horizontal">
 
-                    <TextView
-                        android:id="@+id/questionBack"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:background="#ff00ff"
-                        android:gravity="center"
-                        android:text=""
-                        android:textSize="60sp" />
-                </LinearLayout>
+                <!-- 数字と背景を重ね合わせるためにFrameLayoutを二つ用意 -->
+                <FrameLayout
+                    android:id="@+id/frameLayout1"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:id="@+id/questionBack"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:background="#ff00ff"
+                            android:gravity="center"
+                            android:text=""
+                            android:textSize="60sp" />
+                    </LinearLayout>
 
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-                    <TextView
-                        android:id="@+id/question"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:text="値1"
-                        android:textSize="60sp" />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+                        <TextView
+                            android:id="@+id/question"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="値1"
+                            android:textSize="60sp" />
 
-                </LinearLayout>
-            </FrameLayout>
+                    </LinearLayout>
+                </FrameLayout>
 
-            <FrameLayout
-                android:id="@+id/frameLayout2"
-                android:layout_width="0dp"
+                <FrameLayout
+                    android:id="@+id/frameLayout2"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+                        <TextView
+                            android:id="@+id/answerBack"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:background="#ffff00"
+                            android:gravity="center"
+                            android:text=""
+                            android:textSize="60sp"/>
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+                        <TextView
+                            android:id="@+id/answer"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="値2"
+                            android:textSize="60sp" />
+                    </LinearLayout>
+                </FrameLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1">
-                <LinearLayout
+                android:orientation="vertical">
+                <TextView
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-                    <TextView
-                        android:id="@+id/answerBack"
-                        android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:text=""/>
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1">
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:background="#ffff00"
-                        android:gravity="center"
+                        android:weightSum="3">
+                        <TextView
+                            android:gravity="center_horizontal"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="35sp" />
+                        <TextView
+                            android:id="@+id/toastBack"
+                            android:gravity="center_horizontal"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="37sp"
+                            />
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+                    <TextView
+                        android:id="@+id/toast"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
                         android:text=""
-                        android:textSize="60sp"/>
-                </LinearLayout>
-                <LinearLayout
+                        android:textSize="30sp"
+                        android:gravity="center_horizontal"
+                        android:textColor="@color/black"/>
+                    </LinearLayout>
+                </FrameLayout>
+
+                <TextView
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-                    <TextView
-                        android:id="@+id/answer"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:text="値2"
-                        android:textSize="60sp" />
-                </LinearLayout>
-            </FrameLayout>
-        </LinearLayout>
+                    android:layout_height="0dp"
+                    android:layout_weight="2"
+                    android:text=""/>
+            </LinearLayout>
+        </FrameLayout>
+
 
     </LinearLayout>
 
