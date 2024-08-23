@@ -214,11 +214,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         LinearLayout filled = findViewById(R.id.main);
         switch (result){
             case "WIN":
-                filled.setBackgroundColor(Color.parseColor("#FFd700"));
+                filled.setBackgroundColor(Color.parseColor("#FABD66"));
                 break;
 
             case "LOSE":
-                filled.setBackgroundColor(Color.CYAN);
+                filled.setBackgroundColor(Color.parseColor("#A3234255"));
                 break;
 
             case "DRAW":
@@ -232,18 +232,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView question = (TextView) findViewById(R.id.question);
         switch (result){
             case "WIN":
-                answer.setBackgroundColor(Color.parseColor("#ffff00"));
-                question.setBackgroundColor(Color.parseColor("#FFd700"));
+                answer.setBackgroundColor(Color.parseColor("#876536"));
+                question.setBackgroundColor(Color.parseColor("#FADA66"));
                 break;
 
             case "LOSE":
-                answer.setBackgroundColor(Color.CYAN);
-                question.setBackgroundColor(Color.parseColor("#ff00ff"));
+                answer.setBackgroundColor(Color.parseColor("#ACDEFF"));
+                question.setBackgroundColor(Color.parseColor("#356483"));
                 break;
 
             case "DRAW":
-                answer.setBackgroundColor(Color.parseColor("#ffff00"));
-                question.setBackgroundColor(Color.parseColor("#ff00ff"));
+                answer.setBackgroundColor(Color.parseColor("#67BFFA"));
+                question.setBackgroundColor(Color.parseColor("#FABD66"));
                 break;
         }
     }

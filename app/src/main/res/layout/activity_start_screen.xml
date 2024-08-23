@@ -9,44 +9,51 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@drawable/ramen_tenin"
+        android:alpha="0.25"
         android:scaleType="centerCrop"
-        android:alpha="0.25"/>
+        android:src="@drawable/ramen_tenin" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:gravity="center"
         android:orientation="vertical"
-        android:padding="5sp"
-        android:gravity="center">
+        android:padding="5sp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="30sp"
-            android:text="@string/group_name" />
+            android:fontFamily="casual"
+            android:text="@string/group_name"
+            android:textSize="30sp" />
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="800px"
             android:layout_height="wrap_content"
-            android:textSize="77sp"
+            android:fontFamily="casual"
             android:gravity="center"
-            android:paddingBottom="20sp"
-            android:text="@string/app_name" />
+            android:paddingBottom="16sp"
+            android:text="@string/app_name"
+            android:textSize="58sp" />
 
         <Button
             android:id="@+id/button_start"
-            android:layout_width="wrap_content"
+            style="@style/Widget.AppCompat.Button"
+            android:layout_width="800px"
             android:layout_height="wrap_content"
-            android:textSize="22sp"
+            android:fontFamily="sans-serif"
             android:paddingBottom="10sp"
-            android:text="@string/start_button" />
+            android:text="@string/start_button"
+            android:textSize="22sp"
+            app:backgroundTint="@color/button_color_selector" />
 
         <Button
             android:id="@+id/button_cancel"
-            android:layout_width="wrap_content"
+            style="@style/Widget.AppCompat.Button"
+            android:layout_width="800px"
             android:layout_height="wrap_content"
-            android:text="@string/cancel_button" />
+            android:text="@string/cancel_button"
+            app:backgroundTint="@color/button_color_selector" />/>
 
     </LinearLayout>
 
