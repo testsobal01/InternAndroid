@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="text">10 est réglé</string>
-    <string name="app_name">YasuakiGotou</string>
+    <string name="app_name">HighandLow</string>
     <string name="btn_high">Cher</string>
     <string name="btn_low">Faible</string>
     <string name="btn_restart">Redémarrage</string>
