@@ -91,10 +91,13 @@
         </LinearLayout>
         <!--        </RelativeLayout>-->
 
-        <LinearLayout
+        <FrameLayout
             android:layout_weight="5"
             android:layout_width="match_parent"
             android:layout_height="0dp">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="450dp">
 
             <LinearLayout
                 android:id="@+id/questionBackground"
@@ -107,11 +110,31 @@
                     android:id="@+id/question"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:text="値1"
-                    android:textSize="115sp" />
-            </LinearLayout>
+                    android:layout_weight="1"
+                    android:background="#ff00ff">
+                    <TextView
+                        android:id="@+id/question"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="値1"
+                        android:textSize="60sp" />
+                </LinearLayout>
 
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="#ffff00">
+                    <TextView
+                        android:id="@+id/answer"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="値2"
+                        android:textSize="60sp" />
+                </LinearLayout>
+            </LinearLayout>
             <LinearLayout
                 android:id="@+id/answerBackground"
                 android:layout_width="0dp"
@@ -120,14 +143,17 @@
                 android:background="#ffff00">
 
                 <TextView
-                    android:id="@+id/answer"
+                    android:id="@+id/judge"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:layout_marginTop="300sp"
                     android:gravity="center"
                     android:text="\?"
+                    android:textColor="#000000"
                     android:textSize="115sp" />
             </LinearLayout>
-        </LinearLayout>
+        </FrameLayout>
 
         <LinearLayout
             android:layout_weight="1"
