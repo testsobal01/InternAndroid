@@ -45,6 +45,7 @@
             android:layout_gravity="center"
             android:background="@color/navy"
             app:backgroundTint="@null"
+            android:textSize="20sp"
             android:text="スタート">
             <!--app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -53,11 +54,19 @@
             android:background="@drawable/button_top_start"-->
         </Button>
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text=" "></TextView>
+
         <Button
             android:id="@+id/introbutton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:background="@color/navy"
+            app:backgroundTint="@null"
+            android:textSize="20sp"
             android:text="遊び方"></Button>
 
     </LinearLayout>

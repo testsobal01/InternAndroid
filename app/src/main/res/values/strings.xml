@@ -7,4 +7,7 @@
     <string name="label_score">Score：</string>
     <string name="totalScoreLabel">TotalScore</string>
     <string name="startbutton">スタート</string>
+    <string name="intro">
+
+    </string>
 </resources>
