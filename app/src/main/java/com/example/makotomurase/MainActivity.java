@@ -272,7 +272,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         transY = ObjectAnimator.ofFloat(view, View.TRANSLATION_Y.getName(), 0.0f, 0.0f);
         transY.setDuration(durationTY);
-        animatorList0.a
+        animatorList0.add(transY);
 
         alpha0 = ObjectAnimator.ofFloat(view, View.ALPHA.getName(), 0.0f, 1.0f);
         animatorList0.add(alpha0);
