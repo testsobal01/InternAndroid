@@ -39,6 +39,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //プリファレンスの生成
         pref = getSharedPreferences("AndroidSeminor", MODE_PRIVATE);
         prefEditor = pref.edit();
+
+        TextView kirikaetext = findViewById(R.id.kirikaetext);
+        kirikaetext.setVisibility(View.INVISIBLE);
     }
 
     @Override
@@ -78,16 +81,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (id == R.id.button1) {
             setAnswerValue();
             checkResult(true);
+            TextView kirikaetext = findViewById(R.id.kirikaetext);
+            kirikaetext.setVisibility(View.VISIBLE);
+
         } else if (id == R.id.button2) {
             setAnswerValue();
             checkResult(false);
+            TextView kirikaetext = findViewById(R.id.kirikaetext);
+            kirikaetext.setVisibility(View.VISIBLE);
         } else if (id == R.id.button3) {
             setQuestionValue();
             clearAnswerValue();
             clearScoreValue();
         }
-
-
+        setContentView(R.layout.activity_main);
+        TextView kirikaetext = findViewById(R.id.kirikaetext);
+        kirikaetext.setVisibility(View.VISIBLE);
 
 
     }
@@ -198,7 +207,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public void onFinish() {
                 // 3秒経過したら次の値をセット
                 setQuestionValue();
+
+                TextView kirikaetext = findViewById(R.id.kirikaetext);
+                kirikaetext.setVisibility(View.INVISIBLE);
             }
+
         }.start();
 
     }
