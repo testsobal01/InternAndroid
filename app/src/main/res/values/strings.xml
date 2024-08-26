@@ -1,7 +1,6 @@
 <resources>
-    <string name="app_name">KINOKO</string>
-    <string name="btn_high">High</string>
-    <string name="btn_low">Low</string>
-    <string name="btn_restart">Restart</string>
-    <string name="label_score">Score：</string>
+    <string name="app_name3">KINOKO</string>
+    <string name="btn_high2">High</string>
+    <string name="btn_low1">Low</string>
+    <string name="laaaaabel_score">Score：</string>
 </resources>
