@@ -1,5 +1,7 @@
 <resources>
-    <string name="app_name">YasuakiGotou</string>
+    <string name="app_name">GenHorii</string>
+    <string name="tv_message1">ボタンを押すとゲームがスタート</string>
+    <string name="btn_start">スタート</string>
     <string name="btn_high">High</string>
     <string name="btn_low">Low</string>
     <string name="btn_restart">Restart</string>
