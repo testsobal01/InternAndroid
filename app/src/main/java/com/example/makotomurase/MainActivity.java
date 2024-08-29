@@ -104,8 +104,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         TextView scoreText = (TextView) findViewById(R.id.text_score);
 
-        String preScore = pref.getString("preScore", "保存されていません");
-        scoreText.setText(preScore);
+        int preScore = pref.getInt("preScore", 0);
+        scoreText.setText(String.valueOf(preScore));
     }
 
     private void clearAnswerValue() {
