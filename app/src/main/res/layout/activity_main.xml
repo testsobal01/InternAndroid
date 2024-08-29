@@ -40,12 +40,24 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="10が設定されています。" />
-
-        <TextView
-            android:id="@+id/text_result"
+            android:text="@string/tv_set" />
+        <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/text_result"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/tv_result"
+                />
+
+            <TextView android:id="@+id/tv_resultnum"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -74,7 +86,7 @@
                 android:layout_weight="1"
                 android:background="#ff00ff"
                 android:gravity="center"
-                android:text="値1"
+                android:text="@string/tv_value1"
                 android:textSize="60sp" />
 
             <TextView
@@ -84,7 +96,7 @@
                 android:layout_weight="1"
                 android:background="#ffff00"
                 android:gravity="center"
-                android:text="値2"
+                android:text="@string/tv_value2"
                 android:textSize="60sp" />
         </LinearLayout>
 

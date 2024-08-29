@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">TeamB</string>
+    <string name="btn_high">High</string>
+    <string name="btn_low">Low</string>
+    <string name="btn_restart">Restart</string>
+    <string name="label_score">Score：</string>
+
+    <string name="tv_value1">Value1</string>
+    <string name="tv_value2">Value2</string>
+    <string name="tv_result">Result : </string>
+    <string name="tv_set">10 is set</string>
+    <string name="toast_win">WIN</string>
+    <string name="toast_lose">LOSE</string>
+    <string name="toast_draw">DRAW</string>
+</resources>
