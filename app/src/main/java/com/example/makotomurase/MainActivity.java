@@ -170,18 +170,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public void changeBackgroundColor_Win(){
-        TextView ansertextView = findViewById(R.id.answer);
-        ansertextView.setBackgroundColor(Color.RED);
+        TextView answertextView = findViewById(R.id.answer);
+        answertextView.setBackgroundColor(Color.RED);
     }
 
     public void changeBackgroundColor_Lose(){
-        TextView ansertextView = findViewById(R.id.answer);
-        ansertextView.setBackgroundColor(Color.BLUE);
+        TextView answertextView = findViewById(R.id.answer);
+        answertextView.setBackgroundColor(Color.BLUE);
     }
 
     public void changeBackgroundColor_Draw(){
-        TextView ansertextView = findViewById(R.id.answer);
-        ansertextView.setBackgroundColor(Color.rgb(255,0,255));
+        TextView answertextView = findViewById(R.id.answer);
+        answertextView.setBackgroundColor(Color.rgb(255,0,255));
     }
 
     public void ResetColor(){
