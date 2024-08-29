@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">YasuakiGotou</string>
+    <string name="app_name"></string>
     <string name="btn_high">High</string>
     <string name="btn_low">Low</string>
     <string name="btn_restart">リスタート</string>
     <string name="label_score">スコア：</string>
-    <string name="explanation">10が設定されています。</string>
+    <string name="explanation">が設定されています。</string>
 </resources>

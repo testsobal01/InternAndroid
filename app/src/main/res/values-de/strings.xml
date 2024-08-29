@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">YasuakiGotou</string>
+    <string name="app_name"></string>
     <string name="btn_high">Hoch</string>
     <string name="btn_low">Niedrig</string>
     <string name="btn_restart">Neustart</string>
     <string name="label_score">Punktzahl：</string>
-    <string name="explanation">10 eingestellt ist.</string>
+    <string name="explanation"> eingestellt ist.</string>
 </resources>

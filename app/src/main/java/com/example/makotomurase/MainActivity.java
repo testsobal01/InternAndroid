@@ -7,6 +7,10 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Vibrator;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
@@ -17,9 +21,9 @@ import android.widget.Toast;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
-
     SharedPreferences pref;
     SharedPreferences.Editor prefEditor;
+    private int maxNum = 10;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +75,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu){
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        NumberDialogFragment dialog = new NumberDialogFragment();
+        dialog.show(getSupportFragmentManager(), "dialog");
+        return true;
+    }
+
+    public void onReturnValue(String value) {
+        TextView tvMainText = findViewById(R.id.main_text);
+        String message = value + getString(R.string.explanation);
+        tvMainText.setText(message);
+        maxNum = Integer.parseInt(value);
+        setMainTextValue(maxNum);
+    }
+
+    @Override
     public void onClick(View view) {
         int id = view.getId();
         if (id == R.id.button1) {
@@ -83,7 +109,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             setQuestionValue();
             clearAnswerValue();
             clearScoreValue();
+            maxNum = 10;
+            setMainTextValue(maxNum);
         }
+    }
+
+    public void vibrate(int time){
+        Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+        vib.vibrate(time);
+    }
+
+    private void setMainTextValue(int num){
+        TextView tvMainText = findViewById(R.id.main_text);
+        tvMainText.setText(num + getString(R.string.explanation));
     }
 
     private void clearAnswerValue() {
@@ -94,7 +132,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void setQuestionValue() {
         Random r = new Random();
         // 0から10の範囲で乱数を生成（+1する必要がある）
-        int questionValue = r.nextInt(10 + 1);
+        int questionValue = r.nextInt(maxNum + 1);
 
         TextView txtView = findViewById(R.id.question);
         txtView.setText(Integer.toString(questionValue));
@@ -102,7 +140,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void setAnswerValue() {
         Random r = new Random();
-        int answerValue = r.nextInt(10 + 1);
+        int answerValue = r.nextInt(maxNum + 1);
 
         TextView txtView = findViewById(R.id.answer);
         txtView.setText(Integer.toString(answerValue));
@@ -127,6 +165,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = "WIN";
                 score = 2;
+                vibrate(500);
                 txtViewAnswer.setBackgroundColor(Color.RED);
                 txtViewQuestion.setBackgroundColor(Color.RED);
                 blinkText(txtViewAnswer, 800, 300);
@@ -144,6 +183,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question > answer) {
                 result = "WIN";
                 score = 2;
+                vibrate(500);
                 txtViewAnswer.setBackgroundColor(Color.RED);
                 txtViewQuestion.setBackgroundColor(Color.RED);
                 blinkText(txtViewAnswer, 800, 300);
