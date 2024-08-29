@@ -21,21 +21,24 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/btn_high" />
+                android:text="@string/btn_high"
+                android:backgroundTint="#25aaff"/>
 
             <Button
                 android:id="@+id/button2"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/btn_low" />
+                android:text="@string/btn_low"
+                android:backgroundTint="#25aaff"/>
 
             <Button
                 android:id="@+id/button3"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
-                android:text="@string/btn_restart" />
+                android:text="@string/btn_restart"
+                android:backgroundTint="#25aaff" />
         </LinearLayout>
 
         <TextView
