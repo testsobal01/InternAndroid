@@ -83,7 +83,7 @@
                 android:layout_weight="1"
                 android:background="#ff00ff"
                 android:gravity="center"
-                android:text="値1"
+                android:text="?"
                 android:textSize="60sp" />
 
             <TextView
@@ -93,7 +93,7 @@
                 android:layout_weight="1"
                 android:background="#ffff00"
                 android:gravity="center"
-                android:text="値2"
+                android:text="?"
                 android:textSize="60sp" />
         </LinearLayout>
 
