@@ -17,6 +17,7 @@
             android:layout_height="wrap_content">
 
             <Button
+                android:onClick="on1"
                 android:id="@+id/button1"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -26,6 +27,7 @@
                 app:backgroundTint="@null"/>
 
             <Button
+                android:onClick="on2"
                 android:id="@+id/button2"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
