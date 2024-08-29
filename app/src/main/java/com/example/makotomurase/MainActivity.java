@@ -69,10 +69,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //}
         int id = view.getId();
         if (id == R.id.button1) {
-            setAnswerValue();
+            setAnswerValue(true);
             checkResult(true);
         } else if (id == R.id.button2) {
-            setAnswerValue();
+            setAnswerValue(true);
             checkResult(false);
         } else if (id == R.id.button3) {
             setQuestionValue();
@@ -116,12 +116,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         txtView.setText(Integer.toString(questionValue));
     }
 
-    private void setAnswerValue() {
+    private void setAnswerValue(boolean isButton) {
         Random r = new Random();
         int answerValue = r.nextInt(10 + 1);
 
         TextView txtView = findViewById(R.id.answer);
-        txtView.setText(Integer.toString(answerValue));
+        if (isButton) {
+            txtView.setText(Integer.toString(answerValue));
+        } else {
+                     txtView.setText("?");
+        }
+
     }
 
     private void checkResult(boolean isHigh) {
@@ -173,6 +178,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // 続けて遊べるように値を更新
         setNextQuestion();
+        countDownTimer();
         // スコアを表示
         setScore(score);
     }
@@ -204,6 +210,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void clearScoreValue() {
         TextView txtScore = (TextView) findViewById(R.id.text_score);
         txtScore.setText("0");
+    }
+
+    private  void countDownTimer() {
+        new CountDownTimer(3000, 1000) {
+            @Override
+            public void onTick(long l) {
+
+            }
+
+            @Override
+            public void onFinish() {
+               setAnswerValue(false);
+            }
+        }.start();
     }
 }
 
