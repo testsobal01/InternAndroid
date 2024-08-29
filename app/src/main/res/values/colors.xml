@@ -18,5 +18,6 @@
     <color name="red_50">#FFEBEE</color>
     <color name="blue_100">#BBDEFB</color>
     <color name="green_100">#C8E6C9</color>
-
+    <color name="red">#FF0000</color>
+    <color name="blue">#0000FF</color>
 </resources>
