@@ -1,6 +1,7 @@
 package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.graphics.Color;
 import android.content.Context;
@@ -8,8 +9,11 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
+import android.text.Layout;
+import android.view.Display;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -40,6 +44,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setQuestionValue();
         sharedPref = getSharedPreferences("score", Context.MODE_PRIVATE);
         editor = sharedPref.edit();
+
+
+
     }
 
     @Override
@@ -97,6 +104,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int questionValue = r.nextInt(10 + 1);
 
         TextView txtView = findViewById(R.id.question);
+        txtView.setTextSize(questionValue * 16);
         txtView.setText(Integer.toString(questionValue));
     }
 
@@ -105,6 +113,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int answerValue = r.nextInt(10 + 1);
 
         TextView txtView = findViewById(R.id.answer);
+        txtView.setTextSize(answerValue * 16);
         txtView.setText(Integer.toString(answerValue));
     }
 
@@ -210,12 +219,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public void onTick(long l) {
                 questiontextView.setBackgroundColor(Color.BLUE);
                 answertextView.setBackgroundColor(Color.RED);
+
             }
 
             @Override
             public void onFinish() {
                 questiontextView.setBackgroundColor(Color.rgb(255, 0, 255));
                 answertextView.setBackgroundColor(Color.YELLOW);
+
             }
         }.start();
     }
@@ -228,6 +239,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public void onTick(long l) {
                 questiontextView.setBackgroundColor(Color.RED);
                 answertextView.setBackgroundColor(Color.BLUE);
+                changeLayoutWeight();
             }
 
             @Override
@@ -262,5 +274,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView ansertextView = findViewById(R.id.answer);
         ansertextView.setBackgroundColor(Color.YELLOW);
     }
+
+
 }
 
