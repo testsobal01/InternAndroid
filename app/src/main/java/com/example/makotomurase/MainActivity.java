@@ -2,12 +2,16 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
 import android.view.View;
 import android.widget.Button;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -76,6 +80,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void clearAnswerValue() {
         TextView txtView = (TextView) findViewById(R.id.answer);
         txtView.setText("値2");
+
+        LinearLayout linearLayout = findViewById(R.id.mainLayout);
+        linearLayout.setBackgroundColor(Color.WHITE);
     }
 
     private void setQuestionValue() {
@@ -103,6 +110,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int answer = Integer.parseInt(txtViewAnswer.getText().toString());
 
         TextView txtResult = (TextView) findViewById(R.id.text_result);
+        GradientDrawable drawable = new GradientDrawable();
+
+        LinearLayout linearLayout = findViewById(R.id.mainLayout);
 
         // 結果を示す文字列を入れる変数を用意
         String result;
@@ -114,23 +124,32 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = "WIN";
                 score = 2;
+
+                linearLayout.setBackgroundColor(Color.BLUE);
+                //setContentView(linearLayout);
+
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
+                linearLayout.setBackgroundColor(Color.RED);
             } else {
                 result = "DRAW";
                 score = 1;
+                linearLayout.setBackgroundColor(Color.GREEN);
             }
         } else {
             if (question > answer) {
                 result = "WIN";
                 score = 2;
+                linearLayout.setBackgroundColor(Color.BLUE);
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
+                linearLayout.setBackgroundColor(Color.RED);
             } else {
                 result = "DRAW";
                 score = 1;
+                linearLayout.setBackgroundColor(Color.GREEN);
             }
         }
 
