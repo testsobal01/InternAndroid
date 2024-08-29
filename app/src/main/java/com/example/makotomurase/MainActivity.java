@@ -30,6 +30,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     SharedPreferences.Editor prefEditor;
     int newScore;
 
+    boolean isVibrationEnabled = true;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,10 +43,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button btn2 = findViewById(R.id.button2);
         btn2.setOnClickListener(this);
 
-        Button btn3 = (Button) findViewById(R.id.button3);
+        Button btn3 = findViewById(R.id.button3);
         btn3.setOnClickListener(this);
 
-        // 起動時に関数を呼び出す
         setQuestionValue();
 
         // サウンドプールをクリア
@@ -64,7 +65,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         pref = getSharedPreferences("memorizeScore", MODE_PRIVATE);
         prefEditor = pref.edit();
+        isVibrationEnabled = pref.getBoolean("vibrationEnabled", true);
     }
+
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_menu, menu);
@@ -76,21 +80,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int id = item.getItemId();
 
         if (id == R.id.volume_setting) {
+            // 音量設定の処理をここに追加
             return true;
         } else if (id == R.id.vibration_setting) {
+            isVibrationEnabled = !isVibrationEnabled;
+            String status = isVibrationEnabled ? "ON" : "OFF";
+            Toast.makeText(this, "Vibration " + status, Toast.LENGTH_SHORT).show();
+            prefEditor.putBoolean("vibrationEnabled", isVibrationEnabled);
+            prefEditor.apply(); // commit()の代わりにapply()を使用することを推奨
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
 
+
     @Override
     public void onClick(View view) {
-        //switch (view.getId()) {
-            //case R.id.button1:
-                //break;
-        //}
         int id = view.getId();
         if (id == R.id.button1) {
             setAnswerValue();
@@ -157,18 +163,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         TextView txtResult = (TextView) findViewById(R.id.text_result);
 
-        // 結果を示す文字列を入れる変数を用意
         String result;
         int score;
 
-        // Highが押された
         if (isHigh) {
-            // result には結果のみを入れる
             if (question < answer) {
                 result = "WIN";
                 score = 2;
-                Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
-                vib.vibrate(500);
+                if (isVibrationEnabled) {
+                    Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+                    vib.vibrate(500);
+                }
                 // 音を鳴らす
                 soundPool.play(mySoundID, 0.1f, 0.1f, 0, 0, 1);
             } else if (question > answer) {
@@ -181,9 +186,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         } else {
             if (question > answer) {
                 result = "WIN";
-                Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
-                vib.vibrate(500);
                 score = 2;
+                if (isVibrationEnabled) {
+                    Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+                    vib.vibrate(500);
+                }
                 // 音を鳴らす
                 soundPool.play(mySoundID, 1f, 1f, 0, 0, 1);
             } else if (question < answer) {
@@ -195,13 +202,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         }
 
-        // 最後にまとめてToast表示の処理とTextViewへのセットを行う
         Toast.makeText(this, result, Toast.LENGTH_LONG).show();
         txtResult.setText("結果：" + question + ":" + answer + "(" + result + ")");
 
-        // 続けて遊べるように値を更新
         setNextQuestion();
-        // スコアを表示
         setScore(score);
     }
 

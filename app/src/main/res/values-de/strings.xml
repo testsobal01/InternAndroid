@@ -6,5 +6,7 @@
     <string name="btn_low">niedrig</string>
     <string name="btn_restart">Neustart</string>
     <string name="label_score">Punktestand:</string>
-    <string name="settings">Einstellungen</string>
+    <string name="settings">Lautstärkeeinstellungen</string>
+    <string name="btn_start">START</string>
+    <string name="vibration">Vibrationseinstellungen</string>
 </resources>
