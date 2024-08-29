@@ -4,8 +4,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.res.ResourcesCompat;
 
 import android.animation.ValueAnimator;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Vibrator;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
@@ -20,6 +22,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     TextView textView_question;
     TextView textView_answer;
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        saveScoreValue();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        saveScoreValue();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +54,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // 起動時に関数を呼び出す
         setQuestionValue();
+        setSaveScoreValue();
     }
 
     public void blinkText(TextView textView_question, long duration, long offset){
@@ -61,16 +76,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View view) {
         int id = view.getId();
+
+        Vibrator vib = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+
         if (id == R.id.button1) {
             setAnswerValue();
             checkResult(true);
+            vib.vibrate(800);
         } else if (id == R.id.button2) {
             setAnswerValue();
             checkResult(false);
+            vib.vibrate(1500);
         } else if (id == R.id.button3) {
             setQuestionValue();
             clearAnswerValue();
             clearScoreValue();
+            long vibratePattern[] = {500, 1000, 500, 1000};
+            vib.vibrate(vibratePattern, -1);
         }
     }
 
@@ -181,5 +203,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView txtScore = (TextView) findViewById(R.id.text_score);
         txtScore.setText("0");
     }
+
+    private void saveScoreValue() {
+        TextView txtScore = (TextView) findViewById(R.id.text_score);
+        String saveScore=txtScore.getText().toString();
+
+        SharedPreferences sp = getSharedPreferences("saveScore",MODE_PRIVATE);
+        SharedPreferences.Editor loadScore = sp.edit();
+        loadScore.putString("saveScore",saveScore);
+        loadScore.commit();
+
+
+    }
+    private void setSaveScoreValue() {
+        SharedPreferences score = getSharedPreferences("saveScore",MODE_PRIVATE);
+        String saveScore = score.getString("saveScore","0");
+        SharedPreferences.Editor loadScore = score.edit();
+        TextView txtScore = (TextView) findViewById(R.id.text_score);
+        txtScore.setText(saveScore);
+
+
+    }
+
 }
 
