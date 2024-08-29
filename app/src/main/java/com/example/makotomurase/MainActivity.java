@@ -2,6 +2,11 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.animation.Animator;
+import android.animation.AnimatorInflater;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
+import android.animation.PropertyValuesHolder;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -9,18 +14,32 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.os.Vibrator;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
+import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import java.util.Random;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+import android.media.AudioAttributes;
+import android.media.SoundPool;
 
+
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+    AnimatorSet set;
+
+    int mySoundID;          //サウンド管理ID
+    int oto;                //サウンド
+    SoundPool soundPool;    //サウンドプール
     SharedPreferences pref;
     SharedPreferences.Editor prefEditor;
     int newScore;
 
+    boolean isVibrationEnabled = true;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,15 +51,37 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button btn2 = findViewById(R.id.button2);
         btn2.setOnClickListener(this);
 
-        Button btn3 = (Button) findViewById(R.id.button3);
+        Button btn3 = findViewById(R.id.button3);
         btn3.setOnClickListener(this);
 
+        set = (AnimatorSet) AnimatorInflater.loadAnimator(MainActivity.this,
+                R.animator.blink_animation);
+
+        set.setTarget(findViewById(R.id.answer));
         // 起動時に関数を呼び出す
         setQuestionValue();
 
+        // サウンドプールをクリア
+        soundPool = null;
+
+        // 音を出すための手続き１　※音の出し方を設定している
+        AudioAttributes audioAttributes = new AudioAttributes.Builder().setUsage(AudioAttributes.USAGE_ALARM).setContentType(AudioAttributes.CONTENT_TYPE_SPEECH).build();
+
+        // 音を出すための手続き２　※１の設定を利用してsoundPoolを設定
+        soundPool = new SoundPool.Builder().setAudioAttributes(audioAttributes).setMaxStreams(1).build();
+
+        // 鳴らしたい音を設定（rawフォルダにあるsound1という音）
+        oto = getResources().getIdentifier("sound1", "raw", getPackageName());
+
+        //あらかじめ音をロードする必要がある　※直前にロードしても間に合わないので早めに
+        mySoundID = soundPool.load(getBaseContext(), oto, 1);
+
         pref = getSharedPreferences("memorizeScore", MODE_PRIVATE);
         prefEditor = pref.edit();
+        isVibrationEnabled = pref.getBoolean("vibrationEnabled", true);
     }
+
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_menu, menu);
@@ -52,21 +93,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int id = item.getItemId();
 
         if (id == R.id.volume_setting) {
+            // 音量設定の処理をここに追加
             return true;
         } else if (id == R.id.vibration_setting) {
+            isVibrationEnabled = !isVibrationEnabled;
+            String status = isVibrationEnabled ? "ON" : "OFF";
+            Toast.makeText(this, "Vibration " + status, Toast.LENGTH_SHORT).show();
+            prefEditor.putBoolean("vibrationEnabled", isVibrationEnabled);
+            prefEditor.apply(); // commit()の代わりにapply()を使用することを推奨
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
 
+
     @Override
     public void onClick(View view) {
-        //switch (view.getId()) {
-            //case R.id.button1:
-                //break;
-        //}
         int id = view.getId();
         if (id == R.id.button1) {
             setAnswerValue(true);
@@ -138,18 +181,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         TextView txtResult = (TextView) findViewById(R.id.text_result);
 
-        // 結果を示す文字列を入れる変数を用意
         String result;
         int score;
 
-        // Highが押された
         if (isHigh) {
-            // result には結果のみを入れる
             if (question < answer) {
                 result = "WIN";
                 score = 2;
-                Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
-                vib.vibrate(500);
+                if (isVibrationEnabled) {
+                    Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+                    vib.vibrate(500);
+                }
+                // 音を鳴らす
+                soundPool.play(mySoundID, 0.1f, 0.1f, 0, 0, 1);
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
@@ -160,9 +204,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         } else {
             if (question > answer) {
                 result = "WIN";
-                Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
-                vib.vibrate(500);
                 score = 2;
+                if (isVibrationEnabled) {
+                    Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+                    vib.vibrate(500);
+                }
+                // 音を鳴らす
+                soundPool.play(mySoundID, 1f, 1f, 0, 0, 1);
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
@@ -172,14 +220,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         }
 
-        // 最後にまとめてToast表示の処理とTextViewへのセットを行う
         Toast.makeText(this, result, Toast.LENGTH_LONG).show();
         txtResult.setText("結果：" + question + ":" + answer + "(" + result + ")");
-
+        setWinAnimation(result);
         // 続けて遊べるように値を更新
+
         setNextQuestion();
         countDownTimer();
         // スコアを表示
+
         setScore(score);
     }
 
@@ -224,6 +273,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                setAnswerValue(false);
             }
         }.start();
+    }
+  
+    private void setWinAnimation(String result) {
+        TextView txtViewAnswer = findViewById(R.id.answer);
+
+        if(result == "WIN"){
+
+            if(!set.isRunning()){
+                set.start();
+            }
+        }
+        else {
+            if(set.isRunning()){
+                set.end();
+                txtViewAnswer.setAlpha(1.0f);
+            }
+        }
     }
 }
 
