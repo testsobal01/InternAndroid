@@ -21,7 +21,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:backgroundTint="@color/syuiro"
-                android:text="High"
+                android:text="@string/btn_high"
                 android:textSize="20dp"
                 />
 
@@ -93,7 +93,9 @@
                 android:layout_weight="1"
                 android:background="#ffff00"
                 android:gravity="center"
-                android:text="値2"
+                android:text="High?
+                or
+                Low?"
                 android:textSize="60sp" />
         </LinearLayout>
 
