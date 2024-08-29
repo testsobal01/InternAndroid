@@ -6,30 +6,58 @@
     android:layout_height="match_parent"
     tools:context=".topActivity">
 
+
 <LinearLayout
 android:layout_width="match_parent"
 android:layout_height="match_parent"
-android:orientation="vertical">
+android:orientation="vertical"
+    android:background="#b0c4de">
 
-<TextView
-    android:layout_width="match_parent"
-    android:layout_height="0dp"
-    android:layout_weight="2"
-    android:gravity="center_horizontal|center_vertical"
-    android:text="ゲーム開始!!"
-    android:textSize="50dp"></TextView>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.7"
+        android:gravity="center_horizontal|center_vertical"
+        android:text="High ＆　Low"
+        android:textSize="60dp"
+        android:background="#b0c4de">
+    </TextView>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.2"
+        android:gravity="center_horizontal|center_vertical"
+        android:text="ボタンタップで"
+        android:textSize="30dp"
+        android:background="#b0c4de">
+    </TextView>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.8"
+        android:gravity="center"
+        android:text="ゲーム開始!!"
+        android:textSize="60dp"
+        android:background="#b0c4de">
+    </TextView>
 
 
-<Button
-    android:id="@+id/start1"
-    android:layout_width="match_parent"
-    android:layout_height="0dp"
-    android:layout_weight="1"
-    android:gravity="center"
-    android:text="START"
-    android:textSize="80sp">
+        <Button
+            android:id="@+id/start1"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:backgroundTint="#778899"
+            android:gravity="center"
+            android:text="START"
+            android:textSize="80sp">
+        </Button>
 
-</Button>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="0.5">
+    </TextView>
 </LinearLayout>
 
     </LinearLayout>
