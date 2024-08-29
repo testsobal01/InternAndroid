@@ -3,6 +3,7 @@ package com.example.makotomurase;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
@@ -116,9 +117,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = "WIN";
                 score = 2;
+                txtViewAnswer.setBackgroundColor(Color.RED);
+                txtViewQuestion.setBackgroundColor(Color.RED);
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
+                txtViewAnswer.setBackgroundColor(Color.WHITE);
+                txtViewQuestion.setBackgroundColor(Color.WHITE);
             } else {
                 result = "DRAW";
                 score = 1;
@@ -127,9 +132,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question > answer) {
                 result = "WIN";
                 score = 2;
+                txtViewAnswer.setBackgroundColor(Color.RED);
+                txtViewQuestion.setBackgroundColor(Color.RED);
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
+                txtViewAnswer.setBackgroundColor(Color.WHITE);
+                txtViewQuestion.setBackgroundColor(Color.WHITE);
             } else {
                 result = "DRAW";
                 score = 1;
@@ -150,6 +159,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // 第１引数がカウントダウン時間、第２引数は途中経過を受け取る間隔
         // 単位はミリ秒（1秒＝1000ミリ秒）
         new CountDownTimer(3000, 1000) {
+
+            TextView txtViewQuestion = findViewById(R.id.question);
+            TextView txtViewAnswer = findViewById(R.id.answer);
+
             @Override
             public void onTick(long l) {
                 // 途中経過を受け取った時に何かしたい場合
@@ -160,6 +173,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public void onFinish() {
                 // 3秒経過したら次の値をセット
                 setQuestionValue();
+                txtViewAnswer.setBackgroundColor(Color.YELLOW);
+                txtViewQuestion.setBackgroundColor(Color.MAGENTA);
             }
         }.start();
     }
