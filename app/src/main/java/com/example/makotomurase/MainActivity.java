@@ -24,11 +24,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     SharedPreferences pref;
     SharedPreferences.Editor prefEditor;
     private int maxNum = 10;
+    private SoundPlayer soundPlayer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        soundPlayer = new SoundPlayer(this);
 
         Intent intent = getIntent();
         Bundle extra = intent.getExtras();
@@ -169,12 +172,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 txtViewAnswer.setBackgroundColor(Color.RED);
                 txtViewQuestion.setBackgroundColor(Color.RED);
                 blinkText(txtViewAnswer, 800, 300);
+                soundPlayer.playHitSound();
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
                 txtViewAnswer.setBackgroundColor(Color.WHITE);
                 txtViewQuestion.setBackgroundColor(Color.WHITE);
                 blinkText(txtViewQuestion, 800, 300);
+                soundPlayer.playOverSound();
             } else {
                 result = "DRAW";
                 score = 1;
@@ -187,12 +192,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 txtViewAnswer.setBackgroundColor(Color.RED);
                 txtViewQuestion.setBackgroundColor(Color.RED);
                 blinkText(txtViewAnswer, 800, 300);
+                soundPlayer.playHitSound();
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
                 txtViewAnswer.setBackgroundColor(Color.WHITE);
                 txtViewQuestion.setBackgroundColor(Color.WHITE);
                 blinkText(txtViewQuestion, 800, 300);
+                soundPlayer.playOverSound();
             } else {
                 result = "DRAW";
                 score = 1;
