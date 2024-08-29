@@ -72,7 +72,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="#ff00ff"
+                android:background="@color/question"
                 android:gravity="center"
                 android:text="値1"
                 android:textSize="60sp" />
@@ -82,7 +82,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="#ffff00"
+                android:background="@color/answer"
                 android:gravity="center"
                 android:text="値2"
                 android:textSize="60sp" />

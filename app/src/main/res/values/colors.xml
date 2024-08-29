@@ -2,4 +2,6 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="question">#ff00ff</color>
+    <color name="answer">#ffff00</color>
 </resources>

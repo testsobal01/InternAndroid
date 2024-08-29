@@ -1,7 +1,11 @@
 package com.example.makotomurase;
 
+import androidx.annotation.ColorInt;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
@@ -13,6 +17,9 @@ import android.widget.Toast;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
+    int colorQ ;
+    int colorA ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +37,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // 起動時に関数を呼び出す
         setQuestionValue();
+
+        //色の取得
+        colorQ = getResources().getColor(R.color.question);
+        colorA = getResources().getColor(R.color.answer);
     }
 
     @Override
@@ -65,6 +76,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         TextView txtView = findViewById(R.id.question);
         txtView.setText(Integer.toString(questionValue));
+
+        TextView txtViewAnswer = findViewById(R.id.answer);
+        txtView.setBackgroundColor(colorQ);
+        txtViewAnswer.setBackgroundColor(colorA);
     }
 
     private void setAnswerValue() {
@@ -96,12 +111,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 score = 2;
                 Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
                 vib.vibrate(500);
+
+                txtViewQuestion.setBackgroundColor(Color.LTGRAY);
+                txtViewAnswer.setBackgroundColor(colorA);
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
+
+                txtViewAnswer.setBackgroundColor(Color.LTGRAY);
+                txtViewQuestion.setBackgroundColor(colorQ);
             } else {
                 result = "DRAW";
                 score = 1;
+
+                txtViewAnswer.setBackgroundColor(colorA);
+                txtViewQuestion.setBackgroundColor(colorQ);
             }
         } else {
             if (question > answer) {
@@ -109,12 +133,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
                 vib.vibrate(500);
                 score = 2;
+
+                txtViewQuestion.setBackgroundColor(Color.LTGRAY);
+                txtViewAnswer.setBackgroundColor(colorA);
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
+
+                txtViewAnswer.setBackgroundColor(Color.LTGRAY);
+                txtViewQuestion.setBackgroundColor(colorQ);
             } else {
                 result = "DRAW";
                 score = 1;
+
+                txtViewAnswer.setBackgroundColor(colorA);
+                txtViewQuestion.setBackgroundColor(colorQ);
             }
         }
 
