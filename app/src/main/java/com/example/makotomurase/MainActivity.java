@@ -1,12 +1,17 @@
 package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.res.ResourcesCompat;
 
+import android.animation.ValueAnimator;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.ScaleAnimation;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -14,6 +19,9 @@ import android.widget.Toast;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
+    TextView textView_question;
+    TextView textView_answer;
 
     @Override
     protected void onPause() {
@@ -32,6 +40,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        textView_question = findViewById(R.id.question);
+        textView_answer = findViewById(R.id.answer);
+
         Button btn1 = findViewById(R.id.button1);
         btn1.setOnClickListener(this);
 
@@ -44,6 +55,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // 起動時に関数を呼び出す
         setQuestionValue();
         setSaveScoreValue();
+    }
+
+    public void blinkText(TextView textView_question, long duration, long offset){
+        Animation anm = new AlphaAnimation(0.0f, 1.0f);
+        anm.setDuration(duration);
+        anm.setStartOffset(offset);
+        anm.setRepeatCount(1);
+        textView_question.startAnimation(anm);
+    }
+
+    public void blinkText1(TextView textView_answer, long duration, long offset){
+        Animation anm = new AlphaAnimation(0.0f, 1.0f);
+        anm.setDuration(duration);
+        anm.setStartOffset(offset);
+        anm.setRepeatCount(1);
+        textView_answer.startAnimation(anm);
     }
 
     @Override
@@ -110,23 +137,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = "WIN";
                 score = 2;
+                blinkText(textView_question, 500, 500);
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
+                blinkText(textView_answer, 500, 500);
             } else {
                 result = "DRAW";
                 score = 1;
+                blinkText(textView_question, 500, 500);
+                blinkText(textView_answer, 500, 500);
             }
         } else {
             if (question > answer) {
                 result = "WIN";
                 score = 2;
+                blinkText(textView_question, 500, 500);
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
+                blinkText(textView_answer, 500, 500);
             } else {
                 result = "DRAW";
                 score = 1;
+                blinkText(textView_question, 500, 500);
+                blinkText(textView_answer, 500, 500);
             }
         }
 
