@@ -21,7 +21,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:backgroundTint="@color/syuiro"
-                android:text="High"
+                android:text="@string/btn_high"
                 android:textSize="20dp"
                 />
 

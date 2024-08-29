@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">높은낮은</string>
+    <string name="btn_high">높은</string>
+    <string name="btn_low">낮은</string>
+    <string name="btn_restart">다시 시작하다</string>
+    <string name="label_score">점수：</string>
+    <string name="preference_key">"InternAndroid-d-2"</string>
+</resources>
