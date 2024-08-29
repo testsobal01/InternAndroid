@@ -1,7 +1,10 @@
 package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.res.ResourcesCompat;
 
+import android.animation.ArgbEvaluator;
+import android.animation.ValueAnimator;
 import android.graphics.Color;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -20,6 +23,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     SharedPreferences sharedPref ;
     SharedPreferences.Editor editor ;
     int score;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +56,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView txtScore = (TextView) findViewById(R.id.text_score);
         txtScore.setText(String.valueOf(sharedPref.getInt("score", 0)));
     }
+
 
 
     @Override
@@ -161,7 +166,41 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // スコアを表示
         setScore(score);
 
+
+
+
+        int color1 = ResourcesCompat.getColor(getResources(), R.color.white, getTheme());
+        int color2 = ResourcesCompat.getColor(getResources(), R.color.black, getTheme());
+        ValueAnimator anim = ValueAnimator.ofArgb(color1,color2);// (3)
+        anim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator anim) {
+                int color = (Integer) anim.getAnimatedValue();
+                
+                if(isHigh){
+                    if(question>answer){
+                        txtViewQuestion.setTextColor(color);
+                    }else{
+                        txtViewAnswer.setTextColor(color);
+                    }
+                }else{
+                    if(question>answer){
+                        txtViewAnswer.setTextColor(color);
+                    }else{
+                        txtViewQuestion.setTextColor(color);
+                    }
+                }
+
+
+            }
+        });
+        anim.setDuration(1000);
+        anim.start();
+
+
+
     }
+
 
 
     private void setNextQuestion() {
