@@ -140,9 +140,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+    //koko
     private void clearAnswerValue() {
         TextView txtView = (TextView) findViewById(R.id.answer);
-        txtView.setText("値2");
+        String txtAnswer = txtView.getText().toString();
+        //tuika
+        String cleanValue2 = getString(R.string.tv_value2);
+        txtView.setText(cleanValue2);
     }
 
     private void setQuestionValue() {
@@ -169,8 +173,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int question = Integer.parseInt(txtViewQuestion.getText().toString());
         int answer = Integer.parseInt(txtViewAnswer.getText().toString());
 
-        TextView txtResult = (TextView) findViewById(R.id.text_result);
-
         // 結果を示す文字列を入れる変数を用意
         String result;
         int score;
@@ -179,39 +181,45 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (isHigh) {
             // result には結果のみを入れる
             if (question < answer) {
-                result = "WIN";
+                result = getString(R.string.toast_win);
                 score = 2;
                 blinkText(textView_question, 500, 500);
             } else if (question > answer) {
-                result = "LOSE";
+                result = getString(R.string.toast_lose);
                 score = -1;
                 blinkText(textView_answer, 500, 500);
             } else {
-                result = "DRAW";
+                result = getString(R.string.toast_draw);
                 score = 1;
                 blinkText(textView_question, 500, 500);
                 blinkText(textView_answer, 500, 500);
             }
         } else {
             if (question > answer) {
-                result = "WIN";
+                result = getString(R.string.toast_win);
                 score = 2;
                 blinkText(textView_question, 500, 500);
             } else if (question < answer) {
-                result = "LOSE";
+                result = getString(R.string.toast_lose);
                 score = -1;
                 blinkText(textView_answer, 500, 500);
             } else {
-                result = "DRAW";
+                result = getString(R.string.toast_draw);
                 score = 1;
                 blinkText(textView_question, 500, 500);
                 blinkText(textView_answer, 500, 500);
             }
         }
 
+        //日本語と英語表示にするための処理
+        TextView tvResult = findViewById(R.id.tv_resultnum);
+        //TextView txtResult = (TextView) findViewById(R.id.text_result);
+        String strResult = tvResult.getText().toString();
         // 最後にまとめてToast表示の処理とTextViewへのセットを行う
         Toast.makeText(this, result, Toast.LENGTH_LONG).show();
-        txtResult.setText("結果：" + question + ":" + answer + "(" + result + ")");
+        //
+        tvResult.setText("");
+        tvResult.setText(question + ":" + answer + "(" + result + ")");
 
         // 続けて遊べるように値を更新
         setNextQuestion();
@@ -245,8 +253,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void clearScoreValue() {
-        TextView txtScore = (TextView) findViewById(R.id.text_score);
-        txtScore.setText("0");
+        TextView tvResult =findViewById(R.id.tv_resultnum);
+        TextView tvScore = findViewById(R.id.text_score);
+        //TextView txtScore = (TextView) findViewById(R.id.text_score);
+        //スコアを消すときは新しく作ったTextViewを消す
+        tvResult.setText("");
+        tvScore.setText("0");
     }
 
     private void saveScoreValue() {
