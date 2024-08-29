@@ -2,6 +2,7 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
@@ -30,12 +31,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // 起動時に関数を呼び出す
         setQuestionValue();
+
     }
 
     @Override
     public void onClick(View view) {
 
         vibration();
+
 
 
         int id = view.getId();
@@ -49,8 +52,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             setQuestionValue();
             clearAnswerValue();
             clearScoreValue();
+            ResetColor();
         }
     }
+
 
     private void clearAnswerValue() {
         TextView txtView = (TextView) findViewById(R.id.answer);
@@ -93,23 +98,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = "WIN";
                 score = 2;
+                changeBackgroundColor_Win();
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
+                changeBackgroundColor_Lose();
             } else {
                 result = "DRAW";
                 score = 1;
+                changeBackgroundColor_Draw();
             }
         } else {
             if (question > answer) {
                 result = "WIN";
                 score = 2;
+                changeBackgroundColor_Win();
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
+                changeBackgroundColor_Lose();
             } else {
                 result = "DRAW";
                 score = 1;
+                changeBackgroundColor_Draw();
             }
         }
 
@@ -156,6 +167,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void vibration(){
         Vibrator vib = (Vibrator) getSystemService(VIBRATOR_SERVICE);
         vib.vibrate(500);
+    }
+
+    public void changeBackgroundColor_Win(){
+        TextView ansertextView = findViewById(R.id.answer);
+        ansertextView.setBackgroundColor(Color.RED);
+    }
+
+    public void changeBackgroundColor_Lose(){
+        TextView ansertextView = findViewById(R.id.answer);
+        ansertextView.setBackgroundColor(Color.BLUE);
+    }
+
+    public void changeBackgroundColor_Draw(){
+        TextView ansertextView = findViewById(R.id.answer);
+        ansertextView.setBackgroundColor(Color.rgb(255,0,255));
+    }
+
+    public void ResetColor(){
+        TextView ansertextView = findViewById(R.id.answer);
+        ansertextView.setBackgroundColor(Color.YELLOW);
     }
 }
 
