@@ -16,6 +16,8 @@ public class activity_top extends AppCompatActivity implements View.OnClickListe
 
         Button btn_start = findViewById(R.id.button_start);
         btn_start.setOnClickListener(this);
+        Button btn_finish = findViewById(R.id.button_finish);
+        btn_finish.setOnClickListener(this);
     }
 
     @Override
@@ -25,6 +27,9 @@ public class activity_top extends AppCompatActivity implements View.OnClickListe
             Intent intent = new Intent(this, MainActivity.class);
             intent.putExtra("KEY", "Topからの呼び出し");
             startActivity(intent);
+        }
+        if (id == R.id.button_finish){
+            finish();
         }
     }
 }
