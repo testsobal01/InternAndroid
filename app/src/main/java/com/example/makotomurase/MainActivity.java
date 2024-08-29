@@ -34,16 +34,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button btn2 = findViewById(R.id.button2);
         btn2.setOnClickListener(this);
 
-        Button btn3 = (Button) findViewById(R.id.button3);
+        Button btn3 = findViewById(R.id.button3);
         btn3.setOnClickListener(this);
 
-        // 起動時に関数を呼び出す
         setQuestionValue();
 
         pref = getSharedPreferences("memorizeScore", MODE_PRIVATE);
         prefEditor = pref.edit();
         isVibrationEnabled = pref.getBoolean("vibrationEnabled", true);
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -63,11 +63,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             String status = isVibrationEnabled ? "ON" : "OFF";
             Toast.makeText(this, "Vibration " + status, Toast.LENGTH_SHORT).show();
             prefEditor.putBoolean("vibrationEnabled", isVibrationEnabled);
-            prefEditor.commit();
+            prefEditor.apply(); // commit()の代わりにapply()を使用することを推奨
             return true;
         }
         return super.onOptionsItemSelected(item);
     }
+
 
 
     @Override
@@ -138,18 +139,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         TextView txtResult = (TextView) findViewById(R.id.text_result);
 
-        // 結果を示す文字列を入れる変数を用意
         String result;
         int score;
 
-        // Highが押された
         if (isHigh) {
-            // result には結果のみを入れる
             if (question < answer) {
                 result = "WIN";
                 score = 2;
-                Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
-                vib.vibrate(500);
+                if (isVibrationEnabled) {
+                    Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+                    vib.vibrate(500);
+                }
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
@@ -160,9 +160,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         } else {
             if (question > answer) {
                 result = "WIN";
-                Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
-                vib.vibrate(500);
                 score = 2;
+                if (isVibrationEnabled) {
+                    Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+                    vib.vibrate(500);
+                }
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
@@ -172,13 +174,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         }
 
-        // 最後にまとめてToast表示の処理とTextViewへのセットを行う
         Toast.makeText(this, result, Toast.LENGTH_LONG).show();
         txtResult.setText("結果：" + question + ":" + answer + "(" + result + ")");
 
-        // 続けて遊べるように値を更新
         setNextQuestion();
-        // スコアを表示
         setScore(score);
     }
 
