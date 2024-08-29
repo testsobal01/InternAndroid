@@ -66,48 +66,44 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="500dp">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/question"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="#ff00ff"
-                android:gravity="center"
-                android:text="値1"
-                android:textSize="60sp" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="4">
 
-            <TextView
-                android:id="@+id/answer"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
+                <TextView
+                    android:id="@+id/question"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="#ff00ff"
+                    android:gravity="center"
+                    android:text="値1"
+                    android:textSize="60sp" />
+
+                <TextView
+                    android:id="@+id/answer"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="#ffff00"
+                    android:gravity="center"
+                    android:text="値2"
+                    android:textSize="60sp" />
+
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/image"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
                 android:layout_weight="1"
-                android:background="#ffff00"
-                android:gravity="center"
-                android:text="値2"
-                android:textSize="60sp" />
+                android:src="@drawable/be91b9e974fb028ef47e6b5cf6460c66_t" />
 
         </LinearLayout>
-
-        <ImageView
-            android:id="@+id/image"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/be91b9e974fb028ef47e6b5cf6460c66_t"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            />
-
-
-
-
-
-
-
-
 
     </LinearLayout>
 
