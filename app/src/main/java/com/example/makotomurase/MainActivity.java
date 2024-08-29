@@ -21,6 +21,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     SharedPreferences.Editor prefEditor;
     int newScore;
 
+    boolean isVibrationEnabled = true;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,7 +42,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         pref = getSharedPreferences("memorizeScore", MODE_PRIVATE);
         prefEditor = pref.edit();
+        isVibrationEnabled = pref.getBoolean("vibrationEnabled", true);
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_menu, menu);
@@ -52,21 +56,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int id = item.getItemId();
 
         if (id == R.id.volume_setting) {
+            // 音量設定の処理をここに追加
             return true;
         } else if (id == R.id.vibration_setting) {
+            isVibrationEnabled = !isVibrationEnabled;
+            String status = isVibrationEnabled ? "ON" : "OFF";
+            Toast.makeText(this, "Vibration " + status, Toast.LENGTH_SHORT).show();
+            prefEditor.putBoolean("vibrationEnabled", isVibrationEnabled);
+            prefEditor.commit();
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
 
     @Override
     public void onClick(View view) {
-        //switch (view.getId()) {
-            //case R.id.button1:
-                //break;
-        //}
         int id = view.getId();
         if (id == R.id.button1) {
             setAnswerValue();
