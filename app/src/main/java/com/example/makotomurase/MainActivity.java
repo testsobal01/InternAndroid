@@ -1,7 +1,5 @@
 package com.example.makotomurase;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
@@ -10,9 +8,19 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import java.util.Random;
 
+import android.media.AudioAttributes;
+import android.media.SoundPool;
+
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
+    int mySoundID;          //サウンド管理ID
+    int oto;                //サウンド
+    SoundPool soundPool;    //サウンドプール
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +38,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // 起動時に関数を呼び出す
         setQuestionValue();
+
+
+        // サウンドプールをクリア
+        soundPool = null;
+
+        // 音を出すための手続き１　※音の出し方を設定している
+        AudioAttributes audioAttributes = new AudioAttributes.Builder().setUsage(AudioAttributes.USAGE_ALARM).setContentType(AudioAttributes.CONTENT_TYPE_SPEECH).build();
+
+        // 音を出すための手続き２　※１の設定を利用してsoundPoolを設定
+        soundPool = new SoundPool.Builder().setAudioAttributes(audioAttributes).setMaxStreams(1).build();
+
+        // 鳴らしたい音を設定（rawフォルダにあるsound1という音）
+        oto = getResources().getIdentifier("sound1", "raw", getPackageName());
+
+        //あらかじめ音をロードする必要がある　※直前にロードしても間に合わないので早めに
+        mySoundID = soundPool.load(getBaseContext(), oto, 1);
+
     }
 
     @Override
@@ -96,6 +121,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 score = 2;
                 Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
                 vib.vibrate(500);
+                // 音を鳴らす
+                soundPool.play(mySoundID, 0.1f, 0.1f, 0, 0, 1);
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
@@ -109,6 +136,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
                 vib.vibrate(500);
                 score = 2;
+                // 音を鳴らす
+                soundPool.play(mySoundID, 1f, 1f, 0, 0, 1);
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
