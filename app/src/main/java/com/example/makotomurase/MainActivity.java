@@ -2,6 +2,7 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -24,6 +25,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Intent intent = getIntent();
+        Bundle extra = intent.getExtras();
+        String intentString = extra.getString("KEY");
+
+        TextView textView = (TextView)findViewById(R.id.contents_text);
+        textView.setText(intentString);
 
         Button btn1 = findViewById(R.id.button1);
         btn1.setOnClickListener(this);
