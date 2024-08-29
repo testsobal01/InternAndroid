@@ -1,6 +1,8 @@
 package com.example.makotomurase;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
 
 import android.graphics.Color;
 import android.content.Context;
@@ -8,6 +10,8 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -17,15 +21,17 @@ import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private CountDownTimer cdt;
-
+    TextView mainView;
     SharedPreferences sharedPref ;
     SharedPreferences.Editor editor ;
+    int maxlevel=11;
     int score;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        mainView=findViewById(R.id.maxlevel);
 
         Button btn1 = findViewById(R.id.button1);
         btn1.setOnClickListener(this);
@@ -75,15 +81,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             clearScoreValue();
             ResetColor();
         }
-
-
-
-
-
-
-
     }
-
 
     private void clearAnswerValue() {
         TextView txtView = (TextView) findViewById(R.id.answer);
@@ -94,18 +92,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void setQuestionValue() {
         Random r = new Random();
         // 0から10の範囲で乱数を生成（+1する必要がある）
-        int questionValue = r.nextInt(10 + 1);
+        int questionValue = r.nextInt(maxlevel);
 
         TextView txtView = findViewById(R.id.question);
         txtView.setText(Integer.toString(questionValue));
     }
-
+    @Override
+    public boolean onCreateOptionsMenu(@NonNull Menu menu) {
+        getMenuInflater().inflate(R.menu.option_menu, menu);
+        return true;
+    }
     private void setAnswerValue() {
         Random r = new Random();
-        int answerValue = r.nextInt(10 + 1);
+        int answerValue = r.nextInt(maxlevel);
 
         TextView txtView = findViewById(R.id.answer);
         txtView.setText(Integer.toString(answerValue));
+    }
+    public void getLimit(int rate) {
+        mainView.setText(rate+"が設定されています");
+        maxlevel = rate + 1;
     }
 
     private void checkResult(boolean isHigh) {
@@ -260,6 +266,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void ResetColor(){
         TextView ansertextView = findViewById(R.id.answer);
         ansertextView.setBackgroundColor(Color.YELLOW);
+    }
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        LevelDialogFragment levelDialogFragment=new LevelDialogFragment();
+        if (item.getItemId() == R.id.action_invalid) {
+            FragmentManager manager = getSupportFragmentManager();
+            levelDialogFragment.show(manager, "dialog");
+        }
+        return true;
     }
 }
 
