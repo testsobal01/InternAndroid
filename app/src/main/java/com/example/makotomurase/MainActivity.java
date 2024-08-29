@@ -2,6 +2,7 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
@@ -12,6 +13,9 @@ import android.widget.Toast;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
+    SharedPreferences pref;
+    SharedPreferences.Editor prefEditor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +33,30 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // 起動時に関数を呼び出す
         setQuestionValue();
+
+        //スコアの保存先
+        pref = getSharedPreferences("InternAndroid", MODE_PRIVATE);
+        prefEditor = pref.edit();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        TextView tvScore = findViewById(R.id.text_score);
+        //起動時にスコアを取得
+        String readText = pref.getString("score", "0");
+        tvScore.setText(readText);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        TextView tvScore = findViewById(R.id.text_score);
+        //スコアを保存
+        prefEditor.putString("score", tvScore.getText().toString());
+        prefEditor.commit();
     }
 
     @Override
