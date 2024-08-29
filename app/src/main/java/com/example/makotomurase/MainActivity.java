@@ -2,12 +2,15 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,6 +25,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Intent intent = getIntent();
+        Bundle extra = intent.getExtras();
+        String intentString = extra.getString("KEY");
+
+        TextView textView = (TextView)findViewById(R.id.contents_text);
+        textView.setText(intentString);
 
         Button btn1 = findViewById(R.id.button1);
         btn1.setOnClickListener(this);
@@ -125,11 +135,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 vibrate(500);
                 txtViewAnswer.setBackgroundColor(Color.RED);
                 txtViewQuestion.setBackgroundColor(Color.RED);
+                blinkText(txtViewAnswer, 800, 300);
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
                 txtViewAnswer.setBackgroundColor(Color.WHITE);
                 txtViewQuestion.setBackgroundColor(Color.WHITE);
+                blinkText(txtViewQuestion, 800, 300);
             } else {
                 result = "DRAW";
                 score = 1;
@@ -141,11 +153,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 vibrate(500);
                 txtViewAnswer.setBackgroundColor(Color.RED);
                 txtViewQuestion.setBackgroundColor(Color.RED);
+                blinkText(txtViewAnswer, 800, 300);
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
                 txtViewAnswer.setBackgroundColor(Color.WHITE);
                 txtViewQuestion.setBackgroundColor(Color.WHITE);
+                blinkText(txtViewQuestion, 800, 300);
             } else {
                 result = "DRAW";
                 score = 1;
@@ -196,5 +210,35 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView txtScore = (TextView) findViewById(R.id.text_score);
         txtScore.setText("0");
     }
+
+    private void blinkText(TextView txtView, long duration, long offset){
+        Animation anm = new AlphaAnimation(0.0f, 1.0f);
+        anm.setDuration(duration);
+        anm.setStartOffset(offset);
+        anm.setRepeatMode(Animation.REVERSE);
+        anm.setRepeatCount(Animation.INFINITE);
+        txtView.startAnimation(anm);
+
+        String text = txtView.getText().toString();
+
+        new CountDownTimer(3000, 1000) {
+
+
+
+            @Override
+            public void onTick(long l) {
+                // 途中経過を受け取った時に何かしたい場合
+                // 今回は特に何もしない
+            }
+
+            @Override
+            public void onFinish() {
+                // 3秒経過したら次の値をセット
+                txtView.clearAnimation();
+                txtView.setAlpha(1.0f);
+            }
+        }.start();
+    }
+
 }
 
