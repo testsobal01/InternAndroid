@@ -3,9 +3,13 @@ package com.example.makotomurase;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -13,6 +17,9 @@ import android.widget.Toast;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
+    SharedPreferences pref;
+    SharedPreferences.Editor prefEditor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +44,30 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // 起動時に関数を呼び出す
         setQuestionValue();
+
+        //スコアの保存先
+        pref = getSharedPreferences("InternAndroid", MODE_PRIVATE);
+        prefEditor = pref.edit();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        TextView tvScore = findViewById(R.id.text_score);
+        //起動時にスコアを取得
+        String readText = pref.getString("score", "0");
+        tvScore.setText(readText);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        TextView tvScore = findViewById(R.id.text_score);
+        //スコアを保存
+        prefEditor.putString("score", tvScore.getText().toString());
+        prefEditor.commit();
     }
 
     @Override
@@ -96,9 +127,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = "WIN";
                 score = 2;
+                txtViewAnswer.setBackgroundColor(Color.RED);
+                txtViewQuestion.setBackgroundColor(Color.RED);
+                blinkText(txtViewAnswer, 800, 300);
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
+                txtViewAnswer.setBackgroundColor(Color.WHITE);
+                txtViewQuestion.setBackgroundColor(Color.WHITE);
+                blinkText(txtViewQuestion, 800, 300);
             } else {
                 result = "DRAW";
                 score = 1;
@@ -107,9 +144,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question > answer) {
                 result = "WIN";
                 score = 2;
+                txtViewAnswer.setBackgroundColor(Color.RED);
+                txtViewQuestion.setBackgroundColor(Color.RED);
+                blinkText(txtViewAnswer, 800, 300);
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
+                txtViewAnswer.setBackgroundColor(Color.WHITE);
+                txtViewQuestion.setBackgroundColor(Color.WHITE);
+                blinkText(txtViewQuestion, 800, 300);
             } else {
                 result = "DRAW";
                 score = 1;
@@ -130,6 +173,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // 第１引数がカウントダウン時間、第２引数は途中経過を受け取る間隔
         // 単位はミリ秒（1秒＝1000ミリ秒）
         new CountDownTimer(3000, 1000) {
+
+            TextView txtViewQuestion = findViewById(R.id.question);
+            TextView txtViewAnswer = findViewById(R.id.answer);
+
             @Override
             public void onTick(long l) {
                 // 途中経過を受け取った時に何かしたい場合
@@ -140,6 +187,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public void onFinish() {
                 // 3秒経過したら次の値をセット
                 setQuestionValue();
+                txtViewAnswer.setBackgroundColor(Color.YELLOW);
+                txtViewQuestion.setBackgroundColor(Color.MAGENTA);
             }
         }.start();
     }
@@ -154,5 +203,35 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView txtScore = (TextView) findViewById(R.id.text_score);
         txtScore.setText("0");
     }
+
+    private void blinkText(TextView txtView, long duration, long offset){
+        Animation anm = new AlphaAnimation(0.0f, 1.0f);
+        anm.setDuration(duration);
+        anm.setStartOffset(offset);
+        anm.setRepeatMode(Animation.REVERSE);
+        anm.setRepeatCount(Animation.INFINITE);
+        txtView.startAnimation(anm);
+
+        String text = txtView.getText().toString();
+
+        new CountDownTimer(3000, 1000) {
+
+
+
+            @Override
+            public void onTick(long l) {
+                // 途中経過を受け取った時に何かしたい場合
+                // 今回は特に何もしない
+            }
+
+            @Override
+            public void onFinish() {
+                // 3秒経過したら次の値をセット
+                txtView.clearAnimation();
+                txtView.setAlpha(1.0f);
+            }
+        }.start();
+    }
+
 }
 

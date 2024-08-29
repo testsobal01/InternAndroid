@@ -47,7 +47,7 @@
             android:id="@+id/main_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="10が設定されています。" />
+            android:text="@string/explanation" />
 
         <TextView
             android:id="@+id/text_result"
@@ -66,8 +66,7 @@
             <TextView
                 android:id="@+id/text_score"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="0" />
+                android:layout_height="wrap_content" />
         </LinearLayout>
 
         <LinearLayout
