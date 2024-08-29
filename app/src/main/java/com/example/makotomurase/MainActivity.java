@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Vibrator;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
@@ -17,7 +18,6 @@ import android.widget.Toast;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
-
     SharedPreferences pref;
     SharedPreferences.Editor prefEditor;
 
@@ -86,6 +86,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+    public void vibrate(int time){
+        Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+        vib.vibrate(time);
+    }
+
     private void clearAnswerValue() {
         TextView txtView = (TextView) findViewById(R.id.answer);
         txtView.setText("値2");
@@ -127,6 +132,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = "WIN";
                 score = 2;
+                vibrate(500);
                 txtViewAnswer.setBackgroundColor(Color.RED);
                 txtViewQuestion.setBackgroundColor(Color.RED);
                 blinkText(txtViewAnswer, 800, 300);
@@ -144,6 +150,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question > answer) {
                 result = "WIN";
                 score = 2;
+                vibrate(500);
                 txtViewAnswer.setBackgroundColor(Color.RED);
                 txtViewQuestion.setBackgroundColor(Color.RED);
                 blinkText(txtViewAnswer, 800, 300);
