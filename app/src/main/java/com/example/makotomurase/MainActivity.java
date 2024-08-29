@@ -8,6 +8,7 @@ import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.Menu;
@@ -38,6 +39,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     SharedPreferences pref;
     SharedPreferences.Editor prefEditor;
     int newScore;
+    int colorQ;
+    int colorA;
 
     boolean isVibrationEnabled = true;
     @Override
@@ -54,12 +57,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button btn3 = findViewById(R.id.button3);
         btn3.setOnClickListener(this);
 
+
         set = (AnimatorSet) AnimatorInflater.loadAnimator(MainActivity.this,
                 R.animator.blink_animation);
 
         set.setTarget(findViewById(R.id.answer));
-        // 起動時に関数を呼び出す
-        setQuestionValue();
 
         // サウンドプールをクリア
         soundPool = null;
@@ -79,6 +81,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         pref = getSharedPreferences("memorizeScore", MODE_PRIVATE);
         prefEditor = pref.edit();
         isVibrationEnabled = pref.getBoolean("vibrationEnabled", true);
+
+        //色の取得
+        colorQ = getResources().getColor(R.color.Question);
+        colorA = getResources().getColor(R.color.Answer);
+
+        // 起動時に関数を呼び出す
+        setQuestionValue();
+
     }
 
 
@@ -131,7 +141,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Toast.makeText(this, "onPause", Toast.LENGTH_SHORT).show();
 
         String textScore = Integer.toString(newScore);
-        prefEditor.putString("preScore", textScore);
+        prefEditor.putString("memorizeScore", textScore);
         prefEditor.commit();
     }
 
@@ -141,7 +151,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         TextView scoreText = (TextView) findViewById(R.id.text_score);
 
-        int preScore = pref.getInt("preScore", 0);
+        int preScore = pref.getInt("memorizeScore", 0);
         scoreText.setText(String.valueOf(preScore));
     }
 
@@ -157,6 +167,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         TextView txtView = findViewById(R.id.question);
         txtView.setText(Integer.toString(questionValue));
+
+        txtView.setBackgroundColor(colorQ);
+        TextView txtViewAnswer = findViewById(R.id.answer);
+        txtViewAnswer.setBackgroundColor(colorA);
     }
 
     private void setAnswerValue(boolean isButton) {
@@ -194,12 +208,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
                 // 音を鳴らす
                 soundPool.play(mySoundID, 0.1f, 0.1f, 0, 0, 1);
+
+                txtViewQuestion.setBackgroundColor(Color.LTGRAY);
+                txtViewAnswer.setBackgroundColor(colorA);
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
+
+                txtViewAnswer.setBackgroundColor(Color.LTGRAY);
+                txtViewQuestion.setBackgroundColor(colorQ);
             } else {
                 result = "DRAW";
                 score = 1;
+
+                txtViewAnswer.setBackgroundColor(colorA);
+                txtViewQuestion.setBackgroundColor(colorQ);
             }
         } else {
             if (question > answer) {
@@ -211,12 +234,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
                 // 音を鳴らす
                 soundPool.play(mySoundID, 1f, 1f, 0, 0, 1);
+
+                txtViewQuestion.setBackgroundColor(Color.LTGRAY);
+                txtViewAnswer.setBackgroundColor(colorA);
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
+
+                txtViewAnswer.setBackgroundColor(Color.LTGRAY);
+                txtViewQuestion.setBackgroundColor(colorQ);
             } else {
                 result = "DRAW";
                 score = 1;
+
+                txtViewAnswer.setBackgroundColor(colorA);
+                txtViewQuestion.setBackgroundColor(colorQ);
             }
         }
 

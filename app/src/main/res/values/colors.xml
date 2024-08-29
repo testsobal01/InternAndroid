@@ -3,4 +3,6 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="silber">#c0c0c0</color>
+    <color name="Question">#ff00ff</color>
+    <color name="Answer">#ffff00</color>
 </resources>
