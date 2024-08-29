@@ -3,6 +3,8 @@ package com.example.makotomurase;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.graphics.Color;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
@@ -14,6 +16,10 @@ import android.widget.Toast;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
+    SharedPreferences sharedPref ;
+    SharedPreferences.Editor editor ;
+    int score;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +37,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // 起動時に関数を呼び出す
         setQuestionValue();
+        sharedPref = getSharedPreferences("score", Context.MODE_PRIVATE);
+        editor = sharedPref.edit();
+
+        score = sharedPref.getInt("score", 0);
+        setScore(score);
 
     }
 
@@ -54,12 +65,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             clearScoreValue();
             ResetColor();
         }
+
+
+
+
+
+
+
     }
 
 
     private void clearAnswerValue() {
         TextView txtView = (TextView) findViewById(R.id.answer);
         txtView.setText("値2");
+        sharedPref.edit().clear().apply();
     }
 
     private void setQuestionValue() {
@@ -90,7 +109,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // 結果を示す文字列を入れる変数を用意
         String result;
-        int score;
+
 
         // Highが押された
         if (isHigh) {
@@ -132,7 +151,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setNextQuestion();
         // スコアを表示
         setScore(score);
+
+
+        editor.putInt("score", score);
+        editor.apply();
+
     }
+
 
     private void setNextQuestion() {
         // 第１引数がカウントダウン時間、第２引数は途中経過を受け取る間隔
