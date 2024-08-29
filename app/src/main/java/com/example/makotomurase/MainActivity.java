@@ -7,8 +7,12 @@ import android.animation.AnimatorInflater;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
+
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.os.Vibrator;
 import android.view.View;
 import android.view.animation.Animation;
@@ -22,6 +26,10 @@ import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     AnimatorSet set;
+    SharedPreferences pref;
+    SharedPreferences.Editor prefEditor;
+    int newScore;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,7 +50,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         set.setTarget(findViewById(R.id.answer));
         // 起動時に関数を呼び出す
         setQuestionValue();
+
+        pref = getSharedPreferences("memorizeScore", MODE_PRIVATE);
+        prefEditor = pref.edit();
     }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.volume_setting) {
+            return true;
+        } else if (id == R.id.vibration_setting) {
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
 
     @Override
     public void onClick(View view) {
@@ -63,6 +93,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             clearScoreValue();
         }
 
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Toast.makeText(this, "onPause", Toast.LENGTH_SHORT).show();
+
+        String textScore = Integer.toString(newScore);
+        prefEditor.putString("preScore", textScore);
+        prefEditor.commit();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        TextView scoreText = (TextView) findViewById(R.id.text_score);
+
+        int preScore = pref.getInt("preScore", 0);
+        scoreText.setText(String.valueOf(preScore));
     }
 
     private void clearAnswerValue() {
@@ -160,7 +210,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void setScore(int score) {
         TextView txtScore = (TextView) findViewById(R.id.text_score);
-        int newScore = Integer.parseInt(txtScore.getText().toString()) + score;
+        newScore = Integer.parseInt(txtScore.getText().toString()) + score;
         txtScore.setText(Integer.toString(newScore));
     }
 
