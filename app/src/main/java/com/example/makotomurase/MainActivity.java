@@ -2,6 +2,7 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
@@ -13,6 +14,18 @@ import android.widget.Toast;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        saveScoreValue();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        saveScoreValue();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +43,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // 起動時に関数を呼び出す
         setQuestionValue();
+        setSaveScoreValue();
     }
 
     @Override
@@ -154,5 +168,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView txtScore = (TextView) findViewById(R.id.text_score);
         txtScore.setText("0");
     }
+
+    private void saveScoreValue() {
+        TextView txtScore = (TextView) findViewById(R.id.text_score);
+        String saveScore=txtScore.getText().toString();
+
+        SharedPreferences sp = getSharedPreferences("saveScore",MODE_PRIVATE);
+        SharedPreferences.Editor loadScore = sp.edit();
+        loadScore.putString("saveScore",saveScore);
+        loadScore.commit();
+
+
+    }
+    private void setSaveScoreValue() {
+        SharedPreferences score = getSharedPreferences("saveScore",MODE_PRIVATE);
+        String saveScore = score.getString("saveScore","0");
+        SharedPreferences.Editor loadScore = score.edit();
+        TextView txtScore = (TextView) findViewById(R.id.text_score);
+        txtScore.setText(saveScore);
+
+
+    }
+
 }
 
