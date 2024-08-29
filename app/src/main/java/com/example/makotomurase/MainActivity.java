@@ -1,23 +1,47 @@
 package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.res.ResourcesCompat;
 
+import android.animation.ValueAnimator;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.ScaleAnimation;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-
+import android.graphics.Color;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
+    TextView textView_question;
+    TextView textView_answer;
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        saveScoreValue();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        saveScoreValue();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        textView_question = findViewById(R.id.question);
+        textView_answer = findViewById(R.id.answer);
 
         Button btn1 = findViewById(R.id.button1);
         btn1.setOnClickListener(this);
@@ -30,7 +54,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // 起動時に関数を呼び出す
         setQuestionValue();
+        setSaveScoreValue();
     }
+
+    public void blinkText(TextView textView_question, long duration, long offset){
+        Animation anm = new AlphaAnimation(0.0f, 1.0f);
+        anm.setDuration(duration);
+        anm.setStartOffset(offset);
+        anm.setRepeatCount(1);
+        textView_question.startAnimation(anm);
+    }
+
+    public void blinkText1(TextView textView_answer, long duration, long offset){
+        Animation anm = new AlphaAnimation(0.0f, 1.0f);
+        anm.setDuration(duration);
+        anm.setStartOffset(offset);
+        anm.setRepeatCount(1);
+        textView_answer.startAnimation(anm);
+    }
+
 
     @Override
     public void onClick(View view) {
@@ -53,6 +95,49 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             long vibratePattern[] = {500, 1000, 500, 1000};
             vib.vibrate(vibratePattern, -1);
         }
+
+        TextView txtViewQuestion = findViewById(R.id.question);
+        TextView txtViewAnswer = findViewById(R.id.answer);
+
+        txtViewQuestion.getText();
+        String str=String.valueOf(txtViewQuestion.getText());
+        txtViewAnswer.getText();
+        String str2=String.valueOf(txtViewAnswer.getText());
+
+        int num=Integer.parseInt(str);
+        int num2=Integer.parseInt(str2);
+
+            //Highの時
+        if (id==R.id.button1) {
+            if (num > num2) {
+                txtViewQuestion.setBackgroundColor(Color.GREEN);
+                txtViewAnswer.setBackgroundColor(Color.GRAY);
+            }
+            else if (num < num2) {
+                txtViewQuestion.setBackgroundColor(Color.GRAY);
+                txtViewAnswer.setBackgroundColor(Color.GREEN);
+            }
+            else {
+                txtViewQuestion.setBackgroundColor(Color.WHITE);
+                txtViewAnswer.setBackgroundColor(Color.WHITE);
+            }
+        }
+            //Lowの時
+        else if(id==R.id.button2){
+            if (num < num2) {
+                txtViewQuestion.setBackgroundColor(Color.GREEN);
+                txtViewAnswer.setBackgroundColor(Color.GRAY);
+            }
+            else if (num > num2) {
+                txtViewQuestion.setBackgroundColor(Color.GRAY);
+                txtViewAnswer.setBackgroundColor(Color.GREEN);
+            }
+            else {
+                txtViewQuestion.setBackgroundColor(Color.WHITE);
+                txtViewAnswer.setBackgroundColor(Color.WHITE);
+            }
+        }
+
     }
 
     //koko
@@ -98,23 +183,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = getString(R.string.toast_win);
                 score = 2;
+                blinkText(textView_question, 500, 500);
             } else if (question > answer) {
                 result = getString(R.string.toast_lose);
                 score = -1;
+                blinkText(textView_answer, 500, 500);
             } else {
                 result = getString(R.string.toast_draw);
                 score = 1;
+                blinkText(textView_question, 500, 500);
+                blinkText(textView_answer, 500, 500);
             }
         } else {
             if (question > answer) {
                 result = getString(R.string.toast_win);
                 score = 2;
+                blinkText(textView_question, 500, 500);
             } else if (question < answer) {
                 result = getString(R.string.toast_lose);
                 score = -1;
+                blinkText(textView_answer, 500, 500);
             } else {
                 result = getString(R.string.toast_draw);
                 score = 1;
+                blinkText(textView_question, 500, 500);
+                blinkText(textView_answer, 500, 500);
             }
         }
 
@@ -132,6 +225,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setNextQuestion();
         // スコアを表示
         setScore(score);
+
     }
 
     private void setNextQuestion() {
@@ -166,5 +260,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         tvResult.setText("");
         tvScore.setText("0");
     }
+
+    private void saveScoreValue() {
+        TextView txtScore = (TextView) findViewById(R.id.text_score);
+        String saveScore=txtScore.getText().toString();
+
+        SharedPreferences sp = getSharedPreferences("saveScore",MODE_PRIVATE);
+        SharedPreferences.Editor loadScore = sp.edit();
+        loadScore.putString("saveScore",saveScore);
+        loadScore.commit();
+
+
+    }
+    private void setSaveScoreValue() {
+        SharedPreferences score = getSharedPreferences("saveScore",MODE_PRIVATE);
+        String saveScore = score.getString("saveScore","0");
+        SharedPreferences.Editor loadScore = score.edit();
+        TextView txtScore = (TextView) findViewById(R.id.text_score);
+        txtScore.setText(saveScore);
+
+
+    }
+
 }
 
