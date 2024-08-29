@@ -15,7 +15,7 @@ import android.view.animation.ScaleAnimation;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-
+import android.graphics.Color;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -73,6 +73,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         textView_answer.startAnimation(anm);
     }
 
+
     @Override
     public void onClick(View view) {
         int id = view.getId();
@@ -94,6 +95,49 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             long vibratePattern[] = {500, 1000, 500, 1000};
             vib.vibrate(vibratePattern, -1);
         }
+
+        TextView txtViewQuestion = findViewById(R.id.question);
+        TextView txtViewAnswer = findViewById(R.id.answer);
+
+        txtViewQuestion.getText();
+        String str=String.valueOf(txtViewQuestion.getText());
+        txtViewAnswer.getText();
+        String str2=String.valueOf(txtViewAnswer.getText());
+
+        int num=Integer.parseInt(str);
+        int num2=Integer.parseInt(str2);
+
+            //Highの時
+        if (id==R.id.button1) {
+            if (num > num2) {
+                txtViewQuestion.setBackgroundColor(Color.GREEN);
+                txtViewAnswer.setBackgroundColor(Color.GRAY);
+            }
+            else if (num < num2) {
+                txtViewQuestion.setBackgroundColor(Color.GRAY);
+                txtViewAnswer.setBackgroundColor(Color.GREEN);
+            }
+            else {
+                txtViewQuestion.setBackgroundColor(Color.WHITE);
+                txtViewAnswer.setBackgroundColor(Color.WHITE);
+            }
+        }
+            //Lowの時
+        else if(id==R.id.button2){
+            if (num < num2) {
+                txtViewQuestion.setBackgroundColor(Color.GREEN);
+                txtViewAnswer.setBackgroundColor(Color.GRAY);
+            }
+            else if (num > num2) {
+                txtViewQuestion.setBackgroundColor(Color.GRAY);
+                txtViewAnswer.setBackgroundColor(Color.GREEN);
+            }
+            else {
+                txtViewQuestion.setBackgroundColor(Color.WHITE);
+                txtViewAnswer.setBackgroundColor(Color.WHITE);
+            }
+        }
+
     }
 
     private void clearAnswerValue() {
@@ -173,6 +217,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setNextQuestion();
         // スコアを表示
         setScore(score);
+
     }
 
     private void setNextQuestion() {
