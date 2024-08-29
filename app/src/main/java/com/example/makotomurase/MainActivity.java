@@ -14,6 +14,7 @@ import android.widget.Toast;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+    private CountDownTimer cdt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -169,19 +170,60 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         vib.vibrate(500);
     }
 
-    public void changeBackgroundColor_Win(){
+    public void changeBackgroundColor_Win() {
+        TextView questiontextView = findViewById(R.id.question);
         TextView answertextView = findViewById(R.id.answer);
-        answertextView.setBackgroundColor(Color.RED);
+        cdt = new CountDownTimer(2000, 1500) {
+            @Override
+            public void onTick(long l) {
+                questiontextView.setBackgroundColor(Color.BLUE);
+                answertextView.setBackgroundColor(Color.RED);
+            }
+
+            @Override
+            public void onFinish() {
+                questiontextView.setBackgroundColor(Color.rgb(255, 0, 255));
+                answertextView.setBackgroundColor(Color.YELLOW);
+            }
+        }.start();
     }
 
     public void changeBackgroundColor_Lose(){
+        TextView questiontextView = findViewById(R.id.question);
         TextView answertextView = findViewById(R.id.answer);
-        answertextView.setBackgroundColor(Color.BLUE);
+        cdt = new CountDownTimer(2000,1500) {
+            @Override
+            public void onTick(long l) {
+                questiontextView.setBackgroundColor(Color.RED);
+                answertextView.setBackgroundColor(Color.BLUE);
+            }
+
+            @Override
+            public void onFinish() {
+                questiontextView.setBackgroundColor(Color.rgb(255,0,255));
+                answertextView.setBackgroundColor(Color.YELLOW);
+            }
+        }.start();
+
+
     }
 
-    public void changeBackgroundColor_Draw(){
+    public void changeBackgroundColor_Draw() {
+        TextView questiontextView = findViewById(R.id.question);
         TextView answertextView = findViewById(R.id.answer);
-        answertextView.setBackgroundColor(Color.rgb(255,0,255));
+        cdt = new CountDownTimer(2000, 1500) {
+            @Override
+            public void onTick(long l) {
+                questiontextView.setBackgroundColor(Color.GRAY);
+                answertextView.setBackgroundColor(Color.GRAY);
+            }
+
+            @Override
+            public void onFinish() {
+                questiontextView.setBackgroundColor(Color.rgb(255, 0, 255));
+                answertextView.setBackgroundColor(Color.YELLOW);
+            }
+        }.start();
     }
 
     public void ResetColor(){
