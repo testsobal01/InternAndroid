@@ -39,11 +39,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setQuestionValue();
         sharedPref = getSharedPreferences("score", Context.MODE_PRIVATE);
         editor = sharedPref.edit();
-
-        score = sharedPref.getInt("score", 0);
-        setScore(score);
-
     }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        TextView txtScore = (TextView) findViewById(R.id.text_score);
+        txtScore.setText(String.valueOf(sharedPref.getInt("score", 0)));
+    }
+
 
     @Override
     public void onClick(View view) {
@@ -152,10 +161,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // スコアを表示
         setScore(score);
 
-
-        editor.putInt("score", score);
-        editor.apply();
-
     }
 
 
@@ -181,6 +186,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView txtScore = (TextView) findViewById(R.id.text_score);
         int newScore = Integer.parseInt(txtScore.getText().toString()) + score;
         txtScore.setText(Integer.toString(newScore));
+        editor.putInt("score", newScore);
+        editor.commit();
     }
 
     private void clearScoreValue() {
