@@ -4,6 +4,7 @@
     <string name="btn_low">Low</string>
     <string name="btn_restart">Restart</string>
     <string name="abc_score">ABCScore：</string>
-    <string name="label_score">ScoreAAAAAAA：</string>
-    <string name="label_score">ScoreGGGG：</string>
+    <string name="XXXlabel_score">XXXScore：</string>
+    <string name="YYYlabel_score">YYYScore：</string>
+    <string name="ZZZlabel_score">ZZZScore：</string>
 </resources>
