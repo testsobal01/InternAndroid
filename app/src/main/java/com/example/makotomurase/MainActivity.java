@@ -3,9 +3,6 @@ package com.example.makotomurase;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.ViewCompat;
 
-import android.animation.AnimatorInflater;
-import android.animation.AnimatorSet;
-import android.animation.ValueAnimator;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
@@ -39,7 +36,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // 起動時に関数を呼び出す
         setQuestionValue();
-
     }
 
     @Override
@@ -101,11 +97,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = "WIN";
                 score = 2;
-                setAnimationTextView(txtViewAnswer);
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
-                setAnimationTextView(txtViewQuestion);
             } else {
                 result = "DRAW";
                 score = 1;
@@ -114,11 +108,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question > answer) {
                 result = "WIN";
                 score = 2;
-                setAnimationTextView(txtViewQuestion);
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
-                setAnimationTextView(txtViewAnswer);
             } else {
                 result = "DRAW";
                 score = 1;
@@ -163,13 +155,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void clearScoreValue() {
         TextView txtScore = (TextView) findViewById(R.id.text_score);
         txtScore.setText("0");
-    }
-
-    private void setAnimationTextView(TextView textView){
-        AnimatorSet set = (AnimatorSet) AnimatorInflater.loadAnimator(MainActivity.this,R.animator.expansion);
-        set.setTarget(textView);
-
-        set.start();
     }
 }
 
