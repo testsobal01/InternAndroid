@@ -1,13 +1,11 @@
 package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.view.ViewCompat;
 
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -15,16 +13,11 @@ import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    SoundPlayer soundPlayer;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        soundPlayer = new SoundPlayer(this);
         Button btn1 = findViewById(R.id.button1);
         btn1.setOnClickListener(this);
 
@@ -42,15 +35,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View view) {
         int id = view.getId();
         if (id == R.id.button1) {
-            soundPlayer.playHitSound();
             setAnswerValue();
             checkResult(true);
         } else if (id == R.id.button2) {
-            soundPlayer.playHitSound();
             setAnswerValue();
             checkResult(false);
         } else if (id == R.id.button3) {
-            soundPlayer.playOverSound();
             setQuestionValue();
             clearAnswerValue();
             clearScoreValue();
@@ -91,6 +81,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // 結果を示す文字列を入れる変数を用意
         String result;
         int score;
+
         // Highが押された
         if (isHigh) {
             // result には結果のみを入れる
@@ -115,7 +106,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 result = "DRAW";
                 score = 1;
             }
-
         }
 
         // 最後にまとめてToast表示の処理とTextViewへのセットを行う
