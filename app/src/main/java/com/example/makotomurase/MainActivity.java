@@ -2,6 +2,7 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
@@ -12,6 +13,12 @@ import android.widget.Toast;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
+    /**
+     * score用のpreference
+     */
+    SharedPreferences pref;
+    SharedPreferences.Editor preEditer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,8 +34,32 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
 
+        //preferenceのインスタンスを生成
+        pref = getSharedPreferences("AndroidSeminor",MODE_PRIVATE);
+        preEditer = pref.edit();
+
         // 起動時に関数を呼び出す
         setQuestionValue();
+    }
+
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        TextView textScore = (TextView) findViewById(R.id.text_score);
+        int nowScore = Integer.parseInt(textScore.getText().toString()); // 現時点のスコアを入手
+        preEditer.putInt("score",nowScore);// スコアを保存
+        preEditer.commit();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        //もともとのスコアを呼び出す
+        TextView textScore = (TextView) findViewById(R.id.text_score);
+        textScore.setText(String.valueOf(pref.getInt("score",0)));
     }
 
     @Override
