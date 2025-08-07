@@ -29,6 +29,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // 起動時に関数を呼び出す
         setQuestionValue();
+
+        Button button1 = findViewById(R.id.button1);
+        button1.setBackground(getResources().getDrawable(R.drawable.button_background, null));
+
+        Button button2 = findViewById(R.id.button2);
+        button2.setBackground(getResources().getDrawable(R.drawable.button_background, null));
+
+        Button button3 = findViewById(R.id.button3);
+        button3.setBackground(getResources().getDrawable(R.drawable.button_background, null));
     }
 
     @Override
@@ -146,5 +155,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView txtScore = (TextView) findViewById(R.id.text_score);
         txtScore.setText("0");
     }
+
+
+
+
 }
 
