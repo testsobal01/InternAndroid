@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Vibrator;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -22,6 +23,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Vibrator vib=(Vibrator)getSystemService(VIBRATOR_SERVICE);
+        long[] pattern = {10, 100,150,400,100,150};
+        vib.vibrate(pattern,-1);
         Button btn1 = findViewById(R.id.button1);
         btn1.setOnClickListener(this);
 
@@ -61,16 +65,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View view) {
         int id = view.getId();
+        Vibrator vib=(Vibrator)getSystemService(VIBRATOR_SERVICE);
+
+        long[] pattern = {0, 500,150,100,150,100};
         if (id == R.id.button1) {
             setAnswerValue();
             checkResult(true);
+           // vib.vibrate(1000);
         } else if (id == R.id.button2) {
             setAnswerValue();
             checkResult(false);
+           // vib.vibrate(3000);
         } else if (id == R.id.button3) {
             setQuestionValue();
             clearAnswerValue();
             clearScoreValue();
+            vib.vibrate(pattern,-1);
+
+
         }
     }
 
@@ -99,7 +111,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void checkResult(boolean isHigh) {
         TextView txtViewQuestion = findViewById(R.id.question);
         TextView txtViewAnswer = findViewById(R.id.answer);
-
+        Vibrator v=(Vibrator)getSystemService(VIBRATOR_SERVICE);
+        long[] pattern = {0, 200, 40,450};
+        int i=300;
+        long[] pattern2={0,300,50,200};
         int question = Integer.parseInt(txtViewQuestion.getText().toString());
         int answer = Integer.parseInt(txtViewAnswer.getText().toString());
 
@@ -115,23 +130,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = "WIN";
                 score = 2;
+                v.vibrate(pattern2,-1);
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
+                v.vibrate(pattern,-1);
             } else {
                 result = "DRAW";
                 score = 1;
+                v.vibrate(i);
             }
         } else {
             if (question > answer) {
                 result = "WIN";
                 score = 2;
+                v.vibrate(pattern2,-1);
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
+                v.vibrate(pattern,-1);
             } else {
                 result = "DRAW";
                 score = 1;
+                v.vibrate(i);
             }
         }
 
