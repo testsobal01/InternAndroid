@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="btn_high">高</string>
+    <string name="btn_low">低</string>
+    <string name="btn_restart">再起動</string>
+    <string name="label_score">スコア：</string>
+    <string name="text_10">10が設定されています。</string>
+    <string name="value">値2</string>
+    <string name="result">結果</string>
+    <string name="w_result">勝ち</string>
+    <string name="l_result">負け</string>
+    <string name="d_result">引き分け</string>
+</resources>
