@@ -2,6 +2,7 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
@@ -17,6 +18,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        final View layout = findViewById(R.id.answer);
+        layout.setBackgroundColor(Color.YELLOW);
 
         Button btn1 = findViewById(R.id.button1);
         btn1.setOnClickListener(this);
@@ -82,27 +85,36 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         String result;
         int score;
 
+        View layout = findViewById(R.id.answer);
         // Highが押された
         if (isHigh) {
+//            setContentView(R.layout.activity_main);
+
             // result には結果のみを入れる
             if (question < answer) {
+                layout.setBackgroundColor(Color.RED);
                 result = "WIN";
                 score = 2;
             } else if (question > answer) {
+                layout.setBackgroundColor(Color.BLUE);
                 result = "LOSE";
                 score = -1;
             } else {
+                layout.setBackgroundColor(Color.YELLOW);
                 result = "DRAW";
                 score = 1;
             }
         } else {
             if (question > answer) {
+                layout.setBackgroundColor(Color.RED);
                 result = "WIN";
                 score = 2;
             } else if (question < answer) {
+                layout.setBackgroundColor(Color.BLUE);
                 result = "LOSE";
                 score = -1;
             } else {
+                layout.setBackgroundColor(Color.YELLOW);
                 result = "DRAW";
                 score = 1;
             }
