@@ -34,6 +34,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // 起動時に関数を呼び出す
         setQuestionValue();
 
+        btn1.setBackground(getResources().getDrawable(R.drawable.button_background, null));
+        btn2.setBackground(getResources().getDrawable(R.drawable.button_background, null));
+        btn3.setBackground(getResources().getDrawable(R.drawable.button_background, null));
         pref = getSharedPreferences("TeamPrif", MODE_PRIVATE);
         prefEditor = pref.edit();
     }
@@ -52,7 +55,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView txtScore = (TextView) findViewById(R.id.text_score);
         String readText = pref.getString("main_input", "0");
         txtScore.setText(readText);
-
     }
 
     @Override
@@ -185,5 +187,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView txtScore = (TextView) findViewById(R.id.text_score);
         txtScore.setText("0");
     }
+
+
+
+
 }
 
