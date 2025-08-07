@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.media.AudioManager;
 import android.media.SoundPool;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
@@ -18,6 +19,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private SoundPool sndPool;
     private int snd1, snd2, snd3, snd4;
+    SharedPreferences pref;
+    SharedPreferences.Editor prefEditor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +44,46 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // 起動時に関数を呼び出す
         setQuestionValue();
+
+        pref = getSharedPreferences("AndroidSeminor", MODE_PRIVATE);
+        prefEditor = pref.edit();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        //プリファレンスにスコア保存
+        TextView textView = (TextView)findViewById(R.id.text_score);
+        prefEditor.putString("score_input", textView.getText().toString());
+        prefEditor.commit();
+
+        //プリファレンスにハイスコア保存
+        TextView textView2 = (TextView)findViewById(R.id.text_high_score);
+        prefEditor.putString("high_score_input", textView2.getText().toString());
+        prefEditor.commit();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        //プリファレンスからスコア読み込み
+        TextView textView = (TextView) findViewById(R.id.text_score);
+        String readText = pref.getString("score_input", "保存されていません");
+        textView.setText(readText);
+
+        //プリファレンスからハイスコア読み込み
+        TextView textView2 = (TextView) findViewById(R.id.text_high_score);
+        String readText2 = pref.getString("high_score_input", "保存されていません");
+        textView2.setText(readText2);
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Toast.makeText(this, "onDestroy", Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -132,7 +175,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // 最後にまとめてToast表示の処理とTextViewへのセットを行う
         Toast.makeText(this, result, Toast.LENGTH_LONG).show();
-        txtResult.setText("結果：" + question + ":" + answer + "(" + result + ")");
+        String Result = getString(R.string.Result);
+        txtResult.setText(Result +":" + question + ":" + answer + "(" + result + ")");
 
         // 続けて遊べるように値を更新
         setNextQuestion();
@@ -159,9 +203,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void setScore(int score) {
+        //スコア計算
         TextView txtScore = (TextView) findViewById(R.id.text_score);
         int newScore = Integer.parseInt(txtScore.getText().toString()) + score;
         txtScore.setText(Integer.toString(newScore));
+
+        //ハイスコア計算
+        TextView txtHighScore = (TextView) findViewById(R.id.text_high_score);
+        int newHighScore = Math.max(Integer.parseInt(txtHighScore.getText().toString()), newScore);
+        txtHighScore.setText(Integer.toString(newHighScore));
     }
 
     private void clearScoreValue() {
@@ -179,4 +229,3 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         vib.vibrate(100);
     }
 }
-
