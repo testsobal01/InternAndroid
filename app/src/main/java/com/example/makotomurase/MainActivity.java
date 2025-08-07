@@ -18,6 +18,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+//        Intent intent = getIntent();
+//        Bundle extra = intent.getExtras();
+//        String intentString = extra.getString("KEY");
+//
+//        TextView textView = (TextView)findViewById(R.id.start_button);
+
         Button btn1 = findViewById(R.id.button1);
         btn1.setOnClickListener(this);
 
