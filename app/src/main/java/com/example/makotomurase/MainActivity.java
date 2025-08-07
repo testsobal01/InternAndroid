@@ -2,6 +2,7 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.SharedPreferences;
 import android.media.AudioAttributes;
 import android.media.AudioManager;
 import android.media.SoundPool;
@@ -18,6 +19,11 @@ import android.widget.Toast;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
+
+
+    SharedPreferences pref;
+    SharedPreferences.Editor prefEditor;
 
     SoundPool soundPool;    // 効果音を鳴らす本体（コンポ）
     int mp3c,mp3r,mp3w,mp3l,mp3d;          // 効果音データ（mp3）
@@ -65,6 +71,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mp3w = soundPool.load(this, R.raw.winner, 1);
         mp3l = soundPool.load(this, R.raw.loser, 1);
         mp3d = soundPool.load(this, R.raw.draw, 1);
+
+        pref = getSharedPreferences("SCORE",MODE_PRIVATE);
+        prefEditor = pref.edit();
     }
 
     public void winner(){
@@ -88,6 +97,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         soundPool.play(mp3r,1f , 1f, 0, 0, 1f);
         //(再生ファイル指定[mp3a],左右ボリューム[1f,1f],優先順位[0],ループ回数-1で無制限[0],再生速度[1f:通常,2f:倍速])
     }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Toast.makeText(this,"OnPause",Toast.LENGTH_SHORT).show();
+
+        TextView text = (TextView) findViewById(R.id.text_score);
+
+        prefEditor.putString("main_input",text.getText().toString());
+        prefEditor.commit();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Toast.makeText(this,"OnResume",Toast.LENGTH_SHORT).show();
+
+        TextView text =  (TextView) findViewById(R.id.text_score);
+
+        String readText = pref.getString("main_input","保存されていません");
+        text.setText(readText);
+    }
+
 
     @Override
     public void onClick(View view) {
