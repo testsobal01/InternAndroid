@@ -33,11 +33,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
 
-        sndPool=new SoundPool(3, AudioManager.STREAM_MUSIC, 0);
-        snd1=sndPool.load(this, R.raw.win, 1);
-        snd2=sndPool.load(this, R.raw.lose, 1);
-        snd3=sndPool.load(this, R.raw.restart, 1);
-        snd4=sndPool.load(this, R.raw.draw, 1);
+        sndPool = new SoundPool(4, AudioManager.STREAM_MUSIC, 0);
+        snd1 = sndPool.load(this, R.raw.win, 1);
+        snd2 = sndPool.load(this, R.raw.lose, 1);
+        snd3 = sndPool.load(this, R.raw.restart, 1);
+        snd4 = sndPool.load(this, R.raw.draw, 1);
 
         // 起動時に関数を呼び出す
         setQuestionValue();
