@@ -2,6 +2,7 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
@@ -44,6 +45,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             setQuestionValue();
             clearAnswerValue();
             clearScoreValue();
+
+            TextView txtViewAnswer = findViewById(R.id.answer);
+            txtViewAnswer.setBackgroundColor(Color.rgb(255,255,0));
         }
     }
 
@@ -88,23 +92,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = "WIN";
                 score = 2;
+                txtViewAnswer.setBackgroundColor(Color.rgb(255,69,0));
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
+                txtViewAnswer.setBackgroundColor(Color.rgb(65,105,225));
             } else {
                 result = "DRAW";
                 score = 1;
+                txtViewAnswer.setBackgroundColor(Color.rgb(220,220,220));
             }
         } else {
             if (question > answer) {
                 result = "WIN";
                 score = 2;
+                txtViewAnswer.setBackgroundColor(Color.rgb(255,69,0));
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
+                txtViewAnswer.setBackgroundColor(Color.rgb(65,105,225));
             } else {
                 result = "DRAW";
                 score = 1;
+                txtViewAnswer.setBackgroundColor(Color.rgb(220,220,220));
             }
         }
 
