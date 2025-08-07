@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">YasuakiGotou</string>
+    <string name="btn_high">高い</string>
+    <string name="btn_low">低い</string>
+    <string name="btn_restart">リスタート</string>
+    <string name="label_score">スコア：</string>
+    <string name="set_10">10が設定されています。</string>
+    <string name="price">値２</string>
+    <string name="text_result">結果</string>
+    <string name="text_result_win">勝ち</string>
+    <string name="text_result_lose">負け</string>
+    <string name="text_result_draw">引き分け</string>
+
+
+</resources>
