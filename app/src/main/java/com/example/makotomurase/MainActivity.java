@@ -3,9 +3,13 @@ package com.example.makotomurase;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -13,6 +17,12 @@ import android.widget.Toast;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
+    /**
+     * score用のpreference
+     */
+    SharedPreferences pref;
+    SharedPreferences.Editor preEditer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,8 +43,32 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
 
+        //preferenceのインスタンスを生成
+        pref = getSharedPreferences("AndroidSeminor",MODE_PRIVATE);
+        preEditer = pref.edit();
+
         // 起動時に関数を呼び出す
         setQuestionValue();
+    }
+
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        TextView textScore = (TextView) findViewById(R.id.text_score);
+        int nowScore = Integer.parseInt(textScore.getText().toString()); // 現時点のスコアを入手
+        preEditer.putInt("score",nowScore);// スコアを保存
+        preEditer.commit();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        //もともとのスコアを呼び出す
+        TextView textScore = (TextView) findViewById(R.id.text_score);
+        textScore.setText(String.valueOf(pref.getInt("score",0)));
     }
 
     @Override
@@ -50,6 +84,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             setQuestionValue();
             clearAnswerValue();
             clearScoreValue();
+
+            TextView txtViewAnswer = findViewById(R.id.answer);
+            txtViewAnswer.setBackgroundColor(Color.rgb(255,255,0));
         }
     }
 
@@ -94,29 +131,36 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = "WIN";
                 score = 2;
+                txtViewAnswer.setBackgroundColor(Color.rgb(255,69,0));
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
+                txtViewAnswer.setBackgroundColor(Color.rgb(65,105,225));
             } else {
                 result = "DRAW";
                 score = 1;
+                txtViewAnswer.setBackgroundColor(Color.rgb(220,220,220));
             }
         } else {
             if (question > answer) {
                 result = "WIN";
                 score = 2;
+                txtViewAnswer.setBackgroundColor(Color.rgb(255,69,0));
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
+                txtViewAnswer.setBackgroundColor(Color.rgb(65,105,225));
             } else {
                 result = "DRAW";
                 score = 1;
+                txtViewAnswer.setBackgroundColor(Color.rgb(220,220,220));
             }
         }
 
         // 最後にまとめてToast表示の処理とTextViewへのセットを行う
         Toast.makeText(this, result, Toast.LENGTH_LONG).show();
         txtResult.setText("結果：" + question + ":" + answer + "(" + result + ")");
+        valueAnimation(result);
 
         // 続けて遊べるように値を更新
         setNextQuestion();
@@ -124,6 +168,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setScore(score);
     }
 
+    /**
+     * 結果に応じて数値をアニメーションする
+     * @param result 結果
+     */
+    private void valueAnimation (String result){
+        /** アニメーションの対象となるtextview */
+        TextView target;
+        /** animationを定義したxmlファイルの読み込み */
+        Animation animation = AnimationUtils.loadAnimation(this, R.anim.value_animater);
+
+        if(result.equals("WIN")){
+            target = (TextView) findViewById(R.id.answer);
+        }else if(result.equals("LOSE")){
+            target = (TextView) findViewById(R.id.question);
+        }else{
+            return;
+        }
+
+        //TODO: 一通り終わったらこだわる。背景色も回転してしまうので時間があれば修正
+        target.startAnimation(animation); //アニメーションを実行
+
+    }
     private void setNextQuestion() {
         // 第１引数がカウントダウン時間、第２引数は途中経過を受け取る間隔
         // 単位はミリ秒（1秒＝1000ミリ秒）
