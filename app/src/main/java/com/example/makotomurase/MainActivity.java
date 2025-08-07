@@ -2,8 +2,10 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Vibrator;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -12,6 +14,8 @@ import android.widget.Toast;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+    SharedPreferences pref;
+    SharedPreferences.Editor prefEditor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,14 +34,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // 起動時に関数を呼び出す
         setQuestionValue();
 
-        Button button1 = findViewById(R.id.button1);
-        button1.setBackground(getResources().getDrawable(R.drawable.button_background, null));
+        btn1.setBackground(getResources().getDrawable(R.drawable.button_background, null));
+        btn2.setBackground(getResources().getDrawable(R.drawable.button_background, null));
+        btn3.setBackground(getResources().getDrawable(R.drawable.button_background, null));
+        pref = getSharedPreferences("TeamPrif", MODE_PRIVATE);
+        prefEditor = pref.edit();
+    }
 
-        Button button2 = findViewById(R.id.button2);
-        button2.setBackground(getResources().getDrawable(R.drawable.button_background, null));
+    @Override
+    protected void onPause() {
+        super.onPause();
+        TextView txtScore = (TextView) findViewById(R.id.text_score);
+        prefEditor.putString("main_input", txtScore.getText().toString());
+        prefEditor.commit();
+    }
 
-        Button button3 = findViewById(R.id.button3);
-        button3.setBackground(getResources().getDrawable(R.drawable.button_background, null));
+    @Override
+    protected void onResume() {
+        super.onResume();
+        TextView txtScore = (TextView) findViewById(R.id.text_score);
+        String readText = pref.getString("main_input", "0");
+        txtScore.setText(readText);
     }
 
     @Override
@@ -46,6 +63,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (id == R.id.button1) {
             setAnswerValue();
             checkResult(true);
+
         } else if (id == R.id.button2) {
             setAnswerValue();
             checkResult(false);
@@ -54,6 +72,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             clearAnswerValue();
             clearScoreValue();
         }
+
     }
 
     private void clearAnswerValue() {
@@ -97,23 +116,36 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = "WIN";
                 score = 2;
+                Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+                vibrator.vibrate(300);
+
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
+                Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+                vibrator.vibrate(new long[]{0,200, 100,1000}, -1);
             } else {
                 result = "DRAW";
                 score = 1;
+                Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+                vibrator.vibrate(new long[]{0,200, 100,1000}, -1);
             }
         } else {
             if (question > answer) {
                 result = "WIN";
                 score = 2;
+                Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+                vibrator.vibrate(300);
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
+                Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+                vibrator.vibrate(new long[]{0,200, 100,1000}, -1);
             } else {
                 result = "DRAW";
                 score = 1;
+                Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+                vibrator.vibrate(new long[]{0,200, 100,1000}, -1);
             }
         }
 
