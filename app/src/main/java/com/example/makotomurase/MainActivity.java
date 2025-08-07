@@ -54,6 +54,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void clearAnswerValue() {
         TextView txtView = (TextView) findViewById(R.id.answer);
+        View layout = findViewById(R.id.answer);
+        layout.setBackgroundColor(Color.YELLOW);
         txtView.setText("値2");
     }
 
