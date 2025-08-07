@@ -2,6 +2,8 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.media.AudioManager;
+import android.media.SoundPool;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -15,6 +17,8 @@ import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
+    private SoundPool sndPool;
+    private int snd1, snd2, snd3, snd4;
     SharedPreferences pref;
     SharedPreferences.Editor prefEditor;
 
@@ -31,6 +35,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
+
+        sndPool = new SoundPool(4, AudioManager.STREAM_MUSIC, 0);
+        snd1 = sndPool.load(this, R.raw.win, 1);
+        snd2 = sndPool.load(this, R.raw.lose, 1);
+        snd3 = sndPool.load(this, R.raw.restart, 1);
+        snd4 = sndPool.load(this, R.raw.draw, 1);
 
         // 起動時に関数を呼び出す
         setQuestionValue();
@@ -86,10 +96,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             setAnswerValue();
             checkResult(false);
         } else if (id == R.id.button3) {
+            sndPool.play(snd3, 1.0f, 1.0f, 0, 0, 1);
             setQuestionValue();
             clearAnswerValue();
             clearScoreValue();
-            ResetVibrate();
+            RestartVibrate();
         }
     }
 
@@ -134,25 +145,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = "WIN";
                 score = 2;
+                sndPool.play(snd1, 1.0f, 1.0f, 0, 0, 1);
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
+                sndPool.play(snd2, 1.0f, 1.0f, 0, 0, 1);
                 LoseVibrate();
             } else {
                 result = "DRAW";
                 score = 1;
+                sndPool.play(snd4, 1.0f, 1.0f, 0, 0, 1);
             }
         } else {
             if (question > answer) {
                 result = "WIN";
                 score = 2;
+                sndPool.play(snd1, 1.0f, 1.0f, 0, 0, 1);
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
+                sndPool.play(snd2, 1.0f, 1.0f, 0, 0, 1);
                 LoseVibrate();
             } else {
                 result = "DRAW";
                 score = 1;
+                sndPool.play(snd4, 1.0f, 1.0f, 0, 0, 1);
             }
         }
 
@@ -207,7 +224,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         vib.vibrate(300);
     }
 
-    private void ResetVibrate() {
+    private void RestartVibrate() {
         Vibrator vib = (Vibrator) getSystemService(VIBRATOR_SERVICE);
         vib.vibrate(100);
     }
