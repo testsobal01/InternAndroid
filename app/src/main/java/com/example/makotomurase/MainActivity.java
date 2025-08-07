@@ -6,8 +6,10 @@ import android.media.AudioAttributes;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.Build;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Vibrator;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -23,6 +25,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        final View layout = findViewById(R.id.answer);
+        layout.setBackgroundColor(Color.YELLOW);
 
         Button btn1 = findViewById(R.id.button1);
         btn1.setOnClickListener(this);
@@ -96,6 +100,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             clearScoreValue();
             onR();
         }
+
     }
 
     private void clearAnswerValue() {
@@ -133,32 +138,45 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         String result;
         int score;
 
+        View layout = findViewById(R.id.answer);
         // Highが押された
         if (isHigh) {
+//            setContentView(R.layout.activity_main);
+
             // result には結果のみを入れる
             if (question < answer) {
+                layout.setBackgroundColor(Color.RED);
                 result = "WIN";
                 score = 2;
                 winner();
+                Vibrator vib= (Vibrator) getSystemService(VIBRATOR_SERVICE);
+               vib.vibrate(500);
             } else if (question > answer) {
+                layout.setBackgroundColor(Color.BLUE);
                 result = "LOSE";
                 score = -1;
                 loser();
             } else {
+                layout.setBackgroundColor(Color.YELLOW);
                 result = "DRAW";
                 score = 1;
                 draw();
             }
         } else {
             if (question > answer) {
+                layout.setBackgroundColor(Color.RED);
                 result = "WIN";
                 score = 2;
                 winner();
+                Vibrator vib= (Vibrator) getSystemService(VIBRATOR_SERVICE);
+                vib.vibrate(500);
             } else if (question < answer) {
+                layout.setBackgroundColor(Color.BLUE);
                 result = "LOSE";
                 score = -1;
                 loser();
             } else {
+                layout.setBackgroundColor(Color.YELLOW);
                 result = "DRAW";
                 score = 1;
                 draw();
@@ -203,5 +221,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView txtScore = (TextView) findViewById(R.id.text_score);
         txtScore.setText("0");
     }
+
 }
 
