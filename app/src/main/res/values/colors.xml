@@ -2,5 +2,8 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="yellow">#ffff00</color>
+    <color name="yellow">#FFFFB0</color>
+    <color name="yellow2">#FFFF1B</color>
+    <color name="sian">#A9FFFF</color>
+    <color name="sian2">#41CFFF</color>
 </resources>
