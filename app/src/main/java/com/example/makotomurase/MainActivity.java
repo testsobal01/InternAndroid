@@ -28,6 +28,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         final View layout = findViewById(R.id.answer);
         layout.setBackgroundColor(Color.YELLOW);
 
+//        Intent intent = getIntent();
+//        Bundle extra = intent.getExtras();
+//        String intentString = extra.getString("KEY");
+//
+//        TextView textView = (TextView)findViewById(R.id.start_button);
+
         Button btn1 = findViewById(R.id.button1);
         btn1.setOnClickListener(this);
 
