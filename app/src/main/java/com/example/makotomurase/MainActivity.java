@@ -93,7 +93,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             clearAnswerValue();
             clearScoreValue();
 
-            TextView txtViewAnswer = findViewById(R.id.answer);
+            TextView txtViewAnswer = findViewById(R.id.answer_background);
+
             txtViewAnswer.setBackgroundColor(Color.rgb(255,255,0));
 
             audioPlayer.playPushButtonSE();// SEを鳴らす
@@ -125,6 +126,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void checkResult(boolean isHigh) {
         TextView txtViewQuestion = findViewById(R.id.question);
         TextView txtViewAnswer = findViewById(R.id.answer);
+        TextView textViewAnswerBackground = findViewById(R.id.answer_background);//背景用
 
         int question = Integer.parseInt(txtViewQuestion.getText().toString());
         int answer = Integer.parseInt(txtViewAnswer.getText().toString());
@@ -141,29 +143,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = getResources().getString(R.string.w_result);
                 score = 2;
-                txtViewAnswer.setBackgroundColor(Color.rgb(255,69,0));
+                textViewAnswerBackground.setBackgroundColor(Color.rgb(255,69,0));
             } else if (question > answer) {
                 result = getResources().getString(R.string.l_result);
                 score = -1;
-                txtViewAnswer.setBackgroundColor(Color.rgb(65,105,225));
+                textViewAnswerBackground.setBackgroundColor(Color.rgb(65,105,225));
             } else {
                 result = getResources().getString(R.string.d_result);
                 score = 1;
-                txtViewAnswer.setBackgroundColor(Color.rgb(220,220,220));
+                textViewAnswerBackground.setBackgroundColor(Color.rgb(220,220,220));
             }
         } else {
             if (question > answer) {
                 result = getResources().getString(R.string.w_result);
                 score = 2;
-                txtViewAnswer.setBackgroundColor(Color.rgb(255,69,0));
+                textViewAnswerBackground.setBackgroundColor(Color.rgb(255,69,0));
             } else if (question < answer) {
                 result = getResources().getString(R.string.l_result);
                 score = -1;
-                txtViewAnswer.setBackgroundColor(Color.rgb(65,105,225));
+                textViewAnswerBackground.setBackgroundColor(Color.rgb(65,105,225));
             } else {
                 result = getResources().getString(R.string.d_result);
                 score = 1;
-                txtViewAnswer.setBackgroundColor(Color.rgb(220,220,220));
+                textViewAnswerBackground.setBackgroundColor(Color.rgb(220,220,220));
             }
         }
 
@@ -189,9 +191,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         /** animationを定義したxmlファイルの読み込み */
         Animation animation = AnimationUtils.loadAnimation(this, R.anim.value_animater);
 
-        if(result.equals("WIN")){
+        if(result.equals(getResources().getString(R.string.w_result))){
             target = (TextView) findViewById(R.id.answer);
-        }else if(result.equals("LOSE")){
+        }else if(result.equals(getResources().getString(R.string.l_result))){
             target = (TextView) findViewById(R.id.question);
         }else{
             return;
