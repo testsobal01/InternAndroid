@@ -17,6 +17,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     SharedPreferences pref;
     SharedPreferences.Editor prefEditor;
+    private int highScore = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,6 +41,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         pref = getSharedPreferences("AndroidSeminor", MODE_PRIVATE);
         prefEditor = pref.edit();
+
+        highScore = pref.getInt("high_score", 0);
+
+        TextView txtHighScore = findViewById(R.id.text_high_score);
+        txtHighScore.setText(String.valueOf(highScore));
     }
     @Override
     protected void onPause() {
@@ -177,6 +184,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView txtScore = (TextView) findViewById(R.id.text_score);
         int newScore = Integer.parseInt(txtScore.getText().toString()) + score;
         txtScore.setText(Integer.toString(newScore));
+        if (newScore > highScore) {
+            highScore = newScore;
+
+            // SharedPreferencesに保存
+            prefEditor.putInt("high_score", highScore);
+            prefEditor.apply();
+
+            // ハイスコア表示更新
+            TextView txtHighScore = findViewById(R.id.text_high_score);
+            txtHighScore.setText(String.valueOf(highScore));
+        }
     }
 
     private void clearScoreValue() {
