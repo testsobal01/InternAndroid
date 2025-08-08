@@ -20,33 +20,53 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/btn_high" />
+                android:text="@string/btn_high"
+                android:background="@drawable/button_design"
+                app:backgroundTint="@null"/>
+
 
             <Button
                 android:id="@+id/button2"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/btn_low" />
+                android:text="@string/btn_low"
+                android:background="@drawable/button_design"
+                app:backgroundTint="@null"/>
 
             <Button
                 android:id="@+id/button3"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
-                android:text="@string/btn_restart" />
+                android:text="@string/btn_restart"
+                android:background="@drawable/button_design"
+                app:backgroundTint="@null"/>
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/text_10"
+        <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/text_10" />
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/text_rand_max"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:id="@+id/text_10"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/text_setting" />
+
+
+        </LinearLayout>
 
         <TextView
             android:id="@+id/text_result"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
+
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -57,8 +77,26 @@
                 android:layout_height="wrap_content"
                 android:text="@string/label_score" />
 
+
             <TextView
                 android:id="@+id/text_score"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/max_score" />
+
+
+            <TextView
+                android:id="@+id/max_score"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="0" />
@@ -70,25 +108,53 @@
             android:layout_weight="4"
             >
 
-            <TextView
-                android:id="@+id/question"
+            <FrameLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="#ff00ff"
-                android:gravity="center"
-                android:text="値1"
-                android:textSize="60sp" />
+                android:layout_weight="1">
 
-            <TextView
-                android:id="@+id/answer"
+                <TextView
+                    android:id="@+id/question_background"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#ff00ff"
+                    android:gravity="center"
+                    android:text=""
+                    android:textSize="60sp" />
+
+                <TextView
+                    android:id="@+id/question"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="値1"
+                    android:textSize="60sp" />
+            </FrameLayout>
+
+            <FrameLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="#ffff00"
-                android:gravity="center"
-                android:text="@string/value"
-                android:textSize="60sp" />
+                android:layout_weight="1">
+
+                <TextView
+                    android:id="@+id/answer_background"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="#ffff00"
+                    android:gravity="center"
+                    android:text=""
+                    android:textSize="60sp" />
+
+                <TextView
+                    android:id="@+id/answer"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/value"
+                    android:textSize="60sp" />
+            </FrameLayout>
         </LinearLayout>
 
         <ImageView
