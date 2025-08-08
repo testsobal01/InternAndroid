@@ -86,7 +86,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void setQuestionValue() {
         Random r = new Random();
         // 0から10の範囲で乱数を生成（+1する必要がある）
-        int questionValue = r.nextInt(10 + 1);
+        int questionValue = r.nextInt(100 + 1);
 
         TextView txtView = findViewById(R.id.question);
         txtView.setText(Integer.toString(questionValue));
@@ -94,7 +94,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void setAnswerValue() {
         Random r = new Random();
-        int answerValue = r.nextInt(10 + 1);
+        int answerValue = r.nextInt(100 + 1);
 
         TextView txtView = findViewById(R.id.answer);
         txtView.setText(Integer.toString(answerValue));
