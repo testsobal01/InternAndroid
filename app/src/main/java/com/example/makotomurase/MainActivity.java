@@ -2,6 +2,9 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.media.AudioAttributes;
+import android.media.MediaPlayer;
+import android.media.SoundPool;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
@@ -13,10 +16,42 @@ import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
+    private SoundPool soundPool;
+    private int loseSoundId,winSoundId,onaziSoundId,restartSoundId;
+    private boolean soundLoaded = false;
+    private MediaPlayer mediaPlayer;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
+        mediaPlayer = MediaPlayer.create(this,R.raw.bgm);
+        mediaPlayer.setLooping(true);
+        mediaPlayer.setVolume(0.8f,0.8f);
+        mediaPlayer.start();
+
+        AudioAttributes audioAttributes = new AudioAttributes.Builder()
+                .setUsage(AudioAttributes.USAGE_GAME)
+                .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                .build();
+
+        soundPool = new SoundPool.Builder()
+                .setMaxStreams(1)
+                .setAudioAttributes(audioAttributes)
+                .build();
+
+        loseSoundId = soundPool.load(this, R.raw.fuseikai, 1);
+        winSoundId=soundPool.load(this,R.raw.win,1);
+        onaziSoundId=soundPool.load(this,R.raw.hikiwake3,1);
+        restartSoundId=soundPool.load(this,R.raw.modoru,1);
+        soundPool.setOnLoadCompleteListener(new SoundPool.OnLoadCompleteListener() {
+            @Override
+            public void onLoadComplete(SoundPool soundPool, int sampleId, int status) {
+                soundLoaded = true;
+            }
+        });
 
         Button btn1 = findViewById(R.id.button1);
         btn1.setOnClickListener(this);
@@ -41,6 +76,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             setAnswerValue();
             checkResult(false);
         } else if (id == R.id.button3) {
+            soundPool.play(restartSoundId, 1f, 1f, 0, 0, 1f);
             setQuestionValue();
             clearAnswerValue();
             clearScoreValue();
@@ -88,23 +124,36 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = "WIN";
                 score = 2;
+                soundPool.play(winSoundId, 1f, 1, 0, 0, 1f);
+
+
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
+                soundPool.play(loseSoundId, 0.6f, 0.6f, 0, 0, 1f);
+
             } else {
                 result = "DRAW";
                 score = 1;
+                soundPool.play(onaziSoundId, 1f, 1f, 0, 0, 1f);
+
             }
         } else {
             if (question > answer) {
                 result = "WIN";
                 score = 2;
+                soundPool.play(winSoundId, 1f, 1f, 0, 0, 1f);
+
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
+                soundPool.play(loseSoundId, 0.6f, 0.6f, 0, 0, 1f);
+
             } else {
                 result = "DRAW";
                 score = 1;
+                soundPool.play(onaziSoundId, 1f, 1f, 0, 0, 1f);
+
             }
         }
 
@@ -145,6 +194,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void clearScoreValue() {
         TextView txtScore = (TextView) findViewById(R.id.text_score);
         txtScore.setText("0");
+    }
+
+    @Override
+    protected void onDestroy() {
+            super.onDestroy();
+            soundPool.release();
+            soundPool = null;
+
+
     }
 }
 
