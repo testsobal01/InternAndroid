@@ -8,7 +8,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-
+import android.widget.RelativeLayout;
+import android.widget.LinearLayout;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -44,6 +45,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             setQuestionValue();
             clearAnswerValue();
             clearScoreValue();
+            setWidth();
         }
     }
 
@@ -62,21 +64,35 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void setAnswerValue() {
+
         Random r = new Random();
         int answerValue = r.nextInt(10 + 1);
 
         TextView txtView = findViewById(R.id.answer);
         txtView.setText(Integer.toString(answerValue));
     }
-
-    private void checkResult(boolean isHigh) {
+    private void setWidth(){
         TextView txtViewQuestion = findViewById(R.id.question);
         TextView txtViewAnswer = findViewById(R.id.answer);
+        LinearLayout.LayoutParams params=(LinearLayout.LayoutParams)txtViewQuestion.getLayoutParams();
+        LinearLayout.LayoutParams params2=(LinearLayout.LayoutParams)txtViewAnswer.getLayoutParams();
+        params.weight=1.0f;
+        params2.weight=1.0f;
+        txtViewQuestion.setLayoutParams(params);
+        txtViewAnswer.setLayoutParams(params2);
+    }
 
+    private void checkResult(boolean isHigh) {
+        float a=0.1f;
+        TextView txtViewQuestion = findViewById(R.id.question);
+        TextView txtViewAnswer = findViewById(R.id.answer);
+        LinearLayout.LayoutParams params=(LinearLayout.LayoutParams)txtViewQuestion.getLayoutParams();
+        LinearLayout.LayoutParams params2=(LinearLayout.LayoutParams)txtViewAnswer.getLayoutParams();
         int question = Integer.parseInt(txtViewQuestion.getText().toString());
         int answer = Integer.parseInt(txtViewAnswer.getText().toString());
 
         TextView txtResult = (TextView) findViewById(R.id.text_result);
+
 
         // 結果を示す文字列を入れる変数を用意
         String result;
@@ -88,9 +104,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = "WIN";
                 score = 2;
+                params.weight=params.weight-a;
+                params2.weight=params2.weight+a;
+                txtViewQuestion.setLayoutParams(params);
+                txtViewAnswer.setLayoutParams(params2);
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
+                params.weight=params.weight+a;
+                params2.weight=params2.weight-a;
+                txtViewQuestion.setLayoutParams(params);
+                txtViewAnswer.setLayoutParams(params2);
             } else {
                 result = "DRAW";
                 score = 1;
@@ -98,10 +122,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         } else {
             if (question > answer) {
                 result = "WIN";
+                params.weight=params.weight-a;
+                params2.weight=params2.weight+a;
+                txtViewQuestion.setLayoutParams(params);
+                txtViewAnswer.setLayoutParams(params2);
                 score = 2;
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
+                params.weight=params.weight+a;
+                params2.weight=params2.weight-a;
+                txtViewQuestion.setLayoutParams(params);
+                txtViewAnswer.setLayoutParams(params2);
             } else {
                 result = "DRAW";
                 score = 1;
