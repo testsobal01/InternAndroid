@@ -4,95 +4,152 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
     tools:context=".MainActivity">
 
-    <LinearLayout
+    <Button
+        android:id="@+id/button3"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="50dp"
+        android:layout_gravity="end"
+        android:paddingStart="24dp"
+        android:paddingEnd="24dp"
+        android:background="@drawable/my_button"
+        app:backgroundTint="@null"
+        android:text="@string/btn_restart"
+        android:textColor="#40806a"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:backgroundTint="#ccffee"
+        android:backgroundTintMode="multiply" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+    <TextView
+        android:id="@+id/textViewInfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_gravity="center"
+        android:text="10が設定されています。"
+        android:textColor="#40806a"
+        android:textSize="25sp"
+        android:textStyle="bold" />
 
-            <Button
-                android:id="@+id/button1"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/btn_high" />
+    <TextView
+        android:id="@+id/text_result"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_gravity="center"
+        android:text="結果表示"
+        android:textColor="#40806a"
+        android:textSize="25sp"
+        android:textStyle="bold" />
 
-            <Button
-                android:id="@+id/button2"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/btn_low" />
-
-            <Button
-                android:id="@+id/button3"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:text="@string/btn_restart" />
-        </LinearLayout>
+    <LinearLayout
+        android:id="@+id/score_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_gravity="center"
+        android:orientation="horizontal">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="10が設定されています。" />
+            android:text="@string/label_score"
+            android:textColor="#40806a"
+            android:textSize="40sp"
+            android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/text_result"
+            android:id="@+id/text_score"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="0"
+            android:textColor="#40806a"
+            android:textSize="40sp"
+            android:textStyle="bold" />
+    </LinearLayout>
 
-        <LinearLayout
+    <!-- 値とフッターの間に余白ができてしまうため、layout_weightの値を変更 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_marginTop="24dp"
+        android:layout_marginBottom="16dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/question"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_marginEnd="4dp"
+            android:background="#7fffd4"
+            android:gravity="center"
+            android:text="値1"
+            android:textColor="#40806a"
+            android:textSize="60sp" />
+
+        <TextView
+            android:id="@+id/answer"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_marginStart="4dp"
+            android:background="#ffff80"
+            android:gravity="center"
+            android:text="値2"
+            android:textColor="#40806a"
+            android:textSize="60sp" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <TextView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:text="@string/label_high_score" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/label_score" />
+        <TextView
+            android:id="@+id/text_high_score"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0" />
+    </LinearLayout>
+  
+        <Button
+            android:id="@+id/button1"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:layout_marginEnd="8dp"
+            android:layout_weight="1"
+            android:background="@drawable/my_button"
+            android:text="@string/btn_high"
+            android:textColor="#40806a"
+            android:textSize="25sp"
+            android:textStyle="bold"
+            app:backgroundTint="@null" />
 
-            <TextView
-                android:id="@+id/text_score"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="0" />
-        </LinearLayout>
-
-        <!-- 値とフッターの間に余白ができてしまうため、layout_weightの値を変更 -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="4.5"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/question"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="#ff00ff"
-                android:gravity="center"
-                android:text="値1"
-                android:textSize="60sp" />
-
-            <TextView
-                android:id="@+id/answer"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="#ffff00"
-                android:gravity="center"
-                android:text="値2"
-                android:textSize="60sp" />
-
-        </LinearLayout>
-
-        <!-- フッターの追加 -->
+        <Button
+            android:id="@+id/button2"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:layout_marginStart="8dp"
+            android:layout_weight="1"
+            android:background="@drawable/my_button"
+            android:backgroundTint="#ccffee"
+            android:backgroundTintMode="multiply"
+            android:text="@string/btn_low"
+            android:textColor="#40806a"
+            android:textSize="25sp"
+            android:textStyle="bold"
+            app:backgroundTint="@null" />
+          <!-- フッターの追加 -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -108,7 +165,5 @@
                 android:scaleType="fitXY"
                 android:src="@drawable/footer_resize" />
         </LinearLayout>
-
     </LinearLayout>
-
 </LinearLayout>
