@@ -189,9 +189,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         /** animationを定義したxmlファイルの読み込み */
         Animation animation = AnimationUtils.loadAnimation(this, R.anim.value_animater);
 
-        if(result.equals("WIN")){
+        if(result.equals(getResources().getString(R.string.w_result))){
             target = (TextView) findViewById(R.id.answer);
-        }else if(result.equals("LOSE")){
+        }else if(result.equals(getResources().getString(R.string.l_result))){
             target = (TextView) findViewById(R.id.question);
         }else{
             return;
