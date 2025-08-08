@@ -19,6 +19,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private SoundPool sndPool;
     private int snd1, snd2, snd3, snd4;
+    private boolean isCountdown = false;
     SharedPreferences pref;
     SharedPreferences.Editor prefEditor;
 
@@ -91,10 +92,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View view) {
         int id = view.getId();
-        if (id == R.id.button1) {
+        if (id == R.id.button1 && !isCountdown) {
             setAnswerValue();
             checkResult(true);
-        } else if (id == R.id.button2) {
+        } else if (id == R.id.button2 && !isCountdown) {
             setAnswerValue();
             checkResult(false);
         } else if (id == R.id.button3) {
@@ -189,6 +190,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void setNextQuestion() {
         // 第１引数がカウントダウン時間、第２引数は途中経過を受け取る間隔
         // 単位はミリ秒（1秒＝1000ミリ秒）
+
+        isCountdown = true;
         new CountDownTimer(3000, 1000) {
             @Override
             public void onTick(long l) {
@@ -200,6 +203,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public void onFinish() {
                 // 3秒経過したら次の値をセット
                 setQuestionValue();
+                isCountdown = false;
             }
         }.start();
     }
