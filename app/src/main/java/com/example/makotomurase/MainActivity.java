@@ -11,10 +11,13 @@ import android.os.CountDownTimer;
 import android.os.Vibrator;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
+import androidx.appcompat.app.AppCompatActivity;
+import android.os.Bundle;
+import android.widget.ImageView;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -99,6 +102,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         TextView txtView = findViewById(R.id.answer);
         txtView.setText(Integer.toString(answerValue));
+    }
+
+    private void setImageResource() {
+        ImageView footerImageView = findViewById(R.id.footerImageView);
+        footerImageView.setImageResource(R.drawable.picture_image_intern);
+        footerImageView.setVisibility(ImageView.GONE);
     }
 
     private void checkResult(boolean isHigh) {
