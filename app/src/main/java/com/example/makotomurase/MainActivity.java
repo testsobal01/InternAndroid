@@ -7,10 +7,15 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.os.Vibrator;
+import android.widget.ViewFlipper;
+
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -21,6 +26,30 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        ViewFlipper flipper = findViewById(R.id.image_flipper);
+
+// 画像リスト（drawableに追加した画像）
+        int[] images = {
+                R.drawable.image1,
+                R.drawable.image2,
+                R.drawable.image3,
+                R.drawable.image4
+        };
+
+// アニメーション（右→左）
+        Animation in = AnimationUtils.loadAnimation(this, R.anim.slide_in_right);
+        Animation out = AnimationUtils.loadAnimation(this, R.anim.slide_out_left);
+        flipper.setInAnimation(in);
+        flipper.setOutAnimation(out);
+
+// 画像を順番に追加
+        for (int img : images) {
+            ImageView imageView = new ImageView(this);
+            imageView.setImageResource(img);
+            imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
+            flipper.addView(imageView);
+        }
 
 
         Button btn1 = findViewById(R.id.button1);

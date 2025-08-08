@@ -11,6 +11,14 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
+        <ViewFlipper
+            android:id="@+id/image_flipper"
+            android:layout_width="match_parent"
+            android:layout_height="75dp"
+            android:autoStart="true"
+            android:flipInterval="3000"
+            android:layout_marginTop="16dp" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
