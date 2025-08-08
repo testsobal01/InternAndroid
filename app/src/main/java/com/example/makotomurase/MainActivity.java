@@ -14,15 +14,24 @@ import java.util.Random;
 
 import android.animation.ObjectAnimator;
 
+import android.graphics.Color;
+import android.content.SharedPreferences;
+import android.os.Vibrator;
+import android.widget.ImageView;
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private TextView numberText;
     private Button button1;
     private ObjectAnimator blinkAnimator;
+    private SoundPlayer soundPlayer;
+    SharedPreferences pref;
+    SharedPreferences.Editor prefEditor;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        soundPlayer = new SoundPlayer(this);
         Button btn1 = findViewById(R.id.button1);
         btn1.setOnClickListener(this);
 
@@ -33,18 +42,33 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btn3.setOnClickListener(this);
         // 起動時に関数を呼び出す
         setQuestionValue();
-
+        btn1.setBackground(getResources().getDrawable(R.drawable.button_background, null));
+        btn2.setBackground(getResources().getDrawable(R.drawable.button_background, null));
+        btn3.setBackground(getResources().getDrawable(R.drawable.button_background, null));
+        pref = getSharedPreferences("TeamPrif", MODE_PRIVATE);
+        prefEditor = pref.edit();
         blinkAnimator = ObjectAnimator.ofFloat(findViewById(R.id.answer), "alpha", 1f, 0f);
         blinkAnimator.setDuration(300); // 点滅速度（ミリ秒）
         blinkAnimator.setRepeatMode(ObjectAnimator.REVERSE);
         blinkAnimator.setRepeatCount(1);
     }
+    @Override
+    protected void onPause() {
+        super.onPause();
+        TextView txtScore = (TextView) findViewById(R.id.text_score);
+        prefEditor.putString("main_input", txtScore.getText().toString());
+        prefEditor.commit();
+    }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        TextView txtScore = (TextView) findViewById(R.id.text_score);
+        String readText = pref.getString("main_input", "0");
+        txtScore.setText(readText);
+    }
+    @Override
     public void onClick(View view) {
-
-
-
         int id = view.getId();
         if (id == R.id.button1) {
             setAnswerValue();
@@ -56,11 +80,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             setQuestionValue();
             clearAnswerValue();
             clearScoreValue();
+            soundPlayer.playdedenSound();
         }
     }
-
-
-
     private void clearAnswerValue() {
         TextView txtView = (TextView) findViewById(R.id.answer);
         txtView.setText("値2");
@@ -83,10 +105,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         txtView.setText(Integer.toString(answerValue));
     }
 
+    private void setImageResource() {
+        ImageView footerImageView = findViewById(R.id.footerImageView);
+        footerImageView.setImageResource(R.drawable.picture_image_intern);
+        footerImageView.setVisibility(ImageView.GONE);
+    }
+
     private void checkResult(boolean isHigh) {
         TextView txtViewQuestion = findViewById(R.id.question);
         TextView txtViewAnswer = findViewById(R.id.answer);
-
+        View backcolor = findViewById(R.id.backgroud);
+        backcolor.setBackgroundColor(Color.WHITE);
         int question = Integer.parseInt(txtViewQuestion.getText().toString());
         int answer = Integer.parseInt(txtViewAnswer.getText().toString());
 
@@ -102,6 +131,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = "WIN";
                 score = 2;
+                //HIGHを押して正解したらhit、間違えたらoverにする
+                soundPlayer.playHitSound();
+                backcolor.setBackground(getResources().getDrawable(R.color.win, null));
+                Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+                vibrator.vibrate(300);
                 if (blinkAnimator.isRunning()) {
                     blinkAnimator.cancel();
                     numberText.setAlpha(1f); // 点滅停止時は表示に戻す
@@ -111,14 +145,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
+                //LOWを押して正解したらhit,間違えたらoverにする
+                soundPlayer.playOverSound();
+                backcolor.setBackground(getResources().getDrawable(R.color.lose, null));
+                Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+                vibrator.vibrate(new long[]{0,200, 100,1000}, -1);
             } else {
                 result = "DRAW";
                 score = 1;
+                soundPlayer.playdrowSound();
+                backcolor.setBackground(getResources().getDrawable(R.color.draw, null));
+                Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+                vibrator.vibrate(new long[]{0,200, 100,1000}, -1);
             }
         } else {
             if (question > answer) {
                 result = "WIN";
                 score = 2;
+                soundPlayer.playHitSound();
+                backcolor.setBackground(getResources().getDrawable(R.color.win, null));
+                Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+                vibrator.vibrate(300);
                 if (blinkAnimator.isRunning()) {
                     blinkAnimator.cancel();
                     numberText.setAlpha(1f); // 点滅停止時は表示に戻す
@@ -128,9 +175,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
+                soundPlayer.playOverSound();
+                backcolor.setBackground(getResources().getDrawable(R.color.lose, null));
+                Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+                vibrator.vibrate(new long[]{0,200, 100,1000}, -1);
             } else {
                 result = "DRAW";
                 score = 1;
+                soundPlayer.playdrowSound();
+                backcolor.setBackground(getResources().getDrawable(R.color.draw, null));
+                Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+                vibrator.vibrate(new long[]{0,200, 100,1000}, -1);
             }
         }
 
@@ -173,4 +228,3 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         txtScore.setText("0");
     }
 }
-

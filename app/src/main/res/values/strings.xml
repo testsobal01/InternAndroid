@@ -1,12 +1,13 @@
 <resources>
-    <string name="app_name">YasuakiGotou</string>
+    <string name="btn_start">スタート</string>
+    <string name="app_name">Team-A</string>
     <string name="btn_high">High</string>
     <string name="btn_low">Low</string>
     <string name="btn_restart">Restart</string>
 
     <string name="label_score">Score：</string>
+    <string name="picture_image_intern">picture</string>
     <string name="label">10 is set.</string>
     <string name="text1">var1</string>
     <string name="text2">var2</string>
-
 </resources>
