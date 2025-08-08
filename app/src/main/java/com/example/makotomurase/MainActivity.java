@@ -1,22 +1,30 @@
 package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
+import android.content.SharedPreferences;
+import android.app.Activity;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-
+import android.os.Vibrator;
 import java.util.Random;
+import android.os.Handler;
+import androidx.core.content.ContextCompat;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
+    SharedPreferences pref;
+    SharedPreferences.Editor prefEditor;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
 
         Button btn1 = findViewById(R.id.button1);
         btn1.setOnClickListener(this);
@@ -27,9 +35,35 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
 
+
+
         // 起動時に関数を呼び出す
         setQuestionValue();
+
+        pref = getSharedPreferences("AndroidSeminor", MODE_PRIVATE);
+        prefEditor = pref.edit();
     }
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Toast.makeText(this, "onPause", Toast.LENGTH_SHORT).show();
+
+        TextView textView = (TextView) findViewById(R.id.text_score);
+        prefEditor.putString("main_input", textView.getText().toString());
+        prefEditor.commit();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Toast.makeText(this, "onResume", Toast.LENGTH_SHORT).show();
+
+        TextView textView = (TextView) findViewById(R.id.text_score);
+        String readText = pref.getString("main_input", "保存されていません");
+        textView.setText(readText);
+    }
+
+
 
     @Override
     public void onClick(View view) {
@@ -72,15 +106,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void checkResult(boolean isHigh) {
         TextView txtViewQuestion = findViewById(R.id.question);
         TextView txtViewAnswer = findViewById(R.id.answer);
+        TextView txtResult = findViewById(R.id.text_result);
+        View rootLayout = findViewById(R.id.root_layout);
 
         int question = Integer.parseInt(txtViewQuestion.getText().toString());
         int answer = Integer.parseInt(txtViewAnswer.getText().toString());
 
-        TextView txtResult = (TextView) findViewById(R.id.text_result);
-
         // 結果を示す文字列を入れる変数を用意
         String result;
         int score;
+
 
         // Highが押された
         if (isHigh) {
@@ -88,25 +123,40 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result =getString(R.string.WIN);
                 score = 2;
+                rootLayout.setBackgroundColor(ContextCompat.getColor(this, R.color.win_background));
             } else if (question > answer) {
                 result =getString(R.string.LOSE);
                 score = -1;
+                rootLayout.setBackgroundColor(ContextCompat.getColor(this, R.color.lose_background));
+                Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+                vib.vibrate(400);
+
             } else {
                 result =getString(R.string.DRAW);
                 score = 1;
+                rootLayout.setBackgroundColor(ContextCompat.getColor(this, R.color.default_background));
             }
         } else {
             if (question > answer) {
                 result =getString(R.string.WIN);
                 score = 2;
+                rootLayout.setBackgroundColor(ContextCompat.getColor(this, R.color.win_background));
             } else if (question < answer) {
                 result =getString(R.string.LOSE);
                 score = -1;
+                rootLayout.setBackgroundColor(ContextCompat.getColor(this, R.color.lose_background));
+                Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+                vib.vibrate(400);
             } else {
                 result =getString(R.string.DRAW);
                 score = 1;
+                rootLayout.setBackgroundColor(ContextCompat.getColor(this, R.color.default_background));
             }
         }
+
+        new Handler().postDelayed(() -> {
+            rootLayout.setBackgroundColor(ContextCompat.getColor(this, R.color.default_background));
+        }, 5000);
 
         // 最後にまとめてToast表示の処理とTextViewへのセットを行う
         Toast.makeText(this, result, Toast.LENGTH_LONG).show();
