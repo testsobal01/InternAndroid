@@ -12,11 +12,13 @@ import android.widget.Toast;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+    private SoundPlayer soundPlayer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        soundPlayer = new SoundPlayer(this);
 
         Button btn1 = findViewById(R.id.button1);
         btn1.setOnClickListener(this);
@@ -44,6 +46,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             setQuestionValue();
             clearAnswerValue();
             clearScoreValue();
+            soundPlayer.playdedenSound();
         }
     }
 
@@ -88,23 +91,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = "WIN";
                 score = 2;
+                //HIGHを押して正解したらhit、間違えたらoverにする
+                soundPlayer.playHitSound();
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
+                //LOWを押して正解したらhit,間違えたらoverにする
+                soundPlayer.playOverSound();
             } else {
                 result = "DRAW";
                 score = 1;
+                soundPlayer.playdrowSound();
             }
         } else {
             if (question > answer) {
                 result = "WIN";
                 score = 2;
+                soundPlayer.playHitSound();
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
+                soundPlayer.playOverSound();
             } else {
                 result = "DRAW";
                 score = 1;
+                soundPlayer.playdrowSound();
             }
         }
 
