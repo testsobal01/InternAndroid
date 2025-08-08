@@ -262,7 +262,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // 最後にまとめてToast表示の処理とTextViewへのセットを行う
         Toast.makeText(this, result, Toast.LENGTH_LONG).show();
-        audioPlayer.playResultSE(result);// SEを鳴らす
+        audioPlayer.playResultSE(result,this);// SEを鳴らす
         txtResult.setText(getResources().getString(R.string.result)+ question + ":" + answer + "(" + result + ")");
         valueAnimation(result);
 
