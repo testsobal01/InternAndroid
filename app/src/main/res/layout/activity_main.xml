@@ -11,6 +11,8 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
+
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -65,11 +67,12 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="0dp"
+            android:layout_weight="5">
 
             <TextView
                 android:id="@+id/question"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="#ff00ff"
@@ -79,14 +82,23 @@
 
             <TextView
                 android:id="@+id/answer"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="#ffff00"
                 android:gravity="center"
                 android:text="値2"
                 android:textSize="60sp" />
+
         </LinearLayout>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:src="@drawable/trees_790220_640"
+            android:scaleType="fitXY"
+            android:layout_weight="1"
+            />
 
     </LinearLayout>
 
