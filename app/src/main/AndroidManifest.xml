@@ -13,6 +13,12 @@
         android:theme="@style/Theme.MakotoMurase"
         tools:targetApi="31">
         <activity
+            android:name=".GameClear"
+            android:exported="false" />
+        <activity
+            android:name=".GameOverActivity"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
