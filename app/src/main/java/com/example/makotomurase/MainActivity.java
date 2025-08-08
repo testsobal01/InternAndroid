@@ -75,12 +75,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         //プリファレンスからスコア読み込み
         TextView textView = (TextView) findViewById(R.id.text_score);
-        String readText = pref.getString("score_input", "保存されていません");
+        String readText = pref.getString("score_input", "0");
         textView.setText(readText);
 
         //プリファレンスからハイスコア読み込み
         TextView textView2 = (TextView) findViewById(R.id.text_high_score);
-        String readText2 = pref.getString("high_score_input", "保存されていません");
+        String readText2 = pref.getString("high_score_input", "0");
         textView2.setText(readText2);
 
     }

@@ -113,6 +113,7 @@
             android:textColor="#40806a"
             android:textSize="60sp" />
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
@@ -128,7 +129,13 @@
             android:layout_height="wrap_content"
             android:text="0" />
     </LinearLayout>
-  
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:orientation="horizontal">
+
         <Button
             android:id="@+id/button1"
             android:layout_width="0dp"
@@ -156,6 +163,9 @@
             android:textSize="25sp"
             android:textStyle="bold"
             app:backgroundTint="@null" />
+
+    </LinearLayout>
+
           <!-- フッターの追加 -->
         <LinearLayout
             android:layout_width="match_parent"
@@ -173,3 +183,4 @@
                 android:src="@drawable/footer_resize" />
         </LinearLayout>
 </LinearLayout>
+
