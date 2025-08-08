@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.SharedPreferences;
 import android.app.Activity;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
@@ -13,6 +14,7 @@ import android.widget.Toast;
 import android.os.Vibrator;
 import java.util.Random;
 
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     SharedPreferences pref;
@@ -21,8 +23,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-
         Button btn1 = findViewById(R.id.button1);
         btn1.setOnClickListener(this);
 
