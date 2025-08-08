@@ -143,6 +143,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void clearAnswerValue() {
         TextView txtView = (TextView) findViewById(R.id.answer);
+        txtView.setText(R.string.price);
         View layout = findViewById(R.id.answer);
         layout.setBackgroundColor(Color.YELLOW);
         txtView.setText("値2");
@@ -185,39 +186,39 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             // result には結果のみを入れる
             if (question < answer) {
+                result = getString(R.string.text_result_win);
                 layout.setBackgroundColor(Color.RED);
-                result = "WIN";
                 score = 2;
                 winner();
                 Vibrator vib= (Vibrator) getSystemService(VIBRATOR_SERVICE);
                vib.vibrate(500);
             } else if (question > answer) {
+                result = getString(R.string.text_result_lose);
                 layout.setBackgroundColor(Color.BLUE);
-                result = "LOSE";
                 score = -1;
                 loser();
             } else {
+                result = getString(R.string.text_result_draw);
                 layout.setBackgroundColor(Color.YELLOW);
-                result = "DRAW";
                 score = 1;
                 draw();
             }
         } else {
             if (question > answer) {
+                result = getString(R.string.text_result_win);
                 layout.setBackgroundColor(Color.RED);
-                result = "WIN";
                 score = 2;
                 winner();
                 Vibrator vib= (Vibrator) getSystemService(VIBRATOR_SERVICE);
                 vib.vibrate(500);
             } else if (question < answer) {
+                result = getString(R.string.text_result_lose);
                 layout.setBackgroundColor(Color.BLUE);
-                result = "LOSE";
                 score = -1;
                 loser();
             } else {
+                result = getString(R.string.text_result_draw);
                 layout.setBackgroundColor(Color.YELLOW);
-                result = "DRAW";
                 score = 1;
                 draw();
             }
@@ -225,7 +226,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // 最後にまとめてToast表示の処理とTextViewへのセットを行う
         Toast.makeText(this, result, Toast.LENGTH_LONG).show();
-        txtResult.setText("結果：" + question + ":" + answer + "(" + result + ")");
+        txtResult.setText(getString(R.string.text_result)+"：" + question + ":" + answer + "(" + result + ")");
 
         // 続けて遊べるように値を更新
         setNextQuestion();
