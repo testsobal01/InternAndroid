@@ -7,4 +7,5 @@
     <string name="label_high_score">High score：</string>
     <string name="Result">Result</string>
     <string name="message">10 is set</string>
+    <string name="label_countdown">Next Game：</string>
 </resources>
