@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">YasuakiGotou</string>
+    <string name="btn_high">High</string>
+    <string name="btn_low">Low</string>
+    <string name="btn_restart">Restart</string>
+    <string name="label_score">Score：</string>
+    <string name="answer">Value2</string>
+    <string name="set">10 is set.</string>
+    <string name="result">result</string>
+    <string name="WIN">WIN</string>
+    <string name="LOSE">LOSE</string>
+    <string name="DRAW">DRAW</string>
+</resources>

@@ -168,7 +168,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question > answer) {
                 result = "WIN";
                 score = 2;
-                soundPool5.play(mp3e,2f , 2f, 0, 0, 1f);
+                soundPool5.play(mp3e,3f , 3f, 0, 0, 1f);
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
