@@ -5,10 +5,16 @@ import androidx.core.content.ContextCompat;
 
 import android.content.SharedPreferences;
 import android.app.Activity;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
+import android.view.animation.ScaleAnimation;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.os.Vibrator;
@@ -16,16 +22,16 @@ import java.util.Random;
 import android.os.Handler;
 import androidx.core.content.ContextCompat;
 
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
+    private ImageView imageView;
     SharedPreferences pref;
     SharedPreferences.Editor prefEditor;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-
         Button btn1 = findViewById(R.id.button1);
         btn1.setOnClickListener(this);
 
@@ -34,7 +40,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
-
 
 
         // 起動時に関数を呼び出す
@@ -62,6 +67,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         String readText = pref.getString("main_input", "保存されていません");
         textView.setText(readText);
     }
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Toast.makeText(this, "onPause", Toast.LENGTH_SHORT).show();
+
+        TextView textView = (TextView) findViewById(R.id.text_score);
+        prefEditor.putString("main_input", textView.getText().toString());
+        prefEditor.commit();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Toast.makeText(this, "onResume", Toast.LENGTH_SHORT).show();
+
+        TextView textView = (TextView) findViewById(R.id.text_score);
+        String readText = pref.getString("main_input", "保存されていません");
+        textView.setText(readText);
+    }
+
+
 
 
 
@@ -116,6 +142,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         String result;
         int score;
 
+        TextView winnerView = null;
+        TextView loserView = null;
 
         // Highが押された
         if (isHigh) {
@@ -123,10 +151,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result =getString(R.string.WIN);
                 score = 2;
+                winnerView = txtViewAnswer;
+                loserView = txtViewQuestion;
                 rootLayout.setBackgroundColor(ContextCompat.getColor(this, R.color.win_background));
             } else if (question > answer) {
                 result =getString(R.string.LOSE);
                 score = -1;
+                winnerView = txtViewQuestion;
+                loserView = txtViewAnswer;
                 rootLayout.setBackgroundColor(ContextCompat.getColor(this, R.color.lose_background));
                 Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
                 vib.vibrate(400);
@@ -140,11 +172,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question > answer) {
                 result =getString(R.string.WIN);
                 score = 2;
+                winnerView = txtViewQuestion;
+                loserView = txtViewAnswer;
                 rootLayout.setBackgroundColor(ContextCompat.getColor(this, R.color.win_background));
             } else if (question < answer) {
                 result =getString(R.string.LOSE);
                 score = -1;
                 rootLayout.setBackgroundColor(ContextCompat.getColor(this, R.color.lose_background));
+                winnerView = txtViewAnswer;
+                loserView = txtViewQuestion
                 Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
                 vib.vibrate(400);
             } else {
@@ -157,7 +193,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         new Handler().postDelayed(() -> {
             rootLayout.setBackgroundColor(ContextCompat.getColor(this, R.color.default_background));
         }, 5000);
-
+        if (!result.equals(getString(R.string.DRAW))) {
+            animateWinner(winnerView);
+            animateLoser(loserView);
+        }
+      
         // 最後にまとめてToast表示の処理とTextViewへのセットを行う
         Toast.makeText(this, result, Toast.LENGTH_LONG).show();
         txtResult.setText(getString(R.string.result)+ question + ":" + answer + "(" + result + ")");
@@ -166,9 +206,37 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setNextQuestion();
         // スコアを表示
         setScore(score);
+
+
     }
 
-    private void setNextQuestion() {
+    private void animateWinner(TextView view) {
+            ScaleAnimation scaleUp = new ScaleAnimation(
+                    1.0f, 1.5f, 1.0f, 1.5f,
+                    Animation.RELATIVE_TO_SELF, 0.5f,
+                    Animation.RELATIVE_TO_SELF, 0.5f
+            );
+            scaleUp.setDuration(300);
+            scaleUp.setRepeatCount(1);
+            scaleUp.setRepeatMode(Animation.REVERSE);
+            view.startAnimation(scaleUp);
+        }
+
+        private void animateLoser(TextView view) {
+            ScaleAnimation scaleDown = new ScaleAnimation(
+                    1.0f, 0.5f, 1.0f, 0.5f,
+                    Animation.RELATIVE_TO_SELF, 0.5f,
+                    Animation.RELATIVE_TO_SELF, 0.5f
+            );
+            scaleDown.setDuration(300);
+            scaleDown.setRepeatCount(1);
+            scaleDown.setRepeatMode(Animation.REVERSE);
+            view.startAnimation(scaleDown);
+        }
+
+
+
+        private void setNextQuestion() {
         // 第１引数がカウントダウン時間、第２引数は途中経過を受け取る間隔
         // 単位はミリ秒（1秒＝1000ミリ秒）
         new CountDownTimer(3000, 1000) {
