@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
@@ -15,6 +16,7 @@ import android.widget.Toast;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+    MediaPlayer mediaPlayer;
 
     SharedPreferences pref;
     SharedPreferences.Editor prefEditor;
@@ -24,9 +26,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onPause();
 
 
-
-        TextView textView=(TextView)findViewById(R.id.text_score);
-        prefEditor.putString("score_input",textView.getText().toString());
+        TextView textView = (TextView) findViewById(R.id.text_score);
+        prefEditor.putString("score_input", textView.getText().toString());
         prefEditor.commit();
 
     }
@@ -34,15 +35,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     protected void onDestroy() {
+        if (mediaPlayer != null) {
+            mediaPlayer.release();
+            mediaPlayer = null;
+        }
         super.onDestroy();
     }
+
 
     @Override
     protected void onResume() {
         super.onResume();
 
-        TextView textView=(TextView) findViewById(R.id.text_score);
-        String readText=pref.getString("score_input","000");
+        TextView textView = (TextView) findViewById(R.id.text_score);
+        String readText = pref.getString("score_input", "000");
         textView.setText(readText);
     }
 
@@ -61,8 +67,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
 
-        pref=getSharedPreferences("AndroidSeminor", MODE_PRIVATE);
-        prefEditor=pref.edit();
+        pref = getSharedPreferences("AndroidSeminor", MODE_PRIVATE);
+        prefEditor = pref.edit();
 
         // 起動時に関数を呼び出す
         setQuestionValue();
@@ -83,8 +89,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             setQuestionValue();
             clearAnswerValue();
             clearScoreValue();
+
         }
+        mediaPlayer = MediaPlayer.create(MainActivity.this, R.raw.select01);
+        mediaPlayer.start();
+        mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mp) {
+                mp.release();
+            }
+        });
     }
+
+
 
     private void clearAnswerValue() {
         TextView txtView = (TextView) findViewById(R.id.answer);
@@ -188,9 +205,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         txtScore.setText("0");
     }
 
-    private void Vibration(){
-        Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+    private void Vibration() {
+        Vibrator vib = (Vibrator) getSystemService(VIBRATOR_SERVICE);
         vib.vibrate(2000);
     }
 }
+
+
+
+
 
