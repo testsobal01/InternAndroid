@@ -2,6 +2,7 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.content.SharedPreferences;
