@@ -11,4 +11,5 @@
     <string name="l_result">LOSE</string>
     <string name="d_result">DROW</string>
     <string name="button0">スタート</string>
+    <string name ="max_score">Max score:</string>
 </resources>
