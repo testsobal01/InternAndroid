@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="app_name">チームⅮゲーム</string>
-    <string name="btn_high">高い</string>
-    <string name="btn_low">低い</string>
-    <string name="btn_restart">再スタート</string>
-    <string name="label_score">点数:</string>
-</resources>

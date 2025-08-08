@@ -48,8 +48,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void clearAnswerValue() {
+        String txt = getResources().getString(R.string.text);
         TextView txtView = (TextView) findViewById(R.id.answer);
-        txtView.setText("値2");
+        txtView.setText(txt);
     }
 
     private void setQuestionValue() {
