@@ -157,6 +157,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = getResources().getString(R.string.w_result);
                 score = 2;
+                txtViewAnswer.setBackgroundColor(Color.rgb(255,69,0));//koko
                 Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
                 long[] pattern = {0,200,100,200,100,200};
                 vib.vibrate(pattern,-1);
