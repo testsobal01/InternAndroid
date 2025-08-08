@@ -15,7 +15,6 @@
     <string name="select_value">select value</string>
     <string name="select">select：</string>
     <string name="cancel">cancel</string>
-    <string name="button0">スタート</string>
     <string name="setting">Setting</string>
     <string name ="max_score">Max score:</string>
 </resources>
