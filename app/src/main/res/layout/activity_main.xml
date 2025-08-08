@@ -4,12 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    >
 
     <LinearLayout
+        android:id="@+id/backgroud"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:background="@color/white">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -20,27 +23,45 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/btn_high" />
+                android:text="@string/btn_high"
+                android:background="@drawable/button_background"
+                app:backgroundTint="@null"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <Button
                 android:id="@+id/button2"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/btn_low" />
+                android:text="@string/btn_low"
+                android:background="@drawable/button_background"
+                app:backgroundTint="@null"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <Button
                 android:id="@+id/button3"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
-                android:text="@string/btn_restart" />
+                android:text="@string/btn_restart"
+                android:background="@drawable/button_background"
+                app:backgroundTint="@null"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
         </LinearLayout>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="10が設定されています。" />
+            android:text="@string/label" />
 
         <TextView
             android:id="@+id/text_result"
@@ -72,9 +93,9 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="#ff00ff"
+                android:background="@color/purpru"
                 android:gravity="center"
-                android:text="値1"
+                android:text="@string/text1"
                 android:textSize="60sp" />
 
             <TextView
@@ -82,9 +103,9 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="#ffff00"
+                android:background="@color/yellow"
                 android:gravity="center"
-                android:text="値2"
+                android:text="@string/text2"
                 android:textSize="60sp" />
         </LinearLayout>
 

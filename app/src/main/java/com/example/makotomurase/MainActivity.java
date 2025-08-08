@@ -3,16 +3,23 @@ package com.example.makotomurase;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.annotation.SuppressLint;
+import android.graphics.Color;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Vibrator;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+    SharedPreferences pref;
+    SharedPreferences.Editor prefEditor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +37,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // 起動時に関数を呼び出す
         setQuestionValue();
+
+        btn1.setBackground(getResources().getDrawable(R.drawable.button_background, null));
+        btn2.setBackground(getResources().getDrawable(R.drawable.button_background, null));
+        btn3.setBackground(getResources().getDrawable(R.drawable.button_background, null));
+        pref = getSharedPreferences("TeamPrif", MODE_PRIVATE);
+        prefEditor = pref.edit();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        TextView txtScore = (TextView) findViewById(R.id.text_score);
+        prefEditor.putString("main_input", txtScore.getText().toString());
+        prefEditor.commit();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        TextView txtScore = (TextView) findViewById(R.id.text_score);
+        String readText = pref.getString("main_input", "0");
+        txtScore.setText(readText);
     }
 
     @Override
@@ -38,6 +67,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (id == R.id.button1) {
             setAnswerValue();
             checkResult(true);
+
         } else if (id == R.id.button2) {
             setAnswerValue();
             checkResult(false);
@@ -46,6 +76,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             clearAnswerValue();
             clearScoreValue();
         }
+
     }
 
     private void clearAnswerValue() {
@@ -73,9 +104,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void checkResult(boolean isHigh) {
         TextView txtViewQuestion = findViewById(R.id.question);
         TextView txtViewAnswer = findViewById(R.id.answer);
+        View backcolor = findViewById(R.id.backgroud);
+
+        backcolor.setBackgroundColor(Color.WHITE);
+
 
         int question = Integer.parseInt(txtViewQuestion.getText().toString());
         int answer = Integer.parseInt(txtViewAnswer.getText().toString());
+
 
         TextView txtResult = (TextView) findViewById(R.id.text_result);
 
@@ -89,23 +125,42 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = "WIN";
                 score = 2;
+                backcolor.setBackground(getResources().getDrawable(R.color.win, null));
+                Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+                vibrator.vibrate(300);
+
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
+                backcolor.setBackground(getResources().getDrawable(R.color.lose, null));
+                Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+                vibrator.vibrate(new long[]{0,200, 100,1000}, -1);
             } else {
                 result = "DRAW";
                 score = 1;
+                backcolor.setBackground(getResources().getDrawable(R.color.draw, null));
+                Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+                vibrator.vibrate(new long[]{0,200, 100,1000}, -1);
             }
         } else {
             if (question > answer) {
                 result = "WIN";
                 score = 2;
+                backcolor.setBackground(getResources().getDrawable(R.color.win, null));
+                Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+                vibrator.vibrate(300);
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
+                backcolor.setBackground(getResources().getDrawable(R.color.lose, null));
+                Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+                vibrator.vibrate(new long[]{0,200, 100,1000}, -1);
             } else {
                 result = "DRAW";
                 score = 1;
+                backcolor.setBackground(getResources().getDrawable(R.color.draw, null));
+                Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+                vibrator.vibrate(new long[]{0,200, 100,1000}, -1);
             }
         }
 
@@ -147,5 +202,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView txtScore = (TextView) findViewById(R.id.text_score);
         txtScore.setText("0");
     }
+
+
+
+
 }
 
