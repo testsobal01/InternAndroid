@@ -68,10 +68,10 @@ public class AudioPlayer {
      * 結果い応じてSEを鳴らす
      * @param result　結果
      */
-    public void playResultSE(String result){
-        if(result.equals("WIN")) playWinSE();
-        else if (result.equals("LOSE")) playLoseSE();
-        else if(result.equals("DRAW")) playDrawSE();
+    public void playResultSE(String result, Context context){
+        if(result.equals(context.getResources().getString(R.string.w_result))) playWinSE();
+        else if (result.equals(context.getResources().getString(R.string.l_result))) playLoseSE();
+        else if(result.equals(context.getResources().getString(R.string.d_result))) playDrawSE();
     }
 
     /**
