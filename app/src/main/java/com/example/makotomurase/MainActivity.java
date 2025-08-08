@@ -2,6 +2,9 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.animation.Animator;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.media.MediaPlayer;
@@ -9,6 +12,9 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
+import android.view.animation.ScaleAnimation;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -140,14 +146,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // Highが押された
         if (isHigh) {
+
+
             // result には結果のみを入れる
             if (question < answer) {
                 result = "WIN";
                 score = 2;
+                TextAnimation(R.id.answer,3f,3f);
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
                 Vibration();
+                TextAnimation(R.id.question,3f,3f);
             } else {
                 result = "DRAW";
                 score = 1;
@@ -156,10 +166,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question > answer) {
                 result = "WIN";
                 score = 2;
+                TextAnimation(R.id.answer,3f,3f);
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
                 Vibration();
+                TextAnimation(R.id.question,3f,3f);
             } else {
                 result = "DRAW";
                 score = 1;
@@ -210,11 +222,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         vib.vibrate(2000);
     }
 
+
+    //テキストビューにアニメーションをつける
+    private void TextAnimation(int id, float ValueX,float ValueY){
+
+        TextView textView = findViewById(id);
+        if (textView == null){return;}
+
+        ObjectAnimator scaleX = ObjectAnimator.ofFloat(textView,"scaleX",1f,ValueX,1f);
+        scaleX.setDuration(1000);
+        ObjectAnimator scaleY = ObjectAnimator.ofFloat(textView,"scaleX",1f,ValueY,1f);
+        scaleY.setDuration(1000);
+
+        ObjectAnimator rotation = ObjectAnimator.ofFloat(textView,"rotation",0f,360f);
+        rotation.setDuration(1000);
+
+        AnimatorSet animatorSet = new AnimatorSet();
+        animatorSet.playTogether(scaleX,scaleY,rotation);
+        animatorSet.start();
+
+    }
+
     private void footer(){
         ImageView img = findViewById(R.id.footerView);
         img.setImageResource(R.drawable.footer);
     }
-
 }
 
 
