@@ -19,6 +19,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private SoundPool sndPool;
     private int snd1, snd2, snd3, snd4;
 
+    private int total=0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,6 +56,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             checkResult(false);
         } else if (id == R.id.button3) {
             sndPool.play(snd3, 1.0f, 1.0f, 0, 0, 1);
+            total=0;
+            WinScore();
             setQuestionValue();
             clearAnswerValue();
             clearScoreValue();
@@ -102,10 +106,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = "WIN";
                 score = 2;
+                total++;
+                WinScore();
                 sndPool.play(snd1, 1.0f, 1.0f, 0, 0, 1);
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
+                total=0;
+                WinScore();
                 sndPool.play(snd2, 1.0f, 1.0f, 0, 0, 1);
                 LoseVibrate();
             } else {
@@ -117,10 +125,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question > answer) {
                 result = "WIN";
                 score = 2;
+                total++;
+                WinScore();
                 sndPool.play(snd1, 1.0f, 1.0f, 0, 0, 1);
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
+                total=0;
+                WinScore();
                 sndPool.play(snd2, 1.0f, 1.0f, 0, 0, 1);
                 LoseVibrate();
             } else {
@@ -128,6 +140,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 score = 1;
                 sndPool.play(snd4, 1.0f, 1.0f, 0, 0, 1);
             }
+
         }
 
         // 最後にまとめてToast表示の処理とTextViewへのセットを行う
@@ -177,6 +190,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void RestartVibrate() {
         Vibrator vib = (Vibrator) getSystemService(VIBRATOR_SERVICE);
         vib.vibrate(100);
+    }
+
+    private void WinScore() {
+        TextView MaxWin = (TextView) findViewById(R.id.Max_Win);
+        MaxWin.setText("連勝数：" +total+"  ");
     }
 }
 
