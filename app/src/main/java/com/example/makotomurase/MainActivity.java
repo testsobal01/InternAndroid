@@ -2,6 +2,7 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.SharedPreferences;
 import android.app.Activity;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -16,13 +17,12 @@ import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
+    SharedPreferences pref;
+    SharedPreferences.Editor prefEditor;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-
-
         Button btn1 = findViewById(R.id.button1);
         btn1.setOnClickListener(this);
 
@@ -36,7 +36,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // 起動時に関数を呼び出す
         setQuestionValue();
+
+        pref = getSharedPreferences("AndroidSeminor", MODE_PRIVATE);
+        prefEditor = pref.edit();
     }
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Toast.makeText(this, "onPause", Toast.LENGTH_SHORT).show();
+
+        TextView textView = (TextView) findViewById(R.id.text_score);
+        prefEditor.putString("main_input", textView.getText().toString());
+        prefEditor.commit();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Toast.makeText(this, "onResume", Toast.LENGTH_SHORT).show();
+
+        TextView textView = (TextView) findViewById(R.id.text_score);
+        String readText = pref.getString("main_input", "保存されていません");
+        textView.setText(readText);
+    }
+
+
 
     @Override
     public void onClick(View view) {
@@ -56,7 +80,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void clearAnswerValue() {
         TextView txtView = (TextView) findViewById(R.id.answer);
-        txtView.setText("値2");
+        txtView.setText(getString(R.string.answer));
     }
 
     private void setQuestionValue() {
@@ -93,37 +117,37 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (isHigh) {
             // result には結果のみを入れる
             if (question < answer) {
-                result = "WIN";
+                result =getString(R.string.WIN);
                 score = 2;
             } else if (question > answer) {
-                result = "LOSE";
+                result =getString(R.string.LOSE);
                 score = -1;
                 Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
                 vib.vibrate(400);
 
             } else {
-                result = "DRAW";
+                result =getString(R.string.DRAW);
                 score = 1;
 
             }
         } else {
             if (question > answer) {
-                result = "WIN";
+                result =getString(R.string.WIN);
                 score = 2;
             } else if (question < answer) {
-                result = "LOSE";
+                result =getString(R.string.LOSE);
                 score = -1;
                 Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
                 vib.vibrate(400);
             } else {
-                result = "DRAW";
+                result =getString(R.string.DRAW);
                 score = 1;
             }
         }
 
         // 最後にまとめてToast表示の処理とTextViewへのセットを行う
         Toast.makeText(this, result, Toast.LENGTH_LONG).show();
-        txtResult.setText("結果：" + question + ":" + answer + "(" + result + ")");
+        txtResult.setText(getString(R.string.result)+ question + ":" + answer + "(" + result + ")");
 
         // 続けて遊べるように値を更新
         setNextQuestion();
