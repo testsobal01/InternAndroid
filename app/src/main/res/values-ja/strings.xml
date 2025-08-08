@@ -10,4 +10,5 @@
     <string name="w_result">勝ち</string>
     <string name="l_result">負け</string>
     <string name="d_result">引き分け</string>
+    <string name ="max_score">最大スコア:</string>
 </resources>

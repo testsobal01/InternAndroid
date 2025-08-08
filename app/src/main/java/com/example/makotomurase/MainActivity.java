@@ -63,9 +63,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onPause() {
         super.onPause();
 
+        // スコアの保存
         TextView textScore = (TextView) findViewById(R.id.text_score);
         int nowScore = Integer.parseInt(textScore.getText().toString()); // 現時点のスコアを入手
         preEditer.putInt("score",nowScore);// スコアを保存
+
+        // 最高スコアの保存
+        TextView textMaxScore = (TextView) findViewById(R.id.max_score);
+        int maxScore = Integer.parseInt(textMaxScore.getText().toString()); // 現時点の最高スコアを入手
+        preEditer.putInt("max_score",maxScore);// 最高スコアを保存
+
         preEditer.commit();
     }
 
@@ -73,9 +80,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onResume() {
         super.onResume();
 
-        //もともとのスコアを呼び出す
+        // もともとのスコアを呼び出す
         TextView textScore = (TextView) findViewById(R.id.text_score);
         textScore.setText(String.valueOf(pref.getInt("score",0)));
+
+        // もともとの最高スコアを呼び出す
+        TextView textMaxScore = (TextView) findViewById(R.id.max_score);
+        textMaxScore.setText(String.valueOf(pref.getInt("max_score",0)));
     }
 
     @Override
@@ -223,6 +234,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView txtScore = (TextView) findViewById(R.id.text_score);
         int newScore = Integer.parseInt(txtScore.getText().toString()) + score;
         txtScore.setText(Integer.toString(newScore));
+
+        /**
+         * 最高スコアの更新
+         */
+        TextView txtMaxScore = (TextView) findViewById(R.id.max_score);
+        int maxScore = Integer.parseInt(txtMaxScore.getText().toString());
+        if(maxScore<newScore) maxScore = newScore;
+        txtMaxScore.setText(Integer.toString(maxScore));
     }
 
     private void clearScoreValue() {
