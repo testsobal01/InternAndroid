@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Group-EEE</string>
+    <string name="app_name">ハイロー・レッサー</string>
     <string name="btn_high">High</string>
     <string name="btn_low">Low</string>
     <string name="btn_restart">Restart</string>
@@ -10,5 +10,7 @@
     <string name="WIN">勝ち</string>
     <string name="LOSE">負け</string>
     <string name="DRAW">引き分け</string>
-    <string name="START">START</string>
+    <string name="START">開始</string>
+    <string name="resume_message">前回の記録から</string>
+    <string name="home_message">ホーム</string>
 </resources>

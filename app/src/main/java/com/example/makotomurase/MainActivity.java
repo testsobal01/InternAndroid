@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onPause() {
         super.onPause();
-        Toast.makeText(this, "onPause", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, getString(R.string.home_message), Toast.LENGTH_SHORT).show();
 
         TextView textView = (TextView) findViewById(R.id.text_score);
         prefEditor.putString("main_input", textView.getText().toString());
@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onResume() {
         super.onResume();
-        Toast.makeText(this, "onResume", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, getString(R.string.resume_message), Toast.LENGTH_SHORT).show();
 
         TextView textView = (TextView) findViewById(R.id.text_score);
         String readText = pref.getString("main_input", "保存されていません");

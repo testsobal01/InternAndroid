@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">YasuakiGotou</string>
+    <string name="app_name">High-Low Lesser</string>
     <string name="btn_high">High</string>
     <string name="btn_low">Low</string>
     <string name="btn_restart">Restart</string>
@@ -11,4 +11,7 @@
     <string name="WIN">WIN</string>
     <string name="LOSE">LOSE</string>
     <string name="DRAW">DRAW</string>
+    <string name="START">START</string>
+    <string name="resume_message">From last record</string>
+    <string name="home_message">HOME</string>
 </resources>
