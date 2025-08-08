@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Vibrator;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -145,29 +146,44 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = getResources().getString(R.string.w_result);
                 score = 2;
-                txtViewAnswer.setBackgroundColor(Color.rgb(255,69,0));
+                Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+                long[] pattern = {0,200,100,200,100,200};
+                vib.vibrate(pattern,-1);
             } else if (question > answer) {
                 result = getResources().getString(R.string.l_result);
                 score = -1;
                 txtViewAnswer.setBackgroundColor(Color.rgb(65,105,225));
+                Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+                vib.vibrate(200);
             } else {
                 result = getResources().getString(R.string.d_result);
                 score = 1;
                 txtViewAnswer.setBackgroundColor(Color.rgb(220,220,220));
+                Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+                long[] pattern = {0,200,100,200};
+                vib.vibrate(pattern,-1);
             }
         } else {
             if (question > answer) {
                 result = getResources().getString(R.string.w_result);
                 score = 2;
                 txtViewAnswer.setBackgroundColor(Color.rgb(255,69,0));
+                Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+                long[] pattern = {0,200,100,200,100,200};
+                vib.vibrate(pattern,-1);
             } else if (question < answer) {
                 result = getResources().getString(R.string.l_result);
                 score = -1;
                 txtViewAnswer.setBackgroundColor(Color.rgb(65,105,225));
+                Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+                vib.vibrate(200);
             } else {
                 result = getResources().getString(R.string.d_result);
                 score = 1;
                 txtViewAnswer.setBackgroundColor(Color.rgb(220,220,220));
+                Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+                long[] pattern = {0,200,100,200};
+                vib.vibrate(pattern,-1);
             }
         }
 
