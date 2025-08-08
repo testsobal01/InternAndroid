@@ -2,6 +2,7 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
@@ -11,8 +12,12 @@ import android.widget.Toast;
 
 import java.util.Random;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+import android.animation.ObjectAnimator;
 
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+    private TextView numberText;
+    private Button button1;
+    private ObjectAnimator blinkAnimator;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,13 +31,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
-
         // 起動時に関数を呼び出す
         setQuestionValue();
+
+        blinkAnimator = ObjectAnimator.ofFloat(findViewById(R.id.answer), "alpha", 1f, 0f);
+        blinkAnimator.setDuration(300); // 点滅速度（ミリ秒）
+        blinkAnimator.setRepeatMode(ObjectAnimator.REVERSE);
+        blinkAnimator.setRepeatCount(1);
     }
 
     @Override
     public void onClick(View view) {
+
+
+
         int id = view.getId();
         if (id == R.id.button1) {
             setAnswerValue();
@@ -46,6 +58,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             clearScoreValue();
         }
     }
+
+
 
     private void clearAnswerValue() {
         TextView txtView = (TextView) findViewById(R.id.answer);
@@ -88,6 +102,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = "WIN";
                 score = 2;
+                if (blinkAnimator.isRunning()) {
+                    blinkAnimator.cancel();
+                    numberText.setAlpha(1f); // 点滅停止時は表示に戻す
+                } else {
+                    blinkAnimator.start();
+                }
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
@@ -99,6 +119,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question > answer) {
                 result = "WIN";
                 score = 2;
+                if (blinkAnimator.isRunning()) {
+                    blinkAnimator.cancel();
+                    numberText.setAlpha(1f); // 点滅停止時は表示に戻す
+                } else {
+                    blinkAnimator.start();
+                }
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
