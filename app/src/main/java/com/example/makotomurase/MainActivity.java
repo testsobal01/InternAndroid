@@ -24,6 +24,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     SharedPreferences pref;
     SharedPreferences.Editor preEditer;
 
+    /**
+     * SEを鳴らす用
+     */
+    private AudioPlayer audioPlayer;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,6 +37,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Intent intent = getIntent();
         Bundle extra = intent.getExtras();
         String intentString = extra.getString("KEY");
+
+        audioPlayer= new AudioPlayer(this);// audioPlayerのインスタンスを作成
 
 
         Button btn1 = findViewById(R.id.button1);
@@ -73,6 +80,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View view) {
+
         int id = view.getId();
         if (id == R.id.button1) {
             setAnswerValue();
@@ -87,6 +95,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             TextView txtViewAnswer = findViewById(R.id.answer);
             txtViewAnswer.setBackgroundColor(Color.rgb(255,255,0));
+
+            audioPlayer.playPushButtonSE();// SEを鳴らす
         }
     }
 
@@ -159,6 +169,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // 最後にまとめてToast表示の処理とTextViewへのセットを行う
         Toast.makeText(this, result, Toast.LENGTH_LONG).show();
+        audioPlayer.playResultSE(result);// SEを鳴らす
         txtResult.setText(getResources().getString(R.string.result)+ question + ":" + answer + "(" + result + ")");
         valueAnimation(result);
 
