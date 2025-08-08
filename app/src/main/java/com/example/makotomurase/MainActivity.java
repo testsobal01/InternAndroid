@@ -8,7 +8,12 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
+import android.view.animation.ScaleAnimation;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.os.Vibrator;
@@ -16,6 +21,8 @@ import java.util.Random;
 
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
+    private ImageView imageView;
 
     SharedPreferences pref;
     SharedPreferences.Editor prefEditor;
@@ -31,6 +38,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
+
 
 
 
@@ -113,15 +121,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         String result;
         int score;
 
+        TextView winnerView = null;
+        TextView loserView = null;
+
         // Highが押された
         if (isHigh) {
             // result には結果のみを入れる
             if (question < answer) {
                 result =getString(R.string.WIN);
                 score = 2;
+                winnerView = txtViewAnswer;
+                loserView = txtViewQuestion;
+
             } else if (question > answer) {
                 result =getString(R.string.LOSE);
                 score = -1;
+                winnerView = txtViewQuestion;
+                loserView = txtViewAnswer;
                 Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
                 vib.vibrate(400);
 
@@ -134,9 +150,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question > answer) {
                 result =getString(R.string.WIN);
                 score = 2;
+
+                winnerView = txtViewQuestion;
+                loserView = txtViewAnswer;
+
             } else if (question < answer) {
                 result =getString(R.string.LOSE);
                 score = -1;
+                winnerView = txtViewAnswer;
+                loserView = txtViewQuestion;
                 Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
                 vib.vibrate(400);
             } else {
@@ -145,6 +167,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         }
 
+        if (!result.equals(getString(R.string.DRAW))) {
+            animateWinner(winnerView);
+            animateLoser(loserView);
+        }
         // 最後にまとめてToast表示の処理とTextViewへのセットを行う
         Toast.makeText(this, result, Toast.LENGTH_LONG).show();
         txtResult.setText(getString(R.string.result)+ question + ":" + answer + "(" + result + ")");
@@ -153,9 +179,37 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setNextQuestion();
         // スコアを表示
         setScore(score);
+
+
     }
 
-    private void setNextQuestion() {
+    private void animateWinner(TextView view) {
+            ScaleAnimation scaleUp = new ScaleAnimation(
+                    1.0f, 1.5f, 1.0f, 1.5f,
+                    Animation.RELATIVE_TO_SELF, 0.5f,
+                    Animation.RELATIVE_TO_SELF, 0.5f
+            );
+            scaleUp.setDuration(300);
+            scaleUp.setRepeatCount(1);
+            scaleUp.setRepeatMode(Animation.REVERSE);
+            view.startAnimation(scaleUp);
+        }
+
+        private void animateLoser(TextView view) {
+            ScaleAnimation scaleDown = new ScaleAnimation(
+                    1.0f, 0.5f, 1.0f, 0.5f,
+                    Animation.RELATIVE_TO_SELF, 0.5f,
+                    Animation.RELATIVE_TO_SELF, 0.5f
+            );
+            scaleDown.setDuration(300);
+            scaleDown.setRepeatCount(1);
+            scaleDown.setRepeatMode(Animation.REVERSE);
+            view.startAnimation(scaleDown);
+        }
+
+
+
+        private void setNextQuestion() {
         // 第１引数がカウントダウン時間、第２引数は途中経過を受け取る間隔
         // 単位はミリ秒（1秒＝1000ミリ秒）
         new CountDownTimer(3000, 1000) {
