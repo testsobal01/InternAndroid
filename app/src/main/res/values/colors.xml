@@ -2,4 +2,9 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="winColor">#FFB6C1</color>
+    <color name="loseColor">#C0C0C0</color>
+    <color name="drawColor">#7FFFD4</color>
+    <color name="blue">#7FFFD4</color>
+    <color name="yellow">#FFFF80</color>
 </resources>

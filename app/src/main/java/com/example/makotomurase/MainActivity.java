@@ -12,7 +12,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-
+import android.widget.RelativeLayout;
+import androidx.core.content.ContextCompat;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -22,10 +23,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     SharedPreferences pref;
     SharedPreferences.Editor prefEditor;
 
+    private RelativeLayout rootLayout;
+    private TextView txtViewQuestion;
+    private TextView txtViewAnswer;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        rootLayout = findViewById(R.id.rootLayout);
 
         Button btn1 = findViewById(R.id.button1);
         btn1.setOnClickListener(this);
@@ -41,6 +49,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         snd2 = sndPool.load(this, R.raw.lose, 1);
         snd3 = sndPool.load(this, R.raw.restart, 1);
         snd4 = sndPool.load(this, R.raw.draw, 1);
+
+        // 値1と値2のTextViewをIDで取得
+        txtViewQuestion = findViewById(R.id.question);
+        txtViewAnswer = findViewById(R.id.answer);
 
         // 起動時に関数を呼び出す
         setQuestionValue();
@@ -70,12 +82,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         //プリファレンスからスコア読み込み
         TextView textView = (TextView) findViewById(R.id.text_score);
-        String readText = pref.getString("score_input", "保存されていません");
+        String readText = pref.getString("score_input", "0");
         textView.setText(readText);
 
         //プリファレンスからハイスコア読み込み
         TextView textView2 = (TextView) findViewById(R.id.text_high_score);
-        String readText2 = pref.getString("high_score_input", "保存されていません");
+        String readText2 = pref.getString("high_score_input", "0");
         textView2.setText(readText2);
 
     }
@@ -101,6 +113,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             clearAnswerValue();
             clearScoreValue();
             RestartVibrate();
+            //背景色を初期に戻す
+            txtViewQuestion.setBackgroundColor(ContextCompat.getColor(this, R.color.blue));
+            txtViewAnswer.setBackgroundColor(ContextCompat.getColor(this, R.color.yellow));
         }
     }
 
@@ -139,6 +154,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         String result;
         int score;
 
+        // 比較結果のみで色を決定する
+        int colorWin = ContextCompat.getColor(this, R.color.winColor);
+        int colorLose = ContextCompat.getColor(this, R.color.loseColor);
+        int colorDraw = ContextCompat.getColor(this, R.color.drawColor);
+        int colorOriginal1 = ContextCompat.getColor(this, R.color.blue);
+        int colorOriginal2 = ContextCompat.getColor(this, R.color.yellow);
+
+        // まず両方の背景色を初期化
+        txtViewQuestion.setBackgroundColor(colorOriginal1);
+        txtViewAnswer.setBackgroundColor(colorOriginal2);
+
         // Highが押された
         if (isHigh) {
             // result には結果のみを入れる
@@ -146,32 +172,57 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 result = "WIN";
                 score = 2;
                 sndPool.play(snd1, 1.0f, 1.0f, 0, 0, 1);
+                //値2の背景色をWINの色に変更
+                txtViewAnswer.setBackgroundColor(colorWin);
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
                 sndPool.play(snd2, 1.0f, 1.0f, 0, 0, 1);
                 LoseVibrate();
+                // 値1の背景色をLOSEの色に変更
+                txtViewQuestion.setBackgroundColor(colorLose);
             } else {
                 result = "DRAW";
                 score = 1;
                 sndPool.play(snd4, 1.0f, 1.0f, 0, 0, 1);
+                // 背景色をDRAWの色に変更
+                txtViewQuestion.setBackgroundColor(colorDraw);
+                txtViewAnswer.setBackgroundColor(colorDraw);
             }
         } else {
             if (question > answer) {
                 result = "WIN";
                 score = 2;
                 sndPool.play(snd1, 1.0f, 1.0f, 0, 0, 1);
+                // 値1の背景色をWINの色に変更
+                txtViewQuestion.setBackgroundColor(colorWin);
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
                 sndPool.play(snd2, 1.0f, 1.0f, 0, 0, 1);
                 LoseVibrate();
+                // 値1の背景色をLOSEの色に変更
+                txtViewAnswer.setBackgroundColor(colorLose);
             } else {
                 result = "DRAW";
                 score = 1;
                 sndPool.play(snd4, 1.0f, 1.0f, 0, 0, 1);
+                // 背景色をDRAWの色に変更
+                txtViewQuestion.setBackgroundColor(colorDraw);
+                txtViewAnswer.setBackgroundColor(colorDraw);
             }
         }
+        //背景変更を行う
+        int color;
+        if (result.equals("WIN")) {
+            color = getResources().getColor(R.color.winColor);
+        } else if (result.equals("LOSE")) {
+            color = getResources().getColor(R.color.loseColor);
+        } else {
+            color = getResources().getColor(R.color.drawColor);
+        }
+        txtViewQuestion.setBackgroundColor(color);
+        txtViewAnswer.setBackgroundColor(color);
 
         // 最後にまとめてToast表示の処理とTextViewへのセットを行う
         Toast.makeText(this, result, Toast.LENGTH_LONG).show();
@@ -198,6 +249,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public void onFinish() {
                 // 3秒経過したら次の値をセット
                 setQuestionValue();
+                // 背景色を元の色に戻す
+                txtViewQuestion.setBackgroundColor(ContextCompat.getColor(MainActivity.this, R.color.blue));
+                txtViewAnswer.setBackgroundColor(ContextCompat.getColor(MainActivity.this, R.color.yellow));
             }
         }.start();
     }
