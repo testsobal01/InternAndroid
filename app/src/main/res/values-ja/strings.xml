@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Group-EEE</string>
+    <string name="app_name">YasuakiGotou</string>
     <string name="btn_high">高い</string>
     <string name="btn_low">低い</string>
     <string name="btn_restart">最初から</string>
@@ -11,6 +11,4 @@
     <string name="WIN">勝ち</string>
     <string name="LOSE">負け</string>
     <string name="DRAW">引き分け</string>
-    <string name="START">START</string>
 </resources>
-
