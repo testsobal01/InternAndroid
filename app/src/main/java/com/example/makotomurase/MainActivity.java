@@ -10,13 +10,17 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.RotateAnimation;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     SharedPreferences pref;
     SharedPreferences.Editor prefEditor;
+
+    private Animation scaleAnim;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +41,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         pref = getSharedPreferences("AndroidSeminor", MODE_PRIVATE);
         prefEditor = pref.edit();
+
+        scaleAnim = AnimationUtils.loadAnimation(this, R.anim.scale_animation);
+
+
+
     }
 
     @Override
@@ -79,6 +88,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void clearAnswerValue() {
         TextView txtView = (TextView) findViewById(R.id.answer);
         txtView.setText("値2");
+
     }
 
     private void setQuestionValue() {
@@ -88,6 +98,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         TextView txtView = findViewById(R.id.question);
         txtView.setText(Integer.toString(questionValue));
+
+
+
+
+
+
+
     }
 
     private void setAnswerValue() {
@@ -96,6 +113,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         TextView txtView = findViewById(R.id.answer);
         txtView.setText(Integer.toString(answerValue));
+
+
+
     }
 
     private void checkResult(boolean isHigh) {
@@ -107,6 +127,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         TextView txtResult = (TextView) findViewById(R.id.text_result);
 
+        scaleAnim = AnimationUtils.loadAnimation(this, R.anim.scale_animation);
+
+
+        setQuestionValue();
+        setAnswerValue();
+
+
+
+
         // 結果を示す文字列を入れる変数を用意
         String result;
         int score;
@@ -115,9 +144,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (isHigh) {
             // result には結果のみを入れる
             if (question < answer) {
+                txtViewAnswer.startAnimation(scaleAnim);
                 result = "WIN";
                 score = 2;
             } else if (question > answer) {
+                txtViewQuestion.startAnimation(scaleAnim);
                 result = "LOSE";
                 score = -1;
                 LoseVibrate();
@@ -127,9 +158,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         } else {
             if (question > answer) {
+                txtViewQuestion.startAnimation(scaleAnim);
                 result = "WIN";
                 score = 2;
             } else if (question < answer) {
+                txtViewAnswer.startAnimation(scaleAnim);
                 result = "LOSE";
                 score = -1;
                 LoseVibrate();
@@ -187,5 +220,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Vibrator vib = (Vibrator) getSystemService(VIBRATOR_SERVICE);
         vib.vibrate(100);
     }
+
+
+
 }
 
