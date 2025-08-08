@@ -1,7 +1,15 @@
 <resources>
-    <string name="app_name">YasuakiGotou</string>
+    <string name="app_name">Number-GAME</string>
     <string name="btn_high">High</string>
     <string name="btn_low">Low</string>
     <string name="btn_restart">Restart</string>
     <string name="label_score">Score：</string>
+    <string name="set_10">10 is set</string>
+    <string name="price">price2</string>
+    <string name="text_result">Result</string>
+    <string name="text_result_win">WIN</string>
+    <string name="text_result_lose">LOSE</string>
+    <string name="text_result_draw">DRAW</string>
+
+
 </resources>
