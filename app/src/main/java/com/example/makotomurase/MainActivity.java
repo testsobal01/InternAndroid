@@ -1,5 +1,7 @@
 package com.example.makotomurase;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -7,11 +9,15 @@ import android.graphics.Color;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.os.Vibrator;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,6 +25,8 @@ import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
+
+    int randMax = 10;// 乱数の最大値
     /**
      * score用のpreference
      */
@@ -72,7 +80,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView textScore = (TextView) findViewById(R.id.text_score);
         int nowScore = Integer.parseInt(textScore.getText().toString()); // 現時点のスコアを入手
         preEditer.putInt("score",nowScore);// スコアを保存
-
+        preEditer.putInt("randMax",randMax);// 乱数の最大値を保存
         // 最高スコアの保存
         TextView textMaxScore = (TextView) findViewById(R.id.max_score);
         int maxScore = Integer.parseInt(textMaxScore.getText().toString()); // 現時点の最高スコアを入手
@@ -89,10 +97,57 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView textScore = (TextView) findViewById(R.id.text_score);
         textScore.setText(String.valueOf(pref.getInt("score",0)));
 
-        // もともとの最高スコアを呼び出す
+
+        randMax=pref.getInt("randMax",10);// もともとの最大値を呼び出す
+        // 表示も変える
+        TextView randMaxTextView = (TextView) findViewById(R.id.text_rand_max);
+        randMaxTextView.setText(String.valueOf(randMax)+" ");
+      
+      // もともとの最高スコアを呼び出す
         TextView textMaxScore = (TextView) findViewById(R.id.max_score);
         textMaxScore.setText(String.valueOf(pref.getInt("max_score",0)));
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(@NonNull Menu menu) {
+        getMenuInflater().inflate(R.menu.setting_menu, menu);
+        return true;
+    }
+
+    /**
+     * NumberPickerを表示するメソッド
+     * @param item　押されたアイコン
+     */
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item){
+        LayoutInflater inflater = LayoutInflater.from(this);
+        View dialogView = inflater.inflate(R.layout.dialog_number_picker, null);
+
+        // NumberPickerを取得して初期設定
+        NumberPicker numberPicker = dialogView.findViewById(R.id.numberPicker);
+        numberPicker.setMinValue(10);
+        numberPicker.setMaxValue(50);
+        numberPicker.setValue(randMax); // 初期値
+
+        // AlertDialogの作成
+        new AlertDialog.Builder(this)
+                .setTitle(getString(R.string.select_value))
+                .setView(dialogView)
+                .setPositiveButton("OK", (dialog, which) -> {
+                    int selectedValue = numberPicker.getValue();
+                    Toast.makeText(this, getString(R.string.select) + selectedValue, Toast.LENGTH_SHORT).show();
+
+                    randMax=selectedValue;// 乱数の最大値を変更
+                    TextView randMaxTextView = (TextView) findViewById(R.id.text_rand_max);
+                    randMaxTextView.setText(String.valueOf(randMax)+" ");
+                })
+                .setNegativeButton(getString(R.string.cancel), null)
+                .show();
+
+        return true;
+
+    }
+
 
     @Override
     public void onClick(View view) {
@@ -125,15 +180,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void setQuestionValue() {
         Random r = new Random();
         // 0から10の範囲で乱数を生成（+1する必要がある）
-        int questionValue = r.nextInt(10 + 1);
+        int questionValue = r.nextInt(randMax + 1);
 
         TextView txtView = findViewById(R.id.question);
         txtView.setText(Integer.toString(questionValue));
+
+        //設定されたいる数値を表示
+        TextView randMaxTextView = (TextView) findViewById(R.id.text_rand_max);
+        randMaxTextView.setText(String.valueOf(randMax)+" ");
     }
 
     private void setAnswerValue() {
         Random r = new Random();
-        int answerValue = r.nextInt(10 + 1);
+        int answerValue = r.nextInt(randMax + 1);
 
         TextView txtView = findViewById(R.id.answer);
         txtView.setText(Integer.toString(answerValue));
@@ -234,7 +293,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             return;
         }
 
-        //TODO: 一通り終わったらこだわる。背景色も回転してしまうので時間があれば修正
         target.startAnimation(animation); //アニメーションを実行
 
     }
