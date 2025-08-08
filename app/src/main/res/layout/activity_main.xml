@@ -94,7 +94,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="#ff00ff"
+                android:background="#ff0000"
                 android:gravity="center"
                 android:text="値1"
                 android:textSize="60sp" />
@@ -104,7 +104,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="#ffff00"
+                android:background="#00f0ff"
                 android:gravity="center"
                 android:text="@string/text"
                 android:textSize="60sp" />
