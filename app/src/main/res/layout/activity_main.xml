@@ -20,6 +20,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:textColor="@color/white"
+                android:backgroundTint="@color/black"
                 android:text="@string/btn_high" />
 
             <Button
@@ -27,6 +29,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:backgroundTint="@color/black"
+                android:textColor="@color/white"
                 android:text="@string/btn_low" />
 
             <Button
@@ -34,6 +38,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
+                android:textColor="@color/white"
+                android:backgroundTint="@color/black"
                 android:text="@string/btn_restart" />
         </LinearLayout>
 
