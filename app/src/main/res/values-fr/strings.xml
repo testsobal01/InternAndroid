@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="btn_high">Élevé</string>
+    <string name="btn_low">bas</string>
+    <string name="btn_restart">Redémarrer</string>
+    <string name="label_score">Score：</string>
+    <string name="text_10">10 est défini.</string>
+    <string name="value">Valeur2</string>
+    <string name="result">résultat</string>
+    <string name="w_result">Gagner</string>
+    <string name="l_result">Perdre</string>
+    <string name="d_result">Match nul</string>
+    <string name="button0">Début</string>
+</resources>

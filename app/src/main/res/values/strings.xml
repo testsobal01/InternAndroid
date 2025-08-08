@@ -10,5 +10,5 @@
     <string name="w_result">WIN</string>
     <string name="l_result">LOSE</string>
     <string name="d_result">DROW</string>
-    <string name="button0">スタート</string>
+    <string name="button0">START</string>
 </resources>

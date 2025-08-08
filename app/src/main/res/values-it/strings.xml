@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="btn_high">alto</string>
+    <string name="btn_low">basso</string>
+    <string name="btn_restart">riavvio</string>
+    <string name="label_score">Punteggio</string>
+    <string name="text_10">È impostato il valore 10.</string>
+    <string name="value">Valore 2</string>
+    <string name="result">risultato</string>
+    <string name="w_result">vittoria</string>
+    <string name="l_result">perdere</string>
+    <string name="d_result">pareggio</string>
+    <string name="button0">Iniziare</string>
+</resources>
