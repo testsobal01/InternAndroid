@@ -56,6 +56,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // 起動時に関数を呼び出す
         setQuestionValue();
+
+
+        // Buttonの背景色にカラー定義リソースを設定する
+        btn1.setBackground(getResources().getDrawable(R.drawable.button_design, null));
     }
 
 
