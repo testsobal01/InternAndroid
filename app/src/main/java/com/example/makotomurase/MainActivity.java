@@ -1,6 +1,7 @@
 package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import android.content.SharedPreferences;
 import android.app.Activity;
@@ -18,12 +19,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.os.Vibrator;
 import java.util.Random;
+import android.os.Handler;
+import androidx.core.content.ContextCompat;
 
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private ImageView imageView;
-
     SharedPreferences pref;
     SharedPreferences.Editor prefEditor;
     @Override
@@ -38,8 +40,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
-
-
 
 
         // 起動時に関数を呼び出す
@@ -67,6 +67,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         String readText = pref.getString("main_input", "保存されていません");
         textView.setText(readText);
     }
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Toast.makeText(this, "onPause", Toast.LENGTH_SHORT).show();
+
+        TextView textView = (TextView) findViewById(R.id.text_score);
+        prefEditor.putString("main_input", textView.getText().toString());
+        prefEditor.commit();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Toast.makeText(this, "onResume", Toast.LENGTH_SHORT).show();
+
+        TextView textView = (TextView) findViewById(R.id.text_score);
+        String readText = pref.getString("main_input", "保存されていません");
+        textView.setText(readText);
+    }
+
+
 
 
 
@@ -111,11 +132,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void checkResult(boolean isHigh) {
         TextView txtViewQuestion = findViewById(R.id.question);
         TextView txtViewAnswer = findViewById(R.id.answer);
+        TextView txtResult = findViewById(R.id.text_result);
+        View rootLayout = findViewById(R.id.root_layout);
 
         int question = Integer.parseInt(txtViewQuestion.getText().toString());
         int answer = Integer.parseInt(txtViewAnswer.getText().toString());
-
-        TextView txtResult = (TextView) findViewById(R.id.text_result);
 
         // 結果を示す文字列を入れる変数を用意
         String result;
@@ -132,45 +153,51 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 score = 2;
                 winnerView = txtViewAnswer;
                 loserView = txtViewQuestion;
-
+                rootLayout.setBackgroundColor(ContextCompat.getColor(this, R.color.win_background));
             } else if (question > answer) {
                 result =getString(R.string.LOSE);
                 score = -1;
                 winnerView = txtViewQuestion;
                 loserView = txtViewAnswer;
+                rootLayout.setBackgroundColor(ContextCompat.getColor(this, R.color.lose_background));
                 Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
                 vib.vibrate(400);
 
             } else {
                 result =getString(R.string.DRAW);
                 score = 1;
-
+                rootLayout.setBackgroundColor(ContextCompat.getColor(this, R.color.default_background));
             }
         } else {
             if (question > answer) {
                 result =getString(R.string.WIN);
                 score = 2;
-
                 winnerView = txtViewQuestion;
                 loserView = txtViewAnswer;
-
+                rootLayout.setBackgroundColor(ContextCompat.getColor(this, R.color.win_background));
             } else if (question < answer) {
                 result =getString(R.string.LOSE);
                 score = -1;
+                rootLayout.setBackgroundColor(ContextCompat.getColor(this, R.color.lose_background));
                 winnerView = txtViewAnswer;
-                loserView = txtViewQuestion;
+                loserView = txtViewQuestion
                 Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
                 vib.vibrate(400);
             } else {
                 result =getString(R.string.DRAW);
                 score = 1;
+                rootLayout.setBackgroundColor(ContextCompat.getColor(this, R.color.default_background));
             }
         }
 
+        new Handler().postDelayed(() -> {
+            rootLayout.setBackgroundColor(ContextCompat.getColor(this, R.color.default_background));
+        }, 5000);
         if (!result.equals(getString(R.string.DRAW))) {
             animateWinner(winnerView);
             animateLoser(loserView);
         }
+      
         // 最後にまとめてToast表示の処理とTextViewへのセットを行う
         Toast.makeText(this, result, Toast.LENGTH_LONG).show();
         txtResult.setText(getString(R.string.result)+ question + ":" + answer + "(" + result + ")");
