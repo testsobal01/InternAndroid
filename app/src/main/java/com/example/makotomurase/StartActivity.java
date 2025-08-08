@@ -16,6 +16,8 @@ public class StartActivity extends AppCompatActivity implements View.OnClickList
 
         Button stButton = findViewById(R.id.start_button);
         stButton.setOnClickListener(this);
+
+
     }
 
     @Override

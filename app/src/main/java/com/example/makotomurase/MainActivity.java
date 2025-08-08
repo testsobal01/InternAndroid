@@ -2,6 +2,7 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.AudioAttributes;
 import android.media.AudioManager;
@@ -48,6 +49,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
+
+        Button btnExit = (Button)findViewById(R.id.exit);
+        btnExit.setOnClickListener(this);
 
         // 起動時に関数を呼び出す
         setQuestionValue();
@@ -101,7 +105,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onPause() {
         super.onPause();
-        Toast.makeText(this,"OnPause",Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this,"OnPause",Toast.LENGTH_SHORT).show();
 
         TextView text = (TextView) findViewById(R.id.text_score);
 
@@ -112,11 +116,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onResume() {
         super.onResume();
-        Toast.makeText(this,"OnResume",Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this,"OnResume",Toast.LENGTH_SHORT).show();
 
         TextView text =  (TextView) findViewById(R.id.text_score);
 
-        String readText = pref.getString("main_input","保存されていません");
+        String readText = pref.getString("main_input","0");
         text.setText(readText);
     }
 
@@ -137,6 +141,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             clearAnswerValue();
             clearScoreValue();
             onR();
+        }
+
+        if(id==R.id.exit){
+            Intent intent1 = new Intent(this,StartActivity.class);
+            //intent1.putExtra("KEY","MainActivityからの呼び出し");
+            startActivity(intent1);
         }
 
     }
