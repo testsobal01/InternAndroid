@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Team-c</string>
+    <string name="app_name">High or Low?</string>
     <string name="btn_high">High</string>
     <string name="btn_low">Low</string>
     <string name="btn_restart">Restart</string>
@@ -10,6 +10,8 @@
     <string name="w_result">WIN</string>
     <string name="l_result">LOSE</string>
     <string name="d_result">DROW</string>
+    <string name="button0">START</string>
+    <string name="rules">Predict high or low based on the left number, and battle with the right!</string>
     <string name="select_value">select value</string>
     <string name="select">select：</string>
     <string name="cancel">cancel</string>
