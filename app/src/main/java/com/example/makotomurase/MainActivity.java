@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Vibrator;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -56,6 +57,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // 起動時に関数を呼び出す
         setQuestionValue();
+
+
+        // Buttonの背景色にカラー定義リソースを設定する
+        btn1.setBackground(getResources().getDrawable(R.drawable.button_design, null));
     }
 
 
@@ -63,9 +68,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onPause() {
         super.onPause();
 
+        // スコアの保存
         TextView textScore = (TextView) findViewById(R.id.text_score);
         int nowScore = Integer.parseInt(textScore.getText().toString()); // 現時点のスコアを入手
         preEditer.putInt("score",nowScore);// スコアを保存
+
+        // 最高スコアの保存
+        TextView textMaxScore = (TextView) findViewById(R.id.max_score);
+        int maxScore = Integer.parseInt(textMaxScore.getText().toString()); // 現時点の最高スコアを入手
+        preEditer.putInt("max_score",maxScore);// 最高スコアを保存
+
         preEditer.commit();
     }
 
@@ -73,9 +85,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onResume() {
         super.onResume();
 
-        //もともとのスコアを呼び出す
+        // もともとのスコアを呼び出す
         TextView textScore = (TextView) findViewById(R.id.text_score);
         textScore.setText(String.valueOf(pref.getInt("score",0)));
+
+        // もともとの最高スコアを呼び出す
+        TextView textMaxScore = (TextView) findViewById(R.id.max_score);
+        textMaxScore.setText(String.valueOf(pref.getInt("max_score",0)));
     }
 
     @Override
@@ -144,28 +160,44 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 result = getResources().getString(R.string.w_result);
                 score = 2;
                 textViewAnswerBackground.setBackgroundColor(Color.rgb(255,69,0));
+                Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+                long[] pattern = {0,200,100,200,100,200};
+                vib.vibrate(pattern,-1);
             } else if (question > answer) {
                 result = getResources().getString(R.string.l_result);
                 score = -1;
                 textViewAnswerBackground.setBackgroundColor(Color.rgb(65,105,225));
+                Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+                vib.vibrate(200);
             } else {
                 result = getResources().getString(R.string.d_result);
                 score = 1;
                 textViewAnswerBackground.setBackgroundColor(Color.rgb(220,220,220));
+                Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+                long[] pattern = {0,200,100,200};
+                vib.vibrate(pattern,-1);
             }
         } else {
             if (question > answer) {
                 result = getResources().getString(R.string.w_result);
                 score = 2;
                 textViewAnswerBackground.setBackgroundColor(Color.rgb(255,69,0));
+                Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+                long[] pattern = {0,200,100,200,100,200};
+                vib.vibrate(pattern,-1);
             } else if (question < answer) {
                 result = getResources().getString(R.string.l_result);
                 score = -1;
                 textViewAnswerBackground.setBackgroundColor(Color.rgb(65,105,225));
+                Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+                vib.vibrate(200);
             } else {
                 result = getResources().getString(R.string.d_result);
                 score = 1;
                 textViewAnswerBackground.setBackgroundColor(Color.rgb(220,220,220));
+                Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+                long[] pattern = {0,200,100,200};
+                vib.vibrate(pattern,-1);
             }
         }
 
@@ -191,6 +223,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         /** animationを定義したxmlファイルの読み込み */
         Animation animation = AnimationUtils.loadAnimation(this, R.anim.value_animater);
 
+        /**　
+         * 多言語に対応するように
+         */
         if(result.equals(getResources().getString(R.string.w_result))){
             target = (TextView) findViewById(R.id.answer);
         }else if(result.equals(getResources().getString(R.string.l_result))){
@@ -225,6 +260,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView txtScore = (TextView) findViewById(R.id.text_score);
         int newScore = Integer.parseInt(txtScore.getText().toString()) + score;
         txtScore.setText(Integer.toString(newScore));
+
+        /**
+         * 最高スコアの更新
+         */
+        TextView txtMaxScore = (TextView) findViewById(R.id.max_score);
+        int maxScore = Integer.parseInt(txtMaxScore.getText().toString());
+        if(maxScore<newScore) maxScore = newScore;
+        txtMaxScore.setText(Integer.toString(maxScore));
     }
 
     private void clearScoreValue() {
