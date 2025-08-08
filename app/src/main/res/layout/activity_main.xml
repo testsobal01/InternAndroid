@@ -11,6 +11,8 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
+
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -20,27 +22,46 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/btn_high" />
+                android:text="@string/btn_high"
+
+                android:textSize="20sp"
+                android:textColor="#DC143C"
+                android:background="@drawable/button_design"
+                app:backgroundTint="@null"
+                />
 
             <Button
                 android:id="@+id/button2"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/btn_low" />
+                android:text="@string/btn_low"
+
+                android:textSize="20sp"
+                android:textColor="#0000CD"
+                android:background="@drawable/button_design"
+                app:backgroundTint="@null"
+                />
 
             <Button
                 android:id="@+id/button3"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
-                android:text="@string/btn_restart" />
+                android:text="Restart"
+
+                android:textSize="20sp"
+                android:textColor="#000000"
+                android:background="@drawable/button_design"
+                app:backgroundTint="@null"
+                />
         </LinearLayout>
 
         <TextView
+            android:id="@+id/text_option"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="10が設定されています。" />
+            android:text="@string/text_option" />
 
         <TextView
             android:id="@+id/text_result"
@@ -65,11 +86,12 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="0dp"
+            android:layout_weight="5">
 
             <TextView
                 android:id="@+id/question"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="#ff0000"
@@ -79,14 +101,23 @@
 
             <TextView
                 android:id="@+id/answer"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="#00f0ff"
                 android:gravity="center"
-                android:text="値2"
+                android:text="@string/text"
                 android:textSize="60sp" />
+
         </LinearLayout>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:src="@drawable/trees_790220_640"
+            android:scaleType="fitXY"
+            android:layout_weight="1"
+            />
 
     </LinearLayout>
 
