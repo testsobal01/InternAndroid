@@ -19,8 +19,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private SoundPool sndPool;
     private int snd1, snd2, snd3, snd4;
+    private boolean isCountdown = false;
     SharedPreferences pref;
     SharedPreferences.Editor prefEditor;
+
+    private int total=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +32,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         Button btn1 = findViewById(R.id.button1);
         btn1.setOnClickListener(this);
+        btn1.setBackground(getResources().getDrawable(R.drawable.my_button, null));
+
 
         Button btn2 = findViewById(R.id.button2);
         btn2.setOnClickListener(this);
@@ -89,14 +94,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View view) {
         int id = view.getId();
-        if (id == R.id.button1) {
+        if (id == R.id.button1 && !isCountdown) {
             setAnswerValue();
             checkResult(true);
-        } else if (id == R.id.button2) {
+        } else if (id == R.id.button2 && !isCountdown) {
             setAnswerValue();
             checkResult(false);
         } else if (id == R.id.button3) {
             sndPool.play(snd3, 1.0f, 1.0f, 0, 0, 1);
+            total=0;
+            WinScore();
             setQuestionValue();
             clearAnswerValue();
             clearScoreValue();
@@ -145,10 +152,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = "WIN";
                 score = 2;
+                total++;
+                WinScore();
                 sndPool.play(snd1, 1.0f, 1.0f, 0, 0, 1);
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
+                total=0;
+                WinScore();
                 sndPool.play(snd2, 1.0f, 1.0f, 0, 0, 1);
                 LoseVibrate();
             } else {
@@ -160,10 +171,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question > answer) {
                 result = "WIN";
                 score = 2;
+                total++;
+                WinScore();
                 sndPool.play(snd1, 1.0f, 1.0f, 0, 0, 1);
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
+                total=0;
+                WinScore();
                 sndPool.play(snd2, 1.0f, 1.0f, 0, 0, 1);
                 LoseVibrate();
             } else {
@@ -171,6 +186,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 score = 1;
                 sndPool.play(snd4, 1.0f, 1.0f, 0, 0, 1);
             }
+
         }
 
         // 最後にまとめてToast表示の処理とTextViewへのセットを行う
@@ -188,6 +204,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // 第１引数がカウントダウン時間、第２引数は途中経過を受け取る間隔
         // 単位はミリ秒（1秒＝1000ミリ秒）
         new CountDownTimer(3000, 500) {
+        isCountdown = true;
 
             @Override
             public void onTick(long l) {
@@ -200,10 +217,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public void onFinish() {
                 // 3秒経過したら次の値をセット
                 setQuestionValue();
-
                 //カウントダウン非表示
                 TextView txtTime = (TextView) findViewById(R.id.text_countdown);
                 txtTime.setText("");
+                isCountdown = false;
             }
         }.start();
     }
@@ -224,7 +241,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView txtScore = (TextView) findViewById(R.id.text_score);
         txtScore.setText("0");
     }
-
+  
     private void LoseVibrate() {
         Vibrator vib = (Vibrator) getSystemService(VIBRATOR_SERVICE);
         vib.vibrate(300);
@@ -235,4 +252,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         vib.vibrate(100);
     }
 
+    private void WinScore() {
+        TextView MaxWin = (TextView) findViewById(R.id.Max_Win);
+        MaxWin.setText("連勝数：" +total+"  ");
+    }
 }
