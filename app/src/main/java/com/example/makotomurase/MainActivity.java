@@ -2,44 +2,82 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.animation.AnimatorInflater;
+import android.animation.AnimatorSet;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
 
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+    AnimatorSet set;
+    AnimatorSet set2;
+    Button btn1;
+    Button btn2;
+    Button btn3;
+    Animation animation;
+
+    TextView txtView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        set = (AnimatorSet) AnimatorInflater.loadAnimator(MainActivity.this,
+                R.animator.blink_animation);
+        set2=(AnimatorSet) AnimatorInflater.loadAnimator(MainActivity.this,
+                R.animator.test_animation);
+         btn1 = findViewById(R.id.button1);
 
-        Button btn1 = findViewById(R.id.button1);
+animation=AnimationUtils.loadAnimation(this,R.anim.anime0);
+
         btn1.setOnClickListener(this);
 
-        Button btn2 = findViewById(R.id.button2);
+         btn2 = findViewById(R.id.button2);
         btn2.setOnClickListener(this);
 
-        Button btn3 = (Button) findViewById(R.id.button3);
+        btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
+      //  btn1.setAnimation(animation);
+
 
         // 起動時に関数を呼び出す
         setQuestionValue();
+
+    }
+    protected void onStart() {
+        super.onStart();
+        //アニメーションの開始を宣言
+        set.start();
+
     }
 
     @Override
     public void onClick(View view) {
+
         int id = view.getId();
         if (id == R.id.button1) {
             setAnswerValue();
             checkResult(true);
+            btn1.setOnClickListener(this);
+            animation=AnimationUtils.loadAnimation(this,R.anim.anime0);
+           // btn1.setAnimation(animation);
+            btn1.startAnimation(animation);
+            btn2.startAnimation(animation);
+
+
         } else if (id == R.id.button2) {
             setAnswerValue();
             checkResult(false);
+            btn1.startAnimation(animation);
+            btn2.startAnimation(animation);
         } else if (id == R.id.button3) {
             setQuestionValue();
             clearAnswerValue();
@@ -48,8 +86,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void clearAnswerValue() {
-        TextView txtView = (TextView) findViewById(R.id.answer);
+       txtView = (TextView) findViewById(R.id.answer);
         txtView.setText("値2");
+
     }
 
     private void setQuestionValue() {
@@ -62,6 +101,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void setAnswerValue() {
+
+
         Random r = new Random();
         int answerValue = r.nextInt(10 + 1);
 
@@ -94,6 +135,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             } else {
                 result = "DRAW";
                 score = 1;
+
             }
         } else {
             if (question > answer) {
@@ -132,6 +174,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public void onFinish() {
                 // 3秒経過したら次の値をセット
                 setQuestionValue();
+
             }
         }.start();
     }
