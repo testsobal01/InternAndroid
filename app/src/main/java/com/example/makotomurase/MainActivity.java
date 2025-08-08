@@ -2,12 +2,15 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
+import android.graphics.Color;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -100,9 +103,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void checkResult(boolean isHigh) {
         TextView txtViewQuestion = findViewById(R.id.question);
         TextView txtViewAnswer = findViewById(R.id.answer);
+        View backcolor = findViewById(R.id.backgroud);
+
+        backcolor.setBackgroundColor(Color.WHITE);
+
 
         int question = Integer.parseInt(txtViewQuestion.getText().toString());
         int answer = Integer.parseInt(txtViewAnswer.getText().toString());
+
 
         TextView txtResult = (TextView) findViewById(R.id.text_result);
 
@@ -116,17 +124,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = "WIN";
                 score = 2;
+                backcolor.setBackground(getResources().getDrawable(R.color.win, null));
                 Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
                 vibrator.vibrate(300);
 
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
+                backcolor.setBackground(getResources().getDrawable(R.color.lose, null));
                 Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
                 vibrator.vibrate(new long[]{0,200, 100,1000}, -1);
             } else {
                 result = "DRAW";
                 score = 1;
+                backcolor.setBackground(getResources().getDrawable(R.color.draw, null));
                 Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
                 vibrator.vibrate(new long[]{0,200, 100,1000}, -1);
             }
@@ -134,16 +145,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question > answer) {
                 result = "WIN";
                 score = 2;
+                backcolor.setBackground(getResources().getDrawable(R.color.win, null));
                 Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
                 vibrator.vibrate(300);
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
+                backcolor.setBackground(getResources().getDrawable(R.color.lose, null));
                 Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
                 vibrator.vibrate(new long[]{0,200, 100,1000}, -1);
             } else {
                 result = "DRAW";
                 score = 1;
+                backcolor.setBackground(getResources().getDrawable(R.color.draw, null));
                 Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
                 vibrator.vibrate(new long[]{0,200, 100,1000}, -1);
             }
