@@ -20,6 +20,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         Button btn1 = findViewById(R.id.button1);
         btn1.setOnClickListener(this);
+        btn1.setBackground(getResources().getDrawable(R.drawable.my_button, null));
+
 
         Button btn2 = findViewById(R.id.button2);
         btn2.setOnClickListener(this);
