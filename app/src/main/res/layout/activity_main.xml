@@ -20,21 +20,39 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/btn_high" />
+                android:text="@string/btn_high"
+
+                android:textSize="20sp"
+                android:textColor="#DC143C"
+                android:background="@drawable/button_design"
+                app:backgroundTint="@null"
+                />
 
             <Button
                 android:id="@+id/button2"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/btn_low" />
+                android:text="@string/btn_low"
+
+                android:textSize="20sp"
+                android:textColor="#0000CD"
+                android:background="@drawable/button_design"
+                app:backgroundTint="@null"
+                />
 
             <Button
                 android:id="@+id/button3"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
-                android:text="@string/btn_restart" />
+                android:text="Restart"
+
+                android:textSize="20sp"
+                android:textColor="#000000"
+                android:background="@drawable/button_design"
+                app:backgroundTint="@null"
+                />
         </LinearLayout>
 
         <TextView
