@@ -35,12 +35,13 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
                 android:text="@string/btn_restart" />
+
         </LinearLayout>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="10が設定されています。" />
+            android:text="@string/message"/>
 
         <TextView
             android:id="@+id/text_result"
@@ -64,6 +65,22 @@
 
             <TextView
                 android:id="@+id/text_score"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/label_high_score" />
+
+            <TextView
+                android:id="@+id/text_high_score"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="0" />
