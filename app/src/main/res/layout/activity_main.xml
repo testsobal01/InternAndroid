@@ -73,6 +73,7 @@
             android:textStyle="bold" />
     </LinearLayout>
 
+    <!-- 値とフッターの間に余白ができてしまうため、layout_weightの値を変更 -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -120,13 +121,7 @@
             android:layout_height="wrap_content"
             android:text="0" />
     </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:orientation="horizontal">
-
+  
         <Button
             android:id="@+id/button1"
             android:layout_width="0dp"
@@ -154,6 +149,21 @@
             android:textSize="25sp"
             android:textStyle="bold"
             app:backgroundTint="@null" />
-    </LinearLayout>
+          <!-- フッターの追加 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="bottom"
+            android:orientation="vertical">
 
+            <ImageView
+                android:id="@+id/footer_image"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:adjustViewBounds="true"
+                android:scaleType="fitXY"
+                android:src="@drawable/footer_resize" />
+        </LinearLayout>
+    </LinearLayout>
 </LinearLayout>

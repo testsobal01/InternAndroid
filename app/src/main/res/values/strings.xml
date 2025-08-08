@@ -1,9 +1,10 @@
 <resources>
-    <string name="app_name">YasuakiGotou</string>
+    <string name="app_name">arataakiyama</string>
     <string name="btn_high">High</string>
     <string name="btn_low">Low</string>
     <string name="btn_restart">Restart</string>
     <string name="label_score">Score：</string>
+    <string name="footer_image_desc">footer_image</string>
     <string name="label_high_score">High score：</string>
     <string name="Result">Result</string>
     <string name="message">10 is set</string>
