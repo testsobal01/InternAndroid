@@ -3,8 +3,13 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="purpru">#FFff00ff</color>
-    <color name="yellow">#FFffff00</color>
+    <color name="yellow1">#FFffff00</color>
     <color name="win">#FF90ee90</color>
     <color name="lose">#FFffa500</color>
     <color name="draw">#FF00ffff</color>
+    <color name="red">#993333</color>
+    <color name="green">#aaeeaa</color>
+    <color name="blue">#ffe9b5</color>
+    <color name="yellow2">#ffcc99</color>
+    <color name="orange">#ffffcc</color>
 </resources>
