@@ -8,8 +8,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import java.util.Random;
+import android.graphics.Color;
+import android.widget.RelativeLayout;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -59,6 +60,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         TextView txtView = findViewById(R.id.question);
         txtView.setText(Integer.toString(questionValue));
+
+        View rootLayout = findViewById(R.id.root_layout);
+        rootLayout.setBackgroundColor(getResources().getColor(R.color.white));
     }
 
     private void setAnswerValue() {
@@ -72,11 +76,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void checkResult(boolean isHigh) {
         TextView txtViewQuestion = findViewById(R.id.question);
         TextView txtViewAnswer = findViewById(R.id.answer);
+        View rootLayout = findViewById(R.id.root_layout);
 
         int question = Integer.parseInt(txtViewQuestion.getText().toString());
         int answer = Integer.parseInt(txtViewAnswer.getText().toString());
 
         TextView txtResult = (TextView) findViewById(R.id.text_result);
+
 
         // 結果を示す文字列を入れる変数を用意
         String result;
@@ -84,13 +90,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // Highが押された
         if (isHigh) {
+
             // result には結果のみを入れる
             if (question < answer) {
                 result = "WIN";
                 score = 2;
+                rootLayout.setBackgroundColor(getResources().getColor(R.color.green));
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
+                rootLayout.setBackgroundColor(getResources().getColor(R.color.blue));
             } else {
                 result = "DRAW";
                 score = 1;
@@ -99,23 +108,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question > answer) {
                 result = "WIN";
                 score = 2;
+                rootLayout.setBackgroundColor(getResources().getColor(R.color.green));
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
+                rootLayout.setBackgroundColor(getResources().getColor(R.color.blue));
             } else {
                 result = "DRAW";
                 score = 1;
             }
         }
 
-        // 最後にまとめてToast表示の処理とTextViewへのセットを行う
-        Toast.makeText(this, result, Toast.LENGTH_LONG).show();
-        txtResult.setText("結果：" + question + ":" + answer + "(" + result + ")");
-
-        // 続けて遊べるように値を更新
-        setNextQuestion();
-        // スコアを表示
-        setScore(score);
     }
 
     private void setNextQuestion() {
@@ -146,5 +149,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView txtScore = (TextView) findViewById(R.id.text_score);
         txtScore.setText("0");
     }
+
+
+
+
 }
 
