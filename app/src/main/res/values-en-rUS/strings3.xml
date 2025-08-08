@@ -1,10 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+
 <resources>
-    <string name="app_name">チームdゲーム</string>
+    <string name="app_name">チームⅮゲーム</string>
     <string name="btn_high">High</string>
     <string name="btn_low">Low</string>
     <string name="btn_restart">Restart</string>
     <string name="label_score">Score:</string>
-
-    <string name="text_option">10が設定されています</string>
-    <string name="text">valeur 2</string>
+    <string name="text_option">10 is set</string>
+    <string name="text">value 2</string>
 </resources>
