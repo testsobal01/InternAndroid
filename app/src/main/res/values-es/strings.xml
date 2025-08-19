@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="app_name">Equipo f</string>
-    <string name="btn_high">alto</string>
-    <string name="btn_low">Bajo</string>
-    <string name="btn_restart">Reinicio</string>
-    <string name="label_score">Puntuación：</string>
-</resources>
