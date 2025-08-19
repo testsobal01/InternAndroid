@@ -12,12 +12,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MakotoMurase"
         tools:targetApi="31">
-
         <activity
             android:name=".MainActivity"
-            android:exported="false" />
-        <activity
-            android:name=".StartActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -26,5 +22,5 @@
             </intent-filter>
         </activity>
     </application>
-<uses-permission android:name="android.permission.VIBRATE"></uses-permission>
+
 </manifest>
