@@ -2,6 +2,7 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
@@ -57,6 +58,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void clearAnswerValue() {
         TextView txtView = (TextView) findViewById(R.id.answer);
         txtView.setText("値2");
+        int colorId = getResources().getColor(R.color.yellow);
+        txtView.setBackgroundColor(colorId);
     }
 
     private void setQuestionValue() {
@@ -94,23 +97,35 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             // result には結果のみを入れる
             if (question < answer) {
                 result = "WIN";
+                int colorId = getResources().getColor(R.color.red);
+                txtViewAnswer.setBackgroundColor(colorId);
                 score = 2;
             } else if (question > answer) {
                 result = "LOSE";
+                int colorId = getResources().getColor(R.color.blue);
+                txtViewAnswer.setBackgroundColor(colorId);
                 score = -1;
             } else {
                 result = "DRAW";
+                int colorId = getResources().getColor(R.color.white);
+                txtViewAnswer.setBackgroundColor(colorId);
                 score = 1;
             }
         } else {
             if (question > answer) {
                 result = "WIN";
+                int colorId = getResources().getColor(R.color.red);
+                txtViewAnswer.setBackgroundColor(colorId);
                 score = 2;
             } else if (question < answer) {
                 result = "LOSE";
+                int colorId = getResources().getColor(R.color.blue);
+                txtViewAnswer.setBackgroundColor(colorId);
                 score = -1;
             } else {
                 result = "DRAW";
+                int colorId = getResources().getColor(R.color.white);
+                txtViewAnswer.setBackgroundColor(colorId);
                 score = 1;
             }
         }
