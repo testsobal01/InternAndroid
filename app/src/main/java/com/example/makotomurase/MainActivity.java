@@ -2,9 +2,13 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.media.AudioAttributes;
+import android.media.AudioManager;
+import android.media.SoundPool;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -16,6 +20,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     SharedPreferences pref;
     SharedPreferences.Editor prefEditor;
+
+    private SoundPool soundPool;
+    private int soundOne, soundTwo,soundThree;
+    private Button button1,button2,button3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +48,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View view) {
+
+        //効果音
+        AudioAttributes audioAttributes = new AudioAttributes.Builder()
+                .setUsage(AudioAttributes.USAGE_GAME)
+                .setContentType(AudioAttributes.CONTENT_TYPE_SPEECH)
+                .build();
+        soundPool = new SoundPool.Builder()
+                .setAudioAttributes(audioAttributes)
+                // ストリーム数に応じて
+                .setMaxStreams(2)
+                .build();
+
+        soundOne = soundPool.load(this, R.raw.dodon,1);
+//        soundTwo = soundPool.load(this,R.raw.don,1);
+//        soundThree = soundPool.load(this,R.raw.kaka,1);
+        soundPool.setOnLoadCompleteListener((soundPool, sampleId,status) ->{
+            System.out.println("こんにちは");
+            soundPool.play(soundOne, 10.0f, 10.0f, 0,0,1);
+        });
+
         int id = view.getId();
         if (id == R.id.button1) {
             setAnswerValue();
@@ -52,6 +80,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             clearAnswerValue();
             clearScoreValue();
         }
+
     }
 
     private void clearAnswerValue() {
@@ -177,5 +206,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         String readText = pref.getString("main_input", "保存されていません");
         textView.setText(readText);
     }
+
+
+
 }
 
