@@ -2,6 +2,7 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.SharedPreferences;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -25,6 +26,10 @@ import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
+    SharedPreferences pref;
+    SharedPreferences.Editor prefEditor;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -42,6 +47,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
 
+        pref = getSharedPreferences("files", MODE_PRIVATE);
+        prefEditor = pref.edit();
 //        Intent intent = getIntent();
 //        Bundle extra = intent.getExtras();
 //        String intentString = extra.getString("KEY");
@@ -52,6 +59,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // 起動時に関数を呼び出す
         setQuestionValue();
     }
+
 
     @Override
     public void onClick(View view) {
@@ -89,6 +97,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+    @Override
+
+    protected void onPause(){
+        super.onPause();
+        Toast.makeText(this,"onPause", Toast.LENGTH_SHORT).show();
+        TextView textView = (TextView)findViewById(R.id.text_score);
+
+        prefEditor.putString("main_input",textView.getText().toString());
+
+        prefEditor.commit();
+    }
+
+    @Override
+
+    protected void onResume(){
+        super.onResume();
+        Toast.makeText(this,"onResume", Toast.LENGTH_SHORT).show();
+        TextView textView = (TextView)findViewById(R.id.text_score);
+
+        String readText = pref.getString("main_input", "保存されていません");
+        textView.setText(readText);
+    }
+
     private void clearAnswerValue() {
         TextView txtView = (TextView) findViewById(R.id.answer);
         txtView.setText("値2");
@@ -122,7 +153,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // 結果を示す文字列を入れる変数を用意
         String result;
-        int score;
+        int score = 0;
         String color;
 
         // Highが押された
@@ -196,8 +227,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void setScore(int score) {
         TextView txtScore = (TextView) findViewById(R.id.text_score);
-        int newScore = Integer.parseInt(txtScore.getText().toString()) + score;
-        txtScore.setText(Integer.toString(newScore));
+        String check = txtScore.getText().toString();
+        int newscore =score;
+        if(check == "保存されていません"){
+            newscore = score;
+            System.out.println("aaa" + newscore);
+        }
+        else{
+            newscore = Integer.parseInt(txtScore.getText().toString()) + score;
+            System.out.println("bbb" + newscore);
+
+        }
+        txtScore.setText(Integer.toString(newscore));
     }
 
     private void clearScoreValue() {
