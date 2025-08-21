@@ -84,7 +84,7 @@
                 android:layout_weight="1"
                 android:background="#ffff00"
                 android:gravity="center"
-                android:text="value2text"
+                android:text="@string/value2text"
                 android:textSize="60sp" />
         </LinearLayout>
 
