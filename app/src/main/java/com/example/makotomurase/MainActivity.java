@@ -2,6 +2,7 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -34,6 +35,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
+      
+        Intent intent = getIntent();
+        Bundle extra = intent.getExtras();
 
         pref = getSharedPreferences("AndroidSeminar", MODE_PRIVATE);
         prefEditor = pref.edit();
@@ -43,9 +47,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+    protected void onResume(){
+        super.onResume();
+
+    }
     @Override
     public void onClick(View view) {
         int id = view.getId();
+
+
         if (id == R.id.button1) {
 
             setAnswerValue();

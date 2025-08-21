@@ -4,6 +4,7 @@
     <string name="btn_low">Low</string>
     <string name="btn_restart">Restart</string>
     <string name="label_score">Score：</string>
+    <string name="STRAT">START</string>
     <string name="message1">10が設定されています。</string>
     <string name="win">WIN</string>
     <string name="lose">LOSE</string>
