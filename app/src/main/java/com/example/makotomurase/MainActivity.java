@@ -2,6 +2,11 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.media.AudioAttributes;
+import android.media.AudioManager;
+import android.media.SoundPool;
+
+import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
@@ -13,6 +18,10 @@ import android.widget.Toast;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
+    SoundPool soundPool;
+    int mp3lose;
+    int mp3win;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +39,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // 起動時に関数を呼び出す
         setQuestionValue();
+
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            soundPool = new SoundPool(5, AudioManager.STREAM_MUSIC, 0);
+        } else {
+            AudioAttributes attr = new AudioAttributes.Builder()
+                    .setUsage(AudioAttributes.USAGE_MEDIA)
+                    .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+                    .build();
+            soundPool = new SoundPool.Builder()
+                    .setAudioAttributes(attr)
+                    .setMaxStreams(5)
+                    .build();
+        }
+
+        mp3win = soundPool.load(this, R.raw.win, 1);
+        mp3lose = soundPool.load(this, R.raw.lose, 1);
+
     }
 
     @Override
@@ -95,9 +121,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = "WIN";
                 score = 2;
+                soundPool.play(mp3win,5f , 1f, 0, 0, 1f);
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
+                soundPool.play(mp3lose,1f , 1f, 0, 0, 1f);
             } else {
                 result = "DRAW";
                 score = 1;
@@ -106,12 +134,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question > answer) {
                 result = "WIN";
                 score = 2;
+                soundPool.play(mp3win,5f , 1f, 0, 0, 1f);
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
+                soundPool.play(mp3lose,1f , 1f, 0, 0, 1f);
             } else {
                 result = "DRAW";
                 score = 1;
+
             }
         }
 
