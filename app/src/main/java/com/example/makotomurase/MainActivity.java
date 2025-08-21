@@ -9,12 +9,22 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.provider.MediaStore;
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.os.Bundle;
+import android.os.CountDownTimer;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.w3c.dom.Text;
+
 import java.util.Random;
+
+import android.graphics.Color;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -67,25 +77,33 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             System.out.println("こんにちは");
             soundPool.play(soundOne, 10.0f, 10.0f, 0,0,1);
         });
-
+      
         int id = view.getId();
         if (id == R.id.button1) {
             setAnswerValue();
             checkResult(true);
+
         } else if (id == R.id.button2) {
             setAnswerValue();
             checkResult(false);
+
         } else if (id == R.id.button3) {
             setQuestionValue();
             clearAnswerValue();
             clearScoreValue();
-        }
+            Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+            if (vibrator != null) {
+                long[] pattern = {0, 100, 100, 100, 100, 100};
+                vibrator.vibrate(pattern, -1);
 
+            }
+        }
     }
 
     private void clearAnswerValue() {
+        String value2text=getString(R.string.value2text);
         TextView txtView = (TextView) findViewById(R.id.answer);
-        txtView.setText("値2");
+        txtView.setText(value2text);
     }
 
     private void setQuestionValue() {
@@ -114,6 +132,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         TextView txtResult = (TextView) findViewById(R.id.text_result);
 
+        TextView textView1 =findViewById(R.id.text_result);
+        String title1=getString(R.string.text_result);
+        textView1.setText("結果");
         // 結果を示す文字列を入れる変数を用意
         String result;
         int score;
@@ -124,29 +145,67 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = "WIN";
                 score = 2;
+                Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+                if (vibrator != null) {
+                    long[] pattern = {0, 100, 100, 100, 100, 100};
+                    vibrator.vibrate(pattern, -1);
+
+                }
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
+                Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+                if (vibrator != null) {
+                    long[] pattern = {0, 500, 500, 500, 500};
+                    vibrator.vibrate(pattern, -1);
+                }
             } else {
                 result = "DRAW";
                 score = 1;
+                Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+                if (vibrator != null) {
+                    long[] pattern = {0, 1000, 1000,};
+                    vibrator.vibrate(pattern, -1);
+
+                }
             }
         } else {
             if (question > answer) {
                 result = "WIN";
                 score = 2;
+                Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+                if (vibrator != null) {
+                    long[] pattern = {0, 100, 100, 100, 100, 100};
+                    vibrator.vibrate(pattern, -1);
+
+                }
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
+                Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+                if (vibrator != null) {
+                    long[] pattern = {0, 500, 500, 500, 500};
+                    vibrator.vibrate(pattern, -1);
+                }
             } else {
                 result = "DRAW";
                 score = 1;
+                Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+                if (vibrator != null) {
+                    long[] pattern = {0, 1000, 1000,};
+                    vibrator.vibrate(pattern, -1);
+
+                }
             }
         }
+       String result1=getString(R.string.text_result);
 
         // 最後にまとめてToast表示の処理とTextViewへのセットを行う
         Toast.makeText(this, result, Toast.LENGTH_LONG).show();
-        txtResult.setText("結果：" + question + ":" + answer + "(" + result + ")");
+        txtResult.setText(result1+"" + question + ":" + answer + "(" + result + ")");
+
+        // 背景色をランダムに変更する
+        changeBackgroundColor();
 
         // 続けて遊べるように値を更新
         setNextQuestion();
@@ -181,6 +240,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void clearScoreValue() {
         TextView txtScore = (TextView) findViewById(R.id.text_score);
         txtScore.setText("0");
+    }
+
+    private void changeBackgroundColor(){
+        TextView txtViewQuestion = findViewById(R.id.question);
+        TextView txtViewAnswer = findViewById(R.id.answer);
+
+        txtViewQuestion.setBackgroundColor(Color.parseColor(randomColorCode()));
+        txtViewAnswer.setBackgroundColor(Color.parseColor(randomColorCode()));
+
+    }
+
+    private String randomColorCode(){
+        Random r = new Random();
+        String colorCode = "#";
+
+        for(int i = 0; i < 8; i++){
+            colorCode = colorCode + Integer.toHexString(r.nextInt(16)).toUpperCase();
+        }
+
+        return  colorCode;
     }
 
     @Override
