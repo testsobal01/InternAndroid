@@ -1,15 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">YasuakiGotou</string>
     <string name="btn_high">High</string>
     <string name="btn_low">Low</string>
     <string name="btn_restart">Restart</string>
-    <string name="label_score">Score：</string>
-    <string name="STRAT">START</string>
-    <string name="message1">10が設定されています。</string>
+    <string name="label_score">Score</string>
+    <string name="message1">10 is set.</string>
     <string name="win">WIN</string>
     <string name="lose">LOSE</string>
     <string name="draw">DRAW</string>
     <string name="result">result：</string>
-    <string name="value1">値1</string>
-    <string name="value2">値2</string>
+    <string name="value1">value 1</string>
+    <string name="value2">value 2</string>
 </resources>
