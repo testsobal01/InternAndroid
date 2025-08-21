@@ -73,8 +73,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void clearAnswerValue() {
+        String value2text=getString(R.string.value2text);
         TextView txtView = (TextView) findViewById(R.id.answer);
-        txtView.setText("値2");
+        txtView.setText(value2text);
     }
 
     private void setQuestionValue() {
@@ -103,6 +104,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         TextView txtResult = (TextView) findViewById(R.id.text_result);
 
+        TextView textView1 =findViewById(R.id.text_result);
+        String title1=getString(R.string.text_result);
+        textView1.setText("結果");
         // 結果を示す文字列を入れる変数を用意
         String result;
         int score;
@@ -166,10 +170,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
             }
         }
+       String result1=getString(R.string.text_result);
 
         // 最後にまとめてToast表示の処理とTextViewへのセットを行う
         Toast.makeText(this, result, Toast.LENGTH_LONG).show();
-        txtResult.setText("結果：" + question + ":" + answer + "(" + result + ")");
+        txtResult.setText(result1+"" + question + ":" + answer + "(" + result + ")");
 
         // 背景色をランダムに変更する
         changeBackgroundColor();
