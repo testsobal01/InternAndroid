@@ -3,8 +3,10 @@ package com.example.makotomurase;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Vibrator;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -45,8 +47,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View view) {
         int id = view.getId();
         if (id == R.id.button1) {
+
             setAnswerValue();
             checkResult(true);
+
         } else if (id == R.id.button2) {
             setAnswerValue();
             checkResult(false);
@@ -54,12 +58,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             setQuestionValue();
             clearAnswerValue();
             clearScoreValue();
+
+            Vibrator vib = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+            vib.vibrate(400);
+
         }
     }
 
     private void clearAnswerValue() {
         TextView txtView = (TextView) findViewById(R.id.answer);
         txtView.setText("値2");
+        int colorId = getResources().getColor(R.color.yellow);
+        txtView.setBackgroundColor(colorId);
     }
 
     private void setQuestionValue() {
@@ -97,23 +107,35 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             // result には結果のみを入れる
             if (question < answer) {
                 result = "WIN";
+                int colorId = getResources().getColor(R.color.red);
+                txtViewAnswer.setBackgroundColor(colorId);
                 score = 2;
             } else if (question > answer) {
                 result = "LOSE";
+                int colorId = getResources().getColor(R.color.blue);
+                txtViewAnswer.setBackgroundColor(colorId);
                 score = -1;
             } else {
                 result = "DRAW";
+                int colorId = getResources().getColor(R.color.white);
+                txtViewAnswer.setBackgroundColor(colorId);
                 score = 1;
             }
         } else {
             if (question > answer) {
                 result = "WIN";
+                int colorId = getResources().getColor(R.color.red);
+                txtViewAnswer.setBackgroundColor(colorId);
                 score = 2;
             } else if (question < answer) {
                 result = "LOSE";
+                int colorId = getResources().getColor(R.color.blue);
+                txtViewAnswer.setBackgroundColor(colorId);
                 score = -1;
             } else {
                 result = "DRAW";
+                int colorId = getResources().getColor(R.color.white);
+                txtViewAnswer.setBackgroundColor(colorId);
                 score = 1;
             }
         }
