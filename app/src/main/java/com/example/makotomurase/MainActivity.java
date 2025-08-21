@@ -50,7 +50,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             setQuestionValue();
             clearAnswerValue();
             clearScoreValue();
+            Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+            if (vibrator != null) {
+                long[] pattern = {0, 100, 100, 100, 100, 100};
+                vibrator.vibrate(pattern, -1);
 
+            }
         }
 
 
@@ -108,23 +113,46 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 score = -1;
                 Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
                 if (vibrator != null) {
-                    long[] pattern = {0, 500, 500, 500, 500, 500};
+                    long[] pattern = {0, 500, 500, 500, 500};
                     vibrator.vibrate(pattern, -1);
                 }
             } else {
                 result = "DRAW";
                 score = 1;
+                Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+                if (vibrator != null) {
+                    long[] pattern = {0, 1000, 1000,};
+                    vibrator.vibrate(pattern, -1);
+
+                }
             }
         } else {
             if (question > answer) {
                 result = "WIN";
                 score = 2;
+                Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+                if (vibrator != null) {
+                    long[] pattern = {0, 100, 100, 100, 100, 100};
+                    vibrator.vibrate(pattern, -1);
+
+                }
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
+                Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+                if (vibrator != null) {
+                    long[] pattern = {0, 500, 500, 500, 500};
+                    vibrator.vibrate(pattern, -1);
+                }
             } else {
                 result = "DRAW";
                 score = 1;
+                Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+                if (vibrator != null) {
+                    long[] pattern = {0, 1000, 1000,};
+                    vibrator.vibrate(pattern, -1);
+
+                }
             }
         }
 
