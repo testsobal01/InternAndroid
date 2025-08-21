@@ -11,6 +11,7 @@ import android.graphics.Insets;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Build;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.VibrationEffect;
@@ -67,6 +68,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             clearScoreValue();
             Vibrator vib = (Vibrator) getSystemService(VIBRATOR_SERVICE);
             vib.vibrate(50);
+            clearColorValue();
         }
     }
 
@@ -110,6 +112,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         String lastresultWIN = getResources().getString(R.string.lastresultWIN);
         String lastresultLOSE = getResources().getString(R.string.lastresultLOSE);
         String lastresultDRAW = getResources().getString(R.string.lastresultDRAW);
+        View layout1 =findViewById(R.id.question);
+        View layout2 = findViewById(R.id.answer);
 
         // Highが押された
         if (isHigh) {
@@ -120,11 +124,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Vibrator vib = (Vibrator) getSystemService(VIBRATOR_SERVICE);
                 vib.vibrate(400);
 
+                layout1.setBackgroundColor(Color.CYAN);
+                layout2.setBackgroundColor(Color.RED);
             } else if (question > answer) {
                 result = lastresultLOSE;
                 score = -1;
                 Vibrator vib = (Vibrator) getSystemService(VIBRATOR_SERVICE);
                 vib.vibrate(1000);
+                layout1.setBackgroundColor(Color.RED);
+                layout2.setBackgroundColor(Color.CYAN);
             } else {
                 result = lastresultDRAW;
                 score = 1;
@@ -134,16 +142,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         } else {
             if (question > answer) {
                 result = lastresultWIN;
+                layout1.setBackgroundColor(Color.RED);
+                layout2.setBackgroundColor(Color.CYAN);
                 score = 2;
                 Vibrator vib = (Vibrator) getSystemService(VIBRATOR_SERVICE);
                 vib.vibrate(400);
             } else if (question < answer) {
                 result = lastresultLOSE;
+                layout1.setBackgroundColor(Color.CYAN);
+                layout2.setBackgroundColor(Color.RED);
                 score = -1;
                 Vibrator vib = (Vibrator) getSystemService(VIBRATOR_SERVICE);
                 vib.vibrate(1000);
             } else {
                 result = lastresultDRAW;
+                layout1.setBackgroundColor(Color.GREEN);
+                layout2.setBackgroundColor(Color.GREEN);
                 score = 1;
                 Vibrator vib = (Vibrator) getSystemService(VIBRATOR_SERVICE);
                 vib.vibrate(500);
@@ -215,6 +229,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onPause();
         score_Save();
     }
+    private void clearColorValue() {
+        View layout1 =findViewById(R.id.question);
+        View layout2 = findViewById(R.id.answer);
+        layout1.setBackgroundColor(Color.MAGENTA);
+        layout2.setBackgroundColor(Color.YELLOW);
+    }
+
 }
 
 
