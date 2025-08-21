@@ -2,9 +2,12 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -29,7 +32,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // 起動時に関数を呼び出す
         setQuestionValue();
+
     }
+
 
     @Override
     public void onClick(View view) {
@@ -40,6 +45,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         } else if (id == R.id.button2) {
             setAnswerValue();
             checkResult(false);
+
         } else if (id == R.id.button3) {
             setQuestionValue();
             clearAnswerValue();
@@ -88,9 +94,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = "WIN";
                 score = 2;
+                textAnimation(R.anim.scale_up_down);
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
+                textAnimation(R.anim.scale_down_up);
             } else {
                 result = "DRAW";
                 score = 1;
@@ -99,14 +107,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question > answer) {
                 result = "WIN";
                 score = 2;
+                textAnimation(R.anim.scale_up_down);
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
+                textAnimation(R.anim.scale_down_up);
             } else {
                 result = "DRAW";
                 score = 1;
             }
         }
+
 
         // 最後にまとめてToast表示の処理とTextViewへのセットを行う
         Toast.makeText(this, result, Toast.LENGTH_LONG).show();
@@ -116,6 +127,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setNextQuestion();
         // スコアを表示
         setScore(score);
+    }
+
+    private void textAnimation(int anim_id){
+        TextView animText = findViewById(R.id.answer);
+        Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), anim_id);
+        animText.startAnimation(animation);
     }
 
     private void setNextQuestion() {
