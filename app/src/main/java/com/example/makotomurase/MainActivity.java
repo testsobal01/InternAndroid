@@ -2,6 +2,7 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
@@ -12,6 +13,10 @@ import android.widget.Toast;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
+    //プリファレンスの生成
+    SharedPreferences pref;
+    SharedPreferences.Editor prefEditor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +31,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
+
+        //プリファレンスの生成
+        pref = getSharedPreferences("team-g",MODE_PRIVATE);
+        prefEditor = pref.edit();
 
         // 起動時に関数を呼び出す
         setQuestionValue();
@@ -146,5 +155,34 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView txtScore = (TextView) findViewById(R.id.text_score);
         txtScore.setText("0");
     }
+
+    private void score_Save(){
+        TextView txtScore = (TextView) findViewById(R.id.text_score);
+        int Score = Integer.parseInt(txtScore.getText().toString());
+        //プリファレンスの保存
+        prefEditor.putInt("pref_score",Score);
+        prefEditor.commit();
+    }
+
+    private void score_Load(){
+        TextView txtScore = (TextView) findViewById(R.id.text_score);
+        //プリファレンスの読み込み
+        int Pref_Score = pref.getInt("pref_score",0);
+        txtScore.setText(Integer.toString(Pref_Score));
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        score_Load();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        score_Save();
+    }
+
+
 }
 
