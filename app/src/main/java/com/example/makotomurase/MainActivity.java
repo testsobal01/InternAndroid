@@ -10,8 +10,16 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+
+//追記バイブ
 import android.os.Vibrator;
 import android.os.VibrationEffect;
+
+//追記アニメーション
+import android.animation.ValueAnimator;
+import android.util.TypedValue;
+import android.view.animation.OvershootInterpolator;
+import android.view.animation.LinearInterpolator;
 
 import java.util.Random;
 
@@ -52,20 +60,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             setAnswerValue();
             checkResult(true);
 
-            //追記
+            //追記バイブ
             Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
             if (vibrator != null) {
                 if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
                     vibrator.vibrate(VibrationEffect.createOneShot(200, VibrationEffect.DEFAULT_AMPLITUDE));
                 } else {
-                    vibrator.vibrate(1000);
+                    vibrator.vibrate(200);
                 }
             }
         } else if (id == R.id.button2) {
             setAnswerValue();
             checkResult(false);
 
-            //追記
+            //追記バイブ
             Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
             if (vibrator != null) {
                 if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
@@ -149,6 +157,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         }
 
+        //追記アニメーション
+        if ("WIN".equals(result)) {
+            animateTextJump(txtViewAnswer);   // 勝ち→ジャンプ（文字サイズだけ）
+        } else if ("LOSE".equals(result)) {
+            animateTextShake(txtViewAnswer);  // 負け→シェイク（文字の横幅だけ）
+        }
+
         // 最後にまとめてToast表示の処理とTextViewへのセットを行う
         Toast.makeText(this, result, Toast.LENGTH_LONG).show();
         String resultText = getString(R.string.text_result);
@@ -190,6 +205,36 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         txtScore.setText("0");
     }
 
+    //追記アニメーション
+    private void resetTextOnlyAnim(TextView tv) {
+        tv.animate().cancel();
+        tv.setTextScaleX(1f); // 横伸縮だけを元に戻す
+    }
+
+    //勝ち：文字サイズだけ“大きく→戻す”
+    private void animateTextJump(TextView tv) {
+        resetTextOnlyAnim(tv);
+        final float startPx = tv.getTextSize();
+        final float peakPx  = startPx * 1.6f;
+
+        ValueAnimator va = ValueAnimator.ofFloat(startPx, peakPx, startPx);
+        va.setDuration(350);
+        va.setInterpolator(new OvershootInterpolator());
+        va.addUpdateListener(anim ->
+                tv.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float) anim.getAnimatedValue())
+        );
+        va.start();
+    }
+
+    //負け：文字の横幅だけ“ガタガタ→戻す”
+    private void animateTextShake(TextView tv) {
+        resetTextOnlyAnim(tv);
+        ValueAnimator va = ValueAnimator.ofFloat(1.0f, 0.7f, 1.3f, 0.8f, 1.2f, 0.9f, 1.1f, 1.0f);
+        va.setDuration(400);
+        va.setInterpolator(new LinearInterpolator());
+        va.addUpdateListener(anim -> tv.setTextScaleX((float) anim.getAnimatedValue()));
+        va.start();
+    }
 }
 
 
