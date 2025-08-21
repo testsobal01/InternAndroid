@@ -2,6 +2,8 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
@@ -25,6 +27,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        Intent intent = getIntent();
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -36,6 +41,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
+
+//        Intent intent = getIntent();
+//        Bundle extra = intent.getExtras();
+//        String intentString = extra.getString("KEY");
+//
+//        TextView textView = (TextView)findViewById(R.id.)
+
 
         // 起動時に関数を呼び出す
         setQuestionValue();
@@ -111,6 +123,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // 結果を示す文字列を入れる変数を用意
         String result;
         int score;
+        String color;
 
         // Highが押された
         if (isHigh) {
@@ -118,23 +131,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = "WIN";
                 score = 2;
+                txtResult.setBackgroundColor(Color.rgb(242,83,194));
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
+                txtResult.setBackgroundColor(Color.rgb(110,108,210));
             } else {
                 result = "DRAW";
                 score = 1;
+                txtResult.setBackgroundColor(Color.rgb(78,220,220));
             }
         } else {
             if (question > answer) {
                 result = "WIN";
                 score = 2;
+                txtResult.setBackgroundColor(Color.rgb(242,83,194));
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
+                txtResult.setBackgroundColor(Color.rgb(110,108,210));
             } else {
                 result = "DRAW";
                 score = 1;
+                txtResult.setBackgroundColor(Color.rgb(78,220,220));
             }
         }
 
@@ -149,6 +168,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Toast.makeText(this, result, Toast.LENGTH_LONG).show();
         String resultText = getString(R.string.text_result);
         txtResult.setText(resultText+"：" + question + ":" + answer + "(" + result + ")");
+
 
         // 続けて遊べるように値を更新
         setNextQuestion();
@@ -216,4 +236,5 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         va.start();
     }
 }
+
 
