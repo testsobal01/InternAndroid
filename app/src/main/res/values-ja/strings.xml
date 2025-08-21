@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">YasuakiGotou</string>
     <string name="btn_high">High</string>
@@ -8,7 +9,7 @@
     <string name="win">WIN</string>
     <string name="lose">LOSE</string>
     <string name="draw">DRAW</string>
-    <string name="result">result：</string>
+    <string name="result">結果：</string>
     <string name="value1">値1</string>
     <string name="value2">値2</string>
 </resources>
