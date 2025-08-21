@@ -188,29 +188,3 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
 }
-
-/*
-<LinearLayout
-            android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-<TextView
-                android:id="@+id/question"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:background="#ff00ff"
-                        android:gravity="center"
-                        android:text="値1"
-                        android:textSize="60sp" />
-
-<TextView
-                android:id="@+id/answer"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:background="#ffff00"
-                        android:gravity="center"
-                        android:text="値2"
-                        android:textSize="60sp" />
-</LinearLayout>*/
