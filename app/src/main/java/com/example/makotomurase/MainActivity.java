@@ -1,7 +1,11 @@
 package com.example.makotomurase;
 
-import androidx.appcompat.app.AppCompatActivity;
+import static java.lang.Math.ceil;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.ViewCompat;
+
+import android.animation.ValueAnimator;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
@@ -13,6 +17,9 @@ import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
+    //　アニメーションする時間管理用の変数を追加
+    private static final long COUNT_DOWN_MILLISECOND = 3000;
+    private static final long INTERVAL_MILLISECOND = 1000;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,6 +36,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // 起動時に関数を呼び出す
         setQuestionValue();
+
     }
 
     @Override
@@ -78,6 +86,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         TextView txtResult = (TextView) findViewById(R.id.text_result);
 
+        TextView animation_Label_TextView;
+
         // 結果を示す文字列を入れる変数を用意
         String result;
         int score;
@@ -106,6 +116,35 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 result = "DRAW";
                 score = 1;
             }
+        }
+
+        if(score == 2 || score == -1) {
+            if (question > answer) {
+                animation_Label_TextView = findViewById(R.id.question);
+            } else {
+                animation_Label_TextView = findViewById(R.id.answer);
+            }
+            CountDownTimer countDownTimer = new CountDownTimer(COUNT_DOWN_MILLISECOND, INTERVAL_MILLISECOND) {
+                @Override
+                public void onTick(long millisUntilFinished) {
+                    // scaleを元に戻す
+                    animation_Label_TextView.setScaleX(1f);
+                    animation_Label_TextView.setScaleY(1f);
+
+                    // scaleアニメーション開始
+                    ViewCompat.animate(animation_Label_TextView)
+                            .setDuration(1000)
+                            .scaleX(2f)
+                            .scaleY(2f)
+                            .start();
+                }
+                    @Override public void onFinish() {
+                    long COUNT_DOWN_MILLISECOND = 5000;
+                    // scaleを元に戻す
+                    animation_Label_TextView.setScaleX(1f);
+                    animation_Label_TextView.setScaleY(1f);
+                }
+            }.start();
         }
 
         // 最後にまとめてToast表示の処理とTextViewへのセットを行う
@@ -146,5 +185,32 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView txtScore = (TextView) findViewById(R.id.text_score);
         txtScore.setText("0");
     }
+
+
 }
 
+/*
+<LinearLayout
+            android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+<TextView
+                android:id="@+id/question"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="#ff00ff"
+                        android:gravity="center"
+                        android:text="値1"
+                        android:textSize="60sp" />
+
+<TextView
+                android:id="@+id/answer"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="#ffff00"
+                        android:gravity="center"
+                        android:text="値2"
+                        android:textSize="60sp" />
+</LinearLayout>*/
