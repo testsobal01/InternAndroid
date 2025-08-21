@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">YasuakiGotou</string>
+    <string name="btn_high">高い</string>
+    <string name="btn_low">低い</string>
+    <string name="btn_restart">リスタート</string>
+    <string name="label_score">得点：</string>
+    <string name="value2_default">値2</string>
+    <string name="result">結果</string>
+    <string name="settei">10が設定されています。</string>
+</resources>
