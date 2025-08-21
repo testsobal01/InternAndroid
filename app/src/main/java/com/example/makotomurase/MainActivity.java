@@ -1,6 +1,7 @@
 package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -72,7 +73,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void clearAnswerValue() {
         TextView txtView = (TextView) findViewById(R.id.answer);
-        txtView.setText("値2");
+        txtView.setText(R.string.answer);
+        txtView.setBackgroundResource(R.color.white);
     }
 
     private void setQuestionValue() {
@@ -82,6 +84,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         TextView txtView = findViewById(R.id.question);
         txtView.setText(Integer.toString(questionValue));
+        txtView.setBackgroundResource(R.color.white);
     }
 
     private void setAnswerValue() {
@@ -131,6 +134,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         }
 
+        if(result == "WIN"){
+            txtViewQuestion.setBackgroundResource(R.color.BrightBlue);
+            txtViewAnswer.setBackgroundResource(R.color.BrightRed);
+        }else if(result == "LOSE"){
+            txtViewQuestion.setBackgroundResource(R.color.BrightRed);
+            txtViewAnswer.setBackgroundResource(R.color.BrightBlue);
+        }else{
+            txtViewQuestion.setBackgroundResource(R.color.BrightGreen);
+            txtViewAnswer.setBackgroundResource(R.color.BrightGreen);
+        }
         // 最後にまとめてToast表示の処理とTextViewへのセットを行う
         Toast.makeText(this, result, Toast.LENGTH_LONG).show();
         txtResult.setText("結果：" + question + ":" + answer + "(" + result + ")");

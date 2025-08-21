@@ -5,4 +5,7 @@
     <color name="Red">#B1063A</color>
     <color name="Blue">#0000CD</color>
     <color name="Green">#006400</color>
+    <color name="BrightRed">#FF0000</color>
+    <color name="BrightBlue">#0000FF</color>
+    <color name="BrightGreen">#00FF00</color>
 </resources>
