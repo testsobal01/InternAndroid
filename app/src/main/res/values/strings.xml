@@ -4,6 +4,7 @@
     <string name="btn_low">Low</string>
     <string name="btn_restart">Restart</string>
     <string name="label_score">Score：</string>
+    <string name="btn_stert">STERT：</string>
     <string name="rand">10isset</string>
     <string name="text_result">result:</string>
     <string name="value2text">value2</string>
