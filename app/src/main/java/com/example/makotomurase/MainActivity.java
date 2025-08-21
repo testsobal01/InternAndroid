@@ -14,10 +14,14 @@ import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
+    private SoundPlayer soundPlayer;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        soundPlayer = new SoundPlayer(this);
 
         Button btn1 = findViewById(R.id.button1);
         btn1.setOnClickListener(this);
@@ -41,12 +45,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             //ボタンを押したら0.1秒間バイブする
             Vibrator vib = (Vibrator) getSystemService(VIBRATOR_SERVICE);
             vib.vibrate(100);
+
+            soundPlayer.playHitSound();
+
         } else if (id == R.id.button2) {
             setAnswerValue();
             checkResult(false);
             //ボタンを押したら0.1秒間バイブする
             Vibrator vib = (Vibrator) getSystemService(VIBRATOR_SERVICE);
             vib.vibrate(100);
+
+            soundPlayer.playHitSound();
+
         } else if (id == R.id.button3) {
             setQuestionValue();
             clearAnswerValue();
@@ -54,6 +64,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             //ボタンを押したら0.3秒間バイブする
             Vibrator vib = (Vibrator) getSystemService(VIBRATOR_SERVICE);
             vib.vibrate(300);
+
+            soundPlayer.playOverSound();
+
         }
     }
 
