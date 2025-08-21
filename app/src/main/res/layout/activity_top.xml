@@ -24,6 +24,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:textSize="60sp"
+            app:backgroundTint="@null"
+            android:background="@drawable/title_button"
             android:text="スタート" />
 
     </LinearLayout>
