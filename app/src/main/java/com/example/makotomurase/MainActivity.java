@@ -2,8 +2,13 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -31,8 +36,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setQuestionValue();
     }
 
+    @SuppressLint({"NonConstantResourceId", "NewApi"})
     @Override
     public void onClick(View view) {
+
         int id = view.getId();
         if (id == R.id.button1) {
             setAnswerValue();
@@ -44,6 +51,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             setQuestionValue();
             clearAnswerValue();
             clearScoreValue();
+            Vibrator vib = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+            vib.vibrate(50);
         }
     }
 
@@ -88,23 +97,36 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = "WIN";
                 score = 2;
+                Vibrator vib = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+                vib.vibrate(400);
+
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
+                Vibrator vib = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+                vib.vibrate(1000);
             } else {
                 result = "DRAW";
                 score = 1;
+                Vibrator vib = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+                vib.vibrate(500);
             }
         } else {
             if (question > answer) {
                 result = "WIN";
                 score = 2;
+                Vibrator vib = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+                vib.vibrate(400);
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
+                Vibrator vib = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+                vib.vibrate(1000);
             } else {
                 result = "DRAW";
                 score = 1;
+                Vibrator vib = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+                vib.vibrate(500);
             }
         }
 
@@ -147,4 +169,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         txtScore.setText("0");
     }
 }
+
+
+
 
