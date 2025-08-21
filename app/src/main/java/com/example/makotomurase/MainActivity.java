@@ -72,7 +72,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void clearAnswerValue() {
         TextView txtView = (TextView) findViewById(R.id.answer);
-        txtView.setText("値2");
+        String PlayerNumber = getResources().getString(R.string.PlayerNum);
+        txtView.setText(PlayerNumber);
     }
 
     private void setQuestionValue() {
@@ -95,6 +96,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void checkResult(boolean isHigh) {
         TextView txtViewQuestion = findViewById(R.id.question);
         TextView txtViewAnswer = findViewById(R.id.answer);
+        String PlayerNumber = getResources().getString(R.string.PlayerNum);
 
         int question = Integer.parseInt(txtViewQuestion.getText().toString());
         int answer = Integer.parseInt(txtViewAnswer.getText().toString());
@@ -105,39 +107,43 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         String result;
         int score;
 
+        String lastresultWIN = getResources().getString(R.string.lastresultWIN);
+        String lastresultLOSE = getResources().getString(R.string.lastresultLOSE);
+        String lastresultDRAW = getResources().getString(R.string.lastresultDRAW);
+
         // Highが押された
         if (isHigh) {
             // result には結果のみを入れる
             if (question < answer) {
-                result = "WIN";
+                result = lastresultWIN;
                 score = 2;
                 Vibrator vib = (Vibrator) getSystemService(VIBRATOR_SERVICE);
                 vib.vibrate(400);
 
             } else if (question > answer) {
-                result = "LOSE";
+                result = lastresultLOSE;
                 score = -1;
                 Vibrator vib = (Vibrator) getSystemService(VIBRATOR_SERVICE);
                 vib.vibrate(1000);
             } else {
-                result = "DRAW";
+                result = lastresultDRAW;
                 score = 1;
                 Vibrator vib = (Vibrator) getSystemService(VIBRATOR_SERVICE);
                 vib.vibrate(500);
             }
         } else {
             if (question > answer) {
-                result = "WIN";
+                result = lastresultWIN;
                 score = 2;
                 Vibrator vib = (Vibrator) getSystemService(VIBRATOR_SERVICE);
                 vib.vibrate(400);
             } else if (question < answer) {
-                result = "LOSE";
+                result = lastresultLOSE;
                 score = -1;
                 Vibrator vib = (Vibrator) getSystemService(VIBRATOR_SERVICE);
                 vib.vibrate(1000);
             } else {
-                result = "DRAW";
+                result = lastresultDRAW;
                 score = 1;
                 Vibrator vib = (Vibrator) getSystemService(VIBRATOR_SERVICE);
                 vib.vibrate(500);
@@ -146,7 +152,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // 最後にまとめてToast表示の処理とTextViewへのセットを行う
         Toast.makeText(this, result, Toast.LENGTH_LONG).show();
-        txtResult.setText("結果：" + question + ":" + answer + "(" + result + ")");
+        txtResult.setText(question + ":" + answer + "(" + result + ")");
 
         // 続けて遊べるように値を更新
         setNextQuestion();

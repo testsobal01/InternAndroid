@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">NaoyaOshida</string>
+    <string name="btn_high">Alto</string>
+    <string name="btn_low">Basso</string>
+    <string name="btn_restart">Riavvio</string>
+    <string name="text">10 è impostato</string>
+    <string name="result">risultato：</string>
+    <string name="lastresultWIN">vincita</string>
+    <string name="lastresultLOSE">perdere</string>
+    <string name="lastresultDRAW">perdente</string>
+    <string name="label_score">punto：</string>
+    <string name="PlayerNum">IlTuoNumero</string>
+</resources>

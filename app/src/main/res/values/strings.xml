@@ -1,7 +1,13 @@
 <resources>
-    <string name="app_name">YasuakiGotou</string>
+    <string name="app_name">NaoyaOshida</string>
     <string name="btn_high">High</string>
     <string name="btn_low">Low</string>
     <string name="btn_restart">Restart</string>
+    <string name="text">10 is set.</string>
+    <string name="result">Result：</string>
+    <string name="lastresultWIN">WIN</string>
+    <string name="lastresultLOSE">LOSE</string>
+    <string name="lastresultDRAW">DRAW</string>
     <string name="label_score">Score：</string>
+    <string name="PlayerNum">YourNumber</string>
 </resources>
