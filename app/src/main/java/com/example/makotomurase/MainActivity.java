@@ -1,6 +1,7 @@
 package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -50,6 +51,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             setQuestionValue();
             clearAnswerValue();
             clearScoreValue();
+            setBackgroundColor(R.color.default_color);
         }
     }
 
@@ -94,23 +96,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = "WIN";
                 score = 2;
+                setBackgroundColor(R.color.win_color);
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
+                setBackgroundColor(R.color.lose_color);
             } else {
                 result = "DRAW";
                 score = 1;
+                setBackgroundColor(R.color.default_color);
             }
         } else {
             if (question > answer) {
                 result = "WIN";
                 score = 2;
+                setBackgroundColor(R.color.win_color);
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
+                setBackgroundColor(R.color.lose_color);
             } else {
                 result = "DRAW";
                 score = 1;
+                setBackgroundColor(R.color.default_color);
             }
         }
 
@@ -122,6 +130,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setNextQuestion();
         // スコアを表示
         setScore(score);
+    }
+
+    private void setBackgroundColor(int color_id){
+        TextView myTextView = findViewById(R.id.answer);
+        myTextView.setBackgroundColor(ContextCompat.getColor(this, color_id));
     }
 
     private void setNextQuestion() {
