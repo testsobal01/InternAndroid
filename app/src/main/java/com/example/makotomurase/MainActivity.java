@@ -2,8 +2,10 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.view.View;
 import android.widget.Button;
@@ -39,19 +41,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (id == R.id.button1) {
             setAnswerValue();
             checkResult(true);
-            Vibrator vid = (Vibrator) getSystemService(VIBRATOR_SERVICE);
-            vid.vibrate(5000);
+
         } else if (id == R.id.button2) {
             setAnswerValue();
             checkResult(false);
-            Vibrator vid = (Vibrator) getSystemService(VIBRATOR_SERVICE);
-            vid.vibrate(5000);
+
         } else if (id == R.id.button3) {
             setQuestionValue();
             clearAnswerValue();
             clearScoreValue();
-            Vibrator vid = (Vibrator) getSystemService(VIBRATOR_SERVICE);
-            vid.vibrate(5000);
+
         }
 
 
@@ -98,9 +97,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = "WIN";
                 score = 2;
+                Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+                if (vibrator != null) {
+                    long[] pattern = {0, 100, 100, 100, 100, 100};
+                    vibrator.vibrate(pattern, -1);
+
+                }
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
+                Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+                if (vibrator != null) {
+                    long[] pattern = {0, 500, 500, 500, 500, 500};
+                    vibrator.vibrate(pattern, -1);
+                }
             } else {
                 result = "DRAW";
                 score = 1;
