@@ -2,6 +2,7 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
@@ -27,13 +28,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
 
+        Intent intent = getIntent();
+        Bundle extra = intent.getExtras();
+
+
+
         // 起動時に関数を呼び出す
         setQuestionValue();
     }
 
+    protected void onResume(){
+        super.onResume();
+
+    }
     @Override
     public void onClick(View view) {
         int id = view.getId();
+
+
         if (id == R.id.button1) {
             setAnswerValue();
             checkResult(true);
