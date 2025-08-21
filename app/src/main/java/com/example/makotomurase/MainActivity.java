@@ -2,6 +2,7 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
@@ -44,6 +45,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             setQuestionValue();
             clearAnswerValue();
             clearScoreValue();
+            clearColorValue();
         }
     }
 
@@ -82,28 +84,43 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         String result;
         int score;
 
+        View layout1 =findViewById(R.id.question);
+        View layout2 = findViewById(R.id.answer);
+
         // Highが押された
         if (isHigh) {
             // result には結果のみを入れる
             if (question < answer) {
                 result = "WIN";
                 score = 2;
+                layout1.setBackgroundColor(Color.CYAN);
+                layout2.setBackgroundColor(Color.RED);
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
+                layout1.setBackgroundColor(Color.RED);
+                layout2.setBackgroundColor(Color.CYAN);
             } else {
                 result = "DRAW";
                 score = 1;
+                layout1.setBackgroundColor(Color.GREEN);
+                layout2.setBackgroundColor(Color.GREEN);
             }
         } else {
             if (question > answer) {
+                layout1.setBackgroundColor(Color.RED);
+                layout2.setBackgroundColor(Color.CYAN);
                 result = "WIN";
                 score = 2;
             } else if (question < answer) {
+                layout1.setBackgroundColor(Color.CYAN);
+                layout2.setBackgroundColor(Color.RED);
                 result = "LOSE";
                 score = -1;
             } else {
                 result = "DRAW";
+                layout1.setBackgroundColor(Color.GREEN);
+                layout2.setBackgroundColor(Color.GREEN);
                 score = 1;
             }
         }
@@ -146,5 +163,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView txtScore = (TextView) findViewById(R.id.text_score);
         txtScore.setText("0");
     }
+
+    private void clearColorValue() {
+        View layout1 =findViewById(R.id.question);
+        View layout2 = findViewById(R.id.answer);
+        layout1.setBackgroundColor(Color.MAGENTA);
+        layout2.setBackgroundColor(Color.YELLOW);
+    }
+
 }
 
