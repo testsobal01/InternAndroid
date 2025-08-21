@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources><string name="app_name">YasuakiGotou</string>
+<string name="btn_high">grand</string>
+<string name="btn_low">petite</string>
+<string name="btn_restart">réinitialiser</string>
+<string name="label_score">score：</string>
+    <string name="sentence_1">10 est réglé.</string>
+    <string name="answer">POCHI</string>
+</resources>
