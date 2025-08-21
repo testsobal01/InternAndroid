@@ -37,10 +37,13 @@
                 android:text="@string/btn_restart" />
         </LinearLayout>
 
+
+
         <TextView
+            android:id="@+id/text_setting"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="10が設定されています。" />
+             />
 
         <TextView
             android:id="@+id/text_result"

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">YasuakiGotou</string>
+    <string name="btn_high">alto</string>
+    <string name="btn_low">basso</string>
+    <string name="btn_restart">ricomincia</string>
+    <string name="label_score">punto：</string>
+    <string name="setting_score">10 è impostato：</string>
+    <string name="setting_score2">valore 2：</string>
+    <string name="setting_score3">risultato：</string>
+</resources>
