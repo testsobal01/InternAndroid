@@ -3,12 +3,15 @@ package com.example.makotomurase;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
+import android.content.Intent;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -39,7 +42,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // 起動時に関数を呼び出す
         setQuestionValue();
+
     }
+
 
     @Override
     protected void onPause() {
@@ -72,6 +77,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         } else if (id == R.id.button2) {
             setAnswerValue();
             checkResult(false);
+
         } else if (id == R.id.button3) {
 
             //バイブレーション追加
@@ -127,10 +133,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = "WIN";
                 score = 2;
+                textAnimation(R.anim.scale_up_down);
                 setBackgroundColor(R.color.win_color);
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
+                textAnimation(R.anim.scale_down_up);
                 setBackgroundColor(R.color.lose_color);
             } else {
                 result = "DRAW";
@@ -141,10 +149,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question > answer) {
                 result = "WIN";
                 score = 2;
+                textAnimation(R.anim.scale_up_down);
                 setBackgroundColor(R.color.win_color);
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
+                textAnimation(R.anim.scale_down_up);
                 setBackgroundColor(R.color.lose_color);
             } else {
                 result = "DRAW";
@@ -152,6 +162,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 setBackgroundColor(R.color.default_color);
             }
         }
+
 
         // 最後にまとめてToast表示の処理とTextViewへのセットを行う
         Toast.makeText(this, result, Toast.LENGTH_LONG).show();
@@ -164,6 +175,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setScore(score);
     }
 
+    private void textAnimation(int anim_id){
+        TextView animText = findViewById(R.id.answer);
+        Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), anim_id);
+        animText.startAnimation(animation);
+    }
+  
     private void setBackgroundColor(int color_id){
         TextView myTextView = findViewById(R.id.answer);
         myTextView.setBackgroundColor(ContextCompat.getColor(this, color_id));
