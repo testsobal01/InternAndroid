@@ -2,6 +2,7 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
@@ -103,6 +104,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // 結果を示す文字列を入れる変数を用意
         String result;
         int score;
+        String color;
 
         // Highが押された
         if (isHigh) {
@@ -110,23 +112,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = "WIN";
                 score = 2;
+                txtResult.setBackgroundColor(Color.rgb(242,83,194));
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
+                txtResult.setBackgroundColor(Color.rgb(110,108,210));
             } else {
                 result = "DRAW";
                 score = 1;
+                txtResult.setBackgroundColor(Color.rgb(78,220,220));
             }
         } else {
             if (question > answer) {
                 result = "WIN";
                 score = 2;
+                txtResult.setBackgroundColor(Color.rgb(242,83,194));
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
+                txtResult.setBackgroundColor(Color.rgb(110,108,210));
             } else {
                 result = "DRAW";
                 score = 1;
+                txtResult.setBackgroundColor(Color.rgb(78,220,220));
             }
         }
 
@@ -134,6 +142,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Toast.makeText(this, result, Toast.LENGTH_LONG).show();
         String resultText = getString(R.string.text_result);
         txtResult.setText(resultText+"：" + question + ":" + answer + "(" + result + ")");
+
 
         // 続けて遊べるように値を更新
         setNextQuestion();
