@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">YasuakiGotou</string>
+    <string name="btn_high">높은</string>
+    <string name="btn_low">낮은</string>
+    <string name="btn_restart">재시작</string>
+    <string name="label_score">점수：</string>
+    <string name="START">시작</string>
+    <string name="message1">10이 설정되어 있습니다.</string>
+    <string name="win">승리</string>
+    <string name="lose">패배하다</string>
+    <string name="draw">그리기</string>
+    <string name="result">결과：</string>
+    <string name="value1">값 1</string>
+    <string name="value2">값 2</string>
+    <string name="no_score">：저장되지 않았습니다</string>
+</resources>

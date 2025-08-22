@@ -4,7 +4,8 @@
     <string name="btn_high">高</string>
     <string name="btn_low">低</string>
     <string name="btn_restart">重新启动</string>
-    <string name="label_score">得分</string>
+    <string name="label_score">得分：</string>
+    <string name="START">开始</string>
     <string name="message1">已设置为10。</string>
     <string name="win">胜</string>
     <string name="lose">失败</string>
@@ -12,4 +13,5 @@
     <string name="result">结果：</string>
     <string name="value1">值1</string>
     <string name="value2">值2</string>
+    <string name="no_score">未保存</string>
 </resources>
