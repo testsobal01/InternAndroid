@@ -6,5 +6,6 @@
     <string name="btn_restart">リセット</string>
     <string name="label_score">スコア：</string>
     <string name="sentence_1">技術で社会に貢献する。</string>
+    <string name="sentence_2">"左の数字よりも右の数字が大きくなるか小さくなるかか当てるゲーム(最大値は１０に設定されています。)"</string>
     <string name="answer">ポ値</string>
 </resources>
