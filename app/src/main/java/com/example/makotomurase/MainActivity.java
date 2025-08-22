@@ -33,6 +33,7 @@ import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.text.Layout;
 import android.view.View;
 import android.widget.Button;
 import android.widget.NumberPicker;
