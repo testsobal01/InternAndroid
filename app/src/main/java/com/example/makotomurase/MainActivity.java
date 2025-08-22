@@ -16,6 +16,8 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
+import java.util.Locale;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -23,6 +25,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     //プリファレンスの生成
     SharedPreferences pref;
     SharedPreferences.Editor prefEditor;
+
+    private static final long START_TIME = 10000;
+    private TextView mTextViewCountDown;
+    private Button mButtonStartPause;
+    private Button getmButtonReset;
+
+    private CountDownTimer mCountDownTimer;
+    private boolean mTimerRunning;
+
+    private long mTimeLeftInMillis = START_TIME;
+
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,27 +54,96 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
 
+
+        mTextViewCountDown = findViewById(R.id.text_view_countdown);
+        getmButtonReset = findViewById(R.id.button3);
+        mButtonStartPause = findViewById(R.id.button4);
+
         //プリファレンスの生成
         pref = getSharedPreferences("team-g",MODE_PRIVATE);
         prefEditor = pref.edit();
+
+        mButtonStartPause.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!mTimerRunning) {
+                    startTimer();
+                }
+            }
+        });
 
         // 起動時に関数を呼び出す
         setQuestionValue();
     }
 
+    private void startTimer(){
+        mCountDownTimer = new CountDownTimer(mTimeLeftInMillis,1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                mTimeLeftInMillis = millisUntilFinished;
+                updateCountDownText();
+            }
+            @Override
+            public void onFinish() {
+                mTimerRunning = false;
+                mTimeLeftInMillis = 0;
+                updateCountDownText();
+                mButtonStartPause.setVisibility(View.VISIBLE);
+                Toast.makeText(MainActivity.this, "タイムアップ！", Toast.LENGTH_SHORT).show();
+            }
+        }.start();
+
+        mTimerRunning = true;
+    }
+
+
+    private void resetTimer(){
+        mTimeLeftInMillis = START_TIME;
+        updateCountDownText();
+        mTimerRunning = false;
+        mButtonStartPause.setVisibility(View.VISIBLE);
+    }
+
+    private void updateCountDownText() {
+        int minutes = (int)(mTimeLeftInMillis/1000)/60;
+        int seconds = (int)(mTimeLeftInMillis/1000)%60;
+
+        // 0秒以下になったら強制的に 00:00 表示
+        if (mTimeLeftInMillis <= 0) {
+            minutes = 0;
+            seconds = 0;
+        }
+
+        String timerLeftFormatted = String.format(Locale.getDefault(), "%02d:%02d", minutes, seconds);
+        mTextViewCountDown.setText(timerLeftFormatted);
+    }
+
+
+
     @Override
     public void onClick(View view) {
         int id = view.getId();
-        if (id == R.id.button1) {
-            setAnswerValue();
-            checkResult(true);
-        } else if (id == R.id.button2) {
-            setAnswerValue();
-            checkResult(false);
-        } else if (id == R.id.button3) {
+
+        if (mTimerRunning) {
+            startTimer();
+        }
+
+        // タイマーが動いているときだけ結果判定を実行
+        if (mTimerRunning) {
+            if (id == R.id.button1) {
+                setAnswerValue();
+                checkResult(true);
+            } else if (id == R.id.button2) {
+                setAnswerValue();
+                checkResult(false);
+            }
+        }
+
+        if (id == R.id.button3) {
             setQuestionValue();
             clearAnswerValue();
             clearScoreValue();
+            resetTimer();
         }
     }
 
@@ -79,7 +164,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void setAnswerValue() {
         Random r = new Random();
         int answerValue = r.nextInt(10 + 1);
-
+        double probability = 0.05;
+        //5%の確率で777が出る。
+        if (r.nextDouble() < probability) {
+            answerValue = 777;
+        }
         TextView txtView = findViewById(R.id.answer);
         txtView.setText(Integer.toString(answerValue));
     }
@@ -100,7 +189,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // Highが押された
         if (isHigh) {
             // result には結果のみを入れる
-            if (question < answer) {
+            if(answer == 777){
+                result = "Lucky Win";
+                score = 2;
+            }else if (question < answer) {
                 result = "WIN";
                 score = 2;
             } else if (question > answer) {
@@ -111,7 +203,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 score = 1;
             }
         } else {
-            if (question > answer) {
+            if(answer == 777){
+                result = "Lucky Win";
+                score = 2;
+            } else if (question > answer) {
                 result = "WIN";
                 score = 2;
             } else if (question < answer) {
