@@ -24,7 +24,6 @@ public class StartActivity extends AppCompatActivity implements View.OnClickList
         int id = view.getId();
         if (id == R.id.start) {
             Intent intent = new Intent(this, MainActivity.class);
-//            intent.putExtra("KEY", "Start");
             startActivity(intent);
         }
     }
