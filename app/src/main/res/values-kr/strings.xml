@@ -1,3 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+<string name="app_name">ぽ値ぽ値HIGH and LOW</string>
+<string name="btn_high">큰</string>
+<string name="btn_low">작은</string>
+<string name="btn_restart">리셋</string>
+<string name="label_score">점수：</string>
+<string name="sentence_1">기술을 통해 사회에 기여합니다.</string>
+<string name="sentence_2">오른쪽에 있는 숫자가 왼쪽에 있는 숫자보다 크거나 작은지 추측하는 게임(10이 정해져 있을 때).</string>
+<string name="answer">POCHI</string>
 </resources>
