@@ -7,11 +7,13 @@
     android:gravity="center"
     tools:context=".StartActivity">
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/start"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="5dp"
+        android:background="@drawable/custom_button_background"
+        android:backgroundTint="@null"
         android:text="@string/start" />
 
 </LinearLayout>
