@@ -8,6 +8,7 @@
     android:orientation="vertical"
     android:gravity="center"
     android:padding="16dp"
+
     tools:context=".MainActivity">
 
     <LinearLayout
@@ -25,6 +26,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 app:backgroundTint="@null"
+
                 android:background="@drawable/button1dark"
                 android:text="@string/btn_high" />
 
@@ -84,13 +86,35 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="0" />
+            <ImageView
+                android:id="@+id/heart1"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_margin="4dp"
+                android:src="@drawable/heart"
+                android:contentDescription="Heart 1" />
+            <ImageView
+                android:id="@+id/heart2"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_margin="4dp"
+                android:src="@drawable/heart"
+                android:contentDescription="Heart 2" />
+            <ImageView
+                android:id="@+id/heart3"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_margin="4dp"
+                android:src="@drawable/heart"
+                android:contentDescription="Heart 3" />
+
         </LinearLayout>
 
 
         <LinearLayout
 
             android:layout_width="match_parent"
-            android:layout_height="446dp">
+            android:layout_height="346dp">
 
             <TextView
                 android:id="@+id/question"
@@ -99,6 +123,7 @@
                 android:layout_weight="1"
                 android:background="#ff00ff"
                 android:gravity="center"
+                android:textColor="#000000"
                 android:text="値1"
                 android:textSize="60sp" />
 
@@ -109,6 +134,7 @@
                 android:layout_weight="1"
                 android:background="#ffff00"
                 android:gravity="center"
+                android:textColor="#000000"
                 android:text="値2"
                 android:textSize="60sp" />
         </LinearLayout>
