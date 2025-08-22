@@ -3,6 +3,11 @@ package com.example.makotomurase;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
+import android.graphics.Color;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.media.MediaPlayer;
+import android.media.SoundPool;
 import android.content.Intent;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -13,15 +18,42 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.Random;
 
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
+    private boolean action_flg = false;
+    private boolean start_flg = false;
+
+    private MediaPlayer mediaPlayer;
+
+    // Sound
+    private SoundPlayer soundPlayer;
+
+    private SoundPool soundPool;
+    private int decisionSoundId;
+  
     SharedPreferences pref;
     SharedPreferences.Editor prefEditor;
+    CountDownTimer countDown;
+
+    /**
+     * 乱数の最大値。
+     */
+    private int MAX_RANDOM_VALUE = 10;
+    /**
+     * numberPickerの最小値
+     */
+    private final int MIN_NUMBERPICKER_VALUE = 10;
+    /**
+     * numberPickerの最大値
+     */
+    private final int MAX_NUMBERPICKER_VALUE = 50;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,9 +69,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
 
+        Button btn4 = (Button) findViewById(R.id.setting_button);
+        btn4.setOnClickListener(this);
+
+        soundPool = new SoundPool.Builder()
+                .setMaxStreams(3)
+                .build();
+        decisionSoundId = soundPool.load(this, R.raw.decision, 1);
+
         pref = getSharedPreferences("InternAndroid", MODE_PRIVATE);
         prefEditor = pref.edit();
-
+      
         // 起動時に関数を呼び出す
         setQuestionValue();
 
@@ -63,13 +103,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         TextView textView = (TextView) findViewById(R.id.text_score);
 
-        String readText = pref.getString("main_input","保存されていません");
+        String readText = pref.getString("main_input","0");
         textView.setText(readText);
 
     }
 
     @Override
     public void onClick(View view) {
+        //countDown.cancel();
+
+        if (mediaPlayer != null) {
+            mediaPlayer.release(); // 以前のMediaPlayerを解放
+        }
+        mediaPlayer = MediaPlayer.create(this, R.raw.decision); // 効果音ファイルを指定
+        mediaPlayer.start();
+
         int id = view.getId();
         if (id == R.id.button1) {
             setAnswerValue();
@@ -83,11 +131,36 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             //バイブレーション追加
             Vibrator vib = (Vibrator) getSystemService(VIBRATOR_SERVICE);
             vib.vibrate(500);
-
             setQuestionValue();
             clearAnswerValue();
             clearScoreValue();
             setBackgroundColor(R.color.default_color);
+        }
+        if(view.getId() == R.id.setting_button){
+
+            View v = getLayoutInflater().inflate(R.layout.dialog, null);
+
+            // dialog.xml内のnumberPicker1の定義
+            final NumberPicker np1 = (NumberPicker) v.findViewById(R.id.numberPicker1);
+            np1.setMinValue(MIN_NUMBERPICKER_VALUE);
+            np1.setMaxValue(MAX_NUMBERPICKER_VALUE);
+
+            // ダイアログの生成
+            new AlertDialog.Builder(this)
+                    .setTitle(getString(R.string.dialog_title))
+                    .setView(v)
+                    .setPositiveButton(getString(R.string.dialog_positive_button),
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    MAX_RANDOM_VALUE = np1.getValue();
+                                    TextView txtView = findViewById(R.id.text_setting);
+                                    txtView.setText(Integer.valueOf(np1.getValue()).toString() + getString(R.string.settei));
+                                }
+                            })
+                    .setNegativeButton(getString(R.string.dialog_negative_button), null)
+                    .create()
+                    .show();
         }
     }
 
@@ -100,7 +173,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void setQuestionValue() {
         Random r = new Random();
         // 0から10の範囲で乱数を生成（+1する必要がある）
-        int questionValue = r.nextInt(10 + 1);
+        int questionValue = r.nextInt(MAX_RANDOM_VALUE + 1);
 
         TextView txtView = findViewById(R.id.question);
         txtView.setText(Integer.toString(questionValue));
@@ -108,7 +181,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void setAnswerValue() {
         Random r = new Random();
-        int answerValue = r.nextInt(10 + 1);
+        int answerValue = r.nextInt(MAX_RANDOM_VALUE + 1);
 
         TextView txtView = findViewById(R.id.answer);
         txtView.setText(Integer.toString(answerValue));
@@ -182,14 +255,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
   
     private void setBackgroundColor(int color_id){
-        TextView myTextView = findViewById(R.id.answer);
+        TextView myTextView = findViewById(R.id.answer_background);
         myTextView.setBackgroundColor(ContextCompat.getColor(this, color_id));
     }
 
     private void setNextQuestion() {
         // 第１引数がカウントダウン時間、第２引数は途中経過を受け取る間隔
         // 単位はミリ秒（1秒＝1000ミリ秒）
-        new CountDownTimer(3000, 1000) {
+         countDown = new CountDownTimer(3000, 1000) {
             @Override
             public void onTick(long l) {
                 // 途中経過を受け取った時に何かしたい場合
@@ -201,7 +274,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 // 3秒経過したら次の値をセット
                 setQuestionValue();
             }
-        }.start();
+        };
+
+        countDown.start();
     }
 
     private void setScore(int score) {
