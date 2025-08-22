@@ -2,6 +2,8 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.media.MediaPlayer;
+import android.media.SoundPool;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
@@ -12,6 +14,17 @@ import android.widget.Toast;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
+    private boolean action_flg = false;
+    private boolean start_flg = false;
+
+    private MediaPlayer mediaPlayer;
+
+    // Sound
+    private SoundPlayer soundPlayer;
+
+    private SoundPool soundPool;
+    private int decisionSoundId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,12 +40,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
 
+        soundPool = new SoundPool.Builder()
+                .setMaxStreams(3)
+                .build();
+        decisionSoundId = soundPool.load(this, R.raw.decision, 1);
+
+
+
         // 起動時に関数を呼び出す
         setQuestionValue();
     }
 
     @Override
     public void onClick(View view) {
+
+        if (mediaPlayer != null) {
+            mediaPlayer.release(); // 以前のMediaPlayerを解放
+        }
+        mediaPlayer = MediaPlayer.create(this, R.raw.decision); // 効果音ファイルを指定
+        mediaPlayer.start();
+
         int id = view.getId();
         if (id == R.id.button1) {
             setAnswerValue();
