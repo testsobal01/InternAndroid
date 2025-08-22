@@ -149,12 +149,13 @@
                 android:src="@mipmap/usagi1"/>
         </LinearLayout>
     </LinearLayout>
-
+    </LinearLayout>
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/time_setting"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="16dp"
+        android:contentDescription="button"
         android:src="@android:drawable/ic_menu_recent_history" />
 </FrameLayout>
