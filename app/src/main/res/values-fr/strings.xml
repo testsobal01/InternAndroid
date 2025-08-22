@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">YasuakiGotou</string>
+    <string name="app_name">"High &amp; Low"</string>
     <string name="setting_button">︙</string>
     <string name="btn_high">haute</string>
     <string name="btn_low">faible</string>
