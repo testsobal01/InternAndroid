@@ -1,10 +1,10 @@
 <resources>
-    <string name="app_name">YasuakiGotou</string>
+    <string name="app_name">ぽ値ぽ値HIGH and LOW</string>
     <string name="btn_high">High</string>
     <string name="btn_low">Low</string>
     <string name="btn_restart">Restart</string>
     <string name="label_score">Score：</string>
-    <string name="sentence_1">10 is set.</string>
+    <string name="sentence_1">Contributing to society through technology.</string>
     <string name="sentence_2">A game where you guess whether the number on the right will be larger or smaller than the number on the left (10 is set).</string>
     <string name="answer">POCHI</string>
 </resources>

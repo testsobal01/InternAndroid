@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">YasuakiGotou</string>
+    <string name="app_name">ぽ値ぽ値HIGH and LOW</string>
     <string name="btn_high">大</string>
     <string name="btn_low">小</string>
     <string name="btn_restart">リセット</string>
     <string name="label_score">スコア：</string>
-    <string name="sentence_1">10が設定されています。</string>
+    <string name="sentence_1">技術で社会に貢献する。</string>
     <string name="sentence_2">"左の数字よりも右の数字が大きくなるか小さくなるかか当てるゲーム(最大値は１０に設定されています。)"</string>
     <string name="answer">ポ値</string>
 </resources>
