@@ -6,6 +6,8 @@ import android.content.SharedPreferences;
 
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.media.AudioAttributes;
+import android.media.SoundPool;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
@@ -20,13 +22,29 @@ import java.util.Random;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     SharedPreferences pref;
     SharedPreferences.Editor prefEditor;
+
+    int mysoundID;
+    SoundPool soundPool;
+    int hit;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Button btn1 = findViewById(R.id.button1);
-        btn1.setOnClickListener(this);
+        Button botton1 = findViewById(R.id.button1);
+        botton1.setOnClickListener(this);
+        soundPool = null;
+
+        AudioAttributes audioAttributes=new
+                AudioAttributes.Builder().setUsage(AudioAttributes.USAGE_ALARM).setContentType(AudioAttributes.CONTENT_TYPE_SPEECH).build();
+
+        soundPool = new SoundPool.Builder().setAudioAttributes(audioAttributes).setMaxStreams(1).build();
+
+        hit = getResources().getIdentifier("hit","raw",getPackageName());
+
+        mysoundID=soundPool.load(getBaseContext(),hit,1);
 
         Button btn2 = findViewById(R.id.button2);
         btn2.setOnClickListener(this);
@@ -82,7 +100,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }else if (id == R.id.button3) {
             Vibrator vib = (Vibrator) getSystemService(VIBRATOR_SERVICE);
             vib.vibrate(2000);
-    }}
+        }
+        if (id == R.id.button1) {
+            soundPool.play(mysoundID,1f,1f,0,0,1);
+        } else if (id == R.id.button2) {
+            soundPool.play(mysoundID,1f,1f,0,0,1);
+        } else if (id == R.id.button3) {
+            soundPool.play(mysoundID, 1f, 1f, 0, 0, 1);
+        }
+    }
 
     private void clearAnswerValue() {
         TextView txtView = (TextView) findViewById(R.id.answer);
