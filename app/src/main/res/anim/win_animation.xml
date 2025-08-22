@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<set xmlns:android="http://schemas.android.com/apk/res/android"
+    android:fillAfter="true">
+
+    <!--
+        translateアニメーション：Y軸方向に移動させる
+        fromYDelta="0"   : 開始位置（元の位置）
+        toYDelta="-30"   : 上方向に30ピクセル移動
+        duration="300"   : アニメーションの時間（ミリ秒）
+        repeatCount="3"  : 3回繰り返す（合計4回動く）
+        repeatMode="reverse" : 移動した後、元に戻る動きを繰り返す
+        これにより上下にバウンドする動きを表現
+    -->
+
+    <translate
+        android:fromYDelta="0"
+        android:toYDelta="-30"
+        android:duration="300"
+        android:repeatCount="3"
+        android:repeatMode="reverse" />
+</set>
