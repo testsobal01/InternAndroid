@@ -6,11 +6,9 @@
     android:radius="10dp" />
     <gradient
         android:angle="90"
-        android:startColor="#778899"
-        android:endColor="#008080" />
+        android:startColor="#ffa500"
+        android:endColor="#db7093" />
 
-    <stroke
-        android:color="#000000"
-        android:width="2dp"/>
+
 
 </shape>
