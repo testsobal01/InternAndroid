@@ -14,6 +14,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Build;
 import android.graphics.Color;
+
 import static java.lang.Math.ceil;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -37,6 +38,8 @@ import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
+import java.util.Locale;
 import java.util.Random;
 
 
@@ -56,6 +59,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private static final String PREF_KEY_MAX = "pref_max_value";
     private static final int DEFAULT_MAX_VALUE = 10;
     private int maxRandomValue = DEFAULT_MAX_VALUE; // 現在の上限値
+
     public class SoundPlayer {
 
         private MediaPlayer mediaPlayer;
@@ -93,6 +97,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+    private static final long START_TIME = 10000;
+    private TextView mTextViewCountDown;
+    private Button mButtonStartPause;
+    private Button getmButtonReset;
+
+    private CountDownTimer mCountDownTimer;
+    private boolean mTimerRunning;
+
+    private long mTimeLeftInMillis = START_TIME;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,9 +122,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
 
+
+        mTextViewCountDown = findViewById(R.id.text_view_countdown);
+        getmButtonReset = findViewById(R.id.button3);
+        mButtonStartPause = findViewById(R.id.button4);
+
         //プリファレンスの生成
-        pref = getSharedPreferences("team-g",MODE_PRIVATE);
+        pref = getSharedPreferences("team-g", MODE_PRIVATE);
         prefEditor = pref.edit();
+
+        mButtonStartPause.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!mTimerRunning) {
+                    startTimer();
+                }
+            }
+        });
 
         // 起動時に関数を呼び出す
         setQuestionValue();
@@ -121,11 +149,56 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
+
+    private void startTimer() {
+        mCountDownTimer = new CountDownTimer(mTimeLeftInMillis, 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                mTimeLeftInMillis = millisUntilFinished;
+                updateCountDownText();
+            }
+
+            @Override
+            public void onFinish() {
+                mTimerRunning = false;
+                mTimeLeftInMillis = 0;
+                updateCountDownText();
+                mButtonStartPause.setVisibility(View.VISIBLE);
+                Toast.makeText(MainActivity.this, "タイムアップ！", Toast.LENGTH_SHORT).show();
+            }
+        }.start();
+
+        mTimerRunning = true;
+    }
+
+
+    private void resetTimer() {
+        mTimeLeftInMillis = START_TIME;
+        updateCountDownText();
+        mTimerRunning = false;
+        mButtonStartPause.setVisibility(View.VISIBLE);
+    }
+
+    private void updateCountDownText() {
+        int minutes = (int) (mTimeLeftInMillis / 1000) / 60;
+        int seconds = (int) (mTimeLeftInMillis / 1000) % 60;
+
+        // 0秒以下になったら強制的に 00:00 表示
+        if (mTimeLeftInMillis <= 0) {
+            minutes = 0;
+            seconds = 0;
+        }
+
+        String timerLeftFormatted = String.format(Locale.getDefault(), "%02d:%02d", minutes, seconds);
+        mTextViewCountDown.setText(timerLeftFormatted);
+    }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -164,7 +237,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
-
     @SuppressLint({"NonConstantResourceId", "NewApi"})
     @Override
     public void onClick(View view) {
@@ -193,6 +265,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             SoundPlayer soundPlayer = new SoundPlayer(this);
             soundPlayer.playSound(R.raw.horyu);
         }
+        if (mTimerRunning) {
+            startTimer();
+        }
+
+
+        // タイマーが動いているときだけ結果判定を実行
+        if (mTimerRunning) {
+            if (id == R.id.button1) {
+                setAnswerValue();
+                checkResult(true);
+            } else if (id == R.id.button2) {
+                setAnswerValue();
+                checkResult(false);
+            }
+        }
+
+        if (id == R.id.button3) {
+            setQuestionValue();
+            clearAnswerValue();
+            clearScoreValue();
+            resetTimer();
+        }
     }
 
     private void clearAnswerValue() {
@@ -211,6 +305,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void setAnswerValue() {
         Random r = new Random();
         int answerValue = r.nextInt(maxRandomValue + 1); // ←変更
+        double probability = 0.05;
+        //5%の確率で777が出る。
+        if (r.nextDouble() < probability) {
+            answerValue = 777;
+        }
         TextView txtView = findViewById(R.id.answer);
         txtView.setText(Integer.toString(answerValue));
     }
@@ -228,13 +327,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView animation_Label_TextView;
 
         // 結果を示す文字列を入れる変数を用意
-        String result;
-        int score;
+        String result = "";
+        int score = 0;
 
         String lastresultWIN = getResources().getString(R.string.lastresultWIN);
         String lastresultLOSE = getResources().getString(R.string.lastresultLOSE);
         String lastresultDRAW = getResources().getString(R.string.lastresultDRAW);
-        View layout1 =findViewById(R.id.question);
+        View layout1 = findViewById(R.id.question);
         View layout2 = findViewById(R.id.answer);
 
         // Highが押された
@@ -243,39 +342,44 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             // result には結果のみを入れる
             if (question < answer) {
                 result = lastresultWIN;
-                score = 2;
-                Vibrator vib = (Vibrator) getSystemService(VIBRATOR_SERVICE);
-                vib.vibrate(400);
+                if (answer == 777) {
+                    result = "Lucky Win";
+                    score = 2;
+                } else if (question < answer) {
+                    result = "WIN";
+                    score = 2;
+                    Vibrator vib = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+                    vib.vibrate(400);
 
-                layout1.setBackgroundColor(Color.CYAN);
-                layout2.setBackgroundColor(Color.RED);
+                    layout1.setBackgroundColor(Color.CYAN);
+                    layout2.setBackgroundColor(Color.RED);
 
-                SoundPlayer soundPlayer = new SoundPlayer(this);
+                    SoundPlayer soundPlayer = new SoundPlayer(this);
 
-                soundPlayer.playSound(R.raw.atari);
+                    soundPlayer.playSound(R.raw.atari);
 
-            } else if (question > answer) {
-                result = lastresultLOSE;
-                score = -1;
-                Vibrator vib = (Vibrator) getSystemService(VIBRATOR_SERVICE);
-                vib.vibrate(1000);
-                layout1.setBackgroundColor(Color.RED);
-                layout2.setBackgroundColor(Color.CYAN);
+                } else if (question > answer) {
+                    result = lastresultLOSE;
+                    score = -1;
+                    Vibrator vib = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+                    vib.vibrate(1000);
+                    layout1.setBackgroundColor(Color.RED);
+                    layout2.setBackgroundColor(Color.CYAN);
 
-                SoundPlayer soundPlayer = new SoundPlayer(this);
+                    SoundPlayer soundPlayer = new SoundPlayer(this);
 
-                soundPlayer.playSound(R.raw.dededon);
+                    soundPlayer.playSound(R.raw.dededon);
 
-            } else {
-                result = lastresultDRAW;
-                score = 1;
-                Vibrator vib = (Vibrator) getSystemService(VIBRATOR_SERVICE);
-                vib.vibrate(500);
+                } else {
+                    result = lastresultDRAW;
+                    score = 1;
+                    Vibrator vib = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+                    vib.vibrate(500);
 
-                SoundPlayer soundPlayer = new SoundPlayer(this);
+                    SoundPlayer soundPlayer = new SoundPlayer(this);
 
-                soundPlayer.playSound(R.raw.kezoku);
-
+                    soundPlayer.playSound(R.raw.kezoku);
+                }
             }
         } else {
             isInputEnabled = false;
@@ -283,42 +387,48 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 result = lastresultWIN;
                 layout1.setBackgroundColor(Color.RED);
                 layout2.setBackgroundColor(Color.CYAN);
-                score = 2;
-                Vibrator vib = (Vibrator) getSystemService(VIBRATOR_SERVICE);
-                vib.vibrate(400);
+                if (answer == 777) {
+                    result = "Lucky Win";
+                    score = 2;
+                } else if (question > answer) {
+                    result = "WIN";
+                    score = 2;
+                    Vibrator vib = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+                    vib.vibrate(400);
 
-                SoundPlayer soundPlayer = new SoundPlayer(this);
+                    SoundPlayer soundPlayer = new SoundPlayer(this);
 
-                soundPlayer.playSound(R.raw.maxkezoku);
+                    soundPlayer.playSound(R.raw.maxkezoku);
 
-            } else if (question < answer) {
-                result = lastresultLOSE;
-                layout1.setBackgroundColor(Color.CYAN);
-                layout2.setBackgroundColor(Color.RED);
-                score = -1;
-                Vibrator vib = (Vibrator) getSystemService(VIBRATOR_SERVICE);
-                vib.vibrate(1000);
+                } else if (question < answer) {
+                    result = lastresultLOSE;
+                    layout1.setBackgroundColor(Color.CYAN);
+                    layout2.setBackgroundColor(Color.RED);
+                    score = -1;
+                    Vibrator vib = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+                    vib.vibrate(1000);
 
-                SoundPlayer soundPlayer = new SoundPlayer(this);
+                    SoundPlayer soundPlayer = new SoundPlayer(this);
 
-                soundPlayer.playSound(R.raw.dededon);
+                    soundPlayer.playSound(R.raw.dededon);
 
-            } else {
-                result = lastresultDRAW;
-                layout1.setBackgroundColor(Color.GREEN);
-                layout2.setBackgroundColor(Color.GREEN);
-                score = 1;
-                Vibrator vib = (Vibrator) getSystemService(VIBRATOR_SERVICE);
-                vib.vibrate(500);
+                } else {
+                    result = lastresultDRAW;
+                    layout1.setBackgroundColor(Color.GREEN);
+                    layout2.setBackgroundColor(Color.GREEN);
+                    score = 1;
+                    Vibrator vib = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+                    vib.vibrate(500);
 
-                SoundPlayer soundPlayer = new SoundPlayer(this);
+                    SoundPlayer soundPlayer = new SoundPlayer(this);
 
-                soundPlayer.playSound(R.raw.kezoku);
+                    soundPlayer.playSound(R.raw.kezoku);
 
+                }
             }
         }
 
-        if(score == 2 || score == -1) {
+        if (score == 2 || score == -1) {
             if (question > answer) {
                 animation_Label_TextView = findViewById(R.id.question);
             } else {
@@ -338,7 +448,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             .scaleY(2f)
                             .start();
                 }
-                    @Override public void onFinish() {
+
+                @Override
+                public void onFinish() {
                     long COUNT_DOWN_MILLISECOND = 5000;
                     // scaleを元に戻す
                     animation_Label_TextView.setScaleX(1f);
@@ -387,18 +499,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         txtScore.setText("0");
     }
 
-    private void score_Save(){
+    private void score_Save() {
         TextView txtScore = (TextView) findViewById(R.id.text_score);
         int Score = Integer.parseInt(txtScore.getText().toString());
         //プリファレンスの保存
-        prefEditor.putInt("pref_score",Score);
+        prefEditor.putInt("pref_score", Score);
         prefEditor.commit();
     }
 
-    private void score_Load(){
+    private void score_Load() {
         TextView txtScore = (TextView) findViewById(R.id.text_score);
         //プリファレンスの読み込み
-        int Pref_Score = pref.getInt("pref_score",0);
+        int Pref_Score = pref.getInt("pref_score", 0);
         txtScore.setText(Integer.toString(Pref_Score));
     }
 
@@ -413,8 +525,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onPause();
         score_Save();
     }
+
     private void clearColorValue() {
-        View layout1 =findViewById(R.id.question);
+        View layout1 = findViewById(R.id.question);
         View layout2 = findViewById(R.id.answer);
         layout1.setBackgroundColor(Color.MAGENTA);
         layout2.setBackgroundColor(Color.YELLOW);

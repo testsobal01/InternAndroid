@@ -41,6 +41,13 @@
                 android:background="@drawable/costom_button_3"
                 android:text="@string/btn_restart"
                 app:backgroundTint="@null" />
+
+            <Button
+                android:id="@+id/button4"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Start" />
         </LinearLayout>
 
         <TextView
@@ -53,10 +60,11 @@
             android:layout_marginTop="16dp"
             />
 
-
-        <LinearLayout
+        <TextView
+            android:id="@+id/text_view_countdown"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:text="00:00"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -67,7 +75,6 @@
                 android:id="@+id/text_result"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"></TextView>
-        </LinearLayout>
 
         <LinearLayout
             android:layout_width="wrap_content"
