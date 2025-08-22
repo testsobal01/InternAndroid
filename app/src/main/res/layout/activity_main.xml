@@ -79,11 +79,11 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-            
-            
-            <LinearLayout
-                android:id="@+id/question_background"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+　　　      android:id="@+id/question_background">
+            <TextView
+                android:id="@+id/question"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -117,8 +117,25 @@
                     android:textSize="60sp" />
             </LinearLayout>
         </LinearLayout>
+        <!--フッター画像の追加-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:orientation="horizontal">
 
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:scaleType="centerCrop"
+                android:src="@mipmap/usagi_image"/>
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:scaleType="centerCrop"
+                android:src="@mipmap/usagi1"/>
+        </LinearLayout>
     </LinearLayout>
-
 </LinearLayout>
 
