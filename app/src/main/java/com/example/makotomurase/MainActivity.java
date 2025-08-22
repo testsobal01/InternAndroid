@@ -23,6 +23,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     int mp3lose;
     int mp3win;
 
+    int mp3restart;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,6 +57,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         mp3win = soundPool.load(this, R.raw.win, 1);
         mp3lose = soundPool.load(this, R.raw.lose, 1);
+        mp3restart = soundPool.load(this, R.raw.restart, 1);
 
     }
 
@@ -121,27 +124,33 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = "WIN";
                 score = 2;
-                soundPool.play(mp3win,5f , 1f, 0, 0, 1f);
+                soundPool.play(mp3win,1f , 1f, 0, 0, 1f);
+
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
                 soundPool.play(mp3lose,1f , 1f, 0, 0, 1f);
+
             } else {
                 result = "DRAW";
                 score = 1;
+                soundPool.play(mp3restart,1f , 1f, 0, 0, 1f);
             }
         } else {
             if (question > answer) {
                 result = "WIN";
+                soundPool.play(mp3win,1f , 1f, 0, 0, 1f);
+
                 score = 2;
-                soundPool.play(mp3win,5f , 1f, 0, 0, 1f);
             } else if (question < answer) {
                 result = "LOSE";
-                score = -1;
                 soundPool.play(mp3lose,1f , 1f, 0, 0, 1f);
+
+                score = -1;
             } else {
                 result = "DRAW";
                 score = 1;
+                soundPool.play(mp3restart,1f , 1f, 0, 0, 1f);
 
             }
         }
