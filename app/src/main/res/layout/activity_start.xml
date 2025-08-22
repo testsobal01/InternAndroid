@@ -7,13 +7,54 @@
     android:gravity="center"
     tools:context=".StartActivity">
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/start"
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        >
+
+
+        <TextView
+        android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="5dp"
-        android:background="@drawable/custom_button_background"
-        android:backgroundTint="@null"
-        android:text="@string/start" />
+        android:textColor="#ffffff"
+        android:textStyle="bold"
+        android:layout_marginTop="20dp"
+        android:textSize="100px"
+        android:background="#8a77b7"
+        android:text="@string/title"
+         />
+
+        <TextView
+            android:id="@+id/setu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="italic"
+            android:layout_marginTop="20dp"
+            android:textSize="60px"
+            android:layout_gravity="center"
+            android:text="@string/setu1"
+            />
+
+        <TextView
+            android:id="@+id/setu2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="italic"
+            android:textSize="40px"
+            android:text="@string/setu2"
+            />
+
+        <Button
+            android:id="@+id/start"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="230dp"
+            android:textSize="80px"
+            android:layout_gravity="center"
+            android:text="@string/start" />
+
+    </LinearLayout>
 
 </LinearLayout>

@@ -1,7 +1,9 @@
 package com.example.makotomurase;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.animation.Animator;
 import android.media.AudioAttributes;
 import android.media.AudioManager;
 import android.media.SoundPool;
@@ -36,6 +38,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     SharedPreferences pref;
     SharedPreferences.Editor prefEditor;
 
+    Boolean isDoingAnimation = false;
+
+    int ren = 0;
+    int sairen = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -69,12 +76,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         pref = getSharedPreferences("files", MODE_PRIVATE);
         prefEditor = pref.edit();
-//        Intent intent = getIntent();
-//        Bundle extra = intent.getExtras();
-//        String intentString = extra.getString("KEY");
-//
-//        TextView textView = (TextView)findViewById(R.id.)
-
 
         // 起動時に関数を呼び出す
         setQuestionValue();
@@ -201,6 +202,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //                soundPool.play(accept,1f,1f,0,0,1f);
                 result = "WIN";
                 score = 2;
+                ren += 1;
+                TextView rentext = findViewById(R.id.ren);
+                rentext.setText("現在の連勝記録：" + ren);
+                if(ren > sairen){
+                    sairen = ren ;
+                }
                 txtResult.setBackgroundColor(Color.rgb(239,167,213));
             } else if (question > answer) {
                 soundPool.setOnLoadCompleteListener((soundPool, sampleId, status) -> {
@@ -213,12 +220,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 result = "LOSE";
                 score = -1;
+                ren = 0;
+                TextView rentext = findViewById(R.id.ren);
+                rentext.setText("現在の連勝記録：0");
+                txtResult.setBackgroundColor(Color.rgb(110,108,210));
+            } else {
+                result = "DRAW";
+                score = 1;
+                ren = 0;
+                TextView rentext = findViewById(R.id.ren);
+                rentext.setText("現在の連勝記録：0");
                 txtResult.setBackgroundColor(Color.rgb(159,149,216));
             } else {
                 result = "DRAW";
                 score = 1;
                 txtResult.setBackgroundColor(Color.rgb(154,216,224));
             }
+            TextView rentext = findViewById(R.id.sairen);
+            rentext.setText("最高連勝記録：" + sairen);
         } else {
             if (question > answer) {
                 soundPool.setOnLoadCompleteListener((soundPool, sampleId, status) -> {
@@ -231,6 +250,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 result = "WIN";
                 score = 2;
+                ren += 1;
+                TextView rentext = findViewById(R.id.ren);
+                rentext.setText("現在の連勝記録：" + ren);
+                if(ren > sairen){
+                    sairen = ren ;
+                }
                 txtResult.setBackgroundColor(Color.rgb(239,167,213));
             } else if (question < answer) {
                 soundPool.setOnLoadCompleteListener((soundPool, sampleId, status) -> {
@@ -242,12 +267,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //                soundPool.play(wrongAnswer,1f,1f,0,0,1f);
                 result = "LOSE";
                 score = -1;
+                ren = 0;
+                TextView rentext = findViewById(R.id.ren);
+                rentext.setText("現在の連勝記録：0");
+                txtResult.setBackgroundColor(Color.rgb(110,108,210));
+            } else {
+                result = "DRAW";
+                score = 1;
+                ren = 0;
+                TextView rentext = findViewById(R.id.ren);
+                rentext.setText("現在の連勝記録：0");
                 txtResult.setBackgroundColor(Color.rgb(159,149,216));
             } else {
                 result = "DRAW";
                 score = 1;
                 txtResult.setBackgroundColor(Color.rgb(154,216,224));
             }
+            TextView rentext = findViewById(R.id.sairen);
+            rentext.setText("最高連勝記録：" + sairen);
         }
 
         //追記アニメーション
@@ -317,25 +354,75 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     //勝ち：文字サイズだけ“大きく→戻す”
     private void animateTextJump(TextView tv) {
         resetTextOnlyAnim(tv);
+        if(isDoingAnimation){
+            return;
+        }
         final float startPx = tv.getTextSize();
         final float peakPx  = startPx * 1.6f;
 
         ValueAnimator va = ValueAnimator.ofFloat(startPx, peakPx, startPx);
-        va.setDuration(350);
+        va.setDuration(1000);
         va.setInterpolator(new OvershootInterpolator());
         va.addUpdateListener(anim ->
                 tv.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float) anim.getAnimatedValue())
         );
+        va.addListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+                isDoingAnimation = true;
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                isDoingAnimation = false;
+
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+                isDoingAnimation = false;
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+            }
+        });
         va.start();
     }
 
     //負け：文字の横幅だけ“ガタガタ→戻す”
     private void animateTextShake(TextView tv) {
         resetTextOnlyAnim(tv);
+        if(isDoingAnimation){
+            return;
+        }
         ValueAnimator va = ValueAnimator.ofFloat(1.0f, 0.7f, 1.3f, 0.8f, 1.2f, 0.9f, 1.1f, 1.0f);
-        va.setDuration(400);
+        va.setDuration(1000);
         va.setInterpolator(new LinearInterpolator());
         va.addUpdateListener(anim -> tv.setTextScaleX((float) anim.getAnimatedValue()));
+        va.addListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+                isDoingAnimation = true;
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                isDoingAnimation = false;
+
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+                isDoingAnimation = false;
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+            }
+        });
         va.start();
     }
 }
