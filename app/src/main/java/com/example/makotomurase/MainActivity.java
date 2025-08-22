@@ -9,6 +9,7 @@ import android.os.CountDownTimer;
 import android.os.Vibrator;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -129,6 +130,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void checkResult(boolean isHigh) {
         TextView txtViewQuestion = findViewById(R.id.question);
         TextView txtViewAnswer = findViewById(R.id.answer);
+        ImageView imageView = findViewById(R.id.my_image_view);
 
         int question = Integer.parseInt(txtViewQuestion.getText().toString());
         int answer = Integer.parseInt(txtViewAnswer.getText().toString());
@@ -168,12 +170,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if(result == "WIN"){
             txtViewQuestion.setBackgroundResource(R.color.BrightBlue);
             txtViewAnswer.setBackgroundResource(R.color.BrightRed);
+            imageView.setImageResource(R.drawable.trump);
         }else if(result == "LOSE"){
             txtViewQuestion.setBackgroundResource(R.color.BrightRed);
             txtViewAnswer.setBackgroundResource(R.color.BrightBlue);
+            imageView.setImageResource(R.drawable.trumpsad);
         }else{
             txtViewQuestion.setBackgroundResource(R.color.BrightGreen);
             txtViewAnswer.setBackgroundResource(R.color.BrightGreen);
+            imageView.setImageResource(R.drawable.ozisan);
         }
         // 最後にまとめてToast表示の処理とTextViewへのセットを行う
         Toast.makeText(this, result, Toast.LENGTH_LONG).show();
