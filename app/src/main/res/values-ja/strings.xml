@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">YasuakiGotou</string>
+    <string name="app_name">ぽ値ぽ値HIGH and LOW</string>
     <string name="btn_high">大</string>
     <string name="btn_low">小</string>
     <string name="btn_restart">リセット</string>
