@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -144,6 +145,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void checkResult(boolean isHigh) {
         TextView txtViewQuestion = findViewById(R.id.question);
         TextView txtViewAnswer = findViewById(R.id.answer);
+        ImageView imageView = findViewById(R.id.my_image_view);
 
         int question = Integer.parseInt(txtViewQuestion.getText().toString());
         int answer = Integer.parseInt(txtViewAnswer.getText().toString());
@@ -183,7 +185,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if(result == "WIN"){
             txtViewQuestion.setBackgroundResource(R.color.BrightBlue);
             txtViewAnswer.setBackgroundResource(R.color.BrightRed);
-
+            imageView.setImageResource(R.drawable.trump);
             // win_animation.xmlで定義した勝利時のアニメーションを読み込む
             Animation winAnimation = AnimationUtils.loadAnimation(this, R.anim.win_animation);
             // 勝利時の演出として、txtViewQuestionとtxtViewAnswerにアニメーションを適用
@@ -192,7 +194,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }else if(result == "LOSE"){
             txtViewQuestion.setBackgroundResource(R.color.BrightRed);
             txtViewAnswer.setBackgroundResource(R.color.BrightBlue);
-
+            imageView.setImageResource(R.drawable.trumpsad);
             // lose_animation.xmlで定義した勝利時のアニメーションを読み込む
             Animation loseAnimation = AnimationUtils.loadAnimation(this, R.anim.lose_animation);
             // 敗北時の演出として、txtViewQuestionとtxtViewAnswerにアニメーションを適用
@@ -201,7 +203,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }else{
             txtViewQuestion.setBackgroundResource(R.color.BrightGreen);
             txtViewAnswer.setBackgroundResource(R.color.BrightGreen);
-
+            imageView.setImageResource(R.drawable.ozisan);
             // draw_animation.xmlで定義した勝利時のアニメーションを読み込む
             Animation drawAnimation = AnimationUtils.loadAnimation(this, R.anim.draw_animation);
             // 引き分け時の演出として、txtViewQuestionとtxtViewAnswerにアニメーションを適用
