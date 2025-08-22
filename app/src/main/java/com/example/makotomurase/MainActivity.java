@@ -49,7 +49,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     protected void onResume(){
         super.onResume();
+        Toast.makeText(this,"onResume",Toast.LENGTH_SHORT).show();
 
+        TextView textView = (TextView)findViewById(R.id.text_score);
+        String readText = pref.getString("main_input","保存されていません");
+        textView.setText(readText);
     }
     @Override
     public void onClick(View view) {
@@ -203,15 +207,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView textView = (TextView)findViewById(R.id.text_score);
         prefEditor.putString("main_input", textView.getText().toString());
         prefEditor.commit();
-    }
-
-    protected void onResume() {
-        super.onResume();
-        Toast.makeText(this,"onResume",Toast.LENGTH_SHORT).show();
-
-        TextView textView = (TextView)findViewById(R.id.text_score);
-        String readText = pref.getString("main_input","保存されていません");
-        textView.setText(readText);
     }
 }
 
