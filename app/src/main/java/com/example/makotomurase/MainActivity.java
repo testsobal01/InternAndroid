@@ -2,10 +2,20 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
+import java.sql.Time;
+
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.os.Handler;
+import android.view.LayoutInflater;
+import android.widget.TextView;
+import androidx.appcompat.app.AppCompatActivity;
 import android.media.AudioAttributes;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.provider.MediaStore;
@@ -17,14 +27,23 @@ import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.app.Dialog;
+import android.view.Window;
+
 
 import org.w3c.dom.Text;
 
 import java.util.Random;
 
 import android.graphics.Color;
+
+import android.view.animation.Animation;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.TranslateAnimation;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -34,6 +53,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private SoundPool soundPool;
     private int soundOne, soundTwo,soundThree;
     private Button button1,button2,button3;
+    private TextView timerTextView;
+    private Button restartButton;
+    private Handler handler;
+    private long startTime;
+    private final long timeLimit = 60000;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +79,49 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // 起動時に関数を呼び出す
         setQuestionValue();
+
+        timerTextView = findViewById(R.id.text_time);
+        startTime = System.currentTimeMillis();
+        handler = new Handler();
+        handler.post(updateTimer);
+        restartTimer();
     }
+
+    private void ShowGameOverPopup(){
+        LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View customLayout = inflater.inflate(R.layout.time, null);
+        TextView messageTextView = customLayout.findViewById(R.id.timeup);
+        messageTextView.setText(R.string.timeup);
+
+       TextView timeUpView = findViewById(R.id.text_time_up);
+       timeUpView.setVisibility(View.VISIBLE);
+
+        TextView timeUpView2 = findViewById(R.id.text_time);
+        timeUpView2.setVisibility(View.GONE);
+
+    }
+
+    private Runnable updateTimer = new Runnable() {
+        @Override
+        public void run() {
+            long elapsedTime = System.currentTimeMillis() - startTime;
+            long remainingTime = timeLimit - elapsedTime;
+
+            if(remainingTime < 0){
+                remainingTime = 0;
+            }
+
+            int remainingSeconds = (int) (remainingTime / 1000);
+            timerTextView.setText("残り時間：" + remainingSeconds);
+
+            if(remainingTime <= 0){
+                handler.removeCallbacks(this);
+                ShowGameOverPopup();
+            }else{
+                handler.postDelayed(this,1000);
+            }
+        }
+    };
 
     @Override
     public void onClick(View view) {
@@ -97,7 +164,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 vibrator.vibrate(pattern, -1);
 
             }
+            restartTimer();
         }
+
+    }
+
+    private void restartTimer(){
+        handler.removeCallbacks(updateTimer);
+        startTime = System.currentTimeMillis();
+        resetTimerDisplaying();
+        handler.post(updateTimer);
+    }
+
+    private void resetTimerDisplaying() {
+        timerTextView.setText("残り時間：" + (timeLimit / 1000));
+
+        TextView timeUpView = findViewById(R.id.text_time_up);
+        timeUpView.setVisibility(View.GONE);
+
+        TextView timeUpView2 = findViewById(R.id.text_time);
+        timeUpView2.setVisibility(View.VISIBLE);
     }
 
     private void clearAnswerValue() {
@@ -207,6 +293,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // 背景色をランダムに変更する
         changeBackgroundColor();
 
+        //ポップアップ広告
+        showPopup();
+        // 文字を動かす
+        alphaAnimation(txtViewAnswer);
+        translateAnimation(txtViewQuestion);
+
         // 続けて遊べるように値を更新
         setNextQuestion();
         // スコアを表示
@@ -243,8 +335,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void changeBackgroundColor(){
-        TextView txtViewQuestion = findViewById(R.id.question);
-        TextView txtViewAnswer = findViewById(R.id.answer);
+        LinearLayout txtViewQuestion = findViewById(R.id.question_background);
+        LinearLayout txtViewAnswer = findViewById(R.id.answer_background);
 
         txtViewQuestion.setBackgroundColor(Color.parseColor(randomColorCode()));
         txtViewAnswer.setBackgroundColor(Color.parseColor(randomColorCode()));
@@ -260,6 +352,69 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
         return  colorCode;
+    }
+
+    private void showPopup() {
+        Dialog dialog = new Dialog(this);
+        new CountDownTimer(2000, 1000) {
+            @Override
+            public void onTick(long l) {
+            }
+
+            @Override
+            public void onFinish() {
+                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                dialog.setContentView(R.layout.popup_ad_layout);
+                Button closeBtn = dialog.findViewById(R.id.close_button);
+                closeBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        dialog.dismiss();
+                    }
+                });
+                dialog.show();
+
+                ImageView popupImage = dialog.findViewById(R.id.popup_image);
+                popupImage.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        String url = "https://www.sobal.co.jp/";
+                        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                        if (intent.resolveActivity(getPackageManager()) != null) {
+                            startActivity(intent);
+                        }
+                    }
+                });
+            }
+        }.start();
+    }
+
+    private void alphaAnimation(TextView txtView){
+        AlphaAnimation anm = new AlphaAnimation(0.0f, 1.0f);
+        anm.setDuration(50);
+        anm.setStartOffset(50);
+        anm.setRepeatMode(Animation.REVERSE);
+        anm.setRepeatCount(3);
+        txtView.startAnimation(anm);
+    }
+
+    private void translateAnimation(TextView txtView){
+
+        TranslateAnimation translateAnimation = new TranslateAnimation(
+                Animation.RELATIVE_TO_PARENT, 0.0f,
+                Animation.RELATIVE_TO_PARENT, -0.01f,
+                Animation.RELATIVE_TO_PARENT, 0.0f,
+                Animation.RELATIVE_TO_PARENT, -0.0f
+        );
+
+        // animation時間 msec
+        translateAnimation.setDuration(100);
+        // 繰り返し回数
+        translateAnimation.setRepeatCount(3);
+        // animationが終わったそのまま表示にする
+        translateAnimation.setFillAfter(true);
+        //アニメーションの開始
+        txtView.startAnimation(translateAnimation);
     }
 
     @Override

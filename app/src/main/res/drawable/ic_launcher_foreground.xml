@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+  <group android:scaleX="0.65"
+      android:scaleY="0.65"
+      android:translateX="18.9"
+      android:translateY="18.9">
+  <!--    左上弧内塗-->
+      <path
+          android:fillColor="#6a5acd"
+          android:pathData="M20,15 A5,5 25 1,1 15,20"/>
+  <!--    左上弧線-->
+      <path
+          android:fillColor="#6a5acd"
+          android:pathData="M20,15 A5,5 25 0,0 15,20"
+          android:strokeWidth="1.5"
+          android:strokeColor="#000000" />
+
+  <!--    左下弧内塗-->
+      <path
+          android:fillColor="#6a5acd"
+          android:pathData="M15,88 A5,5 25 1,1 20,93"/>
+  <!--    左下弧線-->
+      <path
+          android:fillColor="#6a5acd"
+          android:pathData="M15,88 A5,5 25 0,0 20,93"
+          android:strokeWidth="1.5"
+          android:strokeColor="#000000" />
+
+  <!--    右下弧内塗-->
+      <path
+          android:fillColor="#f8f8ff"
+          android:pathData="M88,93 A5,5 25 1,1 93,88"/>
+  <!--    右下弧線-->
+      <path
+          android:fillColor="#f8f8ff"
+          android:pathData="M88,93 A5,5 25 0,0 93,88"
+          android:strokeWidth="1.5"
+          android:strokeColor="#000000" />
+
+  <!--    右上弧内塗-->
+      <path
+          android:fillColor="#f8f8ff"
+          android:pathData="M93,20 A5,5 25 1,1 88,15"/>
+  <!--    右上弧線-->
+      <path
+          android:fillColor="#f8f8ff"
+          android:pathData="M93,20 A5,5 25 0,0 88,15"
+          android:strokeWidth="1.5"
+          android:strokeColor="#000000" />
+
+  <!--    左上下面-->
+      <path
+          android:fillColor="#6a5acd"
+          android:pathData="M20,15L54,15 54,93 20,93"/>
+
+  <!--    左中央面-->
+      <path
+          android:fillColor="#6a5acd"
+          android:pathData="M15,20L54,15 54,93 15,88"/>
+
+  <!--    右上下面-->
+      <path
+          android:fillColor="#f8f8ff"
+          android:pathData="M54,15L88,15 88,93 54,93"/>
+
+  <!--    右中央面-->
+      <path
+          android:fillColor="#f8f8ff"
+          android:pathData="M54,20L93,20 93,88 54,88"/>
+
+  <!--    中央直線-->
+      <path
+          android:fillColor="#00000000"
+          android:pathData="M54,15L54,93"
+          android:strokeWidth="1.5"
+          android:strokeColor="#000000" />
+
+  <!--    左直線-->
+      <path
+          android:fillColor="#00000000"
+          android:pathData="M15,20L15,88"
+          android:strokeWidth="1.5"
+          android:strokeColor="#000000" />
+
+  <!--    下直線-->
+          <path
+          android:fillColor="#00000000"
+          android:pathData="M20,93L88,93"
+          android:strokeWidth="1.5"
+          android:strokeColor="#000000" />
+  <!--    右直線-->
+          <path
+          android:fillColor="#00000000"
+          android:pathData="M93,88L93,20"
+          android:strokeWidth="1.5"
+          android:strokeColor="#000000" />
+  <!--    上直線-->
+      <path
+          android:fillColor="#00000000"
+          android:pathData="M88,15L20,15"
+          android:strokeWidth="1.5"
+          android:strokeColor="#000000" />
+
+      <path
+          android:fillColor="#00000000"
+          android:pathData="M25,39L25,69"
+          android:strokeWidth="3"
+          android:strokeColor="#ffffff" />
+
+      <path
+          android:fillColor="#00000000"
+          android:pathData="M25,54L45,54"
+          android:strokeWidth="3"
+          android:strokeColor="#ffffff" />
+
+      <path
+          android:fillColor="#00000000"
+          android:pathData="M45,39L45,69"
+          android:strokeWidth="3"
+          android:strokeColor="#ffffff" />
+
+      <path
+          android:fillColor="#00000000"
+          android:pathData="M64,39L64,69"
+          android:strokeWidth="3"
+          android:strokeColor="#000000" />
+
+      <path
+          android:fillColor="#00000000"
+          android:pathData="M64,67.5L84,67.5"
+          android:strokeWidth="3"
+          android:strokeColor="#000000" />
+  </group>
+</vector>
