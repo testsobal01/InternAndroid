@@ -17,6 +17,7 @@ import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,6 +26,10 @@ import org.w3c.dom.Text;
 import java.util.Random;
 
 import android.graphics.Color;
+
+import android.view.animation.Animation;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.TranslateAnimation;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -207,6 +212,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // 背景色をランダムに変更する
         changeBackgroundColor();
 
+        // 文字を動かす
+        alphaAnimation(txtViewAnswer);
+        translateAnimation(txtViewQuestion);
+
         // 続けて遊べるように値を更新
         setNextQuestion();
         // スコアを表示
@@ -243,8 +252,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void changeBackgroundColor(){
-        TextView txtViewQuestion = findViewById(R.id.question);
-        TextView txtViewAnswer = findViewById(R.id.answer);
+        LinearLayout txtViewQuestion = findViewById(R.id.question_background);
+        LinearLayout txtViewAnswer = findViewById(R.id.answer_background);
 
         txtViewQuestion.setBackgroundColor(Color.parseColor(randomColorCode()));
         txtViewAnswer.setBackgroundColor(Color.parseColor(randomColorCode()));
@@ -260,6 +269,34 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
         return  colorCode;
+    }
+
+    private void alphaAnimation(TextView txtView){
+        AlphaAnimation anm = new AlphaAnimation(0.0f, 1.0f);
+        anm.setDuration(50);
+        anm.setStartOffset(50);
+        anm.setRepeatMode(Animation.REVERSE);
+        anm.setRepeatCount(3);
+        txtView.startAnimation(anm);
+    }
+
+    private void translateAnimation(TextView txtView){
+
+        TranslateAnimation translateAnimation = new TranslateAnimation(
+                Animation.RELATIVE_TO_PARENT, 0.0f,
+                Animation.RELATIVE_TO_PARENT, -0.01f,
+                Animation.RELATIVE_TO_PARENT, 0.0f,
+                Animation.RELATIVE_TO_PARENT, -0.0f
+        );
+
+        // animation時間 msec
+        translateAnimation.setDuration(100);
+        // 繰り返し回数
+        translateAnimation.setRepeatCount(3);
+        // animationが終わったそのまま表示にする
+        translateAnimation.setFillAfter(true);
+        //アニメーションの開始
+        txtView.startAnimation(translateAnimation);
     }
 
     @Override
