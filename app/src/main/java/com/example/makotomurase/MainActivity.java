@@ -35,6 +35,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btn3.setOnClickListener(this);
         pref=getSharedPreferences("AndroidSeminor",MODE_PRIVATE);
         prefEditor=pref.edit();
+
+
+        TextView txtsetting = (TextView) findViewById(R.id.text_setting);
+        String title = getString(R.string.setting_score);
+        txtsetting.setText(title);
+
+        TextView txtView = (TextView) findViewById(R.id.answer);
+        String title2 = getString(R.string.setting_score2);
+        txtView.setText(title2);
+
+
+
+
+        pref=getSharedPreferences("AndroidSeminor",MODE_PRIVATE);
+        prefEditor=pref.edit();
+
         // 起動時に関数を呼び出す
         setQuestionValue();
         TextView inresultview=(TextView) findViewById(R.id.text_score);
@@ -70,7 +86,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void clearAnswerValue() {
         TextView txtView = (TextView) findViewById(R.id.answer);
-        txtView.setText("値2");
+        String title2 = getString(R.string.setting_score2);
+        txtView.setText(title2);
     }
 
     private void setQuestionValue() {
@@ -99,7 +116,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         TextView txtResult = (TextView) findViewById(R.id.text_result);
 
-        // 結果を示す文字列を入れる変数を用意
+//        // 結果を示す文字列を入れる変数を用意
         String result;
         int score;
         int winColor = Color.YELLOW;
@@ -148,7 +165,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // 最後にまとめてToast表示の処理とTextViewへのセットを行う
         Toast.makeText(this, result, Toast.LENGTH_LONG).show();
-        txtResult.setText("結果：" + question + ":" + answer + "(" + result + ")");
+        String title3 = getString(R.string.setting_score3);
+
+        txtResult.setText(title3 + question + ":" + answer + "(" + result + "))");
+//        txtResult.setText("結果：" + question + ":" + answer + "(" + result + ")");
 
         // 続けて遊べるように値を更新
         setNextQuestion();

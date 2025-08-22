@@ -46,12 +46,14 @@
                 android:textColor="#000000"
                 android:background="@drawable/button3dark"
                 android:text="@string/btn_restart" />
+
         </LinearLayout>
 
+
         <TextView
+            android:id="@+id/text_setting"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="10が設定されています。" />
+            android:layout_height="wrap_content" />
 
         <TextView
             android:id="@+id/text_result"
@@ -59,6 +61,7 @@
             android:layout_height="wrap_content" />
 
         <LinearLayout
+
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
 
@@ -74,9 +77,11 @@
                 android:text="0" />
         </LinearLayout>
 
+
         <LinearLayout
+
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="446dp">
 
             <TextView
                 android:id="@+id/question"
@@ -97,8 +102,24 @@
                 android:gravity="center"
                 android:text="値2"
                 android:textSize="60sp" />
+
+
+
+
         </LinearLayout>
 
+        <ImageView
+            android:id="@+id/footer_image"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:src="@drawable/picture"
+
+
+            />
+
+
     </LinearLayout>
+
 
 </LinearLayout>
