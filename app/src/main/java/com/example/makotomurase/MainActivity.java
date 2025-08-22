@@ -2,6 +2,7 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 
 import android.content.SharedPreferences;
@@ -13,6 +14,7 @@ import android.os.CountDownTimer;
 import android.os.Vibrator;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -26,6 +28,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     int mysoundID;
     SoundPool soundPool;
     int hit;
+
+    private int lives = 3;
+    private ImageView[] hearts = new ImageView[3];
 
 
     @Override
@@ -63,7 +68,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         String title2 = getString(R.string.setting_score2);
         txtView.setText(title2);
 
-
+        hearts[0] = findViewById(R.id.heart1);
+        hearts[1] = findViewById(R.id.heart2);
+        hearts[2] = findViewById(R.id.heart3);
 
 
         pref=getSharedPreferences("AndroidSeminor",MODE_PRIVATE);
@@ -148,6 +155,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int winColor = Color.RED;
         int loseColor = Color.CYAN;
         int drawColor = Color.GREEN;
+        int life = 3;
+
 
         // Highが押された
         if (isHigh) {
@@ -163,6 +172,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 score = -1;
                 txtViewQuestion.setBackgroundColor(loseColor);
                 txtViewAnswer.setBackgroundColor(loseColor);
+                loseLife();
 
             } else {
                 result = "DRAW";
@@ -181,6 +191,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 score = -1;
                 txtViewQuestion.setBackgroundColor(loseColor);
                 txtViewAnswer.setBackgroundColor(loseColor);
+                loseLife();
             } else {
                 result = "DRAW";
                 score = 1;
@@ -220,6 +231,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }.start();
     }
 
+    private void loseLife() {
+        if (lives > 0) {
+            lives--;
+            hearts[lives].setVisibility(View.INVISIBLE);  // ハートを1つ非表示に
+        }}
+
     private void setScore(int score) {
         TextView txtScore = (TextView) findViewById(R.id.text_score);
         int newScore = Integer.parseInt(txtScore.getText().toString()) + score;
@@ -231,5 +248,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void clearScoreValue() {
         TextView txtScore = (TextView) findViewById(R.id.text_score);
         txtScore.setText("0");
-    }}
+    }
+
+
+}
+
+
 
