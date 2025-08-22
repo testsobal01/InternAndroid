@@ -6,6 +6,6 @@
     <string name="btn_restart">再起動</string>
     <string name="label_score">スコア：</string>
     <string name="setting_score">10が設定されています：</string>
-    <string name="setting_score2">値2：</string>
+    <string name="setting_score2">値2</string>
     <string name="setting_score3">結果：</string>
 </resources>

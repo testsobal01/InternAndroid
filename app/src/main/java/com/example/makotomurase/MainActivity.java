@@ -2,8 +2,10 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Vibrator;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -12,7 +14,8 @@ import android.widget.Toast;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
-
+    SharedPreferences pref;
+    SharedPreferences.Editor prefEditor;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,6 +30,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
 
+
         TextView txtsetting = (TextView) findViewById(R.id.text_setting);
         String title = getString(R.string.setting_score);
         txtsetting.setText(title);
@@ -37,8 +41,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
 
+
+        pref=getSharedPreferences("AndroidSeminor",MODE_PRIVATE);
+        prefEditor=pref.edit();
+
         // 起動時に関数を呼び出す
         setQuestionValue();
+        TextView inresultview=(TextView) findViewById(R.id.text_score);
+        String readText=pref.getString("score_input","保存されていません");
+        inresultview.setText(readText);
     }
 
     @Override
@@ -55,7 +66,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             clearAnswerValue();
             clearScoreValue();
         }
-    }
+
+        if(view.getId() == R.id.button1) {
+            Vibrator vib = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+            vib.vibrate(1000);
+        } else if (id == R.id.button2) {
+            Vibrator vib = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+            vib.vibrate(1000);
+        }else if (id == R.id.button3) {
+            Vibrator vib = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+            vib.vibrate(2000);
+    }}
 
     private void clearAnswerValue() {
         TextView txtView = (TextView) findViewById(R.id.answer);
@@ -154,11 +175,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView txtScore = (TextView) findViewById(R.id.text_score);
         int newScore = Integer.parseInt(txtScore.getText().toString()) + score;
         txtScore.setText(Integer.toString(newScore));
+        prefEditor.putString("score_input",txtScore.getText().toString());
+        prefEditor.commit();
     }
 
     private void clearScoreValue() {
         TextView txtScore = (TextView) findViewById(R.id.text_score);
         txtScore.setText("0");
-    }
-}
+    }}
 
