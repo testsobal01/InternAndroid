@@ -17,6 +17,8 @@
 
             <Button
                 android:id="@+id/button1"
+                android:background="@drawable/circle_button"
+                app:backgroundTint="@null"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -24,6 +26,8 @@
 
             <Button
                 android:id="@+id/button2"
+                android:background="@drawable/circle_button2"
+                app:backgroundTint="@null"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -31,6 +35,8 @@
 
             <Button
                 android:id="@+id/button3"
+                android:background="@drawable/circle_button3"
+                app:backgroundTint="@null"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
@@ -40,7 +46,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="10が設定されています。" />
+            android:text="@string/settei" />
 
         <TextView
             android:id="@+id/text_result"
@@ -65,28 +71,65 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="0dp"
+            android:layout_weight="4"
+            >
 
-            <TextView
-                android:id="@+id/question"
+            <RelativeLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="#ff00ff"
-                android:gravity="center"
-                android:text="値1"
-                android:textSize="60sp" />
+                android:layout_weight="1">
 
-            <TextView
-                android:id="@+id/answer"
+                <TextView
+                    android:id="@+id/question_background"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#ff00ff" />
+
+                <TextView
+                    android:id="@+id/question"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_centerInParent="true"
+                    android:background="#ff00ff"
+                    android:gravity="center"
+                    android:text="値1"
+                    android:textSize="60sp" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="#ffff00"
-                android:gravity="center"
-                android:text="値2"
-                android:textSize="60sp" />
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/answer_background"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#ffff00" />
+
+                <TextView
+                    android:id="@+id/answer"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_centerInParent="true"
+                    android:background="@color/default_color"
+                    android:gravity="center"
+                    android:text="@string/value2_default"
+                    android:textSize="60sp" />
+
+            </RelativeLayout>
         </LinearLayout>
+
+        <ImageView
+            android:id="@+id/image_view_1"
+            android:scaleType="centerCrop"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            app:srcCompat="@drawable/_dcebe6eff49715779f58655412fc98e_t" />
+
 
     </LinearLayout>
 
