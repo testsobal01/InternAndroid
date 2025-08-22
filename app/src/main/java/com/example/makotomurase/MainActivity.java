@@ -11,13 +11,17 @@ import android.media.SoundPool;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
+import android.provider.ContactsContract;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import java.util.Random;
+import android.os.Handler;
+import android.os.Looper;
+import com.bumptech.glide.Glide;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     SharedPreferences pref;
@@ -28,10 +32,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     int hit;
 
 
+    private ImageView gifView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
+        gifView = findViewById(R.id.gifView);
+        gifView.setVisibility(View.VISIBLE);
+        Glide.with(this)
+                .asGif()
+                .load(R.raw.gif2)
+                .into(gifView);
+        new Handler(Looper.getMainLooper()).postDelayed(() -> gifView.setVisibility(View.GONE), 6000);
+
 
         Button botton1 = findViewById(R.id.button1);
         botton1.setOnClickListener(this);
@@ -75,6 +91,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         String readText=pref.getString("score_input","保存されていません");
         inresultview.setText(readText);
     }
+
+
 
     @Override
     public void onClick(View view) {
@@ -232,4 +250,5 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView txtScore = (TextView) findViewById(R.id.text_score);
         txtScore.setText("0");
     }}
+
 
