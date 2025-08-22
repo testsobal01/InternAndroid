@@ -181,7 +181,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int question = Integer.parseInt(txtViewQuestion.getText().toString());
         int answer = Integer.parseInt(txtViewAnswer.getText().toString());
 
-        TextView txtResult = (TextView) findViewById(R.id.text_result);
+        TextView txtResult = (TextView) findViewById(R.id.text_result1);
 
         // 結果を示す文字列を入れる変数を用意
         String result;
@@ -201,7 +201,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //                soundPool.play(accept,1f,1f,0,0,1f);
                 result = "WIN";
                 score = 2;
-                txtResult.setBackgroundColor(Color.rgb(242,83,194));
+                txtResult.setBackgroundColor(Color.rgb(239,167,213));
             } else if (question > answer) {
                 soundPool.setOnLoadCompleteListener((soundPool, sampleId, status) -> {
                     if(sampleId == wrongAnswer) {
@@ -213,11 +213,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 result = "LOSE";
                 score = -1;
-                txtResult.setBackgroundColor(Color.rgb(110,108,210));
+                txtResult.setBackgroundColor(Color.rgb(159,149,216));
             } else {
                 result = "DRAW";
                 score = 1;
-                txtResult.setBackgroundColor(Color.rgb(78,220,220));
+                txtResult.setBackgroundColor(Color.rgb(154,216,224));
             }
         } else {
             if (question > answer) {
@@ -231,7 +231,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 result = "WIN";
                 score = 2;
-                txtResult.setBackgroundColor(Color.rgb(242,83,194));
+                txtResult.setBackgroundColor(Color.rgb(239,167,213));
             } else if (question < answer) {
                 soundPool.setOnLoadCompleteListener((soundPool, sampleId, status) -> {
                     if(sampleId == wrongAnswer) {
@@ -242,11 +242,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //                soundPool.play(wrongAnswer,1f,1f,0,0,1f);
                 result = "LOSE";
                 score = -1;
-                txtResult.setBackgroundColor(Color.rgb(110,108,210));
+                txtResult.setBackgroundColor(Color.rgb(159,149,216));
             } else {
                 result = "DRAW";
                 score = 1;
-                txtResult.setBackgroundColor(Color.rgb(78,220,220));
+                txtResult.setBackgroundColor(Color.rgb(154,216,224));
             }
         }
 
@@ -259,8 +259,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // 最後にまとめてToast表示の処理とTextViewへのセットを行う
         Toast.makeText(this, result, Toast.LENGTH_LONG).show();
-        String resultText = getString(R.string.text_result);
-        txtResult.setText(resultText+"：" + question + ":" + answer + "(" + result + ")");
+        //String resultText = getString(R.string.text_result);
+        txtResult.setText(question + ":" + answer + "(" + result + ")");
 
 
         // 続けて遊べるように値を更新
