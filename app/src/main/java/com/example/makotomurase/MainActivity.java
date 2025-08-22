@@ -3,6 +3,8 @@ package com.example.makotomurase;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
+import android.media.MediaPlayer;
+import android.media.SoundPool;
 import android.content.Intent;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -20,6 +22,17 @@ import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
+    private boolean action_flg = false;
+    private boolean start_flg = false;
+
+    private MediaPlayer mediaPlayer;
+
+    // Sound
+    private SoundPlayer soundPlayer;
+
+    private SoundPool soundPool;
+    private int decisionSoundId;
+  
     SharedPreferences pref;
     SharedPreferences.Editor prefEditor;
 
@@ -37,9 +50,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
 
+        soundPool = new SoundPool.Builder()
+                .setMaxStreams(3)
+                .build();
+        decisionSoundId = soundPool.load(this, R.raw.decision, 1);
+
         pref = getSharedPreferences("InternAndroid", MODE_PRIVATE);
         prefEditor = pref.edit();
-
+      
         // 起動時に関数を呼び出す
         setQuestionValue();
 
@@ -70,6 +88,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View view) {
+
+        if (mediaPlayer != null) {
+            mediaPlayer.release(); // 以前のMediaPlayerを解放
+        }
+        mediaPlayer = MediaPlayer.create(this, R.raw.decision); // 効果音ファイルを指定
+        mediaPlayer.start();
+
         int id = view.getId();
         if (id == R.id.button1) {
             setAnswerValue();
