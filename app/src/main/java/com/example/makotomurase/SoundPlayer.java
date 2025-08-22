@@ -1,2 +1,6 @@
-package com.example.makotomurase;public class SoundPlayer {
+package com.example.makotomurase;
+
+
+public class SoundPlayer {
+
 }
