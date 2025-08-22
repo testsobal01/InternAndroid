@@ -2,6 +2,11 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.animation.ObjectAnimator;
+import android.media.AudioAttributes;
+import android.media.AudioManager;
+import android.media.SoundPool;
+import android.os.Build;
 import android.content.SharedPreferences;
 import android.content.Intent;
 import android.graphics.Color;
@@ -26,12 +31,29 @@ import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
+
+    SoundPool soundPool;
+    int accept,wrongAnswer;
+
     SharedPreferences pref;
     SharedPreferences.Editor prefEditor;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            soundPool = new SoundPool(5, AudioManager.STREAM_MUSIC, 0);
+        } else {
+            System.out.println("作成する");
+            AudioAttributes attr = new AudioAttributes.Builder()
+                    .setUsage(AudioAttributes.USAGE_MEDIA)
+                    .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+                    .build();
+            soundPool = new SoundPool.Builder()
+                    .setAudioAttributes(attr)
+                    .setMaxStreams(5)
+                    .build();
+        }
 
         Intent intent = getIntent();
 
@@ -63,6 +85,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View view) {
+        AudioAttributes attr = new AudioAttributes.Builder()
+                .setUsage(AudioAttributes.USAGE_MEDIA)
+                .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+                .build();
+        soundPool = new SoundPool.Builder()
+                .setAudioAttributes(attr)
+                .setMaxStreams(5)
+                .build();
+
+        accept = soundPool.load(this, R.raw.accept, 1);
+        wrongAnswer = soundPool.load(this, R.raw.wrong_answer, 1);
+
         int id = view.getId();
         if (id == R.id.button1) {
             setAnswerValue();
@@ -160,10 +194,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (isHigh) {
             // result には結果のみを入れる
             if (question < answer) {
+                soundPool.setOnLoadCompleteListener((soundPool, sampleId, status) -> {
+                    if(sampleId == accept) {
+                        System.out.println("calll1");
+                        soundPool.play(accept, 1f, 1f, 0, 0, 1f);
+                    }
+                });
+//                soundPool.play(accept,1f,1f,0,0,1f);
                 result = "WIN";
                 score = 2;
                 txtResult.setBackgroundColor(Color.rgb(242,83,194));
             } else if (question > answer) {
+                soundPool.setOnLoadCompleteListener((soundPool, sampleId, status) -> {
+                    if(sampleId == wrongAnswer) {
+                        System.out.println("calll1");
+                        soundPool.play(wrongAnswer, 1f, 1f, 0, 0, 1f);
+                    }
+                });
+//                soundPool.play(wrongAnswer,1f,1f,0,0,1f);
+
                 result = "LOSE";
                 score = -1;
                 txtResult.setBackgroundColor(Color.rgb(110,108,210));
@@ -174,10 +223,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         } else {
             if (question > answer) {
+                soundPool.setOnLoadCompleteListener((soundPool, sampleId, status) -> {
+                    if(sampleId == accept) {
+                        System.out.println("calll1");
+                        soundPool.play(accept, 1f, 1f, 0, 0, 1f);
+                    }
+                });
+//                soundPool.play(accept,1f,1f,0,0,1f);
+
                 result = "WIN";
                 score = 2;
                 txtResult.setBackgroundColor(Color.rgb(242,83,194));
             } else if (question < answer) {
+                soundPool.setOnLoadCompleteListener((soundPool, sampleId, status) -> {
+                    if(sampleId == wrongAnswer) {
+                        System.out.println("calll1");
+                        soundPool.play(wrongAnswer, 1f, 1f, 0, 0, 1f);
+                    }
+                });
+//                soundPool.play(wrongAnswer,1f,1f,0,0,1f);
                 result = "LOSE";
                 score = -1;
                 txtResult.setBackgroundColor(Color.rgb(110,108,210));
