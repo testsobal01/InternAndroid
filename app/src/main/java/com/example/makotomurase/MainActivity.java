@@ -3,6 +3,7 @@ package com.example.makotomurase;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
+import android.graphics.Color;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.media.MediaPlayer;
