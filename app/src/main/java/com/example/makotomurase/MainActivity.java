@@ -1,5 +1,6 @@
 package com.example.makotomurase;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -22,8 +23,11 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,6 +42,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     //　アニメーションする時間管理用の変数を追加
     private static final long COUNT_DOWN_MILLISECOND = 3000;
     private static final long INTERVAL_MILLISECOND = 1000;
+
+    private static final String PREF_KEY_MAX = "pref_max_value";
+    private static final int DEFAULT_MAX_VALUE = 10;
+    private int maxRandomValue = DEFAULT_MAX_VALUE; // 現在の上限値
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,7 +68,56 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // 起動時に関数を呼び出す
         setQuestionValue();
 
+        // スコア表示の下にでも表示しておく用（TextViewをレイアウトに追加してください）
+        TextView txtSetting = findViewById(R.id.text_setting);
+        maxRandomValue = pref.getInt(PREF_KEY_MAX, DEFAULT_MAX_VALUE);
+        txtSetting.setText(maxRandomValue + " が設定されています。");
+
+
     }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.action_settings) {
+            showSettingDialog();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void showSettingDialog() {
+        final NumberPicker numberPicker = new NumberPicker(this);
+        numberPicker.setMinValue(10);
+        numberPicker.setMaxValue(100);
+        numberPicker.setValue(maxRandomValue);
+
+        new AlertDialog.Builder(this)
+                .setTitle("ランダム値の上限を設定")
+                .setView(numberPicker)
+                .setPositiveButton("OK", (dialog, which) -> {
+                    maxRandomValue = numberPicker.getValue();
+
+                    // 表示更新
+                    TextView txtSetting = findViewById(R.id.text_setting);
+                    txtSetting.setText(maxRandomValue + " が設定されています。");
+
+                    // プリファレンスに保存
+                    prefEditor.putInt(PREF_KEY_MAX, maxRandomValue);
+                    prefEditor.apply();
+
+                    // 新しい問題を即時に反映（任意）
+                    setQuestionValue();
+                })
+                .setNegativeButton("キャンセル", null)
+                .show();
+    }
+
+
 
     @SuppressLint({"NonConstantResourceId", "NewApi"})
     @Override
@@ -90,17 +148,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void setQuestionValue() {
         Random r = new Random();
-        // 0から10の範囲で乱数を生成（+1する必要がある）
-        int questionValue = r.nextInt(10 + 1);
-
+        int questionValue = r.nextInt(maxRandomValue + 1); // ←変更
         TextView txtView = findViewById(R.id.question);
         txtView.setText(Integer.toString(questionValue));
     }
 
     private void setAnswerValue() {
         Random r = new Random();
-        int answerValue = r.nextInt(10 + 1);
-
+        int answerValue = r.nextInt(maxRandomValue + 1); // ←変更
         TextView txtView = findViewById(R.id.answer);
         txtView.setText(Integer.toString(answerValue));
     }
