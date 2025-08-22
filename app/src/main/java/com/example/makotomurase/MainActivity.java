@@ -2,6 +2,7 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import java.sql.Time;
 import android.os.Handler;
 import android.widget.TextView;
@@ -10,6 +11,7 @@ import android.media.AudioAttributes;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.provider.MediaStore;
@@ -21,9 +23,13 @@ import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.app.Dialog;
+import android.view.Window;
+
 
 import org.w3c.dom.Text;
 
@@ -258,6 +264,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // 背景色をランダムに変更する
         changeBackgroundColor();
 
+        //ポップアップ広告
+        showPopup();
         // 文字を動かす
         alphaAnimation(txtViewAnswer);
         translateAnimation(txtViewQuestion);
@@ -315,6 +323,41 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
         return  colorCode;
+    }
+
+    private void showPopup() {
+        Dialog dialog = new Dialog(this);
+        new CountDownTimer(2000, 1000) {
+            @Override
+            public void onTick(long l) {
+            }
+
+            @Override
+            public void onFinish() {
+                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                dialog.setContentView(R.layout.popup_ad_layout);
+                Button closeBtn = dialog.findViewById(R.id.close_button);
+                closeBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        dialog.dismiss();
+                    }
+                });
+                dialog.show();
+
+                ImageView popupImage = dialog.findViewById(R.id.popup_image);
+                popupImage.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        String url = "https://www.sobal.co.jp/";
+                        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                        if (intent.resolveActivity(getPackageManager()) != null) {
+                            startActivity(intent);
+                        }
+                    }
+                });
+            }
+        }.start();
     }
 
     private void alphaAnimation(TextView txtView){
