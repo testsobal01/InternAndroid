@@ -2,7 +2,6 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.animation.ObjectAnimator;
 import android.media.AudioAttributes;
 import android.media.AudioManager;
 import android.media.SoundPool;
@@ -30,7 +29,6 @@ import android.view.animation.LinearInterpolator;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
-
 
     SoundPool soundPool;
     int accept,wrongAnswer;
