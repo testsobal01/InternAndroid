@@ -5,6 +5,7 @@
     <string name="btn_restart">Restart</string>
     <string name="time"></string>>
     <string name="text_time"></string>
+    <string name="timeup">時間切れ！</string>
     <string name="label_score">Score：</string>
     <string name="btn_stert">STERT：</string>
     <string name="rand">10isset</string>
