@@ -14,7 +14,6 @@
         android:elevation="8dp"
         android:padding="16dp">
 
-        <!-- ポップアップの内容 -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -41,7 +40,6 @@
                 android:textSize="16sp" />
         </LinearLayout>
 
-        <!-- 閉じるボタン：右上に重ねて配置 -->
         <Button
             android:id="@+id/close_button"
             android:layout_width="36dp"

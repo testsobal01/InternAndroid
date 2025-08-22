@@ -3,35 +3,26 @@ package com.example.makotomurase;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import java.sql.Time;
 import android.os.Handler;
+import android.text.InputType;
+import android.widget.EditText;
 import android.widget.TextView;
-import androidx.appcompat.app.AppCompatActivity;
 import android.media.AudioAttributes;
-import android.media.AudioManager;
 import android.media.SoundPool;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.provider.MediaStore;
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.os.Bundle;
-import android.os.CountDownTimer;
-import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 import android.app.Dialog;
 import android.view.Window;
 
-
-import org.w3c.dom.Text;
 
 import java.util.Random;
 
@@ -40,6 +31,8 @@ import android.graphics.Color;
 import android.view.animation.Animation;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.TranslateAnimation;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -53,7 +46,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button restartButton;
     private Handler handler;
     private long startTime;
-    private final long timeLimit = 30000;
+    private long timeLimit = 30000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +61,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
+
+        FloatingActionButton fabBtn = findViewById(R.id.time_setting);
+        fabBtn.setOnClickListener(v -> showEditDialog());
 
         pref = getSharedPreferences("InternAndroid", MODE_PRIVATE);
         prefEditor = pref.edit();
@@ -265,7 +261,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         changeBackgroundColor();
 
         //ポップアップ広告
-        showPopup();
+        showPopupAd();
         // 文字を動かす
         alphaAnimation(txtViewAnswer);
         translateAnimation(txtViewQuestion);
@@ -325,7 +321,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return  colorCode;
     }
 
-    private void showPopup() {
+    private void showPopupAd() {
         Dialog dialog = new Dialog(this);
         new CountDownTimer(2000, 1000) {
             @Override
@@ -387,6 +383,34 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //アニメーションの開始
         txtView.startAnimation(translateAnimation);
     }
+
+    private void showEditDialog() {
+        LinearLayout layout = new LinearLayout(this);
+        layout.setOrientation(LinearLayout.VERTICAL);
+        layout.setPadding(50, 40, 50, 10);
+
+        final EditText timeLimitEdit = new EditText(this);
+        timeLimitEdit.setHint("制限時間(秒)");
+        timeLimitEdit.setInputType(InputType.TYPE_CLASS_NUMBER);
+        timeLimitEdit.setText(String.valueOf(timeLimit / 1000));
+        layout.addView(timeLimitEdit);
+
+        new androidx.appcompat.app.AlertDialog.Builder(this)
+                .setTitle("制限時間(秒)")
+                .setView(layout)
+                .setPositiveButton("OK", (dialog, which) -> {
+
+                    String timeStr = timeLimitEdit.getText().toString();
+                    if (!timeStr.isEmpty()) {
+                        long sec = Long.parseLong(timeStr);
+                        timeLimit = sec * 1000;
+                    }
+                    restartTimer();
+                })
+                .setNegativeButton("キャンセル", null)
+                .show();
+    }
+
 
     @Override
     protected void onPause() {
