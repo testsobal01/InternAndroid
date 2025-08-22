@@ -2,9 +2,18 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.media.AudioAttributes;
+import android.media.AudioManager;
+import android.media.SoundPool;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.provider.MediaStore;
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.os.Bundle;
+import android.os.CountDownTimer;
+import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.view.View;
 import android.widget.Button;
@@ -26,6 +35,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     SharedPreferences pref;
     SharedPreferences.Editor prefEditor;
+
+    private SoundPool soundPool;
+    private int soundOne, soundTwo,soundThree;
+    private Button button1,button2,button3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,31 +64,51 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View view) {
 
+        //効果音
+        AudioAttributes audioAttributes = new AudioAttributes.Builder()
+                .setUsage(AudioAttributes.USAGE_GAME)
+                .setContentType(AudioAttributes.CONTENT_TYPE_SPEECH)
+                .build();
+        soundPool = new SoundPool.Builder()
+                .setAudioAttributes(audioAttributes)
+                // ストリーム数に応じて
+                .setMaxStreams(2)
+                .build();
+
+        soundOne = soundPool.load(this, R.raw.dodon,1);
+//        soundTwo = soundPool.load(this,R.raw.don,1);
+//        soundThree = soundPool.load(this,R.raw.kaka,1);
+        soundPool.setOnLoadCompleteListener((soundPool, sampleId,status) ->{
+            System.out.println("こんにちは");
+            soundPool.play(soundOne, 10.0f, 10.0f, 0,0,1);
+        });
+      
         int id = view.getId();
         if (id == R.id.button1) {
             setAnswerValue();
             checkResult(true);
-            Vibrator vid = (Vibrator) getSystemService(VIBRATOR_SERVICE);
-            vid.vibrate(5000);
+
         } else if (id == R.id.button2) {
             setAnswerValue();
             checkResult(false);
-            Vibrator vid = (Vibrator) getSystemService(VIBRATOR_SERVICE);
-            vid.vibrate(5000);
+
         } else if (id == R.id.button3) {
             setQuestionValue();
             clearAnswerValue();
             clearScoreValue();
-            Vibrator vid = (Vibrator) getSystemService(VIBRATOR_SERVICE);
-            vid.vibrate(5000);
+            Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+            if (vibrator != null) {
+                long[] pattern = {0, 100, 100, 100, 100, 100};
+                vibrator.vibrate(pattern, -1);
+
+            }
         }
-
-
     }
 
     private void clearAnswerValue() {
+        String value2text=getString(R.string.value2text);
         TextView txtView = (TextView) findViewById(R.id.answer);
-        txtView.setText("値2");
+        txtView.setText(value2text);
     }
 
     private void setQuestionValue() {
@@ -104,6 +137,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         TextView txtResult = (TextView) findViewById(R.id.text_result);
 
+        TextView textView1 =findViewById(R.id.text_result);
+        String title1=getString(R.string.text_result);
+        textView1.setText("結果");
         // 結果を示す文字列を入れる変数を用意
         String result;
         int score;
@@ -114,29 +150,64 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = "WIN";
                 score = 2;
+                Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+                if (vibrator != null) {
+                    long[] pattern = {0, 100, 100, 100, 100, 100};
+                    vibrator.vibrate(pattern, -1);
+
+                }
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
+                Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+                if (vibrator != null) {
+                    long[] pattern = {0, 500, 500, 500, 500};
+                    vibrator.vibrate(pattern, -1);
+                }
             } else {
                 result = "DRAW";
                 score = 1;
+                Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+                if (vibrator != null) {
+                    long[] pattern = {0, 1000, 1000,};
+                    vibrator.vibrate(pattern, -1);
+
+                }
             }
         } else {
             if (question > answer) {
                 result = "WIN";
                 score = 2;
+                Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+                if (vibrator != null) {
+                    long[] pattern = {0, 100, 100, 100, 100, 100};
+                    vibrator.vibrate(pattern, -1);
+
+                }
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
+                Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+                if (vibrator != null) {
+                    long[] pattern = {0, 500, 500, 500, 500};
+                    vibrator.vibrate(pattern, -1);
+                }
             } else {
                 result = "DRAW";
                 score = 1;
+                Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+                if (vibrator != null) {
+                    long[] pattern = {0, 1000, 1000,};
+                    vibrator.vibrate(pattern, -1);
+
+                }
             }
         }
+       String result1=getString(R.string.text_result);
 
         // 最後にまとめてToast表示の処理とTextViewへのセットを行う
         Toast.makeText(this, result, Toast.LENGTH_LONG).show();
-        txtResult.setText("結果：" + question + ":" + answer + "(" + result + ")");
+        txtResult.setText(result1+"" + question + ":" + answer + "(" + result + ")");
 
         // 背景色をランダムに変更する
         changeBackgroundColor();
@@ -251,5 +322,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         String readText = pref.getString("main_input", "保存されていません");
         textView.setText(readText);
     }
-}
 
+
+
+}
