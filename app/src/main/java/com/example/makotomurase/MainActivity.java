@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button restartButton;
     private Handler handler;
     private long startTime;
-    private final long timeLimit = 10000;
+    private final long timeLimit = 60000;
 
 
     @Override
@@ -161,8 +161,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void restartTimer(){
         handler.removeCallbacks(updateTimer);
         startTime = System.currentTimeMillis();
-        timerTextView.setText("残り時間：" + (timeLimit / 1000));
+        resetTimerDisplaying();
         handler.post(updateTimer);
+    }
+
+    private void resetTimerDisplaying() {
+        timerTextView.setText("残り時間：" + (timeLimit / 1000));
+
+        TextView timeUpView = findViewById(R.id.text_time_up);
+        timeUpView.setVisibility(View.GONE);
+
+        TextView timeUpView2 = findViewById(R.id.text_time);
+        timeUpView2.setVisibility(View.VISIBLE);
     }
 
     private void clearAnswerValue() {
