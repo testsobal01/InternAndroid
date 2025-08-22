@@ -45,10 +45,11 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/result"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/result" />
 
             <TextView
                 android:id="@+id/text_result"
@@ -72,31 +73,46 @@
                 android:text="0" />
         </LinearLayout>
 
+        <!--アニメーション時のスケール変更に伴い、文字のみに適応するため背景を親として分離
+        -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <TextView
-                android:id="@+id/question"
+            <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="#ff00ff"
-                android:gravity="center"
-                android:text="値1"
-                android:textSize="60sp" />
+                android:background="#ff00ff">
 
-            <TextView
-                android:id="@+id/answer"
+                <TextView
+                    android:id="@+id/question"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="値1"
+                    android:textSize="60sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="#ffff00"
                 android:gravity="center"
                 android:text="@string/PlayerNum"
-                android:textSize="60sp" />
+                android:textSize="60sp">
+
+                <TextView
+                    android:id="@+id/answer"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="値2"
+                    android:textSize="60sp" />
+
+            </LinearLayout>
         </LinearLayout>
-
     </LinearLayout>
-
 </LinearLayout>
