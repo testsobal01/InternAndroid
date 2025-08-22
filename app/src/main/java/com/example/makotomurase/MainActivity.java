@@ -2,6 +2,10 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.sql.Time;
+import android.os.Handler;
+import android.widget.TextView;
+import androidx.appcompat.app.AppCompatActivity;
 import android.media.AudioAttributes;
 import android.media.AudioManager;
 import android.media.SoundPool;
@@ -39,6 +43,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private SoundPool soundPool;
     private int soundOne, soundTwo,soundThree;
     private Button button1,button2,button3;
+    private TextView timerTextView;
+    private Button restartButton;
+    private Handler handler;
+    private long startTime;
+    private final long timeLimit = 10000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,7 +68,35 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // 起動時に関数を呼び出す
         setQuestionValue();
+
+        timerTextView = findViewById(R.id.text_time);
+        startTime = System.currentTimeMillis();
+        handler = new Handler();
+        handler.post(updateTimer);
+        restartTimer();
     }
+
+    private Runnable updateTimer = new Runnable() {
+        @Override
+        public void run() {
+            long elapsedTime = System.currentTimeMillis() - startTime;
+            long remainingTime = timeLimit - elapsedTime;
+
+            if(remainingTime < 0){
+                remainingTime = 0;
+            }
+
+            int remainingSeconds = (int) (remainingTime / 1000);
+            timerTextView.setText("残り時間：" + remainingSeconds);
+
+            if(remainingTime <= 0){
+                timerTextView.setText("時間切れ！");
+                handler.removeCallbacks(this);
+            }else{
+                handler.postDelayed(this,1000);
+            }
+        }
+    };
 
     @Override
     public void onClick(View view) {
@@ -102,7 +139,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 vibrator.vibrate(pattern, -1);
 
             }
+            restartTimer();
         }
+
+    }
+
+    private void restartTimer(){
+        handler.removeCallbacks(updateTimer);
+        startTime = System.currentTimeMillis();
+        timerTextView.setText("残り時間：" + (timeLimit / 1000));
+        handler.post(updateTimer);
     }
 
     private void clearAnswerValue() {
