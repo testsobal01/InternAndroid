@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">YasuakiGotou</string>
+    <string name="app_name">높은 &amp; 낮은</string>
     <string name="btn_high">높은</string>
     <string name="btn_low">낮은</string>
     <string name="btn_restart">재시작</string>
