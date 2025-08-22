@@ -2,7 +2,8 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-
+import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
 import android.media.AudioAttributes;
 import android.media.AudioManager;
 import android.media.SoundPool;
@@ -14,7 +15,10 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.ScaleAnimation;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,7 +39,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     SharedPreferences.Editor prefEditor;
 
     CountDownTimer countDownTimer;
-
+    float textsizemax=150;
+    float textsizemin=60;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,6 +60,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         pref = getSharedPreferences("AndroidSeminar", MODE_PRIVATE);
         prefEditor = pref.edit();
+
+
 
         // 起動時に関数を呼び出す
         setQuestionValue();
@@ -98,13 +105,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Toast.makeText(this,"onResume",Toast.LENGTH_SHORT).show();
 
         TextView textView = (TextView)findViewById(R.id.text_score);
-        String readText = pref.getString("main_input","保存されていません");
+        String st_ns =getString(R.string.no_score);
+        String readText = pref.getString("main_input",st_ns);
         textView.setText(readText);
     }
     @Override
     public void onClick(View view) {
         int id = view.getId();
-
+        TextView myTextView = findViewById(R.id.answer);
+        myTextView.setTextSize(textsizemin);
 
         if (id == R.id.button1) {
 
@@ -177,6 +186,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 int colorId = getResources().getColor(R.color.red);
                 txtViewAnswer.setBackgroundColor(colorId);
                 score = 2;
+                TextView myTextView = findViewById(R.id.answer);
+                animateTextSize(myTextView, textsizemin, textsizemax, 2000);
                 soundPool.play(mp3win,1f , 1f, 0, 0, 1f);
 
             } else if (question > answer) {
@@ -199,6 +210,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 int colorId = getResources().getColor(R.color.red);
                 txtViewAnswer.setBackgroundColor(colorId);
                 score = 2;
+                TextView myTextView = findViewById(R.id.answer);
+                animateTextSize(myTextView, textsizemin, textsizemax, 2000);
                 soundPool.play(mp3win,1f , 1f, 0, 0, 1f);
             } else if (question < answer) {
                 result = st_lose;
@@ -246,13 +259,32 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         txtScore.setText("0");
     }
 
-    protected void onPause(){
+    protected void onPause() {
         super.onPause();
         Toast.makeText(this, "onPause", Toast.LENGTH_SHORT).show();
 
         TextView textView = (TextView)findViewById(R.id.text_score);
-        prefEditor.putString("main_input", textView.getText().toString());
-        prefEditor.commit();
+
+        String score = textView.getText().toString();
+        try {
+            Integer.parseInt(score); // または Integer.parseInt(str)
+            prefEditor.putString("main_input", score);
+            prefEditor.commit();
+        } catch (NumberFormatException e) {
+        }
+    }
+
+    private void animateTextSize(final TextView textView, float from, float to, long duration) {
+        ValueAnimator animator = ValueAnimator.ofFloat(from, to);
+        animator.setDuration(duration); // ミリ秒単位
+        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                float animatedValue = (float) valueAnimator.getAnimatedValue();
+                textView.setTextSize(animatedValue);
+            }
+        });
+        animator.start();
     }
 }
 
