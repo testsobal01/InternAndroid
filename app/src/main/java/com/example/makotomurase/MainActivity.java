@@ -39,6 +39,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private int soundOne, soundTwo,soundThree;
     private Button button1,button2,button3;
     private TextView timerTextView;
+    private Button restartButton;
     private Handler handler;
     private long startTime;
     private final long timeLimit = 10000;
@@ -67,6 +68,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         startTime = System.currentTimeMillis();
         handler = new Handler();
         handler.post(updateTimer);
+        restartTimer();
     }
 
     private Runnable updateTimer = new Runnable() {
@@ -132,7 +134,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 vibrator.vibrate(pattern, -1);
 
             }
+            restartTimer();
         }
+
+    }
+
+    private void restartTimer(){
+        handler.removeCallbacks(updateTimer);
+        startTime = System.currentTimeMillis();
+        timerTextView.setText("残り時間：" + (timeLimit / 1000));
+        handler.post(updateTimer);
     }
 
     private void clearAnswerValue() {
