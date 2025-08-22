@@ -70,6 +70,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View view) {
         int id = view.getId();
+        TextView questionTxtView = findViewById(R.id.question);
         if (id == R.id.button1) {
             setAnswerValue();
             checkResult(true);
@@ -98,6 +99,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             soundPlayer.playOverSound();
 
+            questionTxtView.setBackgroundResource(R.color.white);
         }
     }
 
@@ -114,7 +116,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         TextView txtView = findViewById(R.id.question);
         txtView.setText(Integer.toString(questionValue));
-        txtView.setBackgroundResource(R.color.white);
     }
 
     private void setAnswerValue() {
@@ -205,6 +206,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void setScore(int score) {
         TextView txtScore = (TextView) findViewById(R.id.text_score);
         int newScore = Integer.parseInt(txtScore.getText().toString()) + score;
+        if(newScore > 0){
+            txtScore.setTextColor(getResources().getColor(R.color.BrightRed));
+        }else if(newScore < 0){
+            txtScore.setTextColor(getResources().getColor(R.color.BrightBlue));
+        }else{
+            txtScore.setTextColor(getResources().getColor(R.color.BrightGreen));
+        }
         txtScore.setText(Integer.toString(newScore));
     }
 
