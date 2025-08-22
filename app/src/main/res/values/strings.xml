@@ -9,5 +9,7 @@
     <string name="lastresultLOSE">LOSE</string>
     <string name="lastresultDRAW">DRAW</string>
     <string name="label_score">Score：</string>
-    <string name="PlayerNum">YourNumber</string>
+    <string name="PlayerNum">Your\nNumber</string>
+    <string name="gamename">HIGH　and LOW GAME</string>
+    <string name="startbuttontext">Game Start</string>
 </resources>

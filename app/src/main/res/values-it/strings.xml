@@ -10,5 +10,7 @@
     <string name="lastresultLOSE">perdere</string>
     <string name="lastresultDRAW">perdente</string>
     <string name="label_score">punto：</string>
-    <string name="PlayerNum">IlTuoNumero</string>
+    <string name="PlayerNum">IlTuo\nNumero</string>
+    <string name="gamename">Alto o Basso Gioco</string>
+    <string name="startbuttontext">Inizia il gioco</string>
 </resources>

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">NaoyaOshida</string>
-    <string name="btn_high">Hoch</string>
-    <string name="btn_low">Niedrig</string>
+    <string name="btn_high">Höher</string>
+    <string name="btn_low">Tiefer</string>
     <string name="btn_restart">Neustart</string>
     <string name="text">10 ist eingestellt</string>
     <string name="result">Ergebnis：</string>
@@ -10,5 +10,7 @@
     <string name="lastresultLOSE">f Niederlage</string>
     <string name="lastresultDRAW">n Unentschieden</string>
     <string name="label_score">Punktzahl：</string>
-    <string name="PlayerNum">DeineNummer</string>
+    <string name="PlayerNum">Deine\nNummer</string>
+    <string name="gamename">Höher oder Tiefer Spiel</string>
+    <string name="startbuttontext">Spiel starten</string>
 </resources>

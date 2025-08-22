@@ -11,12 +11,12 @@
         android:id="@+id/title_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="High and Low ゲーム"/>
+        android:text="@string/gamename"/>
 
     <Button
         android:id="@+id/start_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="5dp"
-        android:text="ゲームスタート"/>
+        android:text="@string/startbuttontext"/>
 </LinearLayout>
