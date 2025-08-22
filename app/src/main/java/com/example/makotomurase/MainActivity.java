@@ -1,6 +1,7 @@
 package com.example.makotomurase;
 
 import androidx.appcompat.app.AlertDialog;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -19,6 +20,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.ViewCompat;
 
 import android.animation.ValueAnimator;
+import android.content.Context;
+import android.media.AudioAttributes;
+import android.media.MediaPlayer;
+import android.media.SoundPool;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.VibrationEffect;
@@ -32,6 +38,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.Random;
+
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -49,6 +56,43 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private static final String PREF_KEY_MAX = "pref_max_value";
     private static final int DEFAULT_MAX_VALUE = 10;
     private int maxRandomValue = DEFAULT_MAX_VALUE; // 現在の上限値
+    public class SoundPlayer {
+
+        private MediaPlayer mediaPlayer;
+        private Context context;
+
+        public SoundPlayer(Context context) {
+            this.context = context;
+        }
+
+        public void playSound(int soundResourceId) {
+            // MediaPlayerを解放
+            releaseMediaPlayer();
+
+            // MediaPlayerを初期化
+            mediaPlayer = MediaPlayer.create(context, soundResourceId);
+
+            // 再生
+            mediaPlayer.start();
+
+            // 再生終了時の処理を設定（オプション）
+            mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                @Override
+                public void onCompletion(MediaPlayer mp) {
+                    // 再生が終了したらMediaPlayerを解放
+                    releaseMediaPlayer();
+                }
+            });
+        }
+
+        public void releaseMediaPlayer() {
+            if (mediaPlayer != null) {
+                mediaPlayer.release();
+                mediaPlayer = null;
+            }
+        }
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -146,6 +190,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Vibrator vib = (Vibrator) getSystemService(VIBRATOR_SERVICE);
             vib.vibrate(50);
             clearColorValue();
+            SoundPlayer soundPlayer = new SoundPlayer(this);
+            soundPlayer.playSound(R.raw.horyu);
         }
     }
 
@@ -203,6 +249,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 layout1.setBackgroundColor(Color.CYAN);
                 layout2.setBackgroundColor(Color.RED);
+
+                SoundPlayer soundPlayer = new SoundPlayer(this);
+
+                soundPlayer.playSound(R.raw.atari);
+
             } else if (question > answer) {
                 result = lastresultLOSE;
                 score = -1;
@@ -210,11 +261,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 vib.vibrate(1000);
                 layout1.setBackgroundColor(Color.RED);
                 layout2.setBackgroundColor(Color.CYAN);
+
+                SoundPlayer soundPlayer = new SoundPlayer(this);
+
+                soundPlayer.playSound(R.raw.dededon);
+
             } else {
                 result = lastresultDRAW;
                 score = 1;
                 Vibrator vib = (Vibrator) getSystemService(VIBRATOR_SERVICE);
                 vib.vibrate(500);
+
+                SoundPlayer soundPlayer = new SoundPlayer(this);
+
+                soundPlayer.playSound(R.raw.kezoku);
+
             }
         } else {
             isInputEnabled = false;
@@ -225,6 +286,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 score = 2;
                 Vibrator vib = (Vibrator) getSystemService(VIBRATOR_SERVICE);
                 vib.vibrate(400);
+
+                SoundPlayer soundPlayer = new SoundPlayer(this);
+
+                soundPlayer.playSound(R.raw.maxkezoku);
+
             } else if (question < answer) {
                 result = lastresultLOSE;
                 layout1.setBackgroundColor(Color.CYAN);
@@ -232,6 +298,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 score = -1;
                 Vibrator vib = (Vibrator) getSystemService(VIBRATOR_SERVICE);
                 vib.vibrate(1000);
+
+                SoundPlayer soundPlayer = new SoundPlayer(this);
+
+                soundPlayer.playSound(R.raw.dededon);
+
             } else {
                 result = lastresultDRAW;
                 layout1.setBackgroundColor(Color.GREEN);
@@ -239,6 +310,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 score = 1;
                 Vibrator vib = (Vibrator) getSystemService(VIBRATOR_SERVICE);
                 vib.vibrate(500);
+
+                SoundPlayer soundPlayer = new SoundPlayer(this);
+
+                soundPlayer.playSound(R.raw.kezoku);
+
             }
         }
 
