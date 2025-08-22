@@ -7,4 +7,6 @@
     <string name="label_score">Score：</string>
     <string name="setting_text">Il est réglé sur 10</string>
     <string name="text_result">résultat：</string>
+    <string name="start">COMMENCER</string>
+
 </resources>

@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.media.AudioAttributes;
 import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.media.SoundPool;
 import android.os.Build;
 import android.content.SharedPreferences;
@@ -32,6 +33,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     SoundPool soundPool;
     int accept,wrongAnswer;
+    MediaPlayer mediaPlayer;
 
     SharedPreferences pref;
     SharedPreferences.Editor prefEditor;
@@ -78,6 +80,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // 起動時に関数を呼び出す
         setQuestionValue();
+        MediaPlayer mediaPlayer = MediaPlayer.create(this, R.raw.soda_drink); // BGMファイルを指定
+        mediaPlayer.setLooping(true); // リピート再生を有効にする
+        mediaPlayer.start(); // 再生開始
     }
 
 
@@ -133,6 +138,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     protected void onPause(){
         super.onPause();
+        if (mediaPlayer != null && mediaPlayer.isPlaying()) {
+            mediaPlayer.pause();
+        }
+
         Toast.makeText(this,"onPause", Toast.LENGTH_SHORT).show();
         TextView textView = (TextView)findViewById(R.id.text_score);
 
@@ -145,6 +154,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     protected void onResume(){
         super.onResume();
+        if (mediaPlayer != null && !mediaPlayer.isPlaying()) {
+            mediaPlayer.start();
+        }
         Toast.makeText(this,"onResume", Toast.LENGTH_SHORT).show();
         TextView textView = (TextView)findViewById(R.id.text_score);
 
@@ -152,9 +164,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         textView.setText(readText);
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        // アクティビティが破棄されるときにMediaPlayerを解放
+        if (mediaPlayer != null) {
+            mediaPlayer.stop();
+            mediaPlayer.release();
+            mediaPlayer = null;
+        }
+    }
+
     private void clearAnswerValue() {
         TextView txtView = (TextView) findViewById(R.id.answer);
-        txtView.setText("値2");
+        txtView.setText("?");
     }
 
     private void setQuestionValue() {
