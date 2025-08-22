@@ -5,7 +5,10 @@
     <string name="btn_low">低い</string>
     <string name="btn_restart">リスタート</string>
     <string name="label_score">得点：</string>
+    <string name="label_points">チップ：</string>
+    <string name="label_bet">ベット：</string>
     <string name="value2_default">値2</string>
     <string name="result">結果</string>
     <string name="settei">10が設定されています。</string>
+    <string name="bet">賭ける</string>
 </resources>
