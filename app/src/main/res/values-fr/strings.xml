@@ -5,5 +5,6 @@
 <string name="btn_restart">réinitialiser</string>
 <string name="label_score">score：</string>
     <string name="sentence_1">10 est réglé.</string>
+    <string name="sentence_2">Un jeu où vous devinez si le nombre de droite sera plus grand ou plus petit que le nombre de gauche (10).</string>
     <string name="answer">POCHI</string>
 </resources>
