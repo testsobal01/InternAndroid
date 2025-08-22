@@ -5,9 +5,12 @@
     <string name="btn_low">低い</string>
     <string name="btn_restart">リスタート</string>
     <string name="label_score">得点：</string>
+    <string name="label_points">チップ：</string>
+    <string name="label_bet">ベット：</string>
     <string name="value2_default">？</string>
     <string name="result">結果</string>
     <string name="settei">が設定されています。</string>
+    <string name="bet">賭ける</string>
     <string name="dialog_title">最大値を設定してください</string>
     <string name="dialog_positive_button">OK</string>
     <string name="dialog_negative_button">Cancel</string>

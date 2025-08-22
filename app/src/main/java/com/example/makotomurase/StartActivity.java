@@ -20,7 +20,7 @@ public class StartActivity extends AppCompatActivity implements View.OnClickList
 
     @Override
     public void onClick(View view) {
-        Intent intent = new Intent(StartActivity.this, MainActivity.class);
+        Intent intent = new Intent(StartActivity.this, BettingActivity.class);
         startActivity(intent);
 
         //バイブレーション機能

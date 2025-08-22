@@ -6,6 +6,12 @@
     <string name="btn_low">faible</string>
     <string name="btn_restart">redémarrage</string>
     <string name="label_score">score：</string>
+    <string name="label_points">Points：</string>
+    <string name="label_bet">pari：</string>
+    <string name="value2_default">valeur2</string>
+    <string name="result">résultat</string>
+    <string name="settei">10 est défini.</string>
+    <string name="bet">pari</string>
     <string name="value2_default">？</string>
     <string name="result">résultat</string>
     <string name="settei">est défini.</string>

@@ -5,9 +5,12 @@
     <string name="btn_low">Low</string>
     <string name="btn_restart">Restart</string>
     <string name="label_score">Score：</string>
+    <string name="label_points">Points：</string>
+    <string name="label_bet">Bet：</string>
     <string name="value2_default">？</string>
     <string name="result">result</string>
     <string name="settei">is set.</string>
+    <string name="bet">bet</string>
     <string name="dialog_title">Please set the maximum value</string>
     <string name="dialog_positive_button">OK</string>
     <string name="dialog_negative_button">Cancel</string>
