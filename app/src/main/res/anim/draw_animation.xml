@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<set xmlns:android="http://schemas.android.com/apk/res/android"
+    android:fillAfter="true">
+
+    <!--
+        ゆっくりとフェードイン・アウトするアニメーション
+        duration="1000"        : アニメーションの時間は1000ミリ秒（1秒）
+        fromAlpha="0.5"       : 半透明(50%)から
+        toAlpha="1.0"         : 完全不透明(100%)までフェードイン
+        repeatMode="reverse"  : フェードイン後、逆にフェードアウトする
+        repeatCount="1"       : フェードイン・アウトのセットを1回繰り返す（計2回の動作）
+    -->
+
+    <alpha
+        android:duration="1000"
+        android:fromAlpha="0.5"
+        android:toAlpha="1.0"
+        android:repeatMode="reverse"
+        android:repeatCount="1" />
+
+    <!--
+        軽い拡大縮小のスケールアニメーション
+        duration="1000"        : アニメーションの時間は1000ミリ秒（1秒）
+        fromXScale="0.95"     : 横方向は95%の大きさから
+        toXScale="1.05"       : 横方向は105%の大きさまで拡大
+        fromYScale="0.95"     : 縦方向も95%から
+        toYScale="1.05"       : 縦方向も105%まで拡大
+        pivotX="50%"          : 拡大縮小の中心は横幅の中央
+        pivotY="50%"          : 拡大縮小の中心は高さの中央
+        repeatMode="reverse"  : 拡大後に元に戻る動きを繰り返す
+        repeatCount="1"       : 拡大・縮小のセットを1回繰り返す（計2回の動作）
+    -->
+
+    <scale
+        android:duration="1000"
+        android:fromXScale="0.95"
+        android:toXScale="1.05"
+        android:fromYScale="0.95"
+        android:toYScale="1.05"
+        android:pivotX="50%"
+        android:pivotY="50%"
+        android:repeatMode="reverse"
+        android:repeatCount="1" />
+</set>
