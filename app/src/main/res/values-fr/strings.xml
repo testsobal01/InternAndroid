@@ -10,5 +10,7 @@
     <string name="lastresultLOSE">Défaite</string>
     <string name="lastresultDRAW">Nul</string>
     <string name="label_score">Score：</string>
-    <string name="PlayerNum">TonNuméro</string>
+    <string name="PlayerNum">Ton\nNuméro</string>
+    <string name="gamename">Haut ou Bas Jeu</string>
+    <string name="startbuttontext">Commencer le jeu</string>
 </resources>
