@@ -17,6 +17,7 @@
 
             <Button
                 android:id="@+id/button1"
+                android:backgroundTint="@color/Red"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -24,6 +25,7 @@
 
             <Button
                 android:id="@+id/button2"
+                android:backgroundTint="@color/Blue"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -31,6 +33,7 @@
 
             <Button
                 android:id="@+id/button3"
+                android:backgroundTint="@color/Green"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
@@ -38,9 +41,10 @@
         </LinearLayout>
 
         <TextView
+            android:id="@+id/sentence_1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="10が設定されています。" />
+            android:text="@string/sentence_1" />
 
         <TextView
             android:id="@+id/text_result"
@@ -65,14 +69,14 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
             <TextView
                 android:id="@+id/question"
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_height="330dp"
                 android:layout_weight="1"
-                android:background="#ff00ff"
+                android:background="@color/white"
                 android:gravity="center"
                 android:text="値1"
                 android:textSize="60sp" />
@@ -80,12 +84,25 @@
             <TextView
                 android:id="@+id/answer"
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_height="330dp"
                 android:layout_weight="1"
-                android:background="#ffff00"
+                android:background="@color/white"
                 android:gravity="center"
-                android:text="値2"
+                android:text="@string/answer"
                 android:textSize="60sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/my_image_view"
+                android:layout_width="360dp"
+                android:layout_height="140dp"
+                android:src="@drawable/trump"
+                android:scaleType="fitXY" />
         </LinearLayout>
 
     </LinearLayout>

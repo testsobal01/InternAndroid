@@ -1,10 +1,12 @@
 package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Vibrator;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -14,13 +16,18 @@ import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
+
     SharedPreferences pref;
     SharedPreferences.Editor prefEditor;
+
+    private SoundPlayer soundPlayer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        soundPlayer = new SoundPlayer(this);
 
         Button btn1 = findViewById(R.id.button1);
         btn1.setOnClickListener(this);
@@ -36,6 +43,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // 起動時に関数を呼び出す
         setQuestionValue();
+
+
     }
 
 
@@ -64,19 +73,38 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (id == R.id.button1) {
             setAnswerValue();
             checkResult(true);
+            //ボタンを押したら0.1秒間バイブする
+            Vibrator vib = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+            vib.vibrate(100);
+
+            soundPlayer.playHitSound();
+
         } else if (id == R.id.button2) {
             setAnswerValue();
             checkResult(false);
+            //ボタンを押したら0.1秒間バイブする
+            Vibrator vib = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+            vib.vibrate(100);
+
+            soundPlayer.playHitSound();
+
         } else if (id == R.id.button3) {
             setQuestionValue();
             clearAnswerValue();
             clearScoreValue();
+            //ボタンを押したら0.3秒間バイブする
+            Vibrator vib = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+            vib.vibrate(300);
+
+            soundPlayer.playOverSound();
+
         }
     }
 
     private void clearAnswerValue() {
         TextView txtView = (TextView) findViewById(R.id.answer);
-        txtView.setText("値2");
+        txtView.setText(R.string.answer);
+        txtView.setBackgroundResource(R.color.white);
     }
 
     private void setQuestionValue() {
@@ -86,6 +114,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         TextView txtView = findViewById(R.id.question);
         txtView.setText(Integer.toString(questionValue));
+        txtView.setBackgroundResource(R.color.white);
     }
 
     private void setAnswerValue() {
@@ -135,6 +164,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         }
 
+        if(result == "WIN"){
+            txtViewQuestion.setBackgroundResource(R.color.BrightBlue);
+            txtViewAnswer.setBackgroundResource(R.color.BrightRed);
+        }else if(result == "LOSE"){
+            txtViewQuestion.setBackgroundResource(R.color.BrightRed);
+            txtViewAnswer.setBackgroundResource(R.color.BrightBlue);
+        }else{
+            txtViewQuestion.setBackgroundResource(R.color.BrightGreen);
+            txtViewAnswer.setBackgroundResource(R.color.BrightGreen);
+        }
         // 最後にまとめてToast表示の処理とTextViewへのセットを行う
         Toast.makeText(this, result, Toast.LENGTH_LONG).show();
         txtResult.setText("結果：" + question + ":" + answer + "(" + result + ")");
