@@ -145,9 +145,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //        // 結果を示す文字列を入れる変数を用意
         String result;
         int score;
-        int winColor = Color.YELLOW;
-        int loseColor = Color.MAGENTA;
-        int drawColor = Color.WHITE;
+        int winColor = Color.RED;
+        int loseColor = Color.CYAN;
+        int drawColor = Color.GREEN;
 
         // Highが押された
         if (isHigh) {
