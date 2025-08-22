@@ -4,7 +4,7 @@
     <string name="btn_low">Low</string>
     <string name="btn_restart">Restart</string>
     <string name="label_score">Score：</string>
-    <string name="STRAT">START</string>
+    <string name="START">START</string>
     <string name="message1">10が設定されています。</string>
     <string name="win">WIN</string>
     <string name="lose">LOSE</string>
@@ -12,4 +12,5 @@
     <string name="result">result：</string>
     <string name="value1">値1</string>
     <string name="value2">値2</string>
+    <string name="no_score">：保存されていません</string>
 </resources>

@@ -52,7 +52,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Toast.makeText(this,"onResume",Toast.LENGTH_SHORT).show();
 
         TextView textView = (TextView)findViewById(R.id.text_score);
-        String readText = pref.getString("main_input","保存されていません");
+        String st_ns =getString(R.string.no_score);
+        String readText = pref.getString("main_input",st_ns);
         textView.setText(readText);
     }
     @Override
@@ -205,8 +206,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Toast.makeText(this, "onPause", Toast.LENGTH_SHORT).show();
 
         TextView textView = (TextView)findViewById(R.id.text_score);
-        prefEditor.putString("main_input", textView.getText().toString());
-        prefEditor.commit();
+
+
+        String score = textView.getText().toString();
+        try {
+            Integer.parseInt(score); // または Integer.parseInt(str)
+            prefEditor.putString("main_input", score);
+            prefEditor.commit();
+        } catch (NumberFormatException e) {
+        }
     }
 }
 
