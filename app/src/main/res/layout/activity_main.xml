@@ -48,10 +48,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
+        <!--ほかの方と別々のIDを使っているため、どちらか選んでください！-->
         <TextView
-            <!--ほかの方と別々のIDを使っているため、どちらか選んでください！-->
-            android:id="@+id/main_text"
-            android:id="@+id/setting_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/label_score" />
