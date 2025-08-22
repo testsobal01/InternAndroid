@@ -19,19 +19,34 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:textSize="9dp"
                 android:text="@string/btn_high" />
             <Button
                 android:id="@+id/button2"
                 android:layout_width="0dp"
+                android:textSize="10dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/btn_low" />
             <Button
                 android:id="@+id/button3"
                 android:layout_width="0dp"
+                android:textSize="10dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
                 android:text="@string/btn_restart" />
+            <!-- ボーナスボタン -->
+            <Button
+                android:id="@+id/bonus_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="BONUS!"
+                android:textSize="10dp"
+                android:background="@drawable/b4"
+                app:backgroundTint="@null"
+                android:textColor="@color/black"
+                android:visibility="gone"
+                android:layout_centerInParent="true"/>
         </LinearLayout>
 
         <TextView
@@ -43,7 +58,7 @@
             android:id="@+id/win_animation_text1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="WIN    WIN    WIN"
+            android:text="WIN  WIN  WIN"
             android:textSize="50sp"
             android:textColor="#FFFFFF"
             android:background="#e2041b"
@@ -90,6 +105,30 @@
             android:textStyle="bold"
             android:gravity="center"
             android:visibility="gone" />
+        <TextView
+            android:id="@+id/chance_text1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="32sp"
+            android:textColor="#FF0000"
+            android:textStyle="bold"
+            android:visibility="gone"
+            android:layout_centerInParent="true"
+            android:text="激アツ！CHANCE!!" />
+
+        <!-- チャンステキスト -->
+        <TextView
+            android:id="@+id/chance_text2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="CHANCE!!"
+            android:textSize="36sp"
+            android:textColor="#FF0000"
+            android:visibility="gone"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="50dp"/>
+
+
         <TextView
         android:id="@+id/text_result"
         android:layout_width="wrap_content"

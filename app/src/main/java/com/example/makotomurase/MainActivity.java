@@ -16,6 +16,9 @@ import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
+    private Button bonusButton;
+    private boolean isBonusActive = false; // ボーナス発動中フラグ
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,27 +33,32 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button btn3 = findViewById(R.id.button3);
         btn3.setOnClickListener(this);
 
+        bonusButton = findViewById(R.id.bonus_button);
+        bonusButton.setVisibility(View.GONE);
+        bonusButton.setOnClickListener(v -> onBonusButtonClicked());
+
         setQuestionValue();
     }
 
     @Override
     public void onClick(View view) {
+        if (isBonusActive) {
+            Toast.makeText(this, "ボーナス中です！まずはボーナスボタンを押してください。", Toast.LENGTH_SHORT).show();
+            return; // ボーナス中は他のボタン無効化
+        }
+
         int id = view.getId();
         if (id == R.id.button1) {
             setAnswerValue();
-            checkResult(true);
+            checkResultWithChance(true);
         } else if (id == R.id.button2) {
             setAnswerValue();
-            checkResult(false);
+            checkResultWithChance(false);
         } else if (id == R.id.button3) {
             setQuestionValue();
             clearAnswerValue();
             clearScoreValue();
-            Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-            if (vibrator != null) {
-                long[] pattern = {0, 100, 100, 100, 100, 100};
-                vibrator.vibrate(pattern, -1);
-            }
+            vibrate(new long[]{0, 100, 100, 100, 100, 100});
         }
     }
 
@@ -62,7 +70,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void setQuestionValue() {
         Random r = new Random();
         int questionValue = r.nextInt(11);
-
         TextView txtView = findViewById(R.id.question);
         txtView.setText(String.valueOf(questionValue));
     }
@@ -70,12 +77,61 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void setAnswerValue() {
         Random r = new Random();
         int answerValue = r.nextInt(11);
-
         TextView txtView = findViewById(R.id.answer);
         txtView.setText(String.valueOf(answerValue));
     }
 
-    private void checkResult(boolean isHigh) {
+    private void checkResultWithChance(boolean isHigh) {
+        Random rand = new Random();
+
+        // 5%でボーナス発生
+        if (rand.nextInt(100) < 35) {
+            activateBonus();
+            return;
+        }
+
+        // 10%でチャンス演出
+        if (rand.nextInt(10) == 0) {
+            showChanceAnimation(() -> continueCheckResult(isHigh));
+        } else {
+            continueCheckResult(isHigh);
+        }
+    }
+
+    private void activateBonus() {
+        isBonusActive = true;
+        bonusButton.setVisibility(View.VISIBLE);
+        Toast.makeText(this, "ボーナスチャンス！ボーナスボタンを押してね！", Toast.LENGTH_LONG).show();
+    }
+
+    private void onBonusButtonClicked() {
+        if (!isBonusActive) return;
+
+        Random rand = new Random();
+        int chance = rand.nextInt(100); // 0〜99
+
+        TextView txtScore = findViewById(R.id.text_score);
+
+        if (chance < 35) { // 20%の確率でスコア0リセット
+            txtScore.setText("0");
+            Toast.makeText(this, "ボーナス大外れ…スコアが0に！", Toast.LENGTH_LONG).show();
+            vibrate(new long[]{0, 500, 500, 1000});
+            shakeViewWithVibration(findViewById(android.R.id.content));
+        } else {
+            int bonusPoints = rand.nextInt(16) + 5; // 5〜20点
+            int currentScore = Integer.parseInt(txtScore.getText().toString());
+            txtScore.setText(String.valueOf(currentScore + bonusPoints));
+            Toast.makeText(this, "ボーナスゲット！+" + bonusPoints + "点！", Toast.LENGTH_LONG).show();
+            vibrate(new long[]{0, 100, 100, 100});
+            shakeViewWithVibration(findViewById(android.R.id.content));
+        }
+
+        // ボーナス終了処理
+        isBonusActive = false;
+        bonusButton.setVisibility(View.GONE);
+    }
+
+    private void continueCheckResult(boolean isHigh) {
         TextView txtViewQuestion = findViewById(R.id.question);
         TextView txtViewAnswer = findViewById(R.id.answer);
 
@@ -92,34 +148,34 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 result = "WIN";
                 score = 2;
                 animateWinText();
-                vibrate(new long[]{0, 100, 100, 100, 100, 100});
+                shakeViewWithVibration(findViewById(android.R.id.content));
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
                 animateLoseText();
-                vibrate(new long[]{0, 500, 500, 500, 500});
+                shakeViewWithVibration(findViewById(android.R.id.content));
             } else {
                 result = "DRAW";
                 score = 1;
-                animateDrawText(); // DRAWアニメーションの呼び出し
-                vibrate(new long[]{0, 1000, 1000});
+                animateDrawText();
+                shakeViewWithVibration(findViewById(android.R.id.content));
             }
-        } else { // Lowが押された場合
+        } else {
             if (question > answer) {
                 result = "WIN";
                 score = 2;
                 animateWinText();
-                vibrate(new long[]{0, 100, 100, 100, 100, 100});
+                shakeViewWithVibration(findViewById(android.R.id.content));
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
                 animateLoseText();
-                vibrate(new long[]{0, 500, 500, 500, 500});
+                shakeViewWithVibration(findViewById(android.R.id.content));
             } else {
                 result = "DRAW";
                 score = 1;
-                animateDrawText(); // DRAWアニメーションの呼び出し
-                vibrate(new long[]{0, 1000, 1000});
+                animateDrawText();
+                shakeViewWithVibration(findViewById(android.R.id.content));
             }
         }
 
@@ -128,6 +184,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         setNextQuestion();
         setScore(score);
+    }
+
+    private void shakeViewWithVibration(View view) {
+        ObjectAnimator animator = ObjectAnimator.ofFloat(view, "translationX",
+                0f, 25f, -25f, 25f, -25f, 15f, -15f, 6f, -6f, 0f);
+        animator.setDuration(500);
+        animator.start();
+
+        Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+        if (vibrator != null) {
+            vibrator.vibrate(new long[]{0, 50, 50, 50, 50}, -1);
+        }
     }
 
     private void vibrate(long[] pattern) {
@@ -183,7 +251,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }.start();
     }
 
-    // DRAW用のアニメーションメソッドを追加
     private void animateDrawText() {
         TextView drawText = findViewById(R.id.draw_animation_text);
         if (drawText == null) return;
@@ -205,6 +272,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 drawText.setTranslationX(-1000f);
             }
         }.start();
+    }
+
+    private void showChanceAnimation(Runnable onAnimationEnd) {
+        TextView chanceText = findViewById(R.id.chance_text1);
+        chanceText.setVisibility(View.VISIBLE);
+        chanceText.setText("激アツ！CHANCE!!");
+        chanceText.setAlpha(0f);
+
+        chanceText.animate()
+                .alpha(1f)
+                .setDuration(500)
+                .withEndAction(() -> {
+                    chanceText.animate()
+                            .alpha(0f)
+                            .setDuration(500)
+                            .withEndAction(() -> {
+                                chanceText.setVisibility(View.GONE);
+                                onAnimationEnd.run();
+                            });
+                });
     }
 
     private void setNextQuestion() {
