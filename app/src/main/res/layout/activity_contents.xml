@@ -47,7 +47,7 @@
             android:layout_weight="1"
             android:text="@string/sentence_2"
             android:textAlignment="center"
-            android:textSize="30dp"></TextView>
+            android:textSize="16sp"></TextView>
 
 
     </LinearLayout>
