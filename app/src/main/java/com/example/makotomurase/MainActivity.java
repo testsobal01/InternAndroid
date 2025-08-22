@@ -37,6 +37,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     SharedPreferences pref;
     SharedPreferences.Editor prefEditor;
+
+    CountDownTimer countDownTimer;
     float textsizemax=150;
     float textsizemin=60;
     @Override
@@ -80,6 +82,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mp3win = soundPool.load(this, R.raw.win, 1);
         mp3lose = soundPool.load(this, R.raw.lose, 1);
         mp3restart = soundPool.load(this, R.raw.restart, 1);
+
+        // 第１引数がカウントダウン時間、第２引数は途中経過を受け取る間隔
+        // 単位はミリ秒（1秒＝1000ミリ秒）
+        countDownTimer = new CountDownTimer(3000, 1000) {
+            @Override
+            public void onTick(long l) {
+                // 途中経過を受け取った時に何かしたい場合
+                // 今回は特に何もしない
+            }
+
+            @Override
+            public void onFinish() {
+                // 3秒経過したら次の値をセット
+                setQuestionValue();
+            }
+        };
     }
 
     protected void onResume(){
@@ -222,26 +240,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void setNextQuestion() {
-        // 第１引数がカウントダウン時間、第２引数は途中経過を受け取る間隔
-        // 単位はミリ秒（1秒＝1000ミリ秒）
-        new CountDownTimer(3000, 1000) {
-            @Override
-            public void onTick(long l) {
-                // 途中経過を受け取った時に何かしたい場合
-                // 今回は特に何もしない
-            }
-
-            @Override
-            public void onFinish() {
-                // 3秒経過したら次の値をセット
-                setQuestionValue();
-            }
-        }.start();
+        countDownTimer.cancel();
+        countDownTimer.start();
     }
 
     private void setScore(int score) {
         TextView txtScore = (TextView) findViewById(R.id.text_score);
-        int newScore = Integer.parseInt(txtScore.getText().toString()) + score;
+        String nowScore = txtScore.getText().toString();
+        int newScore = score;
+        if (nowScore.matches("\\d+")) {
+            newScore += Integer.parseInt(nowScore);
+        }
         txtScore.setText(Integer.toString(newScore));
     }
 
