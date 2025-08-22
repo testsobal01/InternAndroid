@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#FF000000</color>
+    <color name="black">#d2b48c</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="default_color">#FFFFFF00</color>
-    <color name="lose_color">#FF0000FF</color>
-    <color name="win_color">#FFFF0000</color>
+    <color name="default_color">#e4dc8a</color>
+    <color name="lose_color">#a2d7dd</color>
+    <color name="win_color">#f5b1aa</color>
+    <color name="drow_color">#badcad</color>
 </resources>

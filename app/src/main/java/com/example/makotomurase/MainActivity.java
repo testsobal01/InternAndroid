@@ -216,7 +216,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             } else {
                 result = "DRAW";
                 score = 1;
-                setBackgroundColor(R.color.default_color);
+                setBackgroundColor(R.color.drow_color);
             }
         } else {
             if (question > answer) {
@@ -232,7 +232,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             } else {
                 result = "DRAW";
                 score = 1;
-                setBackgroundColor(R.color.default_color);
+                setBackgroundColor(R.color.drow_color);
             }
         }
 
