@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button restartButton;
     private Handler handler;
     private long startTime;
-    private final long timeLimit = 10000;
+    private final long timeLimit = 30000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
