@@ -38,6 +38,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     //　アニメーションする時間管理用の変数を追加
     private static final long COUNT_DOWN_MILLISECOND = 3000;
     private static final long INTERVAL_MILLISECOND = 1000;
+
+    private boolean isInputEnabled = true;
+    private CountDownTimer questionTimer;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,7 +70,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View view) {
 
+        if (!isInputEnabled) {
+            return;
+        }
         int id = view.getId();
+
         if (id == R.id.button1) {
             setAnswerValue();
             checkResult(true);
@@ -73,6 +82,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             setAnswerValue();
             checkResult(false);
         } else if (id == R.id.button3) {
+            if (questionTimer != null) {
+                questionTimer.cancel();
+            }
             setQuestionValue();
             clearAnswerValue();
             clearScoreValue();
@@ -129,6 +141,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // Highが押された
         if (isHigh) {
+            isInputEnabled = false;
             // result には結果のみを入れる
             if (question < answer) {
                 result = lastresultWIN;
@@ -152,6 +165,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 vib.vibrate(500);
             }
         } else {
+            isInputEnabled = false;
             if (question > answer) {
                 result = lastresultWIN;
                 layout1.setBackgroundColor(Color.RED);
@@ -218,7 +232,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void setNextQuestion() {
         // 第１引数がカウントダウン時間、第２引数は途中経過を受け取る間隔
         // 単位はミリ秒（1秒＝1000ミリ秒）
-        new CountDownTimer(3000, 1000) {
+        questionTimer = new CountDownTimer(3000, 1000) {
             @Override
             public void onTick(long l) {
                 // 途中経過を受け取った時に何かしたい場合
@@ -229,6 +243,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public void onFinish() {
                 // 3秒経過したら次の値をセット
                 setQuestionValue();
+                isInputEnabled = true;
             }
         }.start();
     }
