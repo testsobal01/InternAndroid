@@ -21,10 +21,16 @@ import android.widget.Toast;
 import org.w3c.dom.Text;
 
 import java.util.Random;
+import android.content.Context;
+
+
+
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-
+    private Button muteButton;
+    private AudioManager audioManager;
+    private boolean isMuted = false;
     SoundPool soundPool;
     int mp3lose;
     int mp3win;
@@ -38,6 +44,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        muteButton = findViewById(R.id.muteButton);
+        audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+
+        muteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (isMuted) {
+                    // ミュート解除
+                    audioManager.setStreamMute(AudioManager.STREAM_MUSIC, false);
+                    isMuted = false;
+                    muteButton.setText("ミュート");
+                } else {
+                    // ミュート
+                    audioManager.setStreamMute(AudioManager.STREAM_MUSIC, true);
+                    isMuted = true;
+                    muteButton.setText("ミュート解除");
+                }
+            }
+        });
 
         Button btn1 = findViewById(R.id.button1);
         btn1.setOnClickListener(this);
@@ -245,5 +271,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         prefEditor.putString("main_input", textView.getText().toString());
         prefEditor.commit();
     }
+
 }
 
