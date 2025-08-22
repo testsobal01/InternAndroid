@@ -68,7 +68,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // 起動時に関数を呼び出す
         setQuestionValue();
 
-        // スコア表示の下にでも表示しておく用（TextViewをレイアウトに追加してください）
         TextView txtSetting = findViewById(R.id.text_setting);
         maxRandomValue = pref.getInt(PREF_KEY_MAX, DEFAULT_MAX_VALUE);
         txtSetting.setText(maxRandomValue + " が設定されています。");
