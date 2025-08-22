@@ -2,21 +2,61 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.animation.ObjectAnimator;
+import android.media.AudioAttributes;
+import android.media.AudioManager;
+import android.media.SoundPool;
+import android.os.Build;
+import android.content.SharedPreferences;
+import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+
+//追記バイブ
 import android.os.Vibrator;
 import android.os.VibrationEffect;
+
+//追記アニメーション
+import android.animation.ValueAnimator;
+import android.util.TypedValue;
+import android.view.animation.OvershootInterpolator;
+import android.view.animation.LinearInterpolator;
 
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
+
+    SoundPool soundPool;
+    int accept,wrongAnswer;
+
+    SharedPreferences pref;
+    SharedPreferences.Editor prefEditor;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            soundPool = new SoundPool(5, AudioManager.STREAM_MUSIC, 0);
+        } else {
+            System.out.println("作成する");
+            AudioAttributes attr = new AudioAttributes.Builder()
+                    .setUsage(AudioAttributes.USAGE_MEDIA)
+                    .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+                    .build();
+            soundPool = new SoundPool.Builder()
+                    .setAudioAttributes(attr)
+                    .setMaxStreams(5)
+                    .build();
+        }
+
+        Intent intent = getIntent();
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -29,31 +69,53 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
 
+        pref = getSharedPreferences("files", MODE_PRIVATE);
+        prefEditor = pref.edit();
+//        Intent intent = getIntent();
+//        Bundle extra = intent.getExtras();
+//        String intentString = extra.getString("KEY");
+//
+//        TextView textView = (TextView)findViewById(R.id.)
+
+
         // 起動時に関数を呼び出す
         setQuestionValue();
     }
 
+
     @Override
     public void onClick(View view) {
+        AudioAttributes attr = new AudioAttributes.Builder()
+                .setUsage(AudioAttributes.USAGE_MEDIA)
+                .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+                .build();
+        soundPool = new SoundPool.Builder()
+                .setAudioAttributes(attr)
+                .setMaxStreams(5)
+                .build();
+
+        accept = soundPool.load(this, R.raw.accept, 1);
+        wrongAnswer = soundPool.load(this, R.raw.wrong_answer, 1);
+
         int id = view.getId();
         if (id == R.id.button1) {
             setAnswerValue();
             checkResult(true);
 
-            //追記
+            //追記バイブ
             Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
             if (vibrator != null) {
                 if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
                     vibrator.vibrate(VibrationEffect.createOneShot(200, VibrationEffect.DEFAULT_AMPLITUDE));
                 } else {
-                    vibrator.vibrate(1000);
+                    vibrator.vibrate(200);
                 }
             }
         } else if (id == R.id.button2) {
             setAnswerValue();
             checkResult(false);
 
-            //追記
+            //追記バイブ
             Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
             if (vibrator != null) {
                 if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
@@ -67,6 +129,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             clearAnswerValue();
             clearScoreValue();
         }
+    }
+
+    @Override
+
+    protected void onPause(){
+        super.onPause();
+        Toast.makeText(this,"onPause", Toast.LENGTH_SHORT).show();
+        TextView textView = (TextView)findViewById(R.id.text_score);
+
+        prefEditor.putString("main_input",textView.getText().toString());
+
+        prefEditor.commit();
+    }
+
+    @Override
+
+    protected void onResume(){
+        super.onResume();
+        Toast.makeText(this,"onResume", Toast.LENGTH_SHORT).show();
+        TextView textView = (TextView)findViewById(R.id.text_score);
+
+        String readText = pref.getString("main_input", "保存されていません");
+        textView.setText(readText);
     }
 
     private void clearAnswerValue() {
@@ -102,38 +187,83 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // 結果を示す文字列を入れる変数を用意
         String result;
-        int score;
+        int score = 0;
+        String color;
 
         // Highが押された
         if (isHigh) {
             // result には結果のみを入れる
             if (question < answer) {
+                soundPool.setOnLoadCompleteListener((soundPool, sampleId, status) -> {
+                    if(sampleId == accept) {
+                        System.out.println("calll1");
+                        soundPool.play(accept, 1f, 1f, 0, 0, 1f);
+                    }
+                });
+//                soundPool.play(accept,1f,1f,0,0,1f);
                 result = "WIN";
                 score = 2;
+                txtResult.setBackgroundColor(Color.rgb(242,83,194));
             } else if (question > answer) {
+                soundPool.setOnLoadCompleteListener((soundPool, sampleId, status) -> {
+                    if(sampleId == wrongAnswer) {
+                        System.out.println("calll1");
+                        soundPool.play(wrongAnswer, 1f, 1f, 0, 0, 1f);
+                    }
+                });
+//                soundPool.play(wrongAnswer,1f,1f,0,0,1f);
+
                 result = "LOSE";
                 score = -1;
+                txtResult.setBackgroundColor(Color.rgb(110,108,210));
             } else {
                 result = "DRAW";
                 score = 1;
+                txtResult.setBackgroundColor(Color.rgb(78,220,220));
             }
         } else {
             if (question > answer) {
+                soundPool.setOnLoadCompleteListener((soundPool, sampleId, status) -> {
+                    if(sampleId == accept) {
+                        System.out.println("calll1");
+                        soundPool.play(accept, 1f, 1f, 0, 0, 1f);
+                    }
+                });
+//                soundPool.play(accept,1f,1f,0,0,1f);
+
                 result = "WIN";
                 score = 2;
+                txtResult.setBackgroundColor(Color.rgb(242,83,194));
             } else if (question < answer) {
+                soundPool.setOnLoadCompleteListener((soundPool, sampleId, status) -> {
+                    if(sampleId == wrongAnswer) {
+                        System.out.println("calll1");
+                        soundPool.play(wrongAnswer, 1f, 1f, 0, 0, 1f);
+                    }
+                });
+//                soundPool.play(wrongAnswer,1f,1f,0,0,1f);
                 result = "LOSE";
                 score = -1;
+                txtResult.setBackgroundColor(Color.rgb(110,108,210));
             } else {
                 result = "DRAW";
                 score = 1;
+                txtResult.setBackgroundColor(Color.rgb(78,220,220));
             }
+        }
+
+        //追記アニメーション
+        if ("WIN".equals(result)) {
+            animateTextJump(txtViewAnswer);   // 勝ち→ジャンプ（文字サイズだけ）
+        } else if ("LOSE".equals(result)) {
+            animateTextShake(txtViewAnswer);  // 負け→シェイク（文字の横幅だけ）
         }
 
         // 最後にまとめてToast表示の処理とTextViewへのセットを行う
         Toast.makeText(this, result, Toast.LENGTH_LONG).show();
         String resultText = getString(R.string.text_result);
         txtResult.setText(resultText+"：" + question + ":" + answer + "(" + result + ")");
+
 
         // 続けて遊べるように値を更新
         setNextQuestion();
@@ -161,13 +291,55 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void setScore(int score) {
         TextView txtScore = (TextView) findViewById(R.id.text_score);
-        int newScore = Integer.parseInt(txtScore.getText().toString()) + score;
-        txtScore.setText(Integer.toString(newScore));
+        String check = txtScore.getText().toString();
+        int newscore =score;
+        if(check == "保存されていません"){
+            newscore = score;
+            System.out.println("aaa" + newscore);
+        }
+        else{
+            newscore = Integer.parseInt(txtScore.getText().toString()) + score;
+            System.out.println("bbb" + newscore);
+
+        }
+        txtScore.setText(Integer.toString(newscore));
     }
 
     private void clearScoreValue() {
         TextView txtScore = (TextView) findViewById(R.id.text_score);
         txtScore.setText("0");
     }
+
+    //追記アニメーション
+    private void resetTextOnlyAnim(TextView tv) {
+        tv.animate().cancel();
+        tv.setTextScaleX(1f); // 横伸縮だけを元に戻す
+    }
+
+    //勝ち：文字サイズだけ“大きく→戻す”
+    private void animateTextJump(TextView tv) {
+        resetTextOnlyAnim(tv);
+        final float startPx = tv.getTextSize();
+        final float peakPx  = startPx * 1.6f;
+
+        ValueAnimator va = ValueAnimator.ofFloat(startPx, peakPx, startPx);
+        va.setDuration(350);
+        va.setInterpolator(new OvershootInterpolator());
+        va.addUpdateListener(anim ->
+                tv.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float) anim.getAnimatedValue())
+        );
+        va.start();
+    }
+
+    //負け：文字の横幅だけ“ガタガタ→戻す”
+    private void animateTextShake(TextView tv) {
+        resetTextOnlyAnim(tv);
+        ValueAnimator va = ValueAnimator.ofFloat(1.0f, 0.7f, 1.3f, 0.8f, 1.2f, 0.9f, 1.1f, 1.0f);
+        va.setDuration(400);
+        va.setInterpolator(new LinearInterpolator());
+        va.addUpdateListener(anim -> tv.setTextScaleX((float) anim.getAnimatedValue()));
+        va.start();
+    }
 }
+
 
