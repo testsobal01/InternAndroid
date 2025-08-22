@@ -2,6 +2,7 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.animation.Animator;
 import android.animation.AnimatorInflater;
 import android.animation.AnimatorSet;
@@ -16,6 +17,7 @@ import android.os.CountDownTimer;
 import android.os.Vibrator;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -29,6 +31,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     int mysoundID;
     SoundPool soundPool;
     int hit;
+
+    private int lives = 3;
+    private ImageView[] hearts = new ImageView[3];
+
     private AnimatorSet set;
 
     @Override
@@ -66,7 +72,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         String title2 = getString(R.string.setting_score2);
         txtView.setText(title2);
 
-//ボタンオブジェクトをレイアウトから取得
+        hearts[0] = findViewById(R.id.heart1);
+        hearts[1] = findViewById(R.id.heart2);
+        hearts[2] = findViewById(R.id.heart3);
+        //ボタンオブジェクトをレイアウトから取得
         TextView atai2_anime = findViewById(R.id.answer);
         //AnimatorInflaterで、AnimatorSetオブジェクトを取得
         //前もって作成したR.animator.blink_animationをインフレート
@@ -170,6 +179,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int winColor = Color.RED;
         int loseColor = Color.CYAN;
         int drawColor = Color.GREEN;
+        int life = 3;
+
 
         // Highが押された
         if (isHigh) {
@@ -190,6 +201,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 score = -1;
                 txtViewQuestion.setBackgroundColor(loseColor);
                 txtViewAnswer.setBackgroundColor(loseColor);
+                loseLife();
                 Animator animator = set.getChildAnimations().get(0);
 
 // アニメーションを再度開始
@@ -223,6 +235,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 score = -1;
                 txtViewQuestion.setBackgroundColor(loseColor);
                 txtViewAnswer.setBackgroundColor(loseColor);
+                loseLife();
                 Animator animator = set.getChildAnimations().get(0);
 
 // アニメーションを再度開始
@@ -274,6 +287,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }.start();
     }
 
+    private void loseLife() {
+        if (lives > 0) {
+            lives--;
+            hearts[lives].setVisibility(View.INVISIBLE);  // ハートを1つ非表示に
+        }}
+
     private void setScore(int score) {
         TextView txtScore = (TextView) findViewById(R.id.text_score);
         int newScore = Integer.parseInt(txtScore.getText().toString()) + score;
@@ -286,5 +305,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView txtScore = (TextView) findViewById(R.id.text_score);
         txtScore.setText("0");
     }
+
 }
+
 

@@ -77,6 +77,28 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="0" />
+            <ImageView
+                android:id="@+id/heart1"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_margin="4dp"
+                android:src="@drawable/heart"
+                android:contentDescription="Heart 1" />
+            <ImageView
+                android:id="@+id/heart2"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_margin="4dp"
+                android:src="@drawable/heart"
+                android:contentDescription="Heart 2" />
+            <ImageView
+                android:id="@+id/heart3"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_margin="4dp"
+                android:src="@drawable/heart"
+                android:contentDescription="Heart 3" />
+
         </LinearLayout>
 
 
