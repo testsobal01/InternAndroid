@@ -12,6 +12,7 @@ import android.content.Intent;
 import android.graphics.Insets;
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.media.MediaPlayer;
 import android.os.Build;
 import android.graphics.Color;
 
@@ -59,6 +60,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private static final String PREF_KEY_MAX = "pref_max_value";
     private static final int DEFAULT_MAX_VALUE = 10;
     private int maxRandomValue = DEFAULT_MAX_VALUE; // 現在の上限値
+    private MediaPlayer mediaPlayer;
 
     public class SoundPlayer {
 
@@ -146,6 +148,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView txtSetting = findViewById(R.id.text_setting);
         maxRandomValue = pref.getInt(PREF_KEY_MAX, DEFAULT_MAX_VALUE);
         txtSetting.setText(maxRandomValue + " が設定されています。");
+
+        mediaPlayer = MediaPlayer.create(this, R.raw.famipop3);
+        mediaPlayer.setLooping(true);  // ループ再生設定
+
 
 
     }
@@ -518,12 +524,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onResume() {
         super.onResume();
         score_Load();
+        if(mediaPlayer != null && !mediaPlayer.isPlaying()) {
+            mediaPlayer.start();
+        }
     }
 
     @Override
     protected void onPause() {
         super.onPause();
         score_Save();
+
+        if(mediaPlayer != null && mediaPlayer.isPlaying()) {
+            mediaPlayer.pause();
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(mediaPlayer != null) {
+            mediaPlayer.release();
+            mediaPlayer = null;
+        }
     }
 
     private void clearColorValue() {
