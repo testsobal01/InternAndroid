@@ -3,7 +3,11 @@ package com.example.makotomurase;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.sql.Time;
+
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Handler;
+import android.view.LayoutInflater;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import android.media.AudioAttributes;
@@ -42,7 +46,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button restartButton;
     private Handler handler;
     private long startTime;
-    private final long timeLimit = 30000;
+    private final long timeLimit = 10000;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +76,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         restartTimer();
     }
 
+    private void ShowGameOverPopup(){
+        LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View customLayout = inflater.inflate(R.layout.time, null);
+        TextView messageTextView = customLayout.findViewById(R.id.timeup);
+        messageTextView.setText(R.string.timeup);
+
+       TextView timeUpView = findViewById(R.id.text_time_up);
+       timeUpView.setVisibility(View.VISIBLE);
+
+        TextView timeUpView2 = findViewById(R.id.text_time);
+        timeUpView2.setVisibility(View.GONE);
+
+    }
+
     private Runnable updateTimer = new Runnable() {
         @Override
         public void run() {
@@ -85,8 +104,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             timerTextView.setText("残り時間：" + remainingSeconds);
 
             if(remainingTime <= 0){
-                timerTextView.setText("時間切れ！");
                 handler.removeCallbacks(this);
+                ShowGameOverPopup();
             }else{
                 handler.postDelayed(this,1000);
             }
