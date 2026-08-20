@@ -203,14 +203,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 result = "WIN";
                 score = 2;
                 correctSound();
-            } else if (question > answer) {
-                result = "LOSE";
-                score = -1;
-                blipSound();
 
                 //テキスト拡大
                 scale.start();
-            } else if (question > answer) {
+            }  else if (question > answer) {
                 result = "LOSE";
                 score = -1;
 
@@ -225,10 +221,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 result = "WIN";
                 score = 2;
                 correctSound();
-            } else if (question < answer) {
-                result = "LOSE";
-                score = -1;
-                blipSound();
 
                 //テキスト拡大
                 scale.start();
