@@ -1,5 +1,6 @@
 package com.example.makotomurase;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -7,8 +8,14 @@ import androidx.core.view.WindowInsetsCompat;
 
 import android.animation.ValueAnimator;
 import android.graphics.Color;
+import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
+import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -19,6 +26,9 @@ import org.w3c.dom.Text;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
+    SharedPreferences pref;
+    SharedPreferences.Editor prefEditor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,19 +52,64 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
 
+      /*  TextView scoreLabel = findViewById(R.id.text_score);
+        int score = getIntent().getIntExtra("SCORE", 0);
+        scoreLabel.setText(score + "");
+
+        SharedPreferences sharedPreferences = getSharedPreferences("GAME_DATA", MODE_PRIVATE);
+        int highScore = sharedPreferences.getInt("SCORE", 0);*/
+
+        pref = getSharedPreferences("AndroidSEminar",MODE_PRIVATE);
+        prefEditor = pref.edit();
+
+
+
+
+
+
         // 起動時に関数を呼び出す
         setQuestionValue();
     }
+    @Override
+    protected void onPause(){
+            super.onPause();
+            Toast.makeText(this,"onPause",Toast.LENGTH_SHORT).show();
+
+            TextView textView = (TextView) findViewById(R.id.text_score);
+
+
+            prefEditor.putInt("main_input", Integer.parseInt(textView.getText().toString()));
+            prefEditor.commit();
+
+         /*   TextView view3 = findViewById(R.id.text_score);
+            SharedPreferences preferences = getSharedPreferences("AndroidSEminar",MODE_PRIVATE);
+            pref.edit().putInt("score",score).apply();*/
+
+    }
+    @Override
+    protected void onResume(){
+            super.onResume();
+            Log.d("AndroidTest","onResume completed");
+            TextView textView = (TextView) findViewById(R.id.text_score);
+            String readText = String.valueOf(pref.getInt("main_input",0));
+            textView.setText(readText);
+
+    }
+
 
     @Override
     public void onClick(View view) {
         int id = view.getId();
         if (id == R.id.button1) {
             setAnswerValue();
-            checkResult(true);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                checkResult(true);
+            }
         } else if (id == R.id.button2) {
             setAnswerValue();
-            checkResult(false);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                checkResult(false);
+            }
         } else if (id == R.id.button3) {
             setQuestionValue();
             clearAnswerValue();
@@ -125,9 +180,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         txtView.setText(Integer.toString(answerValue));
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     private void checkResult(boolean isHigh) {
         TextView txtViewQuestion = findViewById(R.id.question);
         TextView txtViewAnswer = findViewById(R.id.answer);
+
+        Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
 
         int question = Integer.parseInt(txtViewQuestion.getText().toString());
         int answer = Integer.parseInt(txtViewAnswer.getText().toString());
@@ -144,9 +202,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = "WIN";
                 score = 2;
+                vibrator.vibrate(VibrationEffect.createOneShot(
+                        500, VibrationEffect.DEFAULT_AMPLITUDE));
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
+                vibrator.vibrate(VibrationEffect.createOneShot(
+                        1000, VibrationEffect.DEFAULT_AMPLITUDE));
             } else {
                 result = "DRAW";
                 score = 1;
@@ -155,9 +217,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question > answer) {
                 result = "WIN";
                 score = 2;
+                vibrator.vibrate(VibrationEffect.createOneShot(
+                        500, VibrationEffect.DEFAULT_AMPLITUDE));
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
+                vibrator.vibrate(VibrationEffect.createOneShot(
+                        1000, VibrationEffect.DEFAULT_AMPLITUDE));
             } else {
                 result = "DRAW";
                 score = 1;
@@ -207,5 +273,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView txtScore = (TextView) findViewById(R.id.text_score);
         txtScore.setText("0");
     }
+
+
 }
 
