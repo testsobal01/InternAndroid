@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<set xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!--オブジェクトアニメーターで点滅するようにする
+    duration:アニメーション一つの時間
+    valueTo:どこまで変化させるかの値
+    repeatCount:アニメーションを何回繰り返すか
+    repeatMode:アニメーションを逆方向に繰り返す-->
+    <objectAnimator
+        android:propertyName="alpha"
+        android:duration="500"
+        android:valueTo="0.5f"
+        android:repeatCount="3"
+        android:repeatMode="reverse"/>
+</set>
