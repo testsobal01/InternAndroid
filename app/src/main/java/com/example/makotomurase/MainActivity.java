@@ -6,6 +6,7 @@ import androidx.core.os.ConfigurationCompat;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import android.content.Intent;
 import android.app.AlertDialog;
 import android.content.res.Configuration;
 import android.content.res.Resources;
