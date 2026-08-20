@@ -5,8 +5,20 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import android.content.SharedPreferences;
+import android.media.AudioManager;
+import android.media.SoundPool;
+import android.util.Log;
+import android.os.Build;
+import android.content.Intent;
+import android.app.AlertDialog;
+import android.content.res.Configuration;
+import android.content.res.Resources;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -16,6 +28,13 @@ import java.util.Locale;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
+    SharedPreferences pref;
+    SharedPreferences.Editor prefEditor;
+
+    SoundPool soundPool;
+    int[] soundIds = new int[2];
+    int[] seFiles = {R.raw.button01a, R.raw.button01b};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +49,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             return windowInsets;
         });
 
+        soundPool = new SoundPool(soundIds.length, AudioManager.STREAM_MUSIC, 0);
+        for (int i = 0; i < soundIds.length; i++) {
+            soundIds[i] = soundPool.load(this, seFiles[i], 1);
+        }
+
+
         Button btn1 = findViewById(R.id.button1);
         btn1.setOnClickListener(this);
 
@@ -39,6 +64,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
 
+        pref = getSharedPreferences("AndroidSeminor",MODE_PRIVATE);
+        prefEditor = pref.edit();
+
         // 起動時に関数を呼び出す
         setQuestionValue();
     }
@@ -46,6 +74,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View view) {
         int id = view.getId();
+
         if (id == R.id.button1) {
             setAnswerValue();
             checkResult(true);
@@ -56,6 +85,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             setQuestionValue();
             clearAnswerValue();
             clearScoreValue();
+            VibrationB();
+        }
+
+        if (id == R.id.button1) {
+            soundPool.play(soundIds[0], 1.0F, 1.0F, 0, 0, 1.0F);
+            setAnswerValue();
+            checkResult(true);
+        } else if (id == R.id.button2) {
+            soundPool.play(soundIds[0], 1.0F, 1.0F, 0, 0, 1.0F);
+            setAnswerValue();
+            checkResult(false);
+        } else if (id == R.id.button3) {
+            soundPool.play(soundIds[1], 1.0F, 1.0F, 0, 0, 1.0F);
+            setQuestionValue();
+            clearAnswerValue();
+            clearScoreValue();
+        }
+    }
+    private void VibrationB() {
+        Vibrator vibrator = (Vibrator)  getSystemService(VIBRATOR_SERVICE);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            vibrator.vibrate(VibrationEffect.createOneShot(
+                    500, VibrationEffect.DEFAULT_AMPLITUDE));
         }
     }
 
@@ -82,8 +134,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void checkResult(boolean isHigh) {
+        final View BackGroud = findViewById(R.id.main);
+        BackGroud.setBackgroundColor(Color.WHITE);
+
+        //言語識別用の変数
         Locale locale = Locale.getDefault();
         String lang  = String.valueOf(locale);
+
         TextView txtViewQuestion = findViewById(R.id.question);
         TextView txtViewAnswer = findViewById(R.id.answer);
 
@@ -102,34 +159,41 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = "WIN";
                 score = 2;
-
+                BackGroud.setBackgroundColor(Color.GREEN);
+                VibrationB();
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
-
+                BackGroud.setBackgroundColor(Color.RED);
             } else {
                 result = "DRAW";
                 score = 1;
+                BackGroud.setBackgroundColor(Color.LTGRAY);
             }
         } else {
             if (question > answer) {
                 result = "WIN";
                 score = 2;
+                BackGroud.setBackgroundColor(Color.GREEN);
+                VibrationB();
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
+                BackGroud.setBackgroundColor(Color.RED);
             } else {
                 result = "DRAW";
                 score = 1;
+                BackGroud.setBackgroundColor(Color.LTGRAY);
             }
 
         }
 
         // 最後にまとめてToast表示の処理とTextViewへのセットを行う
         Toast.makeText(this, result, Toast.LENGTH_LONG).show();
-        if (lang.equals("ja")){
+        //端末が英語の場合と日本語の場合の分岐
+        if (lang.equals("ja_JP")){
             txtResult.setText("結果：" + question + ":" + answer + "(" + result + ")");
-        }else {
+        }else if(lang.equals("en_US")){
             txtResult.setText("Result：" + question + ":" + answer + "(" + result + ")");
         }
         // 続けて遊べるように値を更新
@@ -193,6 +257,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     }
                 })
                 .start();
+    }
+  
+    protected void onPause(){
+        super.onPause();
+        TextView txtScore = (TextView) findViewById(R.id.text_score);
+        int Save_score = Integer.parseInt(txtScore.getText().toString());
+
+        prefEditor.putInt("main_input", Save_score);
+        prefEditor.commit();
+    }
+
+    protected void onResume() {
+        super.onResume();
+        Log.d("AndroidTest","onResume completed.");
+
+        TextView txtScore = (TextView) findViewById(R.id.text_score);
+
+        int readScore = pref.getInt("main_input",0);
+        txtScore.setText(String.valueOf(readScore));
     }
 }
 
