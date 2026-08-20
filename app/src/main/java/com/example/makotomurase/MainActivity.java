@@ -4,7 +4,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.lifecycle.viewmodel.CreationExtras;
 
+import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
@@ -29,6 +32,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             return windowInsets;
         });
 
+
+        Intent intent2 = getIntent();
+        Bundle extra=intent2.getExtras();
+
+
+
+
         Button btn1 = findViewById(R.id.button1);
         btn1.setOnClickListener(this);
 
@@ -42,8 +52,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setQuestionValue();
     }
 
+
     @Override
     public void onClick(View view) {
+
+
+
+
         int id = view.getId();
         if (id == R.id.button1) {
             setAnswerValue();
@@ -56,6 +71,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             clearAnswerValue();
             clearScoreValue();
         }
+
+
+
     }
 
     private void clearAnswerValue() {
