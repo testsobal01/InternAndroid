@@ -1,30 +1,42 @@
 package com.example.makotomurase;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import android.annotation.SuppressLint;
 import android.animation.Animator;
 import android.animation.AnimatorInflater;
 import android.animation.AnimatorSet;
 import android.app.AlertDialog;
 import android.content.SharedPreferences;
+import android.content.res.AssetFileDescriptor;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import android.content.Context;
+import android.media.SoundPool;
+import java.io.IOException;
 import java.util.Objects;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     SharedPreferences pref;
     SharedPreferences.Editor prefEditor;
+    private MediaPlayer mediaPlayer;
 
     //AnimatorSetオブジェクトを宣言
     /**
@@ -34,6 +46,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     AnimatorSet blink;
     AnimatorSet scale;
 
+    // 効果音
+    private static SoundPool soundPool;
+//    private SoundPlayer soundPlayer;
+    private static int correct_answer1 = 1;
+    private static int blip01 = 1;
+
+    @SuppressLint("MissingSuperCall")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,11 +81,35 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button btn4 = (Button) findViewById(R.id.button4);
         btn4.setOnClickListener(this);
 
+        SoundPlayer(this);
+        //soundPlayer = new SoundPlayer(this);
+        //SoundPool soundPlayer = SoundPlayer(this);
         pref = getSharedPreferences("MakotoMurase",MODE_PRIVATE);
         prefEditor = pref.edit();
 
         // 起動時に関数を呼び出す
         setQuestionValue();
+
+        //番号11　BGMの追加
+        Button buttonStart = findViewById(R.id.start);
+        buttonStart.setOnClickListener( v ->  {
+            // 音楽再生
+            audioPlay();
+        });
+
+        Button buttonStop = findViewById(R.id.stop);
+        buttonStop.setOnClickListener( v -> {
+            if (mediaPlayer != null) {
+                audioStop();
+            }
+        });
+
+        ImageView fooder=findViewById(R.id.footer);
+        fooder.setOnClickListener(view -> {
+            Toast.makeText(getApplicationContext(),"\uD83E\uDEF5ω・´)<貴様ッ！なぜわかった！",Toast.LENGTH_SHORT).show();
+        });
+        //  もし何かフッター触ったときにに入れたいのなら{}の中身をいじろう(番号9)
+
 
         //テキストビューを取得
         TextView player = (TextView) findViewById(R.id.answer);
@@ -78,6 +121,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         scale.setTarget(player);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onClick(View view) {
         int id = view.getId();
@@ -99,6 +143,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }else if(id == R.id.button4){
             setRandomColor();
         }
+
+
+
     }
 
     private void clearAnswerValue() {
@@ -123,6 +170,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         txtView.setText(Integer.toString(answerValue));
     }
 
+
+    public void SoundPlayer(Context context) {
+
+        soundPool = new SoundPool(2, AudioManager.STREAM_MUSIC, 0);
+
+        correct_answer1 = soundPool.load(context, R.raw.correct_answer1, 0);
+        blip01 = soundPool.load(context, R.raw.blip01, 0);
+    }
+
+    public void correctSound() {
+        soundPool.play(correct_answer1, 1.0f, 1.0f, 1, 0, 1.0f);
+    }
+
+    public void blipSound() {
+        soundPool.play(blip01, 1.0f, 1.0f, 1, 0, 1.0f);
+    }
+
     private void checkResult(boolean isHigh) {
         TextView txtViewQuestion = findViewById(R.id.question);
         TextView txtViewAnswer = findViewById(R.id.answer);
@@ -142,10 +206,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = "WIN";
                 score = 2;
+                correctSound();
 
                 //テキスト拡大
                 scale.start();
-            } else if (question > answer) {
+            }  else if (question > answer) {
                 result = "LOSE";
                 score = -1;
 
@@ -159,6 +224,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question > answer) {
                 result = "WIN";
                 score = 2;
+                correctSound();
 
                 //テキスト拡大
                 scale.start();
@@ -226,7 +292,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-
+    //番号２　プリファレンスにスコアを保存
     @Override
     protected void onPause(){
         super.onPause();
@@ -237,7 +303,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         prefEditor.putString("score",textView.getText().toString());
         prefEditor.commit();
     }
-
     @Override
     protected void onResume(){
         super.onResume();
@@ -260,6 +325,59 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Toast.makeText(this,"Colors has Changed!",Toast.LENGTH_SHORT).show();
         text1.setBackgroundColor(colorQ);
         text2.setBackgroundColor(colorA);
+    }
+
+    //番号11　BGMの追加
+    private boolean audioSetup(){
+        mediaPlayer = new MediaPlayer();
+
+        String filePath = "music.mp3";
+
+        try(AssetFileDescriptor afdescripter = getAssets().openFd(filePath))
+        {
+            mediaPlayer.setDataSource(
+                    afdescripter.getFileDescriptor(),
+                    afdescripter.getStartOffset(),
+                    afdescripter.getLength());
+            setVolumeControlStream(AudioManager.STREAM_MUSIC);
+            mediaPlayer.prepare();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        return true;
+    }
+    private void audioPlay() {
+
+        if (mediaPlayer == null) {
+            if (audioSetup()){
+                Toast.makeText(getApplication(), "Rread audio file", Toast.LENGTH_SHORT).show();
+            }
+            else{
+                Toast.makeText(getApplication(), "Error: read audio file", Toast.LENGTH_SHORT).show();
+                return;
+            }
+        }
+        else{
+            mediaPlayer.stop();
+            mediaPlayer.reset();
+            mediaPlayer.release();
+        }
+
+        mediaPlayer.start();
+
+        mediaPlayer.setOnCompletionListener( mp -> {
+            Log.d("debug","end of audio");
+            audioStop();
+        });
+
+    }
+    private void audioStop() {
+        mediaPlayer.stop();
+        mediaPlayer.reset();
+        mediaPlayer.release();
+
+        mediaPlayer = null;
     }
 }
 
