@@ -1,5 +1,6 @@
 package com.example.makotomurase;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -10,12 +11,14 @@ import android.animation.AnimatorInflater;
 import android.animation.AnimatorSet;
 import android.app.AlertDialog;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -65,6 +68,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // 起動時に関数を呼び出す
         setQuestionValue();
 
+        ImageView fooder=findViewById(R.id.footer);
+        fooder.setOnClickListener(this);
+        //  もし何かフッター触ったときにに入れたいのならonClickから使っていじろう(番号9)
+
+
         //テキストビューを取得
         TextView player = (TextView) findViewById(R.id.answer);
 
@@ -75,6 +83,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         scale.setTarget(player);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onClick(View view) {
         int id = view.getId();
