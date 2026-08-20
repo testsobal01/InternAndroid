@@ -19,6 +19,8 @@ import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
+    private SoundPlayer soundPlayer;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,6 +42,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
+
+        soundPlayer = new SoundPlayer(this);
 
         // 起動時に関数を呼び出す
         setQuestionValue();
@@ -129,6 +133,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         }
 
+        if (result == "WIN") {
+            soundPlayer.playWinSound();
+        } else if (result == "LOSE") {
+            soundPlayer.playLoseSound();
+        } else {
+            soundPlayer.playDrawSound();
+        }
+
         // 最後にまとめてToast表示の処理とTextViewへのセットを行う
         Toast.makeText(this, result, Toast.LENGTH_LONG).show();
         txtResult.setText(question + ":" + answer + "(" + result + ")");
@@ -164,6 +176,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void clearScoreValue() {
+        
+        soundPlayer.playResetSound();
         TextView txtScore = (TextView) findViewById(R.id.text_score);
         txtScore.setText("0");
     }
