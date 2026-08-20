@@ -27,7 +27,9 @@ import java.util.Locale;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
-
+    int wincount;//勝利回数
+    int losecount;//敗北回数
+    int drawcount;//引き分け回数
     SharedPreferences pref;
     SharedPreferences.Editor prefEditor;
 
@@ -74,6 +76,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             setQuestionValue();
             clearAnswerValue();
             clearScoreValue();
+            clearWinRateValue();
             VibrationB();
         }
     }
@@ -125,6 +128,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // 結果を示す文字列を入れる変数を用意
         String result;
+
         int score;
 
         // Highが押された
@@ -133,30 +137,36 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = "WIN";
                 score = 2;
+                wincount += 1;
                 BackGroud.setBackgroundColor(Color.GREEN);
                 VibrationB();
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
+                losecount += 1;
                 BackGroud.setBackgroundColor(Color.CYAN);
             } else {
                 result = "DRAW";
                 score = 1;
+                drawcount += 1;
                 BackGroud.setBackgroundColor(Color.LTGRAY);
             }
         } else {
             if (question > answer) {
                 result = "WIN";
                 score = 2;
+                wincount += 1;
                 BackGroud.setBackgroundColor(Color.GREEN);
                 VibrationB();
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
+                losecount += 1;
                 BackGroud.setBackgroundColor(Color.CYAN);
             } else {
                 result = "DRAW";
                 score = 1;
+                drawcount += 1;
                 BackGroud.setBackgroundColor(Color.LTGRAY);
             }
         }
@@ -173,6 +183,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setNextQuestion();
         // スコアを表示
         setScore(score);
+        //勝率を表示
+        setWinrate(wincount,losecount,drawcount);
+
     }
 
     private void setNextQuestion() {
@@ -197,6 +210,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView txtScore = (TextView) findViewById(R.id.text_score);
         int newScore = Integer.parseInt(txtScore.getText().toString()) + score;
         txtScore.setText(Integer.toString(newScore));
+    }
+    private void setWinrate(int win,int lose,int draw){
+        TextView winScore = (TextView) findViewById(R.id.win_result);
+        double winrate = (double) win/(win+lose+draw) *100;
+        winScore.setText(String.format("%.3f",winrate));
+    }
+    private void clearWinRateValue(){
+        TextView winScore = (TextView) findViewById(R.id.win_result);
+        wincount = 0;
+        losecount = 0;
+        drawcount = 0;
+        winScore.setText("");
     }
 
     private void clearScoreValue() {

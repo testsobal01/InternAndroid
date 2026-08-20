@@ -49,12 +49,19 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/label_title" />
-
-        <TextView
-            android:id="@+id/text_result"
+        <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/text_result"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/win_result"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
 
+        </LinearLayout>
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
@@ -94,8 +101,13 @@
                 android:gravity="center"
                 android:text="@string/value2"
                 android:textSize="60sp" />
+
+
         </LinearLayout>
 
+
     </LinearLayout>
+
+
 
 </LinearLayout>
