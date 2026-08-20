@@ -5,8 +5,13 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -15,6 +20,9 @@ import android.widget.Toast;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
+    SharedPreferences pref;
+    SharedPreferences.Editor prefEditor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +48,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // 起動時に関数を呼び出す
         setQuestionValue();
+
+        pref = getSharedPreferences("Score", MODE_PRIVATE);
+        prefEditor = pref.edit();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        TextView textview = (TextView) findViewById(R.id.text_score);
+
+        prefEditor.putString("score_input", textview.getText().toString());
+        prefEditor.commit();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        TextView textview = (TextView) findViewById(R.id.text_score);
+
+        String readText = pref.getString("score_input","0");
+        textview.setText(readText);
+
     }
 
     @Override
@@ -101,25 +131,38 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = getString(R.string.WIN);
                 score = 2;
+                txtViewQuestion.setBackgroundColor(Color.parseColor("#FF8C00"));
+                txtViewAnswer.setBackgroundColor(Color.parseColor("#FF4500"));
             } else if (question > answer) {
                 result = getString(R.string.LOSE);
                 score = -1;
+                txtViewQuestion.setBackgroundColor(Color.parseColor("#808080"));
+                txtViewAnswer.setBackgroundColor(Color.parseColor("#A9A9A9"));
             } else {
                 result = getString(R.string.DRAW);
                 score = 1;
+                txtViewQuestion.setBackgroundColor(Color.parseColor("#ff00ff"));
+                txtViewAnswer.setBackgroundColor(Color.parseColor("#ffff00"));
             }
         } else {
             if (question > answer) {
                 result = getString(R.string.WIN);
                 score = 2;
+                txtViewQuestion.setBackgroundColor(Color.parseColor("#FF8C00"));
+                txtViewAnswer.setBackgroundColor(Color.parseColor("#FF4500"));
             } else if (question < answer) {
                 result = getString(R.string.LOSE);
                 score = -1;
+                txtViewQuestion.setBackgroundColor(Color.parseColor("#808080"));
+                txtViewAnswer.setBackgroundColor(Color.parseColor("#A9A9A9"));
             } else {
                 result = getString(R.string.DRAW);
                 score = 1;
+                txtViewQuestion.setBackgroundColor(Color.parseColor("#ff00ff"));
+                txtViewAnswer.setBackgroundColor(Color.parseColor("#ffff00"));
             }
         }
+
 
         // 最後にまとめてToast表示の処理とTextViewへのセットを行う
         Toast.makeText(this, result, Toast.LENGTH_LONG).show();
@@ -145,6 +188,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public void onFinish() {
                 // 3秒経過したら次の値をセット
                 setQuestionValue();
+                Vibrator vibrator = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+               vibrator.vibrate(VibrationEffect.createOneShot(
+               1000,VibrationEffect.DEFAULT_AMPLITUDE));
             }
         }.start();
     }

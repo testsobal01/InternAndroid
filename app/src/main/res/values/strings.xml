@@ -1,7 +1,9 @@
 <resources>
     <string name="app_name" translatable="false">SobalTest</string>
+    <string name="title">HIGH AND LOW</string>
     <string name="btn_high">High</string>
     <string name="btn_low">Low</string>
+    <string name="btn_start">START</string>
     <string name="btn_restart">Restart</string>
     <string name="label_score">Score：</string>
     <string name="resurt">結果</string>
