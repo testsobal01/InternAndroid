@@ -1,5 +1,6 @@
 package com.example.makotomurase;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -10,6 +11,7 @@ import android.animation.AnimatorInflater;
 import android.animation.AnimatorSet;
 import android.app.AlertDialog;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.VibrationEffect;
@@ -75,6 +77,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         scale.setTarget(player);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onClick(View view) {
         int id = view.getId();
@@ -209,17 +212,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         txtScore.setText("0");
     }
 
-    public void changeBackgroundColor(String result){
+    public void changeBackgroundColor(String result) {
         View layout = findViewById(R.id.layout);
 
-        if(Objects.equals(result, "WIN")){
+        if (Objects.equals(result, "WIN")) {
             layout.setBackgroundColor(0xFFFF0000);
-        }else if(Objects.equals(result, "LOSE")){
+        } else if (Objects.equals(result, "LOSE")) {
             layout.setBackgroundColor(0xFFAFDFE4);
-        }else if(Objects.equals(result, "DRAW")){
+        } else if (Objects.equals(result, "DRAW")) {
             layout.setBackgroundColor(0xFF00FF00);
         }
-
+    }
     @Override
     protected void onPause(){
         super.onPause();
