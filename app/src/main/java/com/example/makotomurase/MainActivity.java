@@ -6,6 +6,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import android.annotation.SuppressLint;
 import android.animation.Animator;
 import android.animation.AnimatorInflater;
 import android.animation.AnimatorSet;
@@ -22,6 +23,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import android.content.Context;
+import android.media.AudioManager;
+import android.media.SoundPool;
+
 import java.util.Objects;
 import java.util.Random;
 
@@ -37,6 +42,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     AnimatorSet blink;
     AnimatorSet scale;
 
+    // 効果音
+    private static SoundPool soundPool;
+//    private SoundPlayer soundPlayer;
+    private static int correct_answer1 = 1;
+    private static int blip01 = 1;
+
+    @SuppressLint("MissingSuperCall")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,6 +74,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
 
+
+        SoundPlayer(this);
+        //soundPlayer = new SoundPlayer(this);
+        //SoundPool soundPlayer = SoundPlayer(this);
         pref = getSharedPreferences("MakotoMurase",MODE_PRIVATE);
         prefEditor = pref.edit();
 
@@ -127,6 +143,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         txtView.setText(Integer.toString(answerValue));
     }
 
+
+    public void SoundPlayer(Context context) {
+
+        soundPool = new SoundPool(2, AudioManager.STREAM_MUSIC, 0);
+
+        correct_answer1 = soundPool.load(context, R.raw.correct_answer1, 0);
+        blip01 = soundPool.load(context, R.raw.blip01, 0);
+    }
+
+    public void correctSound() {
+        soundPool.play(correct_answer1, 1.0f, 1.0f, 1, 0, 1.0f);
+    }
+
+    public void blipSound() {
+        soundPool.play(blip01, 1.0f, 1.0f, 1, 0, 1.0f);
+    }
+
     private void checkResult(boolean isHigh) {
         TextView txtViewQuestion = findViewById(R.id.question);
         TextView txtViewAnswer = findViewById(R.id.answer);
@@ -146,6 +179,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = "WIN";
                 score = 2;
+                correctSound();
+            } else if (question > answer) {
+                result = "LOSE";
+                score = -1;
+                blipSound();
 
                 //テキスト拡大
                 scale.start();
@@ -163,6 +201,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question > answer) {
                 result = "WIN";
                 score = 2;
+                correctSound();
+            } else if (question < answer) {
+                result = "LOSE";
+                score = -1;
+                blipSound();
 
                 //テキスト拡大
                 scale.start();
