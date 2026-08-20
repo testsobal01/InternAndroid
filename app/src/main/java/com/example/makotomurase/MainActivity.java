@@ -78,8 +78,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         option.setOnClickListener(this);
 
         max = 10;
-        TextView maxvalue = findViewById(R.id.question);
-        maxvalue.setText(max+"が設定されています");
         // 起動時に関数を呼び出す
         setQuestionValue();
 
@@ -153,7 +151,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void setQuestionValue() {
         Random r = new Random();
         // 0から10の範囲で乱数を生成（+1する必要がある）
-        int questionValue = r.nextInt(max + 1);
+        int questionValue = r.nextInt(max - 9)+10;
 
         TextView txtView = findViewById(R.id.question);
         txtView.setText(Integer.toString(questionValue));
