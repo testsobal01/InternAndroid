@@ -5,6 +5,8 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
@@ -99,25 +101,38 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = "WIN";
                 score = 2;
+                txtViewQuestion.setBackgroundColor(Color.parseColor("#FF8C00"));
+                txtViewAnswer.setBackgroundColor(Color.parseColor("#FF4500"));
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
+                txtViewQuestion.setBackgroundColor(Color.parseColor("#808080"));
+                txtViewAnswer.setBackgroundColor(Color.parseColor("#A9A9A9"));
             } else {
                 result = "DRAW";
                 score = 1;
+                txtViewQuestion.setBackgroundColor(Color.parseColor("#ff00ff"));
+                txtViewAnswer.setBackgroundColor(Color.parseColor("#ffff00"));
             }
         } else {
             if (question > answer) {
                 result = "WIN";
                 score = 2;
+                txtViewQuestion.setBackgroundColor(Color.parseColor("#FF8C00"));
+                txtViewAnswer.setBackgroundColor(Color.parseColor("#FF4500"));
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
+                txtViewQuestion.setBackgroundColor(Color.parseColor("#808080"));
+                txtViewAnswer.setBackgroundColor(Color.parseColor("#A9A9A9"));
             } else {
                 result = "DRAW";
                 score = 1;
+                txtViewQuestion.setBackgroundColor(Color.parseColor("#ff00ff"));
+                txtViewAnswer.setBackgroundColor(Color.parseColor("#ffff00"));
             }
         }
+
 
         // 最後にまとめてToast表示の処理とTextViewへのセットを行う
         Toast.makeText(this, result, Toast.LENGTH_LONG).show();
