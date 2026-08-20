@@ -5,6 +5,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -20,6 +21,8 @@ import java.util.Random;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private SoundPlayer soundPlayer;
+    SharedPreferences pref;
+    SharedPreferences.Editor prefEditor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +50,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // 起動時に関数を呼び出す
         setQuestionValue();
+
+        pref=getSharedPreferences("Score",MODE_PRIVATE);
+        prefEditor=pref.edit();
     }
 
     @Override
@@ -70,6 +76,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             clearAnswerValue();
             clearScoreValue();
         }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        TextView textView = (TextView) findViewById(R.id.text_score);
+        prefEditor.putString("score_input",textView.getText().toString());
+        prefEditor.commit();
+    }
+
+    @Override
+    protected void onResume(){
+        super.onResume();
+        TextView textView = (TextView)findViewById(R.id.text_score);
+        String readText=pref.getString("score_input","0");
+        textView.setText(readText);
     }
 
     private void clearAnswerValue() {
