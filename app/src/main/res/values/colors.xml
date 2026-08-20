@@ -2,8 +2,4 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="bgQuestionDefault">#FFDDDD</color>
-    <color name="bgQuestionWin">#FFAAAA</color>
-    <color name="bgAnswerDefault">#DDDDFF</color>
-    <color name="bgAnswerWin">#AAAAFF</color>
 </resources>
