@@ -1,6 +1,7 @@
 package com.example.makotomurase;
 
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -12,12 +13,14 @@ import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.LimitExceededException;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,6 +32,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     SharedPreferences pref;
     SharedPreferences.Editor prefEditor;
+
+    public static final int LIMIT_INIT = 10;
+
+    int limit = LIMIT_INIT;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +59,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
 
+        Button btnSetting = findViewById(R.id.settingBtn);
+        btnSetting.setOnClickListener(this);
+
+        TextView lblLimit = findViewById(R.id.label_limit);
+        lblLimit.setText(getResources().getString(R.string.label_limit, limit));
+
       /*  TextView scoreLabel = findViewById(R.id.text_score);
         int score = getIntent().getIntExtra("SCORE", 0);
         scoreLabel.setText(score + "");
@@ -68,7 +81,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
         // 起動時に関数を呼び出す
-        setQuestionValue();
+        setQuestionValue(limit);
     }
     @Override
     protected void onPause(){
@@ -101,20 +114,49 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View view) {
         int id = view.getId();
         if (id == R.id.button1) {
-            setAnswerValue();
+            setAnswerValue(limit);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 checkResult(true);
             }
         } else if (id == R.id.button2) {
-            setAnswerValue();
+            setAnswerValue(limit);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 checkResult(false);
             }
         } else if (id == R.id.button3) {
-            setQuestionValue();
+            setQuestionValue(limit);
             clearAnswerValue();
             clearScoreValue();
             resetBgColor();
+        } else if (id == R.id.settingBtn) {
+            //numberPicker宣言
+            final NumberPicker numPicker = new NumberPicker(getApplicationContext());
+            numPicker.setValue(limit);
+            numPicker.setMinValue(10);
+            numPicker.setMaxValue(50);
+
+            //AlertDialog準備
+            AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+
+            //タイトル設定
+            builder.setTitle(getResources().getString(R.string.dialogTitle))
+                    //numberPicker配置
+                    .setView(numPicker)
+                    //Yesボタン
+                    .setPositiveButton(
+                            getResources().getString(R.string.dialogYesBtn),
+                            (dialog, which) -> {
+                                //上限値を更新
+                                limit = numPicker.getValue();
+                                TextView lblLimit = findViewById(R.id.label_limit);
+                                lblLimit.setText(getResources().getString(R.string.label_limit, limit));
+                            }
+                    )
+                    //Noボタン
+                    .setNegativeButton(
+                            getResources().getString(R.string.dialogNoBtn),
+                            null
+                    ).show();
         }
     }
 
@@ -163,18 +205,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         colorAnimator.start();
     }
 
-    private void setQuestionValue() {
+    private void setQuestionValue(int num) {
         Random r = new Random();
         // 0から10の範囲で乱数を生成（+1する必要がある）
-        int questionValue = r.nextInt(10 + 1);
+        int questionValue = r.nextInt(num + 1);
 
         TextView txtView = findViewById(R.id.question);
         txtView.setText(Integer.toString(questionValue));
     }
 
-    private void setAnswerValue() {
+    private void setAnswerValue(int num) {
         Random r = new Random();
-        int answerValue = r.nextInt(10 + 1);
+        int answerValue = r.nextInt(num + 1);
 
         TextView txtView = findViewById(R.id.answer);
         txtView.setText(Integer.toString(answerValue));
@@ -257,7 +299,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onFinish() {
                 // 3秒経過したら次の値をセット
-                setQuestionValue();
+                setQuestionValue(limit);
                 resetBgColor();
             }
         }.start();

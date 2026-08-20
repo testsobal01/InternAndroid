@@ -14,7 +14,8 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
             <Button
                 android:id="@+id/button1"
@@ -36,9 +37,16 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
                 android:text="@string/btn_restart" />
+
+            <Button
+                android:id="@+id/settingBtn"
+                android:layout_width="30pt"
+                android:layout_height="wrap_content"
+                android:text="@string/btn_setting"/>
         </LinearLayout>
 
         <TextView
+            android:id="@+id/label_limit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/label_limit" />
@@ -49,7 +57,7 @@
             android:layout_height="wrap_content" />
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <TextView
