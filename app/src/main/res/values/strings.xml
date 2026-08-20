@@ -13,5 +13,7 @@
     <string name="word1">10が設定されています。</string>
     <string name="num1">値1</string>
     <string name="num2">値2</string>
+    <string name="rule">RULE</string>
+    <string name="back">BACK</string>
 
 </resources>
