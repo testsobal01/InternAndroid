@@ -6,10 +6,14 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,21 +38,44 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             return windowInsets;
         });
 
-        Button btn1 = findViewById(R.id.button1);
+        //ボタン押したらへこむように見えるやつ
+        View.OnTouchListener darkenTouchListener = new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent event) {
+                ImageButton imageButton = (ImageButton) view;
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        view.setAlpha(0.6f);
+                        break;
+
+                    case MotionEvent.ACTION_UP:
+                    case MotionEvent.ACTION_CANCEL:
+                        view.setAlpha(1.0f);
+                        break;
+                }
+                return false;
+            }
+        };
+
+        ImageButton btn1 = findViewById(R.id.button1);
         btn1.setOnClickListener(this);
+        btn1.setOnTouchListener(darkenTouchListener);
 
-        Button btn2 = findViewById(R.id.button2);
+        ImageButton btn2 = findViewById(R.id.button2);
         btn2.setOnClickListener(this);
+        btn2.setOnTouchListener(darkenTouchListener);
 
-        Button btn3 = (Button) findViewById(R.id.button3);
+        ImageButton btn3 = (ImageButton) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
+        btn3.setOnTouchListener(darkenTouchListener);
 
         // 起動時に関数を呼び出す
         setQuestionValue();
 
         //"AndroidSemonor"は、スコアを保存する先のファイル名的な奴
-        pref = getSharedPreferences("AndroidSeminor",MODE_PRIVATE);
+        pref = getSharedPreferences("AndroidSeminor", MODE_PRIVATE);
         prefEditor = pref.edit();
+
     }
 
     @Override
