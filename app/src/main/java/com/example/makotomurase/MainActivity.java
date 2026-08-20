@@ -59,6 +59,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
 
+        Button btn4 = (Button) findViewById(R.id.button4);
+        btn4.setOnClickListener(this);
+
         pref = getSharedPreferences("MakotoMurase",MODE_PRIVATE);
         prefEditor = pref.edit();
 
@@ -93,6 +96,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             setQuestionValue();
             clearAnswerValue();
             clearScoreValue();
+        }else if(id == R.id.button4){
+            setRandomColor();
         }
     }
 
@@ -209,16 +214,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         txtScore.setText("0");
     }
 
-    public void changeBackgroundColor(String result){
+    public void changeBackgroundColor(String result) {
         View layout = findViewById(R.id.layout);
 
-        if(Objects.equals(result, "WIN")){
+        if (Objects.equals(result, "WIN")) {
             layout.setBackgroundColor(0xFFFF0000);
-        }else if(Objects.equals(result, "LOSE")){
+        } else if (Objects.equals(result, "LOSE")) {
             layout.setBackgroundColor(0xFFAFDFE4);
-        }else if(Objects.equals(result, "DRAW")){
+        } else if (Objects.equals(result, "DRAW")) {
             layout.setBackgroundColor(0xFF00FF00);
         }
+    }
+
 
     @Override
     protected void onPause(){
@@ -239,6 +246,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         String readText = pref.getString("score","0");
         textView.setText(readText);
+    }
+
+    //番号13：値１・値2の色変更（ランダム）
+    public void setRandomColor(){
+        Random random = new Random();
+        View text1 = findViewById(R.id.question);
+        View text2 = findViewById(R.id.answer);
+
+        int[] ColorPalette = {0xFFFF0000,0xFFFFA100,0xFFFFFF00,0xFF00FF00,0xFFAAFFFF,0xFF0000FF,0xFFAA00FF,0xFFFF00FF};
+        int colorQ = ColorPalette[random.nextInt(8)];
+        int colorA = ColorPalette[random.nextInt(8)];
+        Toast.makeText(this,"Colors has Changed!",Toast.LENGTH_SHORT).show();
+        text1.setBackgroundColor(colorQ);
+        text2.setBackgroundColor(colorA);
     }
 }
 
