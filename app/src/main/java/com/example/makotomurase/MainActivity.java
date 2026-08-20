@@ -12,6 +12,8 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.w3c.dom.Text;
+
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -55,12 +57,32 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             setQuestionValue();
             clearAnswerValue();
             clearScoreValue();
+            resetBgColor();
         }
     }
 
     private void clearAnswerValue() {
-        TextView txtView = (TextView) findViewById(R.id.answer);
-        txtView.setText("値2");
+        TextView ansView = (TextView) findViewById(R.id.answer);
+        ansView.setText(getResources().getString(R.string.label_answer));
+    }
+
+    private void resetBgColor() {
+        TextView ansView = (TextView) findViewById(R.id.answer);
+        TextView qstView = (TextView) findViewById(R.id.question);
+
+        ansView.setBackgroundColor(getResources().getColor(R.color.bgAnswerDefault));
+        qstView.setBackgroundColor(getResources().getColor(R.color.bgQuestionDefault));
+    }
+
+    private  void setWinnerBgColor(String result) {
+        TextView ansView = (TextView) findViewById(R.id.answer);
+        TextView qstView = (TextView) findViewById(R.id.question);
+
+        if (result.equals("WIN")){
+            ansView.setBackgroundColor(getResources().getColor(R.color.bgAnswerWin));
+        } else if (result.equals("LOSE")){
+            qstView.setBackgroundColor(getResources().getColor(R.color.bgQuestionWin));
+        }
     }
 
     private void setQuestionValue() {
@@ -121,7 +143,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // 最後にまとめてToast表示の処理とTextViewへのセットを行う
         Toast.makeText(this, result, Toast.LENGTH_LONG).show();
-        txtResult.setText("結果：" + question + ":" + answer + "(" + result + ")");
+        txtResult.setText(getResources().getString(R.string.label_result, question, answer, result));
+
+        // 勝ったほうの背景色を変更
+        setWinnerBgColor(result);
 
         // 続けて遊べるように値を更新
         setNextQuestion();
@@ -143,6 +168,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public void onFinish() {
                 // 3秒経過したら次の値をセット
                 setQuestionValue();
+                resetBgColor();
             }
         }.start();
     }
