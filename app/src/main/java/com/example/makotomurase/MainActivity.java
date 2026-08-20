@@ -1,10 +1,12 @@
 package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
@@ -93,29 +95,44 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         String result;
         int score;
 
+        TextView myLayout=findViewById(R.id.question);
+        TextView myLayout1=findViewById(R.id.answer);
+
         // Highが押された
         if (isHigh) {
             // result には結果のみを入れる
             if (question < answer) {
                 result = "WIN";
                 score = 2;
+                myLayout.setBackgroundColor(Color.GREEN);
+                myLayout1.setBackgroundColor(Color.GREEN);
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
+                myLayout.setBackgroundColor(Color.BLUE);
+                myLayout1.setBackgroundColor(Color.BLUE);
             } else {
                 result = "DRAW";
                 score = 1;
+                myLayout.setBackgroundColor(Color.GRAY);
+                myLayout1.setBackgroundColor(Color.GRAY);
             }
         } else {
             if (question > answer) {
                 result = "WIN";
                 score = 2;
+                myLayout.setBackgroundColor(Color.GREEN);
+                myLayout1.setBackgroundColor(Color.GREEN);
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
+                myLayout.setBackgroundColor(Color.BLUE);
+                myLayout1.setBackgroundColor(Color.BLUE);
             } else {
                 result = "DRAW";
                 score = 1;
+                myLayout.setBackgroundColor(Color.GRAY);
+                myLayout1.setBackgroundColor(Color.GRAY);
             }
         }
 
