@@ -85,8 +85,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setQuestionValue();
 
         ImageView fooder=findViewById(R.id.footer);
-        fooder.setOnClickListener(this);
-        //  もし何かフッター触ったときにに入れたいのならonClickから使っていじろう(番号9)
+        fooder.setOnClickListener(view -> {
+            Toast.makeText(getApplicationContext(),"\uD83E\uDEF5ω・´)<貴様ッ！なぜわかった！",Toast.LENGTH_SHORT).show();
+        });
+        //  もし何かフッター触ったときにに入れたいのなら{}の中身をいじろう(番号9)
 
 
         //テキストビューを取得
@@ -119,6 +121,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             clearAnswerValue();
             clearScoreValue();
         }
+
+
+
     }
 
     private void clearAnswerValue() {
@@ -261,17 +266,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         txtScore.setText("0");
     }
 
-    public void changeBackgroundColor(String result){
+    public void changeBackgroundColor(String result) {
         View layout = findViewById(R.id.layout);
 
-        if(Objects.equals(result, "WIN")){
+        if (Objects.equals(result, "WIN")) {
             layout.setBackgroundColor(0xFFFF0000);
-        }else if(Objects.equals(result, "LOSE")){
+        } else if (Objects.equals(result, "LOSE")) {
             layout.setBackgroundColor(0xFFAFDFE4);
-        }else if(Objects.equals(result, "DRAW")){
+        } else if (Objects.equals(result, "DRAW")) {
             layout.setBackgroundColor(0xFF00FF00);
         }
-
+    }
     @Override
     protected void onPause(){
         super.onPause();
