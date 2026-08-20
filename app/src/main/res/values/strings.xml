@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">SobalTestchange app name</string>
+    <string name="app_name">change app name</string>
     <string name="btn_high">High</string>
     <string name="btn_low">Low</string>
     <string name="btn_restart">Restart</string>
