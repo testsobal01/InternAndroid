@@ -5,4 +5,13 @@
     <string name="btn_restart">Restart</string>
     <string name="label_score">Score：</string>
     <string name="btnext">ゲームスタート</string>
+    <string name="settings">Settings</string>
+    <string name="close">Close</string>
+    <string name="action_settings">Setting 1</string>
+    <string name="action_settings2">Setting 2</string>
+    <string name="action_settings3">Setting 3</string>
+    <string name="setting_num">10 is set</string>
+    <string name="num1">number 1</string>
+    <string name="num2">number 2</string>
+    <string name="result">Result：</string>
 </resources>
