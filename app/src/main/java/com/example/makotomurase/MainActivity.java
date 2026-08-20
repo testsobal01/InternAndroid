@@ -2,7 +2,6 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
-import androidx.core.os.ConfigurationCompat;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
@@ -186,6 +185,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 score = 1;
                 BackGroud.setBackgroundColor(Color.LTGRAY);
             }
+
         }
 
         // 最後にまとめてToast表示の処理とTextViewへのセットを行う
@@ -214,8 +214,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             @Override
             public void onFinish() {
+                // テキストのフェードアウト処理を追加
+                fadeout();
                 // 3秒経過したら次の値をセット
                 setQuestionValue();
+                // テキストのフェードイン処理を追加
+                fadein();
             }
         }.start();
     }
@@ -231,6 +235,30 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         txtScore.setText("0");
     }
 
+    private void fadein() {
+        TextView textView = findViewById(R.id.question);
+        textView.setAlpha(0f);
+        textView.setVisibility(View.VISIBLE);
+        textView.animate()
+                .alpha(1f)
+                .setDuration(3000)
+                .setListener(null);
+    }
+
+    private void fadeout() {
+        TextView textView = findViewById(R.id.question);
+        textView.animate()
+                .alpha(0f)
+                .setDuration(3000)
+                .withEndAction(new Runnable() {
+                    @Override
+                    public void run() {
+                        textView.setVisibility(View.GONE);
+                    }
+                })
+                .start();
+    }
+  
     protected void onPause(){
         super.onPause();
         TextView txtScore = (TextView) findViewById(R.id.text_score);
