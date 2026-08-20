@@ -60,7 +60,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void clearAnswerValue() {
         TextView txtView = (TextView) findViewById(R.id.answer);
-        txtView.setText("値2");
+        String txt = getString(R.string.num2);
+        txtView.setText(txt);
     }
 
     private void setQuestionValue() {
@@ -91,37 +92,38 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // 結果を示す文字列を入れる変数を用意
         String result;
+
         int score;
 
         // Highが押された
         if (isHigh) {
             // result には結果のみを入れる
             if (question < answer) {
-                result = "WIN";
+                result = getString(R.string.WIN);
                 score = 2;
             } else if (question > answer) {
-                result = "LOSE";
+                result = getString(R.string.LOSE);
                 score = -1;
             } else {
-                result = "DRAW";
+                result = getString(R.string.DRAW);
                 score = 1;
             }
         } else {
             if (question > answer) {
-                result = "WIN";
+                result = getString(R.string.WIN);
                 score = 2;
             } else if (question < answer) {
-                result = "LOSE";
+                result = getString(R.string.LOSE);
                 score = -1;
             } else {
-                result = "DRAW";
+                result = getString(R.string.DRAW);
                 score = 1;
             }
         }
 
         // 最後にまとめてToast表示の処理とTextViewへのセットを行う
         Toast.makeText(this, result, Toast.LENGTH_LONG).show();
-        txtResult.setText("結果：" + question + ":" + answer + "(" + result + ")");
+        txtResult.setText("：" + question + ":" + answer + "(" + result + ")");
 
         // 続けて遊べるように値を更新
         setNextQuestion();

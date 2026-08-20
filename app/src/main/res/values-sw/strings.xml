@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="btn_high">Juu</string>
+    <string name="btn_low">Chini</string>
+    <string name="btn_restart">Anzisha upya</string>
+    <string name="label_score">Alama：</string>
+    <string name="resurt">Matokeo</string>
+    <string name="WIN">SHINDA</string>
+    <string name="LOSE">POTEZA</string>
+    <string name="DRAW">SARE</string>
+    <string name="word1">Imewekwa kwa 10.</string>
+    <string name="num1">Thamani ya 1</string>
+    <string name="num2">Thamani ya 2</string>
+</resources>
