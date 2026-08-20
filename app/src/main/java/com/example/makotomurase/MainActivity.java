@@ -7,6 +7,8 @@ import androidx.core.view.WindowInsetsCompat;
 
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -84,6 +86,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView txtViewQuestion = findViewById(R.id.question);
         TextView txtViewAnswer = findViewById(R.id.answer);
 
+        Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+
         int question = Integer.parseInt(txtViewQuestion.getText().toString());
         int answer = Integer.parseInt(txtViewAnswer.getText().toString());
 
@@ -99,9 +103,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = "WIN";
                 score = 2;
+                vibrator.vibrate(VibrationEffect.createOneShot(
+                        500, VibrationEffect.DEFAULT_AMPLITUDE));
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
+                vibrator.vibrate(VibrationEffect.createOneShot(
+                        1000, VibrationEffect.DEFAULT_AMPLITUDE));
             } else {
                 result = "DRAW";
                 score = 1;
@@ -110,9 +118,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question > answer) {
                 result = "WIN";
                 score = 2;
+                vibrator.vibrate(VibrationEffect.createOneShot(
+                        500, VibrationEffect.DEFAULT_AMPLITUDE));
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
+                vibrator.vibrate(VibrationEffect.createOneShot(
+                        1000, VibrationEffect.DEFAULT_AMPLITUDE));
             } else {
                 result = "DRAW";
                 score = 1;
