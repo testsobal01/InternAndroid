@@ -5,6 +5,9 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import android.animation.Animator;
+import android.animation.AnimatorInflater;
+import android.animation.AnimatorSet;
 import android.app.AlertDialog;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -22,6 +25,14 @@ import java.util.Random;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     SharedPreferences pref;
     SharedPreferences.Editor prefEditor;
+
+    //AnimatorSetオブジェクトを宣言
+    /**
+     * アニメーションに利用するセットを宣言
+     * blink：テキストの点滅、scale：テキストのサイズ変化
+     */
+    AnimatorSet blink;
+    AnimatorSet scale;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +65,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // 起動時に関数を呼び出す
         setQuestionValue();
 
+        //テキストビューを取得
+        TextView player = (TextView) findViewById(R.id.answer);
+
+        //プレイヤーのテキストビューにアニメーションを設定
+        blink = (AnimatorSet) AnimatorInflater.loadAnimator(MainActivity.this, R.animator.blink_animation);
+        blink.setTarget(player);
+        scale = (AnimatorSet) AnimatorInflater.loadAnimator(MainActivity.this, R.animator.scale_animation);
+        scale.setTarget(player);
     }
 
     @Override
@@ -118,9 +137,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = "WIN";
                 score = 2;
+
+                //テキスト拡大
+                scale.start();
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
+
+                //テキスト点滅
+                blink.start();
             } else {
                 result = "DRAW";
                 score = 1;
@@ -129,9 +154,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question > answer) {
                 result = "WIN";
                 score = 2;
+
+                //テキスト拡大
+                scale.start();
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
+
+                //テキスト点滅
+                blink.start();
             } else {
                 result = "DRAW";
                 score = 1;
