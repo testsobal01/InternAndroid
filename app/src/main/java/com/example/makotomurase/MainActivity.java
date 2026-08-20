@@ -107,8 +107,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void checkResult(boolean isHigh) {
+        //言語識別用の変数
         Locale locale = Locale.getDefault();
         String lang  = String.valueOf(locale);
+
         TextView txtViewQuestion = findViewById(R.id.question);
         TextView txtViewAnswer = findViewById(R.id.answer);
 
@@ -151,9 +153,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // 最後にまとめてToast表示の処理とTextViewへのセットを行う
         Toast.makeText(this, result, Toast.LENGTH_LONG).show();
-        if (lang.equals("ja")){
+        //端末が英語の場合と日本語の場合の分岐
+        if (lang.equals("ja_JP")){
             txtResult.setText("結果：" + question + ":" + answer + "(" + result + ")");
-        }else {
+        }else if(lang.equals("en_US")){
             txtResult.setText("Result：" + question + ":" + answer + "(" + result + ")");
         }
         // 続けて遊べるように値を更新
