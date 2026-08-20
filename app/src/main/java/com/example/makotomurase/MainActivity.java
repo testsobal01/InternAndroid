@@ -58,6 +58,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View view) {
+        TextView ColorChange1 = (TextView) findViewById(R.id.question);
+        TextView ColorChange2 = (TextView) findViewById(R.id.answer);
         int id = view.getId();
         if (id == R.id.button1) {
             setAnswerValue();
@@ -76,6 +78,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             setQuestionValue();
             clearAnswerValue();
             clearScoreValue();
+            ColorChange1.setBackgroundColor(Color.rgb(255,0,255));
+            ColorChange2.setBackgroundColor(Color.rgb(255,255,0));
         }
     }
 
@@ -145,8 +149,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
-                colorChange1.setBackgroundColor(Color.BLUE);
-                colorChange2.setBackgroundColor(Color.BLUE);
+                colorChange1.setBackgroundColor(Color.rgb(0,150,255));
+                colorChange2.setBackgroundColor(Color.rgb(0,150,255));
             } else {
                 result = "DRAW";
                 score = 1;
@@ -162,8 +166,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
-                colorChange1.setBackgroundColor(Color.BLUE);
-                colorChange2.setBackgroundColor(Color.BLUE);
+                colorChange1.setBackgroundColor(Color.rgb(0,150,255));
+                colorChange2.setBackgroundColor(Color.rgb(0,150,255));
             } else {
                 result = "DRAW";
                 score = 1;
