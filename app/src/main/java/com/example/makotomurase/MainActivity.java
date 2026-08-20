@@ -1,5 +1,6 @@
 package com.example.makotomurase;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -18,6 +19,8 @@ import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,6 +31,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     //効果音
     public SoundPool soundPool;
     public int[] action = { 0,0,0,0 };
+
+    public int max;
 
     SharedPreferences pref;
     SharedPreferences.Editor prefEditor;
@@ -48,9 +53,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .setAudioAttributes(audioAttributes)
                 .setMaxStreams(3)
                 .build();
-        action[0] = soundPool.load(this, R.raw.button04a, 1);
-
-
+        action[0] = soundPool.load(this, R.raw.button01, 1);
+        action[1] = soundPool.load(this, R.raw.button02, 1);
+        action[2] = soundPool.load(this, R.raw.win01, 1);
+        action[3] = soundPool.load(this, R.raw.lose01, 1);
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (view, windowInsets) -> {
             Insets insets = windowInsets.getInsets(
@@ -69,6 +75,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
 
+        ImageButton option = (ImageButton) findViewById(R.id.option);
+        option.setOnClickListener(this);
+
+        max = 10;
+        TextView maxvalue = findViewById(R.id.question);
+        maxvalue.setText(max+"が設定されています");
         // 起動時に関数を呼び出す
         setQuestionValue();
 
@@ -98,7 +110,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View view) {
         int id = view.getId();
-        soundPool.play(action[0], 10f , 1f, 0, 0, 1f);
+
+        //効果音
+        soundPool.play(action[1], 10f , 1f, 0, 0, 1f);
+
         if(set != null){
             set.cancel();
             set = null;
@@ -113,6 +128,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             setQuestionValue();
             clearAnswerValue();
             clearScoreValue();
+        }else if (id == R.id.option){
+            NumberPicker np = new NumberPicker(this);
+            np.setMinValue(10);
+            np.setMaxValue(50);
+
+            new AlertDialog.Builder(this)
+                    .setView(np)
+                    .setTitle(R.string.numtitle)
+                    .setPositiveButton(R.string.ok, (dialog,which)->{
+                        TextView question = findViewById(R.id.question);
+                        TextView maxvalue = findViewById(R.id.maxvalue);
+                        question.setText(String.valueOf(np.getValue()));
+                        maxvalue.setText(np.getValue()+"が設定されています");
+                        max = np.getValue();
+                    })
+                    .setNegativeButton(R.string.canncel, (Dialog, which)->{})
+                    .show();
         }
     }
 
@@ -125,7 +157,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void setQuestionValue() {
         Random r = new Random();
         // 0から10の範囲で乱数を生成（+1する必要がある）
-        int questionValue = r.nextInt(10 + 1);
+        int questionValue = r.nextInt(max + 1);
 
         TextView txtView = findViewById(R.id.question);
         txtView.setText(Integer.toString(questionValue));
@@ -133,7 +165,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void setAnswerValue() {
         Random r = new Random();
-        int answerValue = r.nextInt(10 + 1);
+        int answerValue = r.nextInt(max + 1);
 
         TextView txtView = findViewById(R.id.answer);
         txtView.setText(Integer.toString(answerValue));
@@ -159,11 +191,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = getString(R.string.WIN);
                 score = 2;
+                //効果音
+                soundPool.play(action[2], 10f , 1f, 0, 0, 1f);
                 txtViewQuestion.setBackgroundColor(Color.parseColor("#FF8C00"));
                 txtViewAnswer.setBackgroundColor(Color.parseColor("#FF4500"));
             } else if (question > answer) {
                 result = getString(R.string.LOSE);
                 score = -1;
+                soundPool.play(action[3], 100f , 1f, 0, 0, 1f);
                 txtViewQuestion.setBackgroundColor(Color.parseColor("#808080"));
                 txtViewAnswer.setBackgroundColor(Color.parseColor("#A9A9A9"));
             } else {
@@ -176,11 +211,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question > answer) {
                 result = getString(R.string.WIN);
                 score = 2;
+                //効果音
+                soundPool.play(action[2], 10f , 1f, 0, 0, 1f);
                 txtViewQuestion.setBackgroundColor(Color.parseColor("#FF8C00"));
                 txtViewAnswer.setBackgroundColor(Color.parseColor("#FF4500"));
             } else if (question < answer) {
                 result = getString(R.string.LOSE);
                 score = -1;
+                soundPool.play(action[3], 100f , 1f, 0, 0, 1f);
                 txtViewQuestion.setBackgroundColor(Color.parseColor("#808080"));
                 txtViewAnswer.setBackgroundColor(Color.parseColor("#A9A9A9"));
             } else {
