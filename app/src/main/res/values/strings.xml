@@ -10,8 +10,11 @@
     <string name="WIN">WIN</string>
     <string name="LOSE">LOSE</string>
     <string name="DRAW">DRAW</string>
-    <string name="word1">10が設定されています。</string>
+    <string name="word1">が設定されています。</string>
     <string name="num1">値1</string>
     <string name="num2">値2</string>
+    <string name="numtitle">最大値を設定してください</string>
+    <string name="ok">OK</string>
+    <string name="canncel">キャンセル</string>
 
 </resources>

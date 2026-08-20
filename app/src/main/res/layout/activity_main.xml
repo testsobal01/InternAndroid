@@ -36,9 +36,17 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
                 android:text="@string/btn_restart" />
+
+            <ImageButton
+                android:id="@+id/option"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/baseline_settings_24"
+                android:backgroundTint="@color/white"/>
         </LinearLayout>
 
         <TextView
+            android:id="@+id/maxvalue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/word1" />
