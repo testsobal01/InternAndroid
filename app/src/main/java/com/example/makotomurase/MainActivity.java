@@ -62,15 +62,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View view) {
         int id = view.getId();
         Vibrator vibrator=(Vibrator)getSystemService(VIBRATOR_SERVICE);
-
+        //バイブ
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             vibrator.vibrate(VibrationEffect.createOneShot(
-                    200,VibrationEffect.DEFAULT_AMPLITUDE));
+                    200, VibrationEffect.DEFAULT_AMPLITUDE));}
+
+
         if (id == R.id.button1) {
             setAnswerValue();
             checkResult(true);
-            }
-        } else if (id == R.id.button2) {
+
+        }else if (id == R.id.button2) {
             setAnswerValue();
             checkResult(false);
         } else if (id == R.id.button3) {
