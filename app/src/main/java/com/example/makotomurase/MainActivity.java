@@ -5,6 +5,8 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -23,6 +25,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private SoundPlayer soundPlayer;
     private boolean isButton;
+
+    SharedPreferences pref;
+    SharedPreferences.Editor prefEditor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +55,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // 起動時に関数を呼び出す
         setQuestionValue();
+
+        pref=getSharedPreferences("Score",MODE_PRIVATE);
+        prefEditor=pref.edit();
     }
 
     @Override
@@ -79,6 +87,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 clearScoreValue();
             }
         }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        TextView textView = (TextView) findViewById(R.id.text_score);
+        prefEditor.putString("score_input",textView.getText().toString());
+        prefEditor.commit();
+    }
+
+    @Override
+    protected void onResume(){
+        super.onResume();
+        TextView textView = (TextView)findViewById(R.id.text_score);
+        String readText=pref.getString("score_input","0");
+        textView.setText(readText);
     }
 
     private void clearAnswerValue() {
@@ -116,29 +140,45 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         String result;
         int score;
 
+        TextView colorChange1 = (TextView) findViewById(R.id.question);
+        TextView colorChange2 = (TextView) findViewById(R.id.answer);
+
+
         // Highが押された
         if (isHigh) {
             // result には結果のみを入れる
             if (question < answer) {
                 result = "WIN";
                 score = 2;
+                colorChange1.setBackgroundColor(Color.RED);
+                colorChange2.setBackgroundColor(Color.RED);
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
+                colorChange1.setBackgroundColor(Color.BLUE);
+                colorChange2.setBackgroundColor(Color.BLUE);
             } else {
                 result = "DRAW";
                 score = 1;
+                colorChange1.setBackgroundColor(Color.GRAY);
+                colorChange2.setBackgroundColor(Color.GRAY);
             }
         } else {
             if (question > answer) {
                 result = "WIN";
                 score = 2;
+                colorChange1.setBackgroundColor(Color.RED);
+                colorChange2.setBackgroundColor(Color.RED);
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
+                colorChange1.setBackgroundColor(Color.BLUE);
+                colorChange2.setBackgroundColor(Color.BLUE);
             } else {
                 result = "DRAW";
                 score = 1;
+                colorChange1.setBackgroundColor(Color.GRAY);
+                colorChange2.setBackgroundColor(Color.GRAY);
             }
         }
 
