@@ -1,12 +1,20 @@
 package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.view.MotionEvent;
+import android.media.AudioAttributes;
+import android.media.AudioManager;
+import android.media.SoundPool;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -14,12 +22,19 @@ import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
 import java.util.Random;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener  {
+
+    private SoundPlayer soundPlayer;
+    private static SoundPool soundPool;
+    private static int hitSound;
+    private static int overSound;
 
     //プリファレンスの生成
     SharedPreferences pref;
@@ -38,27 +53,53 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             return windowInsets;
         });
 
+        //ボタン押したらへこむように見えるやつ
+        View.OnTouchListener darkenTouchListener = new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent event) {
+                ImageButton imageButton = (ImageButton) view;
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        view.setAlpha(0.6f);
+                        break;
+
+                    case MotionEvent.ACTION_UP:
+                    case MotionEvent.ACTION_CANCEL:
+                        view.setAlpha(1.0f);
+                        break;
+                }
+                return false;
+            }
+        };
+
+        ImageButton btn1 = findViewById(R.id.button1);
+        soundPlayer = new SoundPlayer(this);
         Intent intent=new Intent(this,StartActivity.class);
         startActivity(intent);
 
         Button btn1 = findViewById(R.id.button1);
         btn1.setOnClickListener(this);
+        btn1.setOnTouchListener(darkenTouchListener);
 
-        Button btn2 = findViewById(R.id.button2);
+        ImageButton btn2 = findViewById(R.id.button2);
         btn2.setOnClickListener(this);
+        btn2.setOnTouchListener(darkenTouchListener);
 
-        Button btn3 = (Button) findViewById(R.id.button3);
+        ImageButton btn3 = (ImageButton) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
+        btn3.setOnTouchListener(darkenTouchListener);
 
         // 起動時に関数を呼び出す
         setQuestionValue();
 
         //"AndroidSemonor"は、スコアを保存する先のファイル名的な奴
-        pref = getSharedPreferences("AndroidSeminor",MODE_PRIVATE);
+        pref = getSharedPreferences("AndroidSeminor", MODE_PRIVATE);
         prefEditor = pref.edit();
+
     }
 
     @Override
+
     public void onClick(View view) {
         int id = view.getId();
         Vibrator vibrator=(Vibrator)getSystemService(VIBRATOR_SERVICE);
@@ -69,13 +110,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
         if (id == R.id.button1) {
+            soundPlayer.playHitSound();
             setAnswerValue();
             checkResult(true);
-
-        }else if (id == R.id.button2) {
+        } else if (id == R.id.button2) {
+            soundPlayer.playHitSound();
             setAnswerValue();
             checkResult(false);
         } else if (id == R.id.button3) {
+            soundPlayer.playHitSound();
             setQuestionValue();
             clearAnswerValue();
             clearScoreValue();
@@ -117,30 +160,44 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         String result;
         int score;
 
+        TextView myLayout=findViewById(R.id.question);
+        TextView myLayout1=findViewById(R.id.answer);
+
         // Highが押された
         if (isHigh) {
             // result には結果のみを入れる
             if (question < answer) {
                 result = "WIN";
                 score = 2;
+                myLayout.setBackgroundColor(Color.GREEN);
+                myLayout1.setBackgroundColor(Color.GREEN);
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
+                myLayout.setBackgroundColor(Color.BLUE);
+                myLayout1.setBackgroundColor(Color.BLUE);
             } else {
                 result = "DRAW";
                 score = 1;
+                myLayout.setBackgroundColor(Color.GRAY);
+                myLayout1.setBackgroundColor(Color.GRAY);
             }
         } else {
             if (question > answer) {
                 result = "WIN";
                 score = 2;
-
+                myLayout.setBackgroundColor(Color.GREEN);
+                myLayout1.setBackgroundColor(Color.GREEN);
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
+                myLayout.setBackgroundColor(Color.BLUE);
+                myLayout1.setBackgroundColor(Color.BLUE);
             } else {
                 result = "DRAW";
                 score = 1;
+                myLayout.setBackgroundColor(Color.GRAY);
+                myLayout1.setBackgroundColor(Color.GRAY);
             }
         }
 
