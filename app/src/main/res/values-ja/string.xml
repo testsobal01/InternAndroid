@@ -5,4 +5,5 @@
     <string name="btn_low">ロウ</string>
     <string name="btn_restart">リスタート</string>
     <string name="label_score">スコア：</string>
+    <string name="start">タッチでスタート</string>
 </resources>
