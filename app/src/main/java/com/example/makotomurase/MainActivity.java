@@ -7,8 +7,15 @@ import androidx.core.view.WindowInsetsCompat;
 
 import android.media.AudioAttributes;
 import android.media.SoundPool;
+import android.animation.AnimatorInflater;
+import android.animation.AnimatorSet;
+import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -20,8 +27,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     //効果音
     public SoundPool soundPool;
-    public int[]                    action = { 0,0,0,0 };
+    public int[] action = { 0,0,0,0 };
 
+    SharedPreferences pref;
+    SharedPreferences.Editor prefEditor;
+
+    AnimatorSet set;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,12 +71,38 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // 起動時に関数を呼び出す
         setQuestionValue();
+
+        pref = getSharedPreferences("Score", MODE_PRIVATE);
+        prefEditor = pref.edit();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        TextView textview = (TextView) findViewById(R.id.text_score);
+
+        prefEditor.putString("score_input", textview.getText().toString());
+        prefEditor.commit();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        TextView textview = (TextView) findViewById(R.id.text_score);
+
+        String readText = pref.getString("score_input","0");
+        textview.setText(readText);
+
     }
 
     @Override
     public void onClick(View view) {
         int id = view.getId();
         soundPool.play(action[0], 10f , 1f, 0, 0, 1f);
+        if(set != null){
+            set.cancel();
+            set = null;
+        }
         if (id == R.id.button1) {
             setAnswerValue();
             checkResult(true);
@@ -81,7 +118,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void clearAnswerValue() {
         TextView txtView = (TextView) findViewById(R.id.answer);
-        txtView.setText("値2");
+        String txt = getString(R.string.num2);
+        txtView.setText(txt);
     }
 
     private void setQuestionValue() {
@@ -112,37 +150,55 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // 結果を示す文字列を入れる変数を用意
         String result;
+
         int score;
 
         // Highが押された
         if (isHigh) {
             // result には結果のみを入れる
             if (question < answer) {
-                result = "WIN";
+                result = getString(R.string.WIN);
                 score = 2;
+                txtViewQuestion.setBackgroundColor(Color.parseColor("#FF8C00"));
+                txtViewAnswer.setBackgroundColor(Color.parseColor("#FF4500"));
             } else if (question > answer) {
-                result = "LOSE";
+                result = getString(R.string.LOSE);
                 score = -1;
+                txtViewQuestion.setBackgroundColor(Color.parseColor("#808080"));
+                txtViewAnswer.setBackgroundColor(Color.parseColor("#A9A9A9"));
             } else {
-                result = "DRAW";
+                result = getString(R.string.DRAW);
                 score = 1;
+                txtViewQuestion.setBackgroundColor(Color.parseColor("#ff00ff"));
+                txtViewAnswer.setBackgroundColor(Color.parseColor("#ffff00"));
             }
         } else {
             if (question > answer) {
-                result = "WIN";
+                result = getString(R.string.WIN);
                 score = 2;
+                txtViewQuestion.setBackgroundColor(Color.parseColor("#FF8C00"));
+                txtViewAnswer.setBackgroundColor(Color.parseColor("#FF4500"));
             } else if (question < answer) {
-                result = "LOSE";
+                result = getString(R.string.LOSE);
                 score = -1;
+                txtViewQuestion.setBackgroundColor(Color.parseColor("#808080"));
+                txtViewAnswer.setBackgroundColor(Color.parseColor("#A9A9A9"));
             } else {
-                result = "DRAW";
+                result = getString(R.string.DRAW);
                 score = 1;
+                txtViewQuestion.setBackgroundColor(Color.parseColor("#ff00ff"));
+                txtViewAnswer.setBackgroundColor(Color.parseColor("#ffff00"));
             }
         }
 
+
         // 最後にまとめてToast表示の処理とTextViewへのセットを行う
         Toast.makeText(this, result, Toast.LENGTH_LONG).show();
-        txtResult.setText("結果：" + question + ":" + answer + "(" + result + ")");
+        txtResult.setText("：" + question + ":" + answer + "(" + result + ")");
+
+        AnimatorSet set = (AnimatorSet) AnimatorInflater.loadAnimator(this, R.animator.result_animation);
+        set.setTarget(txtViewAnswer);
+        set.start();
 
         // 続けて遊べるように値を更新
         setNextQuestion();
@@ -164,6 +220,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public void onFinish() {
                 // 3秒経過したら次の値をセット
                 setQuestionValue();
+                Vibrator vibrator = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+               vibrator.vibrate(VibrationEffect.createOneShot(
+               1000,VibrationEffect.DEFAULT_AMPLITUDE));
             }
         }.start();
     }
