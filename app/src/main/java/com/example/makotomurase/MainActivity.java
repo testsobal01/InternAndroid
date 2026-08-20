@@ -16,10 +16,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private SoundPlayer soundPlayer;
+    private boolean isButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,23 +55,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View view) {
         int id = view.getId();
-        if (id == R.id.button1) {
-            setAnswerValue();
-            checkResult(true);
-        } else if (id == R.id.button2) {
-            setAnswerValue();
-            checkResult(false);
-        } else if (id == R.id.button3) {
-            Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                vibrator.vibrate(VibrationEffect.createOneShot(
-                        500,
-                        VibrationEffect.DEFAULT_AMPLITUDE
-                ));
+        if (!isButton) {
+
+            isButton = true;
+
+            if (id == R.id.button1) {
+                setAnswerValue();
+                checkResult(true);
+            } else if (id == R.id.button2) {
+                setAnswerValue();
+                checkResult(false);
+            } else if (id == R.id.button3) {
+                isButton = false;
+                Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    vibrator.vibrate(VibrationEffect.createOneShot(
+                            500,
+                            VibrationEffect.DEFAULT_AMPLITUDE
+                    ));
+                }
+                setQuestionValue();
+                clearAnswerValue();
+                clearScoreValue();
             }
-            setQuestionValue();
-            clearAnswerValue();
-            clearScoreValue();
         }
     }
 
@@ -165,6 +174,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public void onFinish() {
                 // 3秒経過したら次の値をセット
                 setQuestionValue();
+                isButton = false;
             }
         }.start();
     }
