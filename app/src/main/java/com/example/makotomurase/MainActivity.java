@@ -7,21 +7,27 @@ import androidx.core.view.WindowInsetsCompat;
 
 import android.app.AlertDialog;
 import android.content.SharedPreferences;
+import android.content.res.AssetFileDescriptor;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.IOException;
 import java.util.Objects;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     SharedPreferences pref;
     SharedPreferences.Editor prefEditor;
+    private MediaPlayer mediaPlayer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +60,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // 起動時に関数を呼び出す
         setQuestionValue();
 
+        //番号11　BGMの追加
+        Button buttonStart = findViewById(R.id.start);
+        buttonStart.setOnClickListener( v ->  {
+            // 音楽再生
+            audioPlay();
+        });
+
+        Button buttonStop = findViewById(R.id.stop);
+        buttonStop.setOnClickListener( v -> {
+            if (mediaPlayer != null) {
+                audioStop();
+            }
+        });
     }
 
     @Override
@@ -178,17 +197,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         txtScore.setText("0");
     }
 
-    public void changeBackgroundColor(String result){
+    public void changeBackgroundColor(String result) {
         View layout = findViewById(R.id.layout);
 
-        if(Objects.equals(result, "WIN")){
+        if (Objects.equals(result, "WIN")) {
             layout.setBackgroundColor(0xFFFF0000);
-        }else if(Objects.equals(result, "LOSE")){
+        } else if (Objects.equals(result, "LOSE")) {
             layout.setBackgroundColor(0xFFAFDFE4);
-        }else if(Objects.equals(result, "DRAW")){
+        } else if (Objects.equals(result, "DRAW")) {
             layout.setBackgroundColor(0xFF00FF00);
         }
+    }
 
+    //番号２　プリファレンスにスコアを保存
     @Override
     protected void onPause(){
         super.onPause();
@@ -199,7 +220,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         prefEditor.putString("score",textView.getText().toString());
         prefEditor.commit();
     }
-
     @Override
     protected void onResume(){
         super.onResume();
@@ -208,6 +228,59 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         String readText = pref.getString("score","0");
         textView.setText(readText);
+    }
+
+    //番号11　BGMの追加
+    private boolean audioSetup(){
+        mediaPlayer = new MediaPlayer();
+
+        String filePath = "music.mp3";
+
+        try(AssetFileDescriptor afdescripter = getAssets().openFd(filePath))
+        {
+            mediaPlayer.setDataSource(
+                    afdescripter.getFileDescriptor(),
+                    afdescripter.getStartOffset(),
+                    afdescripter.getLength());
+            setVolumeControlStream(AudioManager.STREAM_MUSIC);
+            mediaPlayer.prepare();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        return true;
+    }
+    private void audioPlay() {
+
+        if (mediaPlayer == null) {
+            if (audioSetup()){
+                Toast.makeText(getApplication(), "Rread audio file", Toast.LENGTH_SHORT).show();
+            }
+            else{
+                Toast.makeText(getApplication(), "Error: read audio file", Toast.LENGTH_SHORT).show();
+                return;
+            }
+        }
+        else{
+            mediaPlayer.stop();
+            mediaPlayer.reset();
+            mediaPlayer.release();
+        }
+
+        mediaPlayer.start();
+
+        mediaPlayer.setOnCompletionListener( mp -> {
+            Log.d("debug","end of audio");
+            audioStop();
+        });
+
+    }
+    private void audioStop() {
+        mediaPlayer.stop();
+        mediaPlayer.reset();
+        mediaPlayer.release();
+
+        mediaPlayer = null;
     }
 }
 
