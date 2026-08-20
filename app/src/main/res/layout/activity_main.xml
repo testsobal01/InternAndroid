@@ -120,6 +120,7 @@
         </LinearLayout>
 
         <ImageView
+            android:id="@+id/image_view_2"
             android:layout_width="match_parent"
             android:layout_height="100dp"
             android:cropToPadding="false"
@@ -131,3 +132,4 @@
             app:layout_constraintTop_toTopOf="parent" />
 
     </LinearLayout>
+</LinearLayout>
