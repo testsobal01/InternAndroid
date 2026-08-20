@@ -76,6 +76,7 @@
                 android:background="@color/bgQuestionDefault"
                 android:gravity="center"
                 android:text="@string/label_question"
+                android:textColor="@color/fontColor"
                 android:textSize="60sp" />
 
             <TextView
@@ -86,6 +87,7 @@
                 android:background="@color/bgAnswerDefault"
                 android:gravity="center"
                 android:text="@string/label_answer"
+                android:textColor="@color/fontColor"
                 android:textSize="60sp" />
         </LinearLayout>
 
