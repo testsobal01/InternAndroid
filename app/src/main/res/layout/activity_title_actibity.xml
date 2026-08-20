@@ -34,4 +34,12 @@
         android:gravity="center"
         android:text="@string/text_title_ex"/>
 
+    <Button
+        android:id="@+id/button_howto"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.5"
+        android:textSize="40sp"
+        android:text="@string/text_howto"/>
+
 </LinearLayout>
