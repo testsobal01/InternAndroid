@@ -48,9 +48,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .setAudioAttributes(audioAttributes)
                 .setMaxStreams(3)
                 .build();
-        action[0] = soundPool.load(this, R.raw.button04a, 1);
-
-
+        action[0] = soundPool.load(this, R.raw.button01, 1);
+        action[1] = soundPool.load(this, R.raw.button02, 1);
+        action[2] = soundPool.load(this, R.raw.win01, 1);
+        action[3] = soundPool.load(this, R.raw.lose01, 1);
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (view, windowInsets) -> {
             Insets insets = windowInsets.getInsets(
@@ -98,7 +99,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View view) {
         int id = view.getId();
-        soundPool.play(action[0], 10f , 1f, 0, 0, 1f);
+
+        //効果音
+        soundPool.play(action[1], 10f , 1f, 0, 0, 1f);
+
         if(set != null){
             set.cancel();
             set = null;
@@ -159,11 +163,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = getString(R.string.WIN);
                 score = 2;
+                //効果音
+                soundPool.play(action[2], 10f , 1f, 0, 0, 1f);
                 txtViewQuestion.setBackgroundColor(Color.parseColor("#FF8C00"));
                 txtViewAnswer.setBackgroundColor(Color.parseColor("#FF4500"));
             } else if (question > answer) {
                 result = getString(R.string.LOSE);
                 score = -1;
+                soundPool.play(action[3], 100f , 1f, 0, 0, 1f);
                 txtViewQuestion.setBackgroundColor(Color.parseColor("#808080"));
                 txtViewAnswer.setBackgroundColor(Color.parseColor("#A9A9A9"));
             } else {
@@ -176,11 +183,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question > answer) {
                 result = getString(R.string.WIN);
                 score = 2;
+                //効果音
+                soundPool.play(action[2], 10f , 1f, 0, 0, 1f);
                 txtViewQuestion.setBackgroundColor(Color.parseColor("#FF8C00"));
                 txtViewAnswer.setBackgroundColor(Color.parseColor("#FF4500"));
             } else if (question < answer) {
                 result = getString(R.string.LOSE);
                 score = -1;
+                soundPool.play(action[3], 100f , 1f, 0, 0, 1f);
                 txtViewQuestion.setBackgroundColor(Color.parseColor("#808080"));
                 txtViewAnswer.setBackgroundColor(Color.parseColor("#A9A9A9"));
             } else {
