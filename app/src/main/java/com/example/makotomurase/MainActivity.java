@@ -282,7 +282,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         txtView.setText(Integer.toString(answerValue));
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     private void checkResult(boolean isHigh) {
         TextView txtViewQuestion = findViewById(R.id.question);
         TextView txtViewAnswer = findViewById(R.id.answer);
@@ -304,15 +303,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = "WIN";
                 score = 2;
-                vibrator.vibrate(VibrationEffect.createOneShot(
-                        500, VibrationEffect.DEFAULT_AMPLITUDE));
-                soundPool.play(soundpinpon2, 1.0f, 1.0f, 0, 0, 1);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    vibrator.vibrate(
+                            (VibrationEffect.createOneShot(
+                            500, VibrationEffect.DEFAULT_AMPLITUDE)));
+                }
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
-                vibrator.vibrate(VibrationEffect.createOneShot(
-                        1000, VibrationEffect.DEFAULT_AMPLITUDE));
-                soundPool.play(soundbubbu1, 1.0f, 1.0f, 0, 0, 1);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    vibrator.vibrate(VibrationEffect.createWaveform(new long[]{0, 100, 50, 100}, -1));
+                }
+                soundPool.play(soundpinpon2, 1.0f, 1.0f, 0, 0, 1);
             } else {
                 result = "DRAW";
                 score = 1;
@@ -321,15 +323,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question > answer) {
                 result = "WIN";
                 score = 2;
-                vibrator.vibrate(VibrationEffect.createOneShot(
-                        500, VibrationEffect.DEFAULT_AMPLITUDE));
-                soundPool.play(soundpinpon2, 1.0f, 1.0f, 0, 0, 1);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    vibrator.vibrate(VibrationEffect.createOneShot(
+                            500, VibrationEffect.DEFAULT_AMPLITUDE));
+                }
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
-                vibrator.vibrate(VibrationEffect.createOneShot(
-                        1000, VibrationEffect.DEFAULT_AMPLITUDE));
-                soundPool.play(soundbubbu1, 1.0f, 1.0f, 0, 0, 1);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    vibrator.vibrate(VibrationEffect.createWaveform(new long[]{0, 100, 50, 100}, -1));
+                }
+                soundPool.play(soundpinpon2, 1.0f, 1.0f, 0, 0, 1);
             } else {
                 result = "DRAW";
                 score = 1;
@@ -348,6 +352,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setNextQuestion();
         // スコアを表示
         setScore(score);
+    }
+
+    private long[] longArrayOf(int i, int i1, int i2) {
+        return new long[0];
     }
 
     private void setNextQuestion() {
