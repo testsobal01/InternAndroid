@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<set xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!--テキスト拡大縮小
+    duration:アニメーション一つの時間
+    valueFrom:どこから変化させるかの値
+    valueTo:どこまで変化させるかの値
+    valueFrom,valueToはpxで指定されていることに注意する
+    repeatCount:アニメーションを何回繰り返すか
+    repeatMode:アニメーションを逆方向に繰り返す-->
+    <objectAnimator
+        android:propertyName="textSize"
+        android:duration="500"
+        android:valueFrom="60"
+        android:valueTo="100"
+        android:repeatCount="3"
+        android:repeatMode="reverse" />
+</set>
