@@ -1,7 +1,13 @@
 <resources>
+    <string name="text_title">数字で勝負！ゲーム</string>
+    <string name="text_title_ex">ボタンタップでゲームが始まるよ！</string>
+    <string name="title_button_name">START</string>
     <string name="app_name">SobalTest</string>
     <string name="btn_high">High</string>
     <string name="btn_low">Low</string>
     <string name="btn_restart">Restart</string>
     <string name="label_score">Score：</string>
+    <string name="setting">It is set to 10.</string>
+    <string name="result">result：</string>
+    <string name="num">?</string>
 </resources>
