@@ -5,6 +5,8 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import android.media.AudioAttributes;
+import android.media.SoundPool;
 import android.animation.AnimatorInflater;
 import android.animation.AnimatorSet;
 import android.content.SharedPreferences;
@@ -23,6 +25,10 @@ import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
+    //効果音
+    public SoundPool soundPool;
+    public int[] action = { 0,0,0,0 };
+
     SharedPreferences pref;
     SharedPreferences.Editor prefEditor;
 
@@ -32,6 +38,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // 効果音
+        AudioAttributes audioAttributes = new AudioAttributes.Builder()
+                .setUsage(AudioAttributes.USAGE_MEDIA)
+                .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+                .build();
+        soundPool = new SoundPool.Builder()
+                .setAudioAttributes(audioAttributes)
+                .setMaxStreams(3)
+                .build();
+        action[0] = soundPool.load(this, R.raw.button04a, 1);
+
+
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (view, windowInsets) -> {
             Insets insets = windowInsets.getInsets(
@@ -79,6 +98,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View view) {
         int id = view.getId();
+        soundPool.play(action[0], 10f , 1f, 0, 0, 1f);
         if(set != null){
             set.cancel();
             set = null;
