@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.Objects;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -34,6 +35,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             return windowInsets;
         });
 
+        View layout = findViewById(R.id.layout);
+        layout.setBackgroundColor(0xFFFFFF);
+
         Button btn1 = findViewById(R.id.button1);
         btn1.setOnClickListener(this);
 
@@ -48,6 +52,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // 起動時に関数を呼び出す
         setQuestionValue();
+
     }
 
     @Override
@@ -131,6 +136,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 score = 1;
             }
         }
+        changeBackgroundColor(result);
 
         // 最後にまとめてToast表示の処理とTextViewへのセットを行う
         Toast.makeText(this, result, Toast.LENGTH_LONG).show();
@@ -171,6 +177,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         txtScore.setText("0");
     }
 
+    public void changeBackgroundColor(String result){
+        View layout = findViewById(R.id.layout);
+
+        if(Objects.equals(result, "WIN")){
+            layout.setBackgroundColor(0xFFFF0000);
+        }else if(Objects.equals(result, "LOSE")){
+            layout.setBackgroundColor(0xFFAFDFE4);
+        }else if(Objects.equals(result, "DRAW")){
+            layout.setBackgroundColor(0xFF00FF00);
+        }
 
     @Override
     protected void onPause(){
