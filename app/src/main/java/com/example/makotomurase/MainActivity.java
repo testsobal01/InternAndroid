@@ -68,6 +68,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
 
+        Button btnSetting = findViewById(R.id.settingBtn);
+        btnSetting.setOnClickListener(this);
+
         AudioAttributes audioAttributes = new AudioAttributes.Builder()
                 .build();
 
@@ -81,10 +84,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         soundbubbu1 = soundPool.load(this, R.raw.bubbu1, 1);
 
 
-
-        Button btnSetting = findViewById(R.id.settingBtn);
-        btnSetting.setOnClickListener(this);
-
         TextView lblLimit = findViewById(R.id.label_limit);
         lblLimit.setText(getResources().getString(R.string.label_limit, limit));
 
@@ -97,10 +96,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         pref = getSharedPreferences("AndroidSEminar",MODE_PRIVATE);
         prefEditor = pref.edit();
-
-
-
-
 
 
         // 起動時に関数を呼び出す
@@ -129,7 +124,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             TextView textView = (TextView) findViewById(R.id.text_score);
             String readText = String.valueOf(pref.getInt("main_input",0));
             textView.setText(readText);
-
     }
 
 
@@ -138,20 +132,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
       /*  ToneGenerator toneGen = new ToneGenerator(AudioManager.STREAM_SYSTEM, 100);
         toneGen.startTone(ToneGenerator.TONE_DTMF_1, 150);*/
 
-
-
-
-
         int id = view.getId();
         if (id == R.id.button1) {
             setAnswerValue(limit);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 checkResult(true);
+                diableAllBtns();
             }
         } else if (id == R.id.button2) {
             setAnswerValue(limit);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 checkResult(false);
+                diableAllBtns();
             }
         } else if (id == R.id.button3) {
             setQuestionValue(limit);
@@ -233,6 +225,30 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         colorAnimator.setRepeatMode(ValueAnimator.REVERSE);
         colorAnimator.addUpdateListener(animator -> view.setTextColor((int) animator.getAnimatedValue()));
         colorAnimator.start();
+    }
+
+    private void diableAllBtns(){
+        Button btn1 = findViewById(R.id.button1);
+        Button btn2 = findViewById(R.id.button2);
+        Button btn3 = (Button) findViewById(R.id.button3);
+        Button btnSetting = findViewById(R.id.settingBtn);
+
+        btn1.setEnabled(false);
+        btn2.setEnabled(false);
+        btn3.setEnabled(false);
+        btnSetting.setEnabled(false);
+    }
+
+    private void enableAllBtns(){
+        Button btn1 = findViewById(R.id.button1);
+        Button btn2 = findViewById(R.id.button2);
+        Button btn3 = (Button) findViewById(R.id.button3);
+        Button btnSetting = findViewById(R.id.settingBtn);
+
+        btn1.setEnabled(true);
+        btn2.setEnabled(true);
+        btn3.setEnabled(true);
+        btnSetting.setEnabled(true);
     }
 
     private void setQuestionValue(int num) {
@@ -335,6 +351,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 // 3秒経過したら次の値をセット
                 setQuestionValue(limit);
                 resetBgColor();
+
+                //全ボタンを有効化
+                enableAllBtns();
             }
         }.start();
     }
