@@ -6,10 +6,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.lifecycle.viewmodel.CreationExtras;
 
 import android.animation.ValueAnimator;
-import android.graphics.Color;
+import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -58,6 +61,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             view.setPadding(insets.left, insets.top, insets.right, 0);
             return windowInsets;
         });
+
+
+        Intent intent2 = getIntent();
+        Bundle extra=intent2.getExtras();
+
+
+
 
         Button btn1 = findViewById(R.id.button1);
         btn1.setOnClickListener(this);
@@ -133,6 +143,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
+
     @Override
     public void onClick(View view) {
       /*  ToneGenerator toneGen = new ToneGenerator(AudioManager.STREAM_SYSTEM, 100);
@@ -188,6 +199,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             null
                     ).show();
         }
+
+
+
     }
 
     private void clearAnswerValue() {
