@@ -51,6 +51,8 @@
                 android:id="@+id/settingBtn"
                 android:layout_width="30pt"
                 android:layout_height="wrap_content"
+                android:background="@drawable/button"
+                app:backgroundTint="@null"
                 android:text="@string/btn_setting"/>
         </LinearLayout>
 
