@@ -19,8 +19,17 @@ import android.widget.Toast;
 import org.w3c.dom.Text;
 
 import java.util.Random;
+import android.media.ToneGenerator;
+import android.media.AudioManager;
+import android.media.ToneGenerator;
+import android.media.AudioManager;
+import android.media.AudioAttributes;
+import android.media.SoundPool;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
+    private SoundPool soundPool;
+    private int soundpinpon2, soundbubbu1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,12 +53,33 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
 
+        AudioAttributes audioAttributes = new AudioAttributes.Builder()
+                .build();
+
+        soundPool = new SoundPool.Builder()
+                .setAudioAttributes(audioAttributes)
+                // ストリーム数に応じて
+                .setMaxStreams(3)
+                .build();
+
+        soundpinpon2 = soundPool.load(this, R.raw.pinpon2, 1);
+        soundbubbu1 = soundPool.load(this, R.raw.bubbu1, 1);
+
         // 起動時に関数を呼び出す
         setQuestionValue();
+
+
     }
 
     @Override
     public void onClick(View view) {
+      /*  ToneGenerator toneGen = new ToneGenerator(AudioManager.STREAM_SYSTEM, 100);
+        toneGen.startTone(ToneGenerator.TONE_DTMF_1, 150);*/
+
+
+
+
+
         int id = view.getId();
         if (id == R.id.button1) {
             setAnswerValue();
@@ -134,11 +164,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 score = 2;
                 vibrator.vibrate(VibrationEffect.createOneShot(
                         500, VibrationEffect.DEFAULT_AMPLITUDE));
+                soundPool.play(soundpinpon2, 1.0f, 1.0f, 0, 0, 1);
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
                 vibrator.vibrate(VibrationEffect.createOneShot(
                         1000, VibrationEffect.DEFAULT_AMPLITUDE));
+                soundPool.play(soundbubbu1, 1.0f, 1.0f, 0, 0, 1);
             } else {
                 result = "DRAW";
                 score = 1;
@@ -149,11 +181,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 score = 2;
                 vibrator.vibrate(VibrationEffect.createOneShot(
                         500, VibrationEffect.DEFAULT_AMPLITUDE));
+                soundPool.play(soundpinpon2, 1.0f, 1.0f, 0, 0, 1);
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
                 vibrator.vibrate(VibrationEffect.createOneShot(
                         1000, VibrationEffect.DEFAULT_AMPLITUDE));
+                soundPool.play(soundbubbu1, 1.0f, 1.0f, 0, 0, 1);
             } else {
                 result = "DRAW";
                 score = 1;
