@@ -7,6 +7,8 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import android.content.SharedPreferences;
+import android.media.AudioManager;
+import android.media.SoundPool;
 import android.util.Log;
 import android.os.Build;
 import android.content.Intent;
@@ -31,6 +33,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     SharedPreferences pref;
     SharedPreferences.Editor prefEditor;
 
+    SoundPool soundPool;
+    int[] soundIds = new int[2];
+    int[] seFiles = {R.raw.button01a, R.raw.button01b};
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,6 +49,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             view.setPadding(insets.left, insets.top, insets.right, 0);
             return windowInsets;
         });
+
+        soundPool = new SoundPool(soundIds.length, AudioManager.STREAM_MUSIC, 0);
+        for (int i = 0; i < soundIds.length; i++) {
+            soundIds[i] = soundPool.load(this, seFiles[i], 1);
+        }
+
 
         Button btn1 = findViewById(R.id.button1);
         btn1.setOnClickListener(this);
@@ -75,6 +87,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             clearAnswerValue();
             clearScoreValue();
             VibrationB();
+        }
+
+        if (id == R.id.button1) {
+            soundPool.play(soundIds[0], 1.0F, 1.0F, 0, 0, 1.0F);
+            setAnswerValue();
+            checkResult(true);
+        } else if (id == R.id.button2) {
+            soundPool.play(soundIds[0], 1.0F, 1.0F, 0, 0, 1.0F);
+            setAnswerValue();
+            checkResult(false);
+        } else if (id == R.id.button3) {
+            soundPool.play(soundIds[1], 1.0F, 1.0F, 0, 0, 1.0F);
+            setQuestionValue();
+            clearAnswerValue();
+            clearScoreValue();
         }
     }
     private void VibrationB() {
