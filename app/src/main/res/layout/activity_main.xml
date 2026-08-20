@@ -63,6 +63,7 @@
         </LinearLayout>
 
         <TextView
+            android:id="@+id/set_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/max_num" />
@@ -87,6 +88,7 @@
                 android:layout_height="wrap_content"
                 android:text="0" />
         </LinearLayout>
+
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -113,6 +115,14 @@
                 android:text="値2"
                 android:textSize="60sp" />
         </LinearLayout>
+
+        <Button
+            android:id="@+id/button4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="設定"
+            android:layout_gravity="right"> </Button>
+
 
         <ImageView
             android:id="@+id/footer"

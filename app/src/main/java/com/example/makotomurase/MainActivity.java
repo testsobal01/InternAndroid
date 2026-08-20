@@ -1,5 +1,6 @@
 package com.example.makotomurase;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
@@ -10,15 +11,19 @@ import android.animation.Animator;
 import android.animation.AnimatorInflater;
 import android.animation.AnimatorSet;
 import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,6 +41,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      */
     AnimatorSet blink;
     AnimatorSet scale;
+
+    //最大値設定用の変数
+    TextView set;
+    int max_num;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +71,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
 
+        Button btn4 = (Button) findViewById(R.id.button4);
+        btn4.setOnClickListener(this);
+
         pref = getSharedPreferences("MakotoMurase",MODE_PRIVATE);
         prefEditor = pref.edit();
 
@@ -81,6 +93,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         blink.setTarget(player);
         scale = (AnimatorSet) AnimatorInflater.loadAnimator(MainActivity.this, R.animator.scale_animation);
         scale.setTarget(player);
+
+        set = (TextView) findViewById(R.id.set_text);
+        max_num = 10;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -102,6 +117,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             setQuestionValue();
             clearAnswerValue();
             clearScoreValue();
+        } else if (id == R.id.button4) {
+            //最大値が設定できるダイアログを表示
+            NumberPickerDialogFragment dialog = new NumberPickerDialogFragment();
+            dialog.show(getSupportFragmentManager(), "sample");
         }
     }
 
@@ -113,7 +132,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void setQuestionValue() {
         Random r = new Random();
         // 0から10の範囲で乱数を生成（+1する必要がある）
-        int questionValue = r.nextInt(10 + 1);
+        int questionValue = r.nextInt(max_num + 1);
 
         TextView txtView = findViewById(R.id.question);
         txtView.setText(Integer.toString(questionValue));
@@ -218,16 +237,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         txtScore.setText("0");
     }
 
-    public void changeBackgroundColor(String result){
+    public void changeBackgroundColor(String result) {
         View layout = findViewById(R.id.layout);
 
-        if(Objects.equals(result, "WIN")){
+        if (Objects.equals(result, "WIN")) {
             layout.setBackgroundColor(0xFFFF0000);
-        }else if(Objects.equals(result, "LOSE")){
+        } else if (Objects.equals(result, "LOSE")) {
             layout.setBackgroundColor(0xFFAFDFE4);
-        }else if(Objects.equals(result, "DRAW")){
+        } else if (Objects.equals(result, "DRAW")) {
             layout.setBackgroundColor(0xFF00FF00);
         }
+    }
 
     @Override
     protected void onPause(){
@@ -248,6 +268,42 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         String readText = pref.getString("score","0");
         textView.setText(readText);
+    }
+
+    //ダイアログを出すクラス
+    public static class NumberPickerDialogFragment extends androidx.fragment.app.DialogFragment {
+
+        @NonNull
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            LayoutInflater inflater = getActivity().getLayoutInflater();
+            View view = inflater.inflate(R.layout.numberpicker, null,false);
+
+            final MainActivity activity = (MainActivity) getActivity();
+            final NumberPicker np1 = (NumberPicker) view.findViewById(R.id.numberPicker);
+            np1.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
+            np1.setMinValue(10);
+            np1.setMaxValue(50);
+            np1.setValue(activity.max_num);
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            builder.setTitle("最大値を設定してください");
+            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+
+                    int max = Integer.parseInt(String.valueOf(np1.getValue()));
+
+                    MainActivity mainActivity = (MainActivity) getActivity();
+                    assert mainActivity != null;
+                    mainActivity.max_num= max;
+                    mainActivity.set.setText(max + "が設定されています");
+                }
+            });
+            builder.setNegativeButton("キャンセル", null);
+            builder.setView(view);
+            return builder.create();
+        }
     }
 }
 
