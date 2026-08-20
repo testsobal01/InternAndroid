@@ -5,8 +5,11 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -16,6 +19,8 @@ import java.util.Objects;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+    SharedPreferences pref;
+    SharedPreferences.Editor prefEditor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +47,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
 
+        pref = getSharedPreferences("MakotoMurase",MODE_PRIVATE);
+        prefEditor = pref.edit();
+
         // 起動時に関数を呼び出す
         setQuestionValue();
 
@@ -53,6 +61,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (id == R.id.button1) {
             setAnswerValue();
             checkResult(true);
+
+            // 番号4 バイブレーション機能
+            Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+            vibrator.vibrate(VibrationEffect.createOneShot(3000, VibrationEffect.DEFAULT_AMPLITUDE));
+
         } else if (id == R.id.button2) {
             setAnswerValue();
             checkResult(false);
@@ -174,6 +187,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }else if(Objects.equals(result, "DRAW")){
             layout.setBackgroundColor(0xFF00FF00);
         }
+
+    @Override
+    protected void onPause(){
+        super.onPause();
+        Toast.makeText(this,"onPause",Toast.LENGTH_SHORT).show();
+
+        TextView textView = (TextView) findViewById(R.id.text_score);
+
+        prefEditor.putString("score",textView.getText().toString());
+        prefEditor.commit();
+    }
+
+    @Override
+    protected void onResume(){
+        super.onResume();
+
+        TextView textView = (TextView) findViewById(R.id.text_score);
+
+        String readText = pref.getString("score","0");
+        textView.setText(readText);
     }
 }
 
