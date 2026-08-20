@@ -5,8 +5,11 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -45,9 +48,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View view) {
         int id = view.getId();
+        Vibrator vibrator=(Vibrator)getSystemService(VIBRATOR_SERVICE);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            vibrator.vibrate(VibrationEffect.createOneShot(
+                    200,VibrationEffect.DEFAULT_AMPLITUDE));
         if (id == R.id.button1) {
             setAnswerValue();
             checkResult(true);
+            }
         } else if (id == R.id.button2) {
             setAnswerValue();
             checkResult(false);
@@ -110,6 +119,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question > answer) {
                 result = "WIN";
                 score = 2;
+
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
