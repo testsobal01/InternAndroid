@@ -12,6 +12,8 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
+
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -41,8 +43,8 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="10が設定されています。" />
-
+            android:text="@string/max_num" />
+<!--            多言語対応のためmax_numとしてstringを追加-->
         <TextView
             android:id="@+id/text_result"
             android:layout_width="wrap_content"
