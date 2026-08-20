@@ -18,6 +18,7 @@ import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -66,6 +67,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // 起動時に関数を呼び出す
         setQuestionValue();
+
+        ImageView fooder=findViewById(R.id.footer);
+        fooder.setOnClickListener(this);
+        //  もし何かフッター触ったときにに入れたいのならonClickから使っていじろう(番号9)
+
 
         //テキストビューを取得
         TextView player = (TextView) findViewById(R.id.answer);
