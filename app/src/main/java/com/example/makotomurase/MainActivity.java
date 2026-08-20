@@ -6,6 +6,10 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import android.animation.Animator;
+import android.animation.AnimatorInflater;
+import android.animation.AnimatorSet;
+import android.app.AlertDialog;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
@@ -18,11 +22,20 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.Objects;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     SharedPreferences pref;
     SharedPreferences.Editor prefEditor;
+
+    //AnimatorSetオブジェクトを宣言
+    /**
+     * アニメーションに利用するセットを宣言
+     * blink：テキストの点滅、scale：テキストのサイズ変化
+     */
+    AnimatorSet blink;
+    AnimatorSet scale;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +49,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             view.setPadding(insets.left, insets.top, insets.right, 0);
             return windowInsets;
         });
+
+        View layout = findViewById(R.id.layout);
+        layout.setBackgroundColor(0xFFFFFF);
 
         Button btn1 = findViewById(R.id.button1);
         btn1.setOnClickListener(this);
@@ -57,6 +73,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //  もし何かフッター触ったときにに入れたいのならonClickから使っていじろう(番号9)
 
 
+        //テキストビューを取得
+        TextView player = (TextView) findViewById(R.id.answer);
+
+        //プレイヤーのテキストビューにアニメーションを設定
+        blink = (AnimatorSet) AnimatorInflater.loadAnimator(MainActivity.this, R.animator.blink_animation);
+        blink.setTarget(player);
+        scale = (AnimatorSet) AnimatorInflater.loadAnimator(MainActivity.this, R.animator.scale_animation);
+        scale.setTarget(player);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -122,9 +146,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = "WIN";
                 score = 2;
+
+                //テキスト拡大
+                scale.start();
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
+
+                //テキスト点滅
+                blink.start();
             } else {
                 result = "DRAW";
                 score = 1;
@@ -133,14 +163,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question > answer) {
                 result = "WIN";
                 score = 2;
+
+                //テキスト拡大
+                scale.start();
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
+
+                //テキスト点滅
+                blink.start();
             } else {
                 result = "DRAW";
                 score = 1;
             }
         }
+        changeBackgroundColor(result);
 
         // 最後にまとめてToast表示の処理とTextViewへのセットを行う
         Toast.makeText(this, result, Toast.LENGTH_LONG).show();
@@ -181,6 +218,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         txtScore.setText("0");
     }
 
+    public void changeBackgroundColor(String result){
+        View layout = findViewById(R.id.layout);
+
+        if(Objects.equals(result, "WIN")){
+            layout.setBackgroundColor(0xFFFF0000);
+        }else if(Objects.equals(result, "LOSE")){
+            layout.setBackgroundColor(0xFFAFDFE4);
+        }else if(Objects.equals(result, "DRAW")){
+            layout.setBackgroundColor(0xFF00FF00);
+        }
 
     @Override
     protected void onPause(){
