@@ -6,10 +6,14 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -20,6 +24,8 @@ import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
+    SharedPreferences pref;
+    SharedPreferences.Editor prefEditor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +49,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
 
+        pref=getSharedPreferences("AndroidSeminar",MODE_PRIVATE);
+        prefEditor=pref.edit();
+        Button settingsButton = findViewById(R.id.button4);
+        settingsButton.setOnClickListener(view -> showSettingsDialog());
+
         // 起動時に関数を呼び出す
         setQuestionValue();
     }
@@ -65,8 +76,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             MainActivity vibrate = new MainActivity();
 
             Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
-            vibrator.vibrate(VibrationEffect.createOneShot(
-                    200, VibrationEffect.DEFAULT_AMPLITUDE));
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                vibrator.vibrate(VibrationEffect.createOneShot(
+                        200, VibrationEffect.DEFAULT_AMPLITUDE));
+            } else {
+                vibrator.vibrate(200);
+            }
         }
 
     }
@@ -134,7 +149,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // 最後にまとめてToast表示の処理とTextViewへのセットを行う
         Toast.makeText(this, result, Toast.LENGTH_LONG).show();
-        txtResult.setText("結果：" + question + ":" + answer + "(" + result + ")");
+        txtResult.setText(getString(R.string.result) + question + ":" + answer + "(" + result + ")");
 
         // 続けて遊べるように値を更新
         setNextQuestion();
@@ -171,5 +186,42 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         txtScore.setText("0");
     }
 
+    @Override
+    protected void onPause(){
+        super.onPause();
+        Toast.makeText(this,"onPause",Toast.LENGTH_SHORT).show();
+
+        TextView textView=(TextView) findViewById (R.id.text_score);
+        int num = Integer.parseInt(textView.getText().toString());
+
+        prefEditor.putInt("main_input",num);
+        prefEditor.commit();
+    }
+
+    @Override
+    protected void onResume(){
+        super.onResume();
+        Log.d("AndroidTest","onResume completed.");
+
+        TextView textView=(TextView) findViewById(R.id.text_score);
+        int num = Integer.parseInt(textView.getText().toString());
+
+        int readText =pref.getInt("main_input",num);
+        textView.setText(Integer.toString(readText));
+    }
+  
+    private void showSettingsDialog() {
+        String[] settingItems = {
+                getString(R.string.action_settings),
+                getString(R.string.action_settings2),
+                getString(R.string.action_settings3),
+        };
+
+        new AlertDialog.Builder(this)
+                .setTitle(R.string.settings)
+                .setItems(settingItems, null)
+                .setNegativeButton(R.string.close, null)
+                .show();
+    }
 }
 
