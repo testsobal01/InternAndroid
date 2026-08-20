@@ -5,6 +5,8 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import android.animation.AnimatorInflater;
+import android.animation.AnimatorSet;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -19,6 +21,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     SharedPreferences pref;
     SharedPreferences.Editor prefEditor;
+
+    AnimatorSet set;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +75,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View view) {
         int id = view.getId();
+        if(set != null){
+            set.cancel();
+            set = null;
+        }
         if (id == R.id.button1) {
             setAnswerValue();
             checkResult(true);
@@ -148,6 +156,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // 最後にまとめてToast表示の処理とTextViewへのセットを行う
         Toast.makeText(this, result, Toast.LENGTH_LONG).show();
         txtResult.setText("結果：" + question + ":" + answer + "(" + result + ")");
+
+        AnimatorSet set = (AnimatorSet) AnimatorInflater.loadAnimator(this, R.animator.result_animation);
+        set.setTarget(txtViewAnswer);
+        set.start();
 
         // 続けて遊べるように値を更新
         setNextQuestion();
