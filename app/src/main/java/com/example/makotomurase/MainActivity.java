@@ -1,15 +1,21 @@
 package com.example.makotomurase;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import android.annotation.SuppressLint;
+import android.animation.Animator;
+import android.animation.AnimatorInflater;
+import android.animation.AnimatorSet;
 import android.app.AlertDialog;
 import android.content.SharedPreferences;
 import android.content.res.AssetFileDescriptor;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.VibrationEffect;
@@ -17,9 +23,12 @@ import android.os.Vibrator;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import android.content.Context;
+import android.media.SoundPool;
 import java.io.IOException;
 import java.util.Objects;
 import java.util.Random;
@@ -29,6 +38,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     SharedPreferences.Editor prefEditor;
     private MediaPlayer mediaPlayer;
 
+    //AnimatorSetオブジェクトを宣言
+    /**
+     * アニメーションに利用するセットを宣言
+     * blink：テキストの点滅、scale：テキストのサイズ変化
+     */
+    AnimatorSet blink;
+    AnimatorSet scale;
+
+    // 効果音
+    private static SoundPool soundPool;
+//    private SoundPlayer soundPlayer;
+    private static int correct_answer1 = 1;
+    private static int blip01 = 1;
+
+    @SuppressLint("MissingSuperCall")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,6 +78,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
 
+
+        SoundPlayer(this);
+        //soundPlayer = new SoundPlayer(this);
+        //SoundPool soundPlayer = SoundPlayer(this);
         pref = getSharedPreferences("MakotoMurase",MODE_PRIVATE);
         prefEditor = pref.edit();
 
@@ -73,8 +101,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 audioStop();
             }
         });
+
+        ImageView fooder=findViewById(R.id.footer);
+        fooder.setOnClickListener(view -> {
+            Toast.makeText(getApplicationContext(),"\uD83E\uDEF5ω・´)<貴様ッ！なぜわかった！",Toast.LENGTH_SHORT).show();
+        });
+        //  もし何かフッター触ったときにに入れたいのなら{}の中身をいじろう(番号9)
+
+
+        //テキストビューを取得
+        TextView player = (TextView) findViewById(R.id.answer);
+
+        //プレイヤーのテキストビューにアニメーションを設定
+        blink = (AnimatorSet) AnimatorInflater.loadAnimator(MainActivity.this, R.animator.blink_animation);
+        blink.setTarget(player);
+        scale = (AnimatorSet) AnimatorInflater.loadAnimator(MainActivity.this, R.animator.scale_animation);
+        scale.setTarget(player);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onClick(View view) {
         int id = view.getId();
@@ -94,6 +139,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             clearAnswerValue();
             clearScoreValue();
         }
+
+
+
     }
 
     private void clearAnswerValue() {
@@ -118,6 +166,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         txtView.setText(Integer.toString(answerValue));
     }
 
+
+    public void SoundPlayer(Context context) {
+
+        soundPool = new SoundPool(2, AudioManager.STREAM_MUSIC, 0);
+
+        correct_answer1 = soundPool.load(context, R.raw.correct_answer1, 0);
+        blip01 = soundPool.load(context, R.raw.blip01, 0);
+    }
+
+    public void correctSound() {
+        soundPool.play(correct_answer1, 1.0f, 1.0f, 1, 0, 1.0f);
+    }
+
+    public void blipSound() {
+        soundPool.play(blip01, 1.0f, 1.0f, 1, 0, 1.0f);
+    }
+
     private void checkResult(boolean isHigh) {
         TextView txtViewQuestion = findViewById(R.id.question);
         TextView txtViewAnswer = findViewById(R.id.answer);
@@ -137,9 +202,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = "WIN";
                 score = 2;
+                correctSound();
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
+                blipSound();
+
+                //テキスト拡大
+                scale.start();
+            } else if (question > answer) {
+                result = "LOSE";
+                score = -1;
+
+                //テキスト点滅
+                blink.start();
             } else {
                 result = "DRAW";
                 score = 1;
@@ -148,9 +224,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question > answer) {
                 result = "WIN";
                 score = 2;
+                correctSound();
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
+                blipSound();
+
+                //テキスト拡大
+                scale.start();
+            } else if (question < answer) {
+                result = "LOSE";
+                score = -1;
+
+                //テキスト点滅
+                blink.start();
             } else {
                 result = "DRAW";
                 score = 1;

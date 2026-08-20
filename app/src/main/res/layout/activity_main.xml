@@ -90,7 +90,8 @@
 
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="0dp"
+            android:layout_weight="8">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -149,6 +150,20 @@
             </LinearLayout>
 
         </FrameLayout>
+
+        <ImageView
+            android:id="@+id/footer"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:src="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+            <!-- フッター用。srcに入れたい画像をセット。ダウンロードがうまくいきませんでした…講師の方せっかく確認していただいたのに申し訳ない…-->
+            <!-- 番号9-->
+
+
 
     </LinearLayout>
 
