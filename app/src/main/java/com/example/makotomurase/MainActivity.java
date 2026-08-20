@@ -72,12 +72,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         };
 
-        ImageButton btn1 = findViewById(R.id.button1);
+
         soundPlayer = new SoundPlayer(this);
         Intent intent=new Intent(this,StartActivity.class);
         startActivity(intent);
 
-        Button btn1 = findViewById(R.id.button1);
+        ImageButton btn1 = findViewById(R.id.button1);
         btn1.setOnClickListener(this);
         btn1.setOnTouchListener(darkenTouchListener);
 
@@ -160,6 +160,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         String result;
         int score;
 
+        TextView cutInText = findViewById(R.id.cut_in_text);
+
         TextView myLayout=findViewById(R.id.question);
         TextView myLayout1=findViewById(R.id.answer);
 
@@ -169,6 +171,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = "WIN";
                 score = 2;
+
+                triggerRandomCutIn(cutInText);
+
                 myLayout.setBackgroundColor(Color.GREEN);
                 myLayout1.setBackgroundColor(Color.GREEN);
             } else if (question > answer) {
@@ -186,6 +191,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question > answer) {
                 result = "WIN";
                 score = 2;
+
+                triggerRandomCutIn(cutInText);
+
                 myLayout.setBackgroundColor(Color.GREEN);
                 myLayout1.setBackgroundColor(Color.GREEN);
             } else if (question < answer) {
@@ -257,5 +265,72 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         String readText = pref.getString("main_input","0");
         textView.setText(readText);
     }
+
+    private void triggerRandomCutIn(TextView textView){
+        if(textView==null)return;
+
+        Random r=new Random();
+
+        int chance = r.nextInt(50);
+
+
+            String[] sillyPhrase={
+                    "おなかすいたね",
+                    "WINといか大勝利だべ",
+                    "所詮運ゲーだからね",
+                    "調子乗らないほうがいいよ",
+                    "もしかして天才!!??",
+                    "王手",
+                    "チェックメイトですの",
+                    "賭ケグルイましょう？？？",
+                    "一生のおねがいだからもう一回",
+                    "う、うぉw",
+                    "WIN",
+                    "WIN",
+                    "WIN",
+                    "WIN",
+                    "WIN",
+                    "WIN",
+            };
+            int index = r.nextInt(sillyPhrase.length);
+            textView.setText(sillyPhrase[index]);
+            textView.setTextColor(Color.parseColor("#E91E63"));
+
+
+        showTextCutInAnimation(textView);
+    }
+
+    private void showTextCutInAnimation(final TextView textView){
+        textView.setVisibility(View.VISIBLE);
+        textView.setScaleX(0f);
+        textView.setScaleY(0f);
+        textView.setAlpha(0f);
+
+        textView.animate()
+                .scaleX(1.2f)
+                .scaleY(1.2f)
+                .alpha(1.0f)
+                .setDuration(250)
+                .withEndAction(new Runnable() {
+                    @Override
+                    public void run() {
+                        textView.animate()
+                                .scaleX(1.0f)
+                                .scaleY(1.0f)
+                                .alpha(0f)
+                                .setStartDelay(1200)
+                                .setDuration(400)
+                                .withEndAction(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        textView.setVisibility(View.GONE);
+                                    }
+                                })
+                                .start();
+                    }
+                })
+                .start();
+    }
+
 }
 
