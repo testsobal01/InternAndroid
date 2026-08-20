@@ -5,6 +5,10 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import android.content.Context;
+import android.media.AudioAttributes;
+import android.media.AudioManager;
+import android.media.SoundPool;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
@@ -12,9 +16,15 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
 import java.util.Random;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener  {
+
+    private SoundPlayer soundPlayer;
+    private static SoundPool soundPool;
+    private static int hitSound;
+    private static int overSound;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +38,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             view.setPadding(insets.left, insets.top, insets.right, 0);
             return windowInsets;
         });
+
+        soundPlayer = new SoundPlayer(this);
 
         Button btn1 = findViewById(R.id.button1);
         btn1.setOnClickListener(this);
@@ -43,15 +55,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     @Override
+
     public void onClick(View view) {
         int id = view.getId();
         if (id == R.id.button1) {
+            soundPlayer.playHitSound();
             setAnswerValue();
             checkResult(true);
         } else if (id == R.id.button2) {
+            soundPlayer.playHitSound();
             setAnswerValue();
             checkResult(false);
         } else if (id == R.id.button3) {
+            soundPlayer.playHitSound();
             setQuestionValue();
             clearAnswerValue();
             clearScoreValue();
