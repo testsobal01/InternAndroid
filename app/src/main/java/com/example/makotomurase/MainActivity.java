@@ -7,6 +7,8 @@ import androidx.core.view.WindowInsetsCompat;
 
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -143,6 +145,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public void onFinish() {
                 // 3秒経過したら次の値をセット
                 setQuestionValue();
+                Vibrator vibrator = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+               vibrator.vibrate(VibrationEffect.createOneShot(
+               1000,VibrationEffect.DEFAULT_AMPLITUDE));
             }
         }.start();
     }
