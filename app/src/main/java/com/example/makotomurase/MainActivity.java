@@ -6,6 +6,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -129,29 +130,45 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         String result;
         int score;
 
+        TextView colorChange1 = (TextView) findViewById(R.id.question);
+        TextView colorChange2 = (TextView) findViewById(R.id.answer);
+
+
         // Highが押された
         if (isHigh) {
             // result には結果のみを入れる
             if (question < answer) {
                 result = "WIN";
                 score = 2;
+                colorChange1.setBackgroundColor(Color.RED);
+                colorChange2.setBackgroundColor(Color.RED);
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
+                colorChange1.setBackgroundColor(Color.BLUE);
+                colorChange2.setBackgroundColor(Color.BLUE);
             } else {
                 result = "DRAW";
                 score = 1;
+                colorChange1.setBackgroundColor(Color.GRAY);
+                colorChange2.setBackgroundColor(Color.GRAY);
             }
         } else {
             if (question > answer) {
                 result = "WIN";
                 score = 2;
+                colorChange1.setBackgroundColor(Color.RED);
+                colorChange2.setBackgroundColor(Color.RED);
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
+                colorChange1.setBackgroundColor(Color.BLUE);
+                colorChange2.setBackgroundColor(Color.BLUE);
             } else {
                 result = "DRAW";
                 score = 1;
+                colorChange1.setBackgroundColor(Color.GRAY);
+                colorChange2.setBackgroundColor(Color.GRAY);
             }
         }
 
