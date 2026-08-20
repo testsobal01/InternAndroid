@@ -13,6 +13,7 @@ import android.content.Intent;
 import android.app.AlertDialog;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.VibrationEffect;
@@ -107,6 +108,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void checkResult(boolean isHigh) {
+        final View BackGroud = findViewById(R.id.main);
+        BackGroud.setBackgroundColor(Color.WHITE);
+
         //言語識別用の変数
         Locale locale = Locale.getDefault();
         String lang  = String.valueOf(locale);
@@ -129,25 +133,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = "WIN";
                 score = 2;
+                BackGroud.setBackgroundColor(Color.GREEN);
                 VibrationB();
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
+                BackGroud.setBackgroundColor(Color.CYAN);
             } else {
                 result = "DRAW";
                 score = 1;
+                BackGroud.setBackgroundColor(Color.LTGRAY);
             }
         } else {
             if (question > answer) {
                 result = "WIN";
                 score = 2;
+                BackGroud.setBackgroundColor(Color.GREEN);
                 VibrationB();
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
+                BackGroud.setBackgroundColor(Color.CYAN);
             } else {
                 result = "DRAW";
                 score = 1;
+                BackGroud.setBackgroundColor(Color.LTGRAY);
             }
         }
 
