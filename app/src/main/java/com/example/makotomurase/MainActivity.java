@@ -1,10 +1,12 @@
 package com.example.makotomurase;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.VibrationEffect;
@@ -49,10 +51,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int id = view.getId();
         if (id == R.id.button1) {
             setAnswerValue();
-            checkResult(true);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                checkResult(true);
+            }
         } else if (id == R.id.button2) {
             setAnswerValue();
-            checkResult(false);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                checkResult(false);
+            }
         } else if (id == R.id.button3) {
             setQuestionValue();
             clearAnswerValue();
@@ -82,6 +88,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         txtView.setText(Integer.toString(answerValue));
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     private void checkResult(boolean isHigh) {
         TextView txtViewQuestion = findViewById(R.id.question);
         TextView txtViewAnswer = findViewById(R.id.answer);
