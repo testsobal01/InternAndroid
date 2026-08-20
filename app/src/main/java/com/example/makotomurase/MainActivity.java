@@ -2,14 +2,9 @@ package com.example.makotomurase;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
-import androidx.core.os.ConfigurationCompat;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import android.content.Intent;
-import android.app.AlertDialog;
-import android.content.res.Configuration;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
@@ -107,9 +102,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = "WIN";
                 score = 2;
+
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
+
             } else {
                 result = "DRAW";
                 score = 1;
@@ -125,6 +122,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 result = "DRAW";
                 score = 1;
             }
+
         }
 
         // 最後にまとめてToast表示の処理とTextViewへのセットを行う
@@ -152,8 +150,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             @Override
             public void onFinish() {
+                // テキストのフェードアウト処理を追加
+                fadeout();
                 // 3秒経過したら次の値をセット
                 setQuestionValue();
+                // テキストのフェードイン処理を追加
+                fadein();
             }
         }.start();
     }
@@ -169,5 +171,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         txtScore.setText("0");
     }
 
+    private void fadein() {
+        TextView textView = findViewById(R.id.question);
+        textView.setAlpha(0f);
+        textView.setVisibility(View.VISIBLE);
+        textView.animate()
+                .alpha(1f)
+                .setDuration(3000)
+                .setListener(null);
+    }
+
+    private void fadeout() {
+        TextView textView = findViewById(R.id.question);
+        textView.animate()
+                .alpha(0f)
+                .setDuration(3000)
+                .withEndAction(new Runnable() {
+                    @Override
+                    public void run() {
+                        textView.setVisibility(View.GONE);
+                    }
+                })
+                .start();
+    }
 }
 
