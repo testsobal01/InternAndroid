@@ -6,12 +6,20 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.hardware.camera2.CameraExtensionSession;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.LayoutInflater;
+import android.content.SharedPreferences;
+import android.os.Build;
+import android.os.Bundle;
+import android.os.CountDownTimer;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -21,9 +29,13 @@ import android.widget.Toast;
 
 import java.util.Random;
 
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     /**ランダムの最大値*/
     int max = 0;
+
+    SharedPreferences pref;
+    SharedPreferences.Editor prefEditor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,14 +59,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
 
+        pref=getSharedPreferences("AndroidSeminar",MODE_PRIVATE);
+        prefEditor=pref.edit();
         Button settingsButton = findViewById(R.id.button4);
         settingsButton.setOnClickListener(view -> showSettingsDialog());
 
         // 起動時に関数を呼び出す
         setQuestionValue();
     }
-
     @Override
+
+
     public void onClick(View view) {
         int id = view.getId();
         if (id == R.id.button1) {
@@ -67,7 +82,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             setQuestionValue();
             clearAnswerValue();
             clearScoreValue();
+            //バイブレーター
+            MainActivity vibrate = new MainActivity();
+
+            Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                vibrator.vibrate(VibrationEffect.createOneShot(
+                        200, VibrationEffect.DEFAULT_AMPLITUDE));
+            } else {
+                vibrator.vibrate(200);
+            }
         }
+
     }
 
     private void clearAnswerValue() {
@@ -170,6 +196,30 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         txtScore.setText("0");
     }
 
+    @Override
+    protected void onPause(){
+        super.onPause();
+        Toast.makeText(this,"onPause",Toast.LENGTH_SHORT).show();
+
+        TextView textView=(TextView) findViewById (R.id.text_score);
+        int num = Integer.parseInt(textView.getText().toString());
+
+        prefEditor.putInt("main_input",num);
+        prefEditor.commit();
+    }
+
+    @Override
+    protected void onResume(){
+        super.onResume();
+        Log.d("AndroidTest","onResume completed.");
+
+        TextView textView=(TextView) findViewById(R.id.text_score);
+        int num = Integer.parseInt(textView.getText().toString());
+
+        int readText =pref.getInt("main_input",num);
+        textView.setText(Integer.toString(readText));
+    }
+  
     private void showSettingsDialog() {
         NumberPicker numberPicker = new NumberPicker(this);
         numberPicker.setMinValue(10);
