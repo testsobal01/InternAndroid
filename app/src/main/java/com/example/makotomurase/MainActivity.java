@@ -12,11 +12,15 @@ import android.animation.AnimatorInflater;
 import android.animation.AnimatorSet;
 import android.app.AlertDialog;
 import android.content.SharedPreferences;
+import android.content.res.AssetFileDescriptor;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -24,15 +28,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import android.content.Context;
-import android.media.AudioManager;
 import android.media.SoundPool;
-
+import java.io.IOException;
 import java.util.Objects;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     SharedPreferences pref;
     SharedPreferences.Editor prefEditor;
+    private MediaPlayer mediaPlayer;
 
     //AnimatorSetオブジェクトを宣言
     /**
@@ -83,6 +87,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // 起動時に関数を呼び出す
         setQuestionValue();
+
+        //番号11　BGMの追加
+        Button buttonStart = findViewById(R.id.start);
+        buttonStart.setOnClickListener( v ->  {
+            // 音楽再生
+            audioPlay();
+        });
+
+        Button buttonStop = findViewById(R.id.stop);
+        buttonStop.setOnClickListener( v -> {
+            if (mediaPlayer != null) {
+                audioStop();
+            }
+        });
 
         ImageView fooder=findViewById(R.id.footer);
         fooder.setOnClickListener(view -> {
@@ -277,6 +295,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             layout.setBackgroundColor(0xFF00FF00);
         }
     }
+
+    //番号２　プリファレンスにスコアを保存
     @Override
     protected void onPause(){
         super.onPause();
@@ -287,7 +307,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         prefEditor.putString("score",textView.getText().toString());
         prefEditor.commit();
     }
-
     @Override
     protected void onResume(){
         super.onResume();
@@ -296,6 +315,59 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         String readText = pref.getString("score","0");
         textView.setText(readText);
+    }
+
+    //番号11　BGMの追加
+    private boolean audioSetup(){
+        mediaPlayer = new MediaPlayer();
+
+        String filePath = "music.mp3";
+
+        try(AssetFileDescriptor afdescripter = getAssets().openFd(filePath))
+        {
+            mediaPlayer.setDataSource(
+                    afdescripter.getFileDescriptor(),
+                    afdescripter.getStartOffset(),
+                    afdescripter.getLength());
+            setVolumeControlStream(AudioManager.STREAM_MUSIC);
+            mediaPlayer.prepare();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        return true;
+    }
+    private void audioPlay() {
+
+        if (mediaPlayer == null) {
+            if (audioSetup()){
+                Toast.makeText(getApplication(), "Rread audio file", Toast.LENGTH_SHORT).show();
+            }
+            else{
+                Toast.makeText(getApplication(), "Error: read audio file", Toast.LENGTH_SHORT).show();
+                return;
+            }
+        }
+        else{
+            mediaPlayer.stop();
+            mediaPlayer.reset();
+            mediaPlayer.release();
+        }
+
+        mediaPlayer.start();
+
+        mediaPlayer.setOnCompletionListener( mp -> {
+            Log.d("debug","end of audio");
+            audioStop();
+        });
+
+    }
+    private void audioStop() {
+        mediaPlayer.stop();
+        mediaPlayer.reset();
+        mediaPlayer.release();
+
+        mediaPlayer = null;
     }
 }
 
