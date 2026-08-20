@@ -5,8 +5,10 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -15,6 +17,9 @@ import android.widget.Toast;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
+    SharedPreferences pref;
+    SharedPreferences.Editor prefEditor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +42,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
+
+        pref = getSharedPreferences("AndroidSeminor",MODE_PRIVATE);
+        prefEditor = pref.edit();
 
         // 起動時に関数を呼び出す
         setQuestionValue();
@@ -156,6 +164,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void clearScoreValue() {
         TextView txtScore = (TextView) findViewById(R.id.text_score);
         txtScore.setText("0");
+    }
+
+    protected void onPause(){
+        super.onPause();
+        TextView txtScore = (TextView) findViewById(R.id.text_score);
+        int Save_score = Integer.parseInt(txtScore.getText().toString());
+
+        prefEditor.putInt("main_input", Save_score);
+        prefEditor.commit();
+    }
+
+    protected void onResume() {
+        super.onResume();
+        Log.d("AndroidTest","onResume completed.");
+
+        TextView txtScore = (TextView) findViewById(R.id.text_score);
+
+        int readScore = pref.getInt("main_input",0);
+        txtScore.setText(String.valueOf(readScore));
     }
 }
 
