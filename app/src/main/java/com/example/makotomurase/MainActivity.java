@@ -6,6 +6,8 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import android.animation.ValueAnimator;
+import android.graphics.Color;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
@@ -140,6 +142,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+    private void blinkText(String result) {
+        TextView view;
+        TextView ansView = (TextView) findViewById(R.id.answer);
+        TextView qstView = (TextView) findViewById(R.id.question);
+
+        if (result.equals("WIN")) {
+            view = ansView;
+        } else if (result.equals("LOSE")) {
+            view = qstView;
+        } else {
+            return;
+        }
+
+        ValueAnimator colorAnimator = ValueAnimator.ofArgb(getResources().getColor(R.color.fontColor), Color.TRANSPARENT);
+        colorAnimator.setDuration(200);
+        colorAnimator.setRepeatCount(3);
+        colorAnimator.setRepeatMode(ValueAnimator.REVERSE);
+        colorAnimator.addUpdateListener(animator -> view.setTextColor((int) animator.getAnimatedValue()));
+        colorAnimator.start();
+    }
+
     private void setQuestionValue() {
         Random r = new Random();
         // 0から10の範囲で乱数を生成（+1する必要がある）
@@ -213,6 +236,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // 勝ったほうの背景色を変更
         setWinnerBgColor(result);
+        blinkText(result);
 
         // 続けて遊べるように値を更新
         setNextQuestion();

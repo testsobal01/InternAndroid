@@ -2,4 +2,9 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="bgQuestionDefault">#FFFFDDDD</color>
+    <color name="bgQuestionWin">#FFFFAAAA</color>
+    <color name="bgAnswerDefault">#FFDDDDFF</color>
+    <color name="bgAnswerWin">#FFAAAAFF</color>
+    <color name="fontColor">#FF111111</color>
 </resources>
