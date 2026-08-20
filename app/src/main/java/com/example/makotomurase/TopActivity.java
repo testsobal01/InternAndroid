@@ -44,6 +44,8 @@ public class TopActivity extends AppCompatActivity implements View.OnClickListen
         });
         Button btn_start = findViewById(R.id.button_start);
         btn_start.setOnClickListener(this);
+        Button rule = findViewById(R.id.rule);
+        rule.setOnClickListener(this);
     }
 
     @Override
@@ -57,6 +59,9 @@ public class TopActivity extends AppCompatActivity implements View.OnClickListen
 
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
+        }else if (id == R.id.rule){
+            Intent intent1 = new Intent(this, RuleActivity.class);
+            startActivity(intent1);
         }
 
     }
