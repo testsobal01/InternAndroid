@@ -4,8 +4,4 @@
     <string name="btn_low">Low</string>
     <string name="btn_restart">Restart</string>
     <string name="label_score">Score：</string>
-    <string name="label_limit">It is configured to 10.</string>
-    <string name="label_question">Value １</string>
-    <string name="label_answer">\?</string>
-    <string name="label_result">result：%1$d:%2$d (%3$s)</string>
 </resources>
