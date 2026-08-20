@@ -123,7 +123,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
-            <!-- フッター用。srcに入れたい画像をセット。ダウンロードがうまくいきませんでした…講師の方せっかく確認していただいた野に申し訳ない…-->
+            <!-- フッター用。srcに入れたい画像をセット。ダウンロードがうまくいきませんでした…講師の方せっかく確認していただいたのに申し訳ない…-->
             <!-- 番号9-->
 
 

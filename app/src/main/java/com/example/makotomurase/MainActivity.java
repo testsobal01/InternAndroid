@@ -69,8 +69,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setQuestionValue();
 
         ImageView fooder=findViewById(R.id.footer);
-        fooder.setOnClickListener(this);
-        //  もし何かフッター触ったときにに入れたいのならonClickから使っていじろう(番号9)
+        fooder.setOnClickListener(view -> {
+            Toast.makeText(getApplicationContext(),"\uD83E\uDEF5ω・´)<貴様ッ！なぜわかった！",Toast.LENGTH_SHORT).show();
+        });
+        //  もし何かフッター触ったときにに入れたいのなら{}の中身をいじろう(番号9)
 
 
         //テキストビューを取得
@@ -103,6 +105,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             clearAnswerValue();
             clearScoreValue();
         }
+
+
+
     }
 
     private void clearAnswerValue() {
