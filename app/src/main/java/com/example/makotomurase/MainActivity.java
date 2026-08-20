@@ -6,6 +6,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import android.content.SharedPreferences;
+import android.app.AlertDialog;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.util.Log;
@@ -45,6 +46,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         pref=getSharedPreferences("AndroidSeminar",MODE_PRIVATE);
         prefEditor=pref.edit();
+        Button settingsButton = findViewById(R.id.button4);
+        settingsButton.setOnClickListener(view -> showSettingsDialog());
 
         // 起動時に関数を呼び出す
         setQuestionValue();
@@ -129,7 +132,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // 最後にまとめてToast表示の処理とTextViewへのセットを行う
         Toast.makeText(this, result, Toast.LENGTH_LONG).show();
-        txtResult.setText("結果：" + question + ":" + answer + "(" + result + ")");
+        txtResult.setText(getString(R.string.result) + question + ":" + answer + "(" + result + ")");
 
         // 続けて遊べるように値を更新
         setNextQuestion();
@@ -179,7 +182,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     @Override
-
     protected void onResume(){
         super.onResume();
         Log.d("AndroidTest","onResume completed.");
@@ -189,6 +191,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         int readText =pref.getInt("main_input",num);
         textView.setText(Integer.toString(readText));
+    }
+  
+    private void showSettingsDialog() {
+        String[] settingItems = {
+                getString(R.string.action_settings),
+                getString(R.string.action_settings2),
+                getString(R.string.action_settings3),
+        };
+
+        new AlertDialog.Builder(this)
+                .setTitle(R.string.settings)
+                .setItems(settingItems, null)
+                .setNegativeButton(R.string.close, null)
+                .show();
     }
 }
 
