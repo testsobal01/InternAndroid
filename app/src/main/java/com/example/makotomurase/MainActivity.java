@@ -205,8 +205,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 result = "LOSE";
                 score = -1;
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    vibrator.vibrate(VibrationEffect.createOneShot(
-                            1000, VibrationEffect.DEFAULT_AMPLITUDE));
+                    vibrator.vibrate(VibrationEffect.createWaveform(new long[]{0, 100, 50, 100}, -1));
                 }
             } else {
                 result = "DRAW";
