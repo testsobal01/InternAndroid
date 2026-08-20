@@ -32,10 +32,23 @@ import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     /**ランダムの最大値*/
-    int max = 0;
+    int max = 10;
 
     SharedPreferences pref;
     SharedPreferences.Editor prefEditor;
+
+    // タイマーの処理
+    CountDownTimer timer = new CountDownTimer(3000,3000) {
+        @Override
+        public void onFinish() {
+            // CUPの値をランダムに再設定
+            setQuestionValue();
+        }
+        @Override
+        public void onTick(long millisUntilFinished) {
+            // 今のところ何もない
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,9 +88,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (id == R.id.button1) {
             setAnswerValue();
             checkResult(true);
+            // 続けて遊べるように値を更新
+            timer.start();
         } else if (id == R.id.button2) {
             setAnswerValue();
             checkResult(false);
+            // 続けて遊べるように値を更新
+            timer.start();
         } else if (id == R.id.button3) {
             setQuestionValue();
             clearAnswerValue();
@@ -92,6 +109,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             } else {
                 vibrator.vibrate(200);
             }
+            // タイマーを止める
+            timer.cancel();
         }
 
     }
@@ -161,29 +180,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Toast.makeText(this, result, Toast.LENGTH_LONG).show();
         txtResult.setText(getString(R.string.result) + question + ":" + answer + "(" + result + ")");
 
-        // 続けて遊べるように値を更新
-        setNextQuestion();
+
         // スコアを表示
         setScore(score);
     }
 
-    private void setNextQuestion() {
-        // 第１引数がカウントダウン時間、第２引数は途中経過を受け取る間隔
-        // 単位はミリ秒（1秒＝1000ミリ秒）
-        new CountDownTimer(3000, 1000) {
-            @Override
-            public void onTick(long l) {
-                // 途中経過を受け取った時に何かしたい場合
-                // 今回は特に何もしない
-            }
-
-            @Override
-            public void onFinish() {
-                // 3秒経過したら次の値をセット
-                setQuestionValue();
-            }
-        }.start();
-    }
 
     private void setScore(int score) {
         TextView txtScore = (TextView) findViewById(R.id.text_score);
