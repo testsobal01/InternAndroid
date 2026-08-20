@@ -5,10 +5,14 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import android.content.SharedPreferences;
+import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -16,6 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.Random;
+
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -52,8 +57,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // 起動時に関数を呼び出す
         setQuestionValue();
     }
-
     @Override
+
+
     public void onClick(View view) {
         int id = view.getId();
         if (id == R.id.button1) {
@@ -66,7 +72,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             setQuestionValue();
             clearAnswerValue();
             clearScoreValue();
+            //バイブレーター
+            MainActivity vibrate = new MainActivity();
+
+            Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                vibrator.vibrate(VibrationEffect.createOneShot(
+                        200, VibrationEffect.DEFAULT_AMPLITUDE));
+            } else {
+                vibrator.vibrate(200);
+            }
         }
+
     }
 
     private void clearAnswerValue() {
