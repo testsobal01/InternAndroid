@@ -6,6 +6,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import android.graphics.Color;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -81,8 +82,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setQuestionValue();
     }
     @Override
-
-
     public void onClick(View view) {
         int id = view.getId();
         if (id == R.id.button1) {
@@ -114,6 +113,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
     }
+
 
     private void clearAnswerValue() {
         TextView txtView = (TextView) findViewById(R.id.answer);
@@ -156,24 +156,47 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = "WIN";
                 score = 2;
+                findViewById(R.id.answer).setBackgroundColor(Color.parseColor("#FF0000"));
+                findViewById(R.id.question).setBackgroundColor(Color.parseColor("FF0000"));
+
+
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
+                findViewById(R.id.question).setBackgroundColor(Color.parseColor("#00BFFF"));
+                findViewById(R.id.answer).setBackgroundColor(Color.parseColor("#00BFFF"));
             } else {
                 result = "DRAW";
                 score = 1;
+                findViewById(R.id.question).setBackgroundColor(Color.parseColor("#FF8C00"));
+                findViewById(R.id.answer).setBackgroundColor(Color.parseColor("#FF8C00"));
+
             }
+
         } else {
             if (question > answer) {
                 result = "WIN";
                 score = 2;
+                findViewById(R.id.answer).setBackgroundColor(Color.parseColor("#FF0000"));
+                findViewById(R.id.question).setBackgroundColor(Color.parseColor("#FF0000"));
+
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
+                findViewById(R.id.question).setBackgroundColor(Color.parseColor("#00BFFF"));
+                findViewById(R.id.answer).setBackgroundColor(Color.parseColor("#00BFFF"));
+
+
             } else {
                 result = "DRAW";
                 score = 1;
+                findViewById(R.id.question).setBackgroundColor(Color.parseColor("#FF8C00"));
+                findViewById(R.id.answer).setBackgroundColor(Color.parseColor("#FF8C00"));
+
             }
+
+
+
         }
 
         // 最後にまとめてToast表示の処理とTextViewへのセットを行う
@@ -185,6 +208,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setScore(score);
     }
 
+    private void setNextQuestion() {
+        // 第１引数がカウントダウン時間、第２引数は途中経過を受け取る間隔
+        // 単位はミリ秒（1秒＝1000ミリ秒）
+        new CountDownTimer(3000, 1000) {
+            @Override
+            public void onTick(long l) {
+                // 途中経過を受け取った時に何かしたい場合
+                // 今回は特に何もしない
+            }
+
+            @Override
+            public void onFinish() {
+                // 3秒経過したら次の値をセット
+                setQuestionValue();
+            }
+        }.start();
+    }
 
     private void setScore(int score) {
         TextView txtScore = (TextView) findViewById(R.id.text_score);
