@@ -41,6 +41,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     SharedPreferences pref;
     SharedPreferences.Editor prefEditor;
     private MediaPlayer mediaPlayer;
+    int num_BGM;
 
     //AnimatorSetオブジェクトを宣言
     /**
@@ -102,9 +103,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setQuestionValue();
 
         //番号11　BGMの追加
+        //11-2 BGMの種類の追加
         Button buttonStart = findViewById(R.id.start);
         buttonStart.setOnClickListener( v ->  {
             // 音楽再生
+            Random random = new Random();
+            num_BGM = random.nextInt(5);
             audioPlay();
         });
 
@@ -371,10 +375,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     //番号11　BGMの追加
+    //11-2 BGMの種類の追加
     private boolean audioSetup(){
         mediaPlayer = new MediaPlayer();
-
-        String filePath = "music.mp3";
+        String filePath;
+        if(num_BGM==0){
+            filePath = "music.mp3";
+        } else if (num_BGM==1) {
+            filePath = "music2.mp3";
+        } else if(num_BGM==2){
+            filePath = "music3.mp3";
+        }else if(num_BGM==3){
+            filePath = "music4.mp3";
+        }else {
+            filePath = "music5.mp3";
+        }
 
         try(AssetFileDescriptor afdescripter = getAssets().openFd(filePath))
         {
