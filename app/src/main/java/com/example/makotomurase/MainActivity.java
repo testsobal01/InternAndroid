@@ -196,9 +196,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Toast.makeText(this, result, Toast.LENGTH_LONG).show();
         txtResult.setText("：" + question + ":" + answer + "(" + result + ")");
 
-        AnimatorSet set = (AnimatorSet) AnimatorInflater.loadAnimator(this, R.animator.result_animation);
-        set.setTarget(txtViewAnswer);
-        set.start();
+        //set.setTarget(txtViewAnswer);
+
 
         // 続けて遊べるように値を更新
         setNextQuestion();

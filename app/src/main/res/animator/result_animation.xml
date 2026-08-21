@@ -3,7 +3,7 @@
     <set>
         <objectAnimator
             android:propertyName="y"
-            android:duration="500"
+            android:duration="5000"
             android:valueFrom="5000"
             android:valueTo="0"
             android:repeatCount="0"/>

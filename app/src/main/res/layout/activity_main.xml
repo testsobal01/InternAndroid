@@ -7,6 +7,7 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -22,27 +23,33 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                app:backgroundTint="@null"
+                app:backgroundTint="#264C7E"
+                android:textSize="20sp"
                 android:background="@drawable/button_design"
-                android:text="@string/btn_high" />
+                android:fontFamily="@font/font"
+                android:text="高い" />
 
             <Button
                 android:id="@+id/button2"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                app:backgroundTint="@null"
+                app:backgroundTint="#264C7E"
+                android:textSize="20sp"
                 android:background="@drawable/button_design"
-                android:text="@string/btn_low" />
+                android:fontFamily="@font/font"
+                android:text="低い" />
 
             <Button
                 android:id="@+id/button3"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
-                app:backgroundTint="@null"
+                app:backgroundTint="#264C7E"
+                android:textSize="20sp"
                 android:background="@drawable/button_design"
-                android:text="@string/btn_restart" />
+                android:fontFamily="@font/font"
+                android:text="もう一度" />
         </LinearLayout>
 
         <TextView
@@ -72,7 +79,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/label_score" />
+                android:text="戦績" />
 
             <TextView
                 android:id="@+id/text_score"
@@ -81,11 +88,21 @@
                 android:text="0" />
         </LinearLayout>
 
-        <LinearLayout
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="10">
 
+            <ImageView
+                android:id="@+id/imageViewBackground"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/bg_doujou1"
+                android:scaleType="fitXY" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
             <TextView
                 android:id="@+id/question"
                 android:layout_width="0dp"
@@ -105,17 +122,19 @@
                 android:gravity="center"
                 android:text="@string/num2"
                 android:textSize="60sp" />
-
-
-        </LinearLayout>
+            </LinearLayout>
+        </FrameLayout>
 
         <ImageView
-            android:id="@+id/picture"
+            android:id="@+id/picture1"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
             android:src="@drawable/picture"
             android:scaleType="fitXY" />
+
+
+
 
 
     </LinearLayout>
