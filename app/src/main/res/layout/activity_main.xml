@@ -93,12 +93,19 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/label_highscore" />
+                    android:text="        " />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/label_highscore"
+                    android:textSize="30sp" />
 
                 <TextView
                     android:id="@+id/text_highscore"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textSize="30sp"
                     android:text="0" />
 
             </LinearLayout>
