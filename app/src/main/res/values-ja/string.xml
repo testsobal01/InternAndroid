@@ -10,6 +10,7 @@
     <string name="label_score">スコア：</string>
     <string name="setting">10に設定されています。</string>
     <string name="result">結果：</string>
+    <string name="num">?</string>
     <string name="text_howto">遊び方</string>
     <string name="how">ようこそ「数字で勝負！ゲーム」へ！\n
         このゲームは、僕と数字で勝負するゲームだよ！\n
@@ -25,4 +26,5 @@
         \n
         さあ、果たして僕に勝てるかな？？</string>
     <string name="how2">Luck is believing you\'re lucky.</string>
+    <string name="back_to_title">タイトルへ</string>
 </resources>
