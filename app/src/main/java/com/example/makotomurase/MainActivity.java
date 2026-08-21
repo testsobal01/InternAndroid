@@ -169,6 +169,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 // 3秒経過したら次の値をセット
                 setQuestionValue();
                 resetBgColor();
+                TextView ansView = (TextView) findViewById(R.id.answer);
+                ansView.setText(getResources().getString(R.string.label_answer));
             }
         }.start();
     }
