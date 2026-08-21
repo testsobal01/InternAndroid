@@ -33,6 +33,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     //効果音
     public SoundPool soundPool;
     public int[] action = { 0,0,0,0 };
+    public int streak = 0;
 
     public int max;
 
@@ -96,8 +97,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onPause() {
         super.onPause();
         TextView textview = (TextView) findViewById(R.id.text_score);
+        TextView textview2 = (TextView) findViewById(R.id.text_streak);
 
         prefEditor.putString("score_input", textview.getText().toString());
+        prefEditor.putString("streak_input", textview2.getText().toString());
         prefEditor.commit();
     }
 
@@ -105,9 +108,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onResume() {
         super.onResume();
         TextView textview = (TextView) findViewById(R.id.text_score);
+        TextView textview2 = (TextView) findViewById(R.id.text_streak);
 
         String readText = pref.getString("score_input","0");
+        String readText2 = pref.getString("streak_input", "0");
+
         textview.setText(readText);
+        textview2.setText(readText2);
 
     }
 
@@ -137,6 +144,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             setQuestionValue();
             clearAnswerValue();
             clearScoreValue();
+            clearStreakValue();
         }else if (id == R.id.option){
             NumberPicker np = new NumberPicker(this);
             np.setMinValue(10);
@@ -212,6 +220,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = getString(R.string.WIN);
                 score = 2;
+                streak = 1;
                 //効果音
                 soundPool.play(action[2], 10f , 1f, 0, 0, 1f);
                 txtViewQuestion.setBackgroundColor(Color.parseColor("#FF8C00"));
@@ -220,6 +229,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             } else if (question > answer) {
                 result = getString(R.string.LOSE);
                 score = -1;
+                streak = 0;
                 soundPool.play(action[3], 100f , 1f, 0, 0, 1f);
                 txtViewQuestion.setBackgroundColor(Color.parseColor("#808080"));
                 txtViewAnswer.setBackgroundColor(Color.parseColor("#A9A9A9"));
@@ -255,6 +265,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question > answer) {
                 result = getString(R.string.WIN);
                 score = 2;
+                streak = 1;
                 //効果音
                 soundPool.play(action[2], 10f , 1f, 0, 0, 1f);
                 txtViewQuestion.setBackgroundColor(Color.parseColor("#FF8C00"));
@@ -262,6 +273,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             } else if (question < answer) {
                 result = getString(R.string.LOSE);
                 score = -1;
+                streak = 0;
                 soundPool.play(action[3], 100f , 1f, 0, 0, 1f);
                 txtViewQuestion.setBackgroundColor(Color.parseColor("#808080"));
                 txtViewAnswer.setBackgroundColor(Color.parseColor("#A9A9A9"));
@@ -291,6 +303,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         }
 
+        winningStreak(streak);
 
         // 最後にまとめてToast表示の処理とTextViewへのセットを行う
         Toast toast=Toast.makeText(this, result, Toast.LENGTH_SHORT);
@@ -337,5 +350,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView txtScore = (TextView) findViewById(R.id.text_score);
         txtScore.setText("0");
     }
+
+    private void winningStreak(int streak) {
+        int newStreak = 0;
+        TextView txtStreak = (TextView) findViewById(R.id.text_streak);
+        if(streak==0)
+            txtStreak.setText(Integer.toString(newStreak));
+        else {
+            newStreak = Integer.parseInt(txtStreak.getText().toString()) + streak;
+            txtStreak.setText(Integer.toString(newStreak));
+        }
+    }
+
+    private void clearStreakValue() {
+        TextView txtStreak = (TextView) findViewById(R.id.text_streak);
+        txtStreak.setText("0");
+    }
+
 }
 
