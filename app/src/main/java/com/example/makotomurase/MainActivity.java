@@ -43,6 +43,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public static final int MO_LIMIT = 5;
 
     int limit = LIMIT_INIT;
+    double win=0.0;
+    double lose=0.0;
+    double draw=0.0;
+    double winningRate = 0.0;
 
     int mo=MO_LIMIT;
 
@@ -359,10 +363,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int answer = Integer.parseInt(txtViewAnswer.getText().toString());
 
         TextView txtResult = (TextView) findViewById(R.id.text_result);
+        TextView txtWinrate = (TextView) findViewById(R.id.text_winrate);
 
         // 結果を示す文字列を入れる変数を用意
         String result;
         int score;
+        String winrate;
 
         // Highが押された
         if (isHigh) {
@@ -370,6 +376,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = "WIN";
                 score = 2;
+                win += 1;
+                winningRate = (win/(win+lose+draw))*100;
+                String winRateStr = String.format("%.1f", winningRate);
+                txtWinrate.setText(" 勝率:"+ winRateStr + "%");
+                vibrator.vibrate(VibrationEffect.createOneShot(
+                        500, VibrationEffect.DEFAULT_AMPLITUDE));
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                     vibrator.vibrate(
                             (VibrationEffect.createOneShot(
@@ -381,6 +393,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
+                lose += 1;
+                winningRate = (win/(win+lose+draw))*100;
+                String winRateStr = String.format("%.1f", winningRate);
+                txtWinrate.setText(" 勝率:"+ winRateStr + "%");
+                vibrator.vibrate(VibrationEffect.createOneShot(
+                        1000, VibrationEffect.DEFAULT_AMPLITUDE));
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                     vibrator.vibrate(VibrationEffect.createWaveform(new long[]{0, 100, 50, 100}, -1));
                 }
@@ -388,19 +406,32 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             } else {
                 result = "DRAW";
                 score = 1;
+                draw += 1;
+                winningRate = (win/(win+lose+draw))*100;
+                String winRateStr = String.format("%.1f", winningRate);
+                txtWinrate.setText(" 勝率:"+ winRateStr + "%");
             }
+
         } else {
             if (question > answer) {
                 result = "WIN";
                 score = 2;
+                win += 1;
+                winningRate = (win/(win+lose+draw))*100;
+                String winRateStr = String.format("%.1f", winningRate);
+                txtWinrate.setText(" 勝率:"+ winRateStr + "%");
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                     vibrator.vibrate(VibrationEffect.createOneShot(
                             500, VibrationEffect.DEFAULT_AMPLITUDE));
-                    soundPool.play(soundpinpon2, 1.0f, 1.0f, 0, 0, 1);
                 }
+                soundPool.play(soundpinpon2, 1.0f, 1.0f, 0, 0, 1);
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
+                lose += 1;
+                winningRate = (win/(win+lose+draw))*100;
+                String winRateStr = String.format("%.1f", winningRate);
+                txtWinrate.setText(" 勝率:"+ winRateStr + "%");
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                     vibrator.vibrate(VibrationEffect.createWaveform(new long[]{0, 100, 50, 100}, -1));
                 }
@@ -408,6 +439,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             } else {
                 result = "DRAW";
                 score = 1;
+                draw += 1;
+                winningRate = (win/(win+lose+draw))*100;
+                String winRateStr = String.format("%.1f", winningRate);
+                txtWinrate.setText(" 勝率:"+ winRateStr + "%");
             }
         }
 
