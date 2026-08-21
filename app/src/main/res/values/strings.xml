@@ -1,6 +1,6 @@
 <resources>
-    <string name="text_title">数字で勝負！ゲーム</string>
-    <string name="text_title_ex">ボタンタップでゲームが始まるよ！</string>
+    <string name="text_title">Numbers Showdown! Game</string>
+    <string name="text_title_ex">Tap the button to start the game!</string>
     <string name="title_button_name">START</string>
     <string name="app_name">SobalTest</string>
     <string name="btn_high">High</string>
