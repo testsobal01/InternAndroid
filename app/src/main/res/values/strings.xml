@@ -11,6 +11,7 @@
     <string name="LOSE">LOSE</string>
     <string name="DRAW">DRAW</string>
     <string name="word1">10が設定されています。</string>
+    <string name="streak">連勝中！</string>
     <string name="num1">値1</string>
     <string name="num2">"?"</string>
     <string name="rule">RULE</string>
