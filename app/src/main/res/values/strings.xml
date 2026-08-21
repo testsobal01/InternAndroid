@@ -16,5 +16,8 @@
     <string name="numtitle">最大値を設定してください</string>
     <string name="ok">OK</string>
     <string name="canncel">キャンセル</string>
+    <string name="retrystreak">連勝数:</string>
+    <string name="retry">Retry</string>
+
 
 </resources>
