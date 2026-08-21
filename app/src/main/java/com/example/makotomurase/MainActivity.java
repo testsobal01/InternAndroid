@@ -16,6 +16,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.media.MediaPlayer;
 import android.view.MotionEvent;
 import android.media.AudioAttributes;
 import android.media.AudioManager;
@@ -46,6 +47,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
 
+    private MediaPlayer mediaPlayer;
 
     //プリファレンスの生成
     SharedPreferences pref;
@@ -71,6 +73,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
 
+
+        mediaPlayer = MediaPlayer.create(this, R.raw.bgm);
+        mediaPlayer.setLooping(true);
+        mediaPlayer.seekTo(0);
+        mediaPlayer.start();
 
         //ボタン押したらへこむように見えるやつ
         View.OnTouchListener darkenTouchListener = new View.OnTouchListener() {
@@ -214,12 +221,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = "WIN";
                 score = 2;
-
                 TextView textView = findViewById(R.id.answer);
                 flash(textView);
                 myLayout.setBackgroundColor(Color.GREEN);
                 myLayout1.setBackgroundColor(Color.GREEN);
-              triggerRandomCutIn(cutInText);
+                triggerRandomCutIn(cutInText);
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
@@ -283,10 +289,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 R.animator.blink_animation);
         //アニメーション対称のオブジェクトを設定
         set.setTarget(winner);
-        if (set.isPaused()) {
-            set.resume();
+        if (set.isPaused()){
+            set.start();
+        }else {
+            set.start();
         }
-        set.start();
     }
 
     private void setNextQuestion() {
@@ -310,6 +317,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 btn1.setEnabled(true);
                 btn2.setEnabled(true);
                 btn3.setEnabled(true);
+                TextView myLayout=findViewById(R.id.question);
+                TextView myLayout1=findViewById(R.id.answer);
+                myLayout.setBackgroundColor(Color.parseColor("#ff00ff"));
+                myLayout1.setBackgroundColor(Color.parseColor("#ffff00"));
             }
         }.start();
     }
