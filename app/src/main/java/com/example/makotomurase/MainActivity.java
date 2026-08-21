@@ -5,6 +5,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.SharedPreferences;
@@ -20,6 +21,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.Random;
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
 
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -49,14 +52,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
 
-        pref=getSharedPreferences("AndroidSeminar",MODE_PRIVATE);
-        prefEditor=pref.edit();
+        pref = getSharedPreferences("AndroidSeminar", MODE_PRIVATE);
+        prefEditor = pref.edit();
         Button settingsButton = findViewById(R.id.button4);
         settingsButton.setOnClickListener(view -> showSettingsDialog());
 
         // 起動時に関数を呼び出す
         setQuestionValue();
     }
+
     @Override
 
 
@@ -65,9 +69,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (id == R.id.button1) {
             setAnswerValue();
             checkResult(true);
+            YoYo.with(Techniques.Tada).duration(1000).repeat(1).playOn(findViewById(R.id.button1));
         } else if (id == R.id.button2) {
             setAnswerValue();
             checkResult(false);
+            YoYo.with(Techniques.Tada).duration(1000).repeat(1).playOn(findViewById(R.id.button2));
+
         } else if (id == R.id.button3) {
             setQuestionValue();
             clearAnswerValue();
@@ -127,23 +134,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = "WIN";
                 score = 2;
+                YoYo.with(Techniques.Tada).duration(1000).repeat(1).playOn(findViewById(R.id.answer));
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
+                YoYo.with(Techniques.Tada).duration(1000).repeat(1).playOn(findViewById(R.id.question));
             } else {
                 result = "DRAW";
                 score = 1;
+                YoYo.with(Techniques.Tada).duration(1000).repeat(2).playOn(findViewById(R.id.answer));
+                YoYo.with(Techniques.Tada).duration(1000).repeat(2).playOn(findViewById(R.id.question));
             }
         } else {
             if (question > answer) {
                 result = "WIN";
                 score = 2;
+                YoYo.with(Techniques.Tada).duration(1000).repeat(1).playOn(findViewById(R.id.answer));
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
+                YoYo.with(Techniques.Tada).duration(1000).repeat(1).playOn(findViewById(R.id.question));
             } else {
                 result = "DRAW";
                 score = 1;
+                YoYo.with(Techniques.Tada).duration(1000).repeat(2).playOn(findViewById(R.id.answer));
+                YoYo.with(Techniques.Tada).duration(1000).repeat(2).playOn(findViewById(R.id.question));
             }
         }
 
