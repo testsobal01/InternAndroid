@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">SobalTest</string>
+    <string name="btn_high">High</string>
+    <string name="btn_low">Low</string>
+    <string name="btn_restart">リスタート</string>
+    <string name="label_score">スコア：</string>
+    <string name="settings">設定</string>
+    <string name="close">閉じる</string>
+    <string name="setting_txt">が設定されています</string>
+    <string name="setting_num">10</string>
+    <string name="setting_max">最大値</string>
+    <string name="cancel">閉じる</string>
+    <string name="num1">値1</string>
+    <string name="num2">値2</string>
+    <string name="result">結果：</string>
+</resources>
