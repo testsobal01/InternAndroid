@@ -7,6 +7,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 import android.animation.AnimatorInflater;
 import android.animation.AnimatorSet;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.media.MediaPlayer;
@@ -56,6 +57,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
 
+        Button btn4 = findViewById(R.id.button4);
+        btn4.setOnClickListener(this);
+
         soundPlayer = new SoundPlayer(this);
 
         // 起動時に関数を呼び出す
@@ -88,6 +92,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView ColorChange1 = (TextView) findViewById(R.id.question);
         TextView ColorChange2 = (TextView) findViewById(R.id.answer);
         int id = view.getId();
+        if (id == R.id.button4) {
+            isButton = false;
+            mediaPlayer.stop();
+            soundPlayer.playtitleSound();
+            Intent intent = new Intent(this, TitleActivity.class);
+            startActivity(intent);
+        }
         if (!isButton) {
 
             isButton = true;
