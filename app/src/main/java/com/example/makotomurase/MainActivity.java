@@ -120,7 +120,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
     @Override
-    public void onClick (View view) {
 
     public void onClick(View view) {
         int id = view.getId();
@@ -201,7 +200,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 flash(textView);
                 myLayout.setBackgroundColor(Color.GREEN);
                 myLayout1.setBackgroundColor(Color.GREEN);
-              　triggerRandomCutIn(cutInText);
+                triggerRandomCutIn(cutInText);
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
@@ -285,6 +284,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public void onFinish() {
                 // 3秒経過したら次の値をセット
                 setQuestionValue();
+
+                TextView myLayout=findViewById(R.id.question);
+                TextView myLayout1=findViewById(R.id.answer);
+                myLayout.setBackgroundColor(Color.parseColor("#ff00ff"));
+                myLayout1.setBackgroundColor(Color.parseColor("#ffff00"));
             }
         }.start();
     }
