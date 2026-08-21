@@ -162,8 +162,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             dialog.show(getSupportFragmentManager(), "sample");
         }else if (id == R.id.button_colorchange){
             setRandomColor();
-        } else if (id == R.id.button4) {
-            setRandomColor();
         }
 
     }
