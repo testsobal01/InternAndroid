@@ -158,12 +158,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             //最大値が設定できるダイアログを表示
             NumberPickerDialogFragment dialog = new NumberPickerDialogFragment();
             dialog.show(getSupportFragmentManager(), "sample");
-        }else if (id == R.id.button_colorchange){
-            setRandomColor();
-        } else if (id == R.id.button4) {
+        }else if (id == R.id.button_colorchange) {
             setRandomColor();
         }
-
     }
 
     private void clearAnswerValue() {
