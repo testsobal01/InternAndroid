@@ -32,6 +32,8 @@ import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.w3c.dom.Text;
+
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -174,6 +176,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }else if (id == R.id.retry){
             btn1.setEnabled(true);
             btn2.setEnabled(true);
+            clearStreakValue();
             //アニメーション
             clearScoreValue();
             AnimatorSet rightset = (AnimatorSet) AnimatorInflater.loadAnimator(this, R.animator.rightretry_animation);
@@ -356,17 +359,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void winningStreak(int streak) {
         int newStreak = 0;
         TextView txtStreak = (TextView) findViewById(R.id.text_streak);
+        TextView maxstreak = (TextView) findViewById(R.id.streaknum);
         if(streak==0)
             txtStreak.setText(Integer.toString(newStreak));
         else {
             newStreak = Integer.parseInt(txtStreak.getText().toString()) + streak;
             txtStreak.setText(Integer.toString(newStreak));
+            maxstreak.setText(Integer.toString(newStreak));
         }
     }
 
     private void clearStreakValue() {
         TextView txtStreak = (TextView) findViewById(R.id.text_streak);
+        TextView maxstreak = (TextView) findViewById(R.id.streaknum);
         txtStreak.setText("0");
+        maxstreak.setText("0");
     }
 
 }
