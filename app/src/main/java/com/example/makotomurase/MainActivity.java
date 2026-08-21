@@ -131,7 +131,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
     @Override
-
     public void onClick(View view) {
         int id = view.getId();
         Vibrator vibrator=(Vibrator)getSystemService(VIBRATOR_SERVICE);
@@ -206,7 +205,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = "WIN";
                 score = 2;
-
                 TextView textView = findViewById(R.id.answer);
                 flash(textView);
                 myLayout.setBackgroundColor(Color.GREEN);
@@ -275,10 +273,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 R.animator.blink_animation);
         //アニメーション対称のオブジェクトを設定
         set.setTarget(winner);
-        if (set.isPaused()) {
-            set.resume();
+        if (set.isPaused()){
+            set.start();
+        }else {
+            set.start();
         }
-        set.start();
     }
 
     private void setNextQuestion() {
