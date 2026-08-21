@@ -187,6 +187,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         TextView colorChange1 = (TextView) findViewById(R.id.question);
         TextView colorChange2 = (TextView) findViewById(R.id.answer);
+        TextView colorChange3 = (TextView) findViewById(R.id.text_result);
 
 
         // Highが押された
@@ -198,18 +199,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 score = 2;
                 colorChange1.setBackgroundColor(Color.RED);
                 colorChange2.setBackgroundColor(Color.RED);
+                colorChange3.setBackgroundColor(Color.parseColor("#eb6ea5"));
             } else if (question > answer) {
                 set.cancel();
                 result = "LOSE";
                 score = -1;
                 colorChange1.setBackgroundColor(Color.rgb(0,150,255));
                 colorChange2.setBackgroundColor(Color.rgb(0,150,255));
+                colorChange3.setBackgroundColor(Color.parseColor("#66ccff"));
             } else {
                 set.cancel();
                 result = "DRAW";
                 score = 1;
                 colorChange1.setBackgroundColor(Color.GRAY);
                 colorChange2.setBackgroundColor(Color.GRAY);
+                colorChange3.setBackgroundColor(Color.parseColor("#ffff66"));
             }
         } else {
             if (question > answer) {
@@ -218,18 +222,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 score = 2;
                 colorChange1.setBackgroundColor(Color.RED);
                 colorChange2.setBackgroundColor(Color.RED);
+                colorChange3.setBackgroundColor(Color.parseColor("#eb6ea5"));
             } else if (question < answer) {
                 set.cancel();
                 result = "LOSE";
                 score = -1;
                 colorChange1.setBackgroundColor(Color.rgb(0,150,255));
                 colorChange2.setBackgroundColor(Color.rgb(0,150,255));
+                colorChange3.setBackgroundColor(Color.parseColor("#66ccff"));
             } else {
                 set.cancel();
                 result = "DRAW";
                 score = 1;
                 colorChange1.setBackgroundColor(Color.GRAY);
                 colorChange2.setBackgroundColor(Color.GRAY);
+                colorChange3.setBackgroundColor(Color.parseColor("#ffff66"));
             }
         }
 
@@ -242,7 +249,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
         // 最後にまとめてToast表示の処理とTextViewへのセットを行う
-        Toast.makeText(this, result, Toast.LENGTH_LONG).show();
+
         txtResult.setText(question + ":" + answer + "(" + result + ")");
 
         // 続けて遊べるように値を更新
