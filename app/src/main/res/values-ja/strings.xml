@@ -9,7 +9,7 @@
     <string name="dialogNoBtn">キャンセル</string>
     <string name="label_score">スコア：</string>
     <string name="sbutton">スタート</string>
-    <string name="label_limit">%dが設定されています。</string>
+    <string name="label_limit">%dが上限値に設定されています。</string>
     <string name="label_limit_value">%d</string>
     <string name="label_question">値１</string>
     <string name="label_answer">？</string>

@@ -78,6 +78,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
+                android:visibility="invisible"
                 app:layout_constraintRight_toLeftOf="@id/ma"
                 android:text="持ち点:" />
 
@@ -85,6 +86,7 @@
                 android:id="@+id/ma"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:visibility="invisible"
                 app:layout_constraintRight_toRightOf="parent"
                 android:text="@string/ma" />
 

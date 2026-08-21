@@ -10,6 +10,7 @@ import android.animation.ValueAnimator;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
@@ -40,7 +41,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     public static final int LIMIT_INIT = 10;
 
-    public static final int MO_LIMIT = 5;
+    public static final int MO_INIT = 3;
 
     int limit = LIMIT_INIT;
     double win=0.0;
@@ -48,7 +49,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     double draw=0.0;
     double winningRate = 0.0;
 
-    int mo=MO_LIMIT;
+    int mo= MO_INIT;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,12 +107,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView lblLimit = findViewById(R.id.label_limit);
         lblLimit.setText(getResources().getString(R.string.label_limit, limit));
 
-      /*  TextView scoreLabel = findViewById(R.id.text_score);
-        int score = getIntent().getIntExtra("SCORE", 0);
-        scoreLabel.setText(score + "");
-
-        SharedPreferences sharedPreferences = getSharedPreferences("GAME_DATA", MODE_PRIVATE);
-        int highScore = sharedPreferences.getInt("SCORE", 0);*/
 
         pref = getSharedPreferences("AndroidSEminar",MODE_PRIVATE);
         prefEditor = pref.edit();
@@ -119,8 +114,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         audioPlay();
 
+
         // 起動時に関数を呼び出す
         setQuestionValue(limit);
+
+        setScore(mo);
     }
     private boolean audioSetup(){
         boolean fileCheck = false;
@@ -138,7 +136,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (mediaPlayer == null) {
             // audio ファイルを読出し
             if (audioSetup()){
-                Toast.makeText(getApplication(), "Rread audio file", Toast.LENGTH_SHORT).show();
+                //
             }
             else{
                 Toast.makeText(getApplication(), "Error: read audio file", Toast.LENGTH_SHORT).show();
@@ -164,7 +162,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onPause(){
             super.onPause();
-            Toast.makeText(this,"onPause",Toast.LENGTH_SHORT).show();
 
             TextView textView = (TextView) findViewById(R.id.text_score);
 
@@ -209,12 +206,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 disableAllBtn();
             }
         } else if (id == R.id.button3) {
-            mo=MO_LIMIT;
+            mo= MO_INIT;
             moTxt.setText(String.valueOf(mo));
             setQuestionValue(limit);
             clearAnswerValue();
             clearScoreValue();
             resetBgColor();
+            win = 0;
+            lose = 0;
+            draw=0;
+            winningRate=0;
+            String winRateStr = String.format("%.1f", winningRate);
+            TextView txtWinrate = (TextView) findViewById(R.id.text_winrate);
+            txtWinrate.setText(" 勝率:"+ winRateStr + "%");
+
         } else if (id == R.id.settingBtn) {
             //numberPicker宣言
             final NumberPicker numPicker = new NumberPicker(getApplicationContext());
@@ -365,6 +370,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView txtResult = (TextView) findViewById(R.id.text_result);
         TextView txtWinrate = (TextView) findViewById(R.id.text_winrate);
 
+
         // 結果を示す文字列を入れる変数を用意
         String result;
         int score;
@@ -454,9 +460,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Toast.makeText(this, result, Toast.LENGTH_LONG).show();
         txtResult.setText(getResources().getString(R.string.label_result, question, answer, result));
 
-        if (IsGameOver(mo)) {
-            transit2GameOver();
-        }
 
         // 勝ったほうの背景色を変更
         setWinnerBgColor(result);
@@ -468,10 +471,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setScore(score);
 
 
-    }
-
-    private long[] longArrayOf(int i, int i1, int i2) {
-        return new long[0];
     }
 
     private void setNextQuestion() {
