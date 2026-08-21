@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private SoundPool soundPool;
 
-    private int soundpinpon2, soundbubbu1,soundloop200103;
+    private int soundpinpon2, soundbubbu1,soundloop;
 
     SharedPreferences pref;
     SharedPreferences.Editor prefEditor;
@@ -93,7 +93,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         soundpinpon2 = soundPool.load(this, R.raw.pinpon2, 1);
         soundbubbu1 = soundPool.load(this, R.raw.bubbu1, 1);
-        soundloop200103= soundPool.load(this, R.raw.loop200103, 1);
+        soundloop= soundPool.load(this, R.raw.loop, 1);
 
 
 
@@ -110,6 +110,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         pref = getSharedPreferences("AndroidSEminar",MODE_PRIVATE);
         prefEditor = pref.edit();
+       // soundPool.play(soundloop, 1.0f, 1.0f, 0, 0, 1);
 
 
         // 起動時に関数を呼び出す
@@ -286,6 +287,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         txtView.setText(Integer.toString(answerValue));
     }
 
+
     private void checkResult(boolean isHigh) {
         TextView txtViewQuestion = findViewById(R.id.question);
         TextView txtViewAnswer = findViewById(R.id.answer);
@@ -319,7 +321,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                     vibrator.vibrate(VibrationEffect.createWaveform(new long[]{0, 100, 50, 100}, -1));
                 }
-                soundPool.play(soundpinpon2, 1.0f, 1.0f, 0, 0, 1);
+                soundPool.play(soundbubbu1, 1.0f, 1.0f, 0, 0, 1);
             } else {
                 result = "DRAW";
                 score = 1;
@@ -331,6 +333,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                     vibrator.vibrate(VibrationEffect.createOneShot(
                             500, VibrationEffect.DEFAULT_AMPLITUDE));
+                    soundPool.play(soundpinpon2, 1.0f, 1.0f, 0, 0, 1);
                 }
             } else if (question < answer) {
                 result = "LOSE";
@@ -338,7 +341,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                     vibrator.vibrate(VibrationEffect.createWaveform(new long[]{0, 100, 50, 100}, -1));
                 }
-                soundPool.play(soundpinpon2, 1.0f, 1.0f, 0, 0, 1);
+                soundPool.play(soundbubbu1, 1.0f, 1.0f, 0, 0, 1);
             } else {
                 result = "DRAW";
                 score = 1;
