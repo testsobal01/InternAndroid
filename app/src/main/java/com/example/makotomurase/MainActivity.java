@@ -253,7 +253,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void setWinrate(int win,int lose,int draw){
         TextView winScore = (TextView) findViewById(R.id.win_result);
         double winrate = (double) win/(win+lose+draw) *100;
-        winScore.setText(String.format("%.3f",winrate));
+        winScore.setText(String.format(" / 勝率：%.1f",winrate));
     }
     private void clearWinRateValue(){
         TextView winScore = (TextView) findViewById(R.id.win_result);
