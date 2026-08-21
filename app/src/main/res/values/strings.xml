@@ -11,7 +11,7 @@
     <string name="setting_num">10</string>
     <string name="setting_max">Max number</string>
     <string name="cancel">Cancel</string>
-    <striging name="num1">number 1</striging>
+    <string name="num1">number 1</string>
     <string name="num2">number 2</string>
     <string name="result">Result：</string>
 </resources>
