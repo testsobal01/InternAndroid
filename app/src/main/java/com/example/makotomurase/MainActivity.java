@@ -88,12 +88,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setQuestionValue();
 
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_main);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
         ImageView imageView2 = findViewById(R.id.image_view_2);
         imageView2.setImageResource(R.drawable.img_2);
 
