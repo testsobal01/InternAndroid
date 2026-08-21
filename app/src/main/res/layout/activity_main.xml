@@ -19,7 +19,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <!-- 番号10　ボタンのカスタム-->
-            <Button
+            <!--番号20ボタンのアニメーション-->
+            <com.example.makotomurase.PushButton
                 android:id="@+id/button1"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -33,7 +34,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"/>
 
-            <Button
+            <com.example.makotomurase.PushButton
                 android:id="@+id/button2"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -47,7 +48,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"/>
 
-            <Button
+            <com.example.makotomurase.PushButton
                 android:id="@+id/button3"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -121,7 +122,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-                <Button
+                <com.example.makotomurase.PushButton
                     android:id="@+id/start"
                     android:layout_width="0dp"
                     android:layout_weight="1"
@@ -134,7 +135,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"/>
-                <Button
+                <com.example.makotomurase.PushButton
                     android:id="@+id/stop"
                     android:layout_width="0dp"
                     android:layout_weight="1"
