@@ -6,6 +6,11 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import android.animation.AnimatorInflater;
+import android.animation.AnimatorSet;
+import android.os.Bundle;
+import android.os.CountDownTimer;
+import android.view.TextureView;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -40,10 +45,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     SharedPreferences pref;
     SharedPreferences.Editor prefEditor;
 
+    //アニメーションを定義するAnimatorSetオブジェクトを宣言する
+    AnimatorSet set;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (view, windowInsets) -> {
             Insets insets = windowInsets.getInsets(
@@ -91,6 +101,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // 起動時に関数を呼び出す
         setQuestionValue();
+        set = new AnimatorSet();
 
         //"AndroidSemonor"は、スコアを保存する先のファイル名的な奴
         pref = getSharedPreferences("AndroidSeminor", MODE_PRIVATE);
@@ -98,7 +109,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+    //onCreateの中だとStartタイミングが早すぎて間に合わない。
+    //onCreateの後の工程のonStartにてstartを実装する
     @Override
+    protected void onStart() {
+        super.onStart();
+
+        }
+
+
+
+    @Override
+    public void onClick (View view) {
 
     public void onClick(View view) {
         int id = view.getId();
@@ -118,11 +140,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             setAnswerValue();
             checkResult(false);
         } else if (id == R.id.button3) {
+            set.pause();
             soundPlayer.playHitSound();
             setQuestionValue();
             clearAnswerValue();
             clearScoreValue();
         }
+
+
     }
 
     private void clearAnswerValue() {
@@ -172,15 +197,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 result = "WIN";
                 score = 2;
 
-                triggerRandomCutIn(cutInText);
-
+                TextView textView = findViewById(R.id.answer);
+                flash(textView);
                 myLayout.setBackgroundColor(Color.GREEN);
                 myLayout1.setBackgroundColor(Color.GREEN);
+              　triggerRandomCutIn(cutInText);
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
                 myLayout.setBackgroundColor(Color.BLUE);
                 myLayout1.setBackgroundColor(Color.BLUE);
+                TextView textview = findViewById(R.id.question);
+                flash(textview);
             } else {
                 result = "DRAW";
                 score = 1;
@@ -191,7 +219,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question > answer) {
                 result = "WIN";
                 score = 2;
-
+                TextView textView = findViewById(R.id.answer);
+                flash(textView);
                 triggerRandomCutIn(cutInText);
 
                 myLayout.setBackgroundColor(Color.GREEN);
@@ -199,6 +228,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
+                TextView textview = findViewById(R.id.question);
+                flash(textview);
                 myLayout.setBackgroundColor(Color.BLUE);
                 myLayout1.setBackgroundColor(Color.BLUE);
             } else {
@@ -209,6 +240,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         }
 
+
+
+
+
         // 最後にまとめてToast表示の処理とTextViewへのセットを行う
         Toast.makeText(this, result, Toast.LENGTH_LONG).show();
         txtResult.setText("結果：" + question + ":" + answer + "(" + result + ")");
@@ -217,6 +252,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setNextQuestion();
         // スコアを表示
         setScore(score);
+    }
+
+    void flash(TextView winner){
+        if (set != null) {
+            if (set.isRunning()) {
+                set.pause();
+            }
+        }
+
+        set = (AnimatorSet) AnimatorInflater.loadAnimator(MainActivity.this,
+                R.animator.blink_animation);
+        //アニメーション対称のオブジェクトを設定
+        set.setTarget(winner);
+        if (set.isPaused()) {
+            set.resume();
+        }
+        set.start();
     }
 
     private void setNextQuestion() {
@@ -333,4 +385,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 }
+
+
+
+
 
