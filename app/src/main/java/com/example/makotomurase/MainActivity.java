@@ -96,6 +96,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button btn5 = (Button) findViewById(R.id.button_option);
         btn5.setOnClickListener(this);
 
+        Button btn6 = (Button) findViewById(R.id.button_howto);
+        btn6.setOnClickListener(this);
+
         // 番号8 効果音
         SoundPlayer(this);
         pref = getSharedPreferences("MakotoMurase",MODE_PRIVATE);
@@ -164,6 +167,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             
         }else if (id == R.id.button_colorchange){
             setRandomColor();
+        }else if (id == R.id.button_howto){
+            Intent intent_h = new Intent(this, HowToActivity.class);
+            startActivity(intent_h);
         } else if (id == R.id.button4) {
             setRandomColor();
         }
