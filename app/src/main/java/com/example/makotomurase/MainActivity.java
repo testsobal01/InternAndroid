@@ -10,15 +10,17 @@ import android.animation.ValueAnimator;
 import android.graphics.Color;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Dialog;
-import android.hardware.camera2.CameraExtensionSession;
-import android.os.Bundle;
-import android.os.CountDownTimer;
-import android.view.LayoutInflater;
-import android.content.SharedPreferences;
+import android.media.AudioAttributes;
+import android.media.AudioManager;
+import android.media.SoundPool;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.provider.MediaStore;
+import android.app.Dialog;
+import android.hardware.camera2.CameraExtensionSession;
+import android.view.LayoutInflater;
+import android.content.SharedPreferences;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.util.Log;
@@ -54,10 +56,40 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     };
 
+    SoundPool soundPool;
+    int mp3a;
+    int mp3b;
+    int mp3c;
+    int mp3d;
+    int mp3e;
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        if(Build.VERSION.SDK_INT<Build.VERSION_CODES.LOLLIPOP){
+            soundPool=new SoundPool(5,AudioManager.STREAM_MUSIC, 0);
+        }else{
+            AudioAttributes attr = new AudioAttributes.Builder()
+                    .setUsage(AudioAttributes.USAGE_MEDIA)
+                    .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+                    .build();
+            soundPool = new SoundPool.Builder()
+                    .setAudioAttributes(attr)
+                    .setMaxStreams(5)
+                    .build();
+            mp3a=soundPool.load(this,R.raw.rappa,1);
+            mp3b=soundPool.load(this,R.raw.hit,1);
+            mp3c=soundPool.load(this,R.raw.win,1);
+            mp3d=soundPool.load(this,R.raw.lose,1);
+            mp3e=soundPool.load(this,R.raw.draw,1);
+
+        }
+
+
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (view, windowInsets) -> {
             Insets insets = windowInsets.getInsets(
@@ -80,6 +112,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         prefEditor = pref.edit();
         Button settingsButton = findViewById(R.id.button4);
         settingsButton.setOnClickListener(view -> showSettingsDialog());
+
+
 
         // 起動時に関数を呼び出す
         setQuestionValue();
@@ -162,6 +196,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = "WIN";
                 score = 2;
+                soundPool.play(mp3c,1f,1f,0,0,1f);
                 YoYo.with(Techniques.Tada).duration(1000).repeat(1).playOn(findViewById(R.id.answer));
               
                 findViewById(R.id.answer).setBackgroundColor(Color.parseColor("#FF0000"));
@@ -169,12 +204,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
+                soundPool.play(mp3d,1f,1f,0,0,1f);
                 YoYo.with(Techniques.Tada).duration(1000).repeat(1).playOn(findViewById(R.id.question));
                 findViewById(R.id.question).setBackgroundColor(Color.parseColor("#00BFFF"));
                 findViewById(R.id.answer).setBackgroundColor(Color.parseColor("#00BFFF"));
             } else {
                 result = "DRAW";
                 score = 1;
+                soundPool.play(mp3e,1f,1f,0,0,1f);
                 YoYo.with(Techniques.Tada).duration(1000).repeat(2).playOn(findViewById(R.id.answer));
                 YoYo.with(Techniques.Tada).duration(1000).repeat(2).playOn(findViewById(R.id.question));
                 findViewById(R.id.question).setBackgroundColor(Color.parseColor("#FF8C00"));
@@ -185,18 +222,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question > answer) {
                 result = "WIN";
                 score = 2;
+                soundPool.play(mp3c,1f,1f,0,0,1f);
                 YoYo.with(Techniques.Tada).duration(1000).repeat(1).playOn(findViewById(R.id.answer));
                 findViewById(R.id.answer).setBackgroundColor(Color.parseColor("#FF0000"));
                 findViewById(R.id.question).setBackgroundColor(Color.parseColor("#FF0000"));
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
+                soundPool.play(mp3d,1f,1f,0,0,1f);
                 YoYo.with(Techniques.Tada).duration(1000).repeat(1).playOn(findViewById(R.id.question));
                 findViewById(R.id.question).setBackgroundColor(Color.parseColor("#00BFFF"));
                 findViewById(R.id.answer).setBackgroundColor(Color.parseColor("#00BFFF"));
             } else {
                 result = "DRAW";
                 score = 1;
+                soundPool.play(mp3e,1f,1f,0,0,1f);
                 YoYo.with(Techniques.Tada).duration(1000).repeat(2).playOn(findViewById(R.id.answer));
                 YoYo.with(Techniques.Tada).duration(1000).repeat(2).playOn(findViewById(R.id.question));
                 findViewById(R.id.question).setBackgroundColor(Color.parseColor("#FF8C00"));
@@ -285,4 +325,5 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         max = i;
     }
 }
+
 
