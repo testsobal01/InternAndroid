@@ -160,6 +160,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             dialog.show(getSupportFragmentManager(), "sample");
         }else if (id == R.id.button_colorchange){
             setRandomColor();
+        } else if (id == R.id.button4) {
+            setRandomColor();
         }
 
     }
@@ -455,4 +457,5 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         vibrator.vibrate(VibrationEffect.createOneShot(200, VibrationEffect.DEFAULT_AMPLITUDE));
     }
 }
+
 

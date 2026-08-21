@@ -6,6 +6,7 @@
     <string name="btn_changeColor">ColorChange</string>>
     <string name="label_score">Score：</string>
     <string name="max_num">10が設定されています。</string>
+    <string name="title"> &lt;font color=red&gt;High&lt;/font&gt; and &lt;font color=blue&gt;Low&lt;/font&gt;</string>
     <string name="HowTo">High and Lowゲームです。\n\n
         左側にランダムで数字が出るので、最大値を見ながら大きい数字が出るか、小さい数字が出るか予想してください。\n\n
         右のほうが大きいと思ったら高い、小さいと思ったら低いを押してください。\n\n
