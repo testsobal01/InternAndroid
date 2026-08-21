@@ -28,4 +28,5 @@
     <string name="how2">Luck is believing you\'re lucky.</string>
     <string name="back_to_title">Go to Title</string>
     <string name="go_to_game">GAME START</string>
+    <string name="btn_to_title">To Title</string>
 </resources>
