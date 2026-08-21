@@ -10,7 +10,8 @@
     <string name="WIN">WIN</string>
     <string name="LOSE">LOSE</string>
     <string name="DRAW">DRAW</string>
-    <string name="word1">が設定されています。</string>
+    <string name="word1">10が設定されています。</string>
+    <string name="streak">連勝中！</string>
     <string name="num1">値1</string>
     <string name="num2">値2</string>
     <string name="rule">RULE</string>
@@ -18,5 +19,8 @@
     <string name="numtitle">最大値を設定してください</string>
     <string name="ok">OK</string>
     <string name="canncel">キャンセル</string>
+    <string name="retrystreak">連勝数:</string>
+    <string name="retry">Retry</string>
+
 
 </resources>
