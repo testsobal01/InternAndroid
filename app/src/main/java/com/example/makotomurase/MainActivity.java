@@ -1,25 +1,20 @@
 package com.example.makotomurase;
 
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
-import androidx.lifecycle.viewmodel.CreationExtras;
 
 import android.animation.ValueAnimator;
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.os.LimitExceededException;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
-import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -27,13 +22,8 @@ import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.w3c.dom.Text;
-
 import java.util.Random;
-import android.media.ToneGenerator;
-import android.media.AudioManager;
-import android.media.ToneGenerator;
-import android.media.AudioManager;
+
 import android.media.AudioAttributes;
 import android.media.SoundPool;
 
@@ -153,13 +143,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             setAnswerValue(limit);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 checkResult(true);
-                diableAllBtns();
+                disableAllBtn();
             }
         } else if (id == R.id.button2) {
             setAnswerValue(limit);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 checkResult(false);
-                diableAllBtns();
+                disableAllBtn();
             }
         } else if (id == R.id.button3) {
             setQuestionValue(limit);
@@ -246,7 +236,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         colorAnimator.start();
     }
 
-    private void diableAllBtns(){
+    private void disableAllBtn(){
         Button btn1 = findViewById(R.id.button1);
         Button btn2 = findViewById(R.id.button2);
         Button btn3 = (Button) findViewById(R.id.button3);
@@ -258,7 +248,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnSetting.setEnabled(false);
     }
 
-    private void enableAllBtns(){
+    private void enableAllBtn(){
         Button btn1 = findViewById(R.id.button1);
         Button btn2 = findViewById(R.id.button2);
         Button btn3 = (Button) findViewById(R.id.button3);
@@ -371,7 +361,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void setNextQuestion() {
         // 第１引数がカウントダウン時間、第２引数は途中経過を受け取る間隔
         // 単位はミリ秒（1秒＝1000ミリ秒）
-        new CountDownTimer(3000, 1000) {
+        new CountDownTimer(2000, 1000) {
             @Override
             public void onTick(long l) {
                 // 途中経過を受け取った時に何かしたい場合
@@ -387,7 +377,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 ansView.setText(getResources().getString(R.string.label_answer));
 
                 //全ボタンを有効化
-                enableAllBtns();
+                enableAllBtn();
             }
         }.start();
     }
