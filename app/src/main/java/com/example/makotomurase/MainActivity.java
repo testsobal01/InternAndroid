@@ -11,6 +11,7 @@ import android.animation.Animator;
 import android.animation.AnimatorInflater;
 import android.animation.AnimatorSet;
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.AssetFileDescriptor;
 import android.media.AudioManager;
@@ -105,7 +106,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         ImageView fooder=findViewById(R.id.footer);
         fooder.setOnClickListener(view -> {
             Toast.makeText(getApplicationContext(),"\uD83E\uDEF5ω・´)<貴様ッ！なぜわかった！",Toast.LENGTH_SHORT).show();
-        });
+            Intent intent = new Intent(this, MiniGameActivity.class);
+            startActivity(intent);});
         //  もし何かフッター触ったときにに入れたいのなら{}の中身をいじろう(番号9)
 
 

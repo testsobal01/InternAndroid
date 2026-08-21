@@ -5,5 +5,6 @@
     <string name="btn_restart">Restart</string>
     <string name="label_score">Score：</string>
     <string name="max_num">10が設定されています。</string>
-
+    <string name="count">0</string>
+    <!--    countはミニゲーム用-->
 </resources>
