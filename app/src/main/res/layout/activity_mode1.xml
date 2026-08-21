@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mode1"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:id="@+id/button1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                app:backgroundTint="@null"
+                android:background="@drawable/high"
+                android:text="@string/btn_high" />
+
+            <Button
+                android:id="@+id/button2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                app:backgroundTint="@null"
+                android:background="@drawable/low"
+                android:text="@string/btn_low" />
+
+            <Button
+                android:id="@+id/button3"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                app:backgroundTint="@null"
+                android:background="@drawable/reset"
+                android:text="@string/btn_restart" />
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/label_title" />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/text_result"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/win_result"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/label_score" />
+
+            <TextView
+                android:id="@+id/text_score"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/question"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:paddingBottom="50dp"
+                android:paddingTop="50dp"
+                android:paddingLeft="30dp"
+                android:paddingRight="30dp"
+                android:layout_marginTop="90dp"
+                android:layout_marginStart="70dp"
+                android:layout_marginEnd="70dp"
+                android:background="@drawable/frame_style1"
+                android:gravity="center"
+                android:text="@string/value1"
+                android:textSize="60sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:textSize="50dp"
+                android:text="VS" />
+
+            <TextView
+                android:id="@+id/answer"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:paddingBottom="50dp"
+                android:paddingTop="50dp"
+                android:paddingLeft="30dp"
+                android:paddingRight="30dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="70dp"
+                android:layout_marginEnd="70dp"
+                android:background="@drawable/frame_style2"
+                android:gravity="center"
+                android:text="@string/value2"
+                android:textSize="60sp" />
+
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/image_view_2"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_marginTop="120dp"
+            android:scaleType="center"
+            android:src="@drawable/img_2"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </LinearLayout>
+</LinearLayout>
