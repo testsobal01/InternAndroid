@@ -75,12 +75,12 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="30sp"
+                    android:textSize="25sp"
                     android:text="@string/result" />
 
                 <TextView
                     android:id="@+id/text_result"
-                    android:textSize="30sp"
+                    android:textSize="25sp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
 
@@ -93,14 +93,14 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="30sp"
+                    android:textSize="25sp"
                     android:text="@string/label_score" />
 
                 <TextView
                     android:id="@+id/text_score"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="30sp"
+                    android:textSize="25sp"
                     android:text="0" />
 
                 <TextView
@@ -112,13 +112,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/label_highscore"
-                    android:textSize="30sp" />
+                    android:textSize="25sp" />
 
                 <TextView
                     android:id="@+id/text_highscore"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="30sp"
+                    android:textSize="25sp"
                     android:text="0" />
 
             </LinearLayout>
