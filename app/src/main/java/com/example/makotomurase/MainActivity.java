@@ -16,6 +16,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.AssetFileDescriptor;
+import android.graphics.Color;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Build;
@@ -126,7 +127,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         ImageView fooder=findViewById(R.id.footer);
         fooder.setOnClickListener(view -> {
             Toast.makeText(getApplicationContext(),"\uD83E\uDEF5ω・´)<貴様ッ！なぜわかった！",Toast.LENGTH_SHORT).show();
-        });
+            Intent intent = new Intent(this, MiniGameActivity.class);
+            startActivity(intent);});
         //  もし何かフッター触ったときにに入れたいのなら{}の中身をいじろう(番号9)
 
 
@@ -162,11 +164,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             //最大値が設定できるダイアログを表示
             NumberPickerDialogFragment dialog = new NumberPickerDialogFragment();
             dialog.show(getSupportFragmentManager(), "sample");
+            
         }else if (id == R.id.button_colorchange){
             setRandomColor();
         }else if (id == R.id.button_howto){
             Intent intent_h = new Intent(this, HowToActivity.class);
             startActivity(intent_h);
+        } else if (id == R.id.button4) {
+            setRandomColor();
         }
 
     }
@@ -367,18 +372,53 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
     //番号13：値１・値2の色変更（ランダム）
-    public void setRandomColor(){
+    public void setRandomColor() {
         Random random = new Random();
         View text1 = findViewById(R.id.question);
         View text2 = findViewById(R.id.answer);
 
-        int[] ColorPalette = {0xFFFF0000,0xFFFFA100,0xFFFFFF00,0xFF00FF00,0xFFAAFFFF,0xFF0000FF,0xFFAA00FF,0xFFFF00FF};
-        int colorQ = ColorPalette[random.nextInt(8)];
-        int colorA = ColorPalette[random.nextInt(8)];
-        Toast.makeText(this,"Colors has Changed!",Toast.LENGTH_SHORT).show();
-        text1.setBackgroundColor(colorQ);
-        text2.setBackgroundColor(colorA);
+        for (int j = 0; j < 2; j++) {
+            String colorCord = "#";
+            int r = random.nextInt(156) + 100;
+            int g = random.nextInt(156) + 100;
+            int b = random.nextInt(156) + 100;
+
+            int r1 = (r % 16);
+            int r2 = (r / 16);
+            int g1 = (g % 16);
+            int g2 = (g / 16);
+            int b1 = (b % 16);
+            int b2 = b / 16;
+
+            int[] colorDegits = {r1, r2, g1, g2, b1, b2};
+
+            for (int i = 0; i < 6; i++) {
+                if (colorDegits[i] == 10) {
+                    colorCord = colorCord.concat("A");
+                } else if (colorDegits[i] == 11) {
+                    colorCord = colorCord.concat("B");
+                } else if (colorDegits[i] == 12) {
+                    colorCord = colorCord.concat("C");
+                } else if (colorDegits[i] == 13) {
+                    colorCord = colorCord.concat("D");
+                } else if (colorDegits[i] == 14) {
+                    colorCord = colorCord.concat("E");
+                } else if (colorDegits[i] == 15) {
+                    colorCord = colorCord.concat("F");
+                } else {
+                    colorCord = colorCord.concat(String.valueOf(colorDegits[i]));
+                }
+            }
+
+            if (j == 0) {
+                text1.setBackgroundColor(Color.parseColor(colorCord));
+            } else {
+                text2.setBackgroundColor(Color.parseColor(colorCord));
+            }
+        }
+        Toast.makeText(this,"背景色が変わりました",Toast.LENGTH_SHORT).show();
     }
+
 
     //番号11　BGMの追加
     //11-2 BGMの種類の追加
@@ -462,4 +502,5 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         vibrator.vibrate(VibrationEffect.createOneShot(200, VibrationEffect.DEFAULT_AMPLITUDE));
     }
 }
+
 
