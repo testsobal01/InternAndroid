@@ -26,6 +26,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:textSize="10sp"
                     android:background="@drawable/button_background"
                     app:backgroundTint="@null"
                     android:text="@string/btn_high" />
@@ -35,6 +36,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:textSize="10sp"
                     android:background="@drawable/button_background"
                     app:backgroundTint="@null"
                     android:text="@string/btn_low" />
@@ -44,6 +46,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1.5"
+                    android:textSize="10sp"
                     android:background="@drawable/button_background"
                     app:backgroundTint="@null"
                     android:text="@string/btn_restart" />
@@ -53,6 +56,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1.5"
+                    android:textSize="10sp"
                     android:background="@drawable/button_background"
                     app:backgroundTint="@null"
                     android:text="@string/btn_to_title" />
