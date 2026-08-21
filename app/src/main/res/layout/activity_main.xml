@@ -54,7 +54,16 @@
                 android:background="@drawable/button4"
                 app:backgroundTint="@null"
                 android:text="@string/btn_setting"/>
+
+            <Button
+                android:id="@+id/ss"
+                android:layout_width="30pt"
+                android:layout_height="wrap_content"
+                android:background="@drawable/button4"
+                app:backgroundTint="@null"
+                android:text="@string/btn_setting"/>
         </LinearLayout>
+
 
         <TextView
             android:id="@+id/label_limit"

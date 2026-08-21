@@ -13,6 +13,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -40,6 +41,7 @@ import android.media.SoundPool;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private SoundPool soundPool;
+    private MediaPlayer mediaPlayer;
 
     private int soundpinpon2, soundbubbu1,soundloop;
 
@@ -111,11 +113,51 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         pref = getSharedPreferences("AndroidSEminar",MODE_PRIVATE);
         prefEditor = pref.edit();
        // soundPool.play(soundloop, 1.0f, 1.0f, 0, 0, 1);
-
+        
+        audioPlay();
 
         // 起動時に関数を呼び出す
         setQuestionValue(limit);
     }
+    private boolean audioSetup(){
+        boolean fileCheck = false;
+
+        // rawにファイルがある場合
+        mediaPlayer = MediaPlayer.create(this, R.raw.yume);
+        // 音量調整を端末のボタンに任せる
+        setVolumeControlStream(AudioManager.STREAM_MUSIC);
+        fileCheck = true;
+
+        return fileCheck;
+    }
+    private void audioPlay() {
+       // audioPlay();
+        if (mediaPlayer == null) {
+            // audio ファイルを読出し
+            if (audioSetup()){
+                Toast.makeText(getApplication(), "Rread audio file", Toast.LENGTH_SHORT).show();
+            }
+            else{
+                Toast.makeText(getApplication(), "Error: read audio file", Toast.LENGTH_SHORT).show();
+                return;
+            }
+        }
+        else{
+            // 繰り返し再生する場合
+            mediaPlayer.stop();
+            mediaPlayer.reset();
+            // リソースの解放
+            mediaPlayer.release();
+        }
+
+        // 再生する
+        mediaPlayer.start();
+
+        // 終了を検知するリスナー
+
+
+    }
+
     @Override
     protected void onPause(){
             super.onPause();
@@ -315,6 +357,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             500, VibrationEffect.DEFAULT_AMPLITUDE)));
                 }
                 soundPool.play(soundpinpon2, 1.0f, 1.0f, 0, 0, 1);
+
+
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
