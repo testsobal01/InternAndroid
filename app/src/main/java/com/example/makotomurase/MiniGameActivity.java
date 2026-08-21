@@ -34,6 +34,8 @@ public class MiniGameActivity extends AppCompatActivity implements View.OnClickL
     Intent intent;
     Intent toResult;
 
+    CountDownTimer onOff;
+
 
 
     private static int cat = 1;
@@ -91,6 +93,10 @@ public class MiniGameActivity extends AppCompatActivity implements View.OnClickL
         if (id == R.id.Exit){
             intent = new Intent(this, MainActivity.class);
             startActivity(intent);
+            if (onOff != null){
+                onOff.cancel();
+            }
+
         }
 
 
@@ -103,7 +109,7 @@ public class MiniGameActivity extends AppCompatActivity implements View.OnClickL
         countDown_sec = findViewById(R.id.sec);
         // 第１引数がカウントダウン時間、第２引数は途中経過を受け取る間隔
         // 単位はミリ秒（1秒＝1000ミリ秒）
-        new CountDownTimer(sec_user, 1000) {
+        onOff=new CountDownTimer(sec_user, 1000) {
             @Override
             public void onTick(long l) {
                 // 途中経過を受け取った時に何かしたい場合
@@ -118,7 +124,8 @@ public class MiniGameActivity extends AppCompatActivity implements View.OnClickL
                 // 30秒たったら移動する
                 Ido();
             }
-        }.start();
+        };
+        onOff.start();
     }
     public void Ido(){
         toResult = new Intent(this, MiniGame_resultActivity.class);
