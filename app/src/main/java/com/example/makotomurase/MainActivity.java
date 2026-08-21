@@ -113,7 +113,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         pref = getSharedPreferences("AndroidSEminar",MODE_PRIVATE);
         prefEditor = pref.edit();
        // soundPool.play(soundloop, 1.0f, 1.0f, 0, 0, 1);
-        
+
         audioPlay();
 
         // 起動時に関数を呼び出す
