@@ -1,5 +1,7 @@
 package com.example.makotomurase;
 
+import android.animation.AnimatorInflater;
+import android.animation.AnimatorSet;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -13,6 +15,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 public class HomeActivity extends AppCompatActivity implements View.OnClickListener {
+    AnimatorSet set;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,9 +30,16 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
         Button StartButton = findViewById(R.id.start);
         StartButton.setOnClickListener(this);
-
         Button Mode1Button = findViewById(R.id.mode1);
         Mode1Button.setOnClickListener(this);
+        set = (AnimatorSet) AnimatorInflater.loadAnimator(HomeActivity.this, R.animator.blink_animation);
+        set.setTarget(StartButton);
+    }
+
+    @Override
+    protected void onStart(){
+        super.onStart();
+        set.start();
     }
 
     @Override
