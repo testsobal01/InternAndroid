@@ -91,7 +91,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         EdgeToEdge.enable(this);
         ImageView imageView2 = findViewById(R.id.image_view_2);
-        imageView2.setImageResource(R.drawable.img_2);
+        imageView2.setImageResource(R.drawable.so);
 
         //フォント変更
         TextView txtView = findViewById(R.id.answer);

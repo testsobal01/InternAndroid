@@ -23,7 +23,7 @@
                 android:layout_weight="1"
                 android:background="@drawable/high"
                 android:text="@string/btn_high"
-                app:backgroundTint="@null" />
+                app:backgroundTint="@null"
                 android:fontFamily="@font/alysabeauty"/>
 
             <Button
@@ -33,7 +33,7 @@
                 android:layout_weight="1"
                 android:background="@drawable/low"
                 android:text="@string/btn_low"
-                app:backgroundTint="@null" />
+                app:backgroundTint="@null"
                 android:fontFamily="@font/alysabeauty" />
 
             <Button
@@ -156,10 +156,10 @@
         <ImageView
             android:id="@+id/image_view_2"
             android:layout_width="match_parent"
-            android:layout_height="100dp"
+            android:layout_height="190dp"
             android:layout_marginTop="120dp"
             android:scaleType="center"
-            android:src="@drawable/img_2"
+            android:src="@drawable/so"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
