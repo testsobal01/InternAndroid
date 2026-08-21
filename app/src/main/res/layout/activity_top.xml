@@ -9,12 +9,33 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="High and Low"
+            android:textStyle="bold"
+            android:textSize="60sp"
+            android:paddingTop="200dp"
+            android:paddingBottom="50dp"
+            android:paddingStart="25dp"
+            app:layout_constraintBottom_toBottomOf="@+id/btn1"
+            app:layout_constraintStart_toStartOf="@+id/btn1"
+            app:layout_constraintEnd_toEndOf="@+id/btn1" />
+
 
         <Button android:id="@+id/btn1"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="スタート">
+            android:layout_height="80dp"
+            android:text="スタート"
+            android:textSize="24sp"
+            app:layout_constraintTop_toBottomOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
         </Button>
 
     </LinearLayout>
