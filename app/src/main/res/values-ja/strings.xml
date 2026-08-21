@@ -3,8 +3,13 @@
     <string name="btn_high">High</string>
     <string name="btn_low">Low</string>
     <string name="btn_restart">Restart</string>
+    <string name="btn_setting">⚙</string>
+    <string name="dialogTitle">上限値を設定してください</string>
+    <string name="dialogYesBtn">はい</string>
+    <string name="dialogNoBtn">キャンセル</string>
     <string name="label_score">Score：</string>
-    <string name="label_limit">10が設定されています。</string>
+    <string name="label_limit">%dが設定されています。</string>
+    <string name="label_limit_value">%d</string>
     <string name="label_question">値１</string>
     <string name="label_answer">？</string>
     <string name="label_result">結果：%1$d:%2$d (%3$s)</string>
