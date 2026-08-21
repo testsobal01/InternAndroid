@@ -40,7 +40,8 @@ import android.media.SoundPool;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private SoundPool soundPool;
-    private int soundpinpon2, soundbubbu1;
+
+    private int soundpinpon2, soundbubbu1,soundloop200103;
 
     SharedPreferences pref;
     SharedPreferences.Editor prefEditor;
@@ -87,11 +88,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         soundPool = new SoundPool.Builder()
                 .setAudioAttributes(audioAttributes)
                 // ストリーム数に応じて
-                .setMaxStreams(3)
+                .setMaxStreams(4)
                 .build();
 
         soundpinpon2 = soundPool.load(this, R.raw.pinpon2, 1);
         soundbubbu1 = soundPool.load(this, R.raw.bubbu1, 1);
+        soundloop200103= soundPool.load(this, R.raw.loop200103, 1);
+
+
 
 
         TextView lblLimit = findViewById(R.id.label_limit);
@@ -308,6 +312,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             (VibrationEffect.createOneShot(
                             500, VibrationEffect.DEFAULT_AMPLITUDE)));
                 }
+                soundPool.play(soundpinpon2, 1.0f, 1.0f, 0, 0, 1);
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
@@ -352,6 +357,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setNextQuestion();
         // スコアを表示
         setScore(score);
+
+
     }
 
     private long[] longArrayOf(int i, int i1, int i2) {
