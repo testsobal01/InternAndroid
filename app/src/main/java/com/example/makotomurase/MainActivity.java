@@ -18,6 +18,7 @@ import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.view.View;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -72,8 +73,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mediaPlayer.seekTo(0);
         mediaPlayer.start();
 
-
-        TextView textView = findViewById(R.id.answer);
+        TextView textView = findViewById(R.id.answer_value);
         TextView textView2 = findViewById(R.id.question);
 
         set = (AnimatorSet) AnimatorInflater.loadAnimator(MainActivity.this,
@@ -88,7 +88,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View view) {
         TextView ColorChange1 = (TextView) findViewById(R.id.question);
-        TextView ColorChange2 = (TextView) findViewById(R.id.answer);
+        FrameLayout ColorChange2 = (FrameLayout) findViewById(R.id.answer);
         int id = view.getId();
         if (id == R.id.button4) {
             isButton = false;
@@ -125,6 +125,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         }
         else if (id == R.id.button3) {
+            set.cancel();
             isButton = false;
             Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -138,6 +139,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             clearScoreValue();
             ColorChange1.setBackgroundColor(Color.rgb(255,0,255));
             ColorChange2.setBackgroundColor(Color.rgb(255,255,0));
+            TextView answerValue = (TextView) findViewById(R.id.answer_value);
+            answerValue.setAlpha(1f);
         }
     }
 
@@ -166,7 +169,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void clearAnswerValue() {
-        TextView txtView = (TextView) findViewById(R.id.answer);
+        TextView txtView = (TextView) findViewById(R.id.answer_value);
         txtView.setText(R.string.num);
     }
 
@@ -183,13 +186,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Random r = new Random();
         int answerValue = r.nextInt(10 + 1);
 
-        TextView txtView = findViewById(R.id.answer);
+        TextView txtView = findViewById(R.id.answer_value);
         txtView.setText(Integer.toString(answerValue));
     }
 
     private void checkResult(boolean isHigh) {
         TextView txtViewQuestion = findViewById(R.id.question);
-        TextView txtViewAnswer = findViewById(R.id.answer);
+        TextView txtViewAnswer = findViewById(R.id.answer_value);
 
         int question = Integer.parseInt(txtViewQuestion.getText().toString());
         int answer = Integer.parseInt(txtViewAnswer.getText().toString());
@@ -201,7 +204,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int score;
 
         TextView colorChange1 = (TextView) findViewById(R.id.question);
-        TextView colorChange2 = (TextView) findViewById(R.id.answer);
+        FrameLayout colorChange2 = (FrameLayout) findViewById(R.id.answer);
         TextView colorChange3 = (TextView) findViewById(R.id.text_result);
 
 

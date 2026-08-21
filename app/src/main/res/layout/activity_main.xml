@@ -154,14 +154,23 @@
                         android:text="値1"
                         android:textSize="60sp" />
 
-                    <TextView
+                    <FrameLayout
                         android:id="@+id/answer"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:gravity="center"
-                        android:text="@string/num"
-                        android:textSize="60sp" />
+                        android:gravity="center" >
+
+                        <TextView
+                            android:id="@+id/answer_value"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:text="@string/num"
+                            android:textSize="60sp"
+                            android:gravity="center" />
+
+
+                    </FrameLayout>
                 </LinearLayout>
             </FrameLayout>
 
