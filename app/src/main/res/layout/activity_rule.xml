@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".RuleActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="350dp"
+            android:layout_height="70dp"
+            android:text="HIGH AND LOWは、左の数字と比べて、次に表示される右の数字が高い（High）か低い（Low）かを当てる、とてもシンプルなゲームです。 "
+            android:background="#b0c4de"/>
+
+        <TextView
+            android:layout_width="350dp"
+            android:layout_height="25dp"
+            android:text="勝った場合：スコア　プラス2点"
+            android:background="#b0c4de"/>
+
+        <TextView
+            android:layout_width="350dp"
+            android:layout_height="25dp"
+            android:text="負けた場合：スコア　マイナス1点"
+            android:background="#b0c4de"/>
+
+        <TextView
+            android:layout_width="350dp"
+            android:layout_height="25dp"
+            android:text="引き分けの場合：スコア　プラス1点"
+            android:background="#b0c4de"/>
+
+        <Button
+            android:id="@+id/start"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/btn_start"/>
+
+        <Button
+            android:id="@+id/back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/back"/>
+
+    </LinearLayout>
+
+</LinearLayout>
