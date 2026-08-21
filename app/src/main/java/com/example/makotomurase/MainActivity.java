@@ -7,6 +7,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 import android.content.SharedPreferences;
 import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.media.SoundPool;
 import android.util.Log;
 import android.os.Build;
@@ -42,6 +43,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     SharedPreferences pref;
     SharedPreferences.Editor prefEditor;
 
+    private MediaPlayer mediaPlayer;
+
     SoundPool soundPool;
     int[] soundIds = new int[2];
     int[] seFiles = {R.raw.button01a, R.raw.button01b};
@@ -58,6 +61,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             view.setPadding(insets.left, insets.top, insets.right, 0);
             return windowInsets;
         });
+
+        mediaPlayer = MediaPlayer.create(this, R.raw.bgm);
+        mediaPlayer.setLooping(true);
+        mediaPlayer.start();
 
         soundPool = new SoundPool(soundIds.length, AudioManager.STREAM_MUSIC, 0);
         for (int i = 0; i < soundIds.length; i++) {
