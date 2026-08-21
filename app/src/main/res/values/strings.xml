@@ -1,11 +1,11 @@
 <resources>
-    <string name="app_name">SobalTest</string>
+    <string name="app_name">High&amp;Low</string>
     <string name="btn_high">High</string>
     <string name="btn_low">Low</string>
     <string name="btn_restart">Restart</string>
     <string name="btn_setting">⚙</string>
     <string name="dialogTitle">Please set a maximum limit.</string>
-    <string name="dialogYesBtn">Yes</string>
+    <string name="dialogYesBtn">OK</string>
     <string name="dialogNoBtn">Cancel</string>
     <string name="label_score">Score：</string>
     <string name="sbutton">スタート</string>

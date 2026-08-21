@@ -10,7 +10,7 @@
     android:background="@color/black"
     tools:context=".ContentsActivity">
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
@@ -18,13 +18,19 @@
         android:orientation="vertical">
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:id="@+id/Title"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
             android:gravity="center"
             android:textStyle="bold"
             android:textSize="80dp"
             android:textColor="#E0f2FE"
-            android:text="High&amp;Low"/>
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:autoSizeTextType="uniform"
+            android:text="High&amp;Low" />
 
         <Button
             android:id="@+id/sbutton"
@@ -35,12 +41,11 @@
             android:text="スタート"
             android:radius="24dp"
             android:background="@drawable/button"
-            app:backgroundTint="@null"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@id/Title"
+            app:backgroundTint="@null" />
 
-    </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </LinearLayout>

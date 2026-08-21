@@ -1,25 +1,21 @@
 package com.example.makotomurase;
 
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
-import androidx.lifecycle.viewmodel.CreationExtras;
 
 import android.animation.ValueAnimator;
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.os.LimitExceededException;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
-import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -27,20 +23,17 @@ import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.w3c.dom.Text;
-
 import java.util.Random;
-import android.media.ToneGenerator;
-import android.media.AudioManager;
-import android.media.ToneGenerator;
-import android.media.AudioManager;
+
 import android.media.AudioAttributes;
 import android.media.SoundPool;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private SoundPool soundPool;
-    private int soundpinpon2, soundbubbu1;
+    private MediaPlayer mediaPlayer;
+
+    private int soundpinpon2, soundbubbu1,soundloop;
 
     SharedPreferences pref;
     SharedPreferences.Editor prefEditor;
@@ -96,11 +89,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         soundPool = new SoundPool.Builder()
                 .setAudioAttributes(audioAttributes)
                 // ストリーム数に応じて
-                .setMaxStreams(3)
+                .setMaxStreams(4)
                 .build();
 
         soundpinpon2 = soundPool.load(this, R.raw.pinpon2, 1);
         soundbubbu1 = soundPool.load(this, R.raw.bubbu1, 1);
+        soundloop= soundPool.load(this, R.raw.loop, 1);
+
+
 
 
         TextView lblLimit = findViewById(R.id.label_limit);
@@ -115,11 +111,52 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         pref = getSharedPreferences("AndroidSEminar",MODE_PRIVATE);
         prefEditor = pref.edit();
+       // soundPool.play(soundloop, 1.0f, 1.0f, 0, 0, 1);
 
+        audioPlay();
 
         // 起動時に関数を呼び出す
         setQuestionValue(limit);
     }
+    private boolean audioSetup(){
+        boolean fileCheck = false;
+
+        // rawにファイルがある場合
+        mediaPlayer = MediaPlayer.create(this, R.raw.yume);
+        // 音量調整を端末のボタンに任せる
+        setVolumeControlStream(AudioManager.STREAM_MUSIC);
+        fileCheck = true;
+
+        return fileCheck;
+    }
+    private void audioPlay() {
+       // audioPlay();
+        if (mediaPlayer == null) {
+            // audio ファイルを読出し
+            if (audioSetup()){
+                Toast.makeText(getApplication(), "Rread audio file", Toast.LENGTH_SHORT).show();
+            }
+            else{
+                Toast.makeText(getApplication(), "Error: read audio file", Toast.LENGTH_SHORT).show();
+                return;
+            }
+        }
+        else{
+            // 繰り返し再生する場合
+            mediaPlayer.stop();
+            mediaPlayer.reset();
+            // リソースの解放
+            mediaPlayer.release();
+        }
+
+        // 再生する
+        mediaPlayer.start();
+
+        // 終了を検知するリスナー
+
+
+    }
+
     @Override
     protected void onPause(){
             super.onPause();
@@ -159,13 +196,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             setAnswerValue(limit);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 checkResult(true);
-                diableAllBtns();
+                disableAllBtn();
             }
         } else if (id == R.id.button2) {
             setAnswerValue(limit);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 checkResult(false);
-                diableAllBtns();
+                disableAllBtn();
             }
         } else if (id == R.id.button3) {
             mo=MO_LIMIT;
@@ -268,7 +305,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         colorAnimator.start();
     }
 
-    private void diableAllBtns(){
+    private void disableAllBtn(){
         Button btn1 = findViewById(R.id.button1);
         Button btn2 = findViewById(R.id.button2);
         Button btn3 = (Button) findViewById(R.id.button3);
@@ -280,7 +317,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnSetting.setEnabled(false);
     }
 
-    private void enableAllBtns(){
+    private void enableAllBtn(){
         Button btn1 = findViewById(R.id.button1);
         Button btn2 = findViewById(R.id.button2);
         Button btn3 = (Button) findViewById(R.id.button3);
@@ -308,6 +345,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView txtView = findViewById(R.id.answer);
         txtView.setText(Integer.toString(answerValue));
     }
+
 
     private void checkResult(boolean isHigh) {
         TextView txtViewQuestion = findViewById(R.id.question);
@@ -337,13 +375,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             (VibrationEffect.createOneShot(
                             500, VibrationEffect.DEFAULT_AMPLITUDE)));
                 }
+                soundPool.play(soundpinpon2, 1.0f, 1.0f, 0, 0, 1);
+
+
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                     vibrator.vibrate(VibrationEffect.createWaveform(new long[]{0, 100, 50, 100}, -1));
                 }
-                soundPool.play(soundpinpon2, 1.0f, 1.0f, 0, 0, 1);
+                soundPool.play(soundbubbu1, 1.0f, 1.0f, 0, 0, 1);
             } else {
                 result = "DRAW";
                 score = 1;
@@ -355,6 +396,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                     vibrator.vibrate(VibrationEffect.createOneShot(
                             500, VibrationEffect.DEFAULT_AMPLITUDE));
+                    soundPool.play(soundpinpon2, 1.0f, 1.0f, 0, 0, 1);
                 }
             } else if (question < answer) {
                 result = "LOSE";
@@ -362,7 +404,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                     vibrator.vibrate(VibrationEffect.createWaveform(new long[]{0, 100, 50, 100}, -1));
                 }
-                soundPool.play(soundpinpon2, 1.0f, 1.0f, 0, 0, 1);
+                soundPool.play(soundbubbu1, 1.0f, 1.0f, 0, 0, 1);
             } else {
                 result = "DRAW";
                 score = 1;
@@ -389,6 +431,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setNextQuestion();
         // スコアを表示
         setScore(score);
+
+
     }
 
     private long[] longArrayOf(int i, int i1, int i2) {
@@ -398,7 +442,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void setNextQuestion() {
         // 第１引数がカウントダウン時間、第２引数は途中経過を受け取る間隔
         // 単位はミリ秒（1秒＝1000ミリ秒）
-        new CountDownTimer(3000, 1000) {
+        new CountDownTimer(2000, 1000) {
             @Override
             public void onTick(long l) {
                 // 途中経過を受け取った時に何かしたい場合
@@ -410,9 +454,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 // 3秒経過したら次の値をセット
                 setQuestionValue(limit);
                 resetBgColor();
+                TextView ansView = (TextView) findViewById(R.id.answer);
+                ansView.setText(getResources().getString(R.string.label_answer));
 
                 //全ボタンを有効化
-                enableAllBtns();
+                enableAllBtn();
             }
         }.start();
     }
