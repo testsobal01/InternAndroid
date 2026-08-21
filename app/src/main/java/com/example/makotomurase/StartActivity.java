@@ -24,10 +24,10 @@ public class StartActivity extends AppCompatActivity {
         });
 
         Button bt_start=findViewById(R.id.bt_start);
-
         bt_start.setOnClickListener(this::onClick);
 
-
+        Button bt_start1=findViewById(R.id.bt_start1);
+        bt_start1.setOnClickListener(this::onClick);
     }
 
 
