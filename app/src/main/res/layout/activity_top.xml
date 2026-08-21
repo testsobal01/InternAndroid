@@ -9,7 +9,8 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
         <!--番号20　ボタンのアニメーション-->
         <com.example.makotomurase.PushButton
             android:id="@+id/btn1"
@@ -17,6 +18,20 @@
             android:layout_height="wrap_content"
             android:background="@drawable/custom_button_shape"
             android:text="スタート"
+            android:textColor="#000000"
+            app:backgroundTint="@null"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+        </com.example.makotomurase.PushButton>
+
+        <com.example.makotomurase.PushButton
+            android:id="@+id/btn2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/custom_button_shape"
+            android:text="遊び方"
             android:textColor="#000000"
             app:backgroundTint="@null"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -38,18 +53,6 @@
             app:layout_constraintStart_toStartOf="@+id/btn1"
             app:layout_constraintEnd_toEndOf="@+id/btn1" />
 
-
-        <Button android:id="@+id/btn1"
-            android:layout_width="match_parent"
-            android:layout_height="80dp"
-            android:text="スタート"
-            android:textSize="24sp"
-            app:layout_constraintTop_toBottomOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent">
-
-        </Button>
 
     </LinearLayout>
 
