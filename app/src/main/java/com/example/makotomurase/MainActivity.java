@@ -51,6 +51,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     int[] soundIds = new int[2];
     int[] seFiles = {R.raw.button01a, R.raw.button01b};
 
+    int highScore = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -121,8 +123,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             VibrationB();
         }
     }
+
     private void VibrationB() {
-        Vibrator vibrator = (Vibrator)  getSystemService(VIBRATOR_SERVICE);
+        Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             vibrator.vibrate(VibrationEffect.createOneShot(
                     500, VibrationEffect.DEFAULT_AMPLITUDE));
@@ -168,7 +171,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         //言語識別用の変数
         Locale locale = Locale.getDefault();
-        String lang  = String.valueOf(locale);
+        String lang = String.valueOf(locale);
 
         TextView txtViewQuestion = findViewById(R.id.question);
         TextView txtViewAnswer = findViewById(R.id.answer);
@@ -227,9 +230,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // 最後にまとめてToast表示の処理とTextViewへのセットを行う
         Toast.makeText(this, result, Toast.LENGTH_LONG).show();
         //端末が英語の場合と日本語の場合の分岐
-        if (lang.equals("ja_JP")){
+        if (lang.equals("ja_JP")) {
             txtResult.setText("結果：" + question + ":" + answer + "(" + result + ")");
-        }else if(lang.equals("en_US")){
+        } else if (lang.equals("en_US")) {
             txtResult.setText("Result：" + question + ":" + answer + "(" + result + ")");
         }
         // 続けて遊べるように値を更新
@@ -237,7 +240,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // スコアを表示
         setScore(score);
         //勝率を表示
-        setWinrate(wincount,losecount,drawcount);
+        setWinrate(wincount, losecount, drawcount);
 
     }
 
@@ -267,13 +270,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView txtScore = (TextView) findViewById(R.id.text_score);
         int newScore = Integer.parseInt(txtScore.getText().toString()) + score;
         txtScore.setText(Integer.toString(newScore));
+
+        if (newScore > highScore) {
+            highScore = newScore;
+            TextView txtHighScore = (TextView) findViewById(R.id.high_score);
+            txtHighScore.setText(String.valueOf(highScore));
+        }
     }
-    private void setWinrate(int win,int lose,int draw){
+
+    private void setWinrate(int win, int lose, int draw) {
         TextView winScore = (TextView) findViewById(R.id.win_result);
         double winrate = (double) win/(win+lose+draw) *100;
         winScore.setText(String.format(" / 勝率：%.1f",winrate));
     }
-    private void clearWinRateValue(){
+
+    private void clearWinRateValue() {
         TextView winScore = (TextView) findViewById(R.id.win_result);
         wincount = 0;
         losecount = 0;
@@ -309,24 +320,35 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 })
                 .start();
     }
-  
-    protected void onPause(){
+
+    protected void onPause() {
         super.onPause();
         TextView txtScore = (TextView) findViewById(R.id.text_score);
         int Save_score = Integer.parseInt(txtScore.getText().toString());
 
         prefEditor.putInt("main_input", Save_score);
+
+        prefEditor.putInt("high_score", highScore);
+
         prefEditor.commit();
     }
 
+    @Override
     protected void onResume() {
         super.onResume();
-        Log.d("AndroidTest","onResume completed.");
+        Log.d("AndroidTest", "onResume completed.");
 
         TextView txtScore = (TextView) findViewById(R.id.text_score);
+        TextView txtHighScore = (TextView) findViewById(R.id.high_score);
 
-        int readScore = pref.getInt("main_input",0);
+        int readScore = pref.getInt("main_input", 0);
         txtScore.setText(String.valueOf(readScore));
+
+        int readHighScore = pref.getInt("high_score", 0);
+        if (txtHighScore != null) {
+            highScore = readHighScore;
+            txtHighScore.setText(String.valueOf(readHighScore));
+        }
     }
 }
 
