@@ -90,6 +90,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button btn4 = (Button) findViewById(R.id.button4);
         btn4.setOnClickListener(this);
 
+        Button btn5 = (Button) findViewById(R.id.button5);
+        btn5.setOnClickListener(this);
+
         SoundPlayer(this);
         //soundPlayer = new SoundPlayer(this);
         //SoundPool soundPlayer = SoundPlayer(this);
@@ -152,10 +155,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             setQuestionValue();
             clearAnswerValue();
             clearScoreValue();
-        } else if (id == R.id.button4) {
+        } else if (id == R.id.button5) {
             //最大値が設定できるダイアログを表示
             NumberPickerDialogFragment dialog = new NumberPickerDialogFragment();
             dialog.show(getSupportFragmentManager(), "sample");
+            setRandomColor();
+        } else if (id == R.id.button4) {
             setRandomColor();
         }
 
@@ -335,7 +340,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
             LayoutInflater inflater = getActivity().getLayoutInflater();
-            View view = inflater.inflate(R.layout.numberpicker, null,false);
+            View view = inflater.inflate(R.layout.numberpicker, null, false);
 
             final MainActivity activity = (MainActivity) getActivity();
             final NumberPicker np1 = (NumberPicker) view.findViewById(R.id.numberPicker);
@@ -354,7 +359,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                     MainActivity mainActivity = (MainActivity) getActivity();
                     assert mainActivity != null;
-                    mainActivity.max_num= max;
+                    mainActivity.max_num = max;
                     mainActivity.set.setText(max + "が設定されています");
                 }
             });
@@ -362,6 +367,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             builder.setView(view);
             return builder.create();
         }
+    }
     //番号13：値１・値2の色変更（ランダム）
     public void setRandomColor(){
         Random random = new Random();
@@ -429,4 +435,5 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mediaPlayer = null;
     }
 }
+
 

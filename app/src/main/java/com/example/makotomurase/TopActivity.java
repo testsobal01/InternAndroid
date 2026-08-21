@@ -2,8 +2,10 @@ package com.example.makotomurase;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Html;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -25,6 +27,9 @@ public class TopActivity extends AppCompatActivity implements View.OnClickListen
         });
         Button button = findViewById(R.id.btn1);
         button.setOnClickListener(this);
+
+        TextView textView = findViewById(R.id.title_text);
+        textView.setText(Html.fromHtml(getString(R.string.title)));
     }
 
     @Override
