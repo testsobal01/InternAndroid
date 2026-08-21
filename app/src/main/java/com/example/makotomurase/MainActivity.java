@@ -100,30 +100,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (id == R.id.button1) {
             setAnswerValue();
             checkResult(true);
+            soundPool.play(soundIds[0], 1.0F, 1.0F, 0, 0, 1.0F);
         } else if (id == R.id.button2) {
             setAnswerValue();
             checkResult(false);
+            soundPool.play(soundIds[0], 1.0F, 1.0F, 0, 0, 1.0F);
         } else if (id == R.id.button3) {
             setQuestionValue();
             clearAnswerValue();
             clearScoreValue();
             clearWinRateValue();
-            VibrationB();
-        }
-
-        if (id == R.id.button1) {
-            soundPool.play(soundIds[0], 1.0F, 1.0F, 0, 0, 1.0F);
-            setAnswerValue();
-            checkResult(true);
-        } else if (id == R.id.button2) {
-            soundPool.play(soundIds[0], 1.0F, 1.0F, 0, 0, 1.0F);
-            setAnswerValue();
-            checkResult(false);
-        } else if (id == R.id.button3) {
             soundPool.play(soundIds[1], 1.0F, 1.0F, 0, 0, 1.0F);
-            setQuestionValue();
-            clearAnswerValue();
-            clearScoreValue();
+            VibrationB();
         }
     }
     private void VibrationB() {
