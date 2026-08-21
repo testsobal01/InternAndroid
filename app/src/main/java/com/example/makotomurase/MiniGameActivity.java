@@ -2,6 +2,9 @@ package com.example.makotomurase;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.media.AudioManager;
+import android.media.SoundPool;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
@@ -16,7 +19,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 public class MiniGameActivity extends AppCompatActivity implements View.OnClickListener {
 
-    Button cat;
+    Button catButton;
     Button exit;
     TextView miniGameCount;
     TextView countDown_sec;
@@ -30,6 +33,15 @@ public class MiniGameActivity extends AppCompatActivity implements View.OnClickL
     int sec_user;
     Intent intent;
     Intent toResult;
+
+
+
+    private static int cat = 1;
+
+    private static SoundPool soundPool;
+
+    SharedPreferences pref;
+    SharedPreferences.Editor prefEditor;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,8 +56,8 @@ public class MiniGameActivity extends AppCompatActivity implements View.OnClickL
 
 
 
-        cat = findViewById(R.id.nyaaaaa);
-        cat.setOnClickListener(this);
+        catButton = findViewById(R.id.nyaaaaa);
+        catButton.setOnClickListener(this);
         exit = findViewById(R.id.Exit);
         exit.setOnClickListener(this);
         //ボタンが押されたときonClickへつなげる
@@ -55,6 +67,10 @@ public class MiniGameActivity extends AppCompatActivity implements View.OnClickL
 
        countDown();
 
+
+        SoundPlayer(this);
+        pref = getSharedPreferences("MakotoMurase",MODE_PRIVATE);
+        prefEditor = pref.edit();
 
 
     }
@@ -67,6 +83,7 @@ public class MiniGameActivity extends AppCompatActivity implements View.OnClickL
         if (id == R.id.nyaaaaa){
             count=memory+1;
             memory=count;
+            soundPool.play(cat, 1.0f, 1.0f, 1, 0, 1.0f);
 
             miniGameCount.setText(String.valueOf(count));
         }
@@ -109,6 +126,15 @@ public class MiniGameActivity extends AppCompatActivity implements View.OnClickL
         startActivity(toResult);
 
         //TopActivityの所にリザルトを入れる
+    }
+
+    public void SoundPlayer(Context context) {
+
+        soundPool = new SoundPool(2, AudioManager.STREAM_MUSIC, 0);
+
+
+
+        cat = soundPool.load(context, R.raw.cat1, 0);
     }
 
 
