@@ -10,7 +10,7 @@ android {
         applicationId "com.example.makotomurase"
         minSdk 23
         targetSdk 36
-        versionCode 1
+        versionCode 1g
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"

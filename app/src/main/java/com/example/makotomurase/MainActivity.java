@@ -6,8 +6,13 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import android.app.AlertDialog;
+import android.media.AudioAttributes;
+import android.media.AudioManager;
+import android.media.SoundPool;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -17,10 +22,40 @@ import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
+    SoundPool soundPool;
+    int mp3a;
+    int mp3b;
+    int mp3c;
+    int mp3d;
+    int mp3e;
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        if(Build.VERSION.SDK_INT<Build.VERSION_CODES.LOLLIPOP){
+            soundPool=new SoundPool(5,AudioManager.STREAM_MUSIC, 0);
+        }else{
+            AudioAttributes attr = new AudioAttributes.Builder()
+                    .setUsage(AudioAttributes.USAGE_MEDIA)
+                    .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+                    .build();
+            soundPool = new SoundPool.Builder()
+                    .setAudioAttributes(attr)
+                    .setMaxStreams(5)
+                    .build();
+            mp3a=soundPool.load(this,R.raw.rappa,1);
+            mp3b=soundPool.load(this,R.raw.hit,1);
+            mp3c=soundPool.load(this,R.raw.win,1);
+            mp3d=soundPool.load(this,R.raw.lose,1);
+            mp3e=soundPool.load(this,R.raw.draw,1);
+
+        }
+
+
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (view, windowInsets) -> {
             Insets insets = windowInsets.getInsets(
@@ -42,6 +77,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button settingsButton = findViewById(R.id.button4);
         settingsButton.setOnClickListener(view -> showSettingsDialog());
 
+
+
         // 起動時に関数を呼び出す
         setQuestionValue();
     }
@@ -52,14 +89,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (id == R.id.button1) {
             setAnswerValue();
             checkResult(true);
+
         } else if (id == R.id.button2) {
             setAnswerValue();
             checkResult(false);
+
         } else if (id == R.id.button3) {
             setQuestionValue();
             clearAnswerValue();
             clearScoreValue();
+
         }
+
+
+
+
+
     }
 
     private void clearAnswerValue() {
@@ -103,23 +148,35 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = "WIN";
                 score = 2;
+                soundPool.play(mp3c,1f,1f,0,0,1f);
+
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
+                soundPool.play(mp3d,1f,1f,0,0,1f);
+
             } else {
                 result = "DRAW";
                 score = 1;
+                soundPool.play(mp3e,1f,1f,0,0,1f);
+
             }
         } else {
             if (question > answer) {
                 result = "WIN";
                 score = 2;
+                soundPool.play(mp3c,1f,1f,0,0,1f);
+
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
+                soundPool.play(mp3d,1f,1f,0,0,1f);
+
             } else {
                 result = "DRAW";
                 score = 1;
+                soundPool.play(mp3e,1f,1f,0,0,1f);
+
             }
         }
 
@@ -175,5 +232,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .setNegativeButton(R.string.close, null)
                 .show();
     }
+
+
+
+
 }
+
 
