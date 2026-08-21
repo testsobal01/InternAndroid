@@ -5,6 +5,8 @@
         <item name="android:windowLightNavigationBar" tools:targetApi="27">true</item>
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="android:fontFamily">@font/yuseimagic_regular</item>
+
     </style>
 
     <style name="Theme.MakotoMurase" parent="Base.Theme.MakotoMurase" />
