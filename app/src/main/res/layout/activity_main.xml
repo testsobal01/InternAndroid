@@ -58,7 +58,9 @@
                 app:backgroundTint="@null"
                 android:layout_margin="1dp"
                 android:text="@string/btn_setting"/>
+
         </LinearLayout>
+
 
         <TextView
             android:id="@+id/label_limit"
