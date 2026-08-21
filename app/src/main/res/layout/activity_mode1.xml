@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
+    android:id="@+id/mode1"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
@@ -21,96 +21,61 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="@drawable/high"
-                android:text="@string/btn_high"
                 app:backgroundTint="@null"
-                android:fontFamily="@font/alysabeauty"/>
+                android:background="@drawable/high"
+                android:text="@string/btn_high" />
 
             <Button
                 android:id="@+id/button2"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="@drawable/low"
-                android:text="@string/btn_low"
                 app:backgroundTint="@null"
-                android:fontFamily="@font/alysabeauty" />
+                android:background="@drawable/low"
+                android:text="@string/btn_low" />
 
             <Button
                 android:id="@+id/button3"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
+                app:backgroundTint="@null"
                 android:background="@drawable/reset"
-                android:text="@string/btn_restart"
-                app:backgroundTint="@null" />
+                android:text="@string/btn_restart" />
 
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="#E0E0E0">
+            android:text="@string/label_title" />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/text_result"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/win_result"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/label_title" />
+                android:text="@string/label_score" />
 
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#E0E0E0">
-
-            <LinearLayout
+            <TextView
+                android:id="@+id/text_score"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:id="@+id/text_result"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-
-                <TextView
-                    android:id="@+id/win_result"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-
-            </LinearLayout>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#E0E0E0">
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/label_score" />
-
-                <TextView
-                    android:id="@+id/text_score"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="0" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/high_score" />
-
-                <TextView
-                    android:id="@+id/high_score"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-
-            </LinearLayout>
+                android:layout_height="wrap_content"
+                android:text="0" />
         </LinearLayout>
 
         <LinearLayout
@@ -123,16 +88,16 @@
                 android:id="@+id/question"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginStart="70dp"
-                android:layout_marginTop="90dp"
-                android:layout_marginEnd="70dp"
                 android:layout_weight="1"
+                android:paddingBottom="50dp"
+                android:paddingTop="50dp"
+                android:paddingLeft="30dp"
+                android:paddingRight="30dp"
+                android:layout_marginTop="90dp"
+                android:layout_marginStart="70dp"
+                android:layout_marginEnd="70dp"
                 android:background="@drawable/frame_style1"
                 android:gravity="center"
-                android:paddingLeft="30dp"
-                android:paddingTop="50dp"
-                android:paddingRight="30dp"
-                android:paddingBottom="50dp"
                 android:text="@string/value1"
                 android:textSize="60sp" />
 
@@ -140,23 +105,23 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="VS"
-                android:textSize="50dp" />
+                android:textSize="50dp"
+                android:text="VS" />
 
             <TextView
                 android:id="@+id/answer"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginStart="70dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="70dp"
                 android:layout_weight="1"
+                android:paddingBottom="50dp"
+                android:paddingTop="50dp"
+                android:paddingLeft="30dp"
+                android:paddingRight="30dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="70dp"
+                android:layout_marginEnd="70dp"
                 android:background="@drawable/frame_style2"
                 android:gravity="center"
-                android:paddingLeft="30dp"
-                android:paddingTop="50dp"
-                android:paddingRight="30dp"
-                android:paddingBottom="50dp"
                 android:text="@string/value2"
                 android:textSize="60sp" />
 
@@ -166,10 +131,10 @@
         <ImageView
             android:id="@+id/image_view_2"
             android:layout_width="match_parent"
-            android:layout_height="190dp"
+            android:layout_height="100dp"
             android:layout_marginTop="120dp"
             android:scaleType="center"
-            android:src="@drawable/so"
+            android:src="@drawable/img_2"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
