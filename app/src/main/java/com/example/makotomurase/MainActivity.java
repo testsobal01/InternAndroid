@@ -218,17 +218,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         txtScore.setText("0");
     }
 
-    public void changeBackgroundColor(String result){
+    public void changeBackgroundColor(String result) {
         View layout = findViewById(R.id.layout);
 
-        if(Objects.equals(result, "WIN")){
+        if (Objects.equals(result, "WIN")) {
             layout.setBackgroundColor(0xFFFF0000);
-        }else if(Objects.equals(result, "LOSE")){
+        } else if (Objects.equals(result, "LOSE")) {
             layout.setBackgroundColor(0xFFAFDFE4);
-        }else if(Objects.equals(result, "DRAW")){
+        } else if (Objects.equals(result, "DRAW")) {
             layout.setBackgroundColor(0xFF00FF00);
         }
-
+    }
     @Override
     protected void onPause(){
         super.onPause();
