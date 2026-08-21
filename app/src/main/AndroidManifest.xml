@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
-    <uses-permission android:name="android.permission.VIBRATE"></uses-permission>
+
+    <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
         android:allowBackup="true"
@@ -14,10 +15,17 @@
         android:theme="@style/Theme.MakotoMurase"
         tools:targetApi="31">
         <activity
+            android:name=".MiniGame_resultActivity"
+            android:exported="false" />
+        <activity
+            android:name=".MiniGameActivity"
+            android:exported="false" />
+        <activity
+            android:name=".HowToActivity"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="false" />
-
-
         <activity
             android:name=".TopActivity"
             android:exported="true">
