@@ -7,10 +7,8 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import android.annotation.SuppressLint;
-import android.animation.Animator;
 import android.animation.AnimatorInflater;
 import android.animation.AnimatorSet;
-import android.app.AlertDialog;
 import android.content.SharedPreferences;
 import android.content.res.AssetFileDescriptor;
 import android.media.AudioManager;
@@ -46,11 +44,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     AnimatorSet blink;
     AnimatorSet scale;
 
-    // 効果音
+    // 番号8 効果音
     private static SoundPool soundPool;
-//    private SoundPlayer soundPlayer;
     private static int correct_answer1 = 1;
     private static int blip01 = 1;
+
 
     @SuppressLint("MissingSuperCall")
     @Override
@@ -79,9 +77,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btn3.setOnClickListener(this);
 
 
+        // 番号8 効果音
         SoundPlayer(this);
-        //soundPlayer = new SoundPlayer(this);
-        //SoundPool soundPlayer = SoundPlayer(this);
         pref = getSharedPreferences("MakotoMurase",MODE_PRIVATE);
         prefEditor = pref.edit();
 
@@ -117,6 +114,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         blink.setTarget(player);
         scale = (AnimatorSet) AnimatorInflater.loadAnimator(MainActivity.this, R.animator.scale_animation);
         scale.setTarget(player);
+
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -167,6 +165,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
+    // 番号8 効果音
     public void SoundPlayer(Context context) {
 
         soundPool = new SoundPool(2, AudioManager.STREAM_MUSIC, 0);
@@ -198,6 +197,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // Highが押された
         if (isHigh) {
+            //タイマースタート
+            timer.start();
             // result には結果のみを入れる
             if (question < answer) {
                 result = "WIN";
@@ -217,6 +218,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 score = 1;
             }
         } else {
+            //タイマースタート
+            timer.start();
             if (question > answer) {
                 result = "WIN";
                 score = 2;
@@ -242,28 +245,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         txtResult.setText("結果：" + question + ":" + answer + "(" + result + ")");
 
         // 続けて遊べるように値を更新
-        setNextQuestion();
+        //setNextQuestion();
+
+
         // スコアを表示
         setScore(score);
     }
 
-    private void setNextQuestion() {
-        // 第１引数がカウントダウン時間、第２引数は途中経過を受け取る間隔
-        // 単位はミリ秒（1秒＝1000ミリ秒）
-        new CountDownTimer(3000, 1000) {
-            @Override
-            public void onTick(long l) {
-                // 途中経過を受け取った時に何かしたい場合
-                // 今回は特に何もしない
-            }
-
-            @Override
-            public void onFinish() {
-                // 3秒経過したら次の値をセット
-                setQuestionValue();
-            }
-        }.start();
-    }
 
     private void setScore(int score) {
         TextView txtScore = (TextView) findViewById(R.id.text_score);
@@ -361,5 +349,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         mediaPlayer = null;
     }
+
+    // 番号19　タイマーリセット
+    CountDownTimer timer = new CountDownTimer(3000, 1000) {
+        public void onTick(long millisUntilFinished) {
+            return;
+        }
+
+        public void onFinish() {
+            setQuestionValue();
+        }
+    };
 }
 
