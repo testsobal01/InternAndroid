@@ -22,7 +22,6 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@drawable/high"
-                android:fontFamily="@font/alysabeauty"
                 android:text="@string/btn_high"
                 app:backgroundTint="@null"
                 android:fontFamily="@font/alysabeauty"/>
@@ -33,7 +32,6 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@drawable/low"
-                android:fontFamily="@font/alysabeauty"
                 android:text="@string/btn_low"
                 app:backgroundTint="@null"
                 android:fontFamily="@font/alysabeauty" />
