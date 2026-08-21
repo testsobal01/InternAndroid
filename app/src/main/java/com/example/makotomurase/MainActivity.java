@@ -123,6 +123,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //効果音
         soundPool.play(action[1], 10f , 1f, 0, 0, 1f);
 
+        if(set != null){
+            set.cancel();
+            set = null;
+        }
         if (id == R.id.button1) {
             setAnswerValue();
             checkResult(true);
