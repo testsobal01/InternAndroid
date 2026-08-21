@@ -27,6 +27,7 @@
                 android:layout_weight="1"
                 android:background="@drawable/button2"
                 app:backgroundTint="@null"
+                android:layout_margin="1dp"
                 android:text="@string/btn_high" />
 
             <Button
@@ -36,6 +37,7 @@
                 android:layout_weight="1"
                 android:background="@drawable/button3"
                 app:backgroundTint="@null"
+                android:layout_margin="1dp"
                 android:text="@string/btn_low" />
 
             <Button
@@ -45,6 +47,7 @@
                 android:layout_weight="1.5"
                 android:background="@drawable/button"
                 app:backgroundTint="@null"
+                android:layout_margin="1dp"
                 android:text="@string/btn_restart" />
 
             <Button
@@ -53,6 +56,7 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/button4"
                 app:backgroundTint="@null"
+                android:layout_margin="1dp"
                 android:text="@string/btn_setting"/>
         </LinearLayout>
 
