@@ -5,6 +5,8 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import android.animation.AnimatorInflater;
+import android.animation.AnimatorSet;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Build;
@@ -22,6 +24,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+    AnimatorSet set;
 
     private SoundPlayer soundPlayer;
     private boolean isButton;
@@ -60,6 +63,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         prefEditor=pref.edit();
     }
 
+        TextView textView = findViewById(R.id.answer);
+        TextView textView2 = findViewById(R.id.question);
+
+        set = (AnimatorSet) AnimatorInflater.loadAnimator(MainActivity.this,
+                R.animator.blink_animation);
+
+        set.setTarget(textView);
+    }
+    @Override
+    protected void onStart() {
+        super.onStart();
+    }
     @Override
     public void onClick(View view) {
         TextView ColorChange1 = (TextView) findViewById(R.id.question);
@@ -152,16 +167,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (isHigh) {
             // result には結果のみを入れる
             if (question < answer) {
+                set.start();
                 result = "WIN";
                 score = 2;
                 colorChange1.setBackgroundColor(Color.RED);
                 colorChange2.setBackgroundColor(Color.RED);
             } else if (question > answer) {
+                set.cancel();
                 result = "LOSE";
                 score = -1;
                 colorChange1.setBackgroundColor(Color.rgb(0,150,255));
                 colorChange2.setBackgroundColor(Color.rgb(0,150,255));
             } else {
+                set.cancel();
                 result = "DRAW";
                 score = 1;
                 colorChange1.setBackgroundColor(Color.GRAY);
@@ -169,16 +187,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         } else {
             if (question > answer) {
+                set.start();
                 result = "WIN";
                 score = 2;
                 colorChange1.setBackgroundColor(Color.RED);
                 colorChange2.setBackgroundColor(Color.RED);
             } else if (question < answer) {
+                set.cancel();
                 result = "LOSE";
                 score = -1;
                 colorChange1.setBackgroundColor(Color.rgb(0,150,255));
                 colorChange2.setBackgroundColor(Color.rgb(0,150,255));
             } else {
+                set.cancel();
                 result = "DRAW";
                 score = 1;
                 colorChange1.setBackgroundColor(Color.GRAY);
