@@ -21,29 +21,29 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                app:backgroundTint="@null"
                 android:background="@drawable/high"
+                android:fontFamily="@font/alysabeauty"
                 android:text="@string/btn_high"
-                android:fontFamily="@font/alysabeauty"/>
+                app:backgroundTint="@null" />
 
             <Button
                 android:id="@+id/button2"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                app:backgroundTint="@null"
                 android:background="@drawable/low"
+                android:fontFamily="@font/alysabeauty"
                 android:text="@string/btn_low"
-                android:fontFamily="@font/alysabeauty" />
+                app:backgroundTint="@null" />
 
             <Button
                 android:id="@+id/button3"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
-                app:backgroundTint="@null"
                 android:background="@drawable/reset"
-                android:text="@string/btn_restart" />
+                android:text="@string/btn_restart"
+                app:backgroundTint="@null" />
 
         </LinearLayout>
 
@@ -51,19 +51,23 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/label_title" />
+
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
+
             <TextView
                 android:id="@+id/text_result"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
+
             <TextView
                 android:id="@+id/win_result"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
@@ -90,16 +94,16 @@
                 android:id="@+id/question"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:paddingBottom="50dp"
-                android:paddingTop="50dp"
-                android:paddingLeft="30dp"
-                android:paddingRight="30dp"
-                android:layout_marginTop="90dp"
                 android:layout_marginStart="70dp"
+                android:layout_marginTop="90dp"
                 android:layout_marginEnd="70dp"
+                android:layout_weight="1"
                 android:background="@drawable/frame_style1"
                 android:gravity="center"
+                android:paddingLeft="30dp"
+                android:paddingTop="50dp"
+                android:paddingRight="30dp"
+                android:paddingBottom="50dp"
                 android:text="@string/value1"
                 android:textSize="60sp" />
 
@@ -107,23 +111,23 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:textSize="50dp"
-                android:text="VS" />
+                android:text="VS"
+                android:textSize="50dp" />
 
             <TextView
                 android:id="@+id/answer"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:paddingBottom="50dp"
-                android:paddingTop="50dp"
-                android:paddingLeft="30dp"
-                android:paddingRight="30dp"
-                android:layout_marginTop="10dp"
                 android:layout_marginStart="70dp"
+                android:layout_marginTop="10dp"
                 android:layout_marginEnd="70dp"
+                android:layout_weight="1"
                 android:background="@drawable/frame_style2"
                 android:gravity="center"
+                android:paddingLeft="30dp"
+                android:paddingTop="50dp"
+                android:paddingRight="30dp"
+                android:paddingBottom="50dp"
                 android:text="@string/value2"
                 android:textSize="60sp" />
 

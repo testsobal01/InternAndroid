@@ -5,6 +5,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import android.animation.AnimatorSet;
 import android.content.SharedPreferences;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
@@ -72,7 +73,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         for (int i = 0; i < soundIds.length; i++) {
             soundIds[i] = soundPool.load(this, seFiles[i], 1);
         }
-
 
         Button btn1 = findViewById(R.id.button1);
         btn1.setOnClickListener(this);
@@ -328,5 +328,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int readScore = pref.getInt("main_input",0);
         txtScore.setText(String.valueOf(readScore));
     }
+
+
 }
 
