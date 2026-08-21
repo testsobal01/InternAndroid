@@ -1,11 +1,12 @@
 package com.example.makotomurase;
 
+import static android.app.ProgressDialog.show;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import android.animation.AnimatorSet;
 import android.content.SharedPreferences;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
@@ -25,8 +26,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.graphics.Typeface;
-import android.widget.TextView;
 
 import java.util.Locale;
 import java.util.Random;
@@ -39,7 +38,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import android.widget.ImageView;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class HardModeActivity extends AppCompatActivity implements View.OnClickListener {
     int wincount;//勝利回数
     int losecount;//敗北回数
     int drawcount;//引き分け回数
@@ -55,9 +54,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_mode1);
 
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (view, windowInsets) -> {
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.mode1), (view, windowInsets) -> {
             Insets insets = windowInsets.getInsets(
                     WindowInsetsCompat.Type.systemBars()
                             | WindowInsetsCompat.Type.displayCutout());
@@ -74,6 +73,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             soundIds[i] = soundPool.load(this, seFiles[i], 1);
         }
 
+
         Button btn1 = findViewById(R.id.button1);
         btn1.setOnClickListener(this);
 
@@ -83,20 +83,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
 
-        pref = getSharedPreferences("AndroidSeminor", MODE_PRIVATE);
+        pref = getSharedPreferences("AndroidSeminor",MODE_PRIVATE);
         prefEditor = pref.edit();
 
         // 起動時に関数を呼び出す
         setQuestionValue();
+        showDialog();
 
         EdgeToEdge.enable(this);
         ImageView imageView2 = findViewById(R.id.image_view_2);
-        imageView2.setImageResource(R.drawable.so);
-
-        //フォント変更
-        TextView txtView = findViewById(R.id.answer);
-        Typeface anz = Typeface.createFromAsset(getAssets(), "apjapanesefont.ttf");
-        txtView.setTypeface(anz);
+        imageView2.setImageResource(R.drawable.img_2);
 
     }
 
@@ -120,6 +116,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             soundPool.play(soundIds[1], 1.0F, 1.0F, 0, 0, 1.0F);
             VibrationB();
         }
+
     }
     private void VibrationB() {
         Vibrator vibrator = (Vibrator)  getSystemService(VIBRATOR_SERVICE);
@@ -129,12 +126,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+
+    private void GameOver(int maxscore) {
+        TextView Score = new TextView(this);
+
+        new AlertDialog.Builder(this)
+            .setTitle("敗北！")
+            .setMessage(String.format("スコア",maxscore))
+            .setPositiveButton("OK",(dialog,which)->{
+                Intent intent1 = new Intent(this, HomeActivity.class);
+                startActivity(intent1);
+            })
+            .setNegativeButton("continue",(dialog,which)->{
+                setQuestionValue();
+                clearAnswerValue();
+                clearScoreValue();
+                clearWinRateValue();
+            })
+
+            .show();
+    }
+
+
     private void clearAnswerValue() {
         TextView txtView = (TextView) findViewById(R.id.answer);
         txtView.setText("値2");
-        //フォント変更
-        Typeface anz = Typeface.createFromAsset(getAssets(), "apjapanesefont.ttf");
-        txtView.setTypeface(anz);
     }
 
     private void setQuestionValue() {
@@ -144,10 +160,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         TextView txtView = findViewById(R.id.question);
         txtView.setText(Integer.toString(questionValue));
-        //フォント変更
-        Typeface anz = Typeface.createFromAsset(getAssets(), "apjapanesefont.ttf");
-        txtView.setTypeface(anz);
+    }
 
+    private void showDialog(){
+        new AlertDialog.Builder(this)
+            .setTitle("ルール説明")
+            .setMessage("負けたら終了だよ")
+            .setPositiveButton("OK",(dialog,which)->{
+
+            })
+
+            .show();
     }
 
     private void setAnswerValue() {
@@ -156,15 +179,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         TextView txtView = findViewById(R.id.answer);
         txtView.setText(Integer.toString(answerValue));
-        //フォント変更
-        Typeface anz = Typeface.createFromAsset(getAssets(), "apjapanesefont.ttf");
-        txtView.setTypeface(anz);
-
     }
 
     private void checkResult(boolean isHigh) {
         final View BackGroud = findViewById(R.id.main);
-        BackGroud.setBackgroundColor(Color.WHITE);
 
         //言語識別用の変数
         Locale locale = Locale.getDefault();
@@ -190,39 +208,43 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 result = "WIN";
                 score = 2;
                 wincount += 1;
-                BackGroud.setBackgroundColor(Color.GREEN);
                 VibrationB();
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
                 losecount += 1;
-                BackGroud.setBackgroundColor(Color.RED);
+                int ts = wincount*2 + drawcount;
+                GameOver(ts);
+
             } else {
                 result = "DRAW";
                 score = 1;
                 drawcount += 1;
-                BackGroud.setBackgroundColor(Color.LTGRAY);
             }
         } else {
             if (question > answer) {
                 result = "WIN";
                 score = 2;
                 wincount += 1;
-                BackGroud.setBackgroundColor(Color.GREEN);
                 VibrationB();
+
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
                 losecount += 1;
-                BackGroud.setBackgroundColor(Color.RED);
+                int ts = wincount*2 + drawcount;
+                GameOver(ts);
+
             } else {
                 result = "DRAW";
                 score = 1;
                 drawcount += 1;
-                BackGroud.setBackgroundColor(Color.LTGRAY);
             }
 
         }
+
+
+
 
         // 最後にまとめてToast表示の処理とTextViewへのセットを行う
         Toast.makeText(this, result, Toast.LENGTH_LONG).show();
@@ -241,6 +263,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+
+
     private void setNextQuestion() {
         // 第１引数がカウントダウン時間、第２引数は途中経過を受け取る間隔
         // 単位はミリ秒（1秒＝1000ミリ秒）
@@ -254,11 +278,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onFinish() {
                 // テキストのフェードアウト処理を追加
-                fadeout();
                 // 3秒経過したら次の値をセット
                 setQuestionValue();
                 // テキストのフェードイン処理を追加
-                fadein();
             }
         }.start();
     }
@@ -271,7 +293,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void setWinrate(int win,int lose,int draw){
         TextView winScore = (TextView) findViewById(R.id.win_result);
         double winrate = (double) win/(win+lose+draw) *100;
-        winScore.setText(String.format(" / 勝率：%.1f",winrate));
+        winScore.setText(String.format("%.3f",winrate));
     }
     private void clearWinRateValue(){
         TextView winScore = (TextView) findViewById(R.id.win_result);
@@ -309,26 +331,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 })
                 .start();
     }
-  
-    protected void onPause(){
-        super.onPause();
-        TextView txtScore = (TextView) findViewById(R.id.text_score);
-        int Save_score = Integer.parseInt(txtScore.getText().toString());
-
-        prefEditor.putInt("main_input", Save_score);
-        prefEditor.commit();
-    }
-
-    protected void onResume() {
-        super.onResume();
-        Log.d("AndroidTest","onResume completed.");
-
-        TextView txtScore = (TextView) findViewById(R.id.text_score);
-
-        int readScore = pref.getInt("main_input",0);
-        txtScore.setText(String.valueOf(readScore));
-    }
-
 
 }
 

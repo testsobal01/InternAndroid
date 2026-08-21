@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -29,6 +30,8 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
         Button StartButton = findViewById(R.id.start);
         StartButton.setOnClickListener(this);
+        Button Mode1Button = findViewById(R.id.mode1);
+        Mode1Button.setOnClickListener(this);
         set = (AnimatorSet) AnimatorInflater.loadAnimator(HomeActivity.this, R.animator.blink_animation);
         set.setTarget(StartButton);
     }
@@ -43,8 +46,13 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View view) {
         int id = view.getId();
         if (id == R.id.start) {
-            Intent intent = new Intent(this, MainActivity.class);
-            startActivity(intent);
+            Intent intent1 = new Intent(this, MainActivity.class);
+            startActivity(intent1);
+        }
+
+        if (id == R.id.mode1) {
+            Intent intent2 = new Intent(this, HardModeActivity.class);
+            startActivity(intent2);
         }
     }
 }
