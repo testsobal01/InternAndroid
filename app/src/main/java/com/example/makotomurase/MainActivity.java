@@ -169,8 +169,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }else if (id == R.id.button_howto){
             Intent intent_h = new Intent(this, HowToActivity.class);
             startActivity(intent_h);
-        } else if (id == R.id.button4) {
-            setRandomColor();
         }
 
     }
