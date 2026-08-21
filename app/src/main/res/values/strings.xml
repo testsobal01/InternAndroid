@@ -5,7 +5,7 @@
     <string name="btn_restart">Restart</string>
     <string name="btn_setting">⚙</string>
     <string name="dialogTitle">Please set a maximum limit.</string>
-    <string name="dialogYesBtn">Yes</string>
+    <string name="dialogYesBtn">OK</string>
     <string name="dialogNoBtn">Cancel</string>
     <string name="label_score">Score：</string>
     <string name="sbutton">スタート</string>
