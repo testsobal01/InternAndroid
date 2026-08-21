@@ -6,17 +6,19 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.media.AudioAttributes;
 import android.media.SoundPool;
 import android.animation.AnimatorInflater;
 import android.animation.AnimatorSet;
 import android.content.SharedPreferences;
 import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -37,7 +39,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     SharedPreferences pref;
     SharedPreferences.Editor prefEditor;
 
-    AnimatorSet set;
+    AnimatorSet rightset;
+    AnimatorSet leftset;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,9 +81,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         ImageButton option = (ImageButton) findViewById(R.id.option);
         option.setOnClickListener(this);
 
+        Button retry = (Button) findViewById(R.id.retry);
+        retry.setOnClickListener(this);
+
         max = 10;
-        TextView maxvalue = findViewById(R.id.question);
-        maxvalue.setText(max+"が設定されています");
         // 起動時に関数を呼び出す
         setQuestionValue();
 
@@ -110,6 +114,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View view) {
         int id = view.getId();
+        TextView txtViewQuestion = findViewById(R.id.question);
+        TextView txtViewAnswer = findViewById(R.id.answer);
+        Button btn1 = findViewById(R.id.button1);
+        Button btn2 = findViewById(R.id.button2);
+        Button retry = findViewById(R.id.retry);
 
         //効果音
         soundPool.play(action[1], 10f , 1f, 0, 0, 1f);
@@ -145,6 +154,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     })
                     .setNegativeButton(R.string.canncel, (Dialog, which)->{})
                     .show();
+        }else if (id == R.id.retry){
+            btn1.setEnabled(true);
+            btn2.setEnabled(true);
+            //アニメーション
+            AnimatorSet rightset = (AnimatorSet) AnimatorInflater.loadAnimator(this, R.animator.rightretry_animation);
+            rightset.setTarget(txtViewAnswer);
+            rightset.start();
+            AnimatorSet leftset = (AnimatorSet) AnimatorInflater.loadAnimator(this, R.animator.leftretry_animation);
+            leftset.setTarget(txtViewQuestion);
+            leftset.start();
         }
     }
 
@@ -174,7 +193,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void checkResult(boolean isHigh) {
         TextView txtViewQuestion = findViewById(R.id.question);
         TextView txtViewAnswer = findViewById(R.id.answer);
-
+        Button btn1 = findViewById(R.id.button1);
+        Button btn2 = findViewById(R.id.button2);
+        Button retry = findViewById(R.id.retry);
         int question = Integer.parseInt(txtViewQuestion.getText().toString());
         int answer = Integer.parseInt(txtViewAnswer.getText().toString());
 
@@ -195,12 +216,35 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 soundPool.play(action[2], 10f , 1f, 0, 0, 1f);
                 txtViewQuestion.setBackgroundColor(Color.parseColor("#FF8C00"));
                 txtViewAnswer.setBackgroundColor(Color.parseColor("#FF4500"));
+
             } else if (question > answer) {
                 result = getString(R.string.LOSE);
                 score = -1;
                 soundPool.play(action[3], 100f , 1f, 0, 0, 1f);
                 txtViewQuestion.setBackgroundColor(Color.parseColor("#808080"));
                 txtViewAnswer.setBackgroundColor(Color.parseColor("#A9A9A9"));
+
+                btn1.setEnabled(false);
+                btn2.setEnabled(false);
+                retry.setEnabled(false);
+
+
+                //アニメーション
+                AnimatorSet rightset = (AnimatorSet) AnimatorInflater.loadAnimator(this, R.animator.rightlose_animation);
+                rightset.setTarget(txtViewAnswer);
+                rightset.start();
+                AnimatorSet leftset = (AnimatorSet) AnimatorInflater.loadAnimator(this, R.animator.leftlose_animation);
+                leftset.setTarget(txtViewQuestion);
+                leftset.addListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        super.onAnimationEnd(animation);
+                        retry.setEnabled(true);
+                    }
+                });
+                leftset.start();
+
+
             } else {
                 result = getString(R.string.DRAW);
                 score = 1;
@@ -221,6 +265,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 soundPool.play(action[3], 100f , 1f, 0, 0, 1f);
                 txtViewQuestion.setBackgroundColor(Color.parseColor("#808080"));
                 txtViewAnswer.setBackgroundColor(Color.parseColor("#A9A9A9"));
+
+                btn1.setEnabled(false);
+                btn2.setEnabled(false);
+                retry.setEnabled(false);
+
+                AnimatorSet rightset = (AnimatorSet) AnimatorInflater.loadAnimator(this, R.animator.rightlose_animation);
+                rightset.setTarget(txtViewAnswer);
+                rightset.start();
+                AnimatorSet leftset = (AnimatorSet) AnimatorInflater.loadAnimator(this, R.animator.leftlose_animation);
+                leftset.setTarget(txtViewQuestion);
+                leftset.addListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        super.onAnimationEnd(animation);
+                        retry.setEnabled(true);
+                    }
+                });
+                leftset.start();
             } else {
                 result = getString(R.string.DRAW);
                 score = 1;
@@ -231,12 +293,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
         // 最後にまとめてToast表示の処理とTextViewへのセットを行う
-        Toast.makeText(this, result, Toast.LENGTH_LONG).show();
+        Toast toast=Toast.makeText(this, result, Toast.LENGTH_SHORT);
+        toast.setGravity(Gravity.BOTTOM, 100,-1000);
+        toast.show();
         txtResult.setText("：" + question + ":" + answer + "(" + result + ")");
 
-        AnimatorSet set = (AnimatorSet) AnimatorInflater.loadAnimator(this, R.animator.result_animation);
-        set.setTarget(txtViewAnswer);
-        set.start();
+
 
         // 続けて遊べるように値を更新
         setNextQuestion();
