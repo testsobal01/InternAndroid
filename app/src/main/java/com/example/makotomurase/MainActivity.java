@@ -257,7 +257,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         }
 
-
+        // スコアを表示
+        setScore(score);
+        
         // 最後にまとめてToast表示の処理とTextViewへのセットを行う
         Toast toast=Toast.makeText(this, result, Toast.LENGTH_SHORT);
         toast.setGravity(Gravity.BOTTOM, 100,-1000);
@@ -274,7 +276,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             looser.setAlpha(0f);
 
             TextView txtScore = (TextView) findViewById(R.id.text_score);
-            if(Integer.parseInt(txtScore.getText().toString()) >= 9){
+            if(Integer.parseInt(txtScore.getText().toString()) >= 4){
                 winner.setAlpha(1.0f);
             } else{
                 looser.setAlpha(1.0f);
@@ -297,8 +299,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // 続けて遊べるように値を更新
         setNextQuestion();
-        // スコアを表示
-        setScore(score);
+
     }
 
     private void setNextQuestion() {
