@@ -1,10 +1,14 @@
 package com.example.makotomurase;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import android.animation.ValueAnimator;
+import android.graphics.Color;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.media.AudioAttributes;
 import android.media.AudioManager;
@@ -13,14 +17,44 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.provider.MediaStore;
+import android.app.Dialog;
+import android.hardware.camera2.CameraExtensionSession;
+import android.view.LayoutInflater;
+import android.content.SharedPreferences;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.Random;
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
+
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+    /**ランダムの最大値*/
+    int max = 10;
+
+    SharedPreferences pref;
+    SharedPreferences.Editor prefEditor;
+
+    // タイマーの処理
+    CountDownTimer timer = new CountDownTimer(3000,3000) {
+        @Override
+        public void onFinish() {
+            // CUPの値をランダムに再設定
+            setQuestionValue();
+        }
+        @Override
+        public void onTick(long millisUntilFinished) {
+            // 今のところ何もない
+        }
+    };
 
     SoundPool soundPool;
     int mp3a;
@@ -74,6 +108,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
 
+        pref = getSharedPreferences("AndroidSeminar", MODE_PRIVATE);
+        prefEditor = pref.edit();
         Button settingsButton = findViewById(R.id.button4);
         settingsButton.setOnClickListener(view -> showSettingsDialog());
 
@@ -89,33 +125,45 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (id == R.id.button1) {
             setAnswerValue();
             checkResult(true);
-
+            YoYo.with(Techniques.Tada).duration(1000).repeat(1).playOn(findViewById(R.id.button1));
+            // 続けて遊べるように値を更新
+            timer.start();
         } else if (id == R.id.button2) {
             setAnswerValue();
             checkResult(false);
-
+            YoYo.with(Techniques.Tada).duration(1000).repeat(1).playOn(findViewById(R.id.button2));
+            timer.start();
         } else if (id == R.id.button3) {
             setQuestionValue();
             clearAnswerValue();
             clearScoreValue();
+            //バイブレーター
+            MainActivity vibrate = new MainActivity();
 
+            Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                vibrator.vibrate(VibrationEffect.createOneShot(
+                        200, VibrationEffect.DEFAULT_AMPLITUDE));
+            } else {
+                vibrator.vibrate(200);
+            }
+            // タイマーを止める
+            timer.cancel();
         }
-
-
-
-
 
     }
 
+
     private void clearAnswerValue() {
         TextView txtView = (TextView) findViewById(R.id.answer);
-        txtView.setText("値2");
+        txtView.setText(R.string.num2);
+        int num = 0;
     }
 
     private void setQuestionValue() {
         Random r = new Random();
         // 0から10の範囲で乱数を生成（+1する必要がある）
-        int questionValue = r.nextInt(10 + 1);
+        int questionValue = r.nextInt(max + 1);
 
         TextView txtView = findViewById(R.id.question);
         txtView.setText(Integer.toString(questionValue));
@@ -123,7 +171,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void setAnswerValue() {
         Random r = new Random();
-        int answerValue = r.nextInt(10 + 1);
+        int answerValue = r.nextInt(max + 1);
 
         TextView txtView = findViewById(R.id.answer);
         txtView.setText(Integer.toString(answerValue));
@@ -149,34 +197,50 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 result = "WIN";
                 score = 2;
                 soundPool.play(mp3c,1f,1f,0,0,1f);
-
+                YoYo.with(Techniques.Tada).duration(1000).repeat(1).playOn(findViewById(R.id.answer));
+              
+                findViewById(R.id.answer).setBackgroundColor(Color.parseColor("#FF0000"));
+                findViewById(R.id.question).setBackgroundColor(Color.parseColor("FF0000"));
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
                 soundPool.play(mp3d,1f,1f,0,0,1f);
-
+                YoYo.with(Techniques.Tada).duration(1000).repeat(1).playOn(findViewById(R.id.question));
+                findViewById(R.id.question).setBackgroundColor(Color.parseColor("#00BFFF"));
+                findViewById(R.id.answer).setBackgroundColor(Color.parseColor("#00BFFF"));
             } else {
                 result = "DRAW";
                 score = 1;
                 soundPool.play(mp3e,1f,1f,0,0,1f);
-
+                YoYo.with(Techniques.Tada).duration(1000).repeat(2).playOn(findViewById(R.id.answer));
+                YoYo.with(Techniques.Tada).duration(1000).repeat(2).playOn(findViewById(R.id.question));
+                findViewById(R.id.question).setBackgroundColor(Color.parseColor("#FF8C00"));
+                findViewById(R.id.answer).setBackgroundColor(Color.parseColor("#FF8C00"));
             }
+
         } else {
             if (question > answer) {
                 result = "WIN";
                 score = 2;
                 soundPool.play(mp3c,1f,1f,0,0,1f);
-
+                YoYo.with(Techniques.Tada).duration(1000).repeat(1).playOn(findViewById(R.id.answer));
+                findViewById(R.id.answer).setBackgroundColor(Color.parseColor("#FF0000"));
+                findViewById(R.id.question).setBackgroundColor(Color.parseColor("#FF0000"));
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
                 soundPool.play(mp3d,1f,1f,0,0,1f);
-
+                YoYo.with(Techniques.Tada).duration(1000).repeat(1).playOn(findViewById(R.id.question));
+                findViewById(R.id.question).setBackgroundColor(Color.parseColor("#00BFFF"));
+                findViewById(R.id.answer).setBackgroundColor(Color.parseColor("#00BFFF"));
             } else {
                 result = "DRAW";
                 score = 1;
                 soundPool.play(mp3e,1f,1f,0,0,1f);
-
+                YoYo.with(Techniques.Tada).duration(1000).repeat(2).playOn(findViewById(R.id.answer));
+                YoYo.with(Techniques.Tada).duration(1000).repeat(2).playOn(findViewById(R.id.question));
+                findViewById(R.id.question).setBackgroundColor(Color.parseColor("#FF8C00"));
+                findViewById(R.id.answer).setBackgroundColor(Color.parseColor("#FF8C00"));
             }
         }
 
@@ -184,8 +248,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Toast.makeText(this, result, Toast.LENGTH_LONG).show();
         txtResult.setText(getString(R.string.result) + question + ":" + answer + "(" + result + ")");
 
-        // 続けて遊べるように値を更新
-        setNextQuestion();
+
         // スコアを表示
         setScore(score);
     }
@@ -219,23 +282,48 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         txtScore.setText("0");
     }
 
-    private void showSettingsDialog() {
-        String[] settingItems = {
-                getString(R.string.action_settings),
-                getString(R.string.action_settings2),
-                getString(R.string.action_settings3),
-        };
+    @Override
+    protected void onPause(){
+        super.onPause();
+        Toast.makeText(this,"onPause",Toast.LENGTH_SHORT).show();
 
+        TextView textView=(TextView) findViewById (R.id.text_score);
+        int num = Integer.parseInt(textView.getText().toString());
+
+        prefEditor.putInt("main_input",num);
+        prefEditor.commit();
+    }
+
+    @Override
+    protected void onResume(){
+        super.onResume();
+        Log.d("AndroidTest","onResume completed.");
+
+        TextView textView=(TextView) findViewById(R.id.text_score);
+        int num = Integer.parseInt(textView.getText().toString());
+
+        int readText =pref.getInt("main_input",num);
+        textView.setText(Integer.toString(readText));
+    }
+  
+    private void showSettingsDialog() {
+        NumberPicker numberPicker = new NumberPicker(this);
+        numberPicker.setMinValue(10);
+        numberPicker.setMaxValue(50);
         new AlertDialog.Builder(this)
-                .setTitle(R.string.settings)
-                .setItems(settingItems, null)
+                .setTitle(R.string.setting_max)
+                .setView(numberPicker)
+                .setPositiveButton("OK", (dialog, which) -> dialog_result(numberPicker.getValue()))
                 .setNegativeButton(R.string.close, null)
                 .show();
     }
 
-
-
-
+    private void dialog_result(int i){
+        TextView textView = findViewById(R.id.setting_num);
+        String i_str = String.valueOf(i);
+        textView.setText(i_str);
+        max = i;
+    }
 }
 
 

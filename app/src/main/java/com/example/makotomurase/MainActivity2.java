@@ -15,6 +15,9 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
+
 public class MainActivity2 extends AppCompatActivity {
 
     SoundPool soundPool;
@@ -50,6 +53,7 @@ public class MainActivity2 extends AppCompatActivity {
         }
         Button button =findViewById(R.id.btnext);
         button.setOnClickListener(new ButtonClickListener());
+        YoYo.with(Techniques.Tada).duration(1000).repeat(1).playOn(findViewById(R.id.btnext));
     }
     private class ButtonClickListener implements View.OnClickListener{
         @Override
