@@ -19,7 +19,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <!-- 番号10　ボタンのカスタム-->
-            <Button
+            <!--番号20ボタンのアニメーション-->
+            <com.example.makotomurase.PushButton
                 android:id="@+id/button1"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -33,7 +34,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <Button
+            <com.example.makotomurase.PushButton
                 android:id="@+id/button2"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -47,7 +48,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <Button
+            <com.example.makotomurase.PushButton
                 android:id="@+id/button3"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -63,6 +64,7 @@
         </LinearLayout>
 
         <TextView
+            android:id="@+id/set_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/max_num" />
@@ -86,6 +88,19 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="0" />
+
+            <com.example.makotomurase.PushButton
+                android:id="@+id/button_colorchange"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/custom_button_shape"
+                android:text="@string/btn_changeColor"
+                android:textColor="#000000"
+                app:backgroundTint="@null"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
         </LinearLayout>
 
         <FrameLayout
@@ -121,7 +136,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-                <Button
+                <com.example.makotomurase.PushButton
                     android:id="@+id/start"
                     android:layout_width="0dp"
                     android:layout_weight="1"
@@ -134,7 +149,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"/>
-                <Button
+                <com.example.makotomurase.PushButton
                     android:id="@+id/stop"
                     android:layout_width="0dp"
                     android:layout_weight="1"
@@ -151,6 +166,22 @@
 
         </FrameLayout>
 
+        <com.example.makotomurase.PushButton
+            android:id="@+id/button_option"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="設定"
+            android:background="@drawable/custom_button_shape"
+            android:layout_gravity="right"
+            android:textColor="#000000"
+            app:backgroundTint="@null"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+        </com.example.makotomurase.PushButton>
+
+
         <ImageView
             android:id="@+id/footer"
             android:layout_width="match_parent"
@@ -165,5 +196,4 @@
 
 
     </LinearLayout>
-
 </LinearLayout>
