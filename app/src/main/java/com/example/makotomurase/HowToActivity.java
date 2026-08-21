@@ -11,6 +11,8 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.google.android.material.badge.BadgeUtils;
+
 public class HowToActivity extends AppCompatActivity implements View.OnClickListener {
 
     @Override
@@ -24,8 +26,13 @@ public class HowToActivity extends AppCompatActivity implements View.OnClickList
             return insets;
         });
 
-        Button button = findViewById(R.id.reverse_btn);
-        button.setOnClickListener(this);
+        Button button1 = findViewById(R.id.reverse_btn);
+        button1.setOnClickListener(this);
+
+        Button button2 = findViewById(R.id.reverse_game_btn);
+        button2.setOnClickListener(this);
+
+
     }
 
     @Override
@@ -34,6 +41,9 @@ public class HowToActivity extends AppCompatActivity implements View.OnClickList
         if (id == R.id.reverse_btn){
             Intent intent = new Intent(this, TopActivity.class);
             startActivity(intent);
+        } else if (id == R.id.reverse_game_btn) {
+            Intent intent2 = new Intent(this, MainActivity.class);
+            startActivity(intent2);
         }
     }
 }
