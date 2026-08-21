@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".TopActivity">
+
+
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -15,17 +17,31 @@
 
         <TextView
             android:id="@+id/top_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="50sp"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:text="@string/title"
+            android:gravity="center"
+            android:textSize="70sp"
             android:fontFamily="@font/gyosyo2"
-            android:text="@string/title" />
+            android:layout_marginTop="200dp"/>
 
-        <Button android:id="@+id/button_start"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/gyosyo2"
-            android:text="@string/btn_start"></Button>
+        <Button
+            android:id="@+id/button_start"
+            android:layout_width="140dp"
+            android:layout_height="70dp"
+            app:backgroundTint="#264C7E"
+            android:textSize="20sp"
+            android:background="@drawable/button_design"
+            android:text="@string/btn_start"
+            android:fontFamily="@font/gyosyo2"></Button>
+
+        <ImageView
+            android:id="@+id/picture"
+            android:layout_width="400dp"
+            android:layout_height="400dp"
+            android:src="@drawable/building_doujou"
+            android:scaleType="fitXY" />
+
 
         <Button
             android:id="@+id/rule"
@@ -36,4 +52,4 @@
 
     </LinearLayout>
 
-</LinearLayout>
+</FrameLayout>
