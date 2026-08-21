@@ -8,6 +8,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 import android.animation.AnimatorInflater;
 import android.animation.AnimatorSet;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.TextureView;
@@ -62,7 +63,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
 
 
-
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (view, windowInsets) -> {
             Insets insets = windowInsets.getInsets(
                     WindowInsetsCompat.Type.systemBars()
@@ -70,9 +70,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             view.setPadding(insets.left, insets.top, insets.right, 0);
             return windowInsets;
         });
-
-
-
 
         mediaPlayer = MediaPlayer.create(this, R.raw.bgm);
         mediaPlayer.setLooping(true);
@@ -102,6 +99,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         soundPlayer = new SoundPlayer(this);
         Intent intent=new Intent(this,StartActivity.class);
         startActivity(intent);
+
+        Typeface rondeB = Typeface.createFromAsset(getAssets(), "x14y24pxHeadUpDaisy.ttf");
+        TextView text = findViewById(R.id.text01);
+        TextView  text2 = findViewById(R.id.text02);
+        text.setTypeface(rondeB);
+        text2.setTypeface(rondeB);
 
         ImageButton btn1=findViewById(R.id.button1);
         btn1.setOnClickListener(this);
