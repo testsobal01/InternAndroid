@@ -61,15 +61,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // 起動時に関数を呼び出す
         setQuestionValue();
 
-        pref=getSharedPreferences("Score",MODE_PRIVATE);
-        prefEditor=pref.edit();
+        pref = getSharedPreferences("Score", MODE_PRIVATE);
+        prefEditor = pref.edit();
 
         mediaPlayer = MediaPlayer.create(this, R.raw.maou_game_village10);
         mediaPlayer.setLooping(true);
 
         mediaPlayer.seekTo(0);
         mediaPlayer.start();
-    }
+
 
         TextView textView = findViewById(R.id.answer);
         TextView textView2 = findViewById(R.id.question);
