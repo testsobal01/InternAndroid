@@ -32,7 +32,6 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:textColor="#FFFFFF"
-            android:background="#38BDF8"
             android:text="スタート"
             android:radius="24dp"
             android:background="@drawable/button"
