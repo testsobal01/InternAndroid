@@ -24,6 +24,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.graphics.Typeface;
+import android.widget.TextView;
 
 import java.util.Locale;
 import java.util.Random;
@@ -81,7 +83,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
 
-        pref = getSharedPreferences("AndroidSeminor",MODE_PRIVATE);
+        pref = getSharedPreferences("AndroidSeminor", MODE_PRIVATE);
         prefEditor = pref.edit();
 
         // 起動時に関数を呼び出す
@@ -90,6 +92,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         EdgeToEdge.enable(this);
         ImageView imageView2 = findViewById(R.id.image_view_2);
         imageView2.setImageResource(R.drawable.img_2);
+
+        //フォント変更
+        TextView txtView = findViewById(R.id.answer);
+        Typeface anz = Typeface.createFromAsset(getAssets(), "apjapanesefont.ttf");
+        txtView.setTypeface(anz);
 
     }
 
@@ -125,6 +132,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void clearAnswerValue() {
         TextView txtView = (TextView) findViewById(R.id.answer);
         txtView.setText("値2");
+        //フォント変更
+        Typeface anz = Typeface.createFromAsset(getAssets(), "apjapanesefont.ttf");
+        txtView.setTypeface(anz);
     }
 
     private void setQuestionValue() {
@@ -134,6 +144,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         TextView txtView = findViewById(R.id.question);
         txtView.setText(Integer.toString(questionValue));
+        //フォント変更
+        Typeface anz = Typeface.createFromAsset(getAssets(), "apjapanesefont.ttf");
+        txtView.setTypeface(anz);
+
     }
 
     private void setAnswerValue() {
@@ -142,6 +156,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         TextView txtView = findViewById(R.id.answer);
         txtView.setText(Integer.toString(answerValue));
+        //フォント変更
+        Typeface anz = Typeface.createFromAsset(getAssets(), "apjapanesefont.ttf");
+        txtView.setTypeface(anz);
+
     }
 
     private void checkResult(boolean isHigh) {
