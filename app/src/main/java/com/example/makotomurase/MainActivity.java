@@ -21,8 +21,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.Random;
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     AnimatorSet set;
@@ -139,6 +137,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView textView = (TextView) findViewById(R.id.text_score);
         prefEditor.putString("score_input",textView.getText().toString());
         prefEditor.commit();
+        TextView textView1 = (TextView) findViewById(R.id.text_highscore);
+        prefEditor.putString("score_input1",textView1.getText().toString());
+        prefEditor.commit();
     }
 
     @Override
@@ -148,6 +149,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView textView = (TextView)findViewById(R.id.text_score);
         String readText=pref.getString("score_input","0");
         textView.setText(readText);
+        TextView textView1 = (TextView)findViewById(R.id.text_highscore);
+        String readText1=pref.getString("score_input1","0");
+        textView1.setText(readText1);
     }
 
     private void clearAnswerValue() {
@@ -240,6 +244,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         }
 
+
+
+
         if (result == "WIN") {
             soundPlayer.playWinSound();
         } else if (result == "LOSE") {
@@ -256,6 +263,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setNextQuestion();
         // スコアを表示
         setScore(score);
+
     }
 
     private void setNextQuestion() {
@@ -279,9 +287,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void setScore(int score) {
         TextView txtScore = (TextView) findViewById(R.id.text_score);
+        TextView txthighScore = (TextView) findViewById(R.id.text_highscore);
         int newScore = Integer.parseInt(txtScore.getText().toString()) + score;
+        int newhighScore = Integer.parseInt(txthighScore.getText().toString()) ;
+        if (newhighScore<newScore){
+            newhighScore=newScore;
+            txthighScore.setText(Integer.toString(newhighScore));
+        }
         txtScore.setText(Integer.toString(newScore));
     }
+
 
     private void clearScoreValue() {
         
