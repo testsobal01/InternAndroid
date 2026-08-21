@@ -35,6 +35,15 @@
                 app:backgroundTint="@null"/>
 
             <Button
+                android:id="@+id/Draw"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="@string/btn_draw"
+                android:background="@drawable/buttondesign"
+                app:backgroundTint="@null"/>
+
+            <Button
                 android:id="@+id/button3"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -51,6 +60,7 @@
                 android:background="@drawable/buttondesign"
                 android:text="@string/settings"
                 app:backgroundTint="@null"/>
+
         </LinearLayout>
 
         <LinearLayout

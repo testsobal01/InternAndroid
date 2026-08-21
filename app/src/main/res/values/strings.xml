@@ -2,6 +2,7 @@
     <string name="app_name">SobalTest</string>
     <string name="btn_high">High</string>
     <string name="btn_low">Low</string>
+    <string name="btn_draw">Draw</string>
     <string name="btn_restart">Restart</string>
     <string name="label_score">Score：</string>
     <string name="btnext">Game start</string>

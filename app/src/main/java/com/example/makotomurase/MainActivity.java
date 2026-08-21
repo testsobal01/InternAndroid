@@ -108,6 +108,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
 
+        Button btn_draw = findViewById(R.id.Draw);
+        btn_draw.setOnClickListener(this);
+
         pref = getSharedPreferences("AndroidSeminar", MODE_PRIVATE);
         prefEditor = pref.edit();
         Button settingsButton = findViewById(R.id.button4);
@@ -124,15 +127,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int id = view.getId();
         if (id == R.id.button1) {
             setAnswerValue();
-            checkResult(true);
+            checkResult("High");
             YoYo.with(Techniques.Tada).duration(1000).repeat(1).playOn(findViewById(R.id.button1));
             // 続けて遊べるように値を更新
             timer.start();
         } else if (id == R.id.button2) {
             setAnswerValue();
-            checkResult(false);
+            checkResult("Low");
             YoYo.with(Techniques.Tada).duration(1000).repeat(1).playOn(findViewById(R.id.button2));
             timer.start();
+        } else if (id == R.id.Draw) {
+            setAnswerValue();
+            checkResult("Draw");
         } else if (id == R.id.button3) {
             setQuestionValue();
             clearAnswerValue();
@@ -177,7 +183,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         txtView.setText(Integer.toString(answerValue));
     }
 
-    private void checkResult(boolean isHigh) {
+    private void checkResult(String judge) {
         TextView txtViewQuestion = findViewById(R.id.question);
         TextView txtViewAnswer = findViewById(R.id.answer);
 
@@ -191,7 +197,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int score;
 
         // Highが押された
-        if (isHigh) {
+        if (judge == "High") {
             // result には結果のみを入れる
             if (question < answer) {
                 result = "WIN";
@@ -209,7 +215,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Result_draw();
             }
 
-        } else {
+        } else if (judge == "Low"){
             if (question > answer) {
                 result = "WIN";
                 score = 2;
@@ -222,6 +228,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 result = "DRAW";
                 score = 1;
                 Result_draw();
+            }
+
+        } else {
+            if (question == answer) {
+                result = "WIN";
+                score = 100;
+                Result_win();
+            } else {
+                result = "LOSE";
+                score = -10;
+                Result_lose();
             }
         }
 
