@@ -5,6 +5,8 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import android.animation.AnimatorInflater;
+import android.animation.AnimatorSet;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -18,6 +20,7 @@ import android.widget.Toast;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+    AnimatorSet set;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,8 +46,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // 起動時に関数を呼び出す
         setQuestionValue();
-    }
 
+        TextView textView = findViewById(R.id.answer);
+        TextView textView2 = findViewById(R.id.question);
+
+        set = (AnimatorSet) AnimatorInflater.loadAnimator(MainActivity.this,
+                R.animator.blink_animation);
+
+        set.setTarget(textView);
+    }
+    @Override
+    protected void onStart() {
+        super.onStart();
+    }
     @Override
     public void onClick(View view) {
         int id = view.getId();
@@ -55,6 +69,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             setAnswerValue();
             checkResult(false);
         } else if (id == R.id.button3) {
+            set.cancel();
             Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 vibrator.vibrate(VibrationEffect.createOneShot(
@@ -107,23 +122,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (isHigh) {
             // result には結果のみを入れる
             if (question < answer) {
+                set.start();
                 result = "WIN";
                 score = 2;
             } else if (question > answer) {
+                set.cancel();
                 result = "LOSE";
                 score = -1;
             } else {
+                set.cancel();
                 result = "DRAW";
                 score = 1;
             }
         } else {
             if (question > answer) {
+                set.start();
                 result = "WIN";
                 score = 2;
             } else if (question < answer) {
+                set.cancel();
                 result = "LOSE";
                 score = -1;
             } else {
+                set.cancel();
                 result = "DRAW";
                 score = 1;
             }
