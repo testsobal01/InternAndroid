@@ -2,6 +2,7 @@ package com.example.makotomurase;
 
 import android.content.Context;
 import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.media.SoundPool;
 
 public class SoundPlayer {
@@ -24,7 +25,7 @@ public class SoundPlayer {
     }
 
     public void playtitleSound() {
-        soundPool.play(title_to_game_sound,1.0f, 1.0f,0, 0, 1.0f);
+        soundPool.play(title_to_game_sound,2.0f, 2.0f,0, 0, 1.0f);
     }
 
     public void playWinSound() {
