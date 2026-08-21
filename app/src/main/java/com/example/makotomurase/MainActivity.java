@@ -75,21 +75,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             } else if (id == R.id.button2) {
                 setAnswerValue();
                 checkResult(false);
-            } else if (id == R.id.button3) {
-                isButton = false;
-                Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    vibrator.vibrate(VibrationEffect.createOneShot(
-                            500,
-                            VibrationEffect.DEFAULT_AMPLITUDE
-                    ));
-                }
-                setQuestionValue();
-                clearAnswerValue();
-                clearScoreValue();
-                ColorChange1.setBackgroundColor(Color.rgb(255,0,255));
-                ColorChange2.setBackgroundColor(Color.rgb(255,255,0));
             }
+            }
+        else if (id == R.id.button3) {
+            isButton = false;
+            Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                vibrator.vibrate(VibrationEffect.createOneShot(
+                        500,
+                        VibrationEffect.DEFAULT_AMPLITUDE
+                ));
+            }
+            setQuestionValue();
+            clearAnswerValue();
+            clearScoreValue();
+            ColorChange1.setBackgroundColor(Color.rgb(255,0,255));
+            ColorChange2.setBackgroundColor(Color.rgb(255,255,0));
         }
     }
 
