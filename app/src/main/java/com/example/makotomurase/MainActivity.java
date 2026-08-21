@@ -196,51 +196,32 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = "WIN";
                 score = 2;
-                soundPool.play(mp3c,1f,1f,0,0,1f);
-                YoYo.with(Techniques.Tada).duration(1000).repeat(1).playOn(findViewById(R.id.answer));
-              
-                findViewById(R.id.answer).setBackgroundColor(Color.parseColor("#FF0000"));
-                findViewById(R.id.question).setBackgroundColor(Color.parseColor("FF0000"));
+                Result_win();
+
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
-                soundPool.play(mp3d,1f,1f,0,0,1f);
-                YoYo.with(Techniques.Tada).duration(1000).repeat(1).playOn(findViewById(R.id.question));
-                findViewById(R.id.question).setBackgroundColor(Color.parseColor("#00BFFF"));
-                findViewById(R.id.answer).setBackgroundColor(Color.parseColor("#00BFFF"));
+                Result_lose();
+
             } else {
                 result = "DRAW";
                 score = 1;
-                soundPool.play(mp3e,1f,1f,0,0,1f);
-                YoYo.with(Techniques.Tada).duration(1000).repeat(2).playOn(findViewById(R.id.answer));
-                YoYo.with(Techniques.Tada).duration(1000).repeat(2).playOn(findViewById(R.id.question));
-                findViewById(R.id.question).setBackgroundColor(Color.parseColor("#FF8C00"));
-                findViewById(R.id.answer).setBackgroundColor(Color.parseColor("#FF8C00"));
+                Result_draw();
             }
 
         } else {
             if (question > answer) {
                 result = "WIN";
                 score = 2;
-                soundPool.play(mp3c,1f,1f,0,0,1f);
-                YoYo.with(Techniques.Tada).duration(1000).repeat(1).playOn(findViewById(R.id.answer));
-                findViewById(R.id.answer).setBackgroundColor(Color.parseColor("#FF0000"));
-                findViewById(R.id.question).setBackgroundColor(Color.parseColor("#FF0000"));
+                Result_win();
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
-                soundPool.play(mp3d,1f,1f,0,0,1f);
-                YoYo.with(Techniques.Tada).duration(1000).repeat(1).playOn(findViewById(R.id.question));
-                findViewById(R.id.question).setBackgroundColor(Color.parseColor("#00BFFF"));
-                findViewById(R.id.answer).setBackgroundColor(Color.parseColor("#00BFFF"));
+                Result_lose();
             } else {
                 result = "DRAW";
                 score = 1;
-                soundPool.play(mp3e,1f,1f,0,0,1f);
-                YoYo.with(Techniques.Tada).duration(1000).repeat(2).playOn(findViewById(R.id.answer));
-                YoYo.with(Techniques.Tada).duration(1000).repeat(2).playOn(findViewById(R.id.question));
-                findViewById(R.id.question).setBackgroundColor(Color.parseColor("#FF8C00"));
-                findViewById(R.id.answer).setBackgroundColor(Color.parseColor("#FF8C00"));
+                Result_draw();
             }
         }
 
@@ -251,24 +232,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // スコアを表示
         setScore(score);
-    }
-
-    private void setNextQuestion() {
-        // 第１引数がカウントダウン時間、第２引数は途中経過を受け取る間隔
-        // 単位はミリ秒（1秒＝1000ミリ秒）
-        new CountDownTimer(3000, 1000) {
-            @Override
-            public void onTick(long l) {
-                // 途中経過を受け取った時に何かしたい場合
-                // 今回は特に何もしない
-            }
-
-            @Override
-            public void onFinish() {
-                // 3秒経過したら次の値をセット
-                setQuestionValue();
-            }
-        }.start();
     }
 
     private void setScore(int score) {
@@ -324,6 +287,34 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         textView.setText(i_str);
         max = i;
     }
+
+    private void Sounds(int sound){ // 音を出すときの処理
+        soundPool.play(sound,1f,1f,0,0,1f);
+    }
+
+    private void Result_win(){ // 勝ったときの処理
+        Sounds(mp3c);
+        YoYo.with(Techniques.Tada).duration(1000).repeat(1).playOn(findViewById(R.id.answer));
+        findViewById(R.id.answer).setBackgroundColor(Color.parseColor("#FF0000"));
+        findViewById(R.id.question).setBackgroundColor(Color.parseColor("#FF0000"));
+    }
+
+    private void Result_lose(){ // 負けたときの処理
+        Sounds(mp3d);
+        YoYo.with(Techniques.Tada).duration(1000).repeat(1).playOn(findViewById(R.id.question));
+        findViewById(R.id.question).setBackgroundColor(Color.parseColor("#00BFFF"));
+        findViewById(R.id.answer).setBackgroundColor(Color.parseColor("#00BFFF"));
+    }
+
+    private void Result_draw(){ // ドローのときの処理
+        Sounds(mp3e);
+        YoYo.with(Techniques.Tada).duration(1000).repeat(2).playOn(findViewById(R.id.answer));
+        YoYo.with(Techniques.Tada).duration(1000).repeat(2).playOn(findViewById(R.id.question));
+        findViewById(R.id.question).setBackgroundColor(Color.parseColor("#FF8C00"));
+        findViewById(R.id.answer).setBackgroundColor(Color.parseColor("#FF8C00"));
+    }
+
+
 }
 
 
