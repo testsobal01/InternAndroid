@@ -41,6 +41,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private static int hitSound;
     private static int overSound;
 
+    private boolean isProcessing1=false;
+    private boolean isProcessing2=false;
+
+
+
+
     //プリファレンスの生成
     SharedPreferences pref;
     SharedPreferences.Editor prefEditor;
@@ -62,6 +68,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             view.setPadding(insets.left, insets.top, insets.right, 0);
             return windowInsets;
         });
+
+
+
 
         //ボタン押したらへこむように見えるやつ
         View.OnTouchListener darkenTouchListener = new View.OnTouchListener() {
@@ -87,11 +96,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Intent intent=new Intent(this,StartActivity.class);
         startActivity(intent);
 
-        ImageButton btn1 = findViewById(R.id.button1);
+        ImageButton btn1=findViewById(R.id.button1);
         btn1.setOnClickListener(this);
         btn1.setOnTouchListener(darkenTouchListener);
 
-        ImageButton btn2 = findViewById(R.id.button2);
+        ImageButton btn2=findViewById(R.id.button2);
         btn2.setOnClickListener(this);
         btn2.setOnTouchListener(darkenTouchListener);
 
@@ -119,32 +128,41 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
 
-    @Override
-    public void onClick (View view) {
 
-    public void onClick(View view) {
-        int id = view.getId();
-        Vibrator vibrator=(Vibrator)getSystemService(VIBRATOR_SERVICE);
-        //バイブ
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        @Override
+         public void onClick (View view) {
+            ImageButton btn1=findViewById(R.id.button1);
+            ImageButton btn2=findViewById(R.id.button2);
+            ImageButton btn3=findViewById(R.id.button3);
+            int id = view.getId();
+            btn1.setEnabled(false);
+            btn2.setEnabled(false);
+            btn3.setEnabled(false);
+            Vibrator vibrator=(Vibrator)getSystemService(VIBRATOR_SERVICE);
+            //バイブ
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             vibrator.vibrate(VibrationEffect.createOneShot(
                     200, VibrationEffect.DEFAULT_AMPLITUDE));}
 
 
-        if (id == R.id.button1) {
-            soundPlayer.playHitSound();
-            setAnswerValue();
-            checkResult(true);
-        } else if (id == R.id.button2) {
-            soundPlayer.playHitSound();
-            setAnswerValue();
-            checkResult(false);
-        } else if (id == R.id.button3) {
-            set.pause();
-            soundPlayer.playHitSound();
-            setQuestionValue();
-            clearAnswerValue();
-            clearScoreValue();
+             if (id == R.id.button1) {
+                soundPlayer.playHitSound();
+                setAnswerValue();
+                checkResult(true);
+             } else if (id == R.id.button2) {
+                soundPlayer.playHitSound();
+                setAnswerValue();
+                checkResult(false);
+             } else if (id == R.id.button3) {
+                set.pause();
+                soundPlayer.playHitSound();
+                setQuestionValue();
+                clearAnswerValue();
+                clearScoreValue();
+                 btn1.setEnabled(true);
+                 btn2.setEnabled(true);
+                 btn3.setEnabled(true);
+
         }
 
 
@@ -201,7 +219,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 flash(textView);
                 myLayout.setBackgroundColor(Color.GREEN);
                 myLayout1.setBackgroundColor(Color.GREEN);
-              　triggerRandomCutIn(cutInText);
+              triggerRandomCutIn(cutInText);
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
@@ -272,6 +290,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void setNextQuestion() {
+        ImageButton btn1=findViewById(R.id.button1);
+        ImageButton btn2=findViewById(R.id.button2);
+        ImageButton btn3=findViewById(R.id.button3);
         // 第１引数がカウントダウン時間、第２引数は途中経過を受け取る間隔
         // 単位はミリ秒（1秒＝1000ミリ秒）
         new CountDownTimer(3000, 1000) {
@@ -285,6 +306,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public void onFinish() {
                 // 3秒経過したら次の値をセット
                 setQuestionValue();
+
+                btn1.setEnabled(true);
+                btn2.setEnabled(true);
+                btn3.setEnabled(true);
             }
         }.start();
     }
