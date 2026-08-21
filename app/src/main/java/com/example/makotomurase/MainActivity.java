@@ -1,5 +1,6 @@
 package com.example.makotomurase;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
@@ -11,6 +12,8 @@ import android.animation.Animator;
 import android.animation.AnimatorInflater;
 import android.animation.AnimatorSet;
 import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.content.res.AssetFileDescriptor;
 import android.media.AudioManager;
@@ -20,10 +23,12 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
+import android.view.LayoutInflater;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -45,6 +50,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      */
     AnimatorSet blink;
     AnimatorSet scale;
+
+    //最大値設定用の変数
+    TextView set;
+    int max_num;
 
     // 効果音
     private static SoundPool soundPool;
@@ -78,6 +87,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
 
+        Button btn4 = (Button) findViewById(R.id.button4);
+        btn4.setOnClickListener(this);
 
         SoundPlayer(this);
         //soundPlayer = new SoundPlayer(this);
@@ -117,6 +128,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         blink.setTarget(player);
         scale = (AnimatorSet) AnimatorInflater.loadAnimator(MainActivity.this, R.animator.scale_animation);
         scale.setTarget(player);
+
+        set = (TextView) findViewById(R.id.set_text);
+        max_num = 10;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -138,6 +152,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             setQuestionValue();
             clearAnswerValue();
             clearScoreValue();
+        } else if (id == R.id.button4) {
+            //最大値が設定できるダイアログを表示
+            NumberPickerDialogFragment dialog = new NumberPickerDialogFragment();
+            dialog.show(getSupportFragmentManager(), "sample");
+            setRandomColor();
         }
 
 
@@ -152,7 +171,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void setQuestionValue() {
         Random r = new Random();
         // 0から10の範囲で乱数を生成（+1する必要がある）
-        int questionValue = r.nextInt(10 + 1);
+        int questionValue = r.nextInt(max_num + 1);
 
         TextView txtView = findViewById(R.id.question);
         txtView.setText(Integer.toString(questionValue));
@@ -203,14 +222,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 result = "WIN";
                 score = 2;
                 correctSound();
-            } else if (question > answer) {
-                result = "LOSE";
-                score = -1;
-                blipSound();
 
                 //テキスト拡大
                 scale.start();
-            } else if (question > answer) {
+            }  else if (question > answer) {
                 result = "LOSE";
                 score = -1;
 
@@ -225,10 +240,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 result = "WIN";
                 score = 2;
                 correctSound();
-            } else if (question < answer) {
-                result = "LOSE";
-                score = -1;
-                blipSound();
 
                 //テキスト拡大
                 scale.start();
@@ -315,6 +326,54 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         String readText = pref.getString("score","0");
         textView.setText(readText);
+    }
+
+    //ダイアログを出すクラス
+    public static class NumberPickerDialogFragment extends androidx.fragment.app.DialogFragment {
+
+        @NonNull
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            LayoutInflater inflater = getActivity().getLayoutInflater();
+            View view = inflater.inflate(R.layout.numberpicker, null,false);
+
+            final MainActivity activity = (MainActivity) getActivity();
+            final NumberPicker np1 = (NumberPicker) view.findViewById(R.id.numberPicker);
+            np1.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
+            np1.setMinValue(10);
+            np1.setMaxValue(50);
+            np1.setValue(activity.max_num);
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            builder.setTitle("最大値を設定してください");
+            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+
+                    int max = Integer.parseInt(String.valueOf(np1.getValue()));
+
+                    MainActivity mainActivity = (MainActivity) getActivity();
+                    assert mainActivity != null;
+                    mainActivity.max_num= max;
+                    mainActivity.set.setText(max + "が設定されています");
+                }
+            });
+            builder.setNegativeButton("キャンセル", null);
+            builder.setView(view);
+            return builder.create();
+        }
+    //番号13：値１・値2の色変更（ランダム）
+    public void setRandomColor(){
+        Random random = new Random();
+        View text1 = findViewById(R.id.question);
+        View text2 = findViewById(R.id.answer);
+
+        int[] ColorPalette = {0xFFFF0000,0xFFFFA100,0xFFFFFF00,0xFF00FF00,0xFFAAFFFF,0xFF0000FF,0xFFAA00FF,0xFFFF00FF};
+        int colorQ = ColorPalette[random.nextInt(8)];
+        int colorA = ColorPalette[random.nextInt(8)];
+        Toast.makeText(this,"Colors has Changed!",Toast.LENGTH_SHORT).show();
+        text1.setBackgroundColor(colorQ);
+        text2.setBackgroundColor(colorA);
     }
 
     //番号11　BGMの追加

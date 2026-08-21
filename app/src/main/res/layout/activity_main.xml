@@ -5,6 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="horizontal"
     tools:context=".MainActivity">
 
     <LinearLayout
@@ -12,7 +13,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-
 
 
         <LinearLayout
@@ -32,7 +32,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"/>
+                app:layout_constraintTop_toTopOf="parent" />
 
             <com.example.makotomurase.PushButton
                 android:id="@+id/button2"
@@ -46,7 +46,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"/>
+                app:layout_constraintTop_toTopOf="parent" />
 
             <com.example.makotomurase.PushButton
                 android:id="@+id/button3"
@@ -60,14 +60,15 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"/>
+                app:layout_constraintTop_toTopOf="parent" />
         </LinearLayout>
 
         <TextView
+            android:id="@+id/set_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/max_num" />
-<!--            多言語対応のためmax_numとしてstringを追加-->
+        <!--            多言語対応のためmax_numとしてstringを追加-->
         <TextView
             android:id="@+id/text_result"
             android:layout_width="wrap_content"
@@ -87,6 +88,20 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="0" />
+
+            <Button
+                android:id="@+id/button4"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:background="@drawable/custom_button_shape"
+                android:text="@string/btn_changeColor"
+                android:textColor="#000000"
+                app:backgroundTint="@null"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
         </LinearLayout>
 
         <FrameLayout
@@ -152,6 +167,14 @@
 
         </FrameLayout>
 
+        <Button
+            android:id="@+id/button4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="設定"
+            android:layout_gravity="right"> </Button>
+
+
         <ImageView
             android:id="@+id/footer"
             android:layout_width="match_parent"
@@ -159,13 +182,11 @@
             android:layout_weight="1"
             android:src="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
-            <!-- フッター用。srcに入れたい画像をセット。ダウンロードがうまくいきませんでした…講師の方せっかく確認していただいたのに申し訳ない…-->
-            <!-- 番号9-->
-
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+        <!-- フッター用。srcに入れたい画像をセット。ダウンロードがうまくいきませんでした…講師の方せっかく確認していただいたのに申し訳ない…-->
+        <!-- 番号9-->
 
 
     </LinearLayout>
-
 </LinearLayout>
