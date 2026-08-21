@@ -32,33 +32,35 @@
                     android:layout_gravity="center_horizontal"
                     android:src="@drawable/syouri" />
             </FrameLayout>
-            <TextView
-                android:id="@+id/streak"
-                android:layout_height="wrap_content"
-                android:layout_width="wrap_content"
-                android:layout_marginTop="-300dp"
-                android:layout_gravity="center"
-                android:textSize="40sp"
-                android:text="@string/retrystreak"/>
+
+
+                <TextView
+                    android:id="@+id/streak"
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:layout_marginTop="-300dp"
+                    android:layout_marginLeft="20dp"
+                    android:textSize="40sp"
+                    android:text="@string/retrystreak"/>
+
+                <TextView
+                    android:id="@+id/streaknum"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:layout_marginTop="-55dp"
+                    android:layout_marginLeft="250dp"
+                    android:textSize="40sp"
+                    android:text="0"/>
+
 
             <Button
                 android:id="@+id/retry"
                 android:layout_width="wrap_content"
                 android:layout_height="60dp"
                 android:layout_gravity="center"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="110dp"
                 android:text="@string/retry"
                 android:textSize="20sp" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:radius="16dp">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/word1" />
         </LinearLayout>
 
         <LinearLayout
@@ -112,29 +114,6 @@
                 android:layout_height="wrap_content"
                 android:text="@string/word1" />
 
-            <TextView
-                android:id="@+id/text_score"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="0" />
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="16dp">
-
-                <TextView
-                    android:id="@+id/text_streak"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="0" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/streak" />
-            </LinearLayout>
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -162,7 +141,19 @@
                     android:id="@+id/text_score"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:text="0"
+                    android:layout_marginRight="60dp"/>
+
+                <TextView
+                    android:id="@+id/text_streak"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:text="0" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/streak" />
             </LinearLayout>
 
             <LinearLayout
