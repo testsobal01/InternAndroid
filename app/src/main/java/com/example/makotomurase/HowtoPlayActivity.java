@@ -30,6 +30,9 @@ public class HowtoPlayActivity extends AppCompatActivity implements View.OnClick
         Button button_back = findViewById(R.id.button_back);
         button_back.setOnClickListener(this);
 
+        Button button_to_game = findViewById(R.id.button_to_game);
+        button_to_game.setOnClickListener(this);
+
         soundPlayer = new SoundPlayer(this);
 
         mediaPlayer = MediaPlayer.create(this, R.raw.maou_game_field09);
@@ -58,6 +61,11 @@ public class HowtoPlayActivity extends AppCompatActivity implements View.OnClick
             mediaPlayer.stop();
             soundPlayer.playtitleSound();
             Intent intent = new Intent(this, TitleActivity.class);
+            startActivity(intent);
+        } else if (id == R.id.button_to_game) {
+            mediaPlayer.stop();
+            soundPlayer.playtitleSound();
+            Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
         }
     }
