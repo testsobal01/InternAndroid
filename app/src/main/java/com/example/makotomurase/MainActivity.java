@@ -7,6 +7,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 import android.content.SharedPreferences;
 import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.media.SoundPool;
 import android.util.Log;
 import android.os.Build;
@@ -44,6 +45,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     SharedPreferences pref;
     SharedPreferences.Editor prefEditor;
 
+    private MediaPlayer mediaPlayer;
+
     SoundPool soundPool;
     int[] soundIds = new int[2];
     int[] seFiles = {R.raw.button01a, R.raw.button01b};
@@ -60,6 +63,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             view.setPadding(insets.left, insets.top, insets.right, 0);
             return windowInsets;
         });
+
+        mediaPlayer = MediaPlayer.create(this, R.raw.bgm);
+        mediaPlayer.setLooping(true);
+        mediaPlayer.start();
 
         soundPool = new SoundPool(soundIds.length, AudioManager.STREAM_MUSIC, 0);
         for (int i = 0; i < soundIds.length; i++) {
@@ -100,30 +107,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (id == R.id.button1) {
             setAnswerValue();
             checkResult(true);
+            soundPool.play(soundIds[0], 1.0F, 1.0F, 0, 0, 1.0F);
         } else if (id == R.id.button2) {
             setAnswerValue();
             checkResult(false);
+            soundPool.play(soundIds[0], 1.0F, 1.0F, 0, 0, 1.0F);
         } else if (id == R.id.button3) {
             setQuestionValue();
             clearAnswerValue();
             clearScoreValue();
             clearWinRateValue();
-            VibrationB();
-        }
-
-        if (id == R.id.button1) {
-            soundPool.play(soundIds[0], 1.0F, 1.0F, 0, 0, 1.0F);
-            setAnswerValue();
-            checkResult(true);
-        } else if (id == R.id.button2) {
-            soundPool.play(soundIds[0], 1.0F, 1.0F, 0, 0, 1.0F);
-            setAnswerValue();
-            checkResult(false);
-        } else if (id == R.id.button3) {
             soundPool.play(soundIds[1], 1.0F, 1.0F, 0, 0, 1.0F);
-            setQuestionValue();
-            clearAnswerValue();
-            clearScoreValue();
+            VibrationB();
         }
     }
     private void VibrationB() {
@@ -276,7 +271,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void setWinrate(int win,int lose,int draw){
         TextView winScore = (TextView) findViewById(R.id.win_result);
         double winrate = (double) win/(win+lose+draw) *100;
-        winScore.setText(String.format("%.3f",winrate));
+        winScore.setText(String.format(" / 勝率：%.1f",winrate));
     }
     private void clearWinRateValue(){
         TextView winScore = (TextView) findViewById(R.id.win_result);
