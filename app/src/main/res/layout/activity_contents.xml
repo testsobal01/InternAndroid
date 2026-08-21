@@ -5,29 +5,43 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+
+    android:orientation="vertical"
+    android:background="@color/black"
     tools:context=".ContentsActivity">
 
-
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:background="#1E3A8A"
         android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:textSize="80dp"
+            android:textColor="#E0f2FE"
+            android:text="High&amp;Low"/>
 
         <Button
             android:id="@+id/sbutton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:textColor="#FFFFFF"
+            android:background="#38BDF8"
+            android:text="スタート"
+            android:radius="24dp"
             android:background="@drawable/button"
             app:backgroundTint="@null"
-            android:text="スタート"/>
-
-
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </LinearLayout>
-
-
-
-
-
 
 </LinearLayout>
