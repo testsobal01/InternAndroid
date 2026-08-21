@@ -50,12 +50,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private MediaPlayer mediaPlayer;
 
+
+
     //プリファレンスの生成
     SharedPreferences pref;
     SharedPreferences.Editor prefEditor;
 
     //アニメーションを定義するAnimatorSetオブジェクトを宣言する
     AnimatorSet set;
+
+    boolean cheat_key=false;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,7 +122,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         ImageButton btn3 = (ImageButton) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
+        btn3.setOnLongClickListener(this::onLongClick);
         btn3.setOnTouchListener(darkenTouchListener);
+
+        TextView num1tv=findViewById(R.id.text02);
+        num1tv.setOnLongClickListener(this::onLongClick);
 
         // 起動時に関数を呼び出す
         setQuestionValue();
@@ -128,6 +138,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+
+    public boolean onLongClick(View v) {
+        if (v.getId()==R.id.text02){
+            Toast.makeText(this,"チート　on",Toast.LENGTH_LONG).show();
+            cheat_key=true;
+        } else if (v.getId()==R.id.button3) {
+            Toast.makeText(this,"チート　off",Toast.LENGTH_LONG).show();
+            cheat_key=false;
+
+        }
+        return true;
+    }
+
     //onCreateの中だとStartタイミングが早すぎて間に合わない。
     //onCreateの後の工程のonStartにてstartを実装する
     @Override
@@ -136,46 +159,47 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         }
 
+    @Override
+     public void onClick (View view) {
+        ImageButton btn1=findViewById(R.id.button1);
+        ImageButton btn2=findViewById(R.id.button2);
+        ImageButton btn3=findViewById(R.id.button3);
+        int id = view.getId();
+        btn1.setEnabled(false);
+        btn2.setEnabled(false);
+        btn3.setEnabled(false);
+        Vibrator vibrator=(Vibrator)getSystemService(VIBRATOR_SERVICE);
+        //バイブ
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        vibrator.vibrate(VibrationEffect.createOneShot(
+                200, VibrationEffect.DEFAULT_AMPLITUDE));}
 
-
-
-        @Override
-         public void onClick (View view) {
-            ImageButton btn1=findViewById(R.id.button1);
-            ImageButton btn2=findViewById(R.id.button2);
-            ImageButton btn3=findViewById(R.id.button3);
-            int id = view.getId();
-            btn1.setEnabled(false);
-            btn2.setEnabled(false);
-            btn3.setEnabled(false);
-            Vibrator vibrator=(Vibrator)getSystemService(VIBRATOR_SERVICE);
-            //バイブ
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            vibrator.vibrate(VibrationEffect.createOneShot(
-                    200, VibrationEffect.DEFAULT_AMPLITUDE));}
-
-
-             if (id == R.id.button1) {
-                soundPlayer.playHitSound();
+        if (id == R.id.button1) {
+            soundPlayer.playHitSound();
+            if (cheat_key){
+                cheatset(true);
+            }else {
                 setAnswerValue();
-                checkResult(true);
-             } else if (id == R.id.button2) {
-                soundPlayer.playHitSound();
+            }
+            checkResult(true);
+        } else if (id == R.id.button2) {
+            soundPlayer.playHitSound();
+            if (cheat_key){
+                cheatset(false);
+            }else {
                 setAnswerValue();
-                checkResult(false);
-             } else if (id == R.id.button3) {
-                set.pause();
-                soundPlayer.playHitSound();
-                setQuestionValue();
-                clearAnswerValue();
-                clearScoreValue();
-                 btn1.setEnabled(true);
-                 btn2.setEnabled(true);
-                 btn3.setEnabled(true);
-
+            }
+            checkResult(false);
+        } else if (id == R.id.button3) {
+            set.pause();
+            soundPlayer.playHitSound();
+            setQuestionValue();
+            clearAnswerValue();
+            clearScoreValue();
+            btn1.setEnabled(true);
+            btn2.setEnabled(true);
+            btn3.setEnabled(true);
         }
-
-
     }
 
     private void clearAnswerValue() {
@@ -198,6 +222,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         TextView txtView = findViewById(R.id.answer);
         txtView.setText(Integer.toString(answerValue));
+    }
+
+    private void cheatset(boolean key){
+        if (key){
+            Random r = new Random();
+            int answerValue = r.nextInt(10 + 1)+100;
+
+            TextView txtView = findViewById(R.id.answer);
+            txtView.setText(Integer.toString(answerValue));
+        }else {
+            Random r = new Random();
+            int answerValue = r.nextInt(10 + 1)-100;
+            TextView txtView = findViewById(R.id.answer);
+            txtView.setText(Integer.toString(answerValue));
+        }
+
     }
 
     private void checkResult(boolean isHigh) {
