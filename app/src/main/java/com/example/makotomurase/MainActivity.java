@@ -16,6 +16,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.media.MediaPlayer;
 import android.view.MotionEvent;
 import android.media.AudioAttributes;
 import android.media.AudioManager;
@@ -41,6 +42,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private static int hitSound;
     private static int overSound;
 
+    private MediaPlayer mediaPlayer;
+
     //プリファレンスの生成
     SharedPreferences pref;
     SharedPreferences.Editor prefEditor;
@@ -62,6 +65,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             view.setPadding(insets.left, insets.top, insets.right, 0);
             return windowInsets;
         });
+
+
+
+
+        mediaPlayer = MediaPlayer.create(this, R.raw.bgm);
+        mediaPlayer.setLooping(true);
+        mediaPlayer.seekTo(0);
+        mediaPlayer.start();
 
         //ボタン押したらへこむように見えるやつ
         View.OnTouchListener darkenTouchListener = new View.OnTouchListener() {
