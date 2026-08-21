@@ -1,5 +1,6 @@
 package com.example.makotomurase;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
@@ -7,10 +8,11 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import android.annotation.SuppressLint;
-import android.animation.Animator;
 import android.animation.AnimatorInflater;
 import android.animation.AnimatorSet;
 import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.AssetFileDescriptor;
@@ -21,10 +23,12 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
+import android.view.LayoutInflater;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,6 +42,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     SharedPreferences pref;
     SharedPreferences.Editor prefEditor;
     private MediaPlayer mediaPlayer;
+    int num_BGM;
 
     //AnimatorSetオブジェクトを宣言
     /**
@@ -47,11 +52,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     AnimatorSet blink;
     AnimatorSet scale;
 
+    // 番号8 効果音
+    //最大値設定用の変数
+    TextView set;
+    int max_num;
+
     // 効果音
     private static SoundPool soundPool;
-//    private SoundPlayer soundPlayer;
     private static int correct_answer1 = 1;
     private static int blip01 = 1;
+
 
     @SuppressLint("MissingSuperCall")
     @Override
@@ -79,10 +89,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
 
+        Button btn4 = (Button) findViewById(R.id.button_colorchange);
+        btn4.setOnClickListener(this);
 
+        Button btn5 = (Button) findViewById(R.id.button_option);
+        btn5.setOnClickListener(this);
+
+        // 番号8 効果音
         SoundPlayer(this);
-        //soundPlayer = new SoundPlayer(this);
-        //SoundPool soundPlayer = SoundPlayer(this);
         pref = getSharedPreferences("MakotoMurase",MODE_PRIVATE);
         prefEditor = pref.edit();
 
@@ -90,9 +104,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setQuestionValue();
 
         //番号11　BGMの追加
+        //11-2 BGMの種類の追加
         Button buttonStart = findViewById(R.id.start);
         buttonStart.setOnClickListener( v ->  {
             // 音楽再生
+            Random random = new Random();
+            num_BGM = random.nextInt(5);
             audioPlay();
         });
 
@@ -119,6 +136,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         blink.setTarget(player);
         scale = (AnimatorSet) AnimatorInflater.loadAnimator(MainActivity.this, R.animator.scale_animation);
         scale.setTarget(player);
+
+        set = (TextView) findViewById(R.id.set_text);
+        max_num = 10;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -128,11 +148,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (id == R.id.button1) {
             setAnswerValue();
             checkResult(true);
-
-            // 番号4 バイブレーション機能
-            Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
-            vibrator.vibrate(VibrationEffect.createOneShot(3000, VibrationEffect.DEFAULT_AMPLITUDE));
-
         } else if (id == R.id.button2) {
             setAnswerValue();
             checkResult(false);
@@ -140,9 +155,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             setQuestionValue();
             clearAnswerValue();
             clearScoreValue();
+            timer.cancel();
+        } else if (id == R.id.button_option) {
+            //最大値が設定できるダイアログを表示
+            NumberPickerDialogFragment dialog = new NumberPickerDialogFragment();
+            dialog.show(getSupportFragmentManager(), "sample");
+        }else if (id == R.id.button_colorchange){
+            setRandomColor();
+        } else if (id == R.id.button4) {
+            setRandomColor();
         }
-
-
 
     }
 
@@ -154,7 +176,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void setQuestionValue() {
         Random r = new Random();
         // 0から10の範囲で乱数を生成（+1する必要がある）
-        int questionValue = r.nextInt(10 + 1);
+        int questionValue = r.nextInt(max_num + 1);
 
         TextView txtView = findViewById(R.id.question);
         txtView.setText(Integer.toString(questionValue));
@@ -162,13 +184,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void setAnswerValue() {
         Random r = new Random();
-        int answerValue = r.nextInt(10 + 1);
+        int answerValue = r.nextInt(max_num + 1);
 
         TextView txtView = findViewById(R.id.answer);
         txtView.setText(Integer.toString(answerValue));
     }
 
 
+    // 番号8 効果音
     public void SoundPlayer(Context context) {
 
         soundPool = new SoundPool(2, AudioManager.STREAM_MUSIC, 0);
@@ -185,6 +208,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         soundPool.play(blip01, 1.0f, 1.0f, 1, 0, 1.0f);
     }
 
+    @SuppressLint("NewApi")
     private void checkResult(boolean isHigh) {
         TextView txtViewQuestion = findViewById(R.id.question);
         TextView txtViewAnswer = findViewById(R.id.answer);
@@ -200,21 +224,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // Highが押された
         if (isHigh) {
+            //タイマースタート
+            timer.start();
             // result には結果のみを入れる
             if (question < answer) {
                 result = "WIN";
                 score = 2;
                 correctSound();
-            } else if (question > answer) {
-                result = "LOSE";
-                score = -1;
-                blipSound();
+                vibrator();
 
                 //テキスト拡大
                 scale.start();
-            } else if (question > answer) {
+            }  else if (question > answer) {
                 result = "LOSE";
                 score = -1;
+                blipSound();
 
                 //テキスト点滅
                 blink.start();
@@ -223,20 +247,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 score = 1;
             }
         } else {
+            //タイマースタート
+            timer.start();
             if (question > answer) {
                 result = "WIN";
                 score = 2;
                 correctSound();
-            } else if (question < answer) {
-                result = "LOSE";
-                score = -1;
-                blipSound();
+                vibrator();
 
                 //テキスト拡大
                 scale.start();
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
+                blipSound();
 
                 //テキスト点滅
                 blink.start();
@@ -252,28 +276,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         txtResult.setText("結果：" + question + ":" + answer + "(" + result + ")");
 
         // 続けて遊べるように値を更新
-        setNextQuestion();
+        //setNextQuestion();
+
+
         // スコアを表示
         setScore(score);
     }
 
-    private void setNextQuestion() {
-        // 第１引数がカウントダウン時間、第２引数は途中経過を受け取る間隔
-        // 単位はミリ秒（1秒＝1000ミリ秒）
-        new CountDownTimer(3000, 1000) {
-            @Override
-            public void onTick(long l) {
-                // 途中経過を受け取った時に何かしたい場合
-                // 今回は特に何もしない
-            }
-
-            @Override
-            public void onFinish() {
-                // 3秒経過したら次の値をセット
-                setQuestionValue();
-            }
-        }.start();
-    }
 
     private void setScore(int score) {
         TextView txtScore = (TextView) findViewById(R.id.text_score);
@@ -319,11 +328,71 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         textView.setText(readText);
     }
 
+    //ダイアログを出すクラス
+    public static class NumberPickerDialogFragment extends androidx.fragment.app.DialogFragment {
+
+        @NonNull
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            LayoutInflater inflater = getActivity().getLayoutInflater();
+            View view = inflater.inflate(R.layout.numberpicker, null, false);
+
+            final MainActivity activity = (MainActivity) getActivity();
+            final NumberPicker np1 = (NumberPicker) view.findViewById(R.id.numberPicker);
+            np1.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
+            np1.setMinValue(10);
+            np1.setMaxValue(50);
+            np1.setValue(activity.max_num);
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            builder.setTitle("最大値を設定してください");
+            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+
+                    int max = Integer.parseInt(String.valueOf(np1.getValue()));
+
+                    MainActivity mainActivity = (MainActivity) getActivity();
+                    assert mainActivity != null;
+                    mainActivity.max_num = max;
+                    mainActivity.set.setText(max + "が設定されています");
+                }
+            });
+            builder.setNegativeButton("キャンセル", null);
+            builder.setView(view);
+            return builder.create();
+        }
+    }
+    //番号13：値１・値2の色変更（ランダム）
+    public void setRandomColor(){
+        Random random = new Random();
+        View text1 = findViewById(R.id.question);
+        View text2 = findViewById(R.id.answer);
+
+        int[] ColorPalette = {0xFFFF0000,0xFFFFA100,0xFFFFFF00,0xFF00FF00,0xFFAAFFFF,0xFF0000FF,0xFFAA00FF,0xFFFF00FF};
+        int colorQ = ColorPalette[random.nextInt(8)];
+        int colorA = ColorPalette[random.nextInt(8)];
+        Toast.makeText(this,"Colors has Changed!",Toast.LENGTH_SHORT).show();
+        text1.setBackgroundColor(colorQ);
+        text2.setBackgroundColor(colorA);
+    }
+
     //番号11　BGMの追加
+    //11-2 BGMの種類の追加
     private boolean audioSetup(){
         mediaPlayer = new MediaPlayer();
-
-        String filePath = "music.mp3";
+        String filePath;
+        if(num_BGM==0){
+            filePath = "music.mp3";
+        } else if (num_BGM==1) {
+            filePath = "music2.mp3";
+        } else if(num_BGM==2){
+            filePath = "music3.mp3";
+        }else if(num_BGM==3){
+            filePath = "music4.mp3";
+        }else {
+            filePath = "music5.mp3";
+        }
 
         try(AssetFileDescriptor afdescripter = getAssets().openFd(filePath))
         {
@@ -371,5 +440,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         mediaPlayer = null;
     }
+
+    // 番号19　タイマーリセット
+    CountDownTimer timer = new CountDownTimer(3000, 1000) {
+        public void onTick(long millisUntilFinished) {
+            return;
+        }
+
+        public void onFinish() {
+            setQuestionValue();
+        }
+    };
+
+    // 番号4 バイブレーション機能
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public void vibrator(){
+        Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+        vibrator.vibrate(VibrationEffect.createOneShot(200, VibrationEffect.DEFAULT_AMPLITUDE));
+    }
 }
+
 

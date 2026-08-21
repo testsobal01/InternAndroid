@@ -3,8 +3,18 @@
     <string name="btn_high">High</string>
     <string name="btn_low">Low</string>
     <string name="btn_restart">Restart</string>
+    <string name="btn_changeColor">ColorChange</string>>
     <string name="label_score">Score：</string>
     <string name="max_num">10が設定されています。</string>
     <string name="count">0</string>
     <!--    countはミニゲーム用-->
+    <string name="title"> &lt;font color=red&gt;High&lt;/font&gt; and &lt;font color=blue&gt;Low&lt;/font&gt;</string>
+    <string name="HowTo">High and Lowゲームです。\n\n
+        左側にランダムで数字が出るので、最大値を見ながら大きい数字が出るか、小さい数字が出るか予想してください。\n\n
+        右のほうが大きいと思ったら高い、小さいと思ったら低いを押してください。\n\n
+        リスタートを押すとスコアをリセットできます。\n\n
+        右下の設定ボタンを押すと最大値を設定できます。\n\n
+        BGM startを押すとBGMが始まります。止めたいときはstopを押してください。\n\n
+        ColorChangeを押すと背景色が変わります。
+        </string>
 </resources>
