@@ -4,14 +4,14 @@
     <string name="btn_low">Low</string>
     <string name="btn_restart">Restart</string>
     <string name="label_score">Score：</string>
-    <string name="btnext">ゲームスタート</string>
-    <string name="settings">Settings</string>
+    <string name="btnext">Game start</string>
+    <string name="settings">⚙</string>
     <string name="close">Close</string>
-    <string name="action_settings">Setting 1</string>
-    <string name="action_settings2">Setting 2</string>
-    <string name="action_settings3">Setting 3</string>
-    <string name="setting_num">10 is set</string>
-    <string name="num1">number 1</string>
+    <string name="setting_txt"> is set</string>
+    <string name="setting_num">10</string>
+    <string name="setting_max">Max number</string>
+    <string name="cancel">Cancel</string>
+    <striging name="num1">number 1</striging>
     <string name="num2">number 2</string>
     <string name="result">Result：</string>
 </resources>
