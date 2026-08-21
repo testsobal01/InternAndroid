@@ -55,6 +55,21 @@
             app:layout_constraintTop_toTopOf="parent">
         </com.example.makotomurase.PushButton>
 
+        <TextView
+            android:id="@+id/title_text"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/custom_back_shape"
+            android:paddingStart="25dp"
+            android:paddingTop="260dp"
+            android:paddingBottom="50dp"
+            android:text=""
+            android:textSize="60sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/btn1"
+            app:layout_constraintEnd_toEndOf="@+id/btn1"
+            app:layout_constraintStart_toStartOf="@+id/btn1" />
+
 
     </LinearLayout>
 

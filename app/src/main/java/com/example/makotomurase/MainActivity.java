@@ -170,7 +170,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Intent intent_h = new Intent(this, HowToActivity.class);
             startActivity(intent_h);
         }
-
     }
 
     private void clearAnswerValue() {
