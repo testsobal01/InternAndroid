@@ -17,36 +17,53 @@
             android:layout_width="350dp"
             android:layout_height="70dp"
             android:text="HIGH AND LOWは、左の数字と比べて、次に表示される右の数字が高い（High）か低い（Low）かを当てる、とてもシンプルなゲームです。 "
+            android:fontFamily="@font/gyosyo2"
             android:background="#b0c4de"/>
 
         <TextView
             android:layout_width="350dp"
             android:layout_height="25dp"
             android:text="勝った場合：スコア　プラス2点"
+            android:fontFamily="@font/gyosyo2"
             android:background="#b0c4de"/>
 
         <TextView
             android:layout_width="350dp"
             android:layout_height="25dp"
             android:text="負けた場合：スコア　マイナス1点"
+            android:fontFamily="@font/gyosyo2"
             android:background="#b0c4de"/>
 
         <TextView
             android:layout_width="350dp"
             android:layout_height="25dp"
             android:text="引き分けの場合：スコア　プラス1点"
+            android:fontFamily="@font/gyosyo2"
             android:background="#b0c4de"/>
+
+        <TextView
+            android:layout_width="350dp"
+            android:layout_height="25dp"
+            android:text="5回の勝負で4点以上を目指しましょう!!"
+            android:fontFamily="@font/gyosyo2"
+            android:background="#b0c4de"/>
+        
 
         <Button
             android:id="@+id/start"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/btn_start"/>
+            android:layout_width="140dp"
+            android:layout_height="70dp"
+            app:backgroundTint="#264C7E"
+            android:textSize="20sp"
+            android:background="@drawable/button_design"
+            android:text="@string/btn_start"
+            android:fontFamily="@font/gyosyo2"></Button>
 
         <Button
             android:id="@+id/back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/gyosyo2"
             android:text="@string/back"/>
 
     </LinearLayout>

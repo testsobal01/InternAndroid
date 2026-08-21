@@ -356,17 +356,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void winningStreak(int streak) {
         int newStreak = 0;
         TextView txtStreak = (TextView) findViewById(R.id.text_streak);
+        TextView maxstreak = (TextView) findViewById(R.id.streaknum);
         if(streak==0)
             txtStreak.setText(Integer.toString(newStreak));
         else {
             newStreak = Integer.parseInt(txtStreak.getText().toString()) + streak;
             txtStreak.setText(Integer.toString(newStreak));
+            maxstreak.setText(Integer.toString(newStreak));
         }
     }
 
     private void clearStreakValue() {
         TextView txtStreak = (TextView) findViewById(R.id.text_streak);
+        TextView maxstreak = (TextView) findViewById(R.id.streaknum);
         txtStreak.setText("0");
+        maxstreak.setText("0");
     }
 
 }

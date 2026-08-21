@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="btn_high">Haut</string>
-    <string name="btn_low">Faible</string>
+    <string name="btn_high">Plus Haut</string>
+    <string name="btn_low">Plus Bas</string>
     <string name="btn_restart">Redémarrage</string>
     <string name="label_score">Score：</string>
     <string name="resurt">Résultat</string>
@@ -12,4 +12,14 @@
     <string name="num1">Valeur 1</string>
     <string name="num2">Valeur 2</string>
 
+    <string name="title">PLUS HAUT PLUS BAS</string>
+    <string name="btn_start">COMMENCER</string>
+    <string name="streak">Enchaîne les victoires!</string>
+    <string name="rule">RÈGLES</string>
+    <string name="back">RETOUR</string>
+    <string name="numtitle">Définissez la valeur maximale</string>
+    <string name="ok">OK</string>
+    <string name="canncel">ANNULER</string>
+    <string name="retrystreak">Record de victoires:</string>
+    <string name="retry">REJOUER</string>
 </resources>

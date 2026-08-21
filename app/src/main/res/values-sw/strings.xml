@@ -11,4 +11,15 @@
     <string name="word1">Imewekwa kwa 10.</string>
     <string name="num1">Thamani ya 1</string>
     <string name="num2">Thamani ya 2</string>
+
+    <string name="title">HIGH AND LOW</string>
+    <string name="btn_start">START</string>
+    <string name="streak">連勝中！</string>
+    <string name="rule">RULE</string>
+    <string name="back">BACK</string>
+    <string name="numtitle">最大値を設定してください</string>
+    <string name="ok">OK</string>
+    <string name="canncel">キャンセル</string>
+    <string name="retrystreak">最大連勝数:</string>
+    <string name="retry">Retry</string>
 </resources>

@@ -18,12 +18,12 @@
         <TextView
             android:id="@+id/top_text"
             android:layout_width="match_parent"
-            android:layout_height="100dp"
+            android:layout_height="180dp"
             android:text="@string/title"
             android:gravity="center"
             android:textSize="70sp"
             android:fontFamily="@font/gyosyo2"
-            android:layout_marginTop="200dp"/>
+            android:layout_marginTop="250dp"/>
 
         <Button
             android:id="@+id/button_start"
@@ -35,20 +35,20 @@
             android:text="@string/btn_start"
             android:fontFamily="@font/gyosyo2"></Button>
 
-        <ImageView
-            android:id="@+id/picture"
-            android:layout_width="400dp"
-            android:layout_height="400dp"
-            android:src="@drawable/building_doujou"
-            android:scaleType="fitXY" />
-
-
         <Button
             android:id="@+id/rule"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/gyosyo2"
             android:text="@string/rule"></Button>
+
+        <ImageView
+            android:id="@+id/picture"
+            android:layout_width="400dp"
+            android:layout_height="400dp"
+            android:src="@drawable/building_doujou"
+            android:layout_marginTop="-50dp"
+            android:scaleType="fitXY" />
 
     </LinearLayout>
 
