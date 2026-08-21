@@ -79,6 +79,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
 
+        Button btnSetting = findViewById(R.id.settingBtn);
+        btnSetting.setOnClickListener(this);
+
         AudioAttributes audioAttributes = new AudioAttributes.Builder()
                 .build();
 
@@ -95,10 +98,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
 
-
-        Button btnSetting = findViewById(R.id.settingBtn);
-        btnSetting.setOnClickListener(this);
-
         TextView lblLimit = findViewById(R.id.label_limit);
         lblLimit.setText(getResources().getString(R.string.label_limit, limit));
 
@@ -111,11 +110,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         pref = getSharedPreferences("AndroidSEminar",MODE_PRIVATE);
         prefEditor = pref.edit();
-
-
-
-     //  soundPool.play(soundloop200103, 1.0f, 1.0f, 0, 0, 1);
-
 
 
         // 起動時に関数を呼び出す
@@ -144,7 +138,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             TextView textView = (TextView) findViewById(R.id.text_score);
             String readText = String.valueOf(pref.getInt("main_input",0));
             textView.setText(readText);
-
     }
 
 
@@ -154,17 +147,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
       /*  ToneGenerator toneGen = new ToneGenerator(AudioManager.STREAM_SYSTEM, 100);
         toneGen.startTone(ToneGenerator.TONE_DTMF_1, 150);*/
 
-
         int id = view.getId();
         if (id == R.id.button1) {
             setAnswerValue(limit);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 checkResult(true);
+                diableAllBtns();
             }
         } else if (id == R.id.button2) {
             setAnswerValue(limit);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 checkResult(false);
+                diableAllBtns();
             }
         } else if (id == R.id.button3) {
             setQuestionValue(limit);
@@ -251,6 +245,30 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         colorAnimator.start();
     }
 
+    private void diableAllBtns(){
+        Button btn1 = findViewById(R.id.button1);
+        Button btn2 = findViewById(R.id.button2);
+        Button btn3 = (Button) findViewById(R.id.button3);
+        Button btnSetting = findViewById(R.id.settingBtn);
+
+        btn1.setEnabled(false);
+        btn2.setEnabled(false);
+        btn3.setEnabled(false);
+        btnSetting.setEnabled(false);
+    }
+
+    private void enableAllBtns(){
+        Button btn1 = findViewById(R.id.button1);
+        Button btn2 = findViewById(R.id.button2);
+        Button btn3 = (Button) findViewById(R.id.button3);
+        Button btnSetting = findViewById(R.id.settingBtn);
+
+        btn1.setEnabled(true);
+        btn2.setEnabled(true);
+        btn3.setEnabled(true);
+        btnSetting.setEnabled(true);
+    }
+
     private void setQuestionValue(int num) {
         Random r = new Random();
         // 0から10の範囲で乱数を生成（+1する必要がある）
@@ -268,7 +286,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         txtView.setText(Integer.toString(answerValue));
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     private void checkResult(boolean isHigh) {
         TextView txtViewQuestion = findViewById(R.id.question);
         TextView txtViewAnswer = findViewById(R.id.answer);
@@ -290,16 +307,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = "WIN";
                 score = 2;
-                vibrator.vibrate(VibrationEffect.createOneShot(
-                        500, VibrationEffect.DEFAULT_AMPLITUDE));
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    vibrator.vibrate(
+                            (VibrationEffect.createOneShot(
+                            500, VibrationEffect.DEFAULT_AMPLITUDE)));
+                }
                 soundPool.play(soundpinpon2, 1.0f, 1.0f, 0, 0, 1);
-
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
-                vibrator.vibrate(VibrationEffect.createOneShot(
-                        1000, VibrationEffect.DEFAULT_AMPLITUDE));
-                soundPool.play(soundbubbu1, 1.0f, 1.0f, 0, 0, 1);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    vibrator.vibrate(VibrationEffect.createWaveform(new long[]{0, 100, 50, 100}, -1));
+                }
+                soundPool.play(soundpinpon2, 1.0f, 1.0f, 0, 0, 1);
             } else {
                 result = "DRAW";
                 score = 1;
@@ -308,15 +328,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question > answer) {
                 result = "WIN";
                 score = 2;
-                vibrator.vibrate(VibrationEffect.createOneShot(
-                        500, VibrationEffect.DEFAULT_AMPLITUDE));
-                soundPool.play(soundpinpon2, 1.0f, 1.0f, 0, 0, 1);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    vibrator.vibrate(VibrationEffect.createOneShot(
+                            500, VibrationEffect.DEFAULT_AMPLITUDE));
+                }
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
-                vibrator.vibrate(VibrationEffect.createOneShot(
-                        1000, VibrationEffect.DEFAULT_AMPLITUDE));
-                soundPool.play(soundbubbu1, 1.0f, 1.0f, 0, 0, 1);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    vibrator.vibrate(VibrationEffect.createWaveform(new long[]{0, 100, 50, 100}, -1));
+                }
+                soundPool.play(soundpinpon2, 1.0f, 1.0f, 0, 0, 1);
             } else {
                 result = "DRAW";
                 score = 1;
@@ -339,6 +361,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+    private long[] longArrayOf(int i, int i1, int i2) {
+        return new long[0];
+    }
+
     private void setNextQuestion() {
         // 第１引数がカウントダウン時間、第２引数は途中経過を受け取る間隔
         // 単位はミリ秒（1秒＝1000ミリ秒）
@@ -354,6 +380,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 // 3秒経過したら次の値をセット
                 setQuestionValue(limit);
                 resetBgColor();
+
+                //全ボタンを有効化
+                enableAllBtns();
             }
         }.start();
     }
