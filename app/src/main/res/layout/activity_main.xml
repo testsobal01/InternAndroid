@@ -52,6 +52,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textSize="20sp"
                 android:text="@string/setting" />
 
             <LinearLayout
@@ -61,10 +62,12 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textSize="30sp"
                     android:text="@string/result" />
 
                 <TextView
                     android:id="@+id/text_result"
+                    android:textSize="30sp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
 
@@ -77,12 +80,14 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textSize="30sp"
                     android:text="@string/label_score" />
 
                 <TextView
                     android:id="@+id/text_score"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textSize="30sp"
                     android:text="0" />
             </LinearLayout>
 
