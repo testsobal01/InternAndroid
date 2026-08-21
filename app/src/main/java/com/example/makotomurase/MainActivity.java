@@ -7,6 +7,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 import android.animation.AnimatorInflater;
 import android.animation.AnimatorSet;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.media.MediaPlayer;
@@ -22,8 +23,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.Random;
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     AnimatorSet set;
@@ -57,13 +56,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
 
+        Button btn4 = findViewById(R.id.button4);
+        btn4.setOnClickListener(this);
+
         soundPlayer = new SoundPlayer(this);
 
         // 起動時に関数を呼び出す
         setQuestionValue();
 
-        pref=getSharedPreferences("Score",MODE_PRIVATE);
-        prefEditor=pref.edit();
+        pref = getSharedPreferences("Score", MODE_PRIVATE);
+        prefEditor = pref.edit();
 
         mediaPlayer = MediaPlayer.create(this, R.raw.maou_game_village10);
         mediaPlayer.setLooping(true);
@@ -88,6 +90,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView ColorChange1 = (TextView) findViewById(R.id.question);
         FrameLayout ColorChange2 = (FrameLayout) findViewById(R.id.answer);
         int id = view.getId();
+        if (id == R.id.button4) {
+            isButton = false;
+            mediaPlayer.stop();
+            soundPlayer.playtitleSound();
+            Intent intent = new Intent(this, TitleActivity.class);
+            startActivity(intent);
+        }
         if (!isButton) {
 
             isButton = true;
@@ -142,6 +151,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView textView = (TextView) findViewById(R.id.text_score);
         prefEditor.putString("score_input",textView.getText().toString());
         prefEditor.commit();
+        TextView textView1 = (TextView) findViewById(R.id.text_highscore);
+        prefEditor.putString("score_input1",textView1.getText().toString());
+        prefEditor.commit();
     }
 
     @Override
@@ -151,6 +163,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView textView = (TextView)findViewById(R.id.text_score);
         String readText=pref.getString("score_input","0");
         textView.setText(readText);
+        TextView textView1 = (TextView)findViewById(R.id.text_highscore);
+        String readText1=pref.getString("score_input1","0");
+        textView1.setText(readText1);
     }
 
     private void clearAnswerValue() {
@@ -190,6 +205,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         TextView colorChange1 = (TextView) findViewById(R.id.question);
         FrameLayout colorChange2 = (FrameLayout) findViewById(R.id.answer);
+        TextView colorChange3 = (TextView) findViewById(R.id.text_result);
 
 
         // Highが押された
@@ -201,18 +217,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 score = 2;
                 colorChange1.setBackgroundColor(Color.RED);
                 colorChange2.setBackgroundColor(Color.RED);
+                colorChange3.setBackgroundColor(Color.parseColor("#eb6ea5"));
             } else if (question > answer) {
                 set.cancel();
                 result = "LOSE";
                 score = -1;
                 colorChange1.setBackgroundColor(Color.rgb(0,150,255));
                 colorChange2.setBackgroundColor(Color.rgb(0,150,255));
+                colorChange3.setBackgroundColor(Color.parseColor("#66ccff"));
             } else {
                 set.cancel();
                 result = "DRAW";
                 score = 1;
                 colorChange1.setBackgroundColor(Color.GRAY);
                 colorChange2.setBackgroundColor(Color.GRAY);
+                colorChange3.setBackgroundColor(Color.parseColor("#ffff66"));
             }
         } else {
             if (question > answer) {
@@ -221,20 +240,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 score = 2;
                 colorChange1.setBackgroundColor(Color.RED);
                 colorChange2.setBackgroundColor(Color.RED);
+                colorChange3.setBackgroundColor(Color.parseColor("#eb6ea5"));
             } else if (question < answer) {
                 set.cancel();
                 result = "LOSE";
                 score = -1;
                 colorChange1.setBackgroundColor(Color.rgb(0,150,255));
                 colorChange2.setBackgroundColor(Color.rgb(0,150,255));
+                colorChange3.setBackgroundColor(Color.parseColor("#66ccff"));
             } else {
                 set.cancel();
                 result = "DRAW";
                 score = 1;
                 colorChange1.setBackgroundColor(Color.GRAY);
                 colorChange2.setBackgroundColor(Color.GRAY);
+                colorChange3.setBackgroundColor(Color.parseColor("#ffff66"));
             }
         }
+
+
+
 
         if (result == "WIN") {
             soundPlayer.playWinSound();
@@ -245,13 +270,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
         // 最後にまとめてToast表示の処理とTextViewへのセットを行う
-        Toast.makeText(this, result, Toast.LENGTH_LONG).show();
+
         txtResult.setText(question + ":" + answer + "(" + result + ")");
 
         // 続けて遊べるように値を更新
         setNextQuestion();
         // スコアを表示
         setScore(score);
+
     }
 
     private void setNextQuestion() {
@@ -275,9 +301,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void setScore(int score) {
         TextView txtScore = (TextView) findViewById(R.id.text_score);
+        TextView txthighScore = (TextView) findViewById(R.id.text_highscore);
         int newScore = Integer.parseInt(txtScore.getText().toString()) + score;
+        int newhighScore = Integer.parseInt(txthighScore.getText().toString()) ;
+        if (newhighScore<newScore){
+            newhighScore=newScore;
+            txthighScore.setText(Integer.toString(newhighScore));
+        }
         txtScore.setText(Integer.toString(newScore));
     }
+
 
     private void clearScoreValue() {
         

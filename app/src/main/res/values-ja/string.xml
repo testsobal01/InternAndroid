@@ -8,6 +8,7 @@
     <string name="btn_low">ロー</string>
     <string name="btn_restart">リスタート</string>
     <string name="label_score">スコア：</string>
+    <string name="label_highscore">ハイスコア：</string>
     <string name="setting">10に設定されています。</string>
     <string name="result">結果：</string>
     <string name="num">?</string>
@@ -20,11 +21,13 @@
         僕の数字より大きな数字になると思ったら「ハイ」を\n
         小さな数字になると思ったら「ロー」を押してね！\n
         \n
-        勝ったら2点\n
-        負けたら-1点\n
-        引き分けなら1点もらえるよ！\n
+        勝ったら画面が赤くなって+2点\n
+        負けたら画面が青くなって-1点\n
+        引き分けなら画面がグレーになって+1点だよ！\n
         \n
         さあ、果たして僕に勝てるかな？？</string>
     <string name="how2">Luck is believing you\'re lucky.</string>
     <string name="back_to_title">タイトルへ</string>
+    <string name="go_to_game">ゲームへ</string>
+    <string name="btn_to_title">タイトルへ</string>
 </resources>

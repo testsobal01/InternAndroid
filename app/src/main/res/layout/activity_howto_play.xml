@@ -26,15 +26,36 @@
         android:gravity="center_horizontal"
         android:text="@string/how2"/>
 
-    <Button
-        android:id="@+id/button_back"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.5"
-        android:textSize="20sp"
-        android:layout_gravity="center"
-        android:background="@drawable/wrap_background"
-        app:backgroundTint="@null"
-        android:text="@string/back_to_title"/>
+        android:layout_weight="0.8"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/button_back"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.5"
+            android:textSize="20sp"
+            android:layout_gravity="center"
+            android:background="@drawable/title_background"
+            app:backgroundTint="@null"
+            android:text="@string/back_to_title"/>
+
+        <Button
+            android:id="@+id/button_to_game"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.5"
+            android:textSize="20sp"
+            android:layout_gravity="center"
+            android:background="@drawable/title_background"
+            app:backgroundTint="@null"
+            android:text="@string/go_to_game"/>
+
+    </LinearLayout>
+
+
 
 </LinearLayout>

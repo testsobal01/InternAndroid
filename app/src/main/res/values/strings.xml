@@ -7,23 +7,26 @@
     <string name="btn_low">Low</string>
     <string name="btn_restart">Restart</string>
     <string name="label_score">Score：</string>
+    <string name="label_highscore">HighScore：</string>
     <string name="setting">It is set to 10.</string>
     <string name="result">result：</string>
     <string name="num">?</string>
     <string name="text_howto">How to Play</string>
     <string name="how">Welcome to the "Number Showdown" game! \n
-        In this game, you　will be going head-to-head with me using numbers! \n
+        In this game, you will be going head-to-head with me using numbers! \n
         \n
-        You can see my number right away! \n
-        Press the button to get a random number of your own. \n
+        You can see my number right from the start! \n
+        Press the button to randomly generate your own number. \n
         If you think your number will be higher than mine, press "High." \n
         If you think it will be lower, press "Low"! \n
         \n
-        WIN: 2 points \n
-        LOSE: -1 point \n
-        DRAW: 1 point \n
+        WIN, and the screen turns red (+2 points). \n
+        LOSE, and the screen turns blue (-1 point). \n
+        DRAW, and the screen turns gray (+1 point)! \n
         \n
         So, do you think you can beat me?</string>
     <string name="how2">Luck is believing you\'re lucky.</string>
     <string name="back_to_title">Go to Title</string>
+    <string name="go_to_game">GAME START</string>
+    <string name="btn_to_title">To Title</string>
 </resources>
