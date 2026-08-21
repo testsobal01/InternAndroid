@@ -61,7 +61,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         pref=getSharedPreferences("Score",MODE_PRIVATE);
         prefEditor=pref.edit();
-    }
 
         TextView textView = findViewById(R.id.answer);
         TextView textView2 = findViewById(R.id.question);
@@ -91,6 +90,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 setAnswerValue();
                 checkResult(false);
             } else if (id == R.id.button3) {
+                set.cancel();
                 isButton = false;
                 Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
