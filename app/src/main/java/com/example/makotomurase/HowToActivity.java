@@ -11,33 +11,29 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-public class TopActivity extends AppCompatActivity implements View.OnClickListener {
+public class HowToActivity extends AppCompatActivity implements View.OnClickListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_top);
+        setContentView(R.layout.activity_how_to);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-        Button button = findViewById(R.id.btn1);
+
+        Button button = findViewById(R.id.reverse_btn);
         button.setOnClickListener(this);
-        Button button2 = findViewById(R.id.btn2);
-        button2.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View view) {
         int id = view.getId();
-        if (id == R.id.btn1) {
-            Intent intent = new Intent(this, MainActivity.class);
+        if (id == R.id.reverse_btn){
+            Intent intent = new Intent(this, TopActivity.class);
             startActivity(intent);
-        } else if (id == R.id.btn2) {
-            Intent intent2 = new Intent(this, HowToActivity.class);
-            startActivity(intent2);
         }
     }
 }
