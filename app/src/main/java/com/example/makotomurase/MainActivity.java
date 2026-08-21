@@ -32,6 +32,8 @@ import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.w3c.dom.Text;
+
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -174,6 +176,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }else if (id == R.id.retry){
             btn1.setEnabled(true);
             btn2.setEnabled(true);
+            clearStreakValue();
             //アニメーション
             clearScoreValue();
             AnimatorSet rightset = (AnimatorSet) AnimatorInflater.loadAnimator(this, R.animator.rightretry_animation);
