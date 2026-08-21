@@ -383,6 +383,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 // 3秒経過したら次の値をセット
                 setQuestionValue(limit);
                 resetBgColor();
+                TextView ansView = (TextView) findViewById(R.id.answer);
+                ansView.setText(getResources().getString(R.string.label_answer));
 
                 //全ボタンを有効化
                 enableAllBtns();
