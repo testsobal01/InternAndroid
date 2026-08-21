@@ -1,8 +1,10 @@
 package com.example.makotomurase;
 
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.media.SoundPool;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
 
@@ -15,6 +17,7 @@ import androidx.core.view.WindowInsetsCompat;
 public class TitleActivity extends AppCompatActivity implements View.OnClickListener{
 
     private SoundPlayer soundPlayer;
+    private MediaPlayer mediaPlayer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,16 +36,36 @@ public class TitleActivity extends AppCompatActivity implements View.OnClickList
 
 
         soundPlayer = new SoundPlayer(this);
+
+        mediaPlayer = MediaPlayer.create(this, R.raw.maou_game_vehicle02);
+        mediaPlayer.setLooping(true);
+
+        mediaPlayer.seekTo(0);
+        mediaPlayer.start();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mediaPlayer.pause();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mediaPlayer.start();
     }
 
     @Override
     public void onClick(View view) {
     int id = view.getId();
     if (id == R.id.button_start) {
+        mediaPlayer.stop();
         soundPlayer.playtitleSound();
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     } else if (id == R.id.button_howto) {
+        mediaPlayer.stop();
         soundPlayer.playtitleSound();
         Intent intent = new Intent(this, HowtoPlayActivity.class);
         startActivity(intent);

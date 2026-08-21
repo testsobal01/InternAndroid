@@ -7,6 +7,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -24,6 +25,7 @@ import java.util.TimerTask;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private SoundPlayer soundPlayer;
+    private MediaPlayer mediaPlayer;
     private boolean isButton;
 
     SharedPreferences pref;
@@ -58,6 +60,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         pref=getSharedPreferences("Score",MODE_PRIVATE);
         prefEditor=pref.edit();
+
+        mediaPlayer = MediaPlayer.create(this, R.raw.maou_game_village10);
+        mediaPlayer.setLooping(true);
+
+        mediaPlayer.seekTo(0);
+        mediaPlayer.start();
     }
 
     @Override
@@ -96,6 +104,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onPause() {
         super.onPause();
+        mediaPlayer.pause();
         TextView textView = (TextView) findViewById(R.id.text_score);
         prefEditor.putString("score_input",textView.getText().toString());
         prefEditor.commit();
@@ -104,6 +113,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onResume(){
         super.onResume();
+        mediaPlayer.start();
         TextView textView = (TextView)findViewById(R.id.text_score);
         String readText=pref.getString("score_input","0");
         textView.setText(readText);
