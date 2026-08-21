@@ -142,11 +142,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (id == R.id.button1) {
             setAnswerValue();
             checkResult(true);
-
-            // 番号4 バイブレーション機能
-            Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
-            vibrator.vibrate(VibrationEffect.createOneShot(3000, VibrationEffect.DEFAULT_AMPLITUDE));
-
         } else if (id == R.id.button2) {
             setAnswerValue();
             checkResult(false);
@@ -154,6 +149,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             setQuestionValue();
             clearAnswerValue();
             clearScoreValue();
+            timer.cancel();
         } else if (id == R.id.button_option) {
             //最大値が設定できるダイアログを表示
             NumberPickerDialogFragment dialog = new NumberPickerDialogFragment();
@@ -161,8 +157,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }else if (id == R.id.button_colorchange){
             setRandomColor();
         }
-
-
 
     }
 
@@ -206,6 +200,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         soundPool.play(blip01, 1.0f, 1.0f, 1, 0, 1.0f);
     }
 
+    @SuppressLint("NewApi")
     private void checkResult(boolean isHigh) {
         TextView txtViewQuestion = findViewById(R.id.question);
         TextView txtViewAnswer = findViewById(R.id.answer);
@@ -228,12 +223,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 result = "WIN";
                 score = 2;
                 correctSound();
+                vibrator();
 
                 //テキスト拡大
                 scale.start();
             }  else if (question > answer) {
                 result = "LOSE";
                 score = -1;
+                blipSound();
 
                 //テキスト点滅
                 blink.start();
@@ -248,12 +245,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 result = "WIN";
                 score = 2;
                 correctSound();
+                vibrator();
 
                 //テキスト拡大
                 scale.start();
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
+                blipSound();
 
                 //テキスト点滅
                 blink.start();
@@ -433,5 +432,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             setQuestionValue();
         }
     };
+
+    // 番号4 バイブレーション機能
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public void vibrator(){
+        Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+        vibrator.vibrate(VibrationEffect.createOneShot(200, VibrationEffect.DEFAULT_AMPLITUDE));
+    }
 }
 
