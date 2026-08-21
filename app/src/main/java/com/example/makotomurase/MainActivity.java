@@ -47,7 +47,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     public static final int LIMIT_INIT = 10;
 
+    public static final int MO_LIMIT = 5;
+
     int limit = LIMIT_INIT;
+
+    int mo=MO_LIMIT;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +69,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         Intent intent2 = getIntent();
         Bundle extra=intent2.getExtras();
+
+
+
+        TextView textView= findViewById(R.id.ma);
+        textView.setText(String.valueOf(mo));
 
 
 
@@ -143,7 +152,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
       /*  ToneGenerator toneGen = new ToneGenerator(AudioManager.STREAM_SYSTEM, 100);
         toneGen.startTone(ToneGenerator.TONE_DTMF_1, 150);*/
 
+        TextView moTxt = findViewById(R.id.ma);
         int id = view.getId();
+
         if (id == R.id.button1) {
             setAnswerValue(limit);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -157,6 +168,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 diableAllBtns();
             }
         } else if (id == R.id.button3) {
+            mo=MO_LIMIT;
+            moTxt.setText(String.valueOf(mo));
             setQuestionValue(limit);
             clearAnswerValue();
             clearScoreValue();
@@ -193,6 +206,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
 
+
+    }
+
+    private boolean IsGameOver (int life) {
+        if (life <= 0){
+            return true;
+        }
+        return false;
+    }
+
+    private void transit2GameOver() {
+        Intent intent=new Intent(this,gameover.class);
+        startActivity(intent);
+        finish();
 
     }
 
@@ -285,6 +312,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void checkResult(boolean isHigh) {
         TextView txtViewQuestion = findViewById(R.id.question);
         TextView txtViewAnswer = findViewById(R.id.answer);
+        TextView textView= findViewById(R.id.ma);
+
 
         Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
 
@@ -340,9 +369,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         }
 
+        //持ち点変更
+        mo += score;
+        textView.setText(String.valueOf(mo));
+
         // 最後にまとめてToast表示の処理とTextViewへのセットを行う
         Toast.makeText(this, result, Toast.LENGTH_LONG).show();
         txtResult.setText(getResources().getString(R.string.label_result, question, answer, result));
+
+        if (IsGameOver(mo)) {
+            transit2GameOver();
+        }
 
         // 勝ったほうの背景色を変更
         setWinnerBgColor(result);

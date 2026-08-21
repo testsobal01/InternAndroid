@@ -15,4 +15,5 @@
     <string name="label_answer">\?</string>
     <string name="label_result">result：%1$d:%2$d (%3$s)</string>
     <string name="image">city.jpg</string>
+    <string name="ma">mo</string>
 </resources>
