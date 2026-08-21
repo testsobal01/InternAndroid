@@ -4,8 +4,10 @@ import android.content.Context;
 import android.media.AudioAttributes;
 import android.media.AudioManager;
 import android.media.SoundPool;
-
+import android.media.MediaPlayer;
 public class SoundPlayer {
+
+
 
     private static SoundPool soundPool;
     private static int hitSound;
@@ -18,6 +20,7 @@ public class SoundPlayer {
         hitSound = soundPool.load(context, R.raw.hit, 1);
         overSound = soundPool.load(context, R.raw.over, 1);
     }
+
 
     public void playHitSound() {
         soundPool.play(hitSound, 1.0f, 1.0f, 1, 0, 1.0f);

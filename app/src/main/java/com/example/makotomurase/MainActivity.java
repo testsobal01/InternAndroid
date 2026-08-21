@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.media.MediaPlayer;
 import android.view.MotionEvent;
 import android.media.AudioAttributes;
 import android.media.AudioManager;
@@ -36,6 +37,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private static int hitSound;
     private static int overSound;
 
+    private MediaPlayer mediaPlayer;
+
     //プリファレンスの生成
     SharedPreferences pref;
     SharedPreferences.Editor prefEditor;
@@ -52,6 +55,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             view.setPadding(insets.left, insets.top, insets.right, 0);
             return windowInsets;
         });
+
+
+
+
+        mediaPlayer = MediaPlayer.create(this, R.raw.bgm);
+        mediaPlayer.setLooping(true);
+        mediaPlayer.seekTo(0);
+        mediaPlayer.start();
 
         //ボタン押したらへこむように見えるやつ
         View.OnTouchListener darkenTouchListener = new View.OnTouchListener() {
@@ -77,7 +88,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Intent intent=new Intent(this,StartActivity.class);
         startActivity(intent);
 
-        Button btn1 = findViewById(R.id.button1);
+
         btn1.setOnClickListener(this);
         btn1.setOnTouchListener(darkenTouchListener);
 
@@ -103,15 +114,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View view) {
         int id = view.getId();
         Vibrator vibrator=(Vibrator)getSystemService(VIBRATOR_SERVICE);
-
+        //バイブ
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             vibrator.vibrate(VibrationEffect.createOneShot(
-                    200,VibrationEffect.DEFAULT_AMPLITUDE));
+                    200, VibrationEffect.DEFAULT_AMPLITUDE));}
+
+
         if (id == R.id.button1) {
             soundPlayer.playHitSound();
             setAnswerValue();
             checkResult(true);
-            }
         } else if (id == R.id.button2) {
             soundPlayer.playHitSound();
             setAnswerValue();
@@ -257,4 +269,3 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         textView.setText(readText);
     }
 }
-
