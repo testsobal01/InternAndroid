@@ -159,7 +159,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             //最大値が設定できるダイアログを表示
             NumberPickerDialogFragment dialog = new NumberPickerDialogFragment();
             dialog.show(getSupportFragmentManager(), "sample");
-            setRandomColor();
         }else if (id == R.id.button_colorchange){
             setRandomColor();
         }
@@ -184,7 +183,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void setAnswerValue() {
         Random r = new Random();
-        int answerValue = r.nextInt(10 + 1);
+        int answerValue = r.nextInt(max_num + 1);
 
         TextView txtView = findViewById(R.id.answer);
         txtView.setText(Integer.toString(answerValue));
