@@ -18,10 +18,12 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -41,6 +43,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     AnimatorSet rightset;
     AnimatorSet leftset;
+
+    public int count;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,7 +88,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button retry = (Button) findViewById(R.id.retry);
         retry.setOnClickListener(this);
 
+        setScore(0);
+
         max = 10;
+        count=0;
         // 起動時に関数を呼び出す
         setQuestionValue();
 
@@ -119,21 +126,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button btn1 = findViewById(R.id.button1);
         Button btn2 = findViewById(R.id.button2);
         Button retry = findViewById(R.id.retry);
-
+        Log.d("COUNT",String.valueOf(count)+"現在のカウント");
         //効果音
         soundPool.play(action[1], 10f , 1f, 0, 0, 1f);
 
-        if(set != null){
-            set.cancel();
-            set = null;
-        }
         if (id == R.id.button1) {
+            count += 1;
             setAnswerValue();
             checkResult(true);
         } else if (id == R.id.button2) {
+            count += 1;
             setAnswerValue();
             checkResult(false);
         } else if (id == R.id.button3) {
+            count = 0;
             setQuestionValue();
             clearAnswerValue();
             clearScoreValue();
@@ -146,9 +152,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     .setView(np)
                     .setTitle(R.string.numtitle)
                     .setPositiveButton(R.string.ok, (dialog,which)->{
-                        TextView question = findViewById(R.id.question);
                         TextView maxvalue = findViewById(R.id.maxvalue);
-                        question.setText(String.valueOf(np.getValue()));
+                        txtViewQuestion.setText(String.valueOf(np.getValue()));
                         maxvalue.setText(np.getValue()+"が設定されています");
                         max = np.getValue();
                     })
@@ -158,6 +163,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             btn1.setEnabled(true);
             btn2.setEnabled(true);
             //アニメーション
+            clearScoreValue();
             AnimatorSet rightset = (AnimatorSet) AnimatorInflater.loadAnimator(this, R.animator.rightretry_animation);
             rightset.setTarget(txtViewAnswer);
             rightset.start();
@@ -223,28 +229,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 soundPool.play(action[3], 100f , 1f, 0, 0, 1f);
                 txtViewQuestion.setBackgroundColor(Color.parseColor("#808080"));
                 txtViewAnswer.setBackgroundColor(Color.parseColor("#A9A9A9"));
-
-                btn1.setEnabled(false);
-                btn2.setEnabled(false);
-                retry.setEnabled(false);
-
-
-                //アニメーション
-                AnimatorSet rightset = (AnimatorSet) AnimatorInflater.loadAnimator(this, R.animator.rightlose_animation);
-                rightset.setTarget(txtViewAnswer);
-                rightset.start();
-                AnimatorSet leftset = (AnimatorSet) AnimatorInflater.loadAnimator(this, R.animator.leftlose_animation);
-                leftset.setTarget(txtViewQuestion);
-                leftset.addListener(new AnimatorListenerAdapter() {
-                    @Override
-                    public void onAnimationEnd(Animator animation) {
-                        super.onAnimationEnd(animation);
-                        retry.setEnabled(true);
-                    }
-                });
-                leftset.start();
-
-
             } else {
                 result = getString(R.string.DRAW);
                 score = 1;
@@ -265,24 +249,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 soundPool.play(action[3], 100f , 1f, 0, 0, 1f);
                 txtViewQuestion.setBackgroundColor(Color.parseColor("#808080"));
                 txtViewAnswer.setBackgroundColor(Color.parseColor("#A9A9A9"));
-
-                btn1.setEnabled(false);
-                btn2.setEnabled(false);
-                retry.setEnabled(false);
-
-                AnimatorSet rightset = (AnimatorSet) AnimatorInflater.loadAnimator(this, R.animator.rightlose_animation);
-                rightset.setTarget(txtViewAnswer);
-                rightset.start();
-                AnimatorSet leftset = (AnimatorSet) AnimatorInflater.loadAnimator(this, R.animator.leftlose_animation);
-                leftset.setTarget(txtViewQuestion);
-                leftset.addListener(new AnimatorListenerAdapter() {
-                    @Override
-                    public void onAnimationEnd(Animator animation) {
-                        super.onAnimationEnd(animation);
-                        retry.setEnabled(true);
-                    }
-                });
-                leftset.start();
             } else {
                 result = getString(R.string.DRAW);
                 score = 1;
@@ -298,7 +264,36 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         toast.show();
         txtResult.setText("：" + question + ":" + answer + "(" + result + ")");
 
+        if(count == 5){
+            ImageView winner = findViewById(R.id.winner);
+            ImageView looser = findViewById(R.id.looser);
+            btn1.setEnabled(false);
+            btn2.setEnabled(false);
+            retry.setEnabled(false);
+            winner.setAlpha(0f);
+            looser.setAlpha(0f);
 
+            TextView txtScore = (TextView) findViewById(R.id.text_score);
+            if(Integer.parseInt(txtScore.getText().toString()) >= 9){
+                winner.setAlpha(1.0f);
+            } else{
+                looser.setAlpha(1.0f);
+            }
+            count = 0;
+            AnimatorSet rightset = (AnimatorSet) AnimatorInflater.loadAnimator(this, R.animator.rightlose_animation);
+            rightset.setTarget(txtViewAnswer);
+            rightset.start();
+            AnimatorSet leftset = (AnimatorSet) AnimatorInflater.loadAnimator(this, R.animator.leftlose_animation);
+            leftset.setTarget(txtViewQuestion);
+            leftset.addListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    super.onAnimationEnd(animation);
+                    retry.setEnabled(true);
+                }
+            });
+            leftset.start();
+        }
 
         // 続けて遊べるように値を更新
         setNextQuestion();

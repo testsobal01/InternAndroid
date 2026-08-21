@@ -14,29 +14,42 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
-            <ImageView
-                android:id="@+id/looser"
-                android:layout_height="wrap_content"
-                android:layout_width="wrap_content"
-                android:layout_marginTop="160dp"
-                android:layout_gravity="center_horizontal"
-
-                android:src="@drawable/haiboku" />
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <ImageView
+                    android:id="@+id/looser"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:layout_marginTop="160dp"
+                    android:layout_gravity="center_horizontal"
+                    android:src="@drawable/haiboku" />
+                <ImageView
+                    android:id="@+id/winner"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:layout_marginTop="160dp"
+                    android:layout_gravity="center_horizontal"
+                    android:src="@drawable/syouri" />
+            </FrameLayout>
             <TextView
                 android:id="@+id/streak"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
-                android:layout_marginTop="-100dp"
+                android:layout_marginTop="-300dp"
                 android:layout_gravity="center"
                 android:textSize="60sp"
+                 
                 android:text="@string/retrystreak"/>
+
             <Button
                 android:id="@+id/retry"
-                android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
+                android:layout_height="60dp"
                 android:layout_gravity="center"
-                android:textSize="40sp"
-                android:text="@string/retry"/>
+                android:layout_marginTop="20dp"
+                android:text="@string/retry"
+                android:textSize="40sp" />
         </LinearLayout>
 
         <LinearLayout
@@ -146,7 +159,6 @@
                     android:text="@string/num2"
                     android:textSize="60sp" />
 
-
             </LinearLayout>
 
             <ImageView
@@ -156,8 +168,6 @@
                 android:layout_weight="1"
                 android:src="@drawable/picture"
                 android:scaleType="fitXY" />
-
-
         </LinearLayout>
     </FrameLayout>
 
