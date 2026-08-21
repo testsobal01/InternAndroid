@@ -24,6 +24,7 @@
                 android:background="@drawable/high"
                 android:text="@string/btn_high"
                 app:backgroundTint="@null" />
+                android:fontFamily="@font/alysabeauty"/>
 
             <Button
                 android:id="@+id/button2"
@@ -33,6 +34,7 @@
                 android:background="@drawable/low"
                 android:text="@string/btn_low"
                 app:backgroundTint="@null" />
+                android:fontFamily="@font/alysabeauty" />
 
             <Button
                 android:id="@+id/button3"
@@ -155,7 +157,7 @@
             android:id="@+id/image_view_2"
             android:layout_width="match_parent"
             android:layout_height="100dp"
-            android:cropToPadding="false"
+            android:layout_marginTop="120dp"
             android:scaleType="center"
             android:src="@drawable/img_2"
             app:layout_constraintBottom_toBottomOf="parent"
