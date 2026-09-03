@@ -220,7 +220,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onResume();
         Log.d("AndroidTest","onResume completed");
         TextView textView = (TextView)findViewById(R.id.text_score);
-        String readText = pref.getString("score_input", "無し");
+        String readText = pref.getString("score_input", "0");
         textView.setText(readText);
     }
 }
