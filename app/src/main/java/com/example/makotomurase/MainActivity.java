@@ -8,6 +8,8 @@ import androidx.core.view.WindowInsetsCompat;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -53,6 +55,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View view) {
+        if (view.getId() == R.id.button1) {
+            Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+            vibrator.vibrate(VibrationEffect.createOneShot(
+                    500, VibrationEffect.DEFAULT_AMPLITUDE));
+        }else if (view.getId() == R.id.button2) {
+            Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+            vibrator.vibrate(VibrationEffect.createOneShot(
+                    500, VibrationEffect.DEFAULT_AMPLITUDE));
+        }else if (view.getId() == R.id.button3) {
+            Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+            vibrator.vibrate(VibrationEffect.createOneShot(
+                    500, VibrationEffect.DEFAULT_AMPLITUDE));
+        }
         int id = view.getId();
         if (id == R.id.button1) {
             setAnswerValue();
