@@ -5,6 +5,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.VibrationEffect;
@@ -20,7 +21,11 @@ import javax.xml.transform.Result;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
+    SharedPreferences pref;
+    SharedPreferences.Editor prefEditor;
+  
     private Vibrator vib;
+  
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,6 +47,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
+
+        pref = getSharedPreferences("SaveValue", MODE_PRIVATE);
+        prefEditor = pref.edit();
 
         // 起動時に関数を呼び出す
         setQuestionValue();
@@ -73,6 +81,32 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             clearAnswerValue();
             clearScoreValue();
         }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        int savevalue = 0;
+        TextView SaveScore = (TextView) findViewById(R.id.text_score);
+        String savescore = (String) SaveScore.getText();
+        try {
+            savevalue = Integer.parseInt(savescore);
+        } catch (NumberFormatException e) {
+            System.err.println("数値に変換できません： " + e.getMessage());
+        }
+
+        prefEditor.putInt("Save", savevalue);
+        prefEditor.commit();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        int readvalue = pref.getInt("Save", 0);
+        TextView ReadScore = (TextView) findViewById(R.id.text_score);
+        ReadScore.setText(Integer.toString(readvalue));
     }
 
     private void clearAnswerValue() {
