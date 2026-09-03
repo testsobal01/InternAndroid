@@ -7,6 +7,8 @@ import androidx.core.view.WindowInsetsCompat;
 
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -16,6 +18,7 @@ import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
+    private Vibrator vib;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,12 +49,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View view) {
         int id = view.getId();
         if (id == R.id.button1) {
+            Vibrator vibrator=(Vibrator)getSystemService(VIBRATOR_SERVICE);
+            vibrator.vibrate(VibrationEffect.createOneShot(
+                    150, VibrationEffect.DEFAULT_AMPLITUDE));
             setAnswerValue();
             checkResult(true);
+
         } else if (id == R.id.button2) {
+            Vibrator vibrator=(Vibrator)getSystemService(VIBRATOR_SERVICE);
+            vibrator.vibrate(VibrationEffect.createOneShot(
+                    150, VibrationEffect.DEFAULT_AMPLITUDE));
+
             setAnswerValue();
             checkResult(false);
         } else if (id == R.id.button3) {
+            Vibrator vibrator=(Vibrator)getSystemService(VIBRATOR_SERVICE);
+            vibrator.vibrate(VibrationEffect.createOneShot(
+                    150, VibrationEffect.DEFAULT_AMPLITUDE));
+
             setQuestionValue();
             clearAnswerValue();
             clearScoreValue();
