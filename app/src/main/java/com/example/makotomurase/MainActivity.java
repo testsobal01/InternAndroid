@@ -5,7 +5,11 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import android.animation.ArgbEvaluator;
+import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
@@ -100,6 +104,34 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
+    private void TextAnimator(TextView txtView){
+        // 現在の文字色を取得
+        int baseColor = txtView.getCurrentTextColor();
+        // 不透明な色（アルファ255）と、完全透明な色（アルファ0）を作る
+        int opaqueColor = baseColor | 0xFF000000;      // 不透明
+        int transparentColor = baseColor & 0x00FFFFFF; // 完全透明
+        // ofInt(対象オブジェクト, プロパティ名, 開始色, 終了色)
+        ObjectAnimator animator = ObjectAnimator.ofInt(
+                txtView,
+                "textColor",
+                opaqueColor,
+                transparentColor
+        );
+        // 色の補間（グラデーション変化）にArgbEvaluatorを設定
+        animator.setEvaluator(new ArgbEvaluator());
+        // 点滅の設定
+        animator.setDuration(500); // 変化にかかる時間（ミリ秒）
+        animator.setRepeatCount(ValueAnimator.INFINITE); // 無限に繰り返す
+        animator.setRepeatMode(ValueAnimator.REVERSE); // 交互に反転再生
+        // アニメーション開始
+        animator.start();
+        // 3秒後（3000ミリ秒）にアニメーションを止める ->button押す時止まる（目標）
+        txtView.postDelayed(() -> {
+            animator.cancel();
+            // 止めたときに消えたままになるのを防ぐため、しっかりと見える状態（元の色）に戻す
+            txtView.setTextColor(opaqueColor);
+        }, 1000);
+    }
 
     private void clearAnswerValue() {
         TextView txtView = (TextView) findViewById(R.id.answer);
@@ -142,9 +174,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = "WIN";
                 score = 2;
+                TextAnimator(txtViewAnswer);
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
+                TextAnimator(txtViewQuestion);
             } else {
                 result = "DRAW";
                 score = 1;
@@ -153,9 +187,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question > answer) {
                 result = "WIN";
                 score = 2;
+                TextAnimator(txtViewAnswer);
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
+                TextAnimator(txtViewQuestion);
             } else {
                 result = "DRAW";
                 score = 1;
