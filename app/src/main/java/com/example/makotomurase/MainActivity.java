@@ -8,10 +8,22 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import android.animation.ArgbEvaluator;
+import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
+import android.util.Log;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -21,10 +33,22 @@ import android.content.res.ColorStateList;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
+    SharedPreferences pref;
+    SharedPreferences.Editor prefEditor;
+    private Runnable runnable;
+    private Handler handler = new Handler(Looper.getMainLooper());
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
+
+
+
+
+
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (view, windowInsets) -> {
             Insets insets = windowInsets.getInsets(
@@ -32,6 +56,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             | WindowInsetsCompat.Type.displayCutout());
             view.setPadding(insets.left, insets.top, insets.right, 0);
             return windowInsets;
+
+
+
         });
 
         Button btn1 = findViewById(R.id.button1);
@@ -45,10 +72,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // 起動時に関数を呼び出す
         setQuestionValue();
+
+        //プリファレンスの生成 "ScoreStorage"は保存する先のファイル名
+        pref = getSharedPreferences("ScoreStorage", MODE_PRIVATE);
+        prefEditor = pref.edit();
     }
 
     @Override
     public void onClick(View view) {
+        if (view.getId() == R.id.button1) {
+            Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+            vibrator.vibrate(VibrationEffect.createOneShot(
+                    500, VibrationEffect.DEFAULT_AMPLITUDE));
+        }else if (view.getId() == R.id.button2) {
+            Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+            vibrator.vibrate(VibrationEffect.createOneShot(
+                    500, VibrationEffect.DEFAULT_AMPLITUDE));
+        }else if (view.getId() == R.id.button3) {
+            Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+            vibrator.vibrate(VibrationEffect.createOneShot(
+                    500, VibrationEffect.DEFAULT_AMPLITUDE));
+        }
         int id = view.getId();
         if (id == R.id.button1) {
             setAnswerValue();
@@ -61,6 +105,62 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             clearAnswerValue();
             clearScoreValue();
         }
+    }
+
+    //プリファレンスの保存
+    @Override
+    protected void onPause(){
+        super.onPause();
+        Toast.makeText(this, "onPause", Toast.LENGTH_SHORT).show();
+
+        //scoreを保存するため、テキストビューを取得
+        //textViewという名前は大丈夫ですか
+        TextView textView = (TextView)findViewById(R.id.text_score);
+        //"main_score"というキー名に、score(string)を保存
+        prefEditor.putString("main_score", textView.getText().toString());
+        prefEditor.commit();
+    }
+
+    //プリファレンスの読み込み
+    @Override
+    protected void onResume(){
+        super.onResume();
+        Log.d("AndroidTest", "onResume completed.");
+        //画面上にscoreをセットするため、テキストビューを取得
+        TextView textView = (TextView) findViewById(R.id.text_score);
+        //一度も保存されていない場合もありますのて、その時に変わりに表示する文字列も指定する
+        String readText = pref.getString("main_score", "保存されていません");
+        textView.setText(readText);
+    }
+
+
+    private void TextAnimator(TextView txtView){
+        // 現在の文字色を取得
+        int baseColor = txtView.getCurrentTextColor();
+        // 不透明な色（アルファ255）と、完全透明な色（アルファ0）を作る
+        int opaqueColor = baseColor | 0xFF000000;      // 不透明
+        int transparentColor = baseColor & 0x00FFFFFF; // 完全透明
+        // ofInt(対象オブジェクト, プロパティ名, 開始色, 終了色)
+        ObjectAnimator animator = ObjectAnimator.ofInt(
+                txtView,
+                "textColor",
+                opaqueColor,
+                transparentColor
+        );
+        // 色の補間（グラデーション変化）にArgbEvaluatorを設定
+        animator.setEvaluator(new ArgbEvaluator());
+        // 点滅の設定
+        animator.setDuration(500); // 変化にかかる時間（ミリ秒）
+        animator.setRepeatCount(ValueAnimator.INFINITE); // 無限に繰り返す
+        animator.setRepeatMode(ValueAnimator.REVERSE); // 交互に反転再生
+        // アニメーション開始
+        animator.start();
+        // 3秒後（3000ミリ秒）にアニメーションを止める ->button押す時止まる（目標）
+        txtView.postDelayed(() -> {
+            animator.cancel();
+            // 止めたときに消えたままになるのを防ぐため、しっかりと見える状態（元の色）に戻す
+            txtView.setTextColor(opaqueColor);
+        }, 1000);
     }
 
     private void clearAnswerValue() {
@@ -108,14 +208,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 //背景色の設定をどこに適応させるかを書く
                 txtViewQuestion.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(MainActivity.this, R.color.win_normal)));
                 txtViewAnswer.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(MainActivity.this, R.color.win_normal)));
+                TextAnimator(txtViewAnswer);
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
+              
                 txtViewQuestion.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(MainActivity.this, R.color.lose_normal)));
                 txtViewAnswer.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(MainActivity.this, R.color.lose_normal)));
+                TextAnimator(txtViewQuestion);
             } else {
                 result = "DRAW";
                 score = 1;
+              
                 txtViewAnswer.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(MainActivity.this, R.color.draw_normal)));
                 txtViewQuestion.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(MainActivity.this, R.color.draw_normal)));
             }
@@ -124,16 +228,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question > answer) {
                 result = "WIN";
                 score = 2;
+              
                 txtViewQuestion.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(MainActivity.this, R.color.win_normal)));
                 txtViewAnswer.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(MainActivity.this, R.color.win_normal)));
+                TextAnimator(txtViewAnswer);
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
+              
                 txtViewQuestion.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(MainActivity.this, R.color.lose_normal)));
                 txtViewAnswer.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(MainActivity.this, R.color.lose_normal)));
+                TextAnimator(txtViewQuestion);
             } else {
                 result = "DRAW";
                 score = 1;
+              
                 txtViewQuestion.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(MainActivity.this, R.color.draw_normal)));
                 txtViewAnswer.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(MainActivity.this, R.color.draw_normal)));
             }
@@ -152,21 +261,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void setNextQuestion() {
-        // 第１引数がカウントダウン時間、第２引数は途中経過を受け取る間隔
-        // 単位はミリ秒（1秒＝1000ミリ秒）
-        new CountDownTimer(3000, 1000) {
+        // 1. もし既に動いているタイマー（Runnable）があればキャンセルする
+        if (runnable != null) {
+            handler.removeCallbacks(runnable);
+        }
+        // 2. 実行したい処理を定義
+        runnable = new Runnable() {
             @Override
-            public void onTick(long l) {
-                // 途中経過を受け取った時に何かしたい場合
-                // 今回は特に何もしない
-            }
-
-            @Override
-            public void onFinish() {
-                // 3秒経過したら次の値をセット
+            public void run() {
                 setQuestionValue();
             }
-        }.start();
+        };
+        // 3. 3秒後に実行するようセット
+        handler.postDelayed(runnable, 3000);
     }
 
     private void setScore(int score) {
