@@ -56,10 +56,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             checkResult(false);
         } else if (id == R.id.button3) {
             Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                vibrator.vibrate(VibrationEffect.createOneShot(
-                        600, VibrationEffect.DEFAULT_AMPLITUDE));
-            }
+            vibrator.vibrate(VibrationEffect.createOneShot(600, VibrationEffect.DEFAULT_AMPLITUDE));
             setQuestionValue();
             clearAnswerValue();
             clearScoreValue();
