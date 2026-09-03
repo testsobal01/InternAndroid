@@ -5,6 +5,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import android.graphics.Color;
 import android.content.SharedPreferences;
 import android.os.CountDownTimer;
 import android.util.Log;
@@ -129,42 +130,47 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Vibrator VIB = (Vibrator) getSystemService(VIBRATOR_SERVICE);
 
 
-        // Highが押された
-        if (isHigh) {
-
+        // Highが押され
 
             // result には結果のみを入れる
-            if (question < answer) {
-                result = "WIN";
-                score = 2;
-                VIB.vibrate(VibrationEffect.createOneShot(1000,VibrationEffect.DEFAULT_AMPLITUDE));
+            if (isHigh) {
 
-            } else if (question > answer) {
-                result = "LOSE";
-                score = -1;
-                VIB.vibrate(VibrationEffect.createOneShot(500,VibrationEffect.DEFAULT_AMPLITUDE));
+                // result には結果のみを入れる
+                if (question < answer) {
+                    result = "WIN";
+                    score = 2;
+                    VIB.vibrate(VibrationEffect.createOneShot(1000,VibrationEffect.DEFAULT_AMPLITUDE));
+                    txtResult.setBackgroundColor(Color.RED);
 
+                } else if (question > answer) {
+                    result = "LOSE";
+                    score = -1;
+                    VIB.vibrate(VibrationEffect.createOneShot(500,VibrationEffect.DEFAULT_AMPLITUDE));
+                    txtResult.setBackgroundColor(Color.BLUE);
+                } else {
+                    result = "DRAW";
+                    score = 1;
+                    VIB.vibrate(VibrationEffect.createOneShot(200,VibrationEffect.DEFAULT_AMPLITUDE));
+                    txtResult.setBackgroundColor(Color.GREEN);
+                }
             } else {
-                result = "DRAW";
-                score = 1;
-                VIB.vibrate(VibrationEffect.createOneShot(200,VibrationEffect.DEFAULT_AMPLITUDE));
-
+                if (question > answer) {
+                    result = "WIN";
+                    score = 2;
+                    VIB.vibrate(VibrationEffect.createOneShot(1000,VibrationEffect.DEFAULT_AMPLITUDE));
+                    txtResult.setBackgroundColor(Color.RED);
+                } else if (question < answer) {
+                    result = "LOSE";
+                    score = -1;
+                    VIB.vibrate(VibrationEffect.createOneShot(500,VibrationEffect.DEFAULT_AMPLITUDE));
+                    txtResult.setBackgroundColor(Color.BLUE);
+                } else {
+                    result = "DRAW";
+                    score = 1;
+                    VIB.vibrate(VibrationEffect.createOneShot(200,VibrationEffect.DEFAULT_AMPLITUDE));
+                    txtResult.setBackgroundColor(Color.GREEN);
+                }
             }
-        } else {
-            if (question > answer) {
-                result = "WIN";
-                score = 2;
-                VIB.vibrate(VibrationEffect.createOneShot(1000,VibrationEffect.DEFAULT_AMPLITUDE));
-            } else if (question < answer) {
-                result = "LOSE";
-                score = -1;
-                VIB.vibrate(VibrationEffect.createOneShot(500,VibrationEffect.DEFAULT_AMPLITUDE));
-            } else {
-                result = "DRAW";
-                score = 1;
-                VIB.vibrate(VibrationEffect.createOneShot(200,VibrationEffect.DEFAULT_AMPLITUDE));
-            }
-        }
 
         // 最後にまとめてToast表示の処理とTextViewへのセットを行う
         Toast.makeText(this, result, Toast.LENGTH_LONG).show();
