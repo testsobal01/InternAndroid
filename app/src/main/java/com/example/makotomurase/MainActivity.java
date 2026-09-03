@@ -8,8 +8,12 @@ import androidx.core.view.WindowInsetsCompat;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -20,6 +24,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     SharedPreferences pref;
     SharedPreferences.Editor prefEditor;
+    private Runnable runnable;
+    private Handler handler = new Handler(Looper.getMainLooper());
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,6 +100,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
+
     private void clearAnswerValue() {
         TextView txtView = (TextView) findViewById(R.id.answer);
         txtView.setText("値2");
@@ -166,21 +173,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void setNextQuestion() {
-        // 第１引数がカウントダウン時間、第２引数は途中経過を受け取る間隔
-        // 単位はミリ秒（1秒＝1000ミリ秒）
-        new CountDownTimer(3000, 1000) {
+        // 1. もし既に動いているタイマー（Runnable）があればキャンセルする
+        if (runnable != null) {
+            handler.removeCallbacks(runnable);
+        }
+        // 2. 実行したい処理を定義
+        runnable = new Runnable() {
             @Override
-            public void onTick(long l) {
-                // 途中経過を受け取った時に何かしたい場合
-                // 今回は特に何もしない
-            }
-
-            @Override
-            public void onFinish() {
-                // 3秒経過したら次の値をセット
+            public void run() {
                 setQuestionValue();
             }
-        }.start();
+        };
+        // 3. 3秒後に実行するようセット
+        handler.postDelayed(runnable, 3000);
     }
 
     private void setScore(int score) {
