@@ -5,8 +5,11 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -14,15 +17,21 @@ import android.widget.Toast;
 
 import java.util.Random;
 
+import javax.xml.transform.Result;
 import android.media.AudioAttributes;
 import android.media.SoundPool;
-
+  
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
+    SharedPreferences pref;
+    SharedPreferences.Editor prefEditor;
+  
+    private Vibrator vib;
+  
     private SoundPool soundPool;
     private int soundOne, soundTwo;
     private Button button1, button2, button3;
-
+  
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,6 +71,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         soundOne = soundPool.load(this, R.raw.hit, 1);
         soundTwo = soundPool.load(this, R.raw.kira, 1);
 
+        pref = getSharedPreferences("SaveValue", MODE_PRIVATE);
+        prefEditor = pref.edit();
 
         // 起動時に関数を呼び出す
         setQuestionValue();
@@ -72,17 +83,55 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int id = view.getId();
         if (id == R.id.button1) {
             soundPool.play(soundOne, 1.0f, 1.0f, 0, 0, 1.0f);
+            Vibrator vibrator=(Vibrator)getSystemService(VIBRATOR_SERVICE);
+            vibrator.vibrate(VibrationEffect.createOneShot(
+                    150, VibrationEffect.DEFAULT_AMPLITUDE));
             setAnswerValue();
             checkResult(true);
+
         } else if (id == R.id.button2) {
             soundPool.play(soundTwo, 1.0f, 1.0f, 0, 0, 1.0f);
+            Vibrator vibrator=(Vibrator)getSystemService(VIBRATOR_SERVICE);
+            vibrator.vibrate(VibrationEffect.createOneShot(
+                    150, VibrationEffect.DEFAULT_AMPLITUDE));
+
             setAnswerValue();
             checkResult(false);
         } else if (id == R.id.button3) {
+            Vibrator vibrator=(Vibrator)getSystemService(VIBRATOR_SERVICE);
+            vibrator.vibrate(VibrationEffect.createOneShot(
+                    150, VibrationEffect.DEFAULT_AMPLITUDE));
+
             setQuestionValue();
             clearAnswerValue();
             clearScoreValue();
         }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        int savevalue = 0;
+        TextView SaveScore = (TextView) findViewById(R.id.text_score);
+        String savescore = (String) SaveScore.getText();
+        try {
+            savevalue = Integer.parseInt(savescore);
+        } catch (NumberFormatException e) {
+            System.err.println("数値に変換できません： " + e.getMessage());
+        }
+
+        prefEditor.putInt("Save", savevalue);
+        prefEditor.commit();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        int readvalue = pref.getInt("Save", 0);
+        TextView ReadScore = (TextView) findViewById(R.id.text_score);
+        ReadScore.setText(Integer.toString(readvalue));
     }
 
     private void clearAnswerValue() {
@@ -114,6 +163,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int question = Integer.parseInt(txtViewQuestion.getText().toString());
         int answer = Integer.parseInt(txtViewAnswer.getText().toString());
 
+
+
         TextView txtResult = (TextView) findViewById(R.id.text_result);
 
         // 結果を示す文字列を入れる変数を用意
@@ -124,31 +175,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (isHigh) {
             // result には結果のみを入れる
             if (question < answer) {
-                result = "WIN";
+                result = getString(R.string.win);
                 score = 2;
             } else if (question > answer) {
-                result = "LOSE";
+                result = getString(R.string.lose);
                 score = -1;
             } else {
-                result = "DRAW";
+                result = getString(R.string.draw);
                 score = 1;
             }
         } else {
             if (question > answer) {
-                result = "WIN";
+                result = getString(R.string.win);
                 score = 2;
             } else if (question < answer) {
-                result = "LOSE";
+                result = getString(R.string.lose);
                 score = -1;
             } else {
-                result = "DRAW";
+                result = getString(R.string.draw);
                 score = 1;
             }
         }
 
         // 最後にまとめてToast表示の処理とTextViewへのセットを行う
         Toast.makeText(this, result, Toast.LENGTH_LONG).show();
-        txtResult.setText("結果：" + question + ":" + answer + "(" + result + ")");
+        txtResult.setText(getString(R.string.Result)+"：" + question + ":" + answer + "(" + result + ")");
 
         // 続けて遊べるように値を更新
         setNextQuestion();
