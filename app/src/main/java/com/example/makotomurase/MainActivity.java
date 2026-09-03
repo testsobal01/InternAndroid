@@ -9,6 +9,8 @@ import android.graphics.Color;
 import android.app.AlertDialog;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -62,6 +64,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View view) {
+
+
+        if (view.getId() == R.id.button3) {
+            Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+            vibrator.vibrate(VibrationEffect.createOneShot(
+                    1000, VibrationEffect.DEFAULT_AMPLITUDE));;
+        }
+
         int id = view.getId();
         if (id == R.id.button1) {
             setAnswerValue();
@@ -123,6 +133,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = "WIN";
                 score = 2;
+                Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+                vibrator.vibrate(VibrationEffect.createOneShot(
+                        500, VibrationEffect.DEFAULT_AMPLITUDE));;
 
                 //勝ったときに背景色変更
                 View background = findViewById(R.id.question);
@@ -152,6 +165,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question > answer) {
                 result = "WIN";
                 score = 2;
+                Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+                vibrator.vibrate(VibrationEffect.createOneShot(
+                        500, VibrationEffect.DEFAULT_AMPLITUDE));;
 
                 //勝った時に背景色変更
                 View background = findViewById(R.id.question);
