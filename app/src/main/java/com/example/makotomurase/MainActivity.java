@@ -5,6 +5,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import android.graphics.Color;
 import android.app.AlertDialog;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -72,6 +73,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             setQuestionValue();
             clearAnswerValue();
             clearScoreValue();
+
+            //リスタート時背景色を元に戻す
+            View background = findViewById(R.id.question);
+            background.setBackgroundColor(Color.parseColor("#ff00ff"));
+            View bg = findViewById(R.id.answer);
+            bg.setBackgroundColor(Color.parseColor("#ffff00"));
         }
     }
 
@@ -116,23 +123,59 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = "WIN";
                 score = 2;
+
+                //勝ったときに背景色変更
+                View background = findViewById(R.id.question);
+                background.setBackgroundColor(Color.parseColor("#2196F3"));
+                View bg = findViewById(R.id.answer);
+                bg.setBackgroundColor(Color.parseColor("#F57C00"));
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
+
+                //負けた時に背景色変更
+                View background = findViewById(R.id.question);
+                background.setBackgroundColor(Color.parseColor("#F57C00"));
+                View bg = findViewById(R.id.answer);
+                bg.setBackgroundColor(Color.parseColor("#2196F3"));
             } else {
                 result = "DRAW";
                 score = 1;
+
+                //引き分け時に背景色変更
+                View background = findViewById(R.id.question);
+                background.setBackgroundColor(Color.parseColor("#9CCC65"));
+                View bg = findViewById(R.id.answer);
+                bg.setBackgroundColor(Color.parseColor("#9CCC65"));
             }
         } else {
             if (question > answer) {
                 result = "WIN";
                 score = 2;
+
+                //勝った時に背景色変更
+                View background = findViewById(R.id.question);
+                background.setBackgroundColor(Color.parseColor("#2196F3"));
+                View bg = findViewById(R.id.answer);
+                bg.setBackgroundColor(Color.parseColor("#F57C00"));
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
+
+                //負けた時に背景色変更
+                View background = findViewById(R.id.question);
+                background.setBackgroundColor(Color.parseColor("#F57C00"));
+                View bg = findViewById(R.id.answer);
+                bg.setBackgroundColor(Color.parseColor("#2196F3"));
             } else {
                 result = "DRAW";
                 score = 1;
+
+                //引き分け時に背景色変更
+                View background = findViewById(R.id.question);
+                background.setBackgroundColor(Color.parseColor("#9CCC65"));
+                View bg = findViewById(R.id.answer);
+                bg.setBackgroundColor(Color.parseColor("#9CCC65"));
             }
         }
 
