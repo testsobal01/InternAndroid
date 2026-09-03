@@ -6,8 +6,12 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import android.content.SharedPreferences;
+import android.app.AlertDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -15,10 +19,12 @@ import android.widget.Toast;
 
 import java.util.Random;
 
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     SharedPreferences pref;
     SharedPreferences.Editor prefEditor;
+  
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,6 +47,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             return windowInsets;
         });
 
+        //region 各button
         Button btn1 = findViewById(R.id.button1);
         btn1.setOnClickListener(this);
 
@@ -49,14 +56,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
+        //endregion
 
         // 起動時に関数を呼び出す
         setQuestionValue();
-
     }
 
+    //region 各button処理
     @Override
     public void onClick(View view) {
+        vibration();
         int id = view.getId();
         if (id == R.id.button1) {
             setAnswerValue();
@@ -70,30 +79,44 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             clearScoreValue();
         }
     }
+    //endregion
+  
+      @Override
 
-    private void clearAnswerValue() {
-        TextView txtView = (TextView) findViewById(R.id.answer);
-        txtView.setText("値2");
+    protected void onPause(){
+        super.onPause();
+
+        Toast.makeText(this,"onPuse",Toast.LENGTH_SHORT).show();
+
+        TextView textView=(TextView)findViewById(R.id.text_score);
+
+        prefEditor.putString("main_input",textView.getText().toString());
+        prefEditor.commit();
     }
 
-    private void setQuestionValue() {
+    private void clearAnswerValue() { //
+        TextView txtView = (TextView) findViewById(R.id.answer);
+        txtView.setText("値2");
+    } // answerリセットメソッド
+
+    private void setQuestionValue() { //
         Random r = new Random();
         // 0から10の範囲で乱数を生成（+1する必要がある）
         int questionValue = r.nextInt(10 + 1);
 
         TextView txtView = findViewById(R.id.question);
         txtView.setText(Integer.toString(questionValue));
-    }
+    } // questionリセットメソッド
 
-    private void setAnswerValue() {
+    private void setAnswerValue() { //
         Random r = new Random();
         int answerValue = r.nextInt(10 + 1);
 
         TextView txtView = findViewById(R.id.answer);
         txtView.setText(Integer.toString(answerValue));
-    }
+    } // answer乱数生成メソッド
 
-    private void checkResult(boolean isHigh) {
+    private void checkResult(boolean isHigh) { //
         TextView txtViewQuestion = findViewById(R.id.question);
         TextView txtViewAnswer = findViewById(R.id.answer);
 
@@ -140,9 +163,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setNextQuestion();
         // スコアを表示
         setScore(score);
-    }
+    } // 勝敗表示メソッド
 
+    //region リセットタイマーメソッド
     private void setNextQuestion() {
+
         // 第１引数がカウントダウン時間、第２引数は途中経過を受け取る間隔
         // 単位はミリ秒（1秒＝1000ミリ秒）
         new CountDownTimer(3000, 1000) {
@@ -159,28 +184,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         }.start();
     }
+    //endregion
 
-    private void setScore(int score) {
+    private void setScore(int score) { //
         TextView txtScore = (TextView) findViewById(R.id.text_score);
         int newScore = Integer.parseInt(txtScore.getText().toString()) + score;
         txtScore.setText(Integer.toString(newScore));
-    }
+    } // スコア表示メソッド
 
-    private void clearScoreValue() {
+    private void clearScoreValue() { //
         TextView txtScore = (TextView) findViewById(R.id.text_score);
         txtScore.setText("0");
-    }
-    @Override
+    }// スコアリセットメソッド
 
-    protected void onPause(){
-        super.onPause();
-
-        Toast.makeText(this,"onPuse",Toast.LENGTH_SHORT).show();
-
-        TextView textView=(TextView)findViewById(R.id.text_score);
-
-        prefEditor.putString("main_input",textView.getText().toString());
-        prefEditor.commit();
-    }
+    private void vibration() { //
+        Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+        vibrator.vibrate(VibrationEffect.createOneShot(
+                500, VibrationEffect.DEFAULT_AMPLITUDE));
+    }// バイブレーションメソッド（項目4）
+  
 }
 
