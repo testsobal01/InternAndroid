@@ -5,8 +5,12 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.util.Log;
 import android.graphics.Color;
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.VibrationEffect;
@@ -19,6 +23,9 @@ import android.widget.Toast;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
+    SharedPreferences sharedPreferences;
+    SharedPreferences.Editor editor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,10 +49,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
 
-
+        Button btn4 = findViewById(R.id.button4);
+        btn4.setOnClickListener(this);
 
         // 起動時に関数を呼び出す
         setQuestionValue();
+
+        // get score from preferences
+        sharedPreferences = getSharedPreferences("SCORE", Context.MODE_PRIVATE);
+        editor = sharedPreferences.edit();
+        TextView txtscore = findViewById(R.id.text_score);
+        int savedscore = sharedPreferences.getInt("score",0);
+        txtscore.setText(Integer.toString(savedscore));
     }
 
     private void showSettingDialog() {
@@ -83,13 +98,34 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             setQuestionValue();
             clearAnswerValue();
             clearScoreValue();
-
             //リスタート時背景色を元に戻す
             View background = findViewById(R.id.question);
             background.setBackgroundColor(Color.parseColor("#ff00ff"));
             View bg = findViewById(R.id.answer);
             bg.setBackgroundColor(Color.parseColor("#ffff00"));
+        }else if (id == R.id.button4) {//TOPへ戻る
+            //TOP画面への遷移の処理
+            Intent subIntent = new Intent(getApplication(), StartActivity.class);
+            startActivity(subIntent);
         }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        //save score
+        TextView txtscore = findViewById(R.id.text_score);
+        int savedscore = Integer.parseInt(txtscore.getText().toString());
+        editor.putInt("score",savedscore);
+        editor.commit();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.d("Test","onResume completed");
+
     }
 
     private void clearAnswerValue() {
