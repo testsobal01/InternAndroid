@@ -5,6 +5,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import android.content.SharedPreferences;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -21,13 +22,22 @@ import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-
-
-
+    SharedPreferences pref;
+    SharedPreferences.Editor prefEditor;
+  
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        pref = getSharedPreferences("AndroidPreference", MODE_PRIVATE);
+        prefEditor = pref.edit();
+
+
+        TextView textView=(TextView)findViewById(R.id.text_score);
+        String savedScore = pref.getString("main_input", "0");
+        textView.setText(savedScore);
+
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (view, windowInsets) -> {
             Insets insets = windowInsets.getInsets(
@@ -50,8 +60,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // 起動時に関数を呼び出す
         setQuestionValue();
-
-
     }
 
     //region 各button処理
@@ -72,6 +80,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
     //endregion
+  
+      @Override
+
+    protected void onPause(){
+        super.onPause();
+
+        Toast.makeText(this,"onPuse",Toast.LENGTH_SHORT).show();
+
+        TextView textView=(TextView)findViewById(R.id.text_score);
+
+        prefEditor.putString("main_input",textView.getText().toString());
+        prefEditor.commit();
+    }
 
     private void clearAnswerValue() { //
         TextView txtView = (TextView) findViewById(R.id.answer);
@@ -181,5 +202,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         vibrator.vibrate(VibrationEffect.createOneShot(
                 500, VibrationEffect.DEFAULT_AMPLITUDE));
     }// バイブレーションメソッド（項目4）
+  
 }
 
