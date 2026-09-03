@@ -5,8 +5,11 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -38,9 +41,30 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
 
+
+
+
         // 起動時に関数を呼び出す
         setQuestionValue();
+
+        Button settingButton=findViewById(R.id.button_settings);
+        settingButton.setOnClickListener(view -> showSettingsDialog());
     }
+
+    private void showSettingsDialog() {
+        String[] settingItems = {
+                getString(R.string. action_settings),
+                getString(R.string. action_settings2),
+                getString(R.string.action_settings3)
+
+        };
+        new AlertDialog.Builder(this)
+                .setTitle(R.string.settings)
+                .setItems(settingItems,null)
+                .setNegativeButton(R.string.close,null)
+                .show();
+    }
+
 
     @Override
     public void onClick(View view) {
@@ -92,30 +116,43 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // 結果を示す文字列を入れる変数を用意
         String result;
         int score;
+        Vibrator VIB = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+
 
         // Highが押された
         if (isHigh) {
+
+
             // result には結果のみを入れる
             if (question < answer) {
                 result = "WIN";
                 score = 2;
+                VIB.vibrate(VibrationEffect.createOneShot(1000,VibrationEffect.DEFAULT_AMPLITUDE));
+
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
+                VIB.vibrate(VibrationEffect.createOneShot(500,VibrationEffect.DEFAULT_AMPLITUDE));
+
             } else {
                 result = "DRAW";
                 score = 1;
+                VIB.vibrate(VibrationEffect.createOneShot(200,VibrationEffect.DEFAULT_AMPLITUDE));
+
             }
         } else {
             if (question > answer) {
                 result = "WIN";
                 score = 2;
+                VIB.vibrate(VibrationEffect.createOneShot(1000,VibrationEffect.DEFAULT_AMPLITUDE));
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
+                VIB.vibrate(VibrationEffect.createOneShot(500,VibrationEffect.DEFAULT_AMPLITUDE));
             } else {
                 result = "DRAW";
                 score = 1;
+                VIB.vibrate(VibrationEffect.createOneShot(200,VibrationEffect.DEFAULT_AMPLITUDE));
             }
         }
 
