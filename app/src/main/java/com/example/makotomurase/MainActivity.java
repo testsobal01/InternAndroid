@@ -8,6 +8,8 @@ import androidx.core.view.WindowInsetsCompat;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -15,11 +17,15 @@ import android.widget.Toast;
 
 import java.util.Random;
 
+import javax.xml.transform.Result;
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     SharedPreferences pref;
     SharedPreferences.Editor prefEditor;
-
+  
+    private Vibrator vib;
+  
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,12 +59,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View view) {
         int id = view.getId();
         if (id == R.id.button1) {
+            Vibrator vibrator=(Vibrator)getSystemService(VIBRATOR_SERVICE);
+            vibrator.vibrate(VibrationEffect.createOneShot(
+                    150, VibrationEffect.DEFAULT_AMPLITUDE));
             setAnswerValue();
             checkResult(true);
+
         } else if (id == R.id.button2) {
+            Vibrator vibrator=(Vibrator)getSystemService(VIBRATOR_SERVICE);
+            vibrator.vibrate(VibrationEffect.createOneShot(
+                    150, VibrationEffect.DEFAULT_AMPLITUDE));
+
             setAnswerValue();
             checkResult(false);
         } else if (id == R.id.button3) {
+            Vibrator vibrator=(Vibrator)getSystemService(VIBRATOR_SERVICE);
+            vibrator.vibrate(VibrationEffect.createOneShot(
+                    150, VibrationEffect.DEFAULT_AMPLITUDE));
+
             setQuestionValue();
             clearAnswerValue();
             clearScoreValue();
@@ -120,6 +138,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int question = Integer.parseInt(txtViewQuestion.getText().toString());
         int answer = Integer.parseInt(txtViewAnswer.getText().toString());
 
+
+
         TextView txtResult = (TextView) findViewById(R.id.text_result);
 
         // 結果を示す文字列を入れる変数を用意
@@ -130,31 +150,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (isHigh) {
             // result には結果のみを入れる
             if (question < answer) {
-                result = "WIN";
+                result = getString(R.string.win);
                 score = 2;
             } else if (question > answer) {
-                result = "LOSE";
+                result = getString(R.string.lose);
                 score = -1;
             } else {
-                result = "DRAW";
+                result = getString(R.string.draw);
                 score = 1;
             }
         } else {
             if (question > answer) {
-                result = "WIN";
+                result = getString(R.string.win);
                 score = 2;
             } else if (question < answer) {
-                result = "LOSE";
+                result = getString(R.string.lose);
                 score = -1;
             } else {
-                result = "DRAW";
+                result = getString(R.string.draw);
                 score = 1;
             }
         }
 
         // 最後にまとめてToast表示の処理とTextViewへのセットを行う
         Toast.makeText(this, result, Toast.LENGTH_LONG).show();
-        txtResult.setText("結果：" + question + ":" + answer + "(" + result + ")");
+        txtResult.setText(getString(R.string.Result)+"：" + question + ":" + answer + "(" + result + ")");
 
         // 続けて遊べるように値を更新
         setNextQuestion();
