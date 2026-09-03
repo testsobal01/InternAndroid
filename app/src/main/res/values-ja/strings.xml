@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">طلبي</string>
+    <string name="btn_high">غالي</string>
+    <string name="btn_low">قليل</string>
+    <string name="btn_restart">إعادة تشغيل</string>
+    <string name="label_score">نتيجة：</string>
+    <string name="greeting">مرحبًا</string>
+</resources>
