@@ -5,8 +5,11 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -15,6 +18,9 @@ import android.widget.Toast;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
+    SharedPreferences sharedPreferences;
+    SharedPreferences.Editor editor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +46,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // 起動時に関数を呼び出す
         setQuestionValue();
+
+        // get score from preferences
+        sharedPreferences = getSharedPreferences("SCORE", Context.MODE_PRIVATE);
+        editor = sharedPreferences.edit();
+        TextView txtscore = findViewById(R.id.text_score);
+        int savedscore = sharedPreferences.getInt("score",0);
+        txtscore.setText(Integer.toString(savedscore));
     }
 
     @Override
@@ -56,6 +69,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             clearAnswerValue();
             clearScoreValue();
         }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        //save score
+        TextView txtscore = findViewById(R.id.text_score);
+        int savedscore = Integer.parseInt(txtscore.getText().toString());
+        editor.putInt("score",savedscore);
+        editor.commit();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.d("Test","onResume completed");
+
     }
 
     private void clearAnswerValue() {
@@ -151,11 +182,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView txtScore = (TextView) findViewById(R.id.text_score);
         int newScore = Integer.parseInt(txtScore.getText().toString()) + score;
         txtScore.setText(Integer.toString(newScore));
+        editor.putInt("score", newScore);
+        editor.apply();
     }
 
     private void clearScoreValue() {
         TextView txtScore = (TextView) findViewById(R.id.text_score);
         txtScore.setText("0");
+        editor.remove("score");
     }
 }
 
