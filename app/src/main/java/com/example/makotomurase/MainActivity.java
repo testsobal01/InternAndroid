@@ -6,9 +6,12 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.util.Log;
+import android.os.CountDownTimer;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -81,6 +84,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             setAnswerValue();
             checkResult(false);
         } else if (id == R.id.button3) {
+            Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+            vibrator.vibrate(VibrationEffect.createOneShot(600, VibrationEffect.DEFAULT_AMPLITUDE));
             setQuestionValue();
             clearAnswerValue();
             clearScoreValue();
