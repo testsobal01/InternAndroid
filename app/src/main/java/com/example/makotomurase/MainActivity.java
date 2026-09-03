@@ -6,16 +6,25 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import android.content.Intent;
+import android.app.ActivityManager;
+import android.graphics.Color;
+import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.util.Log;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
+    SharedPreferences pref;
+    SharedPreferences.Editor prefEditor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +53,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
+
+        // 追加
+        pref = getSharedPreferences("Save", MODE_PRIVATE);
+        prefEditor = pref.edit();
 
         // 起動時に関数を呼び出す
         setQuestionValue();
@@ -85,8 +98,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         TextView txtView = findViewById(R.id.answer);
         txtView.setText(Integer.toString(answerValue));
+
     }
 
+    public int generateRandomWarmColor() {
+        Random random = new Random();
+        int red = random.nextInt(106) + 150;
+        int green = random.nextInt(151) + 50;
+        int blue = random.nextInt(81);
+        return Color.rgb(red, green, blue);
+    }
+
+    public int changeWarmColor() {
+        Random random = new Random();
+        int red3 = random.nextInt(81);
+        int green3 = random.nextInt(151) + 50;
+        int blue3 = random.nextInt(106) + 150;
+        return Color.rgb(red3, green3, blue3);
+    }
     private void checkResult(boolean isHigh) {
         TextView txtViewQuestion = findViewById(R.id.question);
         TextView txtViewAnswer = findViewById(R.id.answer);
@@ -106,9 +135,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = "WIN";
                 score = 2;
+                int warmColor = generateRandomWarmColor();
+                txtViewAnswer.setBackgroundColor(warmColor);
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
+                TextView txtView = findViewById(R.id.question);
+                Random rnd = new Random();
+                int warmColor = changeWarmColor();
+                txtViewQuestion.setBackgroundColor(warmColor);
             } else {
                 result = "DRAW";
                 score = 1;
@@ -117,9 +152,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question > answer) {
                 result = "WIN";
                 score = 2;
+                int warmColor = generateRandomWarmColor();
+                txtViewAnswer.setBackgroundColor(warmColor);
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
+                TextView txtView = findViewById(R.id.question);
+                Random rnd = new Random();
+                int warmColor = changeWarmColor();
+                txtViewQuestion.setBackgroundColor(warmColor);
             } else {
                 result = "DRAW";
                 score = 1;
@@ -163,6 +204,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void clearScoreValue() {
         TextView txtScore = (TextView) findViewById(R.id.text_score);
         txtScore.setText("0");
+
+        Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            vibrator.vibrate(VibrationEffect.createOneShot(500, VibrationEffect.DEFAULT_AMPLITUDE));
+        }
+    }
+
+
+    @Override
+    public void onPause(){
+        super.onPause();
+        Toast.makeText(this, "onPause", Toast.LENGTH_SHORT).show();
+
+        TextView textView = (TextView)findViewById(R.id.text_score);
+        prefEditor.putString("score_input", textView.getText().toString());
+        prefEditor.commit();
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        Log.d("AndroidTest","onResume completed");
+        TextView textView = (TextView)findViewById(R.id.text_score);
+        String readText = pref.getString("score_input", "0");
+        textView.setText(readText);
     }
 }
 
