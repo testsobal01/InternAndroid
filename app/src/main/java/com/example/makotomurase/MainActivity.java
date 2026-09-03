@@ -5,6 +5,9 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.util.Log;
 import android.graphics.Color;
 import android.app.AlertDialog;
 import android.content.Intent;
@@ -20,6 +23,9 @@ import android.widget.Toast;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
+    SharedPreferences sharedPreferences;
+    SharedPreferences.Editor editor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +54,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // 起動時に関数を呼び出す
         setQuestionValue();
+
+        // get score from preferences
+        sharedPreferences = getSharedPreferences("SCORE", Context.MODE_PRIVATE);
+        editor = sharedPreferences.edit();
+        TextView txtscore = findViewById(R.id.text_score);
+        int savedscore = sharedPreferences.getInt("score",0);
+        txtscore.setText(Integer.toString(savedscore));
     }
 
     private void showSettingDialog() {
@@ -95,6 +108,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Intent subIntent = new Intent(getApplication(), StartActivity.class);
             startActivity(subIntent);
         }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        //save score
+        TextView txtscore = findViewById(R.id.text_score);
+        int savedscore = Integer.parseInt(txtscore.getText().toString());
+        editor.putInt("score",savedscore);
+        editor.commit();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.d("Test","onResume completed");
+
     }
 
     private void clearAnswerValue() {
