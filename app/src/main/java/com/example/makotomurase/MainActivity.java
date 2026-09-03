@@ -5,6 +5,8 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import android.app.ActivityManager;
+import android.graphics.Color;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
@@ -16,7 +18,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -93,6 +94,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+    public int generateRandomWarmColor() {
+        Random random = new Random();
+        int red = random.nextInt(106) + 150;
+        int green = random.nextInt(151) + 50;
+        int blue = random.nextInt(81);
+        return Color.rgb(red, green, blue);
+    }
+
+    public int changeWarmColor() {
+        Random random = new Random();
+        int red3 = random.nextInt(81);
+        int green3 = random.nextInt(151) + 50;
+        int blue3 = random.nextInt(106) + 150;
+        return Color.rgb(red3, green3, blue3);
+    }
     private void checkResult(boolean isHigh) {
         TextView txtViewQuestion = findViewById(R.id.question);
         TextView txtViewAnswer = findViewById(R.id.answer);
@@ -112,9 +128,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = "WIN";
                 score = 2;
+                int warmColor = generateRandomWarmColor();
+                txtViewAnswer.setBackgroundColor(warmColor);
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
+                TextView txtView = findViewById(R.id.question);
+                Random rnd = new Random();
+                int warmColor = changeWarmColor();
+                txtViewQuestion.setBackgroundColor(warmColor);
             } else {
                 result = "DRAW";
                 score = 1;
@@ -123,9 +145,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question > answer) {
                 result = "WIN";
                 score = 2;
+                int warmColor = generateRandomWarmColor();
+                txtViewAnswer.setBackgroundColor(warmColor);
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
+                TextView txtView = findViewById(R.id.question);
+                Random rnd = new Random();
+                int warmColor = changeWarmColor();
+                txtViewQuestion.setBackgroundColor(warmColor);
             } else {
                 result = "DRAW";
                 score = 1;
