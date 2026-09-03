@@ -5,6 +5,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.VibrationEffect;
@@ -45,6 +46,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // 起動時に関数を呼び出す
         setQuestionValue();
+
+        Button settingButton=findViewById(R.id.button_settings);
+        settingButton.setOnClickListener(view -> showSettingsDialog());
+    }
+
+    private void showSettingsDialog() {
+        String[] settingItems = {
+                getString(R.string. action_settings),
+                getString(R.string. action_settings2),
+                getString(R.string.action_settings3)
+
+        };
+        new AlertDialog.Builder(this)
+                .setTitle(R.string.settings)
+                .setItems(settingItems,null)
+                .setNegativeButton(R.string.close,null)
+                .show();
     }
 
 
