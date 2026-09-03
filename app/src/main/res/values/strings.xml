@@ -3,5 +3,12 @@
     <string name="btn_high">High</string>
     <string name="btn_low">Low</string>
     <string name="btn_restart">Restart</string>
+    <string name="btn_language">setting</string>
     <string name="label_score">Score：</string>
+
+    <string name="setting">setting</string>
+    <string name="close">close</string>
+    <string name="action_setting1">setting1</string>
+    <string name="action_setting2">setting2</string>
+    <string name="action_setting3">setting3</string>
 </resources>

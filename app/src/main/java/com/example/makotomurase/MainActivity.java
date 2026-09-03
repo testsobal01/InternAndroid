@@ -5,6 +5,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
@@ -38,8 +39,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
 
+
+
         // 起動時に関数を呼び出す
         setQuestionValue();
+    }
+
+    private void showSettingDialog() {
+        String[] settingItems = {
+                getString(R.string.action_setting1),
+                getString(R.string.action_setting2),
+                getString(R.string.action_setting3)
+        };
+
+        new AlertDialog.Builder(this)
+                .setTitle(R.string.setting)
+                .setItems(settingItems,null)
+                .setNegativeButton(R.string.close,null)
+                .show();
     }
 
     @Override
