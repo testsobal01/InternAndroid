@@ -5,8 +5,13 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -16,10 +21,20 @@ import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
+    SharedPreferences pref;
+    SharedPreferences.Editor prefEditor;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
+
+
+
+
+
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (view, windowInsets) -> {
             Insets insets = windowInsets.getInsets(
@@ -27,6 +42,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             | WindowInsetsCompat.Type.displayCutout());
             view.setPadding(insets.left, insets.top, insets.right, 0);
             return windowInsets;
+
+
+
         });
 
         Button btn1 = findViewById(R.id.button1);
@@ -40,10 +58,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // 起動時に関数を呼び出す
         setQuestionValue();
+
+        //プリファレンスの生成 "ScoreStorage"は保存する先のファイル名
+        pref = getSharedPreferences("ScoreStorage", MODE_PRIVATE);
+        prefEditor = pref.edit();
     }
 
     @Override
     public void onClick(View view) {
+        if (view.getId() == R.id.button1) {
+            Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+            vibrator.vibrate(VibrationEffect.createOneShot(
+                    500, VibrationEffect.DEFAULT_AMPLITUDE));
+        }else if (view.getId() == R.id.button2) {
+            Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+            vibrator.vibrate(VibrationEffect.createOneShot(
+                    500, VibrationEffect.DEFAULT_AMPLITUDE));
+        }else if (view.getId() == R.id.button3) {
+            Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+            vibrator.vibrate(VibrationEffect.createOneShot(
+                    500, VibrationEffect.DEFAULT_AMPLITUDE));
+        }
         int id = view.getId();
         if (id == R.id.button1) {
             setAnswerValue();
@@ -57,6 +92,33 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             clearScoreValue();
         }
     }
+
+    //プリファレンスの保存
+    @Override
+    protected void onPause(){
+        super.onPause();
+        Toast.makeText(this, "onPause", Toast.LENGTH_SHORT).show();
+
+        //scoreを保存するため、テキストビューを取得
+        //textViewという名前は大丈夫ですか
+        TextView textView = (TextView)findViewById(R.id.text_score);
+        //"main_score"というキー名に、score(string)を保存
+        prefEditor.putString("main_score", textView.getText().toString());
+        prefEditor.commit();
+    }
+
+    //プリファレンスの読み込み
+    @Override
+    protected void onResume(){
+        super.onResume();
+        Log.d("AndroidTest", "onResume completed.");
+        //画面上にscoreをセットするため、テキストビューを取得
+        TextView textView = (TextView) findViewById(R.id.text_score);
+        //一度も保存されていない場合もありますのて、その時に変わりに表示する文字列も指定する
+        String readText = pref.getString("main_score", "保存されていません");
+        textView.setText(readText);
+    }
+
 
     private void clearAnswerValue() {
         TextView txtView = (TextView) findViewById(R.id.answer);
@@ -99,6 +161,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = "WIN";
                 score = 2;
+
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
@@ -116,6 +179,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             } else {
                 result = "DRAW";
                 score = 1;
+
             }
         }
 
