@@ -1,6 +1,9 @@
 package com.example.makotomurase;
 
+import static androidx.core.view.ViewCompat.setBackgroundTintList;
+
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -26,6 +29,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.Random;
+import android.content.res.ColorStateList;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -200,30 +204,51 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = "WIN";
                 score = 2;
+
+                //背景色の設定をどこに適応させるかを書く
+                txtViewQuestion.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(MainActivity.this, R.color.win_normal)));
+                txtViewAnswer.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(MainActivity.this, R.color.win_normal)));
                 TextAnimator(txtViewAnswer);
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
+              
+                txtViewQuestion.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(MainActivity.this, R.color.lose_normal)));
+                txtViewAnswer.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(MainActivity.this, R.color.lose_normal)));
                 TextAnimator(txtViewQuestion);
             } else {
                 result = "DRAW";
                 score = 1;
+              
+                txtViewAnswer.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(MainActivity.this, R.color.draw_normal)));
+                txtViewQuestion.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(MainActivity.this, R.color.draw_normal)));
             }
+
         } else {
             if (question > answer) {
                 result = "WIN";
                 score = 2;
+              
+                txtViewQuestion.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(MainActivity.this, R.color.win_normal)));
+                txtViewAnswer.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(MainActivity.this, R.color.win_normal)));
                 TextAnimator(txtViewAnswer);
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
+              
+                txtViewQuestion.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(MainActivity.this, R.color.lose_normal)));
+                txtViewAnswer.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(MainActivity.this, R.color.lose_normal)));
                 TextAnimator(txtViewQuestion);
             } else {
                 result = "DRAW";
                 score = 1;
-
+              
+                txtViewQuestion.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(MainActivity.this, R.color.draw_normal)));
+                txtViewAnswer.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(MainActivity.this, R.color.draw_normal)));
             }
         }
+
+
 
         // 最後にまとめてToast表示の処理とTextViewへのセットを行う
         Toast.makeText(this, result, Toast.LENGTH_LONG).show();
@@ -262,4 +287,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         txtScore.setText("0");
     }
 }
+
+
+    // ボタンのクリックイベント（リスナー）を設定
+
+
 
