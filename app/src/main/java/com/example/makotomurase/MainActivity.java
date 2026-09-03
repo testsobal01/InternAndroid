@@ -18,13 +18,19 @@ import android.widget.Toast;
 import java.util.Random;
 
 import javax.xml.transform.Result;
-
+import android.media.AudioAttributes;
+import android.media.SoundPool;
+  
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     SharedPreferences pref;
     SharedPreferences.Editor prefEditor;
   
     private Vibrator vib;
+  
+    private SoundPool soundPool;
+    private int soundOne, soundTwo;
+    private Button button1, button2, button3;
   
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +54,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
 
+
+        // AudioAttributes 設定
+        AudioAttributes audioAttributes = new AudioAttributes.Builder()
+                .setUsage(AudioAttributes.USAGE_GAME)
+                .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION) // 効果音向け
+                .build();
+
+        // SoundPool 初期化
+        soundPool = new SoundPool.Builder()
+                .setAudioAttributes(audioAttributes)
+                .setMaxStreams(2)
+                .build();
+
+        // 効果音をロード
+        soundOne = soundPool.load(this, R.raw.hit, 1);
+        soundTwo = soundPool.load(this, R.raw.kira, 1);
+
         pref = getSharedPreferences("SaveValue", MODE_PRIVATE);
         prefEditor = pref.edit();
 
@@ -59,6 +82,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View view) {
         int id = view.getId();
         if (id == R.id.button1) {
+            soundPool.play(soundOne, 1.0f, 1.0f, 0, 0, 1.0f);
             Vibrator vibrator=(Vibrator)getSystemService(VIBRATOR_SERVICE);
             vibrator.vibrate(VibrationEffect.createOneShot(
                     150, VibrationEffect.DEFAULT_AMPLITUDE));
@@ -66,6 +90,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             checkResult(true);
 
         } else if (id == R.id.button2) {
+            soundPool.play(soundTwo, 1.0f, 1.0f, 0, 0, 1.0f);
             Vibrator vibrator=(Vibrator)getSystemService(VIBRATOR_SERVICE);
             vibrator.vibrate(VibrationEffect.createOneShot(
                     150, VibrationEffect.DEFAULT_AMPLITUDE));
