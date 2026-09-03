@@ -5,6 +5,8 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import android.graphics.Color;
+import android.app.AlertDialog;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.VibrationEffect;
@@ -40,8 +42,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
 
+
+
         // 起動時に関数を呼び出す
         setQuestionValue();
+    }
+
+    private void showSettingDialog() {
+        String[] settingItems = {
+                getString(R.string.action_setting1),
+                getString(R.string.action_setting2),
+                getString(R.string.action_setting3)
+        };
+
+        new AlertDialog.Builder(this)
+                .setTitle(R.string.setting)
+                .setItems(settingItems,null)
+                .setNegativeButton(R.string.close,null)
+                .show();
     }
 
     @Override
@@ -65,6 +83,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             setQuestionValue();
             clearAnswerValue();
             clearScoreValue();
+
+            //リスタート時背景色を元に戻す
+            View background = findViewById(R.id.question);
+            background.setBackgroundColor(Color.parseColor("#ff00ff"));
+            View bg = findViewById(R.id.answer);
+            bg.setBackgroundColor(Color.parseColor("#ffff00"));
         }
     }
 
@@ -112,12 +136,30 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
                 vibrator.vibrate(VibrationEffect.createOneShot(
                         500, VibrationEffect.DEFAULT_AMPLITUDE));;
+
+                //勝ったときに背景色変更
+                View background = findViewById(R.id.question);
+                background.setBackgroundColor(Color.parseColor("#2196F3"));
+                View bg = findViewById(R.id.answer);
+                bg.setBackgroundColor(Color.parseColor("#F57C00"));
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
+
+                //負けた時に背景色変更
+                View background = findViewById(R.id.question);
+                background.setBackgroundColor(Color.parseColor("#F57C00"));
+                View bg = findViewById(R.id.answer);
+                bg.setBackgroundColor(Color.parseColor("#2196F3"));
             } else {
                 result = "DRAW";
                 score = 1;
+
+                //引き分け時に背景色変更
+                View background = findViewById(R.id.question);
+                background.setBackgroundColor(Color.parseColor("#9CCC65"));
+                View bg = findViewById(R.id.answer);
+                bg.setBackgroundColor(Color.parseColor("#9CCC65"));
             }
         } else {
             if (question > answer) {
@@ -126,12 +168,30 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
                 vibrator.vibrate(VibrationEffect.createOneShot(
                         500, VibrationEffect.DEFAULT_AMPLITUDE));;
+
+                //勝った時に背景色変更
+                View background = findViewById(R.id.question);
+                background.setBackgroundColor(Color.parseColor("#2196F3"));
+                View bg = findViewById(R.id.answer);
+                bg.setBackgroundColor(Color.parseColor("#F57C00"));
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
+
+                //負けた時に背景色変更
+                View background = findViewById(R.id.question);
+                background.setBackgroundColor(Color.parseColor("#F57C00"));
+                View bg = findViewById(R.id.answer);
+                bg.setBackgroundColor(Color.parseColor("#2196F3"));
             } else {
                 result = "DRAW";
                 score = 1;
+
+                //引き分け時に背景色変更
+                View background = findViewById(R.id.question);
+                background.setBackgroundColor(Color.parseColor("#9CCC65"));
+                View bg = findViewById(R.id.answer);
+                bg.setBackgroundColor(Color.parseColor("#9CCC65"));
             }
         }
 
