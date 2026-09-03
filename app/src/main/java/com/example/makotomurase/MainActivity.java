@@ -7,6 +7,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 import android.graphics.Color;
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.VibrationEffect;
@@ -42,7 +43,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
 
-
+        Button btn4 = findViewById(R.id.button4);
+        btn4.setOnClickListener(this);
 
         // 起動時に関数を呼び出す
         setQuestionValue();
@@ -83,12 +85,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             setQuestionValue();
             clearAnswerValue();
             clearScoreValue();
-
             //リスタート時背景色を元に戻す
             View background = findViewById(R.id.question);
             background.setBackgroundColor(Color.parseColor("#ff00ff"));
             View bg = findViewById(R.id.answer);
             bg.setBackgroundColor(Color.parseColor("#ffff00"));
+        }else if (id == R.id.button4) {//TOPへ戻る
+            //TOP画面への遷移の処理
+            Intent subIntent = new Intent(getApplication(), StartActivity.class);
+            startActivity(subIntent);
         }
     }
 
