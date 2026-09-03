@@ -5,8 +5,10 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.os.CountDownTimer;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
@@ -18,6 +20,11 @@ import android.widget.Toast;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
+    SharedPreferences pref;
+    SharedPreferences.Editor prefEditor;
+
+    int score;  //スコア(プリファレンス保存)
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +39,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             return windowInsets;
         });
 
+        pref = getSharedPreferences("Score", MODE_PRIVATE);
+        prefEditor = pref.edit();
+
         Button btn1 = findViewById(R.id.button1);
         btn1.setOnClickListener(this);
 
@@ -43,6 +53,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // 起動時に関数を呼び出す
         setQuestionValue();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        prefEditor.putInt("Score", score);
+        prefEditor.commit();
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        score = pref.getInt("Score", 0);
+
+        setScore();
+
     }
 
     @Override
@@ -96,31 +125,30 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // 結果を示す文字列を入れる変数を用意
         String result;
-        int score;
 
         // Highが押された
         if (isHigh) {
             // result には結果のみを入れる
             if (question < answer) {
                 result = "WIN";
-                score = 2;
+                score += 2;
             } else if (question > answer) {
                 result = "LOSE";
-                score = -1;
+                score += -1;
             } else {
                 result = "DRAW";
-                score = 1;
+                score += 1;
             }
         } else {
             if (question > answer) {
                 result = "WIN";
-                score = 2;
+                score += 2;
             } else if (question < answer) {
                 result = "LOSE";
-                score = -1;
+                score += -1;
             } else {
                 result = "DRAW";
-                score = 1;
+                score += 1;
             }
         }
 
@@ -131,7 +159,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // 続けて遊べるように値を更新
         setNextQuestion();
         // スコアを表示
-        setScore(score);
+        setScore();
     }
 
     private void setNextQuestion() {
@@ -152,10 +180,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }.start();
     }
 
-    private void setScore(int score) {
+    private void setScore() {
         TextView txtScore = (TextView) findViewById(R.id.text_score);
-        int newScore = Integer.parseInt(txtScore.getText().toString()) + score;
-        txtScore.setText(Integer.toString(newScore));
+        txtScore.setText(Integer.toString(score));
     }
 
     private void clearScoreValue() {
