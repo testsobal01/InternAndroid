@@ -5,8 +5,10 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -15,6 +17,9 @@ import android.widget.Toast;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
+    SharedPreferences pref;
+    SharedPreferences.Editor prefEditor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +45,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // 起動時に関数を呼び出す
         setQuestionValue();
+
+        //プリファレンスの生成 "ScoreStorage"は保存する先のファイル名
+        pref = getSharedPreferences("ScoreStorage", MODE_PRIVATE);
+        prefEditor = pref.edit();
     }
 
     @Override
@@ -57,6 +66,33 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             clearScoreValue();
         }
     }
+
+    //プリファレンスの保存
+    @Override
+    protected void onPause(){
+        super.onPause();
+        Toast.makeText(this, "onPause", Toast.LENGTH_SHORT).show();
+
+        //scoreを保存するため、テキストビューを取得
+        //textViewという名前は大丈夫ですか
+        TextView textView = (TextView)findViewById(R.id.text_score);
+        //"main_score"というキー名に、score(string)を保存
+        prefEditor.putString("main_score", textView.getText().toString());
+        prefEditor.commit();
+    }
+
+    //プリファレンスの読み込み
+    @Override
+    protected void onResume(){
+        super.onResume();
+        Log.d("AndroidTest", "onResume completed.");
+        //画面上にscoreをセットするため、テキストビューを取得
+        TextView textView = (TextView) findViewById(R.id.text_score);
+        //一度も保存されていない場合もありますのて、その時に変わりに表示する文字列も指定する
+        String readText = pref.getString("main_score", "保存されていません");
+        textView.setText(readText);
+    }
+
 
     private void clearAnswerValue() {
         TextView txtView = (TextView) findViewById(R.id.answer);
