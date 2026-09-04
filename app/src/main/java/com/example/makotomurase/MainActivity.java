@@ -16,6 +16,7 @@ import android.os.Vibrator;
 import android.view.View;
 import android.widget.Button;
 import android.widget.NumberPicker;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -155,6 +156,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void clearAnswerValue() {
         TextView txtView = (TextView) findViewById(R.id.answer);
         txtView.setText("値2");
+
+        android.view.View mainLayout = findViewById(R.id.main);
+        if (mainLayout != null) {
+            mainLayout.setBackgroundColor(android.graphics.Color.parseColor("#FFFFFF"));
+        }
     }
 
     private void setQuestionValue() {
@@ -215,10 +221,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         }
 
-        // 最後にまとめてToast表示の処理とTextViewへのセットを行う
         Toast.makeText(this, result, Toast.LENGTH_LONG).show();
-        txtResult.setText(getString(R.string.Result)+"：" + question + ":" + answer + "(" + result + ")");
 
+
+        android.view.View mainLayout = findViewById(R.id.main);
+        if (mainLayout != null) {
+            if (result.equals(getString(R.string.win))) {
+                mainLayout.setBackgroundColor(android.graphics.Color.parseColor("#EF5350"));  // 勝ち：赤
+            } else if (result.equals(getString(R.string.lose))) {
+                mainLayout.setBackgroundColor(android.graphics.Color.parseColor("#42A5F5")); // 負け：青
+            } else if (result.equals(getString(R.string.draw))) {
+                mainLayout.setBackgroundColor(android.graphics.Color.parseColor("#66BB6A")); // 引き分け：緑
+            }
+        }
         // 続けて遊べるように値を更新
         setNextQuestion();
         // スコアを表示
@@ -284,4 +299,5 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return maxnum;
     }
 }
+
 
