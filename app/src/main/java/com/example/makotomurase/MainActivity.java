@@ -44,6 +44,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     AnimatorSet set;
     SharedPreferences pref;
     SharedPreferences.Editor prefEditor;
+    CountDownTimer nextQuestionTimer;
 
     private int maxValue = 10;
 
@@ -54,9 +55,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         Intent intent = getIntent();
         Bundle extra = intent.getExtras();
-        String intentString = extra.getString("Top");
-
-
+        String intentString = "";
+        if (extra != null) {
+            intentString = extra.getString("TOP");
+        }
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (view, windowInsets) -> {
             Insets insets = windowInsets.getInsets(
@@ -74,6 +76,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
+
+        Button btn4 = findViewById(R.id.button4);
+        if (btn4 != null) {
+            btn4.setOnClickListener(this);
+        }
 
         // 設定ボタン
         Button btnSetting = findViewById(R.id.button_Setting);
@@ -157,7 +164,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             setQuestionValue();
             clearAnswerValue();
             clearScoreValue();
-
             TextView textViewQ = (TextView) findViewById(R.id.question);
             textViewQ.setBackgroundColor(Color.parseColor("#56AD6C"));
 
@@ -165,6 +171,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             textViewA.setBackgroundColor(Color.parseColor("#7CFF9D"));
 
             setSoundpool();
+        } else if (id == R.id.button4) {
+            if (nextQuestionTimer != null) {
+                nextQuestionTimer.cancel();
+            }
+
+            TextView txtScore = findViewById(R.id.text_score);
+            int finalScore = Integer.parseInt(txtScore.getText().toString());
+
+            Intent intent = new Intent(MainActivity.this, ResultActivity.class);
+            intent.putExtra("FINAL_SCORE", finalScore);
+            startActivity(intent);
+            finish();
         } else if (id == R.id.button_Setting) {
         // 設定ボタンの処理をこちらに移動しました
         showSettingDialog();
@@ -216,10 +234,7 @@ private void showSettingDialog() {
 
         TextView txtView = findViewById(R.id.answer);
         txtView.setText(Integer.toString(answerValue));
-
     }
-
-
 
     private void checkResult(boolean isHigh) {
         TextView txtViewQuestion = findViewById(R.id.question);
@@ -230,13 +245,10 @@ private void showSettingDialog() {
 
         TextView txtResult = (TextView) findViewById(R.id.text_result);
 
-        // 結果を示す文字列を入れる変数を用意
         String result;
         int score;
 
-        // Highが押された
         if (isHigh) {
-            // result には結果のみを入れる
             if (question < answer) {
                 result = "WIN";
                 score = 2;
@@ -285,31 +297,30 @@ private void showSettingDialog() {
             }
         }
 
-        // 最後にまとめてToast表示の処理とTextViewへのセットを行う
         Toast.makeText(this, result, Toast.LENGTH_LONG).show();
         txtResult.setText("結果：" + question + ":" + answer + "(" + result + ")");
+
         // 続けて遊べるように値を更新
         setNextQuestion();
-        // スコアを表示
         setScore(score);
     }
 
 
     private void setNextQuestion() {
-        // 第１引数がカウントダウン時間、第２引数は途中経過を受け取る間隔
-        // 単位はミリ秒（1秒＝1000ミリ秒）
-        new CountDownTimer(3000, 1000) {
+        if (nextQuestionTimer != null) {
+            nextQuestionTimer.cancel();
+        }
+
+        nextQuestionTimer = new CountDownTimer(3000, 1000) {
             @Override
             public void onTick(long l) {
-
-
                 // 途中経過を受け取った時に何かしたい場合
                 // 今回は特に何もしない
+                // 途中経過（何もしない）
             }
 
             @Override
             public void onFinish() {
-                // 3秒経過したら次の値をセット
                 setQuestionValue();
             }
         }.start();
@@ -338,8 +349,6 @@ private void showSettingDialog() {
     @Override
     public void onPause(){
         super.onPause();
-        Toast.makeText(this, "onPause", Toast.LENGTH_SHORT).show();
-
         TextView textView = (TextView)findViewById(R.id.text_score);
         prefEditor.putString("score_input", textView.getText().toString());
         prefEditor.commit();
