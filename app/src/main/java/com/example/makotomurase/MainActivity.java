@@ -51,6 +51,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
 
+    Boolean doubleFlag = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,6 +84,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         Button btn4 = findViewById(R.id.button4);
         btn4.setOnClickListener(this);
+
+        Button btn5 = findViewById(R.id.button5);
+        btn5.setOnClickListener(this);
 
         // 起動時に関数を呼び出す
         setQuestionValue();
@@ -186,6 +191,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Intent subIntent = new Intent(getApplication(), StartActivity.class);
             startActivity(subIntent);
         }
+        if (id == R.id.button5) {
+            Toast.makeText(getApplicationContext(), "次の得点が２倍!", Toast.LENGTH_SHORT).show();
+            // フラグをTrueにする
+            doubleFlag = true;
+            //１度だけの実行
+        }
     }
 
     @Override
@@ -246,8 +257,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             // result には結果のみを入れる
             if (question < answer) {
                 result = "WIN";
-                score = 2;
-
+                score = 1;
+              
                 soundPool2.play(soundId2, 1.0f, 1.0f, 0, 0, 1.0f);
 
                 Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
@@ -278,7 +289,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 txtViewQuestion.animate().rotation(360f).setDuration(600).start();
             } else {
                 result = "DRAW";
-                score = 1;
+                score = 0;
 
                 soundPool4.play(soundId4, 1.0f, 1.0f, 0, 0, 1.0f);
 
@@ -296,7 +307,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         } else {
             if (question > answer) {
                 result = "WIN";
-                score = 2;
+                score = 1;
 
                 soundPool2.play(soundId2, 1.0f, 1.0f, 0, 0, 1.0f);
 
@@ -328,7 +339,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 txtViewQuestion.animate().rotation(360f).setDuration(600).start();
             } else {
                 result = "DRAW";
-                score = 1;
+                score = 0;
 
                 soundPool4.play(soundId4, 1.0f, 1.0f, 0, 0, 1.0f);
 
@@ -375,6 +386,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void setScore(int score) {
+        // フラグがTrueだったら2倍にする
+        if (doubleFlag == true) {
+            score *= 2;
+            doubleFlag = false;
+        } else {
+           score *= 1;
+        }
         TextView txtScore = (TextView) findViewById(R.id.text_score);
         int newScore = Integer.parseInt(txtScore.getText().toString()) + score;
         txtScore.setText(Integer.toString(newScore));
