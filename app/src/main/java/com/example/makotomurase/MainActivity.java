@@ -34,8 +34,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private SoundPool soundpool;
     private int soundId;
 
-
-
     SharedPreferences pref;
     SharedPreferences.Editor prefEditor;
 
@@ -110,10 +108,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             clearScoreValue();
 
             TextView textViewQ = (TextView) findViewById(R.id.question);
-            textViewQ.setBackgroundColor(Color.parseColor("#ff00ff"));
+            textViewQ.setBackgroundColor(Color.parseColor("#56AD6C"));
 
             TextView textViewA = (TextView) findViewById(R.id.answer);
-            textViewA.setBackgroundColor(Color.parseColor("#ffff00"));
+            textViewA.setBackgroundColor(Color.parseColor("#7CFF9D"));
 
             setSoundpool();
         }
@@ -121,12 +119,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void clearAnswerValue() {
         TextView txtView = (TextView) findViewById(R.id.answer);
-        txtView.setText("値2");
+        txtView.setText("?");
     }
 
     private void setQuestionValue() {
         Random r = new Random();
-        // 0から10の範囲で乱数を生成（+1する必要がある）
+        // 0から50の範囲で乱数を生成（+1する必要がある）
         int questionValue = r.nextInt(10 + 1);
 
         TextView txtView = findViewById(R.id.question);

@@ -7,9 +7,10 @@
     <color name="red_white">#ff0014</color>
     <color name="red_black">#96000a</color>
     <color name="blue_white">#005dff</color>
-    <color name="orenge">#FFA500</color>
+    <color name="orenge">#FFC997</color>
+    <color name="orenge2">#FFA500</color>
     <color name="gold">#FFD700</color>
-    <color name="right_green">#7fffb6</color>
-    <color name="blue_green">#7fffe1</color>
-    <color name="orenge">#FFA500</color>
+    <color name="right_green">#7CFF9D</color>
+    <color name="green">#56AD6C</color>
+    <color name="blue_green">#7FFFEE</color>
 </resources>
