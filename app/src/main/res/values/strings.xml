@@ -1,8 +1,15 @@
 <resources>
-    <string name="app_name">RyuheiKoike</string>
+    <string name="app_name">LiuShuya</string>
     <string name="btn_high">High</string>
     <string name="btn_low">Low</string>
     <string name="btn_restart">Restart</string>
     <string name="label_score">Score：</string>
+    <string name="btn_setting">⚙</string>
+    <string name="setting_description">ランダム値の上限を設定</string>
+    <string name="default_max_value_message">10が設定されています。</string>
+    <string name="max_value_message">%1$dが設定されています。</string>
+    <string name="setting_dialog_title">最大値を設定してください。</string>
+    <string name="btn_ok">OK</string>
+    <string name="btn_cancel">キャンセル</string>
     <string name="btn_start">スタート</string>
 </resources>
