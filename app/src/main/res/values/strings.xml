@@ -4,6 +4,7 @@
     <string name="btn_low">Low</string>
     <string name="btn_restart">Restart</string>
     <string name="label_score">Score：</string>
+    <string name="maxValue">最大値：</string>
     <string name="Top">START</string>
     <string name="Top_text3">High and Row ? </string>
     <string name="Top_text4">Lets except them. </string>
