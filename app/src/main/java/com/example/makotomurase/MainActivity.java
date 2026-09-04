@@ -108,6 +108,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             setQuestionValue();
             clearAnswerValue();
             clearScoreValue();
+
+            TextView textViewQ = (TextView) findViewById(R.id.question);
+            textViewQ.setBackgroundColor(Color.parseColor("#ff00ff"));
+
+            TextView textViewA = (TextView) findViewById(R.id.answer);
+            textViewA.setBackgroundColor(Color.parseColor("#ffff00"));
+
             setSoundpool();
         }
     }
@@ -260,4 +267,3 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         textView.setText(readText);
     }
 }
-
