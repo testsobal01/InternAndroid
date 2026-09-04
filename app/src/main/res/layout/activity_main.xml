@@ -40,14 +40,17 @@
 
         <LinearLayout android:layout_width="match_parent"
             android:layout_height="wrap_content">
+
             <Spinner
-                android:id="@+id/gamescore"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:id="@+id/selectscore"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:entries="@array/selectScore" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="10が設定されています。" />
+                android:text="が設定されています。" />
+
         </LinearLayout>
 
         <TextView

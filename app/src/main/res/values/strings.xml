@@ -4,4 +4,9 @@
     <string name="btn_low">Low</string>
     <string name="btn_restart">Restart</string>
     <string name="label_score">Score：</string>
+    <string-array name="selectScore">
+        <item>10</item>
+        <item>30</item>
+        <item>50</item>
+    </string-array>
 </resources>
