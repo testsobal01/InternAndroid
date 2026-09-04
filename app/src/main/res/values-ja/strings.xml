@@ -5,5 +5,8 @@
     <string name="btn_low">Low</string>
     <string name="btn_restart">リスタート</string>
     <string name="label_score">得点：</string>
+    <string name="Top_text3">「高い」か「低い」か？</string>
+    <string name="Top_text4">予想してみよう</string>
+    <string name="Value10">10が設定されています。</string>
 </resources>
 
