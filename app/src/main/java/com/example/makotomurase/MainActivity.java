@@ -82,7 +82,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btn4.setOnClickListener(this);
 
         TextView textValue = (TextView) findViewById(R.id.SetTo);
-        textValue.setText("It is set to 10");
+        textValue.setText("10");
 
 
         // AudioAttributes 設定
@@ -336,7 +336,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     public void onClick(DialogInterface dialog, int which) {
                          maxnum = numberPicker.getValue();
                         TextView NewtextValue = (TextView) findViewById(R.id.SetTo);
-                        String numax = "It is set to " + Integer.toString(maxnum);
+                        String numax = Integer.toString(maxnum);
                         NewtextValue.setText(numax);
                     }
                 })
