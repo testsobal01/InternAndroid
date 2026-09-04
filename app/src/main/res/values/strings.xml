@@ -5,9 +5,9 @@
     <string name="btn_restart">Restart</string>
     <string name="label_score">Score：</string>
     <string name="start">スタート</string>
-    <string name="explanation">It is set to 10.</string>
     <string name="Result">Result</string>
     <string name="lose">LOSE</string>
     <string name="win">WIN</string>
     <string name="draw">DRAW</string>
+    <string name="btn_setting">Settings</string>
 </resources>
