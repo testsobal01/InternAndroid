@@ -33,6 +33,8 @@ import android.widget.Toast;
 
 import java.text.BreakIterator;
 import java.util.Random;
+import android.os.Handler;
+import android.os.Looper;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -65,8 +67,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             view.setPadding(insets.left, insets.top, insets.right, 0);
             return windowInsets;
         });
-
-
 
         Button btn1 = findViewById(R.id.button1);
         btn1.setOnClickListener(this);
@@ -118,7 +118,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-
     @Override
     public void onClick(View view) {
         int id = view.getId();
@@ -126,10 +125,41 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             setAnswerValue();
             checkResult(true);
             setSoundpool();
+            Button btn1 = findViewById(R.id.button1);
+            btn1.setVisibility(View.INVISIBLE);
+            Button btn2 = findViewById(R.id.button2);
+            btn2.setVisibility(View.INVISIBLE);
+            Button btn3 = findViewById(R.id.button3);
+            btn3.setVisibility(View.INVISIBLE);
+            // 3. 5秒（5000ミリ秒）後に再表示する
+            new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    btn1.setVisibility(View.VISIBLE);
+                    btn2.setVisibility(View.VISIBLE);
+                    btn3.setVisibility(View.VISIBLE);
+                }
+            }, 5000);
+
         } else if (id == R.id.button2) {
             setAnswerValue();
             checkResult(false);
             setSoundpool();
+            Button btn1 = findViewById(R.id.button1);
+            btn1.setVisibility(View.INVISIBLE);
+            Button btn2 = findViewById(R.id.button2);
+            btn2.setVisibility(View.INVISIBLE);
+            Button btn3 = findViewById(R.id.button3);
+            btn3.setVisibility(View.INVISIBLE);
+            // 3. 5秒（5000ミリ秒）後に再表示する
+            new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    btn1.setVisibility(View.VISIBLE);
+                    btn2.setVisibility(View.VISIBLE);
+                    btn3.setVisibility(View.VISIBLE);
+                }
+            }, 5000);
         } else if (id == R.id.button3) {
             setQuestionValue();
             clearAnswerValue();
@@ -157,8 +187,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // 設定ボタンの処理をこちらに移動しました
         showSettingDialog();
         }
-
-
 
     }
 
@@ -286,6 +314,8 @@ private void showSettingDialog() {
         nextQuestionTimer = new CountDownTimer(3000, 1000) {
             @Override
             public void onTick(long l) {
+                // 途中経過を受け取った時に何かしたい場合
+                // 今回は特に何もしない
                 // 途中経過（何もしない）
             }
 
