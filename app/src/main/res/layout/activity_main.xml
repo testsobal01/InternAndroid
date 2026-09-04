@@ -19,8 +19,8 @@
             <Button
                 android:id="@+id/button1"
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
                 android:text="@string/btn_high"
                 android:background="@drawable/shape_style"
                 app:backgroundTint="@null"/>
@@ -28,8 +28,8 @@
             <Button
                 android:id="@+id/button2"
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
                 android:text="@string/btn_low"
                 android:background="@drawable/shape_style"
                 app:backgroundTint="@null"/>
@@ -37,8 +37,8 @@
             <Button
                 android:id="@+id/button3"
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="2"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
                 android:text="@string/btn_restart"
                 android:background="@drawable/shape_style"
                 app:backgroundTint="@null"/>
@@ -46,23 +46,41 @@
             <Button
                 android:id="@+id/button4"
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="TOPへ"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
                 android:background="@drawable/shape_style"
-                app:backgroundTint="@null"/>
+                android:text="TOPへ"
+                app:backgroundTint="@null" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="10が設定されています。"
+                android:textSize="17dp" />
+
+            <Button
+                android:id="@+id/button5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:text="Double up"
+                android:background="@drawable/shape_style"
+                app:backgroundTint="#F44336"/>
 
         </LinearLayout>
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="10が設定されています。" />
-
-        <TextView
             android:id="@+id/text_result"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:textSize="20dp"/>
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -71,13 +89,16 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/label_score" />
+                android:text="@string/label_score"
+                android:textSize="20dp"/>
 
             <TextView
                 android:id="@+id/text_score"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="0" />
+                android:text="0"
+                android:textSize="20dp"/>
+
         </LinearLayout>
 
         <LinearLayout
