@@ -23,6 +23,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.Random;
+import androidx.appcompat.app.AlertDialog;
+import android.widget.NumberPicker;
+
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -30,6 +33,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     SharedPreferences.Editor prefEditor;
     private Runnable runnable;
     private Handler handler = new Handler(Looper.getMainLooper());
+    //今の乱数の上限値
+    private int maxValue = 10;
+    private final Random random = new Random();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +59,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
 
+        Button btn4 = findViewById(R.id.button4);
+        btn4.setOnClickListener(this);
+
         // 起動時に関数を呼び出す
         setQuestionValue();
 
@@ -71,9 +80,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             setAnswerValue();
             checkResult(false);
         } else if (id == R.id.button3) {
+            //restart押す後左側の乱数3秒後更新しない
+            cancelNextQuestion();
+
             setQuestionValue();
             clearAnswerValue();
             clearScoreValue();
+        }else if(id == R.id.button4){
+            showSettingDialog();
         }
     }
 
@@ -99,10 +113,53 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //画面上にscoreをセットするため、テキストビューを取得
         TextView textView = (TextView) findViewById(R.id.text_score);
         //一度も保存されていない場合もありますのて、その時に変わりに表示する文字列も指定する
-        String readText = pref.getString("main_score", "保存されていません");
+        String readText = pref.getString("main_score", "0");
         textView.setText(readText);
     }
 
+
+    private void showSettingDialog(){
+        //create NumberPicker
+        NumberPicker numberPicker = new NumberPicker(this);
+
+        //setting上限は10~50
+        numberPicker.setMinValue(10);
+        numberPicker.setMaxValue(50);
+
+        //今の設定値を表示する
+        numberPicker.setValue(maxValue);
+
+        //50に着いた時10に戻らない
+        numberPicker.setWrapSelectorWheel(false);
+
+        new AlertDialog.Builder(this)
+                .setTitle(R.string.setting_dialog_title)
+                .setView(numberPicker)
+
+                //OK押すと設定値を保存する
+                .setPositiveButton(R.string.btn_ok, (dialog, which)->{
+                    maxValue = numberPicker.getValue();
+                    updateMaxValueText();
+                })
+                //cancel
+                .setNegativeButton(R.string.btn_cancel, null)
+                .show();
+    }
+
+    private void updateMaxValueText(){
+        TextView textMaxVlue = findViewById(R.id.text_max_value);
+        textMaxVlue.setText(
+                getString(R.string.max_value_message, maxValue)
+        );
+    }
+
+    //3秒更新をキャンセルする
+    private void cancelNextQuestion(){
+        if(runnable != null){
+            handler.removeCallbacks(runnable);
+            runnable = null;
+        }
+    }
 
     private void TextAnimator(TextView txtView){
         // 現在の文字色を取得
@@ -135,21 +192,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void clearAnswerValue() {
         TextView txtView = (TextView) findViewById(R.id.answer);
-        txtView.setText("値2");
+        txtView.setText("?");
     }
 
     private void setQuestionValue() {
-        Random r = new Random();
-        // 0から10の範囲で乱数を生成（+1する必要がある）
-        int questionValue = r.nextInt(10 + 1);
+        // 乱数を生成（+1する必要がある）
+        int questionValue = random.nextInt(maxValue + 1);
 
         TextView txtView = findViewById(R.id.question);
         txtView.setText(Integer.toString(questionValue));
     }
 
     private void setAnswerValue() {
-        Random r = new Random();
-        int answerValue = r.nextInt(10 + 1);
+        int answerValue = random.nextInt(maxValue + 1);
 
         TextView txtView = findViewById(R.id.answer);
         txtView.setText(Integer.toString(answerValue));
@@ -209,19 +264,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void setNextQuestion() {
-        // 1. もし既に動いているタイマー（Runnable）があればキャンセルする
-        if (runnable != null) {
-            handler.removeCallbacks(runnable);
-        }
-        // 2. 実行したい処理を定義
+        cancelNextQuestion();
+
         runnable = new Runnable() {
             @Override
             public void run() {
                 setQuestionValue();
+                runnable = null;
             }
         };
-        // 3. 3秒後に実行するようセット
-        handler.postDelayed(runnable, 3000);
     }
 
     private void setScore(int score) {
