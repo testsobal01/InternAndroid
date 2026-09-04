@@ -59,7 +59,7 @@ public class StartActivity extends AppCompatActivity {
                 Intent intent = new Intent(StartActivity.this, MainActivity.class);
                 startActivity(intent);
 
-                soundPool.play(startsound, 50.0f, 50.0f, 0, 0, 1);
+                soundPool.play(startsound, 60.0f, 60.0f, 0, 0, 1);
             }
 
 
