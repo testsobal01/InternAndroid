@@ -11,27 +11,27 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-public class Start extends AppCompatActivity {
+public class Ruleexplain extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_start);
+        setContentView(R.layout.activity_ruleexplain);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-        Button buttons = findViewById(R.id.start);
-        buttons.setOnClickListener(new ButtonClickListener());
+        Button buttons1 = findViewById(R.id.ruleend);
+        buttons1.setOnClickListener(new Ruleexplain.ButtonClickListener());
     }
 
     private class ButtonClickListener implements View.OnClickListener {
         @Override
         public void onClick(View v) {
-            Intent intent2 = new Intent(Start.this, Ruleexplain.class);
-            startActivity(intent2);
+            Intent intent1 = new Intent(Ruleexplain.this, MainActivity.class);
+            startActivity(intent1);
         }
     }
 }
