@@ -15,10 +15,25 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.media.SoundPool;
+
+
+
 
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
+    private SoundPool soundPool1;
+    private int soundId1;
+    private SoundPool soundPool2;
+    private int soundId2;
+    private SoundPool soundPool3;
+    private int soundId3;
+    private SoundPool soundPool4;
+    private int soundId4;
+    private SoundPool soundPool5;
+    private int soundId5;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +61,35 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // 起動時に関数を呼び出す
         setQuestionValue();
+
+        // SoundPoolの初期化
+         soundPool1 = new SoundPool.Builder()
+                 .setMaxStreams(2)
+                 .build();
+        soundPool2 = new SoundPool.Builder()
+                .setMaxStreams(2)
+                .build();
+        soundPool3 = new SoundPool.Builder()
+                .setMaxStreams(2)
+                .build();
+        soundPool4 = new SoundPool.Builder()
+                .setMaxStreams(2)
+                .build();
+
+        soundPool5 = new SoundPool.Builder()
+                .setMaxStreams(2)
+                .build();
+        // サウンドファイルの読み込み
+        soundId1 = soundPool1.load(this, R.raw.one, 1);
+        soundId2 = soundPool2.load(this, R.raw.win, 1);
+        soundId3 = soundPool3.load(this, R.raw.lose, 1);
+        soundId4 = soundPool4.load(this, R.raw.draw, 1);
+        soundId5 = soundPool5.load(this, R.raw.restart, 1);
+
+
     }
+
+
 
     private void showSettingDialog() {
         String[] settingItems = {
@@ -69,17 +112,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (view.getId() == R.id.button3) {
             Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
             vibrator.vibrate(VibrationEffect.createOneShot(
-                    1000, VibrationEffect.DEFAULT_AMPLITUDE));;
+                    1000, VibrationEffect.DEFAULT_AMPLITUDE));
+
+            soundPool5.play(soundId5, 1.0f, 1.0f, 0, 0, 1.0f);
+
         }
 
         int id = view.getId();
         if (id == R.id.button1) {
+            soundPool1.play(soundId1, 1.0f, 1.0f, 0, 0, 1.0f);
             setAnswerValue();
             checkResult(true);
+
         } else if (id == R.id.button2) {
+            soundPool1.play(soundId1, 1.0f, 1.0f, 0, 0, 1.0f);
             setAnswerValue();
             checkResult(false);
         } else if (id == R.id.button3) {
+            soundPool1.play(soundId1, 1.0f, 1.0f, 0, 0, 1.0f);
             setQuestionValue();
             clearAnswerValue();
             clearScoreValue();
@@ -133,6 +183,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = "WIN";
                 score = 2;
+
+                soundPool2.play(soundId2, 1.0f, 1.0f, 0, 0, 1.0f);
+
                 Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
                 vibrator.vibrate(VibrationEffect.createOneShot(
                         500, VibrationEffect.DEFAULT_AMPLITUDE));;
@@ -146,6 +199,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 result = "LOSE";
                 score = -1;
 
+                soundPool3.play(soundId3, 1.0f, 1.0f, 0, 0, 1.0f);
+
                 //負けた時に背景色変更
                 View background = findViewById(R.id.question);
                 background.setBackgroundColor(Color.parseColor("#F57C00"));
@@ -154,6 +209,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             } else {
                 result = "DRAW";
                 score = 1;
+
+                soundPool4.play(soundId4, 1.0f, 1.0f, 0, 0, 1.0f);
 
                 //引き分け時に背景色変更
                 View background = findViewById(R.id.question);
@@ -165,6 +222,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question > answer) {
                 result = "WIN";
                 score = 2;
+
+                soundPool2.play(soundId2, 1.0f, 1.0f, 0, 0, 1.0f);
+
                 Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
                 vibrator.vibrate(VibrationEffect.createOneShot(
                         500, VibrationEffect.DEFAULT_AMPLITUDE));;
@@ -178,6 +238,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 result = "LOSE";
                 score = -1;
 
+                soundPool3.play(soundId3, 1.0f, 1.0f, 0, 0, 1.0f);
+
                 //負けた時に背景色変更
                 View background = findViewById(R.id.question);
                 background.setBackgroundColor(Color.parseColor("#F57C00"));
@@ -186,6 +248,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             } else {
                 result = "DRAW";
                 score = 1;
+
+                soundPool4.play(soundId4, 1.0f, 1.0f, 0, 0, 1.0f);
 
                 //引き分け時に背景色変更
                 View background = findViewById(R.id.question);
