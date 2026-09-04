@@ -21,6 +21,7 @@ import android.widget.Toast;
 
 import java.util.Random;
 
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     SharedPreferences pref;
     SharedPreferences.Editor prefEditor;
@@ -83,6 +84,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View view) {
         int id = view.getId();
         if (id == R.id.button1) {
+
             setAnswerValue();
             checkResult(true);
         } else if (id == R.id.button2) {
@@ -93,12 +95,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             clearAnswerValue();
             clearScoreValue();
             soundPlayer.playDrawSound();
+            draw_resetResultAnime();
         }
     }
 
     private void clearAnswerValue() {
         TextView txtView = (TextView) findViewById(R.id.answer);
-        txtView.setText("値2");
+        txtView.setText("?");
     }
 
     private void setQuestionValue() {
@@ -134,8 +137,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
         // Highが押され
-
-            // result には結果のみを入れる
             if (isHigh) {
 
                 // result には結果のみを入れる
@@ -146,18 +147,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     txtResult.setBackgroundColor(Color.RED);
                     soundPlayer.playWinSound();
 
+                    winResultAnime();
+                  
                 } else if (question > answer) {
                     result = "LOSE";
                     score = -1;
                     VIB.vibrate(VibrationEffect.createOneShot(500,VibrationEffect.DEFAULT_AMPLITUDE));
                     txtResult.setBackgroundColor(Color.BLUE);
                     soundPlayer.playLoseSound();
+                    loseResultAnime();
+                  
                 } else {
                     result = "DRAW";
                     score = 1;
                     VIB.vibrate(VibrationEffect.createOneShot(200,VibrationEffect.DEFAULT_AMPLITUDE));
                     txtResult.setBackgroundColor(Color.GREEN);
                     soundPlayer.playDrawSound();
+                    draw_resetResultAnime();
+                  
                 }
             } else {
                 if (question > answer) {
@@ -166,24 +173,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     VIB.vibrate(VibrationEffect.createOneShot(1000,VibrationEffect.DEFAULT_AMPLITUDE));
                     txtResult.setBackgroundColor(Color.RED);
                     soundPlayer.playWinSound();
+                    winResultAnime();
                 } else if (question < answer) {
                     result = "LOSE";
                     score = -1;
                     VIB.vibrate(VibrationEffect.createOneShot(500,VibrationEffect.DEFAULT_AMPLITUDE));
                     txtResult.setBackgroundColor(Color.BLUE);
                     soundPlayer.playLoseSound();
+                    loseResultAnime();
                 } else {
                     result = "DRAW";
                     score = 1;
                     VIB.vibrate(VibrationEffect.createOneShot(200,VibrationEffect.DEFAULT_AMPLITUDE));
                     txtResult.setBackgroundColor(Color.GREEN);
                     soundPlayer.playDrawSound();
+                    draw_resetResultAnime();
                 }
             }
 
         // 最後にまとめてToast表示の処理とTextViewへのセットを行う
         Toast.makeText(this, result, Toast.LENGTH_LONG).show();
         txtResult.setText("結果：" + question + ":" + answer + "(" + result + ")");
+
 
         // 続けて遊べるように値を更新
         setNextQuestion();
@@ -218,6 +229,49 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void clearScoreValue() {
         TextView txtScore = (TextView) findViewById(R.id.text_score);
         txtScore.setText("0");
+    }
+
+    private void winResultAnime(){
+        TextView Que = findViewById(R.id.question);
+        TextView Ans = findViewById(R.id.answer);
+        Que.animate()
+                .translationY(500f)
+                .alpha(0.7f)
+                .setDuration(1000)
+                .start();
+        Ans.animate()
+                .alpha(1.0f)
+                .translationY(-500f)
+                .setDuration(1000)
+                .start();
+    }
+    private void loseResultAnime(){
+        TextView Que = findViewById(R.id.question);
+        TextView Ans = findViewById(R.id.answer);
+        Que.animate()
+                .alpha(1.0f)
+                .translationY(-500f)
+                .setDuration(1000)
+                .start();
+        Ans.animate()
+                .translationY(500f)
+                .alpha(0.7f)
+                .setDuration(1000)
+                .start();
+    }
+    private void draw_resetResultAnime(){
+        TextView Que = findViewById(R.id.question);
+        TextView Ans = findViewById(R.id.answer);
+        Que.animate()
+                .translationY(0f)
+                .alpha(1.0f)
+                .setDuration(1000)
+                .start();
+        Ans.animate()
+                .translationY(0f)
+                .alpha(1.0f)
+                .setDuration(1000)
+                .start();
     }
 
     protected void onPause() {
