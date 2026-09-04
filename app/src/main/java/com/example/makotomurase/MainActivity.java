@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
         TextView textView=(TextView)findViewById(R.id.text_score);
-        String savedScore = pref.getString("main_input", "0");
+        String savedScore = pref.getString("main_input", "100");
         textView.setText(savedScore);
 
 
@@ -170,7 +170,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (isHigh) {
             if (question < answer) {
                 result = "WIN";
-                score = 2;
+                score = -10;
                 isWin = true; // 勝ち
                 txtViewAnswer.setBackgroundColor(Color.parseColor("#ffff00"));//黄色
                 txtViewQuestion.setBackgroundColor(Color.parseColor("#a611a6"));//暗いピンク
@@ -178,30 +178,30 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             } else if (question > answer) {
                 result = "LOSE";
-                score = -1;
+                score = 0;
                 isWin = false; // 負け
                 txtViewQuestion.setBackgroundColor(Color.parseColor("#ff00ff"));//ピンク
                 txtViewAnswer.setBackgroundColor(Color.parseColor("#999923"));//暗い黄色
             } else {
                 result = "DRAW";
-                score = 1;
+                score = 5;
             }
         } else {
             if (question > answer) {
                 result = "WIN";
-                score = 2;
+                score = -10;
                 isWin = true; // 勝ち
                 txtViewAnswer.setBackgroundColor(Color.parseColor("#ffff00"));//黄色
                 txtViewQuestion.setBackgroundColor(Color.parseColor("#a611a6"));//暗いピンク
             } else if (question < answer) {
                 result = "LOSE";
-                score = -1;
+                score = 0;
                 isWin = false; // 負け
                 txtViewQuestion.setBackgroundColor(Color.parseColor("#ff00ff"));//ピンク
                 txtViewAnswer.setBackgroundColor(Color.parseColor("#999923"));//暗い黄色
             } else {
                 result = "DRAW";
-                score = 1;
+                score = 5;
             }
         }
 
@@ -260,7 +260,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
     //endregion
 
-    private void setScore(int score) { //
+    private void setScore(int score) {
         TextView txtScore = (TextView) findViewById(R.id.text_score);
 
         // エラー防止のための数値変換処理
@@ -274,11 +274,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         int newScore = currentScore + score;
         txtScore.setText(Integer.toString(newScore));
-    } // スコア表示メソッド
 
-    private void clearScoreValue() { //
+        // ★ ここでHPが0以下になったかチェックする
+        if (newScore <= 0) {
+            TextView txtMessage = findViewById(R.id.m);
+            txtMessage.setText("敵が倒れた！！");
+            txtMessage.setTextColor(Color.parseColor("#4CAF50")); // お好みで緑色などに変更も可能
+
+            // 必要であればここでゲーム終了の処理や、ハイ＆ローボタンを無効化する処理も入れられます
+        }
+    }// スコア表示メソッド
+
+    private void clearScoreValue() {
         TextView txtScore = (TextView) findViewById(R.id.text_score);
-        txtScore.setText("0");
+        txtScore.setText("100");
+
+        // ★ リセット時にメッセージも元に戻す
+        TextView txtMessage = findViewById(R.id.m);
+        txtMessage.setText("敵が現れた！！");
+        txtMessage.setTextColor(Color.parseColor("#FF0000")); // 元の色（赤）に戻す
     }// スコアリセットメソッド
 
     private void vibration() { //

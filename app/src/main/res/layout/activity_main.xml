@@ -58,9 +58,15 @@
         </LinearLayout>
 
         <TextView
+            android:id="@+id/m"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="10が設定されています。" />
+            android:layout_gravity="center_horizontal"
+            android:text="敵が現れた！！"
+            android:textColor="#FF0000"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
 
         <TextView
             android:id="@+id/text_result"
@@ -69,18 +75,26 @@
 
         <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_margin="8dp"
+            android:gravity="center">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/label_score" />
+                android:text="@string/label_score"
+                android:textSize="22sp"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/text_score"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="0" />
+                android:text="100"
+                android:textColor="#FF5252"
+                android:textSize="32sp"
+                android:textStyle="bold" />
         </LinearLayout>
 
 
@@ -124,17 +138,32 @@
 
             </FrameLayout>
 
-            <TextView
-                android:id="@+id/answer"
+            <FrameLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="#ffff00"
-                android:gravity="center"
-                android:text="値2"
-                android:textSize="60sp" />
+                android:layout_weight="1">
 
+                <!-- 下層：TextView -->
+                <TextView
+                    android:id="@+id/answer"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="値2"
+                    android:background="#ffff00"
+                    android:textSize="60sp" />
 
+                <!-- 上層：ImageView（透過画像を重ねる） -->
+                <ImageView
+                    android:id="@+id/yuusya"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom|center_horizontal"
+                    android:layout_marginBottom="-250dp"
+                    android:contentDescription="勇者"
+                    android:src="@drawable/yuusya" />
+
+            </FrameLayout>
 
         </LinearLayout>
 
@@ -153,7 +182,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:src="@drawable/so">
-
         </ImageView>
 
     </LinearLayout>
