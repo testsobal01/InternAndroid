@@ -11,10 +11,13 @@ import android.content.SharedPreferences;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.Color;
+import android.media.AudioAttributes;
+import android.media.SoundPool;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -25,6 +28,11 @@ import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
+    private SoundPool soundPool;
+    private int soundId1; private int soundId2; private int soundId3; private int soundId4;
+    private int soundId5; private int soundId6; private int soundId7; private int soundId8;
+    private int soundId9;
+    private String result = "";
     SharedPreferences pref;
     SharedPreferences.Editor prefEditor;
 
@@ -64,6 +72,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // 起動時に関数を呼び出す
         setQuestionValue();
+
+        Audio();
     }
 
 
@@ -75,16 +85,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (id == R.id.button1) {
             setAnswerValue();
             checkResult(true);
+            Audio2();
         } else if (id == R.id.button2) {
             setAnswerValue();
             checkResult(false);
+            Audio2();
         } else if (id == R.id.button3) {
             setQuestionValue();
             clearAnswerValue();
             clearScoreValue();
         }
     }
-    //endregion
   
       @Override
 
@@ -131,7 +142,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView txtResult = (TextView) findViewById(R.id.text_result);
 
         // 結果を示す文字列を入れる変数を用意
-        String result;
         int score;
 
         // Highが押された
@@ -175,7 +185,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // 第１引数がカウントダウン時間、第２引数は途中経過を受け取る間隔
         // 単位はミリ秒（1秒＝1000ミリ秒）
-        new CountDownTimer(3000, 1000) {
+        new CountDownTimer(1500, 1000) {
             @Override
             public void onTick(long l) {
                 // 途中経過を受け取った時に何かしたい場合
@@ -207,6 +217,61 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         vibrator.vibrate(VibrationEffect.createOneShot(
                 500, VibrationEffect.DEFAULT_AMPLITUDE));
     }// バイブレーションメソッド（項目4）
-  
+
+    protected  void Audio(){
+        AudioAttributes audioAttributes = new AudioAttributes.Builder()
+                .setUsage(AudioAttributes.USAGE_ASSISTANCE_SONIFICATION)
+                .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                .build();
+
+        soundPool = new SoundPool.Builder()
+                .setMaxStreams(1)
+                .setAudioAttributes(audioAttributes)
+                .build();
+
+        soundId1 = soundPool.load(this, R.raw.kurae, 1 );
+        soundId2 = soundPool.load(this, R.raw.gu, 1 );
+        soundId3 = soundPool.load(this, R.raw.saa, 1 );
+        soundId4 = soundPool.load(this, R.raw.yaru, 1 );
+        soundId5 = soundPool.load(this, R.raw.amai, 1 );
+        soundId6 = soundPool.load(this, R.raw.kikanai, 1 );
+        soundId7 = soundPool.load(this, R.raw.nidan, 1 );
+        soundId8 = soundPool.load(this, R.raw.ukete, 1 );
+        soundId9 = soundPool.load(this, R.raw.ku, 1 );
+
+        soundPool.setOnLoadCompleteListener(new SoundPool.OnLoadCompleteListener() {
+            @Override
+            public void onLoadComplete(SoundPool pool, int sampleId, int status) {
+                if (status == 0) { // status == 0 は成功を意味します
+
+                }
+            }
+        });
+    }
+
+    protected void Audio2(){
+        Random ran = new Random();
+        int ra = ran.nextInt(5)+1;
+        if (result == "WIN"){
+            if (ra > 2){
+                soundPool.play(soundId1, 1.0f, 1.0f, 0, 0, 1.0f);
+            }else if (ra < 2){
+                soundPool.play(soundId7, 1.0f, 1.0f, 0, 0, 1.0f);
+            }else {
+                soundPool.play(soundId8, 1.0f, 1.0f, 0, 0, 1.0f);
+            }
+        }else if (result == "LOSE"){
+            if (ra > 4){
+                soundPool.play(soundId2, 1.0f, 1.0f, 0, 0, 1.0f);
+            }else if(ra < 2){
+                soundPool.play(soundId9, 1.0f, 1.0f, 0, 0, 1.0f);
+            }else {
+                soundPool.play(soundId4, 1.0f, 1.0f, 0, 0, 1.0f);
+            }
+
+        }else if (result == "DRAW"){
+            soundPool.play(soundId6, 1.0f, 1.0f, 0, 0, 1.0f);
+        }
+    }
 }
 
