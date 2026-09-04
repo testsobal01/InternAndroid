@@ -4,6 +4,6 @@
         android:propertyName="alpha"
         android:duration="500"
         android:valueTo="0.5f"
-        android:repeatCount="-1"
+        android:repeatCount="5"
         android:repeatMode="reverse"/>
 </set>
