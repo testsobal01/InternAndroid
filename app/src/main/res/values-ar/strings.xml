@@ -6,4 +6,8 @@
     <string name="btn_restart">إعادة تشغيل</string>
     <string name="label_score">نتيجة：</string>
     <string name="greeting">مرحبًا</string>
+    <string name="btn_start">يبدأ</string>
+    <string name="gamename">وظيفة الخيال</string>
+    <string name="btn_10">تم تحديد الرقم 10.</string>
+
 </resources>

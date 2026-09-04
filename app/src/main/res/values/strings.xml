@@ -6,4 +6,9 @@
     <string name="label_score">Score：</string>
     <string name="greeting">こんにちは</string>
     <string name="btn_start">start</string>
+    <string name="btn_10">10 is set.</string>
+
+
+    <string name="gamename">Function Fantasy</string>
+
 </resources>
