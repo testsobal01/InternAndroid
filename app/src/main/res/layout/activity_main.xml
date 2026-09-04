@@ -97,20 +97,46 @@
                 android:textStyle="bold" />
         </LinearLayout>
 
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-
-            <TextView
-                android:id="@+id/question"
+            <FrameLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="#ff00ff"
-                android:gravity="center"
-                android:text="値1"
-                android:textSize="60sp" />
+                android:layout_weight="1">
+
+                <!-- 値1のテキスト -->
+                <TextView
+                    android:id="@+id/question"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#ff00ff"
+                    android:gravity="center"
+                    android:text="値1"
+                    android:textSize="60sp" />
+
+                <!-- スライムの画像（数字の下部に配置） -->
+<!--                <ImageView-->
+<!--                    android:id="@+id/ImageView"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_gravity="bottom|center_horizontal"-->
+<!--                    android:layout_marginBottom="-250dp"-->
+<!--                    android:contentDescription="スライムの画像"-->
+<!--                    android:src="@drawable/slime" />-->
+
+                <ImageView
+                    android:id="@+id/ImageView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom|center_horizontal"
+                    android:layout_marginBottom="-250dp"
+                    android:contentDescription="ドラゴンの画像"
+                    android:src="@drawable/dragon_black1" />
+
+            </FrameLayout>
 
             <FrameLayout
                 android:layout_width="0dp"
@@ -138,7 +164,13 @@
                     android:src="@drawable/yuusya" />
 
             </FrameLayout>
+
         </LinearLayout>
+
+
+
+
+
 
     </LinearLayout>
 
