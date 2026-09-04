@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- こめんとあうと -->
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -6,19 +8,43 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".StartActivity"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="#F8F9FA">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="vertical"
         >
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="TOP画面"
-            android:textSize="60sp" />
+            android:textColor="#B9B9B9"
+            android:textStyle="bold"
+            android:layout_marginTop="20dp"
+            android:textSize="60sp"
+            android:text="High and Low GAME" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textColor="#000000"
+            android:layout_marginTop="80dp"
+            android:textSize="30sp"
+            android:text="ルール" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textColor="#000000"
+            android:textSize="20sp"
+            android:text="最初に出た左の数字より、ボタンを押したら出てくる右側の数字が「高い」か「低い」かを当てるゲームです。\n結果に応じてScoreが加算されます。一定値のScoreを獲得できれば勝利です。" />
+
+
     </LinearLayout>
 
     <LinearLayout
@@ -28,9 +54,11 @@
 
         <Button
             android:id="@+id/startbutton"
-            android:layout_width="wrap_content"
+            android:layout_width="250dp"
             android:layout_height="wrap_content"
-            android:backgroundTint="#0000FF"
+            android:backgroundTint="#00E9EC"
+            android:paddingBottom="20dp"
+            android:textSize="30sp"
             android:text="Start" />
     </LinearLayout>
 
