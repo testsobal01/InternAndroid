@@ -9,11 +9,13 @@
     tools:context=".Start">
 
     <TextView
+        android:id="@+id/startmoji"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center"
         android:text="HIGH and LOW"
-        android:textSize="60dp" />
+        android:textSize="60dp"
+        app:fontFamily="@font/font2"/>
 
     <Button
         android:id="@+id/start"

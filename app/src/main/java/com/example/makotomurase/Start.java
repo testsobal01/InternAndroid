@@ -1,10 +1,15 @@
 package com.example.makotomurase;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
+
+import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -22,6 +27,10 @@ public class Start extends AppCompatActivity {
         });
         Button buttons = findViewById(R.id.start);
         buttons.setOnClickListener(new ButtonClickListener());
+
+        TextView myText = findViewById(R.id.startmoji);
+        Typeface typeface = ResourcesCompat.getFont(this,R.font.font2);
+        myText.setTypeface(typeface);
     }
 
     private class ButtonClickListener implements View.OnClickListener {

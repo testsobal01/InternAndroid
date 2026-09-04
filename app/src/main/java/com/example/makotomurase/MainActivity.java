@@ -5,6 +5,8 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import android.graphics.Typeface;
+
 import android.graphics.Color;
 import android.content.SharedPreferences;
 import android.content.Context;
@@ -39,6 +41,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //フォント変更
+//        Typeface customFont = Typeface.createFromAsset(getAssets(), "font.otf");
+//        TextView myText = findViewById(R.id.);
+//        myText.setTypeface(customFont);
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (view, windowInsets) -> {
             Insets insets = windowInsets.getInsets(
