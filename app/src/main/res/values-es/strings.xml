@@ -6,4 +6,6 @@
     <string name="btn_restart">Resanudar</string>
     <string name="label_score">Puntaje：</string>
     <string name="greeting">Hola</string>
+    <string name="btn_start">comenzar</string>
+    <string name="gamename">Función Fantasía</string>
 </resources>

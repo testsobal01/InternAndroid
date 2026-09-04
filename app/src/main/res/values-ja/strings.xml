@@ -6,4 +6,6 @@
     <string name="btn_restart">リスタート</string>
     <string name="label_score">スコア：</string>
     <string name="greeting">こんにちは</string>
+    <string name="btn_start">スタート</string>
+    <string name="gamename">Function Fantasy</string>
 </resources>
