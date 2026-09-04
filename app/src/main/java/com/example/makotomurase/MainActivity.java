@@ -17,6 +17,7 @@ import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -85,7 +86,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
     //endregion
-  
+
       @Override
 
     protected void onPause(){
@@ -111,6 +112,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         TextView txtView = findViewById(R.id.question);
         txtView.setText(Integer.toString(questionValue));
+
+        // リセットボタンの if 文の中に以下を追加します
+
+        // クラスの最初の方（他の変数を宣言しているあたり）に定義
+        int[] images = {
+                R.drawable.slime,
+                R.drawable.dragon_black1,
+        };
+        int imageIndex = 0; // 現在の画像の番号を記憶する変数
     } // questionリセットメソッド
 
     private void setAnswerValue() { //
@@ -207,6 +217,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         vibrator.vibrate(VibrationEffect.createOneShot(
                 500, VibrationEffect.DEFAULT_AMPLITUDE));
     }// バイブレーションメソッド（項目4）
-  
+
 }
 
