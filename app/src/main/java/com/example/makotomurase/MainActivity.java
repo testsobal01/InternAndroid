@@ -13,7 +13,9 @@ import android.animation.ArgbEvaluator;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.content.Intent;
+import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -117,6 +119,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             clearAnswerValue();
             clearScoreValue();
             //soundPlayer.playButtonSound();
+            setDefaultBackgroundColor();
         }else if(id == R.id.button4){
             showSettingDialog();
         }
@@ -260,26 +263,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = "WIN";
                 score = 2;
-
-                //背景色の設定をどこに適応させるかを書く
-                txtViewQuestion.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(MainActivity.this, R.color.win_normal)));
-                txtViewAnswer.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(MainActivity.this, R.color.win_normal)));
+                txtViewAnswer.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(MainActivity.this, R.color.win)));
                 TextAnimator(txtViewAnswer);
                 soundPlayer.playYheeeSound();
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
-
-                txtViewQuestion.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(MainActivity.this, R.color.lose_normal)));
-                txtViewAnswer.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(MainActivity.this, R.color.lose_normal)));
+                txtViewAnswer.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(MainActivity.this, R.color.lose)));
                 TextAnimator(txtViewQuestion);
                 soundPlayer.playShockSound();
             } else {
                 result = "DRAW";
                 score = 1;
-
-                txtViewAnswer.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(MainActivity.this, R.color.draw_normal)));
-                txtViewQuestion.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(MainActivity.this, R.color.draw_normal)));
+                txtViewAnswer.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(MainActivity.this, R.color.default_color)));
                 soundPlayer.playDoutenSound();
             }
 
@@ -287,26 +283,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question > answer) {
                 result = "WIN";
                 score = 2;
-
-                txtViewQuestion.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(MainActivity.this, R.color.win_normal)));
-                txtViewAnswer.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(MainActivity.this, R.color.win_normal)));
+                txtViewAnswer.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(MainActivity.this, R.color.win)));
                 TextAnimator(txtViewAnswer);
                 soundPlayer.playYheeeSound();
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
-
-                txtViewQuestion.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(MainActivity.this, R.color.lose_normal)));
-                txtViewAnswer.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(MainActivity.this, R.color.lose_normal)));
+                txtViewAnswer.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(MainActivity.this, R.color.lose)));
                 TextAnimator(txtViewQuestion);
                 soundPlayer.playShockSound();
             } else {
                 result = "DRAW";
                 score = 1;
+                txtViewAnswer.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(MainActivity.this, R.color.default_color)));
                 soundPlayer.playDoutenSound();
-
-                txtViewQuestion.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(MainActivity.this, R.color.draw_normal)));
-                txtViewAnswer.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(MainActivity.this, R.color.draw_normal)));
             }
         }
 
@@ -320,16 +310,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setScore(score);
     }
 
-    private void setNextQuestion() {
-        cancelNextQuestion();
+    //drawとdefaultのとき背景色変更
+    private void setDefaultBackgroundColor(){
+        TextView txtViewQuestion = findViewById(R.id.question);
+        TextView txtViewAnswer = findViewById(R.id.answer);
 
+        txtViewQuestion.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(MainActivity.this, R.color.default_color)));
+        txtViewAnswer.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(MainActivity.this, R.color.default_color)));
+    }
+
+    private void setNextQuestion() {
+        // 1. もし既に動いているタイマー（Runnable）があればキャンセルする
+        if (runnable != null) {
+            handler.removeCallbacks(runnable);
+        }
+        // 2. 実行したい処理を定義
         runnable = new Runnable() {
             @Override
             public void run() {
                 setQuestionValue();
-                runnable = null;
             }
         };
+        // 3. 3秒後に実行するようセット
+        handler.postDelayed(runnable, 3000);
     }
 
     private void setScore(int score) {
