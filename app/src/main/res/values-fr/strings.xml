@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">SobalTest</string>
+    <string name="btn_high">Haut</string>
+    <string name="btn_low">basse</string>
+    <string name="btn_restart">Redémarrer</string>
+    <string name="btn_language">paramètre</string>
+    <string name="label_score">Score：</string>
+
+    <string name="setting">Paramètres</string>
+    <string name="close">Fermer</string>
+    <string name="action_setting1">Paramètres1</string>
+    <string name="action_setting2">Paramètres2</string>
+    <string name="action_setting3">Paramètres3</string>
+</resources>
