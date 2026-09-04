@@ -41,11 +41,11 @@
                 android:id="@+id/button4"
                 android:layout_width="48dp"
                 android:layout_height="wrap_content"
+                android:contentDescription="@string/setting_description"
                 android:minWidth="0dp"
                 android:padding="0dp"
                 android:text="@string/btn_setting"
-                android:textSize="20sp"
-                android:contentDescription="@string/setting_description"/>
+                android:textSize="20sp" />
         </LinearLayout>
 
 
@@ -91,7 +91,7 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:background="#ff00ff"
+                    android:background="@color/default_color"
                     android:gravity="center"
                     android:text="値1"
                     android:textSize="60sp" />
@@ -113,12 +113,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
-                android:background="#ffff00"
+                android:background="@color/default_color"
                 android:gravity="center"
-                android:text="?"
-                android:textSize="60sp"
                 android:scaleType="centerCrop"
                 android:src="@drawable/img"
+                android:text="?"
+                android:textSize="60sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
