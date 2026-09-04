@@ -6,6 +6,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -89,6 +90,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             setQuestionValue();
             clearAnswerValue();
             clearScoreValue();
+            setBackgroundColor(0xffffff00,0xffff00ff);   //初期化
         }
     }
 
@@ -121,6 +123,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int question = Integer.parseInt(txtViewQuestion.getText().toString());
         int answer = Integer.parseInt(txtViewAnswer.getText().toString());
 
+        int[] colors = {0xffffa07a, 0xffb0e0e6, 0xffc0c0c0}; //赤, 青, 灰色
+
         TextView txtResult = (TextView) findViewById(R.id.text_result);
 
         // 結果を示す文字列を入れる変数を用意
@@ -132,23 +136,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = "WIN";
                 score += 2;
+                setBackgroundColor(colors[0], colors[1]);
             } else if (question > answer) {
                 result = "LOSE";
                 score += -1;
+                setBackgroundColor(colors[1], colors[0]);
             } else {
                 result = "DRAW";
                 score += 1;
+                setBackgroundColor(colors[2], colors[2]);
             }
         } else {
             if (question > answer) {
                 result = "WIN";
                 score += 2;
+                setBackgroundColor(colors[0], colors[1]);
             } else if (question < answer) {
                 result = "LOSE";
                 score += -1;
+                setBackgroundColor(colors[1], colors[0]);
             } else {
                 result = "DRAW";
                 score += 1;
+                setBackgroundColor(colors[2], colors[2]);
             }
         }
 
@@ -160,6 +170,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setNextQuestion();
         // スコアを表示
         setScore();
+    }
+
+    private void setBackgroundColor(int meColor, int enemyColor){
+        TextView txtViewQuestion = findViewById(R.id.question);
+        TextView txtViewAnswer = findViewById(R.id.answer);
+
+        txtViewAnswer.setBackgroundColor(meColor);
+        txtViewQuestion.setBackgroundColor(enemyColor);
     }
 
     private void setNextQuestion() {
