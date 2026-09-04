@@ -1,5 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <color name="win_normal">#4CAF50</color>   <!-- Green -->
+    <color name="lose_normal">#F44336</color>  <!-- Red -->
+    <color name="draw_normal">#FFC107</color>  <!-- Amber -->
+
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="win">#6c8f7e</color>
+    <color name="lose">#d85a7a</color>
+    <color name="default_color">#f2e7b1</color>
+
 </resources>
