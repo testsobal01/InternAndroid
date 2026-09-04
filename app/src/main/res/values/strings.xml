@@ -15,4 +15,6 @@
     <string name="action_setting1">setting1</string>
     <string name="action_setting2">setting2</string>
     <string name="action_setting3">setting3</string>
+
+    <string name="input_username">Enter Your Name</string>
 </resources>

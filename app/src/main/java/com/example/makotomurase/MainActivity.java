@@ -21,6 +21,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -134,6 +135,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView txtscore = findViewById(R.id.text_score);
         int savedscore = sharedPreferences.getInt("score",0);
         txtscore.setText(Integer.toString(savedscore));
+
+        //get Username from Start Act
+        sharedPreferences = getSharedPreferences("USERNAME", Context.MODE_PRIVATE);
+        TextView userName = findViewById(R.id.username);
+        String inputUserName = sharedPreferences.getString("USERNAME","Null");
+        System.out.println(inputUserName);
+        userName.setText(inputUserName);
     }
 
 
