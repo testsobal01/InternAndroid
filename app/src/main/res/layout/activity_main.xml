@@ -23,7 +23,7 @@
                 <Button
                     android:id="@+id/button1"
                     android:layout_width="0dp"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:background="@drawable/shape_style"
                     android:text="@string/btn_high"
@@ -32,7 +32,7 @@
                 <Button
                     android:id="@+id/button2"
                     android:layout_width="0dp"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:background="@drawable/shape_style"
                     android:text="@string/btn_low"
@@ -41,8 +41,8 @@
                 <Button
                     android:id="@+id/button3"
                     android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="2"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.5"
                     android:background="@drawable/shape_style"
                     android:text="@string/btn_restart"
                     app:backgroundTint="@null" />
@@ -71,12 +71,24 @@
                     android:layout_height="wrap_content"
                     android:text="が設定されています。" />
 
+
+                <Button
+                    android:id="@+id/button5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:text="Double up"
+                    android:background="@drawable/shape_style"
+                    app:backgroundTint="#F44336"/>
+
             </LinearLayout>
 
             <TextView
                 android:id="@+id/text_result"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:text="@string/label_score"
+                android:textSize="20dp"/>
 
             <LinearLayout
                 android:layout_width="wrap_content"
