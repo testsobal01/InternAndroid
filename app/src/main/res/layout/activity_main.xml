@@ -38,8 +38,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
                 android:text="@string/btn_restart"
-                android:backgroundTint="#f2e7b1"
-                android:textColor="@color/cardview_dark_background"/>
+                android:backgroundTint="#6c8f7e" />
         </LinearLayout>
 
         <TextView
