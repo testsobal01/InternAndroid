@@ -9,6 +9,7 @@ import android.media.AudioAttributes;
 import android.media.SoundPool;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -114,6 +115,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         TextView txtResult = (TextView) findViewById(R.id.text_result);
 
+
         // 結果を示す文字列を入れる変数を用意
         String result;
         int score;
@@ -151,8 +153,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
         // 最後にまとめてToast表示の処理とTextViewへのセットを行う
-        Toast.makeText(this, result, Toast.LENGTH_LONG).show();
+
+        TextView text = new TextView(getApplicationContext());
+
+        Toast toast = Toast.makeText(this, result, Toast.LENGTH_LONG);
+        toast.setGravity(Gravity.CENTER,0,0);
+        toast.show();
         txtResult.setText("結果：" + question + ":" + answer + "(" + result + ")");
+
 
         // 続けて遊べるように値を更新
         setNextQuestion();
