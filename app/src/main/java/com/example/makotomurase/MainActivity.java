@@ -279,11 +279,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         android.view.View mainLayout = findViewById(R.id.main);
         if (mainLayout != null) {
             if (result.equals(getString(R.string.win))) {
-                mainLayout.setBackgroundColor(android.graphics.Color.parseColor("#EF5350"));  // 勝ち：赤
+                mainLayout.setBackgroundColor(android.graphics.Color.parseColor("#ff7fff"));  // 勝ち：赤
             } else if (result.equals(getString(R.string.lose))) {
-                mainLayout.setBackgroundColor(android.graphics.Color.parseColor("#42A5F5")); // 負け：青
+                mainLayout.setBackgroundColor(android.graphics.Color.parseColor("#7fbfff")); // 負け：青
             } else if (result.equals(getString(R.string.draw))) {
-                mainLayout.setBackgroundColor(android.graphics.Color.parseColor("#66BB6A")); // 引き分け：緑
+                mainLayout.setBackgroundColor(android.graphics.Color.parseColor("#7fff7f")); // 引き分け：緑
             }
         }
         // 続けて遊べるように値を更新
