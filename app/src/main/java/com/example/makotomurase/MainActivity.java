@@ -318,6 +318,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             mediaPlayer = null;
         }
     }
+    private void playSound1(int soundResId) {
+        // Stop and release previous sound if it exists
+        if (mediaPlayer != null) {
+            if (mediaPlayer.isPlaying()) {
+                mediaPlayer.stop();
+            }
+            mediaPlayer.release();
+            mediaPlayer = null;
+        }
+
+        // Initialize and start new sound
+        mediaPlayer = MediaPlayer.create(this, soundResId);
+        mediaPlayer.start();
+
+        // Release the MediaPlayer automatically when completed
+        mediaPlayer.setOnCompletionListener(mp -> {
+            mp.release();
+            mediaPlayer = null;
+        });
+    }
 
 }
 
