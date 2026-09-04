@@ -3,6 +3,7 @@ package com.example.makotomurase;
 
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -17,6 +18,7 @@ import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -102,9 +104,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void clearAnswerValue() { //
         TextView txtView = (TextView) findViewById(R.id.answer);
         txtView.setText("値2");
+
+        //背景色の定義と変更
+        TextView txtViewQuestion = findViewById(R.id.question);
+        TextView txtViewAnswer = findViewById(R.id.answer);
+        txtViewAnswer.setBackgroundColor(Color.parseColor("#ffff00"));//黄色
+        txtViewQuestion.setBackgroundColor(Color.parseColor("#ff00ff"));//ピンク
+
     } // answerリセットメソッド
 
-    private void setQuestionValue() { //
+    private void setQuestionValue() {
         Random r = new Random();
         // 0から10の範囲で乱数を生成（+1する必要がある）
         int questionValue = r.nextInt(10 + 1);
@@ -130,6 +139,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         TextView txtResult = (TextView) findViewById(R.id.text_result);
 
+
         // 結果を示す文字列を入れる変数を用意
         String result;
         int score;
@@ -140,9 +150,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = "WIN";
                 score = 2;
+                txtViewAnswer.setBackgroundColor(Color.parseColor("#ffff00"));//黄色
+                txtViewQuestion.setBackgroundColor(Color.parseColor("#a611a6"));//暗いピンク
+               // txtViewQuestion.setBackgroundColor(Color.parseColor("#e80ce8"));//暗いピンク
+
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
+                txtViewQuestion.setBackgroundColor(Color.parseColor("#ff00ff"));//ピンク
+                txtViewAnswer.setBackgroundColor(Color.parseColor("#999923"));//暗い黄色
             } else {
                 result = "DRAW";
                 score = 1;
@@ -151,9 +167,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question > answer) {
                 result = "WIN";
                 score = 2;
+                txtViewAnswer.setBackgroundColor(Color.parseColor("#ffff00"));//黄色
+                txtViewQuestion.setBackgroundColor(Color.parseColor("#a611a6"));//暗いピンク
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
+                txtViewQuestion.setBackgroundColor(Color.parseColor("#ff00ff"));//ピンク
+                txtViewAnswer.setBackgroundColor(Color.parseColor("#999923"));//暗い黄色
             } else {
                 result = "DRAW";
                 score = 1;
