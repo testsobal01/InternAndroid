@@ -5,13 +5,13 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.content.SharedPreferences;
 import android.os.CountDownTimer;
 import android.util.Log;
 import android.app.AlertDialog;
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.view.View;
@@ -19,14 +19,14 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.w3c.dom.Text;
-
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     SharedPreferences pref;
     SharedPreferences.Editor prefEditor;
+    private SoundPlayer soundPlayer;
 
+    @SuppressLint("MissingSuperCall")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,6 +60,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         Button settingButton=findViewById(R.id.button_settings);
         settingButton.setOnClickListener(view -> showSettingsDialog());
+
+        soundPlayer = new SoundPlayer(this);
     }
 
     private void showSettingsDialog() {
@@ -90,6 +92,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             setQuestionValue();
             clearAnswerValue();
             clearScoreValue();
+            soundPlayer.playDrawSound();
         }
     }
 
@@ -141,17 +144,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     score = 2;
                     VIB.vibrate(VibrationEffect.createOneShot(1000,VibrationEffect.DEFAULT_AMPLITUDE));
                     txtResult.setBackgroundColor(Color.RED);
+                    soundPlayer.playWinSound();
 
                 } else if (question > answer) {
                     result = "LOSE";
                     score = -1;
                     VIB.vibrate(VibrationEffect.createOneShot(500,VibrationEffect.DEFAULT_AMPLITUDE));
                     txtResult.setBackgroundColor(Color.BLUE);
+                    soundPlayer.playLoseSound();
                 } else {
                     result = "DRAW";
                     score = 1;
                     VIB.vibrate(VibrationEffect.createOneShot(200,VibrationEffect.DEFAULT_AMPLITUDE));
                     txtResult.setBackgroundColor(Color.GREEN);
+                    soundPlayer.playDrawSound();
                 }
             } else {
                 if (question > answer) {
@@ -159,16 +165,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     score = 2;
                     VIB.vibrate(VibrationEffect.createOneShot(1000,VibrationEffect.DEFAULT_AMPLITUDE));
                     txtResult.setBackgroundColor(Color.RED);
+                    soundPlayer.playWinSound();
                 } else if (question < answer) {
                     result = "LOSE";
                     score = -1;
                     VIB.vibrate(VibrationEffect.createOneShot(500,VibrationEffect.DEFAULT_AMPLITUDE));
                     txtResult.setBackgroundColor(Color.BLUE);
+                    soundPlayer.playLoseSound();
                 } else {
                     result = "DRAW";
                     score = 1;
                     VIB.vibrate(VibrationEffect.createOneShot(200,VibrationEffect.DEFAULT_AMPLITUDE));
                     txtResult.setBackgroundColor(Color.GREEN);
+                    soundPlayer.playDrawSound();
                 }
             }
 
@@ -226,8 +235,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         TextView textView = (TextView)findViewById(R.id.text_score);
 
-        String readText = pref.getString("main_input", "保存されていません");
+        String readText = pref.getString("main_input", "0");
         textView.setText(readText);
     }
+
+
 }
 
