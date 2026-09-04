@@ -1,10 +1,12 @@
 package com.example.makotomurase;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -13,6 +15,7 @@ import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.view.View;
 import android.widget.Button;
+import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,7 +35,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private SoundPool soundPool;
     private int soundOne, soundTwo;
     private Button button1, button2, button3;
-  
+
+    private int maxnum = 10;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,6 +63,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
+
+        Button btn4 = findViewById(R.id.button4);
+        btn4.setOnClickListener(this);
+
+        TextView textValue = (TextView) findViewById(R.id.SetTo);
+        textValue.setText("It is set to 10");
 
 
         // AudioAttributes 設定
@@ -110,6 +121,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             setQuestionValue();
             clearAnswerValue();
             clearScoreValue();
+        } else if (id == R.id.button4) {
+            MyNumberPicker();
         }
     }
 
@@ -147,7 +160,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void setQuestionValue() {
         Random r = new Random();
         // 0から10の範囲で乱数を生成（+1する必要がある）
-        int questionValue = r.nextInt(10 + 1);
+        int questionValue = r.nextInt(maxnum + 1);
 
         TextView txtView = findViewById(R.id.question);
         txtView.setText(Integer.toString(questionValue));
@@ -155,7 +168,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void setAnswerValue() {
         Random r = new Random();
-        int answerValue = r.nextInt(10 + 1);
+        int answerValue = r.nextInt(maxnum + 1);
 
         TextView txtView = findViewById(R.id.answer);
         txtView.setText(Integer.toString(answerValue));
@@ -239,6 +252,36 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void clearScoreValue() {
         TextView txtScore = (TextView) findViewById(R.id.text_score);
         txtScore.setText("0");
+    }
+
+    private int MyNumberPicker() {
+        NumberPicker numberPicker = new NumberPicker(this);
+
+        numberPicker.setMaxValue(50);
+        numberPicker.setMinValue(10);
+
+
+        new AlertDialog.Builder(MainActivity.this)
+                .setTitle("最大値を設定してください")
+                .setView(numberPicker)
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                         maxnum = numberPicker.getValue();
+                        TextView NewtextValue = (TextView) findViewById(R.id.SetTo);
+                        String numax = "It is set to " + Integer.toString(maxnum);
+                        NewtextValue.setText(numax);
+                    }
+                })
+                .setNegativeButton("キャンセル", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                })
+                .show();
+
+        return maxnum;
     }
 }
 
