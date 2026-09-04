@@ -2,6 +2,7 @@ package com.example.makotomurase;
 
 import static androidx.core.view.ViewCompat.setBackgroundTintList;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
@@ -36,6 +37,8 @@ import android.content.res.ColorStateList;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
+    private jp.codeforfun.catchtheball.SoundPlayer soundPlayer;
+
     SharedPreferences pref;
     SharedPreferences.Editor prefEditor;
     private Runnable runnable;
@@ -49,12 +52,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
-
-
-
-
-
+        soundPlayer = new jp.codeforfun.catchtheball.SoundPlayer(this);
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (view, windowInsets) -> {
             Insets insets = windowInsets.getInsets(
@@ -106,9 +104,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (id == R.id.button1) {
             setAnswerValue();
             checkResult(true);
+           // soundPlayer.playDramSound();
         } else if (id == R.id.button2) {
             setAnswerValue();
             checkResult(false);
+            //soundPlayer.playDramSound();
         } else if (id == R.id.button3) {
             //restart押す後左側の乱数3秒後更新しない
             cancelNextQuestion();
@@ -116,6 +116,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             setQuestionValue();
             clearAnswerValue();
             clearScoreValue();
+            //soundPlayer.playButtonSound();
         }else if(id == R.id.button4){
             showSettingDialog();
         }
@@ -264,46 +265,50 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 txtViewQuestion.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(MainActivity.this, R.color.win_normal)));
                 txtViewAnswer.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(MainActivity.this, R.color.win_normal)));
                 TextAnimator(txtViewAnswer);
+                soundPlayer.playYheeeSound();
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
-              
+
                 txtViewQuestion.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(MainActivity.this, R.color.lose_normal)));
                 txtViewAnswer.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(MainActivity.this, R.color.lose_normal)));
                 TextAnimator(txtViewQuestion);
+                soundPlayer.playShockSound();
             } else {
                 result = "DRAW";
                 score = 1;
-              
+
                 txtViewAnswer.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(MainActivity.this, R.color.draw_normal)));
                 txtViewQuestion.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(MainActivity.this, R.color.draw_normal)));
+                soundPlayer.playDoutenSound();
             }
 
         } else {
             if (question > answer) {
                 result = "WIN";
                 score = 2;
-              
+
                 txtViewQuestion.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(MainActivity.this, R.color.win_normal)));
                 txtViewAnswer.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(MainActivity.this, R.color.win_normal)));
                 TextAnimator(txtViewAnswer);
+                soundPlayer.playYheeeSound();
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
-              
+
                 txtViewQuestion.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(MainActivity.this, R.color.lose_normal)));
                 txtViewAnswer.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(MainActivity.this, R.color.lose_normal)));
                 TextAnimator(txtViewQuestion);
+                soundPlayer.playShockSound();
             } else {
                 result = "DRAW";
                 score = 1;
-              
+                soundPlayer.playDoutenSound();
+
                 txtViewQuestion.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(MainActivity.this, R.color.draw_normal)));
                 txtViewAnswer.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(MainActivity.this, R.color.draw_normal)));
             }
         }
-
-
 
         // 最後にまとめてToast表示の処理とTextViewへのセットを行う
         Toast.makeText(this, result, Toast.LENGTH_LONG).show();
@@ -316,15 +321,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void setNextQuestion() {
-        cancelNextQuestion();
-
-        runnable = new Runnable() {
+        // 第１引数がカウントダウン時間、第２引数は途中経過を受け取る間隔
+        // 単位はミリ秒（1秒＝1000ミリ秒）
+        new CountDownTimer(3000, 1000) {
             @Override
-            public void run() {
-                setQuestionValue();
-                runnable = null;
+            public void onTick(long l) {
+                // 途中経過を受け取った時に何かしたい場合
+                // 今回は特に何もしない
             }
-        };
+
+            @Override
+            public void onFinish() {
+                // 3秒経過したら次の値をセット
+                setQuestionValue();
+            }
+        }.start();
     }
 
     private void setScore(int score) {

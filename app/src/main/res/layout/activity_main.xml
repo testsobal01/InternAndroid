@@ -48,6 +48,7 @@
                 android:contentDescription="@string/setting_description"/>
         </LinearLayout>
 
+
         <TextView
             android:id="@+id/text_max_value"
             android:layout_width="wrap_content"
