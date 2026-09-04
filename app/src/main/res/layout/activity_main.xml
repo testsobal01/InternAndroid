@@ -5,11 +5,13 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".MainActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:orientation="vertical">
 
         <LinearLayout
@@ -36,9 +38,6 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
                 android:text="@string/btn_restart" />
-
-
-
 
         </LinearLayout>
 
@@ -91,8 +90,21 @@
                 android:gravity="center"
                 android:text="値2"
                 android:textSize="60sp" />
+
         </LinearLayout>
 
     </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/so"></ImageView>
+
+    </LinearLayout>
+
 
 </LinearLayout>
