@@ -5,6 +5,8 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import android.media.AudioAttributes;
+import android.media.SoundPool;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Build;
@@ -22,6 +24,8 @@ import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
+    private SoundPool soundPool;
+    private int winsound,losesound,drawsound;
     SharedPreferences pref;
     SharedPreferences.Editor prefEditor;
 
@@ -31,6 +35,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (view, windowInsets) -> {
             Insets insets = windowInsets.getInsets(
@@ -54,6 +60,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // 起動時に関数を呼び出す
         setQuestionValue();
+
+        AudioAttributes audioAttributes = new AudioAttributes.Builder()
+
+                .setUsage(AudioAttributes.USAGE_GAME)
+                .setContentType(AudioAttributes.CONTENT_TYPE_SPEECH)
+                .build();
+
+        soundPool = new SoundPool.Builder()
+                .setAudioAttributes(audioAttributes)
+                .setMaxStreams(2)
+                .build();
+
+        winsound = soundPool.load(this,R.raw.victory,1);
+
+        losesound = soundPool.load(this,R.raw.zannense,1);
+
+        drawsound = soundPool.load(this,R.raw.pachinko,1);
+
     }
 
     @Override
@@ -136,28 +160,34 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = "WIN";
                 score += 2;
+                soundPool.play(winsound, 30.0f, 30.0f, 0, 0, 1);
                 setBackgroundColor(colors[0], colors[1]);
             } else if (question > answer) {
                 result = "LOSE";
                 score += -1;
+                soundPool.play(losesound, 30.0f, 30.0f, 0, 0, 1);
                 setBackgroundColor(colors[1], colors[0]);
             } else {
                 result = "DRAW";
                 score += 1;
+                soundPool.play(drawsound, 50.0f, 50.0f, 0, 0, 1);
                 setBackgroundColor(colors[2], colors[2]);
             }
         } else {
             if (question > answer) {
                 result = "WIN";
                 score += 2;
+                soundPool.play(winsound, 30.0f, 30.0f, 0, 0, 1);
                 setBackgroundColor(colors[0], colors[1]);
             } else if (question < answer) {
                 result = "LOSE";
                 score += -1;
+                soundPool.play(losesound, 30.0f, 30.0f, 0, 0, 1);
                 setBackgroundColor(colors[1], colors[0]);
             } else {
                 result = "DRAW";
                 score += 1;
+                soundPool.play(drawsound, 50.0f, 50.0f, 0, 0, 1);
                 setBackgroundColor(colors[2], colors[2]);
             }
         }
