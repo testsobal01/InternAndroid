@@ -23,6 +23,7 @@ import org.w3c.dom.Text;
 
 import java.util.Random;
 
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     SharedPreferences pref;
     SharedPreferences.Editor prefEditor;
@@ -60,6 +61,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         Button settingButton=findViewById(R.id.button_settings);
         settingButton.setOnClickListener(view -> showSettingsDialog());
+
     }
 
     private void showSettingsDialog() {
