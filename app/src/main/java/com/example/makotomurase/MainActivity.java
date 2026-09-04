@@ -6,6 +6,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.util.Log;
 import android.graphics.Color;
@@ -15,11 +16,23 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
+import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.media.SoundPool;
+
+import android.media.MediaPlayer;
+import android.os.Bundle;
+import androidx.appcompat.app.AppCompatActivity;
+
+
+
 import android.animation.ValueAnimator;
 import android.view.animation.LinearInterpolator;
 import android.animation.Animator;
@@ -27,10 +40,26 @@ import android.animation.Animator;
 
 import java.util.Random;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemSelectedListener {
+
+    int selectedScore = 10;
+
+    private MediaPlayer mediaPlayer;
+    private SoundPool soundPool1;
+    private int soundId1;
+    private SoundPool soundPool2;
+    private int soundId2;
+    private SoundPool soundPool3;
+    private int soundId3;
+    private SoundPool soundPool4;
+    private int soundId4;
+    private SoundPool soundPool5;
+    private int soundId5;
 
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
+
+    Boolean doubleFlag = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,11 +83,51 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
 
+        //select game score, add default value
+        Spinner spinner = findViewById(R.id.selectscore);
+        spinner.setSelection(0);
+
+        // リスナーをセット
+        spinner.setOnItemSelectedListener(this);
+
         Button btn4 = findViewById(R.id.button4);
         btn4.setOnClickListener(this);
 
+        Button btn5 = findViewById(R.id.button5);
+        btn5.setOnClickListener(this);
+
         // 起動時に関数を呼び出す
         setQuestionValue();
+
+        // SoundPoolの初期化
+         soundPool1 = new SoundPool.Builder()
+                 .setMaxStreams(2)
+                 .build();
+        soundPool2 = new SoundPool.Builder()
+                .setMaxStreams(2)
+                .build();
+        soundPool3 = new SoundPool.Builder()
+                .setMaxStreams(2)
+                .build();
+        soundPool4 = new SoundPool.Builder()
+                .setMaxStreams(2)
+                .build();
+
+        soundPool5 = new SoundPool.Builder()
+                .setMaxStreams(2)
+                .build();
+        // サウンドファイルの読み込み
+        soundId1 = soundPool1.load(this, R.raw.one, 1);
+        soundId2 = soundPool2.load(this, R.raw.win, 1);
+        soundId3 = soundPool3.load(this, R.raw.lose, 1);
+        soundId4 = soundPool4.load(this, R.raw.draw, 1);
+        soundId5 = soundPool5.load(this, R.raw.restart, 1);
+
+        mediaPlayer = MediaPlayer.create(this, R.raw.morning);
+        if(mediaPlayer !=null){
+            mediaPlayer.setLooping(true);
+            mediaPlayer.start();
+        }
 
         // get score from preferences
         sharedPreferences = getSharedPreferences("SCORE", Context.MODE_PRIVATE);
@@ -75,6 +144,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         userName.setText(inputUserName);
     }
 
+
+
     private void showSettingDialog() {
         String[] settingItems = {
                 getString(R.string.action_setting1),
@@ -89,6 +160,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .show();
     }
 
+    //select game score
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        Spinner spinner = findViewById(R.id.selectscore);
+        String selectedValue = spinner.getSelectedItem().toString();
+        selectedScore = Integer.parseInt(selectedValue);
+        setQuestionValue();
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> adapterView) {
+
+    }
+
     @Override
     public void onClick(View view) {
 
@@ -96,17 +181,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (view.getId() == R.id.button3) {
             Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
             vibrator.vibrate(VibrationEffect.createOneShot(
-                    1000, VibrationEffect.DEFAULT_AMPLITUDE));;
+                    1000, VibrationEffect.DEFAULT_AMPLITUDE));
+
+            soundPool5.play(soundId5, 1.0f, 1.0f, 0, 0, 1.0f);
+
         }
 
         int id = view.getId();
         if (id == R.id.button1) {
+            soundPool1.play(soundId1, 1.0f, 1.0f, 0, 0, 1.0f);
             setAnswerValue();
             checkResult(true);
+
         } else if (id == R.id.button2) {
+            soundPool1.play(soundId1, 1.0f, 1.0f, 0, 0, 1.0f);
             setAnswerValue();
             checkResult(false);
         } else if (id == R.id.button3) {
+            soundPool1.play(soundId1, 1.0f, 1.0f, 0, 0, 1.0f);
             setQuestionValue();
             clearAnswerValue();
             clearScoreValue();
@@ -120,6 +212,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Intent subIntent = new Intent(getApplication(), StartActivity.class);
             startActivity(subIntent);
         }
+        if (id == R.id.button5) {
+            Toast.makeText(getApplicationContext(), "次の得点が２倍!", Toast.LENGTH_SHORT).show();
+            // フラグをTrueにする
+            doubleFlag = true;
+            //１度だけの実行
+        }
     }
 
     @Override
@@ -131,12 +229,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int savedscore = Integer.parseInt(txtscore.getText().toString());
         editor.putInt("score",savedscore);
         editor.commit();
+        if(mediaPlayer !=null && mediaPlayer.isPlaying()){
+            mediaPlayer.pause();
+        }
     }
 
     @Override
     public void onResume() {
         super.onResume();
         Log.d("Test","onResume completed");
+        if(mediaPlayer !=null){
+            mediaPlayer.start();
+        }
+
+    }
+
+    @Override
+    public  void onDestroy(){
+        super.onDestroy();
+        Log.d("Test","onDestroy completed");
+        mediaPlayer.stop();
+        mediaPlayer.release(); // メモリ解放（必須）
+        mediaPlayer = null;
 
     }
 
@@ -148,7 +262,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void setQuestionValue() {
         Random r = new Random();
         // 0から10の範囲で乱数を生成（+1する必要がある）
-        int questionValue = r.nextInt(10 + 1);
+        int questionValue = r.nextInt( selectedScore+ 1);
 
         TextView txtView = findViewById(R.id.question);
         txtView.setText(Integer.toString(questionValue));
@@ -156,7 +270,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void setAnswerValue() {
         Random r = new Random();
-        int answerValue = r.nextInt(10 + 1);
+        int answerValue = r.nextInt( selectedScore+ 1);
 
         TextView txtView = findViewById(R.id.answer);
         txtView.setText(Integer.toString(answerValue));
@@ -180,7 +294,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             // result には結果のみを入れる
             if (question < answer) {
                 result = "WIN";
-                score = 2;
+                score = 1;
+              
+                soundPool2.play(soundId2, 1.0f, 1.0f, 0, 0, 1.0f);
+
                 Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
                 vibrator.vibrate(VibrationEffect.createOneShot(
                         500, VibrationEffect.DEFAULT_AMPLITUDE));;
@@ -197,6 +314,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 result = "LOSE";
                 score = -1;
 
+                soundPool3.play(soundId3, 1.0f, 1.0f, 0, 0, 1.0f);
+
                 //負けた時に背景色変更
                 View background = findViewById(R.id.question);
                 background.setBackgroundColor(Color.parseColor("#F57C00"));
@@ -207,7 +326,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 txtViewQuestion.animate().rotation(360f).setDuration(600).start();
             } else {
                 result = "DRAW";
-                score = 1;
+                score = 0;
+
+                soundPool4.play(soundId4, 1.0f, 1.0f, 0, 0, 1.0f);
 
                 //引き分け時に背景色変更
                 View background = findViewById(R.id.question);
@@ -223,7 +344,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         } else {
             if (question > answer) {
                 result = "WIN";
-                score = 2;
+                score = 1;
+
+                soundPool2.play(soundId2, 1.0f, 1.0f, 0, 0, 1.0f);
+
                 Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
                 vibrator.vibrate(VibrationEffect.createOneShot(
                         500, VibrationEffect.DEFAULT_AMPLITUDE));;
@@ -240,6 +364,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 result = "LOSE";
                 score = -1;
 
+                soundPool3.play(soundId3, 1.0f, 1.0f, 0, 0, 1.0f);
+
                 //負けた時に背景色変更
                 View background = findViewById(R.id.question);
                 background.setBackgroundColor(Color.parseColor("#F57C00"));
@@ -250,7 +376,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 txtViewQuestion.animate().rotation(360f).setDuration(600).start();
             } else {
                 result = "DRAW";
-                score = 1;
+                score = 0;
+
+                soundPool4.play(soundId4, 1.0f, 1.0f, 0, 0, 1.0f);
 
                 //引き分け時に背景色変更
                 View background = findViewById(R.id.question);
@@ -273,6 +401,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setNextQuestion();
         // スコアを表示
         setScore(score);
+
     }
 
     private void setNextQuestion() {
@@ -294,14 +423,33 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void setScore(int score) {
+        // フラグがTrueだったら2倍にする
+        if (doubleFlag == true) {
+            score *= 2;
+            doubleFlag = false;
+        } else {
+           score *= 1;
+        }
         TextView txtScore = (TextView) findViewById(R.id.text_score);
         int newScore = Integer.parseInt(txtScore.getText().toString()) + score;
         txtScore.setText(Integer.toString(newScore));
+
+        //特定のnewScore点数を取得したら勝ち負けの状態遷移
+        if(newScore >= 3){ //WIN画面へ
+            //画面遷移の処理
+            Intent winintent = new Intent(this, WinActivity.class);
+            startActivity(winintent);
+        }else if(newScore <= -3){ //LOSE画面へ
+            //画面遷移の処理
+            Intent loseintent = new Intent(this, LoseActivity.class);
+            startActivity(loseintent);
+        }
     }
 
     private void clearScoreValue() {
         TextView txtScore = (TextView) findViewById(R.id.text_score);
         txtScore.setText("0");
     }
+
 }
 
