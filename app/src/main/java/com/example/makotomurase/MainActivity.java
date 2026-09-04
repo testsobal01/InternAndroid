@@ -6,20 +6,36 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import android.graphics.Color;
+import android.content.SharedPreferences;
+import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
+import android.os.VibratorManager;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.content.res.Configuration;
 
 import java.util.Random;
 import java.util.Scanner;
+import java.util.Locale;
+import android.media.MediaPlayer;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+    private MediaPlayer mediaPlayer;
+
+    SharedPreferences pref;
+    SharedPreferences.Editor prefEditor;
 
 
     @Override
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -50,6 +66,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // 起動時に関数を呼び出す
         setQuestionValue();
+
+        pref = getSharedPreferences("GameScore", MODE_PRIVATE);
+        prefEditor = pref.edit();
     }
 
 
@@ -63,6 +82,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             setAnswerValue();
             checkResult(false);
         } else if (id == R.id.button3) {
+            Vibrator vibrator;
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                VibratorManager vibratorManager = (VibratorManager) getSystemService(Context.VIBRATOR_MANAGER_SERVICE);
+                vibrator = vibratorManager.getDefaultVibrator();
+            } else {
+                vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+            }
+
+            if (vibrator != null && vibrator.hasVibrator()) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    // 第1引数: ミリ秒, 第2引数: 強度（0〜255、DEFAULT_AMPLITUDEは標準）
+                    vibrator.vibrate(VibrationEffect.createOneShot(100, VibrationEffect.DEFAULT_AMPLITUDE));
+                } else {
+                    vibrator.vibrate(100);
+                }
+            }
             setQuestionValue();
             clearAnswerValue();
             clearScoreValue();
@@ -72,11 +108,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             layout.setBackgroundColor(Color.YELLOW);
             layout1.setBackgroundColor(Color.RED);
 
+            MediaPlayer mp = MediaPlayer.create(this, R.raw.restart);
+            mp.start();
+
         }
     }
 
     private void clearAnswerValue() {
         TextView txtView = (TextView) findViewById(R.id.answer);
+         txtView.clearAnimation();
         txtView.setText("値2");
     }
 
@@ -86,6 +126,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int questionValue = r.nextInt(10 + 1);
 
         TextView txtView = findViewById(R.id.question);
+         txtView.clearAnimation();
         txtView.setText(Integer.toString(questionValue));
     }
 
@@ -122,12 +163,30 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 layout.setBackgroundColor(Color.YELLOW);
                 layout1.setBackgroundColor(Color.CYAN);
 
+                MediaPlayer mp = MediaPlayer.create(this, R.raw.win);
+                mp.start();
+
+                mp.setOnCompletionListener(player -> {
+                    player.release();
+                });
+
+                blinkText(txtViewAnswer);
+
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
 
                 layout.setBackgroundColor(Color.CYAN);
                 layout1.setBackgroundColor(Color.YELLOW);
+
+                MediaPlayer mp = MediaPlayer.create(this, R.raw.lose);
+                mp.start();
+
+                mp.setOnCompletionListener(player -> {
+                    player.release();
+                });
+
+                blinkText(txtViewQuestion);
 
             } else {
                 result = "DRAW";
@@ -136,6 +195,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 layout.setBackgroundColor(Color.GREEN);
                 layout1.setBackgroundColor(Color.GREEN);
 
+                MediaPlayer mp = MediaPlayer.create(this, R.raw.draw);
+                mp.start();
+                mp.setOnCompletionListener(player -> {
+                    player.release();
+                });
+
+                blinkText(txtViewQuestion);
+                blinkText(txtViewAnswer);
             }
         } else {
             if (question > answer) {
@@ -144,6 +211,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 layout.setBackgroundColor(Color.YELLOW);
                 layout1.setBackgroundColor(Color.CYAN);
+                
+                MediaPlayer mp = MediaPlayer.create(this, R.raw.win);
+                mp.start();
+                mp.setOnCompletionListener(player -> {
+                    player.release();
+                });
+
+                blinkText(txtViewAnswer);
 
             } else if (question < answer) {
                 result = "LOSE";
@@ -151,6 +226,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 layout.setBackgroundColor(Color.CYAN);
                 layout1.setBackgroundColor(Color.YELLOW);
+                
+                MediaPlayer mp = MediaPlayer.create(this, R.raw.lose);
+                mp.start();
+                mp.setOnCompletionListener(player -> {
+                    player.release();
+                });
+
+                blinkText(txtViewQuestion);
 
             } else {
                 result = "DRAW";
@@ -159,12 +242,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 layout.setBackgroundColor(Color.GREEN);
                 layout1.setBackgroundColor(Color.GREEN);
 
+                MediaPlayer mp = MediaPlayer.create(this, R.raw.draw);
+                mp.start();
+                mp.setOnCompletionListener(player -> {
+                    player.release();
+                });
+
+                blinkText(txtViewQuestion);
+                blinkText(txtViewAnswer);
             }
         }
 
         // 最後にまとめてToast表示の処理とTextViewへのセットを行う
         Toast.makeText(this, result, Toast.LENGTH_LONG).show();
         txtResult.setText("結果：" + question + ":" + answer + "(" + result + ")");
+
 
         // 続けて遊べるように値を更新
         setNextQuestion();
@@ -199,7 +291,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void setScore(int score) {
         TextView txtScore = (TextView) findViewById(R.id.text_score);
-        int newScore = Integer.parseInt(txtScore.getText().toString()) + score;
+        String scoreText = txtScore.getText().toString();
+
+        int currentScore = 0;
+        if (scoreText.equals("保存されていません。")) {
+            currentScore = 0;
+        } else {
+            currentScore = Integer.parseInt(scoreText)+score;
+        }
+
+        int newScore = currentScore + score;
         txtScore.setText(Integer.toString(newScore));
     }
 
@@ -207,6 +308,81 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView txtScore = (TextView) findViewById(R.id.text_score);
         txtScore.setText("0");
     }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        TextView txtScore = (TextView) findViewById(R.id.text_score);
+        prefEditor.putString("main_input", txtScore.getText().toString());
+        prefEditor.commit();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // Log.d("test", "onResume completed.");
+
+        TextView textView = (TextView) findViewById(R.id.text_score);
+        String readText = pref.getString("main_input", "保存されていません。");
+        textView.setText(readText);
+    }
+    
+    private void playSound(int soundResId) {
+        // Stop and release any currently playing sound
+        if (mediaPlayer != null) {
+            if (mediaPlayer.isPlaying()) {
+                mediaPlayer.stop();
+            }
+            mediaPlayer.release();
+            mediaPlayer = null;
+        }
+
+        // Create and start new sound
+        mediaPlayer = MediaPlayer.create(this, soundResId);
+        mediaPlayer.start();
+
+        // Release after completion
+        mediaPlayer.setOnCompletionListener(mp -> {
+            mp.release();
+            mediaPlayer = null;
+        });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (mediaPlayer != null) {
+            mediaPlayer.release();
+            mediaPlayer = null;
+        }
+    }
+    private void playSound1(int soundResId) {
+        // Stop and release previous sound if it exists
+        if (mediaPlayer != null) {
+            if (mediaPlayer.isPlaying()) {
+                mediaPlayer.stop();
+            }
+            mediaPlayer.release();
+            mediaPlayer = null;
+        }
+
+        // Initialize and start new sound
+        mediaPlayer = MediaPlayer.create(this, soundResId);
+        mediaPlayer.start();
+
+        // Release the MediaPlayer automatically when completed
+        mediaPlayer.setOnCompletionListener(mp -> {
+            mp.release();
+            mediaPlayer = null;
+        });
+    }
+
+    private void blinkText(TextView txtView) {
+        AlphaAnimation blink = new AlphaAnimation(1.0f, 0.0f);
+        blink.setDuration(300);
+        blink.setRepeatMode(Animation.REVERSE);
+        blink.setRepeatCount(5);
+        txtView.startAnimation(blink);
+    }
 }
-
-
