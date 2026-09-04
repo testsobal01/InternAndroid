@@ -216,18 +216,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         View bgQuestion = findViewById(R.id.question);
         View bgAnswer = findViewById(R.id.answer);
+        View bgImageview = findViewById(R.id.ImageView);
 
         // 勝敗に応じたアニメーションの処理
         if (result.equals("WIN")) {
             // 勝ったとき：左右の文字(question, answer)を大きくしながらアニメーション
             playResultAnimation(txtViewQuestion, true);
             playResultAnimation(txtViewAnswer, true);
+            playResultAnimation(bgImageview, true);
 
             // 勝ったときだけ、背景全体（id: main）も一緒に大きく3Dアニメーションさせる！
 
 
             if (bgQuestion != null) {
                 playResultAnimation(bgQuestion, true);
+                playResultAnimation(bgImageview, true);
+
             }
             else if (bgAnswer != null) {
                 playResultAnimation(bgAnswer, true);
@@ -237,6 +241,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             // 負けたとき：左右の文字だけを小さくしながらアニメーション（背景は動かさない）
             playResultAnimation(txtViewQuestion, false);
             playResultAnimation(txtViewAnswer, false);
+            playResultAnimation(bgImageview, false);
 
 
         }
