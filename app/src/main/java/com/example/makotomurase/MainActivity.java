@@ -23,6 +23,7 @@ import android.widget.Toast;
 import android.content.res.Configuration;
 
 import java.util.Random;
+import java.util.Scanner;
 import java.util.Locale;
 import android.media.MediaPlayer;
 
@@ -31,6 +32,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     SharedPreferences pref;
     SharedPreferences.Editor prefEditor;
+
 
     @Override
 
@@ -55,12 +57,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
 
-        final View layout=findViewById(R.id.answer);
+        final View layout = findViewById(R.id.answer);
         layout.setBackgroundColor(Color.YELLOW);
 
-        final View layout1=findViewById(R.id.question);
+        final View layout1 = findViewById(R.id.question);
         layout1.setBackgroundColor(Color.RED);
-
 
 
         // 起動時に関数を呼び出す
@@ -69,6 +70,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         pref = getSharedPreferences("GameScore", MODE_PRIVATE);
         prefEditor = pref.edit();
     }
+
 
     @Override
     public void onClick(View view) {
@@ -101,8 +103,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             clearAnswerValue();
             clearScoreValue();
 
-            final View layout=findViewById(R.id.answer);
-            final View layout1=findViewById(R.id.question);
+            final View layout = findViewById(R.id.answer);
+            final View layout1 = findViewById(R.id.question);
             layout.setBackgroundColor(Color.YELLOW);
             layout1.setBackgroundColor(Color.RED);
 
@@ -148,8 +150,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // 結果を示す文字列を入れる変数を用意
         String result;
         int score;
-        final View layout=findViewById(R.id.answer);
-        final View layout1=findViewById(R.id.question);
+        final View layout = findViewById(R.id.answer);
+        final View layout1 = findViewById(R.id.question);
 
         // Highが押された
         if (isHigh) {
@@ -265,7 +267,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void setNextQuestion() {
         // 第１引数がカウントダウン時間、第２引数は途中経過を受け取る間隔
         // 単位はミリ秒（1秒＝1000ミリ秒）
-        new CountDownTimer(3000, 1000) {
+        new CountDownTimer(5000, 1000) {
             @Override
             public void onTick(long l) {
                 // 途中経過を受け取った時に何かしたい場合
@@ -277,11 +279,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 // 3秒経過したら次の値をセット
                 setQuestionValue();
 
-                final View layout=findViewById(R.id.answer);
+                final View layout = findViewById(R.id.answer);
                 layout.setBackgroundColor(Color.YELLOW);
-                final View layout1=findViewById(R.id.question);
+                final View layout1 = findViewById(R.id.question);
                 layout1.setBackgroundColor(Color.RED);
-
 
 
             }
