@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">RyuheiKoike</string>
+    <string name="app_name">Sobal Test</string>
     <string name="btn_high">High</string>
     <string name="btn_low">Low</string>
     <string name="btn_restart">Restart</string>

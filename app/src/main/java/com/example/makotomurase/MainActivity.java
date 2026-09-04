@@ -25,6 +25,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     SharedPreferences pref;
     SharedPreferences.Editor prefEditor;
+    CountDownTimer nextQuestionTimer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,9 +34,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         Intent intent = getIntent();
         Bundle extra = intent.getExtras();
-        String intentString = extra.getString("Top");
-
-
+        String intentString = "";
+        if (extra != null) {
+            intentString = extra.getString("TOP");
+        }
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (view, windowInsets) -> {
             Insets insets = windowInsets.getInsets(
@@ -54,11 +56,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
 
-        // 追加
+        Button btn4 = findViewById(R.id.button4);
+        if (btn4 != null) {
+            btn4.setOnClickListener(this);
+        }
+
         pref = getSharedPreferences("Save", MODE_PRIVATE);
         prefEditor = pref.edit();
 
-        // 起動時に関数を呼び出す
         setQuestionValue();
     }
 
@@ -75,6 +80,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             setQuestionValue();
             clearAnswerValue();
             clearScoreValue();
+        } else if (id == R.id.button4) {
+            if (nextQuestionTimer != null) {
+                nextQuestionTimer.cancel();
+            }
+
+            TextView txtScore = findViewById(R.id.text_score);
+            int finalScore = Integer.parseInt(txtScore.getText().toString());
+
+            Intent intent = new Intent(MainActivity.this, ResultActivity.class);
+            intent.putExtra("FINAL_SCORE", finalScore);
+            startActivity(intent);
+            finish();
         }
     }
 
@@ -85,7 +102,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void setQuestionValue() {
         Random r = new Random();
-        // 0から10の範囲で乱数を生成（+1する必要がある）
         int questionValue = r.nextInt(10 + 1);
 
         TextView txtView = findViewById(R.id.question);
@@ -98,7 +114,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         TextView txtView = findViewById(R.id.answer);
         txtView.setText(Integer.toString(answerValue));
-
     }
 
     public int generateRandomWarmColor() {
@@ -116,6 +131,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int blue3 = random.nextInt(106) + 150;
         return Color.rgb(red3, green3, blue3);
     }
+
     private void checkResult(boolean isHigh) {
         TextView txtViewQuestion = findViewById(R.id.question);
         TextView txtViewAnswer = findViewById(R.id.answer);
@@ -125,13 +141,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         TextView txtResult = (TextView) findViewById(R.id.text_result);
 
-        // 結果を示す文字列を入れる変数を用意
         String result;
         int score;
 
-        // Highが押された
         if (isHigh) {
-            // result には結果のみを入れる
             if (question < answer) {
                 result = "WIN";
                 score = 2;
@@ -140,8 +153,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
-                TextView txtView = findViewById(R.id.question);
-                Random rnd = new Random();
                 int warmColor = changeWarmColor();
                 txtViewQuestion.setBackgroundColor(warmColor);
             } else {
@@ -157,8 +168,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
-                TextView txtView = findViewById(R.id.question);
-                Random rnd = new Random();
                 int warmColor = changeWarmColor();
                 txtViewQuestion.setBackgroundColor(warmColor);
             } else {
@@ -167,29 +176,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         }
 
-        // 最後にまとめてToast表示の処理とTextViewへのセットを行う
         Toast.makeText(this, result, Toast.LENGTH_LONG).show();
         txtResult.setText("結果：" + question + ":" + answer + "(" + result + ")");
 
-        // 続けて遊べるように値を更新
         setNextQuestion();
-        // スコアを表示
         setScore(score);
     }
 
     private void setNextQuestion() {
-        // 第１引数がカウントダウン時間、第２引数は途中経過を受け取る間隔
-        // 単位はミリ秒（1秒＝1000ミリ秒）
-        new CountDownTimer(3000, 1000) {
+        if (nextQuestionTimer != null) {
+            nextQuestionTimer.cancel();
+        }
+
+        nextQuestionTimer = new CountDownTimer(3000, 1000) {
             @Override
             public void onTick(long l) {
-                // 途中経過を受け取った時に何かしたい場合
-                // 今回は特に何もしない
+                // 途中経過（何もしない）
             }
 
             @Override
             public void onFinish() {
-                // 3秒経過したら次の値をセット
                 setQuestionValue();
             }
         }.start();
@@ -211,12 +217,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-
     @Override
     public void onPause(){
         super.onPause();
-        Toast.makeText(this, "onPause", Toast.LENGTH_SHORT).show();
-
         TextView textView = (TextView)findViewById(R.id.text_score);
         prefEditor.putString("score_input", textView.getText().toString());
         prefEditor.commit();
@@ -231,4 +234,3 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         textView.setText(readText);
     }
 }
-

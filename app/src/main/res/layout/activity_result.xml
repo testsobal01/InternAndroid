@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://android.com"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:padding="24dp">
+
+    <TextView
+        android:id="@+id/textGameOver"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="GAME OVER"
+        android:textSize="32sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="32dp"/>
+
+    <TextView
+        android:id="@+id/textFinalScore"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="最終スコア: 0"
+        android:textSize="24sp"
+        android:layout_marginBottom="8dp"/>
+
+    <TextView
+        android:id="@+id/textHighScore"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="最高スコア: 0"
+        android:textSize="18sp"
+        android:textColor="#757575"
+        android:layout_marginBottom="48dp"/>
+
+    <Button
+        android:id="@+id/buttonBackToTop"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="トップ画面に戻る"
+        android:textSize="18sp"
+        android:padding="12dp"/>
+
+</LinearLayout>
