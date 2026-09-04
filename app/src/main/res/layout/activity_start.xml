@@ -5,19 +5,35 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@drawable/start_background"
     android:gravity="center"
-    android:orientation="horizontal"
+    android:orientation="vertical"
     tools:context=".StartActivity">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/title"
+        android:textColor="@color/green"
+        android:textSize="50dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/startmessage"
+        android:textColor="@color/pink"
+        android:textSize="30dp"/>
 
 
     <Button
         android:id="@+id/buttonstart"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:backgroundTint="@color/white"
+        android:backgroundTint="@color/orenge"
         android:text="@string/start"
-        android:textColor="@color/black"
-        android:textSize="40dp" />
+        android:fontFamily="@font/corporate_logo_rounded_bold_ver3"
+        android:textColor="@color/green"
+        android:textSize="70dp" />
+
 
 </LinearLayout>
