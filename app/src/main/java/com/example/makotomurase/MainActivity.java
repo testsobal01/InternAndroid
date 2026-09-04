@@ -5,7 +5,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.util.Log;
 import android.graphics.Color;
@@ -15,6 +15,7 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -325,6 +326,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setNextQuestion();
         // スコアを表示
         setScore(score);
+
     }
 
     private void setNextQuestion() {
@@ -349,6 +351,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView txtScore = (TextView) findViewById(R.id.text_score);
         int newScore = Integer.parseInt(txtScore.getText().toString()) + score;
         txtScore.setText(Integer.toString(newScore));
+
+        //特定のnewScore点数を取得したら勝ち負けの状態遷移
+        if(newScore >= 3){ //WIN画面へ
+            //画面遷移の処理
+            Intent winintent = new Intent(this, WinActivity.class);
+            startActivity(winintent);
+        }else if(newScore <= -3){ //LOSE画面へ
+            //画面遷移の処理
+            Intent loseintent = new Intent(this, LoseActivity.class);
+            startActivity(loseintent);
+        }
     }
 
     private void clearScoreValue() {
