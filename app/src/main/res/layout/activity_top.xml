@@ -23,14 +23,14 @@
             android:id="@+id/Top_text1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="HIGH or ROW"
+            android:text="HIGH and ROW"
             android:gravity="center"
-            android:textSize="50sp"
+            android:textSize="45sp"
             android:textColor="@color/white"
             />
 
         <TextView
-            android:id="@+id/Top_text1"
+            android:id="@+id/Top_text2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="GAME"
@@ -47,7 +47,7 @@
 
         <Button
             android:id="@+id/button_top"
-            android:layout_width="300dp"
+            android:layout_width="280dp"
             android:layout_height="100dp"
             android:layout_gravity="center"
             android:background="@drawable/kara"
