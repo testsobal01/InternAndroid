@@ -5,6 +5,8 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator; // ★インポートの重複を整理しました
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
@@ -22,9 +24,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (view, windowInsets) -> {
-            Insets insets = windowInsets.getInsets(
-                    WindowInsetsCompat.Type.systemBars()
-                            | WindowInsetsCompat.Type.displayCutout());
+            Insets insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars() | WindowInsetsCompat.Type.displayCutout());
             view.setPadding(insets.left, insets.top, insets.right, 0);
             return windowInsets;
         });
@@ -65,7 +65,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void setQuestionValue() {
         Random r = new Random();
-        // 0から10の範囲で乱数を生成（+1する必要がある）
         int questionValue = r.nextInt(10 + 1);
 
         TextView txtView = findViewById(R.id.question);
@@ -89,19 +88,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         TextView txtResult = (TextView) findViewById(R.id.text_result);
 
-        // 結果を示す文字列を入れる変数を用意
         String result;
         int score;
+        boolean isWin = false; // ★【修正】isWin変数をここで作りました
 
         // Highが押された
         if (isHigh) {
-            // result には結果のみを入れる
             if (question < answer) {
                 result = "WIN";
                 score = 2;
+                isWin = true; // 勝ち
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
+                isWin = false; // 負け
             } else {
                 result = "DRAW";
                 score = 1;
@@ -110,9 +110,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question > answer) {
                 result = "WIN";
                 score = 2;
+                isWin = true; // 勝ち
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
+                isWin = false; // 負け
             } else {
                 result = "DRAW";
                 score = 1;
@@ -127,21 +129,49 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setNextQuestion();
         // スコアを表示
         setScore(score);
+
+        // 続けて遊べるように値を更新
+        setNextQuestion();
+        // スコアを表示
+        setScore(score);
+
+        View bgQuestion = findViewById(R.id.question);
+        View bgAnswer = findViewById(R.id.answer);
+
+        // 勝敗に応じたアニメーションの処理
+        if (result.equals("WIN")) {
+            // 勝ったとき：左右の文字(question, answer)を大きくしながらアニメーション
+            playResultAnimation(txtViewQuestion, true);
+            playResultAnimation(txtViewAnswer, true);
+
+            // 勝ったときだけ、背景全体（id: main）も一緒に大きく3Dアニメーションさせる！
+
+
+            if (bgQuestion != null) {
+                playResultAnimation(bgQuestion, true);
+            }
+            else if (bgAnswer != null) {
+                playResultAnimation(bgAnswer, true);
+            }
+
+        } else if (result.equals("LOSE")) {
+            // 負けたとき：左右の文字だけを小さくしながらアニメーション（背景は動かさない）
+            playResultAnimation(txtViewQuestion, false);
+            playResultAnimation(txtViewAnswer, false);
+
+
+        }
+
     }
 
     private void setNextQuestion() {
-        // 第１引数がカウントダウン時間、第２引数は途中経過を受け取る間隔
-        // 単位はミリ秒（1秒＝1000ミリ秒）
         new CountDownTimer(3000, 1000) {
             @Override
             public void onTick(long l) {
-                // 途中経過を受け取った時に何かしたい場合
-                // 今回は特に何もしない
             }
 
             @Override
             public void onFinish() {
-                // 3秒経過したら次の値をセット
                 setQuestionValue();
             }
         }.start();
@@ -149,7 +179,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void setScore(int score) {
         TextView txtScore = (TextView) findViewById(R.id.text_score);
-        int newScore = Integer.parseInt(txtScore.getText().toString()) + score;
+
+        // エラー防止のための数値変換処理
+        String scoreText = txtScore.getText().toString();
+        int currentScore = 0;
+        try {
+            currentScore = Integer.parseInt(scoreText);
+        } catch (NumberFormatException e) {
+            currentScore = 0;
+        }
+
+        int newScore = currentScore + score;
         txtScore.setText(Integer.toString(newScore));
     }
 
@@ -157,5 +197,43 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView txtScore = (TextView) findViewById(R.id.text_score);
         txtScore.setText("0");
     }
+
+    private void playResultAnimation(View textView, boolean isWin) {
+        float distance = 8000f;
+        textView.setCameraDistance(distance);
+
+        // 1. 前半：Y軸の3D回転アニメーションしながら拡大または縮小
+        ObjectAnimator rotateY = ObjectAnimator.ofFloat(textView, "rotationY", 0f, 360f);
+        ObjectAnimator scaleX1;
+        ObjectAnimator scaleY1;
+
+        if (isWin) {
+            scaleX1 = ObjectAnimator.ofFloat(textView, "scaleX", 1.0f, 1.8f);
+            scaleY1 = ObjectAnimator.ofFloat(textView, "scaleY", 1.0f, 1.8f);
+        } else {
+            scaleX1 = ObjectAnimator.ofFloat(textView, "scaleX", 1.0f, 0.5f);
+            scaleY1 = ObjectAnimator.ofFloat(textView, "scaleY", 1.0f, 0.5f);
+        }
+
+        // 2. 後半：変化したサイズから1.0（元のサイズ）に戻すアニメーション
+        ObjectAnimator scaleX2 = ObjectAnimator.ofFloat(textView, "scaleX", isWin ? 1.8f : 0.5f, 1.0f);
+        ObjectAnimator scaleY2 = ObjectAnimator.ofFloat(textView, "scaleY", isWin ? 1.8f : 0.5f, 1.0f);
+
+        AnimatorSet firstSet = new AnimatorSet();
+        firstSet.playTogether(rotateY, scaleX1, scaleY1);
+        firstSet.setDuration(600); // 0.6秒
+
+        AnimatorSet secondSet = new AnimatorSet();
+        secondSet.playTogether(scaleX2, scaleY2);
+        secondSet.setDuration(400); // 0.4秒
+
+        AnimatorSet totalSet = new AnimatorSet();
+        totalSet.playSequentially(firstSet, secondSet);
+        totalSet.start();
+    }
 }
+
+
+
+
 
