@@ -5,6 +5,10 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import android.graphics.Color;
+import android.content.SharedPreferences;
+import android.os.CountDownTimer;
+import android.util.Log;
 import android.app.AlertDialog;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -15,9 +19,13 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.w3c.dom.Text;
+
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+    SharedPreferences pref;
+    SharedPreferences.Editor prefEditor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +54,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // 起動時に関数を呼び出す
         setQuestionValue();
+
+        pref = getSharedPreferences("AndroidSeminor", MODE_PRIVATE);
+        prefEditor = pref.edit();
 
         Button settingButton=findViewById(R.id.button_settings);
         settingButton.setOnClickListener(view -> showSettingsDialog());
@@ -120,48 +131,53 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Vibrator VIB = (Vibrator) getSystemService(VIBRATOR_SERVICE);
 
 
-        // Highが押された
-        if (isHigh) {
+        // Highが押され
+            if (isHigh) {
 
-
-            // result には結果のみを入れる
-            if (question < answer) {
-                result = "WIN";
-                score = 2;
-                VIB.vibrate(VibrationEffect.createOneShot(1000,VibrationEffect.DEFAULT_AMPLITUDE));
-                winResultAnime();
-
-            } else if (question > answer) {
-                result = "LOSE";
-                score = -1;
-                VIB.vibrate(VibrationEffect.createOneShot(500,VibrationEffect.DEFAULT_AMPLITUDE));
-                loseResultAnime();
-
+                // result には結果のみを入れる
+                if (question < answer) {
+                    result = "WIN";
+                    score = 2;
+                    VIB.vibrate(VibrationEffect.createOneShot(1000,VibrationEffect.DEFAULT_AMPLITUDE));
+                    txtResult.setBackgroundColor(Color.RED);
+                    winResultAnime();
+                  
+                } else if (question > answer) {
+                    result = "LOSE";
+                    score = -1;
+                    VIB.vibrate(VibrationEffect.createOneShot(500,VibrationEffect.DEFAULT_AMPLITUDE));
+                    txtResult.setBackgroundColor(Color.BLUE);
+                    loseResultAnime();
+                  
+                } else {
+                    result = "DRAW";
+                    score = 1;
+                    VIB.vibrate(VibrationEffect.createOneShot(200,VibrationEffect.DEFAULT_AMPLITUDE));
+                    txtResult.setBackgroundColor(Color.GREEN);
+                    draw_resetResultAnime();
+                  
+                }
             } else {
-                result = "DRAW";
-                score = 1;
-                VIB.vibrate(VibrationEffect.createOneShot(200,VibrationEffect.DEFAULT_AMPLITUDE));
-                draw_resetResultAnime();
-
+                if (question > answer) {
+                    result = "WIN";
+                    score = 2;
+                    VIB.vibrate(VibrationEffect.createOneShot(1000,VibrationEffect.DEFAULT_AMPLITUDE));
+                    txtResult.setBackgroundColor(Color.RED);
+                    winResultAnime();
+                } else if (question < answer) {
+                    result = "LOSE";
+                    score = -1;
+                    VIB.vibrate(VibrationEffect.createOneShot(500,VibrationEffect.DEFAULT_AMPLITUDE));
+                    txtResult.setBackgroundColor(Color.BLUE);
+                    loseResultAnime();
+                } else {
+                    result = "DRAW";
+                    score = 1;
+                    VIB.vibrate(VibrationEffect.createOneShot(200,VibrationEffect.DEFAULT_AMPLITUDE));
+                    txtResult.setBackgroundColor(Color.GREEN);
+                    draw_resetResultAnime();
+                }
             }
-        } else {
-            if (question > answer) {
-                result = "WIN";
-                score = 2;
-                VIB.vibrate(VibrationEffect.createOneShot(1000,VibrationEffect.DEFAULT_AMPLITUDE));
-                winResultAnime();
-            } else if (question < answer) {
-                result = "LOSE";
-                score = -1;
-                VIB.vibrate(VibrationEffect.createOneShot(500,VibrationEffect.DEFAULT_AMPLITUDE));
-                loseResultAnime();
-            } else {
-                result = "DRAW";
-                score = 1;
-                VIB.vibrate(VibrationEffect.createOneShot(200,VibrationEffect.DEFAULT_AMPLITUDE));
-                draw_resetResultAnime();
-            }
-        }
 
         // 最後にまとめてToast表示の処理とTextViewへのセットを行う
         Toast.makeText(this, result, Toast.LENGTH_LONG).show();
@@ -201,6 +217,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView txtScore = (TextView) findViewById(R.id.text_score);
         txtScore.setText("0");
     }
+
     private void winResultAnime(){
         TextView Que = findViewById(R.id.question);
         TextView Ans = findViewById(R.id.answer);
@@ -242,6 +259,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .alpha(1.0f)
                 .setDuration(1000)
                 .start();
+    }
+
+    protected void onPause() {
+        super.onPause();
+        Toast.makeText(this, "onPause", Toast.LENGTH_SHORT).show();
+
+        TextView textView = (TextView) findViewById(R.id.text_score);
+        prefEditor.putString("main_input",textView.getText().toString());
+        prefEditor.commit();
+    }
+
+    protected void onResume() {
+        super.onResume();
+        Log.d("AndroidTest","onResume completed.");
+
+        TextView textView = (TextView)findViewById(R.id.text_score);
+
+        String readText = pref.getString("main_input", "保存されていません");
+        textView.setText(readText);
     }
 }
 
