@@ -4,9 +4,10 @@
     <string name="btn_low">Low</string>
     <string name="btn_restart">Restart</string>
     <string name="label_score">Score：</string>
+    <string name="btn_start">スタート</string>
     <string name="settings">Settings</string>
     <string name="close">Close</string>
-    <string name="action_settings">Settings 1</string>
+    <string name="action_settings">Setting 1</string>
     <string name="action_settings2">Setting 2</string>
     <string name="action_settings3">Setting 3</string>
 </resources>
