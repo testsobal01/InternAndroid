@@ -26,29 +26,36 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center"
-        android:text="2.(値1)＞(値2)と予想したら[高い]ボタン、"
+        android:text="2.(値1)＜(値2)と予想したら[高い]ボタン、"
         android:textSize="20dp" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center"
-        android:text="(値1)＜(値2)と予想したら[低い]ボタンを押してください｡"
+        android:text="(値1)＞(値2)と予想したら[低い]ボタンを押してください｡"
         android:textSize="20dp" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center"
-        android:text="3.スコアをリセットしたいときは、リスタートボタンを押してください｡"
+        android:text="3.予想が当たったなら、スコアに2点加点。予想がはずれて、負けたら1点減点されます。(値1)と(値2)が同じで引き分けならば、1点加点されます"
         android:textSize="20dp" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center"
-        android:text=""
-        android:textSize="210dp" />
+        android:text="4.スコアをリセットしたいときは、リスタートボタンを押してください｡"
+        android:textSize="20dp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:text="5.大きい数字が光ります。(値1)に新しい数字が表示されたら、再び予想してみよう!"
+        android:textSize="20dp" />
 
 
     <Button
@@ -58,4 +65,5 @@
         android:gravity="center"
         android:text="PLAY"
         android:textSize="30dp" />
+
 </LinearLayout>
