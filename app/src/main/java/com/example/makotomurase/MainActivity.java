@@ -4,7 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
-
+import android.animation.AnimatorInflater;
+import android.animation.AnimatorSet;
 import android.media.AudioAttributes;
 import android.media.SoundPool;
 import android.content.SharedPreferences;
@@ -17,6 +18,8 @@ import android.view.Gravity;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,7 +27,7 @@ import android.widget.Toast;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
-
+    AnimatorSet set;
     private SoundPool soundPool;
     private int winsound,losesound,drawsound;
     SharedPreferences pref;
@@ -58,6 +61,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
+
+//        set = (AnimatorSet) AnimatorInflater.loadAnimator(MainActivity.this, R.anim.blink_animation);
+//        set.setTarget(btn1);
+
 
         // 起動時に関数を呼び出す
         setQuestionValue();
@@ -104,8 +111,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View view) {
         int id = view.getId();
         if (id == R.id.button1) {
+
             setAnswerValue();
             checkResult(true);
+//            set.start();
+
+
+
+
         } else if (id == R.id.button2) {
             setAnswerValue();
             checkResult(false);
@@ -131,6 +144,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         TextView txtView = findViewById(R.id.question);
         txtView.setText(Integer.toString(questionValue));
+
     }
 
     private void setAnswerValue() {
@@ -161,6 +175,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             // result には結果のみを入れる
             if (question < answer) {
                 result = "WIN";
+                score = 2;
+//                set.start();
+                Animation anim = AnimationUtils.loadAnimation(this, R.anim.blink_animation);
+                anim.setAnimationListener(new Animation.AnimationListener(){
+                    @Override
+                    public void onAnimationEnd(Animation animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animation animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationStart(Animation animation) {
+
+                    }
+                });
+                TextView txtView = findViewById(R.id.question);
+                txtView.startAnimation(anim);
+
                 score += 2;
                 soundPool.play(winsound, 30.0f, 30.0f, 0, 0, 1);
                 setBackgroundColor(colors[0], colors[1]);
@@ -171,6 +207,45 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 setBackgroundColor(colors[1], colors[0]);
             } else {
                 result = "DRAW";
+                score = 1;
+                Animation anim = AnimationUtils.loadAnimation(this, R.anim.blink_animation);
+                anim.setAnimationListener(new Animation.AnimationListener(){
+                    @Override
+                    public void onAnimationEnd(Animation animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animation animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationStart(Animation animation) {
+
+                    }
+                });
+                TextView txtView = findViewById(R.id.question);
+                txtView.startAnimation(anim);
+                Animation anim2 = AnimationUtils.loadAnimation(this, R.anim.blink_animation);
+                anim2.setAnimationListener(new Animation.AnimationListener(){
+                    @Override
+                    public void onAnimationEnd(Animation animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animation animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationStart(Animation animation) {
+
+                    }
+                });
+                TextView txtView2 = findViewById(R.id.answer);
+                txtView2.startAnimation(anim);
                 score += 1;
                 soundPool.play(drawsound, 50.0f, 50.0f, 0, 0, 1);
                 setBackgroundColor(colors[2], colors[2]);
@@ -178,6 +253,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         } else {
             if (question > answer) {
                 result = "WIN";
+                score = 2;
+                Animation anim = AnimationUtils.loadAnimation(this, R.anim.blink_animation);
+                anim.setAnimationListener(new Animation.AnimationListener(){
+                    @Override
+                    public void onAnimationEnd(Animation animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animation animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationStart(Animation animation) {
+
+                    }
+                });
+                TextView txtView = findViewById(R.id.answer);
+                txtView.startAnimation(anim);
                 score += 2;
                 soundPool.play(winsound, 30.0f, 30.0f, 0, 0, 1);
                 setBackgroundColor(colors[0], colors[1]);
