@@ -9,6 +9,8 @@ import androidx.core.view.WindowInsetsCompat;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.VibrationEffect;
@@ -25,8 +27,10 @@ import java.util.Random;
 import javax.xml.transform.Result;
 import android.media.AudioAttributes;
 import android.media.SoundPool;
-  
+
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
 
     SharedPreferences pref;
     SharedPreferences.Editor prefEditor;
@@ -35,6 +39,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
   
     private SoundPool soundPool;
     private int soundOne, soundTwo;
+    private MediaPlayer mediaPlayer;
     private Button button1, button2, button3;
 
     private int maxnum = 10;
@@ -87,6 +92,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // 効果音をロード
         soundOne = soundPool.load(this, R.raw.hit, 1);
         soundTwo = soundPool.load(this, R.raw.kira, 1);
+
+        setVolumeControlStream((AudioManager.STREAM_MUSIC));
+        mediaPlayer=MediaPlayer.create(this,R.raw.game_bgm);
+        if (mediaPlayer !=null) {
+            mediaPlayer.setLooping(true);
+            mediaPlayer.start();
+        }
 
         pref = getSharedPreferences("SaveValue", MODE_PRIVATE);
         prefEditor = pref.edit();
