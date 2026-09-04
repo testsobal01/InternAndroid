@@ -5,6 +5,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import android.graphics.Color;
 import android.content.SharedPreferences;
 import android.content.Context;
 import android.os.Build;
@@ -20,13 +21,16 @@ import android.widget.Toast;
 import android.content.res.Configuration;
 import java.util.Random;
 import java.util.Locale;
+import android.media.MediaPlayer;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+    private MediaPlayer mediaPlayer;
 
     SharedPreferences pref;
     SharedPreferences.Editor prefEditor;
 
     @Override
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -47,6 +51,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
+
+        final View layout=findViewById(R.id.answer);
+        layout.setBackgroundColor(Color.YELLOW);
+
+        final View layout1=findViewById(R.id.question);
+        layout1.setBackgroundColor(Color.RED);
+
+
 
         // 起動時に関数を呼び出す
         setQuestionValue();
@@ -85,6 +97,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             setQuestionValue();
             clearAnswerValue();
             clearScoreValue();
+
+            final View layout=findViewById(R.id.answer);
+            final View layout1=findViewById(R.id.question);
+            layout.setBackgroundColor(Color.YELLOW);
+            layout1.setBackgroundColor(Color.RED);
+
+            MediaPlayer mp = MediaPlayer.create(this, R.raw.restart);
+            mp.start();
+
         }
     }
 
@@ -122,6 +143,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // 結果を示す文字列を入れる変数を用意
         String result;
         int score;
+        final View layout=findViewById(R.id.answer);
+        final View layout1=findViewById(R.id.question);
 
         // Highが押された
         if (isHigh) {
@@ -129,23 +152,81 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = "WIN";
                 score = 2;
+
+                layout.setBackgroundColor(Color.YELLOW);
+                layout1.setBackgroundColor(Color.CYAN);
+
+                MediaPlayer mp = MediaPlayer.create(this, R.raw.win);
+                mp.start();
+
+                mp.setOnCompletionListener(player -> {
+                    player.release();
+                });
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
+
+                layout.setBackgroundColor(Color.CYAN);
+                layout1.setBackgroundColor(Color.YELLOW);
+
+                MediaPlayer mp = MediaPlayer.create(this, R.raw.lose);
+                mp.start();
+
+                mp.setOnCompletionListener(player -> {
+                    player.release();
+                });
             } else {
                 result = "DRAW";
                 score = 1;
+
+                layout.setBackgroundColor(Color.GREEN);
+                layout1.setBackgroundColor(Color.GREEN);
+
+                MediaPlayer mp = MediaPlayer.create(this, R.raw.draw);
+                mp.start();
+                mp.setOnCompletionListener(player -> {
+                    player.release();
+                });
             }
         } else {
             if (question > answer) {
                 result = "WIN";
                 score = 2;
+
+                layout.setBackgroundColor(Color.YELLOW);
+                layout1.setBackgroundColor(Color.CYAN);
+                
+                MediaPlayer mp = MediaPlayer.create(this, R.raw.win);
+                mp.start();
+                mp.setOnCompletionListener(player -> {
+                    player.release();
+                });
+
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
+
+                layout.setBackgroundColor(Color.CYAN);
+                layout1.setBackgroundColor(Color.YELLOW);
+                
+                MediaPlayer mp = MediaPlayer.create(this, R.raw.lose);
+                mp.start();
+                mp.setOnCompletionListener(player -> {
+                    player.release();
+                });
+
             } else {
                 result = "DRAW";
                 score = 1;
+
+                layout.setBackgroundColor(Color.GREEN);
+                layout1.setBackgroundColor(Color.GREEN);
+
+                MediaPlayer mp = MediaPlayer.create(this, R.raw.draw);
+                mp.start();
+                mp.setOnCompletionListener(player -> {
+                    player.release();
+                });
             }
         }
 
@@ -173,6 +254,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public void onFinish() {
                 // 3秒経過したら次の値をセット
                 setQuestionValue();
+
+                final View layout=findViewById(R.id.answer);
+                layout.setBackgroundColor(Color.YELLOW);
+                final View layout1=findViewById(R.id.question);
+                layout1.setBackgroundColor(Color.RED);
+
+
+
             }
         }.start();
     }
@@ -206,5 +295,56 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         String readText = pref.getString("main_input", "保存されていません。");
         textView.setText(readText);
     }
+    
+    private void playSound(int soundResId) {
+        // Stop and release any currently playing sound
+        if (mediaPlayer != null) {
+            if (mediaPlayer.isPlaying()) {
+                mediaPlayer.stop();
+            }
+            mediaPlayer.release();
+            mediaPlayer = null;
+        }
+
+        // Create and start new sound
+        mediaPlayer = MediaPlayer.create(this, soundResId);
+        mediaPlayer.start();
+
+        // Release after completion
+        mediaPlayer.setOnCompletionListener(mp -> {
+            mp.release();
+            mediaPlayer = null;
+        });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (mediaPlayer != null) {
+            mediaPlayer.release();
+            mediaPlayer = null;
+        }
+    }
+    private void playSound1(int soundResId) {
+        // Stop and release previous sound if it exists
+        if (mediaPlayer != null) {
+            if (mediaPlayer.isPlaying()) {
+                mediaPlayer.stop();
+            }
+            mediaPlayer.release();
+            mediaPlayer = null;
+        }
+
+        // Initialize and start new sound
+        mediaPlayer = MediaPlayer.create(this, soundResId);
+        mediaPlayer.start();
+
+        // Release the MediaPlayer automatically when completed
+        mediaPlayer.setOnCompletionListener(mp -> {
+            mp.release();
+            mediaPlayer = null;
+        });
+    }
+
 }
 
