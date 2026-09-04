@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">SeikaAsano</string>
+    <string name="app_name">TEAM3</string>
     <string name="btn_high">High</string>
     <string name="btn_low">Low</string>
     <string name="btn_restart">Restart</string>
@@ -12,4 +12,6 @@
     <string name="lose">LOSE</string>
     <string name="win">WIN</string>
     <string name="draw">DRAW</string>
+    <string name="btn_setting">Settings</string>
+    <string name="SetTo">It is set to:</string>
 </resources>
