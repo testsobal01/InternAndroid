@@ -5,4 +5,7 @@
     <string name="btn_restart">Restart</string>
     <string name="label_score">Score：</string>
     <string name="Top">START</string>
+    <string name="Top_text3">High and Row ? </string>
+    <string name="Top_text4">Lets except them. </string>
+    <string name="Value10">10 is set as a value.</string>
 </resources>
