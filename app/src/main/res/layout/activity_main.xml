@@ -32,7 +32,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:backgroundTint="@color/blue"
+                android:backgroundTint="@color/blue_white"
                 android:text="@string/btn_low" />
 
             <Button
@@ -117,22 +117,22 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="#005dff"
+                android:background="#56AD6C"
                 android:gravity="center"
                 android:text="値1"
                 android:textColor="@color/white"
-                android:textSize="60dp" />
+                android:textSize="65dp" />
 
             <TextView
                 android:id="@+id/answer"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="#002560"
+                android:background="@color/right_green"
                 android:gravity="center"
                 android:text="?"
                 android:textColor="@color/white"
-                android:textSize="60dp" />
+                android:textSize="65dp" />
         </LinearLayout>
 
     </LinearLayout>
