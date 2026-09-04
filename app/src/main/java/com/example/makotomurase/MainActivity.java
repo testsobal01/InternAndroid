@@ -12,6 +12,9 @@ import android.content.Intent;
 import android.app.ActivityManager;
 import android.graphics.Color;
 import android.content.SharedPreferences;
+import android.media.AudioAttributes;
+import android.media.MediaPlayer;
+import android.media.SoundPool;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -27,6 +30,11 @@ import android.widget.Toast;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
+    private SoundPool soundpool;
+    private int soundId;
+
+
 
     SharedPreferences pref;
     SharedPreferences.Editor prefEditor;
@@ -67,6 +75,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // 起動時に関数を呼び出す
         setQuestionValue();
+
+        //効果音
+        AudioAttributes audioAttributes = new AudioAttributes.Builder()
+                .setUsage(AudioAttributes.USAGE_GAME)
+                .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+                .build();
+
+        soundpool = new SoundPool.Builder()
+                .setMaxStreams(1)
+                .setAudioAttributes(audioAttributes)
+                .build();
+
+        soundId = soundpool.load(this, R.raw.click, 1);
+
+        //再生
+
     }
 
     @Override
@@ -75,13 +99,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (id == R.id.button1) {
             setAnswerValue();
             checkResult(true);
+            setSoundpool();
         } else if (id == R.id.button2) {
             setAnswerValue();
             checkResult(false);
+            setSoundpool();
         } else if (id == R.id.button3) {
             setQuestionValue();
             clearAnswerValue();
             clearScoreValue();
+            setSoundpool();
         }
     }
 
@@ -210,6 +237,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+    private void setSoundpool(){
+        soundpool.play(soundId, 1.0f, 1.0f, 0,0, 1.0f);
+    }
 
     @Override
     public void onPause(){
