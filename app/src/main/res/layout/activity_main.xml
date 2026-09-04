@@ -92,7 +92,19 @@
                 android:gravity="center"
                 android:text="値2"
                 android:textSize="60sp" />
+
+
+
         </LinearLayout>
+        <ImageView
+            android:id="@+id/footarimageview"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:elevation="5dp"
+            android:translationY="-60dp"
+            android:src="@drawable/robot2"
+            android:scaleType="centerCrop"/>
+
 
     </LinearLayout>
 

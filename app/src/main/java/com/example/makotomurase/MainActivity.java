@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import java.util.Random;
 
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     @Override
@@ -44,6 +45,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         Button settingButton=findViewById(R.id.button_settings);
         settingButton.setOnClickListener(view -> showSettingsDialog());
+
     }
 
     private void showSettingsDialog() {
@@ -175,5 +177,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView txtScore = (TextView) findViewById(R.id.text_score);
         txtScore.setText("0");
     }
-}
+    }
+
 
