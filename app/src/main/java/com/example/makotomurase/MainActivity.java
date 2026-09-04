@@ -1,6 +1,9 @@
 package com.example.makotomurase;
 
+import static androidx.core.view.ViewCompat.setBackgroundTintList;
+
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -8,12 +11,15 @@ import androidx.core.view.WindowInsetsCompat;
 import android.animation.ArgbEvaluator;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Looper;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
@@ -26,6 +32,7 @@ import java.util.Random;
 import androidx.appcompat.app.AlertDialog;
 import android.widget.NumberPicker;
 
+import android.content.res.ColorStateList;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -42,12 +49,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
+
+
+
+
+
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (view, windowInsets) -> {
             Insets insets = windowInsets.getInsets(
                     WindowInsetsCompat.Type.systemBars()
                             | WindowInsetsCompat.Type.displayCutout());
             view.setPadding(insets.left, insets.top, insets.right, 0);
             return windowInsets;
+
+
+
         });
 
         Button btn1 = findViewById(R.id.button1);
@@ -72,6 +89,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View view) {
+        if (view.getId() == R.id.button1) {
+            Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+            vibrator.vibrate(VibrationEffect.createOneShot(
+                    500, VibrationEffect.DEFAULT_AMPLITUDE));
+        }else if (view.getId() == R.id.button2) {
+            Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+            vibrator.vibrate(VibrationEffect.createOneShot(
+                    500, VibrationEffect.DEFAULT_AMPLITUDE));
+        }else if (view.getId() == R.id.button3) {
+            Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+            vibrator.vibrate(VibrationEffect.createOneShot(
+                    500, VibrationEffect.DEFAULT_AMPLITUDE));
+        }
         int id = view.getId();
         if (id == R.id.button1) {
             setAnswerValue();
@@ -229,29 +259,51 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = "WIN";
                 score = 2;
+
+                //背景色の設定をどこに適応させるかを書く
+                txtViewQuestion.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(MainActivity.this, R.color.win_normal)));
+                txtViewAnswer.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(MainActivity.this, R.color.win_normal)));
                 TextAnimator(txtViewAnswer);
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
+              
+                txtViewQuestion.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(MainActivity.this, R.color.lose_normal)));
+                txtViewAnswer.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(MainActivity.this, R.color.lose_normal)));
                 TextAnimator(txtViewQuestion);
             } else {
                 result = "DRAW";
                 score = 1;
+              
+                txtViewAnswer.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(MainActivity.this, R.color.draw_normal)));
+                txtViewQuestion.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(MainActivity.this, R.color.draw_normal)));
             }
+
         } else {
             if (question > answer) {
                 result = "WIN";
                 score = 2;
+              
+                txtViewQuestion.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(MainActivity.this, R.color.win_normal)));
+                txtViewAnswer.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(MainActivity.this, R.color.win_normal)));
                 TextAnimator(txtViewAnswer);
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
+              
+                txtViewQuestion.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(MainActivity.this, R.color.lose_normal)));
+                txtViewAnswer.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(MainActivity.this, R.color.lose_normal)));
                 TextAnimator(txtViewQuestion);
             } else {
                 result = "DRAW";
                 score = 1;
+              
+                txtViewQuestion.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(MainActivity.this, R.color.draw_normal)));
+                txtViewAnswer.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(MainActivity.this, R.color.draw_normal)));
             }
         }
+
+
 
         // 最後にまとめてToast表示の処理とTextViewへのセットを行う
         Toast.makeText(this, result, Toast.LENGTH_LONG).show();
@@ -286,4 +338,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         txtScore.setText("0");
     }
 }
+
+
+    // ボタンのクリックイベント（リスナー）を設定
+
+
 
