@@ -11,6 +11,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.animation.ValueAnimator;
+import android.view.animation.LinearInterpolator;
+import android.animation.Animator;
+
 
 import java.util.Random;
 
@@ -99,23 +103,39 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = "WIN";
                 score = 2;
+                txtViewAnswer.setRotation(0f);
+                txtViewAnswer.animate().rotation(360f).setDuration(600).start();
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
+                txtViewQuestion.setRotation(0f);
+                txtViewQuestion.animate().rotation(360f).setDuration(600).start();
             } else {
                 result = "DRAW";
                 score = 1;
+                txtViewQuestion.setRotation(0f);
+                txtViewAnswer.setRotation(0f);
+                txtViewQuestion.animate().rotation(360f).setDuration(600).start();
+                txtViewAnswer.animate().rotation(360f).setDuration(600).start();
             }
         } else {
             if (question > answer) {
                 result = "WIN";
                 score = 2;
+                txtViewAnswer.setRotation(0f);
+                txtViewAnswer.animate().rotation(360f).setDuration(600).start();
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
+                txtViewQuestion.setRotation(0f);
+                txtViewQuestion.animate().rotation(360f).setDuration(600).start();
             } else {
                 result = "DRAW";
                 score = 1;
+                txtViewQuestion.setRotation(0f);
+                txtViewAnswer.setRotation(0f);
+                txtViewQuestion.animate().rotation(360f).setDuration(600).start();
+                txtViewAnswer.animate().rotation(360f).setDuration(600).start();
             }
         }
 
