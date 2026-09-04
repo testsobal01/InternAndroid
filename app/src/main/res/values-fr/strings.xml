@@ -7,5 +7,6 @@
     <string name="label_score">Score：</string>
     <string name="greeting">Hola</string>
     <string name="btn_start">commencer</string>
+    <string name="btn_10">10 est fixé.</string>
     <string name="gamename">Fonction Fantaisie</string>
 </resources>

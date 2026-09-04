@@ -8,4 +8,5 @@
     <string name="greeting">Hola</string>
     <string name="btn_start">comenzar</string>
     <string name="gamename">Función Fantasía</string>
+    <string name="btn_10">El número 10 está fijado.</string>
 </resources>
