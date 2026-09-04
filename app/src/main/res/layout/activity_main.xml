@@ -71,6 +71,13 @@
                     android:layout_height="wrap_content"
                     android:text="が設定されています。" />
 
+                <Button
+                    android:id="@+id/button5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Double up" />
+
+
             </LinearLayout>
 
             <TextView
