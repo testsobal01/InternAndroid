@@ -23,7 +23,6 @@
                 android:layout_weight="1"
                 android:background="@drawable/newbutton"
                 app:backgroundTint="@null"
-
                 android:text="@string/btn_high" />
 
             <Button
@@ -43,6 +42,7 @@
                 android:background="@drawable/newbutton"
                 app:backgroundTint="@null"
                 android:text="@string/btn_restart" />
+
         </LinearLayout>
 
         <TextView
@@ -73,7 +73,13 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1">
 
             <TextView
                 android:id="@+id/question"
@@ -94,6 +100,16 @@
                 android:gravity="center"
                 android:text="値2"
                 android:textSize="60sp" />
+
+            </LinearLayout>
+            <ImageView
+                android:id="@+id/footerImage"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.2"
+                android:scaleType="centerCrop"
+                android:layout_gravity="bottom"
+                android:src="@drawable/fire16" />
         </LinearLayout>
 
     </LinearLayout>

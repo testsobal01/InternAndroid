@@ -1,6 +1,8 @@
 package com.example.makotomurase;
 
 import android.content.Intent;
+import android.media.AudioAttributes;
+import android.media.SoundPool;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
@@ -14,6 +16,9 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 public class StartActivity extends AppCompatActivity {
+
+    private SoundPool soundPool;
+    private int startsound;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,8 +34,18 @@ public class StartActivity extends AppCompatActivity {
         Button button = findViewById(R.id.start);
         button.setOnClickListener(new ButtonClickListener());
 
+        AudioAttributes audioAttributes = new AudioAttributes.Builder()
 
+                .setUsage(AudioAttributes.USAGE_GAME)
+                .setContentType(AudioAttributes.CONTENT_TYPE_SPEECH)
+                .build();
 
+        soundPool = new SoundPool.Builder()
+                .setAudioAttributes(audioAttributes)
+                .setMaxStreams(2)
+                .build();
+
+        startsound = soundPool.load(this,R.raw.start,1);
 
     }
     private class ButtonClickListener implements View.OnClickListener {
@@ -43,7 +58,11 @@ public class StartActivity extends AppCompatActivity {
 
                 Intent intent = new Intent(StartActivity.this, MainActivity.class);
                 startActivity(intent);
+
+                soundPool.play(startsound, 50.0f, 50.0f, 0, 0, 1);
             }
+
+
         }
     }
 }
