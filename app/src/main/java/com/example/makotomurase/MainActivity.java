@@ -129,10 +129,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             clearScoreValue();
 
             TextView textViewQ = (TextView) findViewById(R.id.question);
-            textViewQ.setBackgroundColor(Color.parseColor("#ff00ff"));
+            textViewQ.setBackgroundColor(Color.parseColor("#56AD6C"));
 
             TextView textViewA = (TextView) findViewById(R.id.answer);
-            textViewA.setBackgroundColor(Color.parseColor("#ffff00"));
+            textViewA.setBackgroundColor(Color.parseColor("#7CFF9D"));
 
             setSoundpool();
         } else if (id == R.id.button_Setting) {
@@ -170,7 +170,7 @@ private void showSettingDialog() {
 
     private void clearAnswerValue() {
         TextView txtView = (TextView) findViewById(R.id.answer);
-        txtView.setText("値2");
+        txtView.setText("?");
     }
 
     private void setQuestionValue() {
