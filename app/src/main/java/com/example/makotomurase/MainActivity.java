@@ -22,6 +22,7 @@ import android.util.Log;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
@@ -34,8 +35,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private SoundPool soundpool;
     private int soundId;
 
-
-
+    AnimatorSet set;
     SharedPreferences pref;
     SharedPreferences.Editor prefEditor;
 
@@ -73,6 +73,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         pref = getSharedPreferences("Save", MODE_PRIVATE);
         prefEditor = pref.edit();
 
+        TextView textView= findViewById(R.id.answer);
+        //AnimatorInflaterで、AnimatorSetオブジェクトを取得
+        //前もって作成したR.animator.blink_animationをインフレート
+        set = (AnimatorSet) AnimatorInflater.loadAnimator(MainActivity.this,
+                R.animator.blink_animation);
+        //アニメーション対称のオブジェクトを設定
+        set.setTarget(textView);
+
         // 起動時に関数を呼び出す
         setQuestionValue();
 
@@ -92,6 +100,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //再生
 
     }
+
 
     @Override
     public void onClick(View view) {
@@ -117,6 +126,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             setSoundpool();
         }
+
+
+
     }
 
     private void clearAnswerValue() {
@@ -166,8 +178,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 TextView txtView = findViewById(R.id.answer);
                 txtView.setBackgroundColor(Color.parseColor("#ff0014"));
+                if (set != null && !set.isRunning()) {
+                    set.start();
+                }
                 TextView TxtView = findViewById(R.id.question);
                 TxtView.setBackgroundColor(Color.parseColor("#96000a"));
+
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
@@ -185,8 +201,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 score = 2;
                 TextView txtView = findViewById(R.id.answer);
                 txtView.setBackgroundColor(Color.parseColor("#005dff"));
+                if (set != null && !set.isRunning()) {
+                    set.start();
+                }
                 TextView TxtView = findViewById(R.id.question);
                 TxtView.setBackgroundColor(Color.parseColor("#002560"));
+
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
