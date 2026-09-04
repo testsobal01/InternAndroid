@@ -15,10 +15,13 @@ import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.os.VibratorManager;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.content.res.Configuration;
+
 import java.util.Random;
 import java.util.Locale;
 import android.media.MediaPlayer;
@@ -111,6 +114,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void clearAnswerValue() {
         TextView txtView = (TextView) findViewById(R.id.answer);
+         txtView.clearAnimation();
         txtView.setText("値2");
     }
 
@@ -120,6 +124,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int questionValue = r.nextInt(10 + 1);
 
         TextView txtView = findViewById(R.id.question);
+         txtView.clearAnimation();
         txtView.setText(Integer.toString(questionValue));
     }
 
@@ -162,6 +167,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 mp.setOnCompletionListener(player -> {
                     player.release();
                 });
+
+                blinkText(txtViewAnswer);
+
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
@@ -175,6 +183,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 mp.setOnCompletionListener(player -> {
                     player.release();
                 });
+
+                blinkText(txtViewQuestion);
+
             } else {
                 result = "DRAW";
                 score = 1;
@@ -187,6 +198,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 mp.setOnCompletionListener(player -> {
                     player.release();
                 });
+
+                blinkText(txtViewQuestion);
+                blinkText(txtViewAnswer);
             }
         } else {
             if (question > answer) {
@@ -202,6 +216,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     player.release();
                 });
 
+                blinkText(txtViewAnswer);
+
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
@@ -215,6 +231,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     player.release();
                 });
 
+                blinkText(txtViewQuestion);
+
             } else {
                 result = "DRAW";
                 score = 1;
@@ -227,12 +245,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 mp.setOnCompletionListener(player -> {
                     player.release();
                 });
+
+                blinkText(txtViewQuestion);
+                blinkText(txtViewAnswer);
             }
         }
 
         // 最後にまとめてToast表示の処理とTextViewへのセットを行う
         Toast.makeText(this, result, Toast.LENGTH_LONG).show();
         txtResult.setText("結果：" + question + ":" + answer + "(" + result + ")");
+
 
         // 続けて遊べるように値を更新
         setNextQuestion();
@@ -268,7 +290,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void setScore(int score) {
         TextView txtScore = (TextView) findViewById(R.id.text_score);
-        int newScore = Integer.parseInt(txtScore.getText().toString()) + score;
+        String scoreText = txtScore.getText().toString();
+
+        int currentScore = 0;
+        if (scoreText.equals("保存されていません。")) {
+            currentScore = 0;
+        } else {
+            currentScore = Integer.parseInt(scoreText)+score;
+        }
+
+        int newScore = currentScore + score;
         txtScore.setText(Integer.toString(newScore));
     }
 
@@ -287,11 +318,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     @Override
-    protected void onResume(){
+    protected void onResume() {
         super.onResume();
         // Log.d("test", "onResume completed.");
 
-        TextView textView = (TextView)findViewById(R.id.text_score);
+        TextView textView = (TextView) findViewById(R.id.text_score);
         String readText = pref.getString("main_input", "保存されていません。");
         textView.setText(readText);
     }
@@ -346,5 +377,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });
     }
 
+    private void blinkText(TextView txtView) {
+        AlphaAnimation blink = new AlphaAnimation(1.0f, 0.0f);
+        blink.setDuration(300);
+        blink.setRepeatMode(Animation.REVERSE);
+        blink.setRepeatCount(5);
+        txtView.startAnimation(blink);
+    }
 }
-
