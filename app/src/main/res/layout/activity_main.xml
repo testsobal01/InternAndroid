@@ -71,6 +71,40 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="0" />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/label_Winscore" />
+
+            <TextView
+                android:id="@+id/text_Winscore"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/label_Drawscore" />
+
+            <TextView
+                android:id="@+id/text_Drawscore"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/label_Losescore" />
+
+            <TextView
+                android:id="@+id/text_Losescore"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0" />
         </LinearLayout>
 
         <LinearLayout
