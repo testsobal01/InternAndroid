@@ -17,19 +17,27 @@ import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.os.VibratorManager;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.content.res.Configuration;
+
 import java.util.Random;
+import java.util.Scanner;
 import java.util.Locale;
+import android.media.MediaPlayer;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+    private MediaPlayer mediaPlayer;
 
     SharedPreferences pref;
     SharedPreferences.Editor prefEditor;
 
+
     @Override
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -56,12 +64,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button btn3 = (Button) findViewById(R.id.button3);
         btn3.setOnClickListener(this);
 
-        final View layout=findViewById(R.id.answer);
+        final View layout = findViewById(R.id.answer);
         layout.setBackgroundColor(Color.YELLOW);
 
-        final View layout1=findViewById(R.id.question);
+        final View layout1 = findViewById(R.id.question);
         layout1.setBackgroundColor(Color.RED);
-
 
 
         // 起動時に関数を呼び出す
@@ -70,6 +77,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         pref = getSharedPreferences("GameScore", MODE_PRIVATE);
         prefEditor = pref.edit();
     }
+
 
     @Override
     public void onClick(View view) {
@@ -102,16 +110,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             clearAnswerValue();
             clearScoreValue();
 
-            final View layout=findViewById(R.id.answer);
-            final View layout1=findViewById(R.id.question);
+            final View layout = findViewById(R.id.answer);
+            final View layout1 = findViewById(R.id.question);
             layout.setBackgroundColor(Color.YELLOW);
             layout1.setBackgroundColor(Color.RED);
+
+            MediaPlayer mp = MediaPlayer.create(this, R.raw.restart);
+            mp.start();
 
         }
     }
 
     private void clearAnswerValue() {
         TextView txtView = (TextView) findViewById(R.id.answer);
+         txtView.clearAnimation();
         txtView.setText("値2");
     }
 
@@ -121,6 +133,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int questionValue = r.nextInt(10 + 1);
 
         TextView txtView = findViewById(R.id.question);
+         txtView.clearAnimation();
         txtView.setText(Integer.toString(questionValue));
     }
 
@@ -144,6 +157,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // 結果を示す文字列を入れる変数を用意
         String result;
         int score;
+        int Winscore=0;
+        int Drawscore=0;
+        int Losescore=0;
         final View layout=findViewById(R.id.answer);
         final View layout1=findViewById(R.id.question);
 
@@ -152,48 +168,104 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             // result には結果のみを入れる
             if (question < answer) {
                 result = "WIN";
-                score = 2;
+                Winscore = 1;
+                score=2;
 
                 layout.setBackgroundColor(Color.YELLOW);
                 layout1.setBackgroundColor(Color.CYAN);
 
+                MediaPlayer mp = MediaPlayer.create(this, R.raw.win);
+                mp.start();
+
+                mp.setOnCompletionListener(player -> {
+                    player.release();
+                });
+
+                blinkText(txtViewAnswer);
+
             } else if (question > answer) {
                 result = "LOSE";
-                score = -1;
+                Losescore = 1;
+                score=-1;
 
                 layout.setBackgroundColor(Color.CYAN);
                 layout1.setBackgroundColor(Color.YELLOW);
 
+                MediaPlayer mp = MediaPlayer.create(this, R.raw.lose);
+                mp.start();
+
+                mp.setOnCompletionListener(player -> {
+                    player.release();
+                });
+
+                blinkText(txtViewQuestion);
+
             } else {
                 result = "DRAW";
-                score = 1;
+                Drawscore = 1;
+                score=1;
 
                 layout.setBackgroundColor(Color.GREEN);
                 layout1.setBackgroundColor(Color.GREEN);
 
+                MediaPlayer mp = MediaPlayer.create(this, R.raw.draw);
+                mp.start();
+                mp.setOnCompletionListener(player -> {
+                    player.release();
+                });
+
+                blinkText(txtViewQuestion);
+                blinkText(txtViewAnswer);
             }
         } else {
             if (question > answer) {
                 result = "WIN";
-                score = 2;
+                Winscore = 1;
+                score=2;
 
                 layout.setBackgroundColor(Color.YELLOW);
                 layout1.setBackgroundColor(Color.CYAN);
+                
+                MediaPlayer mp = MediaPlayer.create(this, R.raw.win);
+                mp.start();
+                mp.setOnCompletionListener(player -> {
+                    player.release();
+                });
+
+                blinkText(txtViewAnswer);
 
             } else if (question < answer) {
                 result = "LOSE";
-                score = -1;
+                Losescore = 1;
+                score=-1;
 
                 layout.setBackgroundColor(Color.CYAN);
                 layout1.setBackgroundColor(Color.YELLOW);
+                
+                MediaPlayer mp = MediaPlayer.create(this, R.raw.lose);
+                mp.start();
+                mp.setOnCompletionListener(player -> {
+                    player.release();
+                });
+
+                blinkText(txtViewQuestion);
 
             } else {
                 result = "DRAW";
-                score = 1;
+                Drawscore = 1;
+                score=1;
 
                 layout.setBackgroundColor(Color.GREEN);
                 layout1.setBackgroundColor(Color.GREEN);
 
+                MediaPlayer mp = MediaPlayer.create(this, R.raw.draw);
+                mp.start();
+                mp.setOnCompletionListener(player -> {
+                    player.release();
+                });
+
+                blinkText(txtViewQuestion);
+                blinkText(txtViewAnswer);
             }
         }
 
@@ -201,16 +273,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Toast.makeText(this, result, Toast.LENGTH_LONG).show();
         txtResult.setText("結果：" + question + ":" + answer + "(" + result + ")");
 
+
         // 続けて遊べるように値を更新
         setNextQuestion();
         // スコアを表示
-        setScore(score);
+        setScore0(score);
+        setScore(Winscore);
+        setScore1(Drawscore);
+        setScore2(Losescore);
     }
 
     private void setNextQuestion() {
         // 第１引数がカウントダウン時間、第２引数は途中経過を受け取る間隔
         // 単位はミリ秒（1秒＝1000ミリ秒）
-        new CountDownTimer(3000, 1000) {
+        new CountDownTimer(5000, 1000) {
             @Override
             public void onTick(long l) {
                 // 途中経過を受け取った時に何かしたい場合
@@ -222,26 +298,47 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 // 3秒経過したら次の値をセット
                 setQuestionValue();
 
-                final View layout=findViewById(R.id.answer);
+                final View layout = findViewById(R.id.answer);
                 layout.setBackgroundColor(Color.YELLOW);
-                final View layout1=findViewById(R.id.question);
+                final View layout1 = findViewById(R.id.question);
                 layout1.setBackgroundColor(Color.RED);
-
 
 
             }
         }.start();
     }
 
-    private void setScore(int score) {
-        TextView txtScore = (TextView) findViewById(R.id.text_score);
-        int newScore = Integer.parseInt(txtScore.getText().toString()) + score;
+    private void setScore0(int score) {
+        TextView txtScore1 = (TextView) findViewById(R.id.text_score);
+        int newScore = Integer.parseInt(txtScore1.getText().toString()) + score;
+        txtScore1.setText(Integer.toString(newScore));
+    }
+
+    private void setScore(int Winscore) {
+        TextView txtScore = (TextView) findViewById(R.id.text_Winscore);
+        int newScore = Integer.parseInt(txtScore.getText().toString()) + Winscore;
         txtScore.setText(Integer.toString(newScore));
     }
 
+    private void setScore1(int Drawscore) {
+        TextView txtScore = (TextView) findViewById(R.id.text_Drawscore);
+        int newScore = Integer.parseInt(txtScore.getText().toString()) + Drawscore;
+        txtScore.setText(Integer.toString(newScore));
+    }
+    private void setScore2(int Losescore) {
+        TextView txtScore = (TextView) findViewById(R.id.text_Losescore);
+        int newScore = Integer.parseInt(txtScore.getText().toString()) + Losescore;
+        txtScore.setText(Integer.toString(newScore));
+    }
     private void clearScoreValue() {
-        TextView txtScore = (TextView) findViewById(R.id.text_score);
+        TextView txtScore0= (TextView) findViewById(R.id.text_score);
+        txtScore0.setText("0");
+        TextView txtScore = (TextView) findViewById(R.id.text_Winscore);
         txtScore.setText("0");
+        TextView txtScore1 = (TextView) findViewById(R.id.text_Drawscore);
+        txtScore1.setText("0");
+        TextView txtScore2 = (TextView) findViewById(R.id.text_Losescore);
+        txtScore2.setText("0");
     }
 
     @Override
@@ -251,16 +348,85 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView txtScore = (TextView) findViewById(R.id.text_score);
         prefEditor.putString("main_input", txtScore.getText().toString());
         prefEditor.commit();
+
+        TextView txtScore1 = (TextView) findViewById(R.id.text_Winscore);
+        prefEditor.putString("main_input", txtScore1.getText().toString());
+        prefEditor.commit();
+
+        TextView txtScore2 = (TextView) findViewById(R.id.text_Drawscore);
+        prefEditor.putString("main_input", txtScore2.getText().toString());
+        prefEditor.commit();
+
+        TextView txtScore3 = (TextView) findViewById(R.id.text_Losescore);
+        prefEditor.putString("main_input", txtScore3.getText().toString());
+        prefEditor.commit();
     }
 
     @Override
-    protected void onResume(){
+    protected void onResume() {
         super.onResume();
         // Log.d("test", "onResume completed.");
 
-        TextView textView = (TextView)findViewById(R.id.text_score);
+        TextView textView = (TextView) findViewById(R.id.text_score);
         String readText = pref.getString("main_input", "保存されていません。");
         textView.setText(readText);
     }
-}
+    
+    private void playSound(int soundResId) {
+        // Stop and release any currently playing sound
+        if (mediaPlayer != null) {
+            if (mediaPlayer.isPlaying()) {
+                mediaPlayer.stop();
+            }
+            mediaPlayer.release();
+            mediaPlayer = null;
+        }
 
+        // Create and start new sound
+        mediaPlayer = MediaPlayer.create(this, soundResId);
+        mediaPlayer.start();
+
+        // Release after completion
+        mediaPlayer.setOnCompletionListener(mp -> {
+            mp.release();
+            mediaPlayer = null;
+        });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (mediaPlayer != null) {
+            mediaPlayer.release();
+            mediaPlayer = null;
+        }
+    }
+    private void playSound1(int soundResId) {
+        // Stop and release previous sound if it exists
+        if (mediaPlayer != null) {
+            if (mediaPlayer.isPlaying()) {
+                mediaPlayer.stop();
+            }
+            mediaPlayer.release();
+            mediaPlayer = null;
+        }
+
+        // Initialize and start new sound
+        mediaPlayer = MediaPlayer.create(this, soundResId);
+        mediaPlayer.start();
+
+        // Release the MediaPlayer automatically when completed
+        mediaPlayer.setOnCompletionListener(mp -> {
+            mp.release();
+            mediaPlayer = null;
+        });
+    }
+
+    private void blinkText(TextView txtView) {
+        AlphaAnimation blink = new AlphaAnimation(1.0f, 0.0f);
+        blink.setDuration(300);
+        blink.setRepeatMode(Animation.REVERSE);
+        blink.setRepeatCount(5);
+        txtView.startAnimation(blink);
+    }
+}

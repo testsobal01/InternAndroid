@@ -1,43 +1,37 @@
 package com.example.makotomurase;
 
 import android.content.Intent;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.res.ResourcesCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-public class Start extends AppCompatActivity {
+public class Ruleexplain extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_start);
+        EdgeToEdge.enable(this);
+        setContentView(R.layout.activity_ruleexplain);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-        Button buttons = findViewById(R.id.start);
-        buttons.setOnClickListener(new ButtonClickListener());
-
-        TextView myText = findViewById(R.id.startmoji);
-        Typeface typeface = ResourcesCompat.getFont(this,R.font.font2);
-        myText.setTypeface(typeface);
+        Button buttons1 = findViewById(R.id.ruleend);
+        buttons1.setOnClickListener(new Ruleexplain.ButtonClickListener());
     }
 
     private class ButtonClickListener implements View.OnClickListener {
         @Override
         public void onClick(View v) {
-            Intent intent2 = new Intent(Start.this, Ruleexplain.class);
-            startActivity(intent2);
+            Intent intent1 = new Intent(Ruleexplain.this, MainActivity.class);
+            startActivity(intent1);
         }
     }
 }
