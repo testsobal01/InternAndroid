@@ -15,6 +15,7 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.NumberPicker;
@@ -271,9 +272,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 score = 1;
                 animateTextSize(txtResult, 20, 25);
             }
+
         }
 
-        Toast.makeText(this, result, Toast.LENGTH_LONG).show();
+        Toast toast = Toast.makeText(this, result, Toast.LENGTH_LONG);
+        toast.setGravity(0, 0,50);
+        toast.show();
 
 
         android.view.View mainLayout = findViewById(R.id.main);
