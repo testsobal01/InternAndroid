@@ -46,9 +46,12 @@
             <Button
                 android:id="@+id/button4"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="TOPへ" />
+                android:text="TOPへ"
+                android:background="@drawable/shape_style"
+                app:backgroundTint="@null"/>
+
         </LinearLayout>
 
         <TextView
