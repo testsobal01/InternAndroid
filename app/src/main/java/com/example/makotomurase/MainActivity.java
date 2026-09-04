@@ -102,7 +102,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             final View layout1=findViewById(R.id.question);
             layout.setBackgroundColor(Color.YELLOW);
             layout1.setBackgroundColor(Color.RED);
-            
+
             MediaPlayer mp = MediaPlayer.create(this, R.raw.restart);
             mp.start();
 
@@ -182,6 +182,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 layout.setBackgroundColor(Color.GREEN);
                 layout1.setBackgroundColor(Color.GREEN);
 
+                MediaPlayer mp = MediaPlayer.create(this, R.raw.draw);
+                mp.start();
+                mp.setOnCompletionListener(player -> {
+                    player.release();
+                });
             }
         } else {
             if (question > answer) {
@@ -193,6 +198,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 
                 MediaPlayer mp = MediaPlayer.create(this, R.raw.win);
                 mp.start();
+                mp.setOnCompletionListener(player -> {
+                    player.release();
+                });
 
             } else if (question < answer) {
                 result = "LOSE";
@@ -203,6 +211,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 
                 MediaPlayer mp = MediaPlayer.create(this, R.raw.lose);
                 mp.start();
+                mp.setOnCompletionListener(player -> {
+                    player.release();
+                });
 
             } else {
                 result = "DRAW";
@@ -213,6 +224,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 MediaPlayer mp = MediaPlayer.create(this, R.raw.draw);
                 mp.start();
+                mp.setOnCompletionListener(player -> {
+                    player.release();
+                });
             }
         }
 
