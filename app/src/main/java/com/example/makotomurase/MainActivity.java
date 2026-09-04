@@ -5,9 +5,16 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import android.animation.AnimatorInflater;
+import android.animation.AnimatorSet;
+import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.app.ActivityManager;
 import android.graphics.Color;
 import android.content.SharedPreferences;
+import android.media.AudioAttributes;
+import android.media.MediaPlayer;
+import android.media.SoundPool;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -15,12 +22,19 @@ import android.util.Log;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
+    private SoundPool soundpool;
+    private int soundId;
+
+
 
     SharedPreferences pref;
     SharedPreferences.Editor prefEditor;
@@ -30,6 +44,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Intent intent = getIntent();
+        Bundle extra = intent.getExtras();
+        String intentString = extra.getString("Top");
+
+
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (view, windowInsets) -> {
             Insets insets = windowInsets.getInsets(
                     WindowInsetsCompat.Type.systemBars()
@@ -37,6 +57,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             view.setPadding(insets.left, insets.top, insets.right, 0);
             return windowInsets;
         });
+
+
 
         Button btn1 = findViewById(R.id.button1);
         btn1.setOnClickListener(this);
@@ -53,6 +75,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // 起動時に関数を呼び出す
         setQuestionValue();
+
+        //効果音
+        AudioAttributes audioAttributes = new AudioAttributes.Builder()
+                .setUsage(AudioAttributes.USAGE_GAME)
+                .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+                .build();
+
+        soundpool = new SoundPool.Builder()
+                .setMaxStreams(1)
+                .setAudioAttributes(audioAttributes)
+                .build();
+
+        soundId = soundpool.load(this, R.raw.click, 1);
+
+        //再生
+
     }
 
     @Override
@@ -61,13 +99,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (id == R.id.button1) {
             setAnswerValue();
             checkResult(true);
+            setSoundpool();
         } else if (id == R.id.button2) {
             setAnswerValue();
             checkResult(false);
+            setSoundpool();
         } else if (id == R.id.button3) {
             setQuestionValue();
             clearAnswerValue();
             clearScoreValue();
+            setSoundpool();
         }
     }
 
@@ -94,21 +135,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-    public int generateRandomWarmColor() {
-        Random random = new Random();
-        int red = random.nextInt(106) + 150;
-        int green = random.nextInt(151) + 50;
-        int blue = random.nextInt(81);
-        return Color.rgb(red, green, blue);
-    }
 
-    public int changeWarmColor() {
-        Random random = new Random();
-        int red3 = random.nextInt(81);
-        int green3 = random.nextInt(151) + 50;
-        int blue3 = random.nextInt(106) + 150;
-        return Color.rgb(red3, green3, blue3);
-    }
+
     private void checkResult(boolean isHigh) {
         TextView txtViewQuestion = findViewById(R.id.question);
         TextView txtViewAnswer = findViewById(R.id.answer);
@@ -128,15 +156,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = "WIN";
                 score = 2;
-                int warmColor = generateRandomWarmColor();
-                txtViewAnswer.setBackgroundColor(warmColor);
+
+                TextView txtView = findViewById(R.id.answer);
+                txtView.setBackgroundColor(Color.parseColor("#ff0014"));
+                TextView TxtView = findViewById(R.id.question);
+                TxtView.setBackgroundColor(Color.parseColor("#96000a"));
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
-                TextView txtView = findViewById(R.id.question);
-                Random rnd = new Random();
-                int warmColor = changeWarmColor();
-                txtViewQuestion.setBackgroundColor(warmColor);
+                TextView txtView = findViewById(R.id.answer);
+                txtView.setBackgroundColor(Color.parseColor("#96000a"));
+                TextView TxtView = findViewById(R.id.question);
+                TxtView.setBackgroundColor(Color.parseColor("#ff0014"));
             } else {
                 result = "DRAW";
                 score = 1;
@@ -145,15 +176,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question > answer) {
                 result = "WIN";
                 score = 2;
-                int warmColor = generateRandomWarmColor();
-                txtViewAnswer.setBackgroundColor(warmColor);
+                TextView txtView = findViewById(R.id.answer);
+                txtView.setBackgroundColor(Color.parseColor("#005dff"));
+                TextView TxtView = findViewById(R.id.question);
+                TxtView.setBackgroundColor(Color.parseColor("#002560"));
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
-                TextView txtView = findViewById(R.id.question);
-                Random rnd = new Random();
-                int warmColor = changeWarmColor();
-                txtViewQuestion.setBackgroundColor(warmColor);
+                TextView txtView = findViewById(R.id.answer);
+                txtView.setBackgroundColor(Color.parseColor("#002560"));
+                TextView TxtView = findViewById(R.id.question);
+                TxtView.setBackgroundColor(Color.parseColor("#005dff"));
             } else {
                 result = "DRAW";
                 score = 1;
@@ -163,12 +196,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // 最後にまとめてToast表示の処理とTextViewへのセットを行う
         Toast.makeText(this, result, Toast.LENGTH_LONG).show();
         txtResult.setText("結果：" + question + ":" + answer + "(" + result + ")");
-
         // 続けて遊べるように値を更新
         setNextQuestion();
         // スコアを表示
         setScore(score);
     }
+
 
     private void setNextQuestion() {
         // 第１引数がカウントダウン時間、第２引数は途中経過を受け取る間隔
@@ -204,6 +237,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+    private void setSoundpool(){
+        soundpool.play(soundId, 1.0f, 1.0f, 0,0, 1.0f);
+    }
 
     @Override
     public void onPause(){
@@ -220,7 +256,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onResume();
         Log.d("AndroidTest","onResume completed");
         TextView textView = (TextView)findViewById(R.id.text_score);
-        String readText = pref.getString("score_input", "無し");
+        String readText = pref.getString("score_input", "0");
         textView.setText(readText);
     }
 }
