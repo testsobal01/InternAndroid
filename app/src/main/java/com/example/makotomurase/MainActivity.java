@@ -19,8 +19,8 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.w3c.dom.Text;
 import java.util.Random;
-
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     SharedPreferences pref;
@@ -148,7 +148,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     soundPlayer.playWinSound();
 
                     winResultAnime();
-                  
+
                 } else if (question > answer) {
                     result = "LOSE";
                     score = -1;
@@ -156,7 +156,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     txtResult.setBackgroundColor(Color.BLUE);
                     soundPlayer.playLoseSound();
                     loseResultAnime();
-                  
+
                 } else {
                     result = "DRAW";
                     score = 1;
@@ -164,7 +164,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     txtResult.setBackgroundColor(Color.GREEN);
                     soundPlayer.playDrawSound();
                     draw_resetResultAnime();
-                  
+
                 }
             } else {
                 if (question > answer) {
