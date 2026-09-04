@@ -26,6 +26,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.media.SoundPool;
 
+import android.media.MediaPlayer;
+import android.os.Bundle;
+import androidx.appcompat.app.AppCompatActivity;
+
+
 
 import android.animation.ValueAnimator;
 import android.view.animation.LinearInterpolator;
@@ -38,6 +43,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     int selectedScore = 10;
 
+    private MediaPlayer mediaPlayer;
     private SoundPool soundPool1;
     private int soundId1;
     private SoundPool soundPool2;
@@ -48,6 +54,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private int soundId4;
     private SoundPool soundPool5;
     private int soundId5;
+
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
 
@@ -114,6 +121,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         soundId3 = soundPool3.load(this, R.raw.lose, 1);
         soundId4 = soundPool4.load(this, R.raw.draw, 1);
         soundId5 = soundPool5.load(this, R.raw.restart, 1);
+
+        mediaPlayer = MediaPlayer.create(this, R.raw.morning);
+        if(mediaPlayer !=null){
+            mediaPlayer.setLooping(true);
+            mediaPlayer.start();
+        }
 
         // get score from preferences
         sharedPreferences = getSharedPreferences("SCORE", Context.MODE_PRIVATE);
@@ -208,12 +221,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int savedscore = Integer.parseInt(txtscore.getText().toString());
         editor.putInt("score",savedscore);
         editor.commit();
+        if(mediaPlayer !=null && mediaPlayer.isPlaying()){
+            mediaPlayer.pause();
+        }
     }
 
     @Override
     public void onResume() {
         super.onResume();
         Log.d("Test","onResume completed");
+        if(mediaPlayer !=null){
+            mediaPlayer.start();
+        }
+
+    }
+
+    @Override
+    public  void onDestroy(){
+        super.onDestroy();
+        Log.d("Test","onDestroy completed");
+        mediaPlayer.stop();
+        mediaPlayer.release(); // メモリ解放（必須）
+        mediaPlayer = null;
 
     }
 
