@@ -5,7 +5,11 @@
     <string name="btn_restart">Restart</string>
     <string name="btn_language">setting</string>
     <string name="label_score">Score：</string>
-
+    <string-array name="selectScore">
+        <item>10</item>
+        <item>30</item>
+        <item>50</item>
+    </string-array>
     <string name="setting">setting</string>
     <string name="close">close</string>
     <string name="action_setting1">setting1</string>
