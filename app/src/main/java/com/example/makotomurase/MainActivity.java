@@ -27,6 +27,14 @@ import java.util.Random;
 import javax.xml.transform.Result;
 import android.media.AudioAttributes;
 import android.media.SoundPool;
+import android.animation.ValueAnimator;
+import android.util.TypedValue;
+import android.animation.ArgbEvaluator;
+import android.animation.ValueAnimator;
+import android.graphics.Color;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+  
 
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -175,6 +183,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+    private void animateTextSize(final TextView textView, float fromSize, float toSize) {
+        ValueAnimator animator = ValueAnimator.ofFloat(fromSize, toSize);
+        animator.setDuration(300); // 0.3秒で変化
+        animator.addUpdateListener(animation -> {
+            float animatedValue = (float) animation.getAnimatedValue();
+            textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, animatedValue);
+        });
+        animator.start();
+    }
+    private void animateTextColor(final TextView textView, int fromColor, int toColor) {
+        ValueAnimator colorAnim = ValueAnimator.ofObject(new ArgbEvaluator(), fromColor, toColor);
+        colorAnim.setDuration(500); // 0.5秒で色変化
+        colorAnim.addUpdateListener(animator ->
+                textView.setTextColor((int) animator.getAnimatedValue())
+        );
+        colorAnim.start();
+    }
+
+
     private void setQuestionValue() {
         Random r = new Random();
         // 0から10の範囲で乱数を生成（+1する必要がある）
@@ -182,6 +209,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         TextView txtView = findViewById(R.id.question);
         txtView.setText(Integer.toString(questionValue));
+        // 20sp → 48sp にアニメーション
+        animateTextSize(txtView, 20, 48);
+        // 黒 → 赤 に変化
+        animateTextColor(txtView, Color.BLACK, Color.BLACK);
     }
 
     private void setAnswerValue() {
@@ -190,6 +221,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         TextView txtView = findViewById(R.id.answer);
         txtView.setText(Integer.toString(answerValue));
+        animateTextSize(txtView, 20, 48);
+
+        animateTextColor(txtView, Color.BLACK, Color.BLACK);
     }
 
     private void checkResult(boolean isHigh) {
@@ -213,23 +247,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (question < answer) {
                 result = getString(R.string.win);
                 score = 2;
+                animateTextSize(txtResult, 20, 30);
             } else if (question > answer) {
                 result = getString(R.string.lose);
                 score = -1;
+                animateTextSize(txtResult, 20, 20);
             } else {
                 result = getString(R.string.draw);
                 score = 1;
+                animateTextSize(txtResult, 20, 25);
             }
         } else {
             if (question > answer) {
                 result = getString(R.string.win);
                 score = 2;
+                animateTextSize(txtResult, 20, 30);
             } else if (question < answer) {
                 result = getString(R.string.lose);
                 score = -1;
+                animateTextSize(txtResult, 20, 20);
             } else {
                 result = getString(R.string.draw);
                 score = 1;
+                animateTextSize(txtResult, 20, 25);
             }
         }
 
