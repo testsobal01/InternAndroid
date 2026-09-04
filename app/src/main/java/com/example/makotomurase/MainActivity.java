@@ -79,6 +79,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             setQuestionValue();
             clearAnswerValue();
             clearScoreValue();
+            draw_resetResultAnime();
         }
     }
 
@@ -128,16 +129,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 result = "WIN";
                 score = 2;
                 VIB.vibrate(VibrationEffect.createOneShot(1000,VibrationEffect.DEFAULT_AMPLITUDE));
+                winResultAnime();
 
             } else if (question > answer) {
                 result = "LOSE";
                 score = -1;
                 VIB.vibrate(VibrationEffect.createOneShot(500,VibrationEffect.DEFAULT_AMPLITUDE));
+                loseResultAnime();
 
             } else {
                 result = "DRAW";
                 score = 1;
                 VIB.vibrate(VibrationEffect.createOneShot(200,VibrationEffect.DEFAULT_AMPLITUDE));
+                draw_resetResultAnime();
 
             }
         } else {
@@ -145,14 +149,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 result = "WIN";
                 score = 2;
                 VIB.vibrate(VibrationEffect.createOneShot(1000,VibrationEffect.DEFAULT_AMPLITUDE));
+                winResultAnime();
             } else if (question < answer) {
                 result = "LOSE";
                 score = -1;
                 VIB.vibrate(VibrationEffect.createOneShot(500,VibrationEffect.DEFAULT_AMPLITUDE));
+                loseResultAnime();
             } else {
                 result = "DRAW";
                 score = 1;
                 VIB.vibrate(VibrationEffect.createOneShot(200,VibrationEffect.DEFAULT_AMPLITUDE));
+                draw_resetResultAnime();
             }
         }
 
@@ -193,6 +200,48 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void clearScoreValue() {
         TextView txtScore = (TextView) findViewById(R.id.text_score);
         txtScore.setText("0");
+    }
+    private void winResultAnime(){
+        TextView Que = findViewById(R.id.question);
+        TextView Ans = findViewById(R.id.answer);
+        Que.animate()
+                .translationY(500f)
+                .alpha(0.7f)
+                .setDuration(1000)
+                .start();
+        Ans.animate()
+                .alpha(1.0f)
+                .translationY(-500f)
+                .setDuration(1000)
+                .start();
+    }
+    private void loseResultAnime(){
+        TextView Que = findViewById(R.id.question);
+        TextView Ans = findViewById(R.id.answer);
+        Que.animate()
+                .alpha(1.0f)
+                .translationY(-500f)
+                .setDuration(1000)
+                .start();
+        Ans.animate()
+                .translationY(500f)
+                .alpha(0.7f)
+                .setDuration(1000)
+                .start();
+    }
+    private void draw_resetResultAnime(){
+        TextView Que = findViewById(R.id.question);
+        TextView Ans = findViewById(R.id.answer);
+        Que.animate()
+                .translationY(0f)
+                .alpha(1.0f)
+                .setDuration(1000)
+                .start();
+        Ans.animate()
+                .translationY(0f)
+                .alpha(1.0f)
+                .setDuration(1000)
+                .start();
     }
 }
 
